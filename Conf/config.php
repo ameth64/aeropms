@@ -27,9 +27,6 @@
         'DB_LIKE_FIELDS'            =>'title|content|name|remark',
 		'SAVE_PATH'=>'Data/Files/',
         'SHOW_PAGE_TRACE'=>1, //显示调试信息
-		'E_TI_TYPE'=>array("bool"=>'判断题',"fill"=>'填空题',"name"=>'名词解释',"small"=>'简答题',"onea1"=>'单选A1型题',"onea2"=>'单选A2型题',"multix"=>'多选X题型',"share_gana3"=>'共用题干A3',"share_gana4"=>'共用题干A4',"share_selb1"=>'共用选项B1',"fx"=>'案例分析'),
-		'E_TI_ITEM'=>array('0'=>'A','1'=>'B','2'=>'C','3'=>'D','4'=>'E',),
-		'E_TI_XH'=>array('0'=>'①','1'=>'②','2'=>'③','3'=>'④','4'=>'⑤','5'=>'⑥',),
     );
     return $array;
 ?>
