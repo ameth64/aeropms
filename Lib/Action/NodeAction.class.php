@@ -1,5 +1,8 @@
 <?php
 class NodeAction extends CommonAction {
+
+	protected $config=array('data_type'=>'master','action_auth'=>array('node'=>'admin','ajaxread'=>'admin'));
+
 	public function _before_index() {
 		$model = M("Node");
 		$list = $model -> where('pid=0') -> order('sort asc') -> getField('id,name');

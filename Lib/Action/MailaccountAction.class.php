@@ -1,9 +1,8 @@
 <?php
 class MailaccountAction extends CommonAction {
-
+	protected $config=array('data_type'=>'personal');
 	public function index() {
 		$mail_user = M("MailAccount") -> find(get_user_id());
-
 		$this -> assign('mail_user', $mail_user);
 		if (count($mail_user)) {
 			$this -> assign('opmode', 'edit');
@@ -13,7 +12,7 @@ class MailaccountAction extends CommonAction {
 		$this -> display();
 	}
 
-	function _set_email($email) {
+	protected function _set_email($email) {
 		$model = M("User");
 		$user_id = get_user_id();
 		$data['id'] = $user_id;
@@ -21,7 +20,7 @@ class MailaccountAction extends CommonAction {
 		$model -> save($data);
 	}
 
-	function insert() {
+	protected function _insert() {
 		$model = M('MailAccount');
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
@@ -37,7 +36,7 @@ class MailaccountAction extends CommonAction {
 		$list = $model -> add();
 		if ($list !== false) {//保存成功
 			$this -> _set_email($email);
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('新增成功!');
 		} else {
 			//失败提示
@@ -45,7 +44,7 @@ class MailaccountAction extends CommonAction {
 		}
 	}
 
-	function update() {
+	protected function _update() {
 
 		$model = M('MailAccount');
 
@@ -61,7 +60,7 @@ class MailaccountAction extends CommonAction {
 		if (false !== $list) {
 			//成功提示
 			$this -> _set_email($email);
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('编辑成功!');
 		} else {
 			//错误提示

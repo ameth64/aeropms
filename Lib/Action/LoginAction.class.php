@@ -15,7 +15,6 @@ class LoginAction extends Action {
 
 	public function index(){
 		//如果通过认证跳转到首页
-		//redirect(__APP__);
 		$auth_id = session(C('USER_AUTH_KEY'));
 		if (!isset($auth_id)) {
 			$this -> display();
@@ -74,9 +73,9 @@ class LoginAction extends Action {
 
 			//读取数据库模块列表生成菜单项
 			$menu = D("Node") -> access_list();
-			$common_list = D("Folder") -> get_common_list();
-			$personal_list = D("Folder") -> get_person_list();
-			$menu = array_merge($common_list, $personal_list, $menu);
+			$system_folder_menu = D("SystemFolder") -> get_folder_menu();
+			$user_folder_menu = D("UserFolder") -> get_folder_menu();
+			$menu = array_merge($system_folder_menu, $user_folder_menu, $menu);
 
 			//缓存菜单访问
 			session('menu' . $authInfo['id'], $menu);
@@ -95,12 +94,10 @@ class LoginAction extends Action {
 		}
 	}
 
-
 	public function verify() {
 		$type = isset($_GET['type']) ? $_GET['type'] : 'gif';
 		import("@.ORG.Util.Image");
 		Image::buildImageVerify(4, 1, $type);
 	}
-
 }
 ?>

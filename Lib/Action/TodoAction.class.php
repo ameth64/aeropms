@@ -1,7 +1,8 @@
 <?php
 class TodoAction extends CommonAction {
+	protected $config=array('data_type'=>'personal');
 	//过滤查询字段
-	function _filter(&$map) {
+	function _search_filter(&$map) {
 		$map['name'] = array('like', "%" . $_POST['keyword'] . "%");
 	}
 
@@ -60,7 +61,7 @@ class TodoAction extends CommonAction {
 		$where['user_id'] = get_user_id();
 		$result = M("Todo") -> where($where) -> delete();
 		if ($result !== false) {//保存成功
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('删除成功!');
 		} else {
 			//失败提示
@@ -119,7 +120,7 @@ class TodoAction extends CommonAction {
 		$field = 'status';
 		$result = $this -> set_field($id, $field, $val);
 		if ($result !== false) {//保存成功
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('删除成功!');
 		} else {
 			//失败提示

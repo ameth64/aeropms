@@ -1,8 +1,8 @@
 <?php
 class CustomerAction extends CommonAction {
 	//过滤查询字段
-
-	function _filter(&$map) {
+	protected $config=array('data_type'=>'common');
+	function _search_filter(&$map) {
 		$map['name'] = array('like', "%" . $_POST['name'] . "%");
 		$map['letter'] = array('like', "%" . $_POST['letter'] . "%");
 		$map['is_del'] = array('eq', '0');
@@ -109,7 +109,7 @@ class CustomerAction extends CommonAction {
 				if (file_exists($_SERVER["DOCUMENT_ROOT"] . "/" . $inputFileName)) {
 					unlink($_SERVER["DOCUMENT_ROOT"] . "/" . $inputFileName);
 				}
-				$this -> assign('jumpUrl', $this -> _get_return_url());
+				$this -> assign('jumpUrl', get_return_url());
 				$this -> success('导入成功！');
 			}
 		} else {
@@ -123,7 +123,7 @@ class CustomerAction extends CommonAction {
 		$field = 'group';
 		$result = $this -> set_field($id, $field, $val);
 		if ($result !== false) {
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('操作成功!');
 		} else {
 			//失败提示
@@ -150,7 +150,7 @@ class CustomerAction extends CommonAction {
 		if ($list !== false) {//保存成功
 			if ($ajax || $this -> isAjax())
 				$this -> ajaxReturn($list, "新增成功", 1);
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('新增成功!');
 		} else {
 			//失败提示
@@ -170,7 +170,7 @@ class CustomerAction extends CommonAction {
 		$list = $model -> save();
 		if (false !== $list) {
 			//成功提示
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('编辑成功!');
 		} else {
 			//错误提示
@@ -194,7 +194,7 @@ class CustomerAction extends CommonAction {
 		if ($result !== false) {//保存成功
 			if ($ajax || $this -> isAjax())
 				$this -> ajaxReturn($list, "操作成功", 1);
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('操作成功!');
 		} else {
 			//失败提示
@@ -233,7 +233,7 @@ class CustomerAction extends CommonAction {
 		if ($result !== false) {//保存成功
 			if ($ajax || $this -> isAjax())
 				$this -> ajaxReturn($list, "操作成功", 1);
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('操作成功!');
 		} else {
 			//失败提示

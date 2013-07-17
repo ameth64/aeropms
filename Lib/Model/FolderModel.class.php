@@ -1,8 +1,5 @@
 <?php
 class FolderModel extends CommonModel {
-	protected $_auto	 =	 array(
-		array('is_del','0',self::MODEL_INSERT),
-	);
 	public function get_list($folder,$public){		
 		$where['folder']=$folder;
 		$where['is_del']=0;

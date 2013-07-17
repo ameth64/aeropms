@@ -1,17 +1,8 @@
 <?php
 class FlowAction extends CommonAction {
+	protected $config=array('data_type'=>'flow','action_auth'=>array('folder'=>'read'));
 
-	private $_flow_type;
-	//过滤查询字段
-
-	public function _initialize() {
-		parent::_initialize();
-		$model = D('FlowType');
-		$where['is_del']=0;
-		//$this -> _flow_type = $model -> where($where) -> getField('id,name');
-	}
-
-	function _filter(&$map) {
+	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
 	}
 
@@ -36,15 +27,15 @@ class FlowAction extends CommonAction {
 		$this -> display();
 	}
 
-	function flow_list() {
-		$folder = $_REQUEST['folder'];
+	function folder() {
+		$folder = $_REQUEST['fid'];
 		$this -> assign("folder", $folder);
 		$emp_no = $_SESSION['emp_no'];
 		$user_id = get_user_id();
 
 		$map = $this -> _search();
-		if (method_exists($this, '_filter')) {
-			$this -> _filter($map);
+		if (method_exists($this, '_search_filter')) {
+			$this -> _search_filter($map);
 		}
 
 		switch ($folder) {
@@ -180,7 +171,7 @@ class FlowAction extends CommonAction {
 
 		if ($list !== false) {//保存成功
 			D("Flow") -> next_step($flow_id, $step);
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('操作成功!');
 		} else {
 			//失败提示
@@ -211,7 +202,7 @@ class FlowAction extends CommonAction {
 
 		if ($list !== false) {//保存成功
 			D("Flow") -> where("id=$flow_id") -> setField('step', 0);
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('操作成功!');
 		} else {
 			//失败提示

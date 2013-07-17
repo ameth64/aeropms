@@ -1,7 +1,9 @@
 <?php
 // 后台用户模块
 class UserAction extends CommonAction {
-	function _filter(&$map) {
+	protected $config=array('data_type'=>'master','action_auth'=>array('ajaxread'=>'admin'));
+	
+	function _search_filter(&$map) {
 		if (!empty($_POST['keyword'])) {
 			$map['emp_name|emp_no'] = array('like', "%" . $_POST['keyword'] . "%");
 		}
@@ -37,7 +39,7 @@ class UserAction extends CommonAction {
 		if ($result) {
 			$this -> error('该编码已经存在！');
 		} else {
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('该编码可以使用！');
 		}
 	}
@@ -52,7 +54,7 @@ class UserAction extends CommonAction {
 			// 写入帐号数据
 			$model -> __set('letter', get_letter($model -> __get('emp_name')));
 			if ($result = $model -> add()) {
-				$this -> assign('jumpUrl', $this -> _get_return_url());
+				$this -> assign('jumpUrl', get_return_url());
 				$this -> success('用户添加成功！');
 			} else {
 				$this -> error('用户添加失败！');
@@ -71,7 +73,7 @@ class UserAction extends CommonAction {
 		$list = $model -> save();
 		if (false !== $list) {
 			//成功提示
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('编辑成功!');
 		} else {
 			//错误提示
@@ -100,7 +102,7 @@ class UserAction extends CommonAction {
 		$User -> id = $id;
 		$result = $User -> save();
 		if (false !== $result) {
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success("密码修改成功");
 		} else {
 			$this -> error('重置密码失败！');

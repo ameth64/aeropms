@@ -1,9 +1,8 @@
 <?php
 class DocAction extends CommonAction {
-	private $doc_folder;
-
+	protected $config=array('data_type'=>'common','action_auth'=>array('folder'=>'read'),'folder_auth'=>true);
 	//过滤查询字段
-	function _filter(&$map) {
+	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
 		if (!empty($_REQUEST['keyword']) && empty($map['64'])) {
 			$map['name'] = array('like', "%" . $_POST['keyword'] . "%");
@@ -13,8 +12,8 @@ class DocAction extends CommonAction {
 	public function index() {
 		$user_id = get_user_id();
 		$map = $this -> _search();
-		if (method_exists($this, '_filter')) {
-			$this -> _filter($map);
+		if (method_exists($this, '_search_filter')) {
+			$this -> _search_filter($map);
 		}
 
 		$model = D("DocView");
@@ -30,11 +29,12 @@ class DocAction extends CommonAction {
 		return;
 	}
 
-	public function common() {
+	public function folder(){
+		$this->assign('auth',$this->config['auth']);
 		$model = D("Doc");
 		$map = $this -> _search();
-		if (method_exists($this, '_filter')) {
-			$this -> _filter($map);
+		if (method_exists($this, '_search_filter')) {
+			$this -> _search_filter($map);
 		}
 
 		$folder_id = $_REQUEST['fid'];
@@ -48,45 +48,11 @@ class DocAction extends CommonAction {
 
 		$where = array();
 		$where['id'] = array('eq', $folder_id);
-		$folder_name = M("Folder") -> where($where) -> getField("name");
+		$folder_name = M("SystemFolder") -> where($where) -> getField("name");
 		$this -> assign("folder_name", $folder_name);
 
-		$auth = D("Folder") -> _get_folder_auth($folder_id);
-		$this -> assign("auth", $auth);
-
-		$this -> _assign_folder_list("/doc/common/", 1);
+		//$this -> _assign_folder_list("/doc/common/", 1);
 		$this -> assign("folder_id", $folder_id);
-		$this -> display();
-		return;
-	}
-
-	public function personal() {
-		$model = D("Doc");
-		$map = $this -> _search();
-
-		if (method_exists($this, '_filter')) {
-			$this -> _filter($map);
-		}
-		$folder_id = $_REQUEST['fid'];
-		$map['folder'] = $folder_id;
-		if (!empty($_REQUEST['tag'])) {
-			$map['_string'] = "locate('{$_REQUEST['tag']}',Doc.tag_name)";
-		}
-		if (!empty($model)) {
-			$this -> _list($model, $map);
-		}
-
-		$where = array();
-		$where['id'] = array('eq', $folder_id);
-		$folder_name = M("Folder") -> where($where) -> getField("name");
-		$this -> assign("folder_name", $folder_name);
-
-		$auth = D("Folder") -> _get_folder_auth($folder_id);
-		$this -> assign("auth", $auth);
-
-		$this -> _assign_folder_list('/doc/personal/', 2);
-		$this -> assign("folder_id", $folder_id);
-
 		$this -> display();
 		return;
 	}
@@ -106,7 +72,7 @@ class DocAction extends CommonAction {
 		$this -> assign("auth", $auth = D("Folder") -> _get_folder_auth($folder_id));
 	}
 
-	function insert() {
+	protected function _insert() {
 		$name = $this -> getActionName();
 		$model = D($name);
 		if (false === $model -> create()) {
@@ -124,7 +90,7 @@ class DocAction extends CommonAction {
 
 		if ($list !== false) {//保存成功
 			D("SystemTag") -> set_tag($new_id, $tag_list);
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('新增成功!');
 		} else {
 			//失败提示

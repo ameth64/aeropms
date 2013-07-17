@@ -1,7 +1,7 @@
 <?php
 class PositionAction extends CommonAction {
-
-	function _filter(&$map) {
+	protected $config=array('data_type'=>'master','action_auth'=>array('ajaxread'=>'admin'));
+	function _search_filter(&$map) {
 		if (!empty($_POST['keyword'])) {
 			$map['code|name'] = array('like', "%" . $_POST['keyword'] . "%");
 		}

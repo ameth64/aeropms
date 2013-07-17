@@ -125,7 +125,7 @@
 				<span class="col-9 right text-center"> {$vo.create_time|toDate='Y-m-d'} </span>
 				<span class="col-6 right text-center"> {$vo.user_name} </span>
 				<div class="auto">
-					<a href="{:U('read?id='.$vo['id'])}" >{$vo.title}
+					<a href="{:U('read?id='.$vo['id'].'&fid='.$folder_id)}" >{$vo.title}
 					<eq name="vo.title|strlen" value="0">
 						无标题
 					</eq></a>

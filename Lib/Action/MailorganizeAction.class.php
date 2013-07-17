@@ -1,6 +1,6 @@
 <?php
 class MailOrganizeAction extends CommonAction {
-
+	protected $config=array('data_type'=>'personal');
 	public function index() {
 		$user_id = get_user_id();
 		$where["user_id"] = $user_id;
@@ -38,7 +38,7 @@ class MailOrganizeAction extends CommonAction {
 		//保存当前数据对象
 		$list = $model -> add();
 		if ($list !== false) {//保存成功
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('编辑成功!');
 		} else {
 			//失败提示
@@ -56,7 +56,7 @@ class MailOrganizeAction extends CommonAction {
 		$list = $model -> where($where) -> delete();
 
 		if ($list !== false) {//保存成功
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('删除成功!');
 		} else {
 			//失败提示

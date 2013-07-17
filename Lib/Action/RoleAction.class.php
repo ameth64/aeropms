@@ -1,7 +1,7 @@
 <?php
 // 角色模块
 class RoleAction extends CommonAction {
-
+	protected $config=array('data_type'=>'master','action_auth'=>array('node'=>'admin','get_node_list'=>'read','user'=>'admin','duty'=>'admin','ajaxread'=>'admin'));
 	public function node() {
 		$node_model = M("Node");
 		if (!empty($_POST['s_pid'])) {
@@ -16,7 +16,7 @@ class RoleAction extends CommonAction {
 		$node_list = implode(",", $node_list['id']) . ",$pid";
 
 		$where['id'] = array('in', $node_list);
-		$menu = $node_model -> field('id,pid,name,check_auth,"#" as url') -> where($where) -> order('sort asc') -> select();
+		$menu = $node_model -> field('id,pid,name,url') -> where($where) -> order('sort asc') -> select();
 		$tree = list_to_tree($menu);
 		$this -> assign('pid', $pid);
 
@@ -70,7 +70,7 @@ class RoleAction extends CommonAction {
 		if ($result === false) {
 			$this -> error('操作失败！');
 		} else {
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('操作成功！');
 		}
 	}
@@ -94,7 +94,7 @@ class RoleAction extends CommonAction {
 		if ($result === false) {
 			$this -> error('操作失败！');
 		} else {
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('操作成功！');
 		}
 	}
@@ -143,7 +143,7 @@ class RoleAction extends CommonAction {
 		if ($result === false) {
 			$this -> error('操作失败！');
 		} else {
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('操作成功！');
 		}
 	}

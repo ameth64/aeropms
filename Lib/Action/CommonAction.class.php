@@ -1,6 +1,11 @@
 <?php
 class CommonAction extends Action {
-	public $_list_rows;
+	private $_auth;
+	/**
+	 *  1. 确认SESSION
+	 *  2. 确认权限
+	 *  3. 处理显示菜单
+	 *  **/
 
 	function _initialize() {
 		$auth_id = session(C('USER_AUTH_KEY'));
@@ -8,16 +13,14 @@ class CommonAction extends Action {
 			//跳转到认证网关
 			redirect(U(C('USER_AUTH_GATEWAY')));
 		}
-		if (!$this -> _check_node_auth()) {
-			$this -> error("没有权限");
-		}
 		$this -> _assign_menu();
 	}
 
+	/**列表页面 **/
 	public function index() {
 		$map = $this -> _search();
-		if (method_exists($this, '_filter')) {
-			$this -> _filter($map);
+		if (method_exists($this, '_search_filter')) {
+			$this -> _search_filter($map);
 		}
 		$name = $this -> getActionName();
 		$model = D($name);
@@ -28,10 +31,12 @@ class CommonAction extends Action {
 		$this -> display();
 	}
 
-	function add() {
-		$this -> display();
+	/**查看页面 **/
+	function read() {
+		$this -> edit();
 	}
-	
+
+	/** ajax 读取  **/
 	function ajaxRead() {
 		$name = $this -> getActionName();
 		$model = M($name);
@@ -41,11 +46,13 @@ class CommonAction extends Action {
 			$this -> ajaxReturn($data, "", 0);
 		}
 	}
-	
-	function read() {
-		$this -> edit();
+
+	/**新建页面 **/
+	function add() {
+		$this -> display();
 	}
 
+	/**编辑页面 **/
 	function edit() {
 		$name = $this -> getActionName();
 		$model = M($name);
@@ -58,17 +65,22 @@ class CommonAction extends Action {
 		$this -> display();
 	}
 
+	/** 保存操作  **/
 	function save() {
 		$opmode = $_POST["opmode"];
 		if ($opmode == "add") {
-			$this -> insert();
+			$this -> _insert();
 		}
 		if ($opmode == "edit") {
-			$this -> update();
+			$this -> _update();
+		}
+		if ($opmode == "del") {
+			$this -> _del();
 		}
 	}
 
-	function insert() {
+	/** 插入新新数据  **/
+	protected function _insert() {
 		$name = $this -> getActionName();
 		$model = D($name);
 		if (false === $model -> create()) {
@@ -83,7 +95,7 @@ class CommonAction extends Action {
 		//保存当前数据对象
 		$list = $model -> add();
 		if ($list !== false) {//保存成功
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('新增成功!');
 		} else {
 			//失败提示
@@ -91,17 +103,17 @@ class CommonAction extends Action {
 		}
 	}
 
-	function update() {
+	/** 更新数据  **/
+	protected function _update() {
 		$name = $this -> getActionName();
 		$model = D($name);
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
 		}
-		// 更新数据
 		$list = $model -> save();
 		if (false !== $list) {
 			//成功提示
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('编辑成功!');
 		} else {
 			//错误提示
@@ -109,90 +121,129 @@ class CommonAction extends Action {
 		}
 	}
 
-	protected function _get_return_url() {
-		$return_url = cookie('return_url');
-		if (!empty($return_url)) {
-			return $return_url;
-		} else {
-			return __URL__ . '?' . C('VAR_MODULE') . '=' . MODULE_NAME . '&' . C('VAR_ACTION') . '=' . C('DEFAULT_ACTION');
+	/** 删除数据  **/
+	protected function _del($id) {
+		$data_type = $this -> config['data_type'];
+		switch ($data_type) {
+			case 'personal' :
+				$this -> _destory($id);
+				break;
+
+			case 'common' :
+				$admin = $this -> config['auth']['admin'];
+				$name = $this -> getActionName();
+
+				$model = M($name);
+				if (!empty($model)) {
+					$pk = $model -> getPk();
+					if (isset($id)) {
+						if (is_array($id)) {
+							$where[$pk] = array("in", array_filter($id));
+						} else {
+							$where[$pk] = array('in', array_filter(explode(',', $id)));
+						}
+						if (!$admin) {
+							$where['user_id'] = array('eq', get_user_id());
+						};
+
+						$file_list = $model -> where($where) -> getField("id,add_file");
+						$file_list = array_filter(explode(";", implode($file_list)));
+						$this -> del_file($file_list);
+
+						$result = $model -> where($where) -> setField("is_del", 1);
+						if ($result !== false) {
+							$this -> success("成功删除{$result}条!");
+						} else {
+							$this -> error('删除失败!');
+						}
+					} else {
+						$this -> error('没有可删除的数据!');
+					}
+				}
+			default :
+				break;
 		}
 	}
 
-	protected function _set_return_url($url) {
-		cookie('return_url', $url);
-	}
+	protected function _del_file($file_list) {
+		$model = M("File");
+		$where = array();
+		$where['id'] = array('in', $file_list);
 
-	/**
-	 确认是否有权限进入相应的菜单
-	 +----------------------------------------------------------
-	 */
+		$result = $model -> where($where) -> setField('is_del', 1);
 
-	protected function _check_node_auth() {
-		$access_list = session('menu' . get_user_id());
-		$access_list = rotate($access_list);
-		$access_list = $access_list['url'];
-		$access_list = array_map("get_module", $access_list);
-		$access_list = array_unique($access_list);
-		$access_list = array_filter($access_list);
-		$public_list = explode(",", C('NOT_AUTH_MODULE'));
-		if (in_array(MODULE_NAME, $public_list)) {
+		if ($result !== false) {
 			return true;
 		} else {
-			$result = in_array(strtolower(MODULE_NAME), $access_list);
+			return false;
 		}
-		return $result;
 	}
 
-	protected function _assign_menu() {
-		$model = D("Node");
-		$top_menu = cookie('top_menu');
-		$user_id = get_user_id();
-		$top_menu_list = session('top_menu' . $user_id);
-		if (!empty($top_menu_list)) {
-			$list = $top_menu_list;
-		} else {
-			$list = $model -> get_top_menu();
-			if (empty($list)){
-				$this -> assign('jumpUrl', U("Login/logout"));
-				$this -> error("没有权限");
+	/** 删除数据  **/
+	protected function _destory($id) {
+
+		$name = $this -> getActionName();
+		$model = M($name);
+
+		if (!empty($model)) {
+			$pk = $model -> getPk();
+			if (isset($id)) {
+				if (is_array($id)) {
+					$where[$pk] = array("in", array_filter($id));
+				} else {
+					$where[$pk] = array('in', array_filter(explode(',', $id)));
+				}
+
+				$data_type = $this -> config['data_type'];
+
+				switch ($data_type) {
+					case 'personal' :
+						$where['user_id'] = get_user_id();
+						break;
+					case 'common' :
+						$admin = $this -> config['auth']['admin'];
+						if (!$admin) {
+							$where['user_id'] = array('eq', get_user_id());
+						};
+					default :
+						break;
+				}
+				$file_list = $model -> where($where) -> getField("id,add_file");
+				$file_list = array_filter(explode(";", implode($file_list)));
+				$this -> _destory_file($file_list);
+
+				$result = $model -> where($where) -> delete();
+				if ($result !== false) {
+					$this -> success("彻底删除{$result}条!");
+				} else {
+					$this -> error('删除失败!');
+				}
+			} else {
+				$this -> error('没有可删除的数据!');
 			}
-			session('top_menu' . $user_id, $list);
 		}
-
-		$this -> assign('list_top_menu', $list);
-		if (session('menu' . $user_id)) {
-			//如果已经缓存，直接读取缓存
-			$menu = session('menu' . $user_id);
-		} else {
-			//读取数据库模块列表生成菜单项
-			$menu = D("Node") -> access_list();
-			$common_list = D("Folder") -> get_common_list();
-			$personal_list = D("Folder") -> get_person_list();
-			$menu = array_merge($common_list, $personal_list, $menu);
-			//缓存菜单访问
-			session('menu' . $user_id, $menu);
-		}
-
-		if (!empty($top_menu)) {
-			$this -> assign("top_menu_name", $model -> where("id=$top_menu") -> getField('name'));
-		}
-		$tree = list_to_tree($menu, $top_menu);
-		$this -> assign('html_left_menu', left_menu($tree));
 	}
 
-	protected function _assign_folder_list($folder, $public) {
-		$model = D("Folder");
-		$list = $model -> get_list($folder, $public);
-		$tree = list_to_tree($list);
-		$this -> assign('folder_list', dropdown_menu($tree));
-	}
+	protected function _destory_file($file_list) {
 
-	protected function _assign_file_list($add_file) {
-		$files = explode(';', $add_file);
-		$where['id'] = array('in', $files);
 		$model = M("File");
+		$where = array();
+		$where['id'] = array('in', $file_list);
 		$list = $model -> where($where) -> select();
-		$this -> assign('file_list', $list);
+
+		$save_path = C('SAVE_PATH');
+		foreach ($list as $file) {
+			if (file_exists($_SERVER["DOCUMENT_ROOT"] . "/" . $save_path . $file['savename'])) {
+				unlink($_SERVER["DOCUMENT_ROOT"] . "/" . $save_path . $file['savename']);
+			}
+		}
+		$result = $model -> where($where) -> delete();
+
+		if ($result !== false) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	//生成查询条件
@@ -238,9 +289,7 @@ class CommonAction extends Action {
 		return $map;
 	}
 
-
-	/**
-	 +----------------------------------------------------------
+	/**----------------------------------------------------------
 	 * 根据表单生成查询条件
 	 * 进行列表过滤
 	 +----------------------------------------------------------
@@ -272,7 +321,13 @@ class CommonAction extends Action {
 		}
 		//取得满足条件的记录数
 
-		$count = $model -> where($map) -> count($model -> pk);
+		$count_model = clone $model;
+		//取得满足条件的记录数
+		if (!empty($count_model -> pk)) {
+			$count = $count_model -> where($map) -> count($model -> pk);
+		} else {
+			$count = $count_model -> where($map) -> count();
+		}
 		if ($count > 0) {
 			import("@.ORG.Util.Page");
 			//创建分页对象
@@ -308,34 +363,67 @@ class CommonAction extends Action {
 		return;
 	}
 
-	function pushReturn($data, $info, $status, $time = null) {
+	/**显示top menu及 left menu **/
+
+	protected function _assign_menu() {
+		$model = D("Node");
+		$top_menu = cookie('top_menu');
 		$user_id = get_user_id();
-		$model = M("Push");
-		$model -> user_id = $user_id;
-		$model -> data = $data;
-		$model -> status = $status;
-		$model -> info = $info;
-		if (empty($time)) {
-			$model -> time = time();
+		$top_menu_list = session('top_menu' . $user_id);
+		if (!empty($top_menu_list)) {
+			$list = $top_menu_list;
 		} else {
-			$model -> time = $time;
+			$list = $model -> get_top_menu();
+			if (empty($list)) {
+				$this -> assign('jumpUrl', U("Login/logout"));
+				$this -> error("没有权限");
+			}
+			session('top_menu' . $user_id, $list);
 		}
-		$model -> add();
-		exit();
+
+		$this -> assign('list_top_menu', $list);
+
+		if (!session('menu' . $user_id)) {
+			//如果已经缓存，直接读取缓存
+			$menu = session('menu' . $user_id);			
+		} else {
+			//读取数据库模块列表生成菜单项
+			$menu = D("Node") -> access_list();			
+			$system_folder_menu = D("SystemFolder") -> get_folder_menu();
+			$user_folder_menu = D("UserFolder") -> get_folder_menu();
+			$menu = array_merge($system_folder_menu, $user_folder_menu, $menu);
+			//缓存菜单访问
+			session('menu' . $user_id, $menu);
+		}
+
+		if (!empty($top_menu)) {
+			$this -> assign("top_menu_name", $model -> where("id=$top_menu") -> getField('name'));
+		}
+		
+		$tree = list_to_tree($menu, $top_menu);
+		$this -> assign('html_left_menu', left_menu($tree));
+	}
+
+	protected function _assign_file_list($add_file) {
+		$files = explode(';', $add_file);
+		$where['id'] = array('in', $files);
+		$model = M("File");
+		$list = $model -> where($where) -> select();
+		$this -> assign('file_list', $list);
 	}
 
 	/**
-	 +----------------------------------------------------------
+	 * +----------------------------------------------------------
 	 * 更新个别字段值
-	 +----------------------------------------------------------
+	 * +----------------------------------------------------------
 	 * @access public
-	 +----------------------------------------------------------
+	 * +----------------------------------------------------------
 	 * @return string
-	 +----------------------------------------------------------
+	 *+----------------------------------------------------------
 	 * @throws ThinkExecption
-	 +----------------------------------------------------------
+	 *+----------------------------------------------------------
 	 */
-	function set_field($id, $field, $val, $admin = false, $name = '') {
+	protected function set_field($id, $field, $val, $name = '', $admin = false) {
 		if (empty($name)) {
 			$name = $this -> getActionName();
 		}
@@ -363,58 +451,21 @@ class CommonAction extends Action {
 		}
 	}
 
-	function del_add_file($id, $name = '', $admin = false) {
-		if (empty($name)) {
-			$name = $this -> getActionName();
+	protected function pushReturn($data, $info, $status, $time = null) {
+		$user_id = get_user_id();
+		$model = M("Push");
+		$model -> user_id = $user_id;
+		$model -> data = $data;
+		$model -> status = $status;
+		$model -> info = $info;
+		if (empty($time)) {
+			$model -> time = time();
+		} else {
+			$model -> time = $time;
 		}
-
-		$model = M($name);
-		if (!empty($model)) {
-			$pk = $model -> getPk();
-			if (empty($id)) {
-				$id = $_REQUEST[$pk];
-			}
-
-			if (isset($id)) {
-				if (is_array($id)) {
-					$where[$pk] = array("in", $id);
-				} else {
-					$where[$pk] = array('in', explode(',', $id));
-				}
-
-				if (in_array('user_id', $model -> getDbFields()) && !$admin) {
-					$where['user_id'] = array('eq', get_user_id());
-				};
-
-				$model -> where($where) -> setField('is_del', 1);
-				$list = $model -> where($where) -> getField("id,add_file");
-				$str_list = implode($list);
-
-				$file_list = explode(";", $str_list);
-				$file_list = array_filter($file_list);
-
-				$model = M("File");
-				$where = array();
-				$where['id'] = array('in', $file_list);
-
-				$model -> where($where) -> setField('is_del', 1);
-				$list = $model -> where($where) -> select();
-				$save_path = C('SAVE_PATH');
-
-				foreach ($list as $file) {
-					if (file_exists($_SERVER["DOCUMENT_ROOT"] . "/" . $save_path . $file['savename'])) {
-						unlink($_SERVER["DOCUMENT_ROOT"] . "/" . $save_path . $file['savename']);
-					}
-				}
-				if ($list !== false) {
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				return false;
-			}
-		}
+		$model -> add();
+		exit();
 	}
+
 }
 ?>

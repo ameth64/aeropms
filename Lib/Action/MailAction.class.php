@@ -1,10 +1,11 @@
 <?php
 class MailAction extends CommonAction {
 	private $_account ;
+	protected $config=array('data_type'=>'personal'); 
 	private $tmpPath = "data";
 	// 过滤查询字段
 
-	function _filter(&$map){
+	function _search_filter(&$map){
 		$map['is_del'] = array('eq', '0');
 		$map['user_id'] = array('eq', get_user_id());
 		if (!empty($_POST['from'])) {
@@ -20,8 +21,9 @@ class MailAction extends CommonAction {
 	//   邮件首页
 	//--------------------------------------------------------------------
 	public function index(){
-		$this->redirect('/mail/mail_list?folder=inbox');
+		$this->redirect('/mail/folder?fid=inbox');
 	}
+
 	//--------------------------------------------------------------------
 	// mailbox 1. 收件箱		folder=1
 	// mailbox 2. 已发送		folder=2
@@ -31,19 +33,20 @@ class MailAction extends CommonAction {
 	// mailbox 6. 永久删除	is_del=1
 	//--------------------------------------------------------------------
 
-	public function mail_list() {
-		$folder = $_GET['folder'];
-		$fid = $_GET['fid'];
-		if (empty($folder)) {
-			$folder = "user";
+	public function folder(){
+		$folder_id = $_GET['fid'];
+		$mail_system_folder=array('receve','inbox','outbox','darftbox','delbox','spambox','unread','all');
+		if(in_array($folder_id,$mail_system_folder)){
+			$folder=$folder_id;
+		}else{
+			$folder='user';
 		}
-		$user_id = get_user_id();
+		$user_id = get_user_id();		
 		$this -> _assign_mail_folder_list();
-
 		$model = D('Mail');
 		$where = $this -> _search();
-		if (method_exists($this, '_filter')){
-			$this -> _filter($where);
+		if (method_exists($this, '_search_filter')){
+			$this -> _search_filter($where);
 		}
 		if ($folder == "receve"){
 			$this -> assign("receve", true);
@@ -118,8 +121,7 @@ class MailAction extends CommonAction {
 				$where = array();
 				$where['user_id'] = array('eq', $user_id);
 				$where['id'] = array('eq', $fid);
-
-				$folder_name = M("Folder") -> where($where) -> getField("name");
+				$folder_name = M("UserFolder") -> where($where) -> getField("name");
 				$this -> assign("folder_name", $folder_name);
 				$this -> display();
 			default :
@@ -147,7 +149,7 @@ class MailAction extends CommonAction {
 			case 'del_forever' :
 				$field = 'is_del';
 				$val = 1;	
-				$this -> del_add_file($id);
+				$this -> _del_add_file($id);
 				$result=$this -> set_field($id, $field, $val);
 				break;
 			case 'spam' :
@@ -179,7 +181,7 @@ class MailAction extends CommonAction {
 				break;
 		}
 		if ($result !== false) {
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('操作成功!');
 		} else {
 			//失败提示
@@ -277,10 +279,10 @@ class MailAction extends CommonAction {
 	//  显示自定义文件夹
 	//--------------------------------------------------------------------
 	public  function _assign_mail_folder_list(){
-		$model = D("Folder");
-		$list = $model -> get_list("mail/mail_list", 2);
-		$system_folder = array( array("id" => 1, "name" => "收件箱"), array("id" => 2, "name" => "已发送"));
-		$list = array_merge($system_folder, $list);
+		$model = D("UserFolder");
+		$list = $model -> get_list("MailFolder");
+		$mail_folder = array( array("id" => 1, "name" => "收件箱"), array("id" => 2, "name" => "已发送"));
+		$list = array_merge($mail_folder, $list);
 		$tree = list_to_tree($list);
 		$this -> assign('folder_list', dropdown_menu($tree));
 		$temp=tree_to_list($tree);
@@ -334,14 +336,6 @@ class MailAction extends CommonAction {
 		$this -> assign('type', $type);
 		$this -> assign('vo', $vo);
 		$this -> display();
-	}
-
-
-	//--------------------------------------------------------------------
-	//   操作成功页面
-	//--------------------------------------------------------------------
-	private function _sucess() {
-		$this -> display("sucess");
 	}
 
 	//--------------------------------------------------------------------

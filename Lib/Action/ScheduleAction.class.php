@@ -1,7 +1,8 @@
 <?php
 class ScheduleAction extends CommonAction {
+	protected $config=array('data_type'=>'personal');
 	//过滤查询字段
-	function _filter(&$map) {
+	function _search_filter(&$map) {
 		if (!empty($_POST["name"])) {
 			$map['name'] = array('like', "%" . $_POST['name'] . "%");
 		}
@@ -47,8 +48,8 @@ class ScheduleAction extends CommonAction {
 
 	function search() {
 		$map = $this -> _search();
-		if (method_exists($this, '_filter')) {
-			$this -> _filter($map);
+		if (method_exists($this, '_search_filter')) {
+			$this -> _search_filter($map);
 		}
 		if (empty($_POST["start_date"])) {
 			$start_date = toDate(mktime(0, 0, 0, date("m"), 1, date("Y")), 'Y-m-d');

@@ -18,7 +18,7 @@ class FlowLogAction extends CommonAction {
 		$list = $model -> add();
 		if ($list !== false) {//保存成功
 			D("Flow") -> next_step($flow_id, $step);
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('新增成功!');
 		} else {
 			//失败提示

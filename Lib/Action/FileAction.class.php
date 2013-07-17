@@ -1,7 +1,7 @@
 <?php
 class FileAction extends CommonAction {
 	//过滤查询字段
-	function _filter(&$map) {
+	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
 	}
 
@@ -13,7 +13,7 @@ class FileAction extends CommonAction {
 		$File -> save();
 		if (file_exists($_SERVER["DOCUMENT_ROOT"] . "/" . C("SAVE_PATH") . $savename)) {
 			unlink($_SERVER["DOCUMENT_ROOT"] . "/" . C("SAVE_PATH") . $savename);
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('', "删除成功", 1);
 		}
 	}

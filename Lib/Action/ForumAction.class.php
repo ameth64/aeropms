@@ -1,15 +1,15 @@
 <?php
 class ForumAction extends CommonAction {
-
+	protected $config=array('data_type'=>'common','action_auth'=>array('folder'=>'read'));
 	//过滤查询字段
-	function _filter(&$map) {
+	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
 		if (!empty($_REQUEST['fid'])) {
 			$map['folder'] = $_REQUEST['fid'];
 		}
 	}
 
-	public function _conv_data(&$item) {
+	public function _conv_data(&$item){
 		if (isset($item['folder'])) {
 			$model = D('Folder');
 			$list = $model -> getField('id,name');
@@ -26,8 +26,8 @@ class ForumAction extends CommonAction {
 
 	public function index() {
 		$map = $this -> _search();
-		if (method_exists($this, '_filter')) {
-			$this -> _filter($map);
+		if (method_exists($this, '_search_filter')) {
+			$this -> _search_filter($map);
 		}
 		$model = D("Forum");
 		if (!empty($model)) {
@@ -41,11 +41,18 @@ class ForumAction extends CommonAction {
 		$this -> assign('folder', $_REQUEST['fid']);
 	}
 
-	public function read() {
+	public function read(){
+		$this->assign('auth',$this->config['auth']);
+
 		$model = M("Forum");
-		$id = $_REQUEST["id"];
-		$vo = $model -> getById($id);
+		$id = $_REQUEST['id'];
+		$fid= $_REQUEST['fid'];
+		$where['id']=array('eq',$id);
+		$where['fid']=array('eq',$fid);
+			
+		$vo = $model ->where($where)->find();
 		$vo = $this -> _conv_data($vo);
+
 		$this -> assign('vo', $vo);
 
 		$id = $_REQUEST['id'];
@@ -54,23 +61,19 @@ class ForumAction extends CommonAction {
 
 		$user = $this -> _conv_data($user);
 		$this -> assign('user', $user);
-
 		$this -> assign('user_id', $user_id);
 
 		$model = M("Forum");
 		$model -> where("id=$id") -> setInc('views', 1);
 
 		$model = M("Forum");
-		$folder_id = $model -> where("id=$id") -> getField('folder');
-		$auth = D("Folder") -> _get_folder_auth($folder_id);
-		$this -> assign("auth", $auth);
-
+		
+		$where=array();
 		$where['tid'] = $id;
 		$where['is_del'] = 0;
+
 		$model = M("Post");
-
-		$this -> set_list_rows(8);
-
+		
 		if (!empty($model)) {
 			$this -> _list($model, $where, "id", true);
 		}
@@ -79,25 +82,23 @@ class ForumAction extends CommonAction {
 		$this -> display();
 	}
 
-	public function folder() {
+	public function folder(){
+		$this->assign('auth',$this->config['auth']);
 		$map = $this -> _search();
-		if (method_exists($this, '_filter')) {
-			$this -> _filter($map);
+		if (method_exists($this, '_search_filter')) {
+			$this -> _search_filter($map);
 		}
 		$model = M("Forum");
 		if (!empty($model)) {
 			$this -> _list($model, $map);
 		}
 		$where = array();
-		$folder_id = $map['folder'];
+		$folder_id = $map['folder'];		
 		$where['id'] = array('eq', $folder_id);
 		$folder_name = M("Folder") -> where($where) -> getField("name");
 		$this -> assign("folder_name", $folder_name);
 
-		$auth = D("Folder") -> _get_folder_auth($folder_id);
-		$this -> assign("auth", $auth);
-
-		$this -> _assign_folder_list('/forum/folder/');
+		//$this -> _assign_folder_list('/forum/folder/');
 		$this -> assign("folder_id", $folder_id);
 		$this -> display();
 		return;
@@ -153,5 +154,4 @@ class ForumAction extends CommonAction {
 		$attach_id = $_REQUEST["attach_id"];
 		R("File/down", array($attach_id));
 	}
-
 }

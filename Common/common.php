@@ -11,6 +11,14 @@
 // $Id: common.php 2601 2012-01-15 04:59:14Z liu21st $
 
 //公共函数
+ function get_return_url() {
+		$return_url = cookie('return_url');
+		if (!empty($return_url)) {
+			return $return_url;
+		} else {
+			return __URL__ . '?' . C('VAR_MODULE') . '=' . MODULE_NAME . '&' . C('VAR_ACTION') . '=' . C('DEFAULT_ACTION');
+		}
+	}
 
 function timediff($starttime, $end_time = null) {
 	date_Default_TimeZone_set("PRC");
@@ -805,6 +813,13 @@ function reunit($size) {
 function get_module($str) {
 	$arr_str = explode("/", $str);
 	return $arr_str[0];
+}
+
+function filter_module($str){
+	if(empty($str['admin'])&&empty($str['write'])&&empty($str['read'])){
+		return false;
+	}
+	return strpos($str['url'],'index');
 }
 
 function rotate($a) {

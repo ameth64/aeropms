@@ -123,7 +123,7 @@
 								<td>
 									<i class="icon level{$data['level']+1}"></i>
 									<input node="{$data.id}" type="checkbox" name="node_id" value="{$data.id}">{$data.name}</td>
-								<eq name="data.check_auth" value="1">
+								<if condition="strpos($data['url'],'/index')">
 									<td style="text-align:center">
 										<input type="checkbox" name="read[]" value="{$data.id}"></td>
 									<td  style="text-align:center">
@@ -134,7 +134,7 @@
 									<td class="check_box text-center">&nbsp;</td>
 									<td class="check_box text-center">&nbsp;</td>
 									<td class="check_box text-center">&nbsp;</td>
-								</eq>
+								</if>
 							</tr>
 						</volist>
 					</table>

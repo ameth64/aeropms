@@ -37,7 +37,7 @@ class UserConfigAction extends CommonAction {
 		$list = $model -> add();
 		if ($list !== false) {//保存成功
 			$this -> _set_email($email);
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('新增成功!');
 		} else {
 			//失败提示
@@ -60,7 +60,7 @@ class UserConfigAction extends CommonAction {
 		$list = $model -> save();
 		if (false !== $list) {
 			//成功提示
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('编辑成功!');
 		} else {
 			//错误提示

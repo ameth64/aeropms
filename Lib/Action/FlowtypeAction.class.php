@@ -1,7 +1,9 @@
 <?php
 class FlowTypeAction extends CommonAction {
+	protected $config=array('data_type'=>'master');
+
 	//过滤查询字段
-	function _filter(&$map) {
+	function _search_filter(&$map) {
 		if (!empty($_POST['keyword'])){
 			$map['name'] = array('like', "%" . $_POST['keyword'] . "%");
 		}
@@ -10,8 +12,8 @@ class FlowTypeAction extends CommonAction {
 	function index(){
 		$model = M("FlowType");
 		$map = $this -> _search();
-		if (method_exists($this, '_filter')) {
-			$this -> _filter($map);
+		if (method_exists($this, '_search_filter')) {
+			$this -> _search_filter($map);
 		}
 		$list = $model -> where($map) -> select();
 		$this -> assign('list', $list);
@@ -26,7 +28,7 @@ class FlowTypeAction extends CommonAction {
 		$field = 'group';
 		$result=$this -> set_field($id, $field, $val);
 		if ($result !== false) {
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('操作成功!');
 		} else {
 			//失败提示
@@ -66,7 +68,7 @@ class FlowTypeAction extends CommonAction {
 		//保存当前数据对象
 		$list = $model -> add();
 		if ($list !== false) {//保存成功
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('新增成功!');
 		} else {
 			//失败提示
@@ -85,7 +87,7 @@ class FlowTypeAction extends CommonAction {
 		$list = $model -> save();
 		if (false !== $list) {
 			//成功提示
-			$this -> assign('jumpUrl', $this -> _get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('编辑成功!');
 		} else {
 			//错误提示
