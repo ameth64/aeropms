@@ -41,16 +41,20 @@ class AuthCheckBehavior extends Behavior {
 					if(!empty($params['action_auth'])){
 						$action_auth= array_merge(C('AUTH'),$params['action_auth']); 	
 					}
-					$auth=$this->get_auth();
-					
+					$auth=$this->get_auth();					
 					break;
 			default:	
+				$public_list = explode(",", C('NOT_AUTH_MODULE'));
+				if (in_array(MODULE_NAME, $public_list)){
+					return true;
+				}
+				$action_auth=C('AUTH');	
+				$auth=$this->get_auth();
 				
 	 break;
 		 
-			}	
-			
-		if($auth[$action_auth[ACTION_NAME]]){		
+			}
+		if($auth[$action_auth[ACTION_NAME]]){	
 			$this->config['auth']=$auth;
 			return true;
 		}else{
@@ -83,9 +87,8 @@ class AuthCheckBehavior extends Behavior {
 		$access_list_read=array_filter(array_combine($module_list,$access_list['read']));
 		
 		$public_list = explode(",", C('NOT_AUTH_MODULE'));
-
 		if (in_array(MODULE_NAME, $public_list)){
-			return true;
+			$auth['admin']=true;
 		} else {
 			$auth['admin']=array_key_exists(strtolower(MODULE_NAME),$access_list_admin);
 			$auth['write']=array_key_exists(strtolower(MODULE_NAME),$access_list_write);

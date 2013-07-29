@@ -1,7 +1,7 @@
 <?php
 class StaffAction extends CommonAction {
 	//过滤查询字段
-	protected $config=array('data_type'=>'common','action_auth'=>array('ajaxread'=>'read'));
+	protected $config=array('data_type'=>'common');
 	private $position;
 	private $rank;
 	private $dept;

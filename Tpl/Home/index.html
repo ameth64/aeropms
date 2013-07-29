@@ -2,7 +2,7 @@
 <div class="home">
 	<div class="row-fluid">
 		<!-- 邮件开始 -->
-		<div class="tabbable span6 tab_box" sort="1">
+		<div class="tabbable  tab_box span6" sort="1">
 			<div class="tab_head">
 				<span>邮件</span>
 				<ul class="nav nav-tabs right" >
@@ -226,7 +226,7 @@
 		});
 			$( ".home .row-fluid").disableSelection();
 			$( ".tab_head").disableSelection();
-		init_sort("{$home_sort}");
+			init_sort("{$home_sort}");
 		$(".home li a").click(function(){
 			click_home_list($(this));
 		})

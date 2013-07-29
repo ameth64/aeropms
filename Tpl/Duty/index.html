@@ -38,7 +38,7 @@
 				$(this).attr("class", "");
 			});
 			$(this).attr("class","active");
-			sendAjax("{:U('ajaxRead')}", "id=" + $(this).attr("node"), function(data) {
+			sendAjax("{:U('read')}", "id=" + $(this).attr("node"), function(data) {
 				showdata(data);
 			});
 			return false;

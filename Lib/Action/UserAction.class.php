@@ -1,7 +1,7 @@
 <?php
 // 后台用户模块
 class UserAction extends CommonAction {
-	protected $config=array('data_type'=>'master','action_auth'=>array('ajaxread'=>'admin'));
+	protected $config=array('data_type'=>'master');
 	
 	function _search_filter(&$map) {
 		if (!empty($_POST['keyword'])) {

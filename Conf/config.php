@@ -23,7 +23,7 @@
         'USER_AUTH_MODEL'      =>'User',	// 默认验证数据表模型
         'AUTH_PWD_ENCODER'  =>'md5',	// 用户认证密码加密方式
         'USER_AUTH_GATEWAY'=>'login/index',// 默认认证网关
-        'NOT_AUTH_MODULE'   =>"Push,Login,Home,Index,File,Userconfig,Systemconfig,Usertag,Systemtag,Profile",
+        'NOT_AUTH_MODULE'   =>"Push,Login,Home,Index,File,UserConfig,SystemConfig,UserTag,SystemTag,Profile",
         'DB_LIKE_FIELDS'            =>'title|content|name|remark',
 		'SAVE_PATH'=>'Data/Files/',
         'SHOW_PAGE_TRACE'=>1, //显示调试信息

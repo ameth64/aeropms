@@ -28,7 +28,7 @@
 		$(".sub_left_menu  tr").click(function() {
 			$(".sub_left_menu  tr.active").removeClass("active");
 			$(this).attr("class","active");
-			sendAjax("{:U('ajaxRead')}", "id=" + $(this).attr("id"), function(data) {
+			sendAjax("{:U('read')}", "id=" + $(this).attr("id"), function(data) {
 				showdata(data);
 			});
 			return false;

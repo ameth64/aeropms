@@ -1,7 +1,7 @@
 <?php
 class NodeAction extends CommonAction {
 
-	protected $config=array('data_type'=>'master','action_auth'=>array('node'=>'admin','ajaxread'=>'admin'));
+	protected $config=array('data_type'=>'master','action_auth'=>array('node'=>'admin');
 
 	public function _before_index() {
 		$model = M("Node");
@@ -33,11 +33,9 @@ class NodeAction extends CommonAction {
 
 	function winpop() {
 		$menu = D("Node") -> order('sort asc') -> select();
-		;
 		$tree = list_to_tree($menu);
 		$this -> assign('menu', popup_tree_menu($tree));
 		$this -> display();
 	}
-
 }
 ?>

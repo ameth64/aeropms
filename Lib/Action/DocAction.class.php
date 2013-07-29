@@ -9,7 +9,7 @@ class DocAction extends CommonAction {
 		}
 	}
 
-	public function index() {
+	public function index(){
 		$user_id = get_user_id();
 		$map = $this -> _search();
 		if (method_exists($this, '_search_filter')) {
@@ -17,11 +17,6 @@ class DocAction extends CommonAction {
 		}
 
 		$model = D("DocView");
-		if (!empty($_REQUEST['tag'])) {
-			$map['_string'] = "locate('{$_REQUEST['tag']}',Doc.tag_name)" . " and type='/doc/common/' or (type='/doc/personal/' and Doc.user_id='$user_id')";
-		} else {
-			$map['_string'] = "type='/doc/common/' or (type='/doc/personal/' and Doc.user_id='$user_id')";
-		}
 		if (!empty($model)) {
 			$this -> _list($model, $map);
 		}
@@ -57,11 +52,12 @@ class DocAction extends CommonAction {
 		return;
 	}
 
-	public function _before_add() {
+	public function add() {
 		$fid = $_REQUEST['fid'];
 		$type = D("Folder") -> where("id=$fid") -> getField("folder");
 		$this -> assign('folder', $fid);
 		$this -> assign('type', $type);
+		$this->display();
 	}
 
 	public function _before_read() {

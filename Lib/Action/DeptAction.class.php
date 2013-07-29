@@ -1,6 +1,6 @@
 <?php
 class DeptAction extends CommonAction {
-	protected $config=array('data_type'=>'master','action_auth'=>array('ajaxread'=>'admin'));
+	protected $config=array('data_type'=>'master');
 	public function _search_filter(&$map) {
 		if (!empty($_GET['pid'])) {
 			$map['pid'] = $_POST['pid'];

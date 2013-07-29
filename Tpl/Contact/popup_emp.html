@@ -54,7 +54,7 @@
 			});
 			var type = $("input[name='type']:checked").val();
 			$(this).attr("class","active");
-			sendAjax("{:U('ajaxRead')}", "type=" + type + "&id=" + $(this).attr("node"), function(data) {
+			sendAjax("{:U('read')}", "type=" + type + "&id=" + $(this).attr("node"), function(data) {
 				showdata(data);
 			})
 			return false;

@@ -9,12 +9,13 @@ class MailOrganizeAction extends CommonAction {
 		$this -> display();
 	}
 
-	public function _before_add() {
+	function add() {
 		$temp = R("Mail/_assign_mail_folder_list");
 		$this -> assign('mail_folder', $temp);
+		$this->display();
 	}
 
-	public function _before_edit() {
+	function _before_edit() {
 		$temp = R("Mail/_assign_mail_folder_list");
 		$this -> assign('mail_folder', $temp);
 	}
@@ -49,20 +50,8 @@ class MailOrganizeAction extends CommonAction {
 	function del() {
 
 		$id = $_REQUEST["id"];
-		$model = D("MailOrganize");
-
-		$where['user_id'] = get_user_id();
-		$where['id'] = $id;
-		$list = $model -> where($where) -> delete();
-
-		if ($list !== false) {//保存成功
-			$this -> assign('jumpUrl', get_return_url());
-			$this -> success('删除成功!');
-		} else {
-			//失败提示
-			$this -> error('编辑失败!');
-		}
+		$this->destory($id);
+		
 	}
-
 }
 ?>

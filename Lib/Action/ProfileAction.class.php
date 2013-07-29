@@ -1,6 +1,6 @@
 <?php
 class ProfileAction extends CommonAction {
-	
+	protected $config=array('data_type'=>'personal');
 	public function _before_index() {
 		$model = M("Position");
 		$list = $model -> where('is_del=0') -> order('sort asc') -> getField('id,name');

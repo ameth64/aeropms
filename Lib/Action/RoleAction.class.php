@@ -1,7 +1,7 @@
 <?php
 // 角色模块
 class RoleAction extends CommonAction {
-	protected $config=array('data_type'=>'master','action_auth'=>array('node'=>'admin','get_node_list'=>'read','user'=>'admin','duty'=>'admin','ajaxread'=>'admin'));
+	protected $config=array('data_type'=>'master','action_auth'=>array('node'=>'admin','get_node_list'=>'read','user'=>'admin','duty'=>'admin'));
 	public function node() {
 		$node_model = M("Node");
 		if (!empty($_POST['s_pid'])) {

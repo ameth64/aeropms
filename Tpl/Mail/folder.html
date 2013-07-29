@@ -15,7 +15,6 @@
 						})
 					}
 				});
-
 				break;
 			case "unread":
 				sendAjax("{:U('mark?action=unread')}", vars, function(data) {
@@ -30,7 +29,7 @@
 
 				break;
 			case "del":
-				sendAjax("{:U('mark?action-del')}", vars, function(data) {
+				sendAjax("{:U('mark?action=del')}", vars, function(data) {
 					if (data.status) {
 						alert(data.info);
 						$("input[name='mail_id[]']:checkbox:checked").each(function() {
@@ -126,9 +125,9 @@
 			</div>
 			<div class="row-fluid form-horizontal">
 				<div class="control-group span6">
-					<label class="control-label" for="l_from">发件人：</label>
+					<label class="control-label" for="li_from">发件人：</label>
 					<div class="controls">
-						<input type="text" id="l_from" name="l_from"></div>
+						<input type="text" id="li_from" name="li_from"></div>
 				</div>
 				<div class="control-group span6">
 					<label class="control-label" for="be_create_time">登录时间：</label>

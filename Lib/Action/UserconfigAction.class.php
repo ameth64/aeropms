@@ -1,5 +1,6 @@
 <?php
 class UserConfigAction extends CommonAction {
+	protected $config=array('data_type'=>'personal');
 	public function index() {
 		$config = M("UserConfig") -> find(get_user_id());
 		$this -> assign("config", $config);

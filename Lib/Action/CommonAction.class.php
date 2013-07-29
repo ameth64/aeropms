@@ -1,6 +1,5 @@
 <?php
 class CommonAction extends Action {
-	private $_auth;
 	/**
 	 *  1. 确认SESSION
 	 *  2. 确认权限
@@ -30,26 +29,10 @@ class CommonAction extends Action {
 		}
 		$this -> display();
 	}
-
+	
 	/**查看页面 **/
 	function read() {
 		$this -> edit();
-	}
-
-	/** ajax 读取  **/
-	function ajaxRead() {
-		$name = $this -> getActionName();
-		$model = M($name);
-		$id = $_REQUEST[$model -> getPk()];
-		$data = $model -> getById($id);
-		if ($data !== false) {// 读取成功
-			$this -> ajaxReturn($data, "", 0);
-		}
-	}
-
-	/**新建页面 **/
-	function add() {
-		$this -> display();
 	}
 
 	/**编辑页面 **/
@@ -58,6 +41,13 @@ class CommonAction extends Action {
 		$model = M($name);
 		$id = $_REQUEST[$model -> getPk()];
 		$vo = $model -> getById($id);
+		if ($this -> isAjax()) {
+			if ($vo !== false) {// 读取成功
+				$this -> ajaxReturn($vo, "", 0);
+			} else {
+				die ;
+			}
+		}
 		if (isset($vo['add_file'])) {
 			$this -> _assign_file_list($vo["add_file"]);
 		};
@@ -78,6 +68,7 @@ class CommonAction extends Action {
 			$this -> _del();
 		}
 	}
+	
 
 	/** 插入新新数据  **/
 	protected function _insert() {
@@ -122,19 +113,16 @@ class CommonAction extends Action {
 	}
 
 	/** 删除数据  **/
-	protected function _del($id) {
+	 protected function _del($id){
 		$data_type = $this -> config['data_type'];
 		switch ($data_type) {
 			case 'personal' :
-				$this -> _destory($id);
+				$this -> destory($id);
 				break;
-
 			case 'common' :
-				$admin = $this -> config['auth']['admin'];
 				$name = $this -> getActionName();
-
 				$model = M($name);
-				if (!empty($model)) {
+				if (!empty($model)){
 					$pk = $model -> getPk();
 					if (isset($id)) {
 						if (is_array($id)) {
@@ -142,16 +130,10 @@ class CommonAction extends Action {
 						} else {
 							$where[$pk] = array('in', array_filter(explode(',', $id)));
 						}
-						if (!$admin) {
-							$where['user_id'] = array('eq', get_user_id());
-						};
-
-						$file_list = $model -> where($where) -> getField("id,add_file");
-						$file_list = array_filter(explode(";", implode($file_list)));
-						$this -> del_file($file_list);
 
 						$result = $model -> where($where) -> setField("is_del", 1);
 						if ($result !== false) {
+							$this -> assign('jumpUrl', get_return_url());
 							$this -> success("成功删除{$result}条!");
 						} else {
 							$this -> error('删除失败!');
@@ -162,20 +144,6 @@ class CommonAction extends Action {
 				}
 			default :
 				break;
-		}
-	}
-
-	protected function _del_file($file_list) {
-		$model = M("File");
-		$where = array();
-		$where['id'] = array('in', $file_list);
-
-		$result = $model -> where($where) -> setField('is_del', 1);
-
-		if ($result !== false) {
-			return true;
-		} else {
-			return false;
 		}
 	}
 
@@ -200,11 +168,6 @@ class CommonAction extends Action {
 					case 'personal' :
 						$where['user_id'] = get_user_id();
 						break;
-					case 'common' :
-						$admin = $this -> config['auth']['admin'];
-						if (!$admin) {
-							$where['user_id'] = array('eq', get_user_id());
-						};
 					default :
 						break;
 				}
@@ -213,6 +176,7 @@ class CommonAction extends Action {
 				$this -> _destory_file($file_list);
 
 				$result = $model -> where($where) -> delete();
+				
 				if ($result !== false) {
 					$this -> success("彻底删除{$result}条!");
 				} else {
@@ -289,22 +253,7 @@ class CommonAction extends Action {
 		return $map;
 	}
 
-	/**----------------------------------------------------------
-	 * 根据表单生成查询条件
-	 * 进行列表过滤
-	 +----------------------------------------------------------
-	 * @access protected
-	 +----------------------------------------------------------
-	 * @param Model $model 数据对象
-	 * @param HashMap $map 过滤条件
-	 * @param string $sortBy 排序
-	 * @param boolean $asc 是否正序
-	 +----------------------------------------------------------
-	 * @return void
-	 +----------------------------------------------------------
-	 * @throws ThinkExecption
-	 +----------------------------------------------------------
-	 */
+	
 	protected function _list($model, $map, $sortBy = '', $asc = false) {
 		//排序字段 默认为主键名
 		if (isset($_REQUEST['_order'])) {
@@ -385,10 +334,10 @@ class CommonAction extends Action {
 
 		if (!session('menu' . $user_id)) {
 			//如果已经缓存，直接读取缓存
-			$menu = session('menu' . $user_id);			
+			$menu = session('menu' . $user_id);
 		} else {
 			//读取数据库模块列表生成菜单项
-			$menu = D("Node") -> access_list();			
+			$menu = D("Node") -> access_list();
 			$system_folder_menu = D("SystemFolder") -> get_folder_menu();
 			$user_folder_menu = D("UserFolder") -> get_folder_menu();
 			$menu = array_merge($system_folder_menu, $user_folder_menu, $menu);
@@ -399,7 +348,7 @@ class CommonAction extends Action {
 		if (!empty($top_menu)) {
 			$this -> assign("top_menu_name", $model -> where("id=$top_menu") -> getField('name'));
 		}
-		
+
 		$tree = list_to_tree($menu, $top_menu);
 		$this -> assign('html_left_menu', left_menu($tree));
 	}
@@ -423,7 +372,7 @@ class CommonAction extends Action {
 	 * @throws ThinkExecption
 	 *+----------------------------------------------------------
 	 */
-	protected function set_field($id, $field, $val, $name = '', $admin = false) {
+	 function set_field($id, $field, $val, $name = '') {
 		if (empty($name)) {
 			$name = $this -> getActionName();
 		}
@@ -436,6 +385,7 @@ class CommonAction extends Action {
 				} else {
 					$where[$pk] = array('in', explode(',', $id));
 				}
+				$admin=$this->config['auth']['admin'];
 				if (in_array('user_id', $model -> getDbFields()) && !$admin) {
 					$where['user_id'] = array('eq', get_user_id());
 				};
@@ -466,6 +416,5 @@ class CommonAction extends Action {
 		$model -> add();
 		exit();
 	}
-
 }
 ?>

@@ -1,6 +1,6 @@
 <?php
 class SystemFolderAction extends CommonAction {
-	protected $config=array('data_type'=>'master','action_auth'=>array('ajaxread'=>'admin'));
+	protected $config=array('data_type'=>'master');
 	//过滤查询字段
 
 	function _search_filter(&$map) {
@@ -55,8 +55,7 @@ protected	function _update() {
 			$this -> error('编辑失败!');
 		}
 	}
-
-	function ajaxRead() {
+	function read() {
 		$model = M("SystemFolder");
 		$id = $_REQUEST["id"];
 		$data = $model -> getById($id);
@@ -64,7 +63,6 @@ protected	function _update() {
 			$this -> ajaxReturn($data, "", 1);
 		}
 	}
-
 	public function winpop() {
 		$node = M("SystemFolder");
 		$menu = array();

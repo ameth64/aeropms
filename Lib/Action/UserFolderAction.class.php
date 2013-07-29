@@ -58,19 +58,14 @@ protected function _update() {
 		}
 	}
 
-	function ajaxRead() {
+	function read() {
 		$model = M("UserFolder");
 		$id = $_REQUEST["id"];
 		$data = $model -> getById($id);
 		if ($data !== false) {// 读取成功
-			if ($data['public'] == 1) {
+			$user_id = get_user_id();
+			if ($data['user_id'] == $user_id) {
 				$this -> ajaxReturn($data, "", 1);
-			}
-			if ($data['public'] == 2) {
-				$user_id = get_user_id();
-				if ($data['user_id'] == $user_id) {
-					$this -> ajaxReturn($data, "", 1);
-				}
 			}
 			$this -> ajaxReturn("", "", 0);
 		}
