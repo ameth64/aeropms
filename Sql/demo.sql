@@ -1,5 +1,5 @@
 ﻿# Host: localhost  (Version: 5.5.16)
-# Date: 2013-07-29 17:17:35
+# Date: 2013-08-02 15:51:33
 # Generator: MySQL-Front 5.3  (Build 4.4)
 
 /*!40101 SET NAMES utf8 */;
@@ -67,7 +67,7 @@ CREATE TABLE `think_customer` (
 #
 
 /*!40000 ALTER TABLE `think_customer` DISABLE KEYS */;
-INSERT INTO `think_customer` VALUES (18,'123123','','2342342','123123','lianxiren','abc@sdof.com','123125123','','','yewu','','',1,0,'',''),(19,'123123','','2342342','123123','lianxiren','abc@sdof.com','123125123',NULL,NULL,'yewu',NULL,NULL,0,0,NULL,NULL);
+INSERT INTO `think_customer` VALUES (18,'123123','','2342342','123123','lianxiren','abc@sdof.com','123125123','123125123','','222yewu','','',1,0,'3245324',''),(19,'123123','','2342342','123123','lianxiren','abc@sdof.com','123125123',NULL,NULL,'yewu',NULL,NULL,0,0,NULL,NULL);
 /*!40000 ALTER TABLE `think_customer` ENABLE KEYS */;
 
 #
@@ -139,14 +139,14 @@ CREATE TABLE `think_doc` (
   `tag_name` varchar(255) DEFAULT NULL,
   `tag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_doc"
 #
 
 /*!40000 ALTER TABLE `think_doc` DISABLE KEYS */;
-INSERT INTO `think_doc` VALUES (64,'2013-0001','/doc/common/','1231231','12313123',7,'608;',1,'管理员',1370770392,1370770722,0,'<span emp_no=\"tag_60\">123123 <b>;</b>   </span><span emp_no=\"tag_61\">abc <b>;</b>   </span><span emp_no=\"tag_59\">123123    </span>',NULL),(65,'2013-0001','/doc/common/','123123','123123123132',7,'610;',1,'管理员',1370772656,1371537276,0,'<span emp_no=\"tag_61\">abc    </span>','tag_61|');
+INSERT INTO `think_doc` VALUES (64,'2013-0001','/doc/common/','1231231','12313123',7,'608;',1,'管理员',1370770392,1370770722,0,'<span emp_no=\"tag_60\">123123 <b>;</b>   </span><span emp_no=\"tag_61\">abc <b>;</b>   </span><span emp_no=\"tag_59\">123123    </span>',NULL),(65,'2013-0001','/doc/common/','123123','123123123132',7,'610;',1,'管理员',1370772656,1371537276,0,'<span emp_no=\"tag_61\">abc    </span>','tag_61|'),(66,'2013-0001','','신사업추진팀 네트워크 개선방안','신사업추진팀 네트워크 개선방안',21,'618;',1,'管理员',1375321794,0,0,'','');
 /*!40000 ALTER TABLE `think_doc` ENABLE KEYS */;
 
 #
@@ -188,14 +188,14 @@ CREATE TABLE `think_file` (
   `create_time` int(11) NOT NULL,
   `is_del` tinyint(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=616 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=619 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_file"
 #
 
 /*!40000 ALTER TABLE `think_file` DISABLE KEYS */;
-INSERT INTO `think_file` VALUES (596,'logo.png','file/201305/5188996c21ed6.png','5208','png',0,1,1367906668,0),(597,'《中小企业管理制度精细化设计全案》配套光盘.doc','file/201305/51919fc8275c8.doc','2442752','doc',0,1,1368498120,0),(598,'小微企业信息化之道.doc','Doc/201305/5191a5b250fb3.doc','214016','doc',0,1,1368499634,0),(599,'VID_20111105_202255.mp4','Video/201305/51a75c8bcb76f.mp4','16815909','mp4',0,1,1369922699,0),(600,'照片3 031.avi','Video/201305/51a75d6e70fbd.avi','24719178','avi',0,1,1369922926,0),(601,'3.AVI','Video/201305/51a75eb5bb733.AVI','403773818','AVI',0,1,1369923255,0),(602,'mc_slide9_animation_cut.avi','video/201306/51ad73c8c04e3.avi','3211668','avi',0,1,1370321864,0),(603,'video.mp4','video/201306/51afedee248dd.mp4','3479719','mp4',0,1,1370484206,0),(604,'video.mp4','video/201306/51b018c715313.mp4','3479719','mp4',0,1,1370495175,0),(605,'video.mp4','video/201306/51b01d4daaa66.mp4','3479719','mp4',0,1,1370496333,0),(606,'IMG_8604.JPG','question/201306/51b1305038283.JPG','5251295','JPG',0,1,1370566736,0),(607,'IMG_20130129_091441.jpg','question/201306/51b1307b677ed.jpg','560884','jpg',0,1,1370566779,0),(608,'__-0020.jpg','doc/201306/51b44d1f13b20.jpg','96376','jpg',0,1,1370770719,0),(609,'mc_slide9_animation_cut.avi','doc/201306/51b4546f3ce3f.avi','3211668','avi',0,1,1370772591,0),(610,'video.mp4','doc/201306/51b454a6b325e.mp4','3479719','mp4',0,1,1370772646,0),(611,'文档想法.xlsx','userinfo/201306/51b6c753d28ac.xlsx','10267','xlsx',0,1,1370933075,0),(612,'文档想法.xlsx','userinfo/201306/51b6c773efd58.xlsx','10267','xlsx',0,1,1370933107,0),(613,'IMG_8234.JPG','userinfo/201306/51bb2182c2346.JPG','7616658','JPG',0,1,1371218306,0),(614,'video.mp4','video/201306/51bfbb057c8cf.mp4','3479719','mp4',0,1,1371519749,0),(615,'a1ec08fa513d2697b9526ce454fbb2fb4216d882.jpg','userinfo/201306/51bffdef88b9b.jpg','8564','jpg',0,1,1371536879,0);
+INSERT INTO `think_file` VALUES (596,'logo.png','file/201305/5188996c21ed6.png','5208','png',0,1,1367906668,0),(597,'《中小企业管理制度精细化设计全案》配套光盘.doc','file/201305/51919fc8275c8.doc','2442752','doc',0,1,1368498120,0),(598,'小微企业信息化之道.doc','Doc/201305/5191a5b250fb3.doc','214016','doc',0,1,1368499634,0),(599,'VID_20111105_202255.mp4','Video/201305/51a75c8bcb76f.mp4','16815909','mp4',0,1,1369922699,0),(600,'照片3 031.avi','Video/201305/51a75d6e70fbd.avi','24719178','avi',0,1,1369922926,0),(601,'3.AVI','Video/201305/51a75eb5bb733.AVI','403773818','AVI',0,1,1369923255,0),(602,'mc_slide9_animation_cut.avi','video/201306/51ad73c8c04e3.avi','3211668','avi',0,1,1370321864,0),(603,'video.mp4','video/201306/51afedee248dd.mp4','3479719','mp4',0,1,1370484206,0),(604,'video.mp4','video/201306/51b018c715313.mp4','3479719','mp4',0,1,1370495175,0),(605,'video.mp4','video/201306/51b01d4daaa66.mp4','3479719','mp4',0,1,1370496333,0),(606,'IMG_8604.JPG','question/201306/51b1305038283.JPG','5251295','JPG',0,1,1370566736,0),(607,'IMG_20130129_091441.jpg','question/201306/51b1307b677ed.jpg','560884','jpg',0,1,1370566779,0),(608,'__-0020.jpg','doc/201306/51b44d1f13b20.jpg','96376','jpg',0,1,1370770719,0),(609,'mc_slide9_animation_cut.avi','doc/201306/51b4546f3ce3f.avi','3211668','avi',0,1,1370772591,0),(610,'video.mp4','doc/201306/51b454a6b325e.mp4','3479719','mp4',0,1,1370772646,0),(611,'文档想法.xlsx','userinfo/201306/51b6c753d28ac.xlsx','10267','xlsx',0,1,1370933075,0),(612,'文档想法.xlsx','userinfo/201306/51b6c773efd58.xlsx','10267','xlsx',0,1,1370933107,0),(613,'IMG_8234.JPG','userinfo/201306/51bb2182c2346.JPG','7616658','JPG',0,1,1371218306,0),(614,'video.mp4','video/201306/51bfbb057c8cf.mp4','3479719','mp4',0,1,1371519749,0),(615,'a1ec08fa513d2697b9526ce454fbb2fb4216d882.jpg','userinfo/201306/51bffdef88b9b.jpg','8564','jpg',0,1,1371536879,0),(616,'ThinkPHP3.0 完全开发手册.pdf','notice/201307/51f73668660cd.pdf','2516024','pdf',0,1,1375155816,0),(617,'ThinkPHP3.0 完全开发手册.pdf','notice/201307/51f7374a1c95f.pdf','2516024','pdf',0,1,1375156042,0),(618,'신사업추진팀 네트워크 개선방안20130718.pptx','doc/201308/51f9bebbb9e52.pptx','437704','pptx',0,1,1375321787,0);
 /*!40000 ALTER TABLE `think_file` ENABLE KEYS */;
 
 #
@@ -227,14 +227,14 @@ CREATE TABLE `think_flow` (
   `is_del` tinyint(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   FULLTEXT KEY `refer_name` (`refer_name`)
-) ENGINE=MyISAM AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=75 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_flow"
 #
 
 /*!40000 ALTER TABLE `think_flow` DISABLE KEYS */;
-INSERT INTO `think_flow` VALUES (66,'生产2起案2013-0001','1111111111111','起案1111111111111111111111','leader|test1|','\r\n\t\t\t\t\t\t\t\t\t\t&nbsp;\r\n\t\t\t\t\t\t\t\t\t<span title=\"leader@smeoa.com\" emp_no=\"leader\">领导 <leader@smeoa.com> </leader@smeoa.com><b>→</b>\t</span><span title=\"test1@smeoa.com\" emp_no=\"test1\">test <test1@smeoa.com> </test1@smeoa.com>\t</span>','','\r\n\t\t\t\t\t\t\t\t\t\t\t&nbsp;\r\n\t\t\t\t\t\t\t\t\t','','\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t','1','',1,'管理员',12,'生产2科','',1365687773,0,20,0),(67,'生产2起案2013-0002','xxxxxxxxxx','起案xxxxxxxxxxxxxxxxxxxxxxxx','admin|demo|','\r\n\t\t\t\t\t\t\t\t\t\t&nbsp;\r\n\t\t\t\t\t\t\t\t\t<span title=\"\" emp_no=\"admin\">管理员 / 经理1 &lt;&gt; <b>→</b>\t</span><span title=\"demo@smeoa.com\" emp_no=\"demo\">演示 / 部长 <demo@smeoa.com> </demo@smeoa.com>\t</span>','','\r\n\t\t\t\t\t\t\t\t\t\t\t&nbsp;\r\n\t\t\t\t\t\t\t\t\t','','\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t','1','',1,'管理员',12,'生产2科','',1366362033,0,21,0),(68,'生产20003','固定流程111','固定流程xxxxxxxxxxxxxxxxxxxx','','\r\n\t\t\t\t\t\t\t\t\t\t<span emp_no=\"dgp_5_2\">总经理-副总经理 <b>→</b>   </span><span emp_no=\"dp_5_2\">总经理-副总经理 <b>→</b>   </span><span emp_no=\"dept_10\">会计科    </span>&nbsp;\r\n\t\t\t\t\t\t\t\t\t','','\r\n\t\t\t\t\t\t\t\t\t\t\t&nbsp;\r\n\t\t\t\t\t\t\t\t\t','','\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t','5','',1,'管理员',12,'生产2科','',1366363268,0,20,0),(69,'生产2起案2013-003','qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq','起案qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq','leader|','\r\n\t\t\t\t\t\t\t\t\t\t<span emp_no=\"dgp_5_2\">总经理-副总经理 <b>→</b>   </span><span emp_no=\"dp_6_2\">财务部-副总经理    </span>&nbsp;\r\n\t\t\t\t\t\t\t\t\t','','\r\n\t\t\t\t\t\t\t\t\t\t\t&nbsp;\r\n\t\t\t\t\t\t\t\t\t','','\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t','1','581;582;583;',1,'管理员',12,'生产2科','',1366620771,0,20,0),(70,'生产2起案2013-004','2012-04-22','2012-04-22','leader|','\r\n\t\t\t\t\t\t\t\t\t\t<span emp_no=\"dgp_5_2\">总经理-副总经理 <b>→</b>   </span><span emp_no=\"dp_6_2\">财务部-副总经理    </span>&nbsp;\r\n\t\t\t\t\t\t\t\t\t','','\r\n\t\t\t\t\t\t\t\t\t\t\t&nbsp;\r\n\t\t\t\t\t\t\t\t\t','','\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t','1','584;585;586;',1,'管理员',12,'生产2科','',1366620935,0,20,0),(71,'开二起案2013-005','购买办公用品','购买办公用品','leader|','\r\n\t\t\t\t\t\t\t\t\t\t<span emp_no=\"dgp_5_2\">总经理-副总经理 <b>→</b>   </span><span emp_no=\"dp_6_2\">财务部-副总经理    </span>&nbsp;\r\n\t\t\t\t\t\t\t\t\t','','\r\n\t\t\t\t\t\t\t\t\t\t\t&nbsp;\r\n\t\t\t\t\t\t\t\t\t','','\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t','1','',1,'管理员',12,'开发二科','',1368496148,0,20,0);
+INSERT INTO `think_flow` VALUES (66,'生产2起案2013-0001','1111111111111','起案1111111111111111111111','leader|test1|','\r\n\t\t\t\t\t\t\t\t\t\t&nbsp;\r\n\t\t\t\t\t\t\t\t\t<span title=\"leader@smeoa.com\" emp_no=\"leader\">领导 <leader@smeoa.com> </leader@smeoa.com><b>→</b>\t</span><span title=\"test1@smeoa.com\" emp_no=\"test1\">test <test1@smeoa.com> </test1@smeoa.com>\t</span>','','\r\n\t\t\t\t\t\t\t\t\t\t\t&nbsp;\r\n\t\t\t\t\t\t\t\t\t','','\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t','1','',1,'管理员',12,'生产2科','',1365687773,0,20,0),(67,'生产2起案2013-0002','xxxxxxxxxx','起案xxxxxxxxxxxxxxxxxxxxxxxx','admin|demo|','\r\n\t\t\t\t\t\t\t\t\t\t&nbsp;\r\n\t\t\t\t\t\t\t\t\t<span title=\"\" emp_no=\"admin\">管理员 / 经理1 &lt;&gt; <b>→</b>\t</span><span title=\"demo@smeoa.com\" emp_no=\"demo\">演示 / 部长 <demo@smeoa.com> </demo@smeoa.com>\t</span>','','\r\n\t\t\t\t\t\t\t\t\t\t\t&nbsp;\r\n\t\t\t\t\t\t\t\t\t','','\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t','1','',1,'管理员',12,'生产2科','',1366362033,0,21,0),(68,'生产20003','固定流程111','固定流程xxxxxxxxxxxxxxxxxxxx','','\r\n\t\t\t\t\t\t\t\t\t\t<span emp_no=\"dgp_5_2\">总经理-副总经理 <b>→</b>   </span><span emp_no=\"dp_5_2\">总经理-副总经理 <b>→</b>   </span><span emp_no=\"dept_10\">会计科    </span>&nbsp;\r\n\t\t\t\t\t\t\t\t\t','','\r\n\t\t\t\t\t\t\t\t\t\t\t&nbsp;\r\n\t\t\t\t\t\t\t\t\t','','\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t','5','',1,'管理员',12,'生产2科','',1366363268,0,20,0),(69,'生产2起案2013-003','qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq','起案qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq','leader|','\r\n\t\t\t\t\t\t\t\t\t\t<span emp_no=\"dgp_5_2\">总经理-副总经理 <b>→</b>   </span><span emp_no=\"dp_6_2\">财务部-副总经理    </span>&nbsp;\r\n\t\t\t\t\t\t\t\t\t','','\r\n\t\t\t\t\t\t\t\t\t\t\t&nbsp;\r\n\t\t\t\t\t\t\t\t\t','','\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t','1','581;582;583;',1,'管理员',12,'生产2科','',1366620771,0,20,0),(70,'生产2起案2013-004','2012-04-22','2012-04-22','leader|','\r\n\t\t\t\t\t\t\t\t\t\t<span emp_no=\"dgp_5_2\">总经理-副总经理 <b>→</b>   </span><span emp_no=\"dp_6_2\">财务部-副总经理    </span>&nbsp;\r\n\t\t\t\t\t\t\t\t\t','','\r\n\t\t\t\t\t\t\t\t\t\t\t&nbsp;\r\n\t\t\t\t\t\t\t\t\t','','\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t','1','584;585;586;',1,'管理员',12,'生产2科','',1366620935,0,20,0),(71,'开二起案2013-005','购买办公用品','购买办公用品','leader|','\r\n\t\t\t\t\t\t\t\t\t\t<span emp_no=\"dgp_5_2\">总经理-副总经理 <b>→</b>   </span><span emp_no=\"dp_6_2\">财务部-副总经理    </span>&nbsp;\r\n\t\t\t\t\t\t\t\t\t','','\r\n\t\t\t\t\t\t\t\t\t\t\t&nbsp;\r\n\t\t\t\t\t\t\t\t\t','','\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t','1','',1,'管理员',12,'开发二科','',1368496148,0,20,0),(72,'开二起案2013-006','123415','起案12315123123','','<SPAN emp_no=\"dgp_5_2\">总经理-副总经理 <B>→</B> </SPAN><SPAN emp_no=\"dp_6_2\">财务部-副总经理 </SPAN>&nbsp; ','','&nbsp; ','','','1','',1,'管理员',12,'开发二科','',1375149374,0,20,0),(73,'开二起案2013-007','爸爸爸爸 ','<table style=\"width:94.48%;height:112px;\" border=\"1\" cellspacing=\"0\" bordercolor=\"#000000\" cellpadding=\"2\">\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td>\r\n\t\t\t\t<p align=\"center\">\r\n\t\t\t\t\tASDF\r\n\t\t\t\t</p>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<p align=\"center\">\r\n\t\t\t\t\t&nbsp;ASDF\r\n\t\t\t\t</p>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<p align=\"center\">\r\n\t\t\t\t\t&nbsp;ASDF\r\n\t\t\t\t</p>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<p align=\"center\">\r\n\t\t\t\t\t&nbsp;ASDF\r\n\t\t\t\t</p>\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>\r\n\t\t\t\t&nbsp;123123\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t&nbsp;123123\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t&nbsp;123\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t&nbsp;123123\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>\r\n\t\t\t\t&nbsp;&nbsp;12312\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t3123\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t123123\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t1123123\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>\r\n\t\t\t\t123123\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t123123\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t1231231\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t123123\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>\r\n\t\t\t\t&nbsp;12123123123\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t12\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t123123\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<span>123123</span>\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>','','<SPAN emp_no=\"dgp_5_2\">总经理-副总经理 <B>→</B> </SPAN><SPAN emp_no=\"dp_6_2\">财务部-副总经理 </SPAN>&nbsp; ','','&nbsp; ','','','1','',1,'管理员',12,'开发二科','',1375151734,0,20,0),(74,'开二起案2013-008','1123123123','<table style=\"width:94.48%;height:112px;\" border=\"1\" bordercolor=\"#000000\" cellpadding=\"2\" cellspacing=\"0\">\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td>\r\n\t\t\t\t<p align=\"center\">\r\n\t\t\t\t\tASDF\r\n\t\t\t\t</p>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<p align=\"center\">\r\n\t\t\t\t\tASDF\r\n\t\t\t\t</p>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<p align=\"center\">\r\n\t\t\t\t\tASDF\r\n\t\t\t\t</p>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<p align=\"center\">\r\n\t\t\t\t\tASDF\r\n\t\t\t\t</p>\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>\r\n\t\t\t\t123123<br />\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<br />\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<br />\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<br />\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>\r\n\t\t\t\t123123123<br />\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<br />\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<br />\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<br />\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>\r\n\t\t\t\t12312312<br />\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<br />\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<br />\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<br />\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>\r\n\t\t\t\t3123123123<br />\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<br />\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<br />\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<span></span> <br />\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>','','\r\n\t\t\t\t\t\t\t\t\t\t<span emp_no=\"dgp_5_2\">总经理-副总经理 <b>→</b> </span><span emp_no=\"dp_6_2\">财务部-副总经理 </span>&nbsp;\r\n\t\t\t\t\t\t\t\t\t','','\r\n\t\t\t\t\t\t\t\t\t\t\t&nbsp;\r\n\t\t\t\t\t\t\t\t\t','','\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t','1','',1,'管理员',12,'开发二科','',1375151842,0,20,0);
 /*!40000 ALTER TABLE `think_flow` ENABLE KEYS */;
 
 #
@@ -296,7 +296,7 @@ CREATE TABLE `think_flow_type` (
 #
 
 /*!40000 ALTER TABLE `think_flow_type` DISABLE KEYS */;
-INSERT INTO `think_flow_type` VALUES (1,'起案',0,'{DEPT}{SHORT}{YYYY}-{###}','起案','起案','起案','dgp_5_2|dp_6_2|','<span emp_no=\"dgp_5_2\">总经理-副总经理 <b>→</b>   </span><span emp_no=\"dp_6_2\">财务部-副总经理    </span>','','','','',0,1366708126,0,0),(5,'固定',1,'{DEPT}{####}','固定流程','固定','固定流程','dgp_5_2|dp_5_2|dept_10|','<span emp_no=\"dgp_5_2\">总经理-副总经理 <b>→</b>   </span><span emp_no=\"dp_5_2\">总经理-副总经理 <b>→</b>   </span><span emp_no=\"dept_10\">会计科    </span>','','','','',1346553291,1366708686,0,0);
+INSERT INTO `think_flow_type` VALUES (1,'起案',0,'{DEPT}{SHORT}{YYYY}-{###}','起案','起案','<table style=\"width:94.48%;height:112px;\" border=\"1\" cellspacing=\"0\" bordercolor=\"#000000\" cellpadding=\"2\">\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td>\r\n\t\t\t\t<p align=\"center\">\r\n\t\t\t\t\tASDF\r\n\t\t\t\t</p>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<p align=\"center\">\r\n\t\t\t\t\t&nbsp;ASDF\r\n\t\t\t\t</p>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<p align=\"center\">\r\n\t\t\t\t\t&nbsp;ASDF\r\n\t\t\t\t</p>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<p align=\"center\">\r\n\t\t\t\t\t&nbsp;ASDF\r\n\t\t\t\t</p>\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>\r\n\t\t\t\t&nbsp;\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t&nbsp;\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t&nbsp;\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t&nbsp;\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>\r\n\t\t\t\t&nbsp;&nbsp;\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>\r\n\t\t\t\t&nbsp;\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t</td>\r\n\t\t\t<td>\r\n\t\t\t\t<span></span>\r\n\t\t\t</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>','dgp_5_2|dp_6_2|','<SPAN emp_no=\"dgp_5_2\">总经理-副总经理 <B>→</B> </SPAN><SPAN emp_no=\"dp_6_2\">财务部-副总经理 </SPAN>','','','','',0,1375151700,0,0),(5,'固定',1,'{DEPT}{####}','固定流程','固定','固定流程','dgp_5_2|dp_5_2|dept_10|','<span emp_no=\"dgp_5_2\">总经理-副总经理 <b>→</b>   </span><span emp_no=\"dp_5_2\">总经理-副总经理 <b>→</b>   </span><span emp_no=\"dept_10\">会计科    </span>','','','','',1346553291,1366708686,0,0);
 /*!40000 ALTER TABLE `think_flow_type` ENABLE KEYS */;
 
 #
@@ -327,7 +327,7 @@ CREATE TABLE `think_forum` (
 #
 
 /*!40000 ALTER TABLE `think_forum` DISABLE KEYS */;
-INSERT INTO `think_forum` VALUES (8,17,1,'管理员','发表主题 ','<span>发表主题</span>',10,0,0,'',0,0,1366872802,0),(9,25,1,'管理员','发了各自','发了各自',27,2,0,'',0,0,1374028398,0),(10,27,1,'管理员','XXXX','QQQQQQ',1,0,0,'',0,0,1374053565,0);
+INSERT INTO `think_forum` VALUES (8,17,1,'管理员','发表主题 ','<span>发表主题</span>',10,0,0,'',0,0,1366872802,0),(9,25,1,'管理员','发了各自','发了各自',28,2,0,'',0,0,1374028398,0),(10,27,1,'管理员','XXXX','QQQQQQ',2,0,0,'',0,0,1374053565,0);
 /*!40000 ALTER TABLE `think_forum` ENABLE KEYS */;
 
 #
@@ -354,7 +354,7 @@ CREATE TABLE `think_mail` (
   `is_del` tinyint(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `mid` (`mid`)
-) ENGINE=MyISAM AUTO_INCREMENT=1075 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1125 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_mail"
@@ -410,14 +410,14 @@ CREATE TABLE `think_mail_organize` (
   `title_key` varchar(50) NOT NULL,
   `to` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_mail_organize"
 #
 
 /*!40000 ALTER TABLE `think_mail_organize` DISABLE KEYS */;
-INSERT INTO `think_mail_organize` VALUES (12,1,1,0,0,1,'',1,1,'12345',0,1,'',0,1,'',0),(13,1,0,0,0,1,'',1,1,'12345',0,1,'',0,1,'',8);
+INSERT INTO `think_mail_organize` VALUES (12,1,0,0,0,1,'',1,1,'12345',0,1,'',0,1,'',0),(13,1,0,0,0,1,'',1,1,'12345',0,1,'',0,1,'',8),(14,1,1,0,1,1,'1231',0,1,'',0,1,'',0,1,'',0);
 /*!40000 ALTER TABLE `think_mail_organize` ENABLE KEYS */;
 
 #
@@ -444,7 +444,7 @@ CREATE TABLE `think_node` (
 #
 
 /*!40000 ALTER TABLE `think_node` DISABLE KEYS */;
-INSERT INTO `think_node` VALUES (83,'公告',0,'notice/index','','','7',0),(84,'管理',0,'user/index','','','999',0),(85,'邮件',0,'mail/folder?fid=inbox','','','1',0),(87,'审批',0,'flow/index','','','2',0),(88,'文档',0,'doc/index','','','3',0),(91,'日程',0,'schedule/index','','','4',0),(94,'职位',0,'position/index',NULL,'','',1),(97,'部门',0,'dept/index',NULL,'','',1),(100,'写信',0,'mail/add','','','1',85),(101,'收件箱',0,'mail/index','MailFolder','','3',85),(102,'邮件设置',0,'','','','4',85),(104,'垃圾箱',0,'mail/folder?fid=spambox','','','5',101),(105,'发件箱',0,'mail/folder?fid=outbox','','','2',101),(106,'已删除',0,'mail/folder?fid=delbox','','','3',101),(107,'草稿箱',0,'mail/folder?fid=darftbox','','','4',101),(108,'邮件帐户设置',0,'mail_account/index','','','1',102),(110,'公司信息管理',0,'',NULL,'','1',84),(112,'权限管理',0,'',NULL,'','3',84),(113,'系统设定',0,'',NULL,'','4',84),(114,'系统设置',0,'system_config/index','','','1',113),(115,'组织图管理',0,'dept/index','','','1',110),(116,'员工登记',0,'user/index','','','5',110),(118,'权限编码登记',0,'role/index',NULL,'','1',112),(119,'权限编码-菜单映射',0,'role/node',NULL,'','2',112),(120,'权限编码-用户映射',0,'role/user',NULL,'','3',112),(121,'菜单信息设置',0,'node/index',NULL,'','1',113),(122,'职级',0,'rank/index','','','3',110),(123,'职位',0,'position/index','','','2',110),(124,'文件夹设置',0,'mail_folder/index','','','2',102),(125,'联系人',0,'contact/index','','','1',157),(126,'文档搜索',0,'doc/index','','','1',88),(127,'文档库管理',0,'',NULL,'','4',88),(131,'公用文档库管理',0,'doc_folder/index','','','',127),(132,'公用文档库',0,'','DocFolder','','2',88),(134,'公告',0,'','NoticeFolder','','1',83),(137,'论坛',0,'forum/index','ForumFolder','','3',0),(138,'公告管理',0,'notice_folder/index','','','4',134),(139,'论坛管理',0,'forum_folder/index','','','',137),(140,'按月查看',0,'schedule/index','','','1',91),(141,'日程查询',0,'schedule/search','','','2',91),(142,'按日查看',0,'schedule/day_view','','','2',91),(143,'邮件分类',0,'mail_organize/index','','','',102),(144,'起案',0,'flow/index','','','1',87),(145,'审批箱',0,'','','','2',87),(146,'流程管理',0,'flow_type/index','','','3',87),(147,'待审批',0,'flow/folder?fid=confirm','','','',145),(148,'已办理',0,'flow/folder?fid=finish','','','',145),(149,'草稿箱',0,'flow/folder?fid=darft','','','',145),(150,'已提交',0,'flow/folder?fid=submit','','','',145),(151,'收信',0,'mail/folder?fid=receve','','','2',85),(152,'待办事项',0,'todo/index','','','4',91),(153,'部门级别',0,'dept_grade/index','','','4',110),(154,'业务权限',0,'duty/index','','','4',112),(155,'权限编码-业务权限',0,'role/duty','','','5',112),(156,'客户',0,'customer/index','','','2',157),(157,'人脉',0,'contact/index','','','5',0),(158,'供应商',0,'supplier/index','','','3',157),(169,'职员',0,'staff/index','','','',157);
+INSERT INTO `think_node` VALUES (83,'公告',0,'notice/index','','','7',0),(84,'管理',0,'user/index','','','999',0),(85,'邮件',0,'mail/folder?fid=inbox','','','1',0),(87,'审批',0,'flow/index','','','2',0),(88,'文档',0,'doc/index','','','3',0),(91,'日程',0,'schedule/index','','','4',0),(94,'职位',0,'position/index',NULL,'','',1),(97,'部门',0,'dept/index',NULL,'','',1),(100,'写信',0,'mail/add','','','1',85),(101,'收件箱',0,'mail/index','MailFolder','','3',85),(102,'邮件设置',0,'','','','4',85),(104,'垃圾箱',0,'mail/folder?fid=spambox','','','5',101),(105,'发件箱',0,'mail/folder?fid=outbox','','','2',101),(106,'已删除',0,'mail/folder?fid=delbox','','','3',101),(107,'草稿箱',0,'mail/folder?fid=darftbox','','','4',101),(108,'邮件帐户设置',0,'mail_account/index','','','1',102),(110,'公司信息管理',0,'',NULL,'','1',84),(112,'权限管理',0,'',NULL,'','3',84),(113,'系统设定',0,'',NULL,'','4',84),(114,'系统设置',0,'system_config/index','','','1',113),(115,'组织图管理',0,'dept/index','','','1',110),(116,'员工登记',0,'user/index','','','5',110),(118,'权限编码登记',0,'role/index',NULL,'','1',112),(119,'权限编码-菜单映射',0,'role/node',NULL,'','2',112),(120,'权限编码-用户映射',0,'role/user',NULL,'','3',112),(121,'菜单信息设置',0,'node/index',NULL,'','1',113),(122,'职级',0,'rank/index','','','3',110),(123,'职位',0,'position/index','','','2',110),(124,'文件夹设置',0,'mail_folder/index','','','2',102),(125,'联系人',0,'contact/index','','','1',157),(126,'文档搜索',0,'doc/index','','','1',88),(127,'文档库管理',0,'',NULL,'','4',88),(131,'公用文档库管理',0,'doc_folder/index','','','',127),(132,'公用文档库',0,'','DocFolder','','2',88),(134,'公告',0,'','NoticeFolder','','1',83),(137,'论坛',0,'forum/index','ForumFolder','','3',0),(138,'公告管理',0,'notice_folder/index','','','4',134),(139,'论坛管理',0,'forum_folder/index','','','',137),(140,'按月查看',0,'schedule/index','','','1',91),(141,'日程查询',0,'schedule/search','','','2',91),(142,'按日查看',0,'schedule/day_view','','','2',91),(143,'邮件分类',0,'mail_organize/index','','','',102),(144,'起案',0,'flow/index','','','1',87),(145,'审批箱',0,'','','','2',87),(146,'流程管理',0,'flow_type/index','','','3',87),(147,'待审批',0,'flow/folder?fid=confirm','','','3',145),(148,'已办理',0,'flow/folder?fid=finish','','','1',145),(149,'草稿箱',0,'flow/folder?fid=darft','','','2',145),(150,'已提交',0,'flow/folder?fid=submit','','','4',145),(151,'收信',0,'mail/folder?fid=receve','','','2',85),(152,'待办事项',0,'todo/index','','','4',91),(153,'部门级别',0,'dept_grade/index','','','4',110),(154,'业务权限',0,'duty/index','','','4',112),(155,'权限编码-业务权限',0,'role/duty','','','5',112),(156,'客户',0,'customer/index','','','2',157),(157,'人脉',0,'contact/index','','','5',0),(158,'供应商',0,'supplier/index','','','3',157),(169,'职员',0,'staff/index','','','',157);
 /*!40000 ALTER TABLE `think_node` ENABLE KEYS */;
 
 #
@@ -465,14 +465,14 @@ CREATE TABLE `think_notice` (
   `create_time` int(11) NOT NULL,
   `update_time` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_notice"
 #
 
 /*!40000 ALTER TABLE `think_notice` DISABLE KEYS */;
-INSERT INTO `think_notice` VALUES (24,'2013-0001','sssss','ssssssssssssssssssssssssss',15,'',1,'管理员',0,1366874793,0),(25,'2013-0002','xxxxxx','xxxxxxxxxxxxxxxxxxxxxx',15,'',1,'管理员',0,1367735751,0),(26,'2013-0003','q','qqqqqqqqqqqqq',15,'',1,'管理员',0,1367735757,0),(27,'2013-0004','1','111111111111111',15,'',1,'管理员',0,1370508661,0),(28,'2013-0005','33333','333333333333333333333',15,'',1,'管理员',0,1370508667,0),(29,'2013-0006','333','3333333333333333333',15,'',1,'管理员',0,1370508673,0),(30,'2013-0007','3222222222','22222222222222222222',15,'',1,'管理员',0,1370508678,0),(31,'2013-0008','XXXXXXXXXXXXXXXXXXX','SSSSSSSSSSSSSSS',15,'',1,'管理员',0,1370508706,0),(32,'2013-0009','ZZZZZZZZZZZZZ','ZZZZZZZZZZZZZZZZZZ',15,'',1,'管理员',0,1370508714,0),(33,'2013-0010','CCCCCC','CCCCCCCCCCCCCCCCCCCCC',15,'',1,'管理员',0,1370508723,0),(34,'2013-0011','DDDDDDDD','DDDDDDDDDDDDDDDDDDDDD',15,'',1,'管理员',0,1370508728,0),(35,'2013-0012','FFFFFFFFFF','FFFFFFFFFFFFFFFFF',15,'',1,'管理员',0,1370508734,0),(36,'2013-0013','33333333','333333333333333333',15,'',1,'管理员',0,1370508785,0),(37,'2013-0014','333333333','3333333333333333333',15,'',1,'管理员',0,1370508791,0),(38,'2013-0015','3333333333','33333333333333333333',15,'',1,'管理员',0,1370508799,0),(39,'2013-0016','333333333','33333333333333333333',15,'',1,'管理员',0,1370508805,0),(40,'2013-0017','333333333333','333333333333333333333333333',15,'',1,'管理员',0,1370508812,0),(41,'2013-0018','公告 1','1公告',26,'',1,'管理员',0,1373937632,0),(42,'2013-0019','AAAAAAAA','AAAAAAAAAAAAAAAAAAAA',26,'',1,'管理员',0,1374031714,0),(43,'2013-0020','BBBBBB','BBBBBBBBBBBBBBBBBBBBB',26,'',1,'管理员',0,1374031720,0);
+INSERT INTO `think_notice` VALUES (24,'2013-0001','sssss','ssssssssssssssssssssssssss',15,'',1,'管理员',0,1366874793,0),(25,'2013-0002','xxxxxx','xxxxxxxxxxxxxxxxxxxxxx',15,'',1,'管理员',0,1367735751,0),(26,'2013-0003','q','qqqqqqqqqqqqq',15,'',1,'管理员',0,1367735757,0),(27,'2013-0004','1','111111111111111',15,'',1,'管理员',0,1370508661,0),(28,'2013-0005','33333','333333333333333333333',15,'',1,'管理员',0,1370508667,0),(29,'2013-0006','333','3333333333333333333',15,'',1,'管理员',0,1370508673,0),(30,'2013-0007','3222222222','22222222222222222222',15,'',1,'管理员',0,1370508678,0),(31,'2013-0008','XXXXXXXXXXXXXXXXXXX','SSSSSSSSSSSSSSS',15,'',1,'管理员',0,1370508706,0),(32,'2013-0009','ZZZZZZZZZZZZZ','ZZZZZZZZZZZZZZZZZZ',15,'',1,'管理员',0,1370508714,0),(33,'2013-0010','CCCCCC','CCCCCCCCCCCCCCCCCCCCC',15,'',1,'管理员',0,1370508723,0),(34,'2013-0011','DDDDDDDD','DDDDDDDDDDDDDDDDDDDDD',15,'',1,'管理员',0,1370508728,0),(35,'2013-0012','FFFFFFFFFF','FFFFFFFFFFFFFFFFF',15,'',1,'管理员',0,1370508734,0),(36,'2013-0013','33333333','333333333333333333',15,'',1,'管理员',0,1370508785,0),(37,'2013-0014','333333333','3333333333333333333',15,'',1,'管理员',0,1370508791,0),(38,'2013-0015','3333333333','33333333333333333333',15,'',1,'管理员',0,1370508799,0),(39,'2013-0016','333333333','33333333333333333333',15,'',1,'管理员',0,1370508805,0),(40,'2013-0017','333333333333','333333333333333333333333333',15,'',1,'管理员',0,1370508812,0),(41,'2013-0018','公告 1','1公告',26,'',1,'管理员',0,1373937632,0),(42,'2013-0019','QQQQQQQQ','AAAAAAAAAAAAAAAAAAAAQQQQQQQQQQQQQQQQQQ',26,'',1,'管理员',0,1374031714,1375155796),(43,'2013-0020','BBBBBB','BBBBBBBBBBBBBBBBBBBBB',26,'',1,'管理员',0,1374031720,0),(44,'2013-0021','BABABABABABBABABB','XXXXXXX',0,'616;',1,'管理员',0,1375155819,0),(45,'2013-0022','XXXXX','XXXXXX',26,'617;',1,'管理员',0,1375156032,1375156043);
 /*!40000 ALTER TABLE `think_notice` ENABLE KEYS */;
 
 #
@@ -537,14 +537,13 @@ CREATE TABLE `think_push` (
   `time` int(11) NOT NULL,
   `info` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=615 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=618 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_push"
 #
 
 /*!40000 ALTER TABLE `think_push` DISABLE KEYS */;
-INSERT INTO `think_push` VALUES (609,1,'0',1,1371304468,'收到0封邮件'),(610,1,'0',1,1372810642,'收到0封邮件'),(611,1,'0',1,1372810648,'收到0封邮件'),(612,1,'0',1,1374024693,'收到0封邮件'),(613,1,'0',1,1374032145,'没有新邮件'),(614,1,'9',1,1374539966,'收到9封邮件');
 /*!40000 ALTER TABLE `think_push` ENABLE KEYS */;
 
 #
@@ -806,7 +805,7 @@ CREATE TABLE `think_system_folder` (
 #
 
 /*!40000 ALTER TABLE `think_system_folder` DISABLE KEYS */;
-INSERT INTO `think_system_folder` VALUES (21,0,'DocFolder','xxxxx','管理员 / 总经理 |admin;','','','',0,''),(22,0,'DocFolder','123145123','','管理员 / 总经理 |admin;','','',0,''),(23,0,'DocFolder','1234123','','','','',0,''),(24,0,'DocFolder','123123','','','','',0,''),(25,0,'ForumFolder','123123','管理员 / 总经理 |admin;','','','',0,''),(26,0,'NoticeFolder','123','管理员 / 总经理 |admin;','','','',0,''),(27,0,'ForumFolder','xxxxx','','','','',0,'');
+INSERT INTO `think_system_folder` VALUES (21,0,'DocFolder','xxxxx','管理员 / 总经理 |admin;','','','',0,''),(22,0,'DocFolder','123145123','','管理员 / 总经理 |admin;','','',0,''),(23,0,'DocFolder','1234123','管理员 / 总经理 |admin;演示 / 部长 |demo;员工 / 经理1 |member;','','','',0,''),(24,0,'DocFolder','123123','','','','',0,''),(25,0,'ForumFolder','123123','管理员 / 总经理 |admin;','','','',0,''),(26,0,'NoticeFolder','123','管理员 / 总经理 |admin;','','','',0,''),(27,0,'ForumFolder','xxxxx','','','','',0,'');
 /*!40000 ALTER TABLE `think_system_folder` ENABLE KEYS */;
 
 #
@@ -913,7 +912,7 @@ CREATE TABLE `think_user` (
 #
 
 /*!40000 ALTER TABLE `think_user` DISABLE KEYS */;
-INSERT INTO `think_user` VALUES (1,'admin','管理员','GLY','21232f297a57a5a743894a0e4a801fc3',12,1,1,'male','0000-00-00','127.0.0.1',1864,'','','2342343','XXXXXX','1',1222907803,1374109343,0),(2,'demo','演示','YS','fe01ce2a7fbac8fafaed7c982a04e229',9,3,3,'female','1983-03-17','127.0.0.1',112,'','XXXX','asdf','','2',1239783735,1371214569,0),(3,'member','员工','YG','202cb962ac59075b964b07152d234b70',6,4,4,'male','2012-03-15','127.0.0.1',19,'','XXXX','asd','','3',1253514375,1370333340,0);
+INSERT INTO `think_user` VALUES (1,'admin','管理员','GLY','21232f297a57a5a743894a0e4a801fc3',12,1,1,'male','0000-00-00','127.0.0.1',1872,'','smeoa@qq.com','2342343','XXXXXX','1',1222907803,1374109343,0),(2,'demo','演示','YS','fe01ce2a7fbac8fafaed7c982a04e229',9,3,3,'female','1983-03-17','127.0.0.1',112,'','XXXX','asdf','','2',1239783735,1371214569,0),(3,'member','员工','YG','202cb962ac59075b964b07152d234b70',6,4,4,'male','2012-03-15','127.0.0.1',19,'','XXXX','asd','','3',1253514375,1370333340,0);
 /*!40000 ALTER TABLE `think_user` ENABLE KEYS */;
 
 #
@@ -955,14 +954,14 @@ CREATE TABLE `think_user_folder` (
   `is_del` tinyint(3) NOT NULL DEFAULT '0',
   `remark` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_user_folder"
 #
 
 /*!40000 ALTER TABLE `think_user_folder` DISABLE KEYS */;
-INSERT INTO `think_user_folder` VALUES (21,0,'MailFolder',2,1,'123','','','','',0,''),(22,0,'MailFolder',2,1,'123123','','','','',0,''),(23,21,'MailFolder',2,1,'XXXX','','','','',0,''),(24,21,'MailFolder',2,1,'ZZZZ','','','','',0,'');
+INSERT INTO `think_user_folder` VALUES (21,24,'MailFolder',2,1,'123','','','','',0,''),(22,0,'MailFolder',2,1,'QQQQ','','','','',0,''),(23,21,'MailFolder',2,1,'XXXX','','','','',0,''),(24,21,'MailFolder',2,1,'ZZZZ','','','','',0,''),(25,0,'MailFolder',2,1,'11111','','','','',0,'');
 /*!40000 ALTER TABLE `think_user_folder` ENABLE KEYS */;
 
 #
