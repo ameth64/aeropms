@@ -1,6 +1,6 @@
 <?php
 class FlowAction extends CommonAction {
-	protected $config=array('data_type'=>'flow','action_auth'=>array('folder'=>'read'));
+	protected $config=array('app_type'=>'flow','action_auth'=>array('folder'=>'read'));
 
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
@@ -10,9 +10,8 @@ class FlowAction extends CommonAction {
 		R("File/upload");
 	}
 
-	function index() {
+	function index(){
 		$this -> group_list();
-
 		$model = M('FlowType');
 		if (!empty($_POST['group'])) {
 			$where['group'] = $_POST['group'];

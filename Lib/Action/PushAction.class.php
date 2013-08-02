@@ -1,5 +1,6 @@
 <?php
 class PushAction extends CommonAction {
+	protected $config=array('app_type'=>'public');
 	//过滤查询字段
 	function server() {
 		for ($i = 0, $timeout = 10; $i < $timeout; $i++) {

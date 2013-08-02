@@ -1,11 +1,19 @@
 <?php
 class SystemFolderModel extends CommonModel {
 
-	function get_list($folder){		
+	function get_list($folder=''){
+		if(empty($folder)){
+			$folder=MODULE_NAME."Folder";
+		}
 		$where['folder']=$folder;
 		$where['is_del']=0;
         $list = $this ->where($where) -> order("sort") -> Field('id,name,pid') -> select();
 		return $list;
+	}
+	
+	function get_folder_name($folder_id){
+		$where['id'] = array('eq', $folder_id);
+		return $this -> where($where) -> getField("name");
 	}
 
 	function get_folder_menu(){

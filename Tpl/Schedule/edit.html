@@ -1,13 +1,10 @@
 <layout name='Layout/layout_main' />
-
-<link type="text/css" href="__PUBLIC__/css/jquery-ui.css" rel="stylesheet"/>
-<script type="text/javascript" src="__PUBLIC__/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="__PUBLIC__/editor/kindeditor.js"></script>
 <script type="text/javascript" src="__PUBLIC__/editor/kindeditor.setting.js"></script>
 <script type="text/javascript">
 	
 	function popup_actor(){
-		winopen("{:U("contact/popup_actor")}",800,574);
+		winopen("{:U("popup/actor")}",800,574);
 	}
 
 	function save() {
@@ -33,20 +30,19 @@
 	$("#end_time option[value='{$vo.end_time}']").attr("selected","selected");
 
 	$(function(){
-		$( "#start_date" ).datepicker();
-		$( "#end_date" ).datepicker();
+		$(".input-date").datepicker();
 
-	$("#priority").val({$vo.priority});
-	$("#slider-range-priority").slider({
-		range : "min",
-		min : 1,
-		max : 5,
-		value : {$vo.priority},
-		slide : function(event,ui) {
-			$("#priority").val(ui.value);
-			$("div.slider_box div.ui-slider").css( "background-color", schedule_bg(ui.value));
-			$("div.slider_box div.ui-widget-header").css("background-color", schedule_bg(ui.value));
-		}
+		$("#priority").val({$vo.priority});
+		$("#slider-range-priority").slider({
+			range : "min",
+			min : 1,
+			max : 5,
+			value : {$vo.priority},
+			slide : function(event,ui) {
+				$("#priority").val(ui.value);
+				$("div.slider_box div.ui-slider").css( "background-color", schedule_bg(ui.value));
+				$("div.slider_box div.ui-widget-header").css("background-color", schedule_bg(ui.value));
+			}
 	});
 		$("div.slider_box div.ui-slider").css( "background-color", schedule_bg({$vo.priority}));
 		$("div.slider_box div.ui-widget-header").css( "background-color", schedule_bg({$vo.priority}));

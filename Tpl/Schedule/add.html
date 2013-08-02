@@ -1,12 +1,9 @@
 <layout name='Layout/layout_main' />
-
-<link type="text/css" href="__PUBLIC__/css/jquery-ui.css" rel="stylesheet"/>
-<script type="text/javascript" src="__PUBLIC__/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="__PUBLIC__/editor/kindeditor.js"></script>
 <script type="text/javascript" src="__PUBLIC__/editor/kindeditor.setting.js"></script>
 <script type="text/javascript">
 	function popup_actor(){
-		winopen("{:U("contact/popup_actor")}",800,574);
+		winopen("{:U("popup/actor")}",800,574);
 	}
 	function save() {
 		editor.sync();
@@ -26,8 +23,7 @@
 		fill_time("end_time");
 
 		$(function() {
-			$("#start_date").datepicker();
-			$("#end_date").datepicker();
+			$(".input-date").datepicker();
 			$("#priority").val(3);
 			$("#slider-range-priority").slider({
 				range : "min",

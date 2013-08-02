@@ -1,7 +1,4 @@
 <layout name='Layout/layout_main' />
-
-<link type="text/css" href="__PUBLIC__/css/jquery-ui.css" rel="stylesheet"/>
-<script type="text/javascript" src="__PUBLIC__/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="__PUBLIC__/editor/kindeditor.js"></script>
 <script type="text/javascript" src="__PUBLIC__/editor/kindeditor.setting.js"></script>
 <script type="text/javascript">
@@ -13,8 +10,7 @@
 		}
 	}
 	$(function(){
-		$( "#start_date" ).datepicker();
-		$( "#end_date" ).datepicker();
+		$(".input-date").datepicker();
 		$("#priority").val({$vo.priority});
 		$("#slider-range-priority").slider({
 			range : "min",
@@ -30,9 +26,9 @@
 		$("div.slider_box div.ui-slider").css( "background-color", schedule_bg({$vo.priority}));
 		$("div.slider_box div.ui-widget-header").css( "background-color", schedule_bg({$vo.priority}));
 	})
+
 	$(document).ready( function(){
-		editor_init();
-		
+		editor_init();		
 	});
 	</script>
 <div class="todo">

@@ -1,7 +1,4 @@
 <layout name='Layout/layout_main' />
-
-<link type="text/css" href="__PUBLIC__/css/jquery-ui.css" rel="stylesheet"/>
-<script type="text/javascript" src="__PUBLIC__/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	function mark(action){
 		var vars = $("#form_data").serialize();
@@ -37,7 +34,7 @@
 
 	$(document).ready(function(){
 		set_return_url();
-		$("#be_create_time,#en_create_time").datepicker();
+		$(".input-date").datepicker();
 		
 		$("#move_to li").click(function(){
 			move_to($(this).attr("id"));

@@ -9,9 +9,15 @@ class AuthCheckBehavior extends Behavior {
 
      public function run(&$params){
 		 //个人数据
-		 $data_type=$params['data_type'];
 		 $this->config=&$params;
-		 switch ($data_type){
+		 
+		 $app_type=$params['app_type'];		 
+		 switch ($app_type){
+			 case 'public':
+					$auth=array('admin'=>true,'write'=>true,'read'=>true);
+					$params['auth']=$auth;
+					return true;
+					break;			 
 
 			 case 'personal':
 
@@ -54,7 +60,7 @@ class AuthCheckBehavior extends Behavior {
 	 break;
 		 
 			}
-		if($auth[$action_auth[ACTION_NAME]]){	
+		if($auth[$action_auth[ACTION_NAME]]){
 			$this->config['auth']=$auth;
 			return true;
 		}else{
@@ -66,7 +72,7 @@ class AuthCheckBehavior extends Behavior {
      }
 
 	function get_auth(){
-		if($this->config['folder_auth']){
+		if(!empty($this->config['folder_auth'])){
 			$folder_id=$_REQUEST['fid'];
 			if(!empty($folder_id)){
 				return D("SystemFolder") ->get_folder_auth($folder_id);

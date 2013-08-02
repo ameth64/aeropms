@@ -1,264 +1,3 @@
-/* 公用ready 开始 */
-
-$(document).ready(function(){
-	adv_search_init();
-	tree_menu_init();
-	$(".tree_menu li a i").click(function(event){
-		icon=$(this);
-		tree_menu=$(this).parent().parent().find(".tree_menu");
-		tree_menu.toggle(function(){
-			if(tree_menu.css('display')=='none'){
-				icon.removeClass("icon");
-				icon.addClass("icon-angle-down");
-				add_hide_node(icon.parent().attr("node"));	
-			}else{
-				icon.removeClass("icon-angle-down");
-				icon.addClass("icon");
-				remove_hide_node(icon.parent().attr("node"));
-			}
-		});
-		event.stopPropagation();
-		return false;
-	});
-	$(".left_menu .tree_menu a").click(function() {
-		return click_left_menu($(this));
-	})
-	
-	top_menu=get_cookie("top_menu");
-	$('.nav li a[node='+top_menu+']').addClass("active");	
-	
-	left_menu=get_cookie("left_menu");
-	
-	$(".left_menu .tree_menu a[node='"+left_menu+"']").addClass("active");
-	if($(".left_menu .tree_menu a.active").length == 0){
-		url = window.location.pathname;
-		$(".left_menu .tree_menu a[href='" + url + "']").addClass("active");
-	}
-
-	$("#move_to .drop-down-box li").click(function(){
-		move_to($(this).attr("id"));					
-	})
-
-	/* 查找联系人input 功能*/
-	$(".inputbox .search li").live("click",function(){
-		name = $(this).text().replace(/<.*>/,'');
-		email=$(this).find("a").attr("title");
-		html="<span email=\""+email+"\"><nobr><b  title=\""+email+"\">"+name+"</b><a class=\"del\" title=\"删除\">&#10005</a></nobr></span>";
-		inputbox=$(this).parents(".inputbox");
-		inputbox.find("span.address_list").append(html);
-		inputbox.find("input.letter").val("");
-		inputbox.find(".search ul").html("");
-		inputbox.find(".search ul").hide();		
-		inputbox.find(".search").hide();
-	})
-	
-/* 查找联系人input 功能*/
-	$(".inputbox .letter").keyup(function(e){				
-		switch(e.keyCode)
-		 {
-		 case 40:
-			var $curr = $(this).parents(".inputbox").find(".search li.active").next();
-			if ($curr.html()!=null)
-			{
-				 $(this).parents(".inputbox").find(".search li").removeClass("active");
-				$curr.addClass("active");
-			}
-		 break
-		 case 38:
-			var $curr =  $(this).parents(".inputbox").find(".search li.active").prev();
-			if ($curr.html()!=null){
-				 $(this).parents(".inputbox").find(".search li").removeClass("active");
-				 $curr.addClass("active");					
-			}
-		 break
-		 case 13:
-			if ($(this).parents(".inputbox").find(".search ul").html()!=""){
-				name = $(".search li.active").text().replace(/<.*>/,'');
-				email=$(".search li.active a").attr("title");
-				html="<span email=\""+email+"\"><nobr><b  title=\""+email+"\">"+name+"</b><a class=\"del\" title=\"删除\">&#10005</a></nobr></span>";
-				$(this).parents(".inputbox").find("span.address_list").append(html);
-				$(this).parents(".inputbox").find(".search ul").html("");
-				$(this).val("");
-				$(this).parents(".inputbox").find(".search ul").hide();
-			}else{
-				email=$(this).val();
-				if(validate(email,'email')){
-					name = email;
-					html="<span email=\""+email+"\"><nobr><b  title=\""+email+"\">"+name+"</b><a class=\"del\" title=\"删除\">&#10005</a></nobr></span>";
-					$(this).parents(".inputbox").find("span.address_list").append(html);
-					$(this).val("");						
-				}else{
-					alert("邮件格式错误");
-				}
-			}
-		 break
-		 default:
-			var search=$(this).parents(".inputbox").find("div.search ul");               
-			 if ($(this).val().length > 1){
-			$.getJSON("/contact/json", {
-				key: $(this).val()
-			}, function(json){					
-				if (json!=""){
-					if(json.length>0){					
-						search.html("");
-						$.each(json, function(i){
-							search.append('<li><a title="' + json[i].email + '">' + json[i].name +'&lt;'+ json[i].email+'&gt;</a></li>')										
-						})
-						search.children("li:first").addClass("active");		
-						search.show();
-					}
-				}else{
-					search.html("");
-					search.hide();
-				}
-			});
-		}else {					
-			 search.hide();
-		}
-	}
-	});
-
-	$("label.checkbox :checkbox").click(function(){
-		if($(this).attr("checked")=="checked"){
-			$(this).parent().find("i").removeClass("icon-check-empty");
-			$(this).parent().find("i").addClass("icon-check");
-		}else{
-			$(this).parent().find("i").removeClass("icon-check");
-			$(this).parent().find("i").addClass("icon-check-empty");
-		}
-	})
-	/* 自动完成功能*/
-	$(".controls .search li").live("click",function(){
-		inputbox=$(this).parents(".controls");
-
-		data=$(this).data("data");
-		key_field=inputbox.find("input.val").attr("key_field");
-		if (key_field==undefined){
-			key_field="id";
-		}
-		inputbox.find("input.key").val(data[key_field]);			
-
-		val=$(this).text();
-		inputbox.find("input.val").val(val);							
-		try{
-			callback=eval(inputbox.find("input.val").attr("process"));
-			if(typeof(callback)=="function"){
-				callback($(this),data);
-			}
-		}catch(e){
-			//alert("yy");
-		}
-		inputbox.find(".search ul").html("");
-		inputbox.find(".search ul").hide();		
-	})
-	/* 自动完成功能*/
-	$(".controls .val").live("keyup",function(e){
-		switch(e.keyCode)
-		 {
-		 case 40:
-			var $curr = $(this).parents(".controls").find(".search li.active").next();
-			if ($curr.html()!=null)
-			{
-				 $(this).parents(".controls").find(".search li").removeClass("active");
-				$curr.addClass("active");
-			}
-		 break
-		 case 38:
-			var $curr =  $(this).parents(".controls").find(".search li.active").prev();
-			if ($curr.html()!=null){
-				 $(this).parents(".controls").find(".search li").removeClass("active");
-				 $curr.addClass("active");					
-			}
-		 break
-		 case 13:
-			if ($(this).parents(".controls").find(".search ul").html()!=""){
-				inputbox=$(this).parents(".controls");
-
-				data=inputbox.find(".search li.active").data("data");
-				key_field=inputbox.find("input.val").attr("key_field");
-				if (key_field==undefined){
-					key_field="id";
-				}
-				inputbox.find("input.key").val(data[key_field]);			
-
-				val=inputbox.find(".search li.active").text();
-				inputbox.find("input.val").val(val);							
-				try{
-					callback=eval($(this).attr("process"));
-					if(typeof(callback)=="function"){						
-						callback($(this),data);
-					}
-				}catch(e){
-					//alert("yy");
-				}
-				inputbox.find(".search ul").html("");
-				inputbox.find(".search ul").hide();		
-			}
-		 break
-		 default:
-			var search=$(this).parents(".controls").find("div.search ul");               
-			if ($(this).val().length > 1){
-				$.getJSON($(this).attr("source"),{
-					keyword: $(this).val(),
-					condition:$("#"+$(this).attr("condition")).val()
-				}, function(json){
-					if(json!=undefined){
-						if(json.length>0){		
-							search.html("");
-							$.each(json, function(i){
-								html=$('<li><a>' + json[i].name+'</a></li>');
-								html.data("data",json[i]);
-								html.appendTo(search);
-							})
-							search.children("li:first").addClass("active");						
-							search.show();
-						}
-					}else{
-						search.html("");
-						search.hide();
-					}
-				});
-			}else {					
-				 search.hide();
-			}
-		 }
-	});
-
-/* 查找联系人input 功能*/
-	$(".inputbox").live("click",function(e){
-		$(this).find(".letter").focus();				
-		$(this).addClass("focus");
-	})
-/* 查找联系人input 功能*/
-	$(".inputbox input.letter").blur(function(e){		
-		$(this).parents(".inputbox").removeClass("focus");
-	})
-
-/* select 可以手动输入*/
-	$("select.writeable").keypress(function(e){
-		if(this.options[0].text=="选择或录入"){
-			this.options[0].text='';
-		}
-				this.options[0].selected = "selected";
-				this.options[0].text = this.options[0].text + String.fromCharCode(event.keyCode);
-		this.options[0].value=this.options[0].text;
-				e.returnValue=false;
-	});
-/* select 可以手动输入*/
-	$("select.writeable").keydown(function(e){
-		if(e.keyCode == 46){this.options[0].text = '';}
-	});
-	
-	 /* 双击删除已选联系人*/
-	 $(".inputbox .address_list span").live("dblclick", function() {
-		$(this).remove();
-	});
-
-	 /*单击删除已选联系人*/
-	 $(".inputbox .address_list a.del").live("click", function() {
-		$(this).parent().parent().remove();
-	});	
-})
 
 /* 公用函数开始=========================================== */
 
@@ -839,31 +578,263 @@ function winopen(url,w,h){
 		if(s.split(".")[1]=="00") s=s.split(".")[0];
 		return s
 	}
+	/* 公用ready 开始 */
+$(document).ready(function(){
+	adv_search_init();
+	tree_menu_init();
+	$(".tree_menu li a i").click(function(event){
+		icon=$(this);
+		tree_menu=$(this).parent().parent().find(".tree_menu");
+		tree_menu.toggle(function(){
+			if(tree_menu.css('display')=='none'){
+				icon.removeClass("icon");
+				icon.addClass("icon-angle-down");
+				add_hide_node(icon.parent().attr("node"));	
+			}else{
+				icon.removeClass("icon-angle-down");
+				icon.addClass("icon");
+				remove_hide_node(icon.parent().attr("node"));
+			}
+		});
+		event.stopPropagation();
+		return false;
+	});
+	$(".left_menu .tree_menu a").click(function() {
+		return click_left_menu($(this));
+	})
+	
+	top_menu=get_cookie("top_menu");
+	$('.nav li a[node='+top_menu+']').addClass("active");	
+	
+	left_menu=get_cookie("left_menu");
+	
+	$(".left_menu .tree_menu a[node='"+left_menu+"']").addClass("active");
+	if($(".left_menu .tree_menu a.active").length == 0){
+		url = window.location.pathname;
+		$(".left_menu .tree_menu a[href='" + url + "']").addClass("active");
+	}
 
+	$("#move_to .drop-down-box li").click(function(){
+		move_to($(this).attr("id"));					
+	})
 
-function w(){
-    if($.browser.msie){
-        return document.compatMode == "CSS1Compat"? document.documentElement.clientWidth :
-        document.body.clientWidth;
-    }else{
-        return self.innerWidth;
-    }
-};
+	/* 查找联系人input 功能*/
+	$(".inputbox .search li").live("click",function(){
+		name = $(this).text().replace(/<.*>/,'');
+		email=$(this).find("a").attr("title");
+		html="<span email=\""+email+"\"><nobr><b  title=\""+email+"\">"+name+"</b><a class=\"del\" title=\"删除\">&#10005</a></nobr></span>";
+		inputbox=$(this).parents(".inputbox");
+		inputbox.find("span.address_list").append(html);
+		inputbox.find("input.letter").val("");
+		inputbox.find(".search ul").html("");
+		inputbox.find(".search ul").hide();		
+		inputbox.find(".search").hide();
+	})
+	
+/* 查找联系人input 功能*/
+	$(".inputbox .letter").keyup(function(e){				
+		switch(e.keyCode)
+		 {
+		 case 40:
+			var $curr = $(this).parents(".inputbox").find(".search li.active").next();
+			if ($curr.html()!=null)
+			{
+				 $(this).parents(".inputbox").find(".search li").removeClass("active");
+				$curr.addClass("active");
+			}
+		 break
+		 case 38:
+			var $curr =  $(this).parents(".inputbox").find(".search li.active").prev();
+			if ($curr.html()!=null){
+				 $(this).parents(".inputbox").find(".search li").removeClass("active");
+				 $curr.addClass("active");					
+			}
+		 break
+		 case 13:
+			if ($(this).parents(".inputbox").find(".search ul").html()!=""){
+				name = $(".search li.active").text().replace(/<.*>/,'');
+				email=$(".search li.active a").attr("title");
+				html="<span email=\""+email+"\"><nobr><b  title=\""+email+"\">"+name+"</b><a class=\"del\" title=\"删除\">&#10005</a></nobr></span>";
+				$(this).parents(".inputbox").find("span.address_list").append(html);
+				$(this).parents(".inputbox").find(".search ul").html("");
+				$(this).val("");
+				$(this).parents(".inputbox").find(".search ul").hide();
+			}else{
+				email=$(this).val();
+				if(validate(email,'email')){
+					name = email;
+					html="<span email=\""+email+"\"><nobr><b  title=\""+email+"\">"+name+"</b><a class=\"del\" title=\"删除\">&#10005</a></nobr></span>";
+					$(this).parents(".inputbox").find("span.address_list").append(html);
+					$(this).val("");						
+				}else{
+					alert("邮件格式错误");
+				}
+			}
+		 break
+		 default:
+			var search=$(this).parents(".inputbox").find("div.search ul");               
+			 if ($(this).val().length > 1){
+			$.getJSON("/contact/json", {
+				key: $(this).val()
+			}, function(json){					
+				if (json!=""){
+					if(json.length>0){					
+						search.html("");
+						$.each(json, function(i){
+							search.append('<li><a title="' + json[i].email + '">' + json[i].name +'&lt;'+ json[i].email+'&gt;</a></li>')										
+						})
+						search.children("li:first").addClass("active");		
+						search.show();
+					}
+				}else{
+					search.html("");
+					search.hide();
+				}
+			});
+		}else {					
+			 search.hide();
+		}
+	}
+	});
 
-function h(){
-    if($.browser.msie){
-        return document.compatMode == "CSS1Compat"? document.documentElement.clientHeight :
-        document.body.clientHeight;
-    }else{
-        return self.innerHeight;
-    }
-};
-jQuery.fn.join = function(sep,mapvalue){ 
-return $.map(this,mapvalue).join(sep); 
-}; 
-jQuery.fn.joinattr = function(sep,attr){ 
-return this.join(sep,function(item){return $(item).attr(attr);}); 
-}; 
-jQuery.fn.joinvalue = function(sep){ 
-return this.join(sep,function(item){return $(item).val();}); 
-};
+	$("label.checkbox :checkbox").click(function(){
+		if($(this).attr("checked")=="checked"){
+			$(this).parent().find("i").removeClass("icon-check-empty");
+			$(this).parent().find("i").addClass("icon-check");
+		}else{
+			$(this).parent().find("i").removeClass("icon-check");
+			$(this).parent().find("i").addClass("icon-check-empty");
+		}
+	})
+	/* 自动完成功能*/
+	$(".controls .search li").live("click",function(){
+		inputbox=$(this).parents(".controls");
+
+		data=$(this).data("data");
+		key_field=inputbox.find("input.val").attr("key_field");
+		if (key_field==undefined){
+			key_field="id";
+		}
+		inputbox.find("input.key").val(data[key_field]);			
+
+		val=$(this).text();
+		inputbox.find("input.val").val(val);							
+		try{
+			callback=eval(inputbox.find("input.val").attr("process"));
+			if(typeof(callback)=="function"){
+				callback($(this),data);
+			}
+		}catch(e){
+			//alert("yy");
+		}
+		inputbox.find(".search ul").html("");
+		inputbox.find(".search ul").hide();		
+	})
+	/* 自动完成功能*/
+	$(".controls .val").live("keyup",function(e){
+		switch(e.keyCode)
+		 {
+		 case 40:
+			var $curr = $(this).parents(".controls").find(".search li.active").next();
+			if ($curr.html()!=null)
+			{
+				 $(this).parents(".controls").find(".search li").removeClass("active");
+				$curr.addClass("active");
+			}
+		 break
+		 case 38:
+			var $curr =  $(this).parents(".controls").find(".search li.active").prev();
+			if ($curr.html()!=null){
+				 $(this).parents(".controls").find(".search li").removeClass("active");
+				 $curr.addClass("active");					
+			}
+		 break
+		 case 13:
+			if ($(this).parents(".controls").find(".search ul").html()!=""){
+				inputbox=$(this).parents(".controls");
+
+				data=inputbox.find(".search li.active").data("data");
+				key_field=inputbox.find("input.val").attr("key_field");
+				if (key_field==undefined){
+					key_field="id";
+				}
+				inputbox.find("input.key").val(data[key_field]);			
+
+				val=inputbox.find(".search li.active").text();
+				inputbox.find("input.val").val(val);							
+				try{
+					callback=eval($(this).attr("process"));
+					if(typeof(callback)=="function"){						
+						callback($(this),data);
+					}
+				}catch(e){
+					//alert("yy");
+				}
+				inputbox.find(".search ul").html("");
+				inputbox.find(".search ul").hide();		
+			}
+		 break
+		 default:
+			var search=$(this).parents(".controls").find("div.search ul");               
+			if ($(this).val().length > 1){
+				$.getJSON($(this).attr("source"),{
+					keyword: $(this).val(),
+					condition:$("#"+$(this).attr("condition")).val()
+				}, function(json){
+					if(json!=undefined){
+						if(json.length>0){		
+							search.html("");
+							$.each(json, function(i){
+								html=$('<li><a>' + json[i].name+'</a></li>');
+								html.data("data",json[i]);
+								html.appendTo(search);
+							})
+							search.children("li:first").addClass("active");						
+							search.show();
+						}
+					}else{
+						search.html("");
+						search.hide();
+					}
+				});
+			}else {					
+				 search.hide();
+			}
+		 }
+	});
+
+/* 查找联系人input 功能*/
+	$(".inputbox").live("click",function(e){
+		$(this).find(".letter").focus();				
+		$(this).addClass("focus");
+	})
+/* 查找联系人input 功能*/
+	$(".inputbox input.letter").blur(function(e){		
+		$(this).parents(".inputbox").removeClass("focus");
+	})
+
+/* select 可以手动输入*/
+	$("select.writeable").keypress(function(e){
+		if(this.options[0].text=="选择或录入"){
+			this.options[0].text='';
+		}
+				this.options[0].selected = "selected";
+				this.options[0].text = this.options[0].text + String.fromCharCode(event.keyCode);
+		this.options[0].value=this.options[0].text;
+				e.returnValue=false;
+	});
+/* select 可以手动输入*/
+	$("select.writeable").keydown(function(e){
+		if(e.keyCode == 46){this.options[0].text = '';}
+	});
+	
+	 /* 双击删除已选联系人*/
+	 $(".inputbox .address_list span").live("dblclick", function() {
+		$(this).remove();
+	});
+
+	 /*单击删除已选联系人*/
+	 $(".inputbox .address_list a.del").live("click", function() {
+		$(this).parent().parent().remove();
+	});	
+})

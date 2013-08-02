@@ -10,7 +10,7 @@ class UserFolderAction extends CommonAction {
 		$node = M("UserFolder");
 		$menu = array();
 		$where['user_id'] = get_user_id();
-		$where['folder'] = MODULE_NAME;		
+		$where['folder'] = MODULE_NAME;
 		$menu = $node -> where($where) -> field('id,pid,name') -> order('sort asc') -> select();
 		$tree = list_to_tree($menu);
 
@@ -21,14 +21,14 @@ class UserFolderAction extends CommonAction {
 		$this -> display("UserFolder:index");
 	}
 
-protected function _insert() {
+	protected function _insert() {
 		$model = D("UserFolder");
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
 		}
+
 		$model -> user_id = get_user_id();
-		$model -> user_name = $this -> _session("user_name");
-		$model->folder=MODULE_NAME;
+		$model -> folder = MODULE_NAME;
 
 		//保存当前数据对象
 		$list = $model -> add();
@@ -41,7 +41,7 @@ protected function _insert() {
 		}
 	}
 
-protected function _update() {
+	protected function _update() {
 		$model = D("UserFolder");
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
@@ -71,11 +71,11 @@ protected function _update() {
 		}
 	}
 
-	public function winpop() {
+	function winpop() {
 		$node = M("UserFolder");
 		$menu = array();
 		$where['folder'] = MODULE_NAME;
-		$where['user_id'] =get_user_id();
+		$where['user_id'] = get_user_id();
 
 		$menu = $node -> where($where) -> field('id,pid,name') -> order('sort asc') -> select();
 		$tree = list_to_tree($menu);

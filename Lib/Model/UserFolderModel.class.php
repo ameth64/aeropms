@@ -8,7 +8,12 @@ class UserFolderModel extends CommonModel {
         $list = $this ->where($where) -> order("sort") -> Field('id,name,pid') -> select();
 		return $list;
 	}
-
+	
+	public function get_folder_name($folder_id){
+		$where['id'] = array('eq', $folder_id);
+		return $this -> where($where) -> getField("name");
+	}
+	
 	public function get_folder_menu(){
 		$user_id=get_user_id();
 		$sql="select concat('ufid_',a.id) as id,a.name,a.folder,concat('ufid_',a.pid) as pid,concat(replace(a.folder,'Folder','/folder/?fid='),a.id) as url";

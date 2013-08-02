@@ -1,6 +1,4 @@
 <layout name='Layout/layout_main' />
-<link type="text/css" href="__PUBLIC__/css/jquery-ui.css" rel="stylesheet"/>
-<script type="text/javascript" src="__PUBLIC__/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	function mark(action) {
 		var vars = $("#form_data").serialize();
@@ -62,7 +60,7 @@
 				break;
 			default:
 		}
-		$("#select_all").attr("checked", false);
+		$("#chk_select_all").attr("checked", false);
 	}
 
 	function forword() {
@@ -86,8 +84,7 @@
 			move_to($(this).attr("id"));
 		})
 		set_return_url();
-		$("#be_create_time").datepicker();
-		$("#en_create_time").datepicker(); 
+		$(".input-date").datepicker();
 	<notempty name = "receve" > sendAjax("{:U('receve')}"); </notempty>
 	});
 </script>

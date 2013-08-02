@@ -71,7 +71,7 @@
 					<label class="control-label" for="is_del">状态：</label>
 					<div class="controls">
 						<select class="span2"   name="is_del" id="is_del">
-							<option value="1">启用</option>
+							<option value="0">启用</option>
 							<option value="1">禁用</option>
 						</select>
 					</div>
@@ -130,8 +130,8 @@
 							<option>移动到...</option>
 							<volist name="mail_folder" id="vo" >
 								<option value="{$vo.id}">
-									<php>echo str_repeat("&nbsp;",$vo['level'])</php>
-									&#62;{$vo.name}
+									<php>echo str_repeat("&nbsp;&nbsp;",$vo['level'])</php>
+									{$vo.name}
 								</option>
 							</volist>
 						</select>

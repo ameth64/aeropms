@@ -39,7 +39,7 @@
 				}	
 			}
 			function push_start(){								
-				sendPush("{:U(push/server)}","id=1", function(data){
+				sendPush("{:U('push/server')}",'',function(data){
 					show_msg(data.info);
 					if (flag){
 						push_start();

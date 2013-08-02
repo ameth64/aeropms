@@ -1,6 +1,6 @@
 <?php
 class ForumAction extends CommonAction {
-	protected $config=array('data_type'=>'common','action_auth'=>array('folder'=>'read'));
+	protected $config=array('app_type'=>'common','action_auth'=>array('folder'=>'read'));
 	//过滤查询字段
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
@@ -114,7 +114,7 @@ class ForumAction extends CommonAction {
 		foreach ($result as $key => $val) {
 			if ($val['admin'] == true) {
 				$field = 'is_del';
-				$this -> set_field($key, $field, 0);
+				$this -> _set_field($key, $field, 0);
 			}
 		}
 		$this -> ajaxReturn('', "删除成功", 1);
@@ -131,7 +131,7 @@ class ForumAction extends CommonAction {
 			if ($val['user_id'] == $user_id) {
 				$field = 'folder';
 				$target_folder = $_REQUEST['folder'];
-				$this -> set_field($key, $field, $target_folder);
+				$this -> _set_field($key, $field, $target_folder);
 			}
 		}
 
@@ -141,7 +141,7 @@ class ForumAction extends CommonAction {
 			if ($val['admin'] == true) {
 				$field = 'folder';
 				$target_folder = $_REQUEST['folder'];
-				$this -> set_field($key, $field, $target_folder, '', true);
+				$this -> _set_field($key, $field, $target_folder, '', true);
 			}
 		}
 	}

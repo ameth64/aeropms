@@ -1,7 +1,7 @@
 <?php
 class NodeAction extends CommonAction {
 
-	protected $config=array('data_type'=>'master','action_auth'=>array('node'=>'admin');
+	protected $config=array('app_type'=>'master','action_auth'=>array('node'=>'admin'));
 
 	public function _before_index() {
 		$model = M("Node");

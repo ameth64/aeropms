@@ -1,7 +1,7 @@
 <?php
 class MailAction extends CommonAction {
 	private $_account ;
-	protected $config=array('data_type'=>'personal'); 
+	protected $config=array('app_type'=>'personal'); 
 	private $tmpPath = "data";
 	// 过滤查询字段
 
@@ -30,10 +30,9 @@ class MailAction extends CommonAction {
 	// mailbox 6. 永久删除	is_del=1
 	//--------------------------------------------------------------------
 
-	public function folder(){
-			
-		$this -> _assign_mail_folder_list();
-		
+	public function folder(){			
+		$this -> _assign_mail_folder_list();		
+		$this->_get_mail_account();
 		$folder_id = $_GET['fid'];
 		$mail_system_folder=array('receve','inbox','outbox','darftbox','delbox','spambox','unread','all');
 		if(in_array($folder_id,$mail_system_folder)){
@@ -129,7 +128,7 @@ class MailAction extends CommonAction {
 			case 'del' :
 				$field = 'folder';
 				$val = 4;
-				$result= $this -> set_field($id, $field, $val);
+				$result= $this -> _set_field($id, $field, $val);
 				break;
 			case 'del_forever' :
 				$this->destory($id);
@@ -137,27 +136,27 @@ class MailAction extends CommonAction {
 			case 'spam' :
 				$field = 'folder';
 				$val = 5;
-				$result= $this -> set_field($id, $field, $val);
+				$result= $this -> _set_field($id, $field, $val);
 				break;
 			case 'readed' :
 				$field = 'read';
 				$val = 1;
-				$result=$this -> set_field($id, $field, $val);
+				$result=$this -> _set_field($id, $field, $val);
 				break;
 			case 'unread' :
 				$field = 'read';
 				$val = 0;
-				$result= $this -> set_field($id, $field, $val);
+				$result= $this -> _set_field($id, $field, $val);
 				break;
 			case 'darft' :
 				$field = 'folder';
 				$val = 3;
-				$result=$this -> set_field($id, $field, $val);
+				$result=$this -> _set_field($id, $field, $val);
 				break;
 			case 'move_folder' :
 				$field = 'folder';
 				$val = $_REQUEST['val'];
-				$result= $this -> set_field($id, $field, $val);
+				$result= $this -> _set_field($id, $field, $val);
 				break;
 			default :
 				break;
@@ -462,7 +461,7 @@ class MailAction extends CommonAction {
 					$model -> create($mail -> mail_header($mail_id));
 					if ($model -> create_time < strtotime(date('y-m-d h:i:s')) - 86400 * 30) {
 						$mail -> close_mail();
-						$this -> pushReturn($new, "收到" . $new . "封邮件", 1);
+						$this -> _pushReturn($new, "收到" . $new . "封邮件", 1);
 					}
 					$model -> user_id = $user_id;
 					$model -> read = 0;
@@ -475,13 +474,13 @@ class MailAction extends CommonAction {
 				} else {
 					$mail -> close_mail();
 					if($new==0){
-						$this -> pushReturn($new, "没有新邮件", 1);	
+						$this -> _pushReturn($new, "没有新邮件", 1);	
 					}
 				}
 			}
 		}
 		$mail -> close_mail();
-		$this -> pushReturn($new, "收到" . $new . "封邮件", 1);	
+		$this -> _pushReturn($new, "收到" . $new . "封邮件", 1);	
 		//$this -> ajaxReturn($new, "收到" . $new . "封邮件", 1);
 	}
 
@@ -672,7 +671,7 @@ class MailAction extends CommonAction {
 			$model = M('MailAccount');
 			$list = $model -> field('mail_name,email,pop3svr,smtpsvr,mail_id,mail_pwd') -> find($user_id);
 			if (empty($list['mail_name']) || empty($list['email']) || empty($list['pop3svr']) || empty($list['smtpsvr']) || empty($list['mail_id']) || empty($list['mail_pwd'])){				
-				$this -> assign('jumpUrl', U('mailaccount/index'));
+				$this -> assign('jumpUrl', U('MailAccount/index'));
 				$this -> error("请设置邮箱帐号");
 				die;
 		}else{

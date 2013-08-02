@@ -1,6 +1,6 @@
 <?php
 class TodoAction extends CommonAction {
-	protected $config=array('data_type'=>'personal');
+	protected $config=array('app_type'=>'personal');
 	//过滤查询字段
 	function _search_filter(&$map) {
 		$map['name'] = array('like', "%" . $_POST['keyword'] . "%");
@@ -118,7 +118,7 @@ class TodoAction extends CommonAction {
 			$list = $model -> where($where) -> setField($field, $date);
 		}
 		$field = 'status';
-		$result = $this -> set_field($id, $field, $val);
+		$result = $this -> _set_field($id, $field, $val);
 		if ($result !== false) {//保存成功
 			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('删除成功!');

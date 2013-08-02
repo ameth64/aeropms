@@ -1,7 +1,5 @@
 <layout name='Layout/layout_main' />
 <tagLib name="html" />
-<link type="text/css" href="__PUBLIC__/css/jquery-ui.css" rel="stylesheet"/>
-<script type="text/javascript" src="__PUBLIC__/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 
 	function reset_pwd(){
@@ -20,7 +18,7 @@
 	}
 
 	$(document).ready(function(){		
-		$("#birthday").datepicker();
+		$(".input-date").datepicker();
 		set_return_url();
 	});
 

@@ -909,7 +909,24 @@ function getfirstchar($s0) {
 }
 
 function get_folder_name($id) {
-	$model = D("Folder");
+
+	if($id==1){
+		return "收件箱";
+	}
+	if($id==2){
+		return "已发送";
+	}
+	if($id==3){
+		return "草稿箱";
+	}
+	if($id==4){
+		return "已删除";
+	}
+	if($id==5){
+		return "垃圾邮件";
+	}
+
+	$model = D("UserFolder");
 	$result = $model -> where("id=$id") -> getField("name");
 	if ($result) {
 		return $result;
@@ -957,7 +974,7 @@ function mail_org_string($vo) {
 		}
 		$str2 = $vo['recever_key'];
 
-		$str3 = R('Mail/get_folder_name', array($vo["to"]));
+		$str3 =get_folder_name($vo["to"]);
 
 		$html = "收件人" . $str1 . " " . $str2 . " 则 : 移动到 " . $str3;
 	};

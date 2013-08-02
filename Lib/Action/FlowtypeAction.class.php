@@ -1,6 +1,6 @@
 <?php
 class FlowTypeAction extends CommonAction {
-	protected $config=array('data_type'=>'master');
+	protected $config=array('app_type'=>'master');
 
 	//过滤查询字段
 	function _search_filter(&$map) {
@@ -26,7 +26,7 @@ class FlowTypeAction extends CommonAction {
 		$id = $_REQUEST["flow_type_id"];
 		$val = $_REQUEST["val"];
 		$field = 'group';
-		$result=$this -> set_field($id, $field, $val);
+		$result=$this -> _set_field($id, $field, $val);
 		if ($result !== false) {
 			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('操作成功!');

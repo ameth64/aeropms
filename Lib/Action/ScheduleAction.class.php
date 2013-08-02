@@ -1,6 +1,6 @@
 <?php
 class ScheduleAction extends CommonAction {
-	protected $config=array('data_type'=>'personal');
+	protected $config=array('app_type'=>'personal');
 	//过滤查询字段
 	function _search_filter(&$map) {
 		if (!empty($_POST["name"])) {

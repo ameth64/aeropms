@@ -1,7 +1,7 @@
 <?php
 class StaffAction extends CommonAction {
 	//过滤查询字段
-	protected $config=array('data_type'=>'common');
+	protected $config=array('app_type'=>'common');
 	private $position;
 	private $rank;
 	private $dept;
@@ -125,7 +125,7 @@ class StaffAction extends CommonAction {
 		$id = $_REQUEST["id"];
 		$val = $_REQUEST["val"];
 		$field = 'group';
-		$result = $this -> set_field($id, $field, $val);
+		$result = $this -> _set_field($id, $field, $val);
 		if ($result == true) {
 			$this -> success("操作成功");
 		}
@@ -189,7 +189,7 @@ class StaffAction extends CommonAction {
 		}
 	}
 
-	function ajaxRead() {
+	function read() {
 		$id = $_REQUEST['id'];
 		$model = M("Dept");
 		$dept = tree_to_list(list_to_tree( M("Dept") -> select(), $id));

@@ -11,7 +11,7 @@
 
     // 定义ThinkPHP框架路径
     //定义项目名称和路径
-    define('APP_NAME', 'smeoa');
+
     define('APP_PATH', './');
     define('APP_DEBUG',true);
 

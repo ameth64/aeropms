@@ -1,15 +1,9 @@
 <layout name='Layout/layout_main' />
-
-<link type="text/css" href="__PUBLIC__/css/jquery-ui.css" rel="stylesheet"/>
-<script type="text/javascript" src="__PUBLIC__/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		set_return_url();
 		$(function(){
-			$("#start_date").datepicker({
-			});
-			$("#end_date").datepicker({
-			});
+			$(".input-date").datepicker();
 			$("#slider-range-important").slider({
 				range : "min",
 				min : 1,

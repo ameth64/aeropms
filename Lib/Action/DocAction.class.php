@@ -1,6 +1,6 @@
 <?php
 class DocAction extends CommonAction {
-	protected $config=array('data_type'=>'common','action_auth'=>array('folder'=>'read'),'folder_auth'=>true);
+	protected $config=array('app_type'=>'common','action_auth'=>array('folder'=>'read','tag_manage'=>'admin'),'folder_auth'=>true);
 	//过滤查询字段
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
@@ -43,11 +43,12 @@ class DocAction extends CommonAction {
 
 		$where = array();
 		$where['id'] = array('eq', $folder_id);
+		
 		$folder_name = M("SystemFolder") -> where($where) -> getField("name");
 		$this -> assign("folder_name", $folder_name);
-
-		//$this -> _assign_folder_list("/doc/common/", 1);
 		$this -> assign("folder_id", $folder_id);
+		
+		$this->_assign_folder_list();
 		$this -> display();
 		return;
 	}
@@ -106,7 +107,7 @@ class DocAction extends CommonAction {
 						$auth = D("Folder") -> _get_folder_auth($folder[0]["folder"]);
 						if ($auth['admin'] == true) {
 							$field = 'is_del';
-							$this -> set_field($id, $field, 0);
+							$this -> _set_field($id, $field, 0);
 						}
 						$this -> ajaxReturn('', "删除成功", 1);
 					} else {
@@ -122,7 +123,7 @@ class DocAction extends CommonAction {
 						$auth = D("Folder") -> _get_folder_auth($folder[0]["folder"]);
 						if ($auth['admin'] == true) {
 							$field = 'folder';
-							$this -> set_field($id, $field, $target_folder);
+							$this -> _set_field($id, $field, $target_folder);
 						}
 						$this -> ajaxReturn('', "操作成功", 1);
 					} else {
@@ -135,11 +136,15 @@ class DocAction extends CommonAction {
 		}
 	}
 
+	 function _assign_doc_folder_list(){
+		$model = D("SystemFolder");
+		$list = $model -> get_list();
+		$tree = list_to_tree($list);
+		$this -> assign('folder_list', dropdown_menu($tree));
+	}
+
 	public function tag_manage() {
-		$system_tag = A('Systemtag');
-		$system_tag -> assign("tag_name", "学科分类管理");
-		$system_tag -> tag_manage();
-		//		R('Systemtag/tag_manage');
+		$this->_tag_manage("学科分类管理");		
 	}
 
 	public function upload() {

@@ -1,6 +1,6 @@
 <?php
 class MailaccountAction extends CommonAction {
-	protected $config=array('data_type'=>'personal');
+	protected $config=array('app_type'=>'personal');
 	public function index(){
 		$mail_user = M("MailAccount") -> find(get_user_id());
 		$this -> assign('mail_user', $mail_user);

@@ -1,7 +1,7 @@
 <?php
 class CustomerAction extends CommonAction {
 	//过滤查询字段
-	protected $config=array('data_type'=>'common');
+	protected $config=array('app_type'=>'common');
 	function _search_filter(&$map) {
 		$map['name'] = array('like', "%" . $_POST['name'] . "%");
 		$map['letter'] = array('like', "%" . $_POST['letter'] . "%");
@@ -121,7 +121,7 @@ class CustomerAction extends CommonAction {
 		$id = $_REQUEST["id"];
 		$val = $_REQUEST["val"];
 		$field = 'group';
-		$result = $this -> set_field($id, $field, $val);
+		$result = $this -> _set_field($id, $field, $val);
 		if ($result !== false) {
 			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('操作成功!');

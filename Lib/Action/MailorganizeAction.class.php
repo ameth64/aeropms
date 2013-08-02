@@ -1,6 +1,6 @@
 <?php
 class MailOrganizeAction extends CommonAction {
-	protected $config=array('data_type'=>'personal');
+	protected $config=array('app_type'=>'personal');
 	public function index() {
 		$user_id = get_user_id();
 		$where["user_id"] = $user_id;

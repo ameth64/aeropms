@@ -16,7 +16,7 @@ class CommonAction extends Action {
 	}
 
 	/**列表页面 **/
-	public function index() {
+	function index() {
 		$map = $this -> _search();
 		if (method_exists($this, '_search_filter')) {
 			$this -> _search_filter($map);
@@ -114,8 +114,8 @@ class CommonAction extends Action {
 
 	/** 删除数据  **/
 	 protected function _del($id){
-		$data_type = $this -> config['data_type'];
-		switch ($data_type) {
+		$app_type = $this -> config['app_type'];
+		switch ($app_type) {
 			case 'personal' :
 				$this -> destory($id);
 				break;
@@ -162,9 +162,9 @@ class CommonAction extends Action {
 					$where[$pk] = array('in', array_filter(explode(',', $id)));
 				}
 
-				$data_type = $this -> config['data_type'];
+				$app_type = $this -> config['app_type'];
 
-				switch ($data_type) {
+				switch ($app_type) {
 					case 'personal' :
 						$where['user_id'] = get_user_id();
 						break;
@@ -353,6 +353,17 @@ class CommonAction extends Action {
 		$this -> assign('html_left_menu', left_menu($tree));
 	}
 
+	 protected function _assign_folder_list(){
+		 if($this->config['app_type']=='personal'){
+			$model = D("UserFolder");
+		 }else{
+			 $model = D("SystemFolder");
+		 }
+		$list = $model -> get_list();
+		$tree = list_to_tree($list);
+		$this -> assign('folder_list', dropdown_menu($tree));
+	}
+
 	protected function _assign_file_list($add_file) {
 		$files = explode(';', $add_file);
 		$where['id'] = array('in', $files);
@@ -372,7 +383,7 @@ class CommonAction extends Action {
 	 * @throws ThinkExecption
 	 *+----------------------------------------------------------
 	 */
-	 function set_field($id, $field, $val, $name = '') {
+	protected function _set_field($id, $field, $val, $name = '') {
 		if (empty($name)) {
 			$name = $this -> getActionName();
 		}
@@ -401,7 +412,18 @@ class CommonAction extends Action {
 		}
 	}
 
-	protected function pushReturn($data, $info, $status, $time = null) {
+	protected function _tag_manage($tag_name) {		
+		 if($this->config['app_type']=='personal'){
+			$tag = A('UserTag');
+		 }else{
+			$tag = A('SystemTag');
+		 }
+		$tag -> assign("tag_name", $tag_name);
+		$tag -> tag_manage();		
+		//		R('Systemtag/tag_manage');
+	}
+	
+	protected function _pushReturn($data, $info, $status, $time = null) {
 		$user_id = get_user_id();
 		$model = M("Push");
 		$model -> user_id = $user_id;

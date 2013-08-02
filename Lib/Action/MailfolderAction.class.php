@@ -1,6 +1,6 @@
 <?php
 class MailFolderAction extends UserFolderAction {
-	protected $config=array('data_type'=>'personal');
+	protected $config=array('app_type'=>'personal');
 	//过滤查询字段
 	function _search_filter(&$map) {
 		$map['name'] = array('like', "%" . $_POST['name'] . "%");

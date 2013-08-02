@@ -1,11 +1,8 @@
 <layout name='Layout/layout_main' />
-
-<link type="text/css" href="__PUBLIC__/css/jquery-ui.css" rel="stylesheet"/>
-<script type="text/javascript" src="__PUBLIC__/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		set_return_url();
-		$("#be_create_time,#en_create_time").datepicker();
+		$(".input-date").datepicker();
 	}); 
 </script>
 <div class="flow">
@@ -59,10 +56,7 @@
 	</form>
 	<div class="table">
 		<ul>
-			<li class="thead" style="padding-left:30px">
-				<span class="checkbox">
-					<input  type="checkbox" id="chk_select_all" onclick="select_all('flow_id[]')"/>
-				</span>
+			<li class="thead" style="padding-left:10px">
 				<span class="col-16 ">编号</span>
 				<span class="col-8">类型</span>
 				<span class="col-6 right">状态</span>
@@ -80,11 +74,8 @@
 	</div>
 	<else/>
 	<foreach name="list" item="vo">
-		<li class="tbody" style="padding-left:30px;">
-			<span class="checkbox">
-				<input name="flow_id[]" type="checkbox" value="{$vo.id}"/>
-			</span>
-			<span class="col-16 text-center">{$vo.doc_no}</span>
+		<li class="tbody" style="padding-left:10px;">
+			<span class="col-16">{$vo.doc_no}</span>
 			<span class="col-8  text-center"> {$vo.type_name} &nbsp;</span>
 			<span class="col-6 right  text-center">{$vo.step|step}</span>
 			<span class="col-6 right  text-center">{$vo.user_name}</span>

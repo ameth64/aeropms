@@ -1,8 +1,8 @@
 <?php
 class SystemFolderAction extends CommonAction {
-	protected $config=array('data_type'=>'master');
+	protected $config = array('app_type' => 'master');
+	
 	//过滤查询字段
-
 	function _search_filter(&$map) {
 		$map['name'] = array('like', "%" . $_POST['name'] . "%");
 		$map['is_del'] = array('eq', '0');
@@ -28,7 +28,7 @@ class SystemFolderAction extends CommonAction {
 			$this -> error($model -> getError());
 		}
 		//保存当前数据对象
-		$model->folder=MODULE_NAME;
+		$model -> folder = MODULE_NAME;
 		$list = $model -> add();
 		if ($list !== false) {//保存成功.
 			$this -> assign('jumpUrl', get_return_url());
@@ -39,7 +39,7 @@ class SystemFolderAction extends CommonAction {
 		}
 	}
 
-protected	function _update() {
+	protected function _update() {
 		$model = D("SystemFolder");
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
@@ -55,6 +55,7 @@ protected	function _update() {
 			$this -> error('编辑失败!');
 		}
 	}
+
 	function read() {
 		$model = M("SystemFolder");
 		$id = $_REQUEST["id"];
@@ -63,13 +64,15 @@ protected	function _update() {
 			$this -> ajaxReturn($data, "", 1);
 		}
 	}
-	public function winpop() {
+
+	function winpop() {
 		$node = M("SystemFolder");
 		$menu = array();
 		$where['folder'] = MODULE_NAME;
 		$menu = $node -> where($where) -> field('id,pid,name') -> order('sort asc') -> select();
 		$tree = list_to_tree($menu);
 		$this -> assign('menu', popup_tree_menu($tree));
-		$this -> display("folder:winpop");
+		$this -> display("SystemFolder:winpop");
 	}
+
 }

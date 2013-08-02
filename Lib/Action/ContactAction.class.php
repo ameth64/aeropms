@@ -1,6 +1,6 @@
 <?php
 class ContactAction extends CommonAction {
-	protected $config=array('data_type'=>'personal');
+	protected $config=array('app_type'=>'personal');
 	//过滤查询字段
 	private $position;
 	private $rank;
@@ -127,7 +127,7 @@ class ContactAction extends CommonAction {
 		$id = $_REQUEST["id"];
 		$val = $_REQUEST["val"];
 		$field = 'group';
-		$result = $this -> set_field($id, $field, $val);
+		$result = $this -> _set_field($id, $field, $val);
 		if ($result == true) {
 			$this -> success("操作成功");
 		}

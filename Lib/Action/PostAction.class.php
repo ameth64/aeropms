@@ -15,7 +15,7 @@ class PostAction extends CommonAction {
 		$post_user_id = M("Post") -> where($where) -> getfield('user_id');
 		if ($user_id == $post_user_id) {
 			$field = "is_del";
-			$this -> set_field($id, $field, 1);
+			$this -> _set_field($id, $field, 1);
 		} else {
 			$this -> ajaxReturn($arr, "删除失败", 1);
 		}

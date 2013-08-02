@@ -1,7 +1,7 @@
 <?php
 class PositionAction extends CommonAction {
 	protected $config=array(
-		'data_type'=>'master'
+		'app_type'=>'master'
 		);
 
 

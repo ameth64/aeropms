@@ -1,6 +1,6 @@
 <?php
 class DutyAction extends CommonAction {
-	protected $config=array('data_type'=>'master');
+	protected $config=array('app_type'=>'master');
 
 	public function _search_filter(&$map) {
 		if (!empty($_GET['pid'])) {

@@ -1,7 +1,8 @@
 <?php
 class DeptAction extends CommonAction {
-	protected $config=array('data_type'=>'master');
-	public function _search_filter(&$map) {
+	protected $config=array('app_type'=>'master');
+	
+	function _search_filter(&$map) {
 		if (!empty($_GET['pid'])) {
 			$map['pid'] = $_POST['pid'];
 		}

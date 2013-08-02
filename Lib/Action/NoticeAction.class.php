@@ -1,8 +1,9 @@
 <?php
 class NoticeAction extends CommonAction {
+	
+	protected $config=array('app_type'=>'common','action_auth'=>array('folder'=>'read'),'folder_auth'=>true);
+	
 	//过滤查询字段
-	protected $config=array('data_type'=>'common','action_auth'=>array('folder'=>'read'),'folder_auth'=>true);
-
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
 		if (!empty($_REQUEST['keyword']) && empty($map['title'])) {
@@ -36,7 +37,7 @@ class NoticeAction extends CommonAction {
 					$auth = D("SystemFolder") -> get_folder_auth($folder[0]["folder"]);
 					if ($auth['admin'] == true) {
 						$field = 'is_del';
-						$this -> set_field($id, $field, 1);
+						$this -> _set_field($id, $field, 1);
 					}
 					$this -> ajaxReturn('', "删除成功", 1);
 				} else {
@@ -51,7 +52,7 @@ class NoticeAction extends CommonAction {
 					$auth = D("SystemFolder") ->get_folder_auth($folder[0]["folder"]);
 					if ($auth['admin'] == true){
 						$field = 'folder';
-						$this -> set_field($id, $field, $target_folder);
+						$this -> _set_field($id, $field, $target_folder);
 					}
 					$this -> ajaxReturn('', "操作成功", 1);
 				} else {
@@ -64,11 +65,10 @@ class NoticeAction extends CommonAction {
 		}
 	}
 
-	public function _before_add() {
+	function add() {
 		$fid = $_REQUEST['fid'];
-		$type = M("Folder") -> where("id=$fid") -> getField("type");
 		$this -> assign('folder', $fid);
-		$this -> assign('type', $type);
+		$this->display();
 	}
 
 	public function _before_read() {
@@ -76,34 +76,31 @@ class NoticeAction extends CommonAction {
 		$user_id = get_user_id();
 		$model = M("Notice");
 		$folder_id = $model -> where("id=$id") -> getField('folder');
-		$this -> assign("auth", $auth = D("Folder") -> get_folder_auth($folder_id));
+		$this -> assign("auth", $auth = D("SystemFolder") -> get_folder_auth($folder_id));
 	}
 
 	public function folder() {
-		$this->assign('auth',$this->config['auth']);
+
+		
 		$model = D("Notice");
 		$map = $this -> _search();
 		if (method_exists($this, '_search_filter')) {
 			$this -> _search_filter($map);
 		}
+		
 		$folder_id = $_REQUEST['fid'];
+		$this -> assign("folder_id", $folder_id);	
+			
 		$map['folder'] = $folder_id;
 		if (!empty($model)) {
 			$this -> _list($model, $map);
 		}
 
-		$where = array();
-		$where['id'] = array('eq', $folder_id);
-		$folder_name = M("Folder") -> where($where) -> getField("name");
-		$this -> assign("folder_name", $folder_name);
-
-		$auth = D("SystemFolder") -> get_folder_auth($folder_id);
-		$this -> assign("auth", $auth);
-
-		//$this -> _assign_folder_list("/notice/folder/", 1);
-		$this -> assign("folder_id", $folder_id);
+		$this ->assign("folder_name",D("SystemFolder")->get_folder_name($folder_id));
+		$this->assign('auth',$this->config['auth']);
+		$this ->_assign_folder_list();
+			
 		$this -> display();
-		return;
 	}
 
 	public function upload() {
