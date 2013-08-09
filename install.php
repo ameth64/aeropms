@@ -46,6 +46,7 @@ if (isset($_POST["install"])) {
 	$config_str .="        'DB_LIKE_FIELDS'            =>'title|content|name|remark',\n";
 	$config_str .="			'SAVE_PATH'=>'Data/Files/',\n";
 	$config_str .="        'SHOW_PAGE_TRACE'=>0, //显示调试信息\n";
+	$config_str .=" 		'AUTH'=>array('index'=>'read','read'=>'read','down'=>'read','add'=>'write','edit'=>'write','save'=>'write','del'=>'admin','rstore'=>'admin','destory'=>'admin'),";
 	$config_str .="    );\n";
 	$config_str .='    return $array;'."\n";
 	$config_str .="?>\n";
@@ -65,8 +66,9 @@ $mysql_tag=$_POST["db_tag"];
 	if (!@$link = mysql_connect($mysql_host, $mysql_user, $mysql_pass)) {//检查数据库连接情况
 		echo "数据库连接失败! 请返回上一页检查连接参数 <a href=install.php>返回修改</a>";
 	} else {
-		mysql_query("CREATE DATABASE `$mysql_dbname`");
+		mysql_query("CREATE DATABASE `$mysql_dbname`   DEFAULT CHARACTER SET utf8 " );
 		mysql_select_db($mysql_dbname);
+		mysql_query("set names 'utf8'"); 
 
 $lines=file("Sql/demo.sql");
 
@@ -83,8 +85,10 @@ $sqlstr=rtrim($sqlstr,";");
 $sqls=explode(";",$sqlstr);
 		foreach ($sqls as $val) {
 			$val=str_replace("`think_","`".$mysql_tag,$val);
+			//echo $val;
 			mysql_query($val);
 		}
+		//die;
 		rename("install.php", "install.lock");
 		echo "<script>\n
 			window.onload=function(){

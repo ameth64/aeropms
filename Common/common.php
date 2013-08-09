@@ -857,7 +857,7 @@ function getfirstchar($s0) {
 	$fchar = ord(substr($s0, 0, 1));
 	if (($fchar >= ord("a") and $fchar <= ord("z")) or ($fchar >= ord("A") and $fchar <= ord("Z")))
 		return strtoupper(chr($fchar));
-	$s = iconv("UTF-8", "gb2312", $s0);
+	$s = iconv("UTF-8", "GBK", $s0);
 	$asc = ord($s{0}) * 256 + ord($s{1}) - 65536;
 	if ($asc >= -20319 and $asc <= -20284)
 		return "A";
