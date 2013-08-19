@@ -1,11 +1,8 @@
 <?php
 class PostAction extends CommonAction {
-
+	protected $config=array('app_type'=>'public');
 	//过滤查询字段
 	function _search_filter(&$map) {
-		$map['title'] = array('like', "%" . $_POST['title'] . "%");
-		$map['user_name'] = array('like', "%" . $_POST['user_name'] . "%");
-		$map['content'] = array('like', "%" . $_POST['content'] . "%");
 		$map['is_del'] = array('eq', '0');
 	}
 
@@ -16,9 +13,9 @@ class PostAction extends CommonAction {
 		if ($user_id == $post_user_id) {
 			$field = "is_del";
 			$this -> _set_field($id, $field, 1);
+			$this -> ajaxReturn($arr, "删除成功", 1);
 		} else {
 			$this -> ajaxReturn($arr, "删除失败", 1);
 		}
 	}
-
 }

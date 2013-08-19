@@ -47,7 +47,10 @@ class AuthCheckBehavior extends Behavior {
 					if(!empty($params['action_auth'])){
 						$action_auth= array_merge(C('AUTH'),$params['action_auth']); 	
 					}
-					$auth=$this->get_auth();					
+					$auth=$this->get_auth();	
+					if($auth['admin']){
+						return true;
+					}
 					break;
 			default:	
 				$public_list = explode(",", C('NOT_AUTH_MODULE'));

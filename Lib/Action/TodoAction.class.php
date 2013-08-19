@@ -25,7 +25,7 @@ class TodoAction extends CommonAction {
 	}
 
 	public function upload() {
-		R("File/upload");
+		$this->_upload();
 	}
 
 	function read() {
@@ -33,7 +33,7 @@ class TodoAction extends CommonAction {
 		$id = $_REQUEST['id'];
 		$list = $_REQUEST['list'];
 		$this -> assign("list", $list);
-		$list = explode("|", $list);
+		$list = array_filter(explode("|", $list));
 		array_pop($list);
 		$current = array_search($id, $list);
 		if ($current !== false) {
@@ -51,8 +51,7 @@ class TodoAction extends CommonAction {
 	}
 
 	public function down() {
-		$attach_id = $_REQUEST["attach_id"];
-		R("File/down", array($attach_id));
+		$this->_down();
 	}
 
 	function del() {

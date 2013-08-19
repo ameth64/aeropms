@@ -111,7 +111,16 @@ class CommonAction extends Action {
 			$this -> error('编辑失败!');
 		}
 	}
-
+	
+	protected function _upload(){
+		R('File/upload');
+	}
+	
+	protected function _down(){
+		$attach_id = $_REQUEST["attach_id"];
+		R("File/down", array($attach_id));
+	}
+	
 	/** 删除数据  **/
 	 protected function _del($id){
 		$app_type = $this -> config['app_type'];
@@ -438,5 +447,7 @@ class CommonAction extends Action {
 		$model -> add();
 		exit();
 	}
+	
+
 }
 ?>

@@ -1,13 +1,13 @@
 <?php
 class FlowAction extends CommonAction {
-	protected $config=array('app_type'=>'flow','action_auth'=>array('folder'=>'read'));
+	protected $config=array('app_type'=>'flow','action_auth'=>array('folder'=>'read','approve'=>'admin'));
 
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
 	}
 
 	public function upload() {
-		R("File/upload");
+		$this->_upload();
 	}
 
 	function index(){
@@ -209,7 +209,6 @@ class FlowAction extends CommonAction {
 		}
 	}
 	public function down() {
-		$attach_id = $_REQUEST["attach_id"];
-		R("File/down", array($attach_id));
+		$this->_down();
 	}
 }

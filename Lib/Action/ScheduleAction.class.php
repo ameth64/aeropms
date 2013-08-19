@@ -18,7 +18,7 @@ class ScheduleAction extends CommonAction {
 	}
 
 	public function upload() {
-		R("File/upload");
+		$this->_upload();
 	}
 
 	function read() {
@@ -26,9 +26,7 @@ class ScheduleAction extends CommonAction {
 		$id = $_REQUEST['id'];
 		$list = $_REQUEST['list'];
 		$this -> assign("list", $list);
-		$list = explode("|", $list);
-		array_pop($list);
-
+		$list = array_filter(explode("|", $list));
 		$current = array_search($id, $list);
 
 		if ($current !== false) {
@@ -77,8 +75,7 @@ class ScheduleAction extends CommonAction {
 	}
 
 	public function down() {
-		$attach_id = $_REQUEST["attach_id"];
-		R("File/down", array($attach_id));
+		$this->_down();
 	}
 
 	public function add() {

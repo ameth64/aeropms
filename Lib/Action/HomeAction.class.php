@@ -47,17 +47,17 @@ class HomeAction extends CommonAction {
 
 	protected function flow_list() {
 		$user_id = get_user_id();
+		$emp_no = $_SESSION['emp_no'];
 		$model = D('Flow');
 		//带审批的列表
 		$FlowLog = M("FlowLog");
-		$where['emp_no'] = $user_id;
+		$where['emp_no'] = $emp_no;
 		$where['_string'] = "result is null";
 		$log_list = $FlowLog -> where($where) -> field('flow_id') -> select();
-
+		$log_list = rotate($log_list);
 		if (!empty($log_list)) {
-			$log_list = rotate($log_list);
 			$map['id'] = array('in', $log_list['flow_id']);
-			$todo_flow_list = $model -> $where($map) -> field("id,title,create_time") -> select();
+			$todo_flow_list = $model -> where($map) -> field("id,title,create_time") -> select();
 			$this -> assign("todo_flow_list", $todo_flow_list);
 		}
 		//已提交

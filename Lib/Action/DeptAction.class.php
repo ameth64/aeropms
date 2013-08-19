@@ -1,5 +1,6 @@
 <?php
 class DeptAction extends CommonAction {
+
 	protected $config=array('app_type'=>'master');
 	
 	function _search_filter(&$map) {

@@ -104,11 +104,10 @@ class NoticeAction extends CommonAction {
 	}
 
 	public function upload() {
-		R('File/upload');
+		$this->_upload();
 	}
 
 	public function down() {
-		$attach_id = $_REQUEST["attach_id"];
-		R("File/down", array($attach_id));
+		$this->_down();
 	}
 }

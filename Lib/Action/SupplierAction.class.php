@@ -1,7 +1,7 @@
 <?php
 class SupplierAction extends CommonAction {
 	//过滤查询字段
-	protected $config=array('app_type'=>'common');
+	protected $config=array('app_type'=>'common','action_auth'=>array('set_tag'=>'admin'));
 	function _search_filter(&$map) {
 		$map['name'] = array('like', "%" . $_POST['name'] . "%");
 		$map['letter'] = array('like', "%" . $_POST['letter'] . "%");

@@ -112,9 +112,8 @@ class FlowModel extends CommonModel {
 	}
 
 	function _conv_confirm($key,$val){
-		$arr_confirm=explode("|",$val);
+		$arr_confirm=array_filter(explode("|",$val));
 		$str_confirm;
-		array_pop($arr_confirm);
 		foreach($arr_confirm as $confirm){
 			if(strpos($confirm,"dgp")!==false){
 				$temp=explode("_",$confirm);
@@ -226,8 +225,8 @@ class FlowModel extends CommonModel {
 
 	function is_last_confirm($flow_id){
 		$confirm=M("Flow")->where("id=$flow_id")->getField("confirm");
-		$last_confirm=explode("|",$confirm);
-		array_pop($last_confirm);
+		$last_confirm=array_filter(explode("|",$confirm));
+
 		$last_confirm_emp_no=end($last_confirm);
 		if(strpos($last_confirm_emp_no,$_SESSION["emp_no"])!==false){
 			return true;
@@ -242,11 +241,9 @@ class FlowModel extends CommonModel {
 			return true;
 		}
 		
-		$last_consult=explode("|",$consult);
-		
-		array_pop($last_consult);
-		
+		$last_consult=array_filter(explode("|",$consult));		
 		$last_consult_emp_no=end($last_consult);
+
 		if(strpos($last_consult_emp_no,$_SESSION["emp_no"])!==false){
 			return true;
 		}
@@ -257,17 +254,14 @@ class FlowModel extends CommonModel {
 
 		if(substr($step,0,1)==2){
 			$confirm=M("Flow")->where("id=$flow_id")->getField("confirm");
-			$arr_confirm=explode("|",$confirm);
-			array_pop($arr_confirm);
-			
+			$arr_confirm=array_filter(explode("|",$confirm));			
 			//dump($arr_confirm[fmod($step,10)-1]);die;
 			return $arr_confirm[fmod($step,10)-1];
 			//dump($arr_confirm);
 		}
 		if(substr($step,0,1)==3){
 			$consult=M("Flow")->where("id=$flow_id")->getField("consult");
-			$arr_consult=explode("|",$consult);
-			array_pop($arr_consult);
+			$arr_consult=array_filter(explode("|",$consult));
 			
 			//dump($arr_confirm[fmod($step,10)-1]);die;
 			return $arr_consult[fmod($step,10)-1];

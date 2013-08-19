@@ -66,7 +66,7 @@ class DocAction extends CommonAction {
 		$user_id = get_user_id();
 		$model = M("Doc");
 		$folder_id = $model -> where("id=$id") -> getField('folder');
-		$this -> assign("auth", $auth = D("Folder") -> _get_folder_auth($folder_id));
+		$this -> assign("auth", D("SystemFolder") -> get_folder_auth($folder_id));
 	}
 
 	protected function _insert() {
@@ -137,23 +137,19 @@ class DocAction extends CommonAction {
 	}
 
 	 function _assign_doc_folder_list(){
-		$model = D("SystemFolder");
-		$list = $model -> get_list();
-		$tree = list_to_tree($list);
-		$this -> assign('folder_list', dropdown_menu($tree));
+		$this->_assign_folder_list();
 	}
 
-	public function tag_manage() {
-		$this->_tag_manage("学科分类管理");		
+	function tag_manage() {
+		$this->_tag_manage("标签管理");		
 	}
 
-	public function upload() {
-		R('File/upload');
+	function upload() {
+		$this->_upload();
 	}
 
-	public function down() {
-		$attach_id = $_REQUEST["attach_id"];
-		R("File/down", array($attach_id));
+	function down() {
+		$this->down();
 	}
 
 }

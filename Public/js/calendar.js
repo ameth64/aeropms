@@ -253,7 +253,7 @@ OBJ[日期].isToday  返回是否为今日 true 或 false
 		//1900/1/1与 1970/1/1 相差25567日, 1900/1/1 日柱为甲戌日(60进制10)
 		var dayCyclical = Date.UTC(y2, m2, d2, 0, 0, 0, 0) / 86400000 + 25567 + 10;
 
-		for (var i = 0; i < 42; i++) {
+		for (var i = 0; i < 42; i++){
 			sDObj = new Date(y, m, i + 1 - this.firstWeek); //当月一日日期
 			y2 = sDObj.getFullYear();
 			m2 = sDObj.getMonth();
@@ -337,7 +337,7 @@ OBJ[日期].isToday  返回是否为今日 true 或 false
 			}
 		}
 		//今日
-		if (y == tY && m == tM) this[tD].isToday = true;
+		if (y == tY && m == tM) this[tD+this.firstWeek-1].isToday = true;
 	}
 
 	//======================================= 返回该年的复活节(春分后第一次满月周后的第一主日)
@@ -408,7 +408,6 @@ function drawCld(SY, SM) {
 		sObj.className = '';
 
 		sD = i;
-
 		if (true) { //日期内
 			sObj.innerHTML = cld[sD].sDay;
 

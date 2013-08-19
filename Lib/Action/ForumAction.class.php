@@ -1,6 +1,6 @@
 <?php
 class ForumAction extends CommonAction {
-	protected $config=array('app_type'=>'common','action_auth'=>array('folder'=>'read'));
+	protected $config=array('app_type'=>'common','action_auth'=>array('folder'=>'read','save_post'=>'write','edit_post'=>'write','del_post'=>'admin'));
 	//过滤查询字段
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
@@ -11,7 +11,7 @@ class ForumAction extends CommonAction {
 
 	public function _conv_data(&$item){
 		if (isset($item['folder'])) {
-			$model = D('Folder');
+			$model = D('SystemFolder');
 			$list = $model -> getField('id,name');
 			$item['folder_name'] = $list[$item['folder']];
 		}
@@ -34,11 +34,11 @@ class ForumAction extends CommonAction {
 			$this -> _list($model, $map);
 		}
 		$this -> display();
-		return;
 	}
 
-	public function _before_add() {
+	public function add(){
 		$this -> assign('folder', $_REQUEST['fid']);
+		$this->display();
 	}
 
 	public function read(){
@@ -120,6 +120,18 @@ class ForumAction extends CommonAction {
 		$this -> ajaxReturn('', "删除成功", 1);
 	}
 
+	public function save_post(){
+		R("post/save");
+	}
+
+	public function edit_post(){
+		R("post/edit");
+	}
+
+	public function del_post(){
+		R("post/del");
+	}
+
 	public function move_folder() {
 		$id = $_REQUEST['id'];
 		$user_id = get_user_id();
@@ -147,11 +159,10 @@ class ForumAction extends CommonAction {
 	}
 
 	public function upload() {
-		R('File/upload');
+		$this->_upload();
 	}
 
 	public function down() {
-		$attach_id = $_REQUEST["attach_id"];
-		R("File/down", array($attach_id));
+		$this->_down();
 	}
 }

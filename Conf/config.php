@@ -27,7 +27,7 @@
         'DB_LIKE_FIELDS'            =>'title|content|name|remark',
 		'SAVE_PATH'=>'Data/Files/',
         'SHOW_PAGE_TRACE'=>1, //显示调试信息
-		'AUTH'=>array('index'=>'read','read'=>'read','down'=>'read','add'=>'write','edit'=>'write','save'=>'write','del'=>'admin','rstore'=>'admin','destory'=>'admin'),
+		'AUTH'=>array('index'=>'read','read'=>'read','down'=>'read','add'=>'write','edit'=>'write','save'=>'write','del'=>'admin','rstore'=>'admin','destory'=>'admin','import'=>'admin','export'=>'read'),
     );
     return $array;
 ?>

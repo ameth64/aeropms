@@ -20,7 +20,7 @@
 	}); 
 
 	function popup_tag(){
-		winopen("{:U('systemtag/popup?module='.MODULE_NAME)}",800,574);
+		winopen("{:U('system_tag/popup?module='.MODULE_NAME)}",800,574);
 	}
 
 </script>
@@ -46,9 +46,9 @@
 			</div>
 			<div class="row-fluid form-horizontal">
 				<div class="control-group">
-					<label class="control-label">学科分类*：</label>
+					<label class="control-label">标签*：</label>
 					<div class="controls">
-							<a onclick="popup_tag();" class="btn">选择学科分类</a>
+							<a onclick="popup_tag();" class="btn">选择标签</a>
 							<div class="address_list" id="tag_wrap" style="display: inline-block;">{$vo.tag_name}</div>				
 					</div>
 				</div>
