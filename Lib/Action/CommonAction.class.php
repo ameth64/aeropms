@@ -42,7 +42,7 @@ class CommonAction extends Action {
 		$id = $_REQUEST[$model -> getPk()];
 		$vo = $model -> getById($id);
 		if ($this -> isAjax()) {
-			if ($vo !== false) {// 读取成功
+			if ($vo !== false) {							// 读取成功
 				$this -> ajaxReturn($vo, "", 0);
 			} else {
 				die ;
@@ -56,7 +56,7 @@ class CommonAction extends Action {
 	}
 
 	/** 保存操作  **/
-	function save() {
+	function save(){
 		$opmode = $_POST["opmode"];
 		if ($opmode == "add") {
 			$this -> _insert();
@@ -83,18 +83,17 @@ class CommonAction extends Action {
 		if (in_array('user_name', $model -> getDbFields())) {
 			$model -> user_name = $this -> _session("user_name");
 		};
-		//保存当前数据对象
+		/*保存当前数据对象 */
 		$list = $model -> add();
-		if ($list !== false) {//保存成功
+		if ($list !== false) {																//保存成功
 			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('新增成功!');
-		} else {
-			//失败提示
-			$this -> error('新增失败!');
+		} else {			
+			$this -> error('新增失败!');  //失败提示
 		}
 	}
 
-	/** 更新数据  **/
+	/* 更新数据  */
 	protected function _update() {
 		$name = $this -> getActionName();
 		$model = D($name);
@@ -102,18 +101,47 @@ class CommonAction extends Action {
 			$this -> error($model -> getError());
 		}
 		$list = $model -> save();
-		if (false !== $list) {
-			//成功提示
+		if (false !== $list) {    
 			$this -> assign('jumpUrl', get_return_url());
-			$this -> success('编辑成功!');
-		} else {
-			//错误提示
-			$this -> error('编辑失败!');
+			$this -> success('编辑成功!');  //成功提示
+		} else {   			
+			$this -> error('编辑失败!');  //错误提示
 		}
 	}
 	
 	protected function _upload(){
-		R('File/upload');
+		if (!empty($_FILES)) {					
+			import("@.ORG.Util.UploadFile");
+			$module = strtolower($_REQUEST["module"]);
+			$upload = new UploadFile();
+			$upload -> subFolder = $module;
+			$upload -> savePath = C("SAVE_PATH");
+			$upload -> saveRule = uniqid;
+			$upload -> autoSub = true;
+			$upload -> subType = "date";
+	
+			if (!$upload -> upload()) {
+				$this -> error($upload -> getErrorMsg());
+			} else {
+				//取得成功上传的文件信息
+				$uploadList = $upload -> getUploadFileInfo();
+				$File = M("File");
+				$File -> create($uploadList[0]);
+				$File -> create_time = time();
+				$user_id = get_user_id();
+				$File -> user_id = $user_id;
+				$fileId = $File -> add();
+	
+				$fileInfo = $uploadList[0];
+				$fileInfo['id'] = $fileId;
+				$fileInfo['error'] = 0;
+				$fileInfo['url'] = $fileInfo['savepath'] . $fileInfo['savename'];
+	
+				//header("Content-Type:text/html; charset=utf-8");
+				exit(json_encode($fileInfo));
+				//$this->success ('上传成功！');
+			}
+		}	
 	}
 	
 	protected function _down(){
@@ -301,13 +329,18 @@ class CommonAction extends Action {
 			$p -> parameter = $this -> _search;
 			//分页显示
 			$page = $p -> show();
+			
 			//列表排序显示
 			$sortImg = $sort;
+			
 			//排序图标
 			$sortAlt = $sort == 'desc' ? '升序排列' : '倒序排列';
+			
 			//排序提示
 			$sort = $sort == 'desc' ? 1 : 0;
+			
 			//排序方式
+			
 			//模板赋值显示
 
 			$name = $this -> getActionName();
@@ -359,7 +392,7 @@ class CommonAction extends Action {
 		}
 
 		$tree = list_to_tree($menu, $top_menu);
-		$this -> assign('html_left_menu', left_menu($tree));
+		$this -> assign('html_left_menu', tree_nav($tree));
 	}
 
 	 protected function _assign_folder_list(){
@@ -381,17 +414,6 @@ class CommonAction extends Action {
 		$this -> assign('file_list', $list);
 	}
 
-	/**
-	 * +----------------------------------------------------------
-	 * 更新个别字段值
-	 * +----------------------------------------------------------
-	 * @access public
-	 * +----------------------------------------------------------
-	 * @return string
-	 *+----------------------------------------------------------
-	 * @throws ThinkExecption
-	 *+----------------------------------------------------------
-	 */
 	protected function _set_field($id, $field, $val, $name = '') {
 		if (empty($name)) {
 			$name = $this -> getActionName();
@@ -429,7 +451,6 @@ class CommonAction extends Action {
 		 }
 		$tag -> assign("tag_name", $tag_name);
 		$tag -> tag_manage();		
-		//		R('Systemtag/tag_manage');
 	}
 	
 	protected function _pushReturn($data, $info, $status, $time = null) {
@@ -447,7 +468,5 @@ class CommonAction extends Action {
 		$model -> add();
 		exit();
 	}
-	
-
 }
 ?>

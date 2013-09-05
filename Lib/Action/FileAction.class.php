@@ -34,46 +34,6 @@ class FileAction extends CommonAction {
 		$this -> display();
 	}
 
-	public function upload() {
-		if (!empty($_FILES)) {
-			$this -> _upload();
-		}
-	}
-
-	// 文件上传
-	private function _upload() {
-		import("@.ORG.Util.UploadFile");
-		$module = strtolower($_REQUEST["module"]);
-		$upload = new UploadFile();
-		$upload -> subFolder = $module;
-		$upload -> savePath = C("SAVE_PATH");
-		$upload -> saveRule = uniqid;
-		$upload -> autoSub = true;
-		$upload -> subType = "date";
-
-		if (!$upload -> upload()) {
-			$this -> error($upload -> getErrorMsg());
-		} else {
-			//取得成功上传的文件信息
-			$uploadList = $upload -> getUploadFileInfo();
-			$File = M("File");
-			$File -> create($uploadList[0]);
-			$File -> create_time = time();
-			$user_id = get_user_id();
-			$File -> user_id = $user_id;
-			$fileId = $File -> add();
-
-			$fileInfo = $uploadList[0];
-			$fileInfo['id'] = $fileId;
-			$fileInfo['error'] = 0;
-			$fileInfo['url'] = $fileInfo['savepath'] . $fileInfo['savename'];
-
-			//header("Content-Type:text/html; charset=utf-8");
-			exit(json_encode($fileInfo));
-			//$this->success ('上传成功！');
-		}
-	}
-
 	public function down($file_id) {
 
 		$file_id = f_decode($file_id);

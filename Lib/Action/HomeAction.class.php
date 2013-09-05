@@ -24,7 +24,7 @@ class HomeAction extends CommonAction {
 	public function set_sort() {
 		$val = $_REQUEST["val"];
 		$data['home_sort'] = $val;
-		$model = D("Config") -> set_config($data);
+		$model = D("UserConfig") -> set_config($data);
 	}
 
 	protected function mail_list() {

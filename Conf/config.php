@@ -1,6 +1,7 @@
 <?php
     if (!defined('THINK_PATH')) exit();
     $array=array(
+		'TMPL_EXCEPTION_FILE'=>'./Tpl/Layout/error.html',
         'URL_MODEL'=>2, // 如果你的环境不支持PATHINFO 请设置为3
         'DB_TYPE'=>'mysql',
         'DB_HOST'=>'localhost',
@@ -27,7 +28,7 @@
         'DB_LIKE_FIELDS'            =>'title|content|name|remark',
 		'SAVE_PATH'=>'Data/Files/',
         'SHOW_PAGE_TRACE'=>1, //显示调试信息
-		'AUTH'=>array('index'=>'read','read'=>'read','down'=>'read','add'=>'write','edit'=>'write','save'=>'write','del'=>'admin','rstore'=>'admin','destory'=>'admin','import'=>'admin','export'=>'read'),
+		'AUTH'=>array('index'=>'read','read'=>'read','down'=>'read','add'=>'write','edit'=>'write','upload'=>'write','save'=>'write','del'=>'admin','rstore'=>'admin','destory'=>'admin','import'=>'admin','export'=>'read'),
     );
     return $array;
 ?>

@@ -5,13 +5,16 @@
 	}
 </script>
 <input type="hidden" id="ajax" name="ajax" value="1">
-<div class="contact">
-	<div class="row-fluid title"><span>详细信息 : {$vo.name}</span></div>
+<div class="flow_type col-md-9">
+<div class="panel-body">
+	<div class="title panel panel-default">
+		<h3 class="col-md-12">详细信息 : {$vo.name}</h3></div>
+	</div>
 	<div class="operate">
-		<div class="left">
+		<div class="pull-left">
 			<a onclick="go_return_url();">返回</a>
 		</div>
-		<div class="right">
+		<div class="pull-right">
 			<a onclick="edit();">修改</a>
 		</div>
 	</div>
@@ -52,5 +55,4 @@
 							</textarea></td>
 		</tr>
 	</table>
-</div>
 </div>

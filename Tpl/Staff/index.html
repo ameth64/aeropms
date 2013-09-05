@@ -7,30 +7,30 @@
 		}
 	}
 
-	function showdata(result){
-		$(".user_list li.tbody").remove();		
-		for (var s in result.data){
+	function showdata(result) {
+		$(".user_list li.tbody").remove();
+		for (var s in result.data) {
 			$("#sample .name").text(result.data[s].name);
 			$("#sample .position").text(result.data[s].position_name);
 			$("#sample .rank").text(result.data[s].rank_name);
 			$("#sample .email").text(result.data[s].email);
-			
-			$("#sample li").attr("email",result.data[s].email);		
-			$("#sample li").attr("duty",result.data[s].duty);		
-			$("#sample li").attr("name",result.data[s].name);			
-			$("#sample li").attr("office_tel",result.data[s].office_tel);
-			$("#sample li").attr("mobile_tel",result.data[s].mobile_tel);
-			$("#sample li").attr("pic",result.data[s].pic);									
-			html=$("#sample").html();			
+
+			$("#sample li").attr("email", result.data[s].email);
+			$("#sample li").attr("duty", result.data[s].duty);
+			$("#sample li").attr("name", result.data[s].name);
+			$("#sample li").attr("office_tel", result.data[s].office_tel);
+			$("#sample li").attr("mobile_tel", result.data[s].mobile_tel);
+			$("#sample li").attr("pic", result.data[s].pic);
+			html = $("#sample").html();
 			$(".user_list ul").append(html);
 			$("#sample li span").text("");
 		}
-		if($(".user_list li.tbody").length>0){
+		if ($(".user_list li.tbody").length > 0) {
 			$(".user_list li.tbody").get(0).click();
-		}else{
+		} else {
 			$(".user_info .info").text("");
-			$("#emp_pic").attr('src',"");
-		}		
+			$("#emp_pic").attr('src', "");
+		}
 	}
 
 
@@ -45,90 +45,90 @@
 			});
 			return false;
 		})
-		$(".user_list li").live("click",function(){
+		$(".user_list li").live("click", function() {
 			$(".user_info .name").text($(this).attr("name"));
 			$(".user_info .office_tel").text($(this).attr("office_tel"));
 			$(".user_info .mobile_tel").text($(this).attr("mobile_tel"));
-			$(".user_info .duty").text($(this).attr("duty"));			
-			$("#emp_pic").attr("src","/{:C('SAVE_PATH')}"+$(this).attr("pic"));			
+			$(".user_info .duty").text($(this).attr("duty"));
+			$("#emp_pic").attr("src", "/{:C('SAVE_PATH')}" + $(this).attr("pic"));
 		})
 	});
 
 </script>
-<div class="admin" >
-	<div class="row-fluid title">
-		<span>职员查询</span>
+<div class="title panel panel-default">
+	<div class="panel-body">
+		<h3 class="col-md-12">职员查询</h3>
 	</div>
-	<div>
-		&nbsp;
-	</div>
-	<!-- 功能操作区域结束 -->
-	<!-- 列表显示区域  -->
-	<div class="row-fluid">
-		<div class="span4 sub_left_menu">
-			<div class="wrap">
-				<?php echo $menu ?>
-			</div>
+</div>
+<div>
+	&nbsp;
+</div>
+<!-- 功能操作区域结束 -->
+<!-- 列表显示区域  -->
+<div class="row">
+	<div class="col-md-4 sub_left_menu">
+		<div class="well">
+			<?php echo $menu ?>
 		</div>
-		<div class="span8">
-			<div class="table user_list">
-				<ul>
-					<li class="thead row-fluid">
-						<div class="span7">
-							<span style="width:25%;">姓名</span>
-							<span style="width: 35%">职责</span>
-							<span style="width: 35%">职责</span>
-						</div>
-						<div class="span5">
-							<span style="width:100%;">邮件</span>
-						</div>
-					</li>
-				</ul>
-			</div>
-			<br>
-			<div class="row-fluid">
-				<div class="span4 text-center">
-					<img id="emp_pic" class="img-polaroid"/>
-				</div>
-				<div class="span8">
-					<div class="table user_info">
-						<ul>
-							<li class="tbody row-fluid">
-								<span class="th" style="width:30%;">姓名</span>
-								<span style="width: 70%" class="text-center name info"></span>
-							</li>
-							<li class="tbody row-fluid">
-								<span class="th" style="width:30%;">办公电话</span>
-								<span style="width: 70%" class="text-center office_tel info"></span>
-							</li>
-							<li class="tbody row-fluid">
-								<span class="th" style="width:30%;">手机</span>
-								<span style="width: 70%" class="text-center mobile_tel info"></span>
-							</li>
-							<li class="tbody row-fluid">
-								<span class="th" style="width:30%;">邮箱</span>
-								<span style="width: 70%" class="text-center email info">姓名姓名</span>
-							</li>
-							<li class="tbody row-fluid">
-								<span class="th" style="width:30%;">业务</span>
-								<span style="width: 70%" class="text-center duty info"></span>
-							</li>
-							<ul>
+	</div>
+	<div class="col-md-8">
+		<div class="ul-table user_list">
+			<ul>
+				<li class="thead row">
+					<div class="col-md-7">
+						<span style="width:25%;">姓名</span>
+						<span style="width: 35%">职责</span>
+						<span style="width: 35%">职责</span>
 					</div>
-				</div>
-				</ul>
+					<div class="col-md-5">
+						<span style="width:100%;">邮件</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-md-4 text-center">
+				<img id="emp_pic" class="img-polaroid"/>
 			</div>
+			<div class="col-md-8">
+				<div class="ul-table user_info">
+					<ul>
+						<li class="tbody row">
+							<span class="th" style="width:30%;">姓名</span>
+							<span style="width: 70%" class="text-center name info"></span>
+						</li>
+						<li class="tbody row">
+							<span class="th" style="width:30%;">办公电话</span>
+							<span style="width: 70%" class="text-center office_tel info"></span>
+						</li>
+						<li class="tbody row">
+							<span class="th" style="width:30%;">手机</span>
+							<span style="width: 70%" class="text-center mobile_tel info"></span>
+						</li>
+						<li class="tbody row">
+							<span class="th" style="width:30%;">邮箱</span>
+							<span style="width: 70%" class="text-center email info">姓名姓名</span>
+						</li>
+						<li class="tbody row">
+							<span class="th" style="width:30%;">业务</span>
+							<span style="width: 70%" class="text-center duty info"></span>
+						</li>
+						<ul>
+				</div>
+			</div>
+			</ul>
 		</div>
 	</div>
 </div>
 <div id="sample">
-	<li class="tbody row-fluid">
-		<div class="span7">
+	<li class="tbody row">
+		<div class="col-md-7">
 			<span style="width:25%;" class="text-center name"></span>
 			<span style="width: 35%" class="text-center position"></span>
 			<span style="width: 35%" class="text-center rank"></span>
 		</div>
-		<div class="span5">
+		<div class="col-md-5">
 			<span style="width:100%;" class="email"></span>
 		</div>
 	</li>

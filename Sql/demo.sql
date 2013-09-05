@@ -1,5 +1,5 @@
 ﻿# Host: localhost  (Version: 5.5.16)
-# Date: 2013-08-16 15:07:35
+# Date: 2013-08-19 15:31:34
 # Generator: MySQL-Front 5.3  (Build 4.4)
 
 /*!40101 SET NAMES utf8 */;
@@ -319,14 +319,14 @@ CREATE TABLE `think_forum` (
   `create_time` int(11) NOT NULL,
   `update_time` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_forum"
 #
 
 /*!40000 ALTER TABLE `think_forum` DISABLE KEYS */;
-INSERT INTO `think_forum` VALUES (8,17,1,'管理员','发表主题 ','<span>发表主题</span>',10,0,0,'',0,0,1366872802,0),(9,25,1,'管理员','发了各自','发了各自',29,2,0,'',0,0,1374028398,0),(10,27,1,'管理员','员工交流天地','<p>\r\n\t员工交流天地\r\n</p>\r\n<p>\r\n\t&nbsp;\r\n</p>\r\n<p>\r\n\t&nbsp; 今年秋天旅游去哪里&nbsp;\r\n</p>\r\n<p>\r\n\t&nbsp;&nbsp; 1. 夏威夷\r\n</p>\r\n<p>\r\n\t&nbsp;&nbsp; 2. 韩国\r\n</p>\r\n<p>\r\n\t&nbsp;&nbsp; 3. 马尔代夫\r\n</p>\r\n<p>\r\n\t&nbsp;&nbsp; 4. 香港\r\n</p>\r\n<p>\r\n\t&nbsp;&nbsp; 5. 西藏\r\n</p>',7,0,0,'',0,0,1374053565,1376634141);
+INSERT INTO `think_forum` VALUES (8,17,1,'管理员','发表主题 ','<span>发表主题</span>',10,0,0,'',0,0,1366872802,0),(9,25,1,'管理员','发了各自','发了各自',61,5,0,'',0,0,1374028398,0),(10,27,1,'管理员','员工交流天地','<p>\r\n\t员工交流天地\r\n</p>\r\n<p>\r\n\t&nbsp;\r\n</p>\r\n<p>\r\n\t&nbsp; 今年秋天旅游去哪里&nbsp;\r\n</p>\r\n<p>\r\n\t&nbsp;&nbsp; 1. 夏威夷\r\n</p>\r\n<p>\r\n\t&nbsp;&nbsp; 2. 韩国\r\n</p>\r\n<p>\r\n\t&nbsp;&nbsp; 3. 马尔代夫\r\n</p>\r\n<p>\r\n\t&nbsp;&nbsp; 4. 香港\r\n</p>\r\n<p>\r\n\t&nbsp;&nbsp; 5. 西藏\r\n</p>',8,0,0,'',0,0,1374053565,1376634141),(11,0,1,'管理员','12313','123123132',0,0,0,'',0,0,1376877052,0),(12,25,1,'管理员','123123','123123123',4,0,0,'',0,0,1376877231,0);
 /*!40000 ALTER TABLE `think_forum` ENABLE KEYS */;
 
 #
@@ -443,7 +443,7 @@ CREATE TABLE `think_node` (
 #
 
 /*!40000 ALTER TABLE `think_node` DISABLE KEYS */;
-INSERT INTO `think_node` VALUES (83,'公告',0,'notice/index','','','7',0),(84,'管理',0,'user/index','','','999',0),(85,'邮件',0,'mail/folder?fid=inbox','','','1',0),(87,'审批',0,'flow/index','','','2',0),(88,'文档',0,'doc/index','','','3',0),(91,'日程',0,'schedule/index','','','4',0),(94,'职位',0,'position/index',NULL,'','',1),(97,'部门',0,'dept/index',NULL,'','',1),(100,'写信',0,'mail/add','','','1',85),(101,'收件箱',0,'mail/index','MailFolder','','3',85),(102,'邮件设置',0,'','','','4',85),(104,'垃圾箱',0,'mail/folder?fid=spambox','','','5',101),(105,'发件箱',0,'mail/folder?fid=outbox','','','2',101),(106,'已删除',0,'mail/folder?fid=delbox','','','3',101),(107,'草稿箱',0,'mail/folder?fid=darftbox','','','4',101),(108,'邮件帐户设置',0,'mail_account/index','','','1',102),(110,'公司信息管理',0,'',NULL,'','1',84),(112,'权限管理',0,'',NULL,'','3',84),(113,'系统设定',0,'',NULL,'','4',84),(114,'系统设置',0,'system_config/index','','','1',113),(115,'组织图管理',0,'dept/index','','','1',110),(116,'员工登记',0,'user/index','','','5',110),(118,'权限编码登记',0,'role/index',NULL,'','1',112),(119,'权限编码-菜单映射',0,'role/node',NULL,'','2',112),(120,'权限编码-用户映射',0,'role/user',NULL,'','3',112),(121,'菜单信息设置',0,'node/index',NULL,'','1',113),(122,'职级',0,'rank/index','','','3',110),(123,'职位',0,'position/index','','','2',110),(124,'文件夹设置',0,'mail_folder/index','','','2',102),(125,'联系人',0,'contact/index','','','1',157),(126,'文档搜索',0,'doc/index','','','1',88),(127,'文档库管理',0,'',NULL,'','4',88),(131,'公用文档库管理',0,'doc_folder/index','','','',127),(132,'公用文档库',0,'','DocFolder','','2',88),(134,'公告',0,'','NoticeFolder','','1',83),(137,'论坛',0,'forum/index','ForumFolder','','3',0),(138,'公告管理',0,'notice_folder/index','','','4',134),(139,'论坛管理',0,'forum_folder/index','','','',137),(140,'按月查看',0,'schedule/index','','','1',91),(141,'日程查询',0,'schedule/search','','','2',91),(142,'按日查看',0,'schedule/day_view','','','2',91),(143,'邮件分类',0,'mail_organize/index','','','',102),(144,'起案',0,'flow/index','','','1',87),(145,'审批箱',0,'','','','2',87),(146,'流程管理',0,'flow_type/index','','','3',87),(147,'待审批',0,'flow/folder?fid=confirm','','','3',145),(148,'已办理',0,'flow/folder?fid=finish','','','1',145),(149,'草稿箱',0,'flow/folder?fid=darft','','','2',145),(150,'已提交',0,'flow/folder?fid=submit','','','4',145),(151,'收信',0,'mail/folder?fid=receve','','','2',85),(152,'待办事项',0,'todo/index','','','4',91),(153,'部门级别',0,'dept_grade/index','','','4',110),(154,'业务权限',0,'duty/index','','','4',112),(155,'权限编码-业务权限',0,'role/duty','','','5',112),(156,'客户',0,'customer/index','','','2',157),(157,'人脉',0,'contact/index','','','5',0),(158,'供应商',0,'supplier/index','','','3',157),(169,'职员',0,'staff/index','','','',157);
+INSERT INTO `think_node` VALUES (83,'公告',0,'notice/index','','','7',0),(84,'管理',0,'user/index','','','999',0),(85,'邮件',0,'mail/folder?fid=inbox','','','1',0),(87,'审批',0,'flow/index','','','2',0),(88,'文档',0,'doc/index','','','3',0),(91,'日程',0,'schedule/index','','','4',0),(94,'职位',0,'position/index',NULL,'','',1),(97,'部门',0,'dept/index',NULL,'','',1),(100,'写信',0,'mail/add','','','1',85),(101,'收件箱',0,'mail/index','MailFolder','','3',85),(102,'邮件设置',0,'','','','4',85),(104,'垃圾箱',0,'mail/folder?fid=spambox','','','5',101),(105,'发件箱',0,'mail/folder?fid=outbox','','','2',101),(106,'已删除',0,'mail/folder?fid=delbox','','','3',101),(107,'草稿箱',0,'mail/folder?fid=darftbox','','','4',101),(108,'邮件帐户设置',0,'mail_account/index','','','1',102),(110,'公司信息管理',0,'',NULL,'','1',84),(112,'权限管理',0,'',NULL,'','3',84),(113,'系统设定',0,'',NULL,'','4',84),(114,'系统设置',0,'system_config/index','','','1',113),(115,'组织图管理',0,'dept/index','','','1',110),(116,'员工登记',0,'user/index','','','5',110),(118,'权限编码登记',0,'role/index',NULL,'','1',112),(119,'权限编码-菜单映射',0,'role/node',NULL,'','2',112),(120,'权限编码-用户映射',0,'role/user',NULL,'','3',112),(121,'菜单信息设置',0,'node/index',NULL,'','1',113),(122,'职级',0,'rank/index','','','3',110),(123,'职位',0,'position/index','','','2',110),(124,'文件夹设置',0,'mail_folder/index','','','2',102),(125,'联系人',0,'contact/index','','','1',157),(126,'文档搜索',0,'doc/index','','','1',88),(127,'文档库管理',0,'',NULL,'','4',88),(131,'公用文档库管理',0,'doc_folder/index','','','',127),(132,'公用文档库',0,'','DocFolder','','2',88),(134,'公告',0,'','NoticeFolder','','1',83),(137,'论坛',0,'forum/index','ForumFolder','','3',0),(138,'公告管理',0,'notice_folder/index','','','4',134),(139,'论坛管理',0,'forum_folder/index','','','',137),(140,'按月查看',0,'schedule/index','','','1',91),(141,'日程查询',0,'schedule/search','','','2',91),(142,'按日查看',0,'schedule/day_view','','','2',91),(143,'邮件分类',0,'mail_organize/index','','','',102),(144,'起案',0,'flow/index','','','1',87),(145,'审批箱',0,'','','','2',87),(146,'流程管理',0,'flow_type/index','','','3',87),(147,'待审批',0,'flow/folder?fid=confirm','','','3',145),(148,'已办理',0,'flow/folder?fid=finish','','','1',145),(149,'草稿箱',0,'flow/folder?fid=darft','','','2',145),(150,'已提交',0,'flow/folder?fid=submit','','','4',145),(151,'收信',0,'mail/folder?fid=receve','','','2',85),(152,'待办事项',0,'todo/index','','','4',91),(153,'部门级别',0,'dept_grade/index','','','4',110),(154,'业务权限',1,'duty/index','','','4',112),(155,'权限编码-业务权限',1,'role/duty','','','5',112),(156,'客户',0,'customer/index','','','2',157),(157,'人脉',0,'contact/index','','','5',0),(158,'供应商',0,'supplier/index','','','3',157),(169,'职员',0,'staff/index','','','',157);
 /*!40000 ALTER TABLE `think_node` ENABLE KEYS */;
 
 #
@@ -513,14 +513,14 @@ CREATE TABLE `think_post` (
   `create_time` int(11) NOT NULL,
   `update_time` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_post"
 #
 
 /*!40000 ALTER TABLE `think_post` DISABLE KEYS */;
-INSERT INTO `think_post` VALUES (37,9,'','1234123123',1,'管理员','',0,1374029462,0),(38,9,'','123123123123',1,'管理员','',0,1374029878,0);
+INSERT INTO `think_post` VALUES (37,9,'','1234123123',1,'管理员','',1,1374029462,0),(38,9,'','123123123123',1,'管理员','',1,1374029878,0),(39,9,'','asdfasdf',1,'管理员','',0,1376880653,0),(40,9,'','123123121111111111111',1,'管理员','',0,1376880661,0),(41,9,'','333333333333333',1,'管理员','',1,1376880668,0);
 /*!40000 ALTER TABLE `think_post` ENABLE KEYS */;
 
 #
@@ -904,14 +904,14 @@ CREATE TABLE `think_user` (
   `is_del` tinyint(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `account` (`emp_no`)
-) ENGINE=MyISAM AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_user"
 #
 
 /*!40000 ALTER TABLE `think_user` DISABLE KEYS */;
-INSERT INTO `think_user` VALUES (1,'admin','管理员','GLY','21232f297a57a5a743894a0e4a801fc3',12,1,1,'male','0000-00-00','127.0.0.1',1878,'','smeoa@qq.com','2342343','XXXXXX','1',1222907803,1374109343,0),(2,'demo','演示','YS','fe01ce2a7fbac8fafaed7c982a04e229',9,3,3,'female','1983-03-17','127.0.0.1',112,'','XXXX','asdf','','2',1239783735,1371214569,0),(3,'member','员工','YG','202cb962ac59075b964b07152d234b70',6,4,4,'male','2012-03-15','127.0.0.1',19,'','XXXX','asd','','3',1253514375,1370333340,0);
+INSERT INTO `think_user` VALUES (1,'admin','管理员','GLY','21232f297a57a5a743894a0e4a801fc3',12,1,1,'male','0000-00-00','127.0.0.1',1879,'','smeoa@qq.com','2342343','XXXXXX','1',1222907803,1374109343,0),(2,'demo','演示','YS','fe01ce2a7fbac8fafaed7c982a04e229',9,3,3,'female','1983-03-17','127.0.0.1',112,'','XXXX','asdf','','2',1239783735,1371214569,0),(3,'member','员工','YG','202cb962ac59075b964b07152d234b70',6,4,4,'male','2012-03-15','127.0.0.1',19,'','XXXX','asd','','3',1253514375,1370333340,0),(41,'test','test','','',4,0,0,'','0000-00-00',NULL,NULL,'','','','','',1376896154,0,0);
 /*!40000 ALTER TABLE `think_user` ENABLE KEYS */;
 
 #

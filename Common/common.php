@@ -424,32 +424,36 @@ function tree_to_list($tree, $level = 0, $pk = 'id', $pid = 'pid', $child = '_ch
 	}
 }
 
-function tree_menu($tree) {
+function tree_nav($tree, $level = 0) {
+	$level++;
 	$html = "";
 	if (is_array($tree)) {
-		$html = '<dl>';
+		$html = "<ul class=\"nav \">\r\n";
 		foreach ($tree as $val) {
 			if (isset($val["name"])) {
 				$title = $val["name"];
-				$url = $val["url"];
+				if (!empty($val["url"])) {
+					$url = U($val['url']);
+				} else {
+					$url = "#";
+				}
 				$id = $val["id"];
 				if (empty($val["id"])) {
 					$id = $val["name"];
 				}
 				if (isset($val['_child'])) {
-					$html = $html . "<dd><span></span><a href=\"$url\" node=\"$id\" hidefocus=\”true\”>$title</a>";
-					$html = $html . tree_menu($val['_child']);
-					$html = $html . "</dd>";
+					$html = $html . "<li>\r\n<a node=\"$id\" href=\"" . "$url\"><i class=\"icon-angle-right level$level\"></i><span>$title</span></a>\r\n";
+					$html = $html . tree_nav($val['_child'], $level);
+					$html = $html . "</li>\r\n";
 				} else {
-					$html = $html . "<dt><span></span><a href=\"$url\" node=\"$id\"  hidefocus=\”true\”>$title</a></dt>";
+					$html = $html . "<li>\r\n<a  node=\"$id\" href=\"" . "$url\"><i class=\"icon-angle-right level$level\"></i><span>$title</span></a>\r\n</li>\r\n";
 				}
 			}
 		}
-		$html = $html . '</dl>';
+		$html = $html . "</ul>\r\n";
 	}
 	return $html;
 }
-
 function tree_menu2($tree) {
 	$html = "";
 	if (is_array($tree)) {

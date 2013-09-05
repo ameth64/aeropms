@@ -56,12 +56,12 @@
 	<body>
 		<input type="hidden" name="id" id="id">
 		<div class="cot">
-			<div class="row-fluid title"><span>邮件首页</span></div>
+			<div class="title panel panel-default"><div class="panel-body"><h3 class="col-md-12">邮件首页</h3></div></div>
 			<div id="mail_operater">
-				<div class="right">
+				<div class="pull-right">
 					<span style="line-height: 23px;"class="fright ">{$page}</span>
 				</div>
-				<div class="left">
+				<div class="pull-left">
 					<input type="button" class="wd2 btn" value="删除" onclick="del(1)">
 					<input type="button" class="wd4 btn" value="彻底删除" onclick="del(2)">
 					<input type="button" class="wd2 btn" value="转发" onclick="del(1)">
@@ -88,7 +88,7 @@
 				</tr>
 				<if condition="count($list) eq 0 ">
 					<tr>
-						<td colspan="10" style="text-align:center" ><h3>没找到相应的数据</h3></td>
+						<td colspan="10" style="text-align:center" ><h3>没找到相应的数据</h3></div></td>
 					</tr>
 			</table>
 			<else/>

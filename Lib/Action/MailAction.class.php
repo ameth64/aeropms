@@ -96,8 +96,7 @@ class MailAction extends CommonAction {
 			case 'user' :
 				
 				$folder_name = M("UserFolder") -> where("id={$folder_id}") -> getField("name");
-				$this -> assign("folder_name", $folder_name);
-								
+				$this -> assign("folder_name", $folder_name);								
 				$where['folder'] = array('eq', $folder_id);
 
 			default :
@@ -131,7 +130,7 @@ class MailAction extends CommonAction {
 				$result= $this -> _set_field($id, $field, $val);
 				break;
 			case 'del_forever' :
-				$this->destory($id);
+				$this->_destory($id);
 				break;
 			case 'spam' :
 				$field = 'folder';

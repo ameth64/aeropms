@@ -317,21 +317,6 @@ function sendForm(formId,post_url,return_url){
 		}
 }
 
-/*全选*/
-function select_all(name){
-		if ($("form #chk_select_all").attr("checked"))		
-		{
-			var val='';
-			$("form input[name=\""+name+"\"]:checkbox").each( function() {
-				$(this).attr("checked",true);
-			});
-		}else{
-			$("form input[name=\""+name+"\"]:checkbox").each( function() {
-				$(this).attr("checked",false);
-			});
-		}
-}
-
 /*文件大小计量显示*/
 function reunit(filesize) {
 		var unit;
@@ -578,8 +563,30 @@ function winopen(url,w,h){
 		if(s.split(".")[1]=="00") s=s.split(".")[0];
 		return s
 	}
+
+function checkbox_init(){	
+	 $('input').iCheck({
+   	  checkboxClass: 'icheckbox_minimal-grey',
+     radioClass: 'iradio_minimal-grey',
+     increaseArea: '20%' // optional
+  });
+}	
+
+
+function  select_all_init() {
+  $("#chk_select_all").on('ifChecked',function(event){
+  	 	$('#form_data input').iCheck('check')
+
+  });
+  $("#chk_select_all").on('ifUnchecked',function(event){
+  	 	$('#form_data input').iCheck('uncheck')
+  })
+}
+	
 	/* 公用ready 开始 */
 $(document).ready(function(){
+	select_all_init();
+	checkbox_init();
 	adv_search_init();
 	tree_menu_init();
 	$(".tree_menu li a i").click(function(event){

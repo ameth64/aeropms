@@ -1,54 +1,58 @@
 <layout name='Layout/layout_main' />
-
 <script type="text/javascript">
 	function save() {
-		if(check_form("form_data")){
+		if (check_form("form_data")) {
 			sendForm("form_data", "{:U('save')}");
 		}
 	}
+	$(function(){
+		set_val('is_del',{$vo.is_del});
+	})
 </script>
-<div class="admin">
-	<div class="row-fluid title">
-		<span>编辑系统参数</span>
-	</div>
-	<div class="row-fluid operate">
-		<div class="left">
-			<a onclick="go_return_url();" class="btn">返回</a>
-		</div>
-		<div class="right">
-			<a onclick="save();"  class="btn">保存</a>
-		</div>
-	</div>
-	<form method='post' id="form_data" action="{:U('update')}">
-		<table class="table table-bordered">
-			<input type="hidden" name="opmode" id="opmode" value="edit">
-			<input type="hidden"  id="id" name="id" value="{$vo.id}">
-			<tr>
-				<th><nobr>名称</nobr></th>
-				<td >
-				<input type="text" id="name" name="name" value="{$vo.name}" check="require" msg="请输入名称">
-				</td>
-			</tr>
-			<tr>
-				<th><nobr>代码</nobr></th>
-				<td >
-				<input type="text" name="code" value="{$vo.code}" check="require" msg="请输入代码">
-				</td>
-			</tr>
-			<tr>
-				<th><nobr>数据</nobr></th>
-				<td >
-				<input type="text" name="val" value="{$vo.val}" check="require" msg="请输入名称">
-				</td>
-			</tr>
-			<tr>
-				<th><nobr>状态：</nobr></th>
-				<td >
-				<select  name="is_del">
-					<option value="0">启用</option>
-					<option value="1">禁用</option>
-				</select></td>
-			</tr>
-		</table>
-	</form>
+<div class="title panel panel-default">
+<div class="panel-body">
+	<h3 class="col-md-12">编辑系统参数</h3></div>
 </div>
+<div class="operate panel panel-default">	<div class="panel-body">
+	<div class="pull-left">
+		<a onclick="go_return_url();" class="btn btn-default">返回</a>
+	</div>
+	<div class="pull-right">
+		<a onclick="save();"  class="btn btn-default">保存</a>
+	</div>
+</div></div>
+<form method='post' id="form_data" action="{:U('update')}" class="well form-horizontal">
+	<table class="table table-bordered">
+		<input type="hidden" name="opmode" id="opmode" value="edit">
+		<input type="hidden"  id="id" name="id" value="{$vo.id}">
+	<div class="form-group col-md-12">
+		<label class="col-md-4 control-label" for="name">名称*：</label>
+		<div class="col-md-8">
+			<input class="form-control" value="{$vo.name}" type="text" id="name" name="name" check="require" msg="请输入名称">
+		</div>
+	</div>
+
+	<div class="form-group col-md-12">
+		<label class="col-md-4 control-label" for="code">代码*：</label>
+		<div class="col-md-8">
+			<input class="form-control" value="{$vo.code}" type="text" id="code" name="code" check="require" msg="请输入代码">
+		</div>
+	</div>
+
+	<div class="form-group col-md-12">
+		<label class="col-md-4 control-label" for="val">数据*：</label>
+		<div class="col-md-8">
+			<input class="form-control" value="{$vo.val}" type="text" id="val" name="val" check="require" msg="请输入数据">
+		</div>
+	</div>
+
+	<div class="form-group col-md-12">
+		<label class="col-md-4 control-label" for="is_del">状态*：</label>
+		<div class="col-md-8">
+			<select   name="is_del" id="is_del" class="form-control">
+				<option value="0">启用</option>
+				<option value="1">禁用</option>
+			</select>
+		</div>
+	</div>
+</form>	
