@@ -6,3 +6,6 @@
 
 4.小微企业信息化交流QQ群：137109597 
 
+5.不支持PATHINFO或REWRITE请修改conf\config.php 文件中  
+   
+   'URL_MODEL'=>2,  //普通模式 1，PATHINFO模式 2，REWRITE 模式 3 

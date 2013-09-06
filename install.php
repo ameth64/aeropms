@@ -18,12 +18,12 @@
 		$config_str = "<?php\n";
 		$config_str .= "    if (!defined('THINK_PATH')) exit();\n";
 		$config_str .= '    $array=array(' . "\n";
-		$config_str .= "        'URL_MODEL'=>3, // 如果你的环境不支持PATHINFO 请设置为3\n";
+		$config_str .= "        'URL_MODEL'=>1, // 如果你的环境不支持PATHINFO 请设置为3\n";
 		$config_str .= "        'DB_TYPE'=>'mysql',\n";
 		$config_str .= "        'DB_HOST'=>'" . $_POST["db_host"] . "',\n";
 		$config_str .= "        'DB_NAME'=>'" . $_POST["db_dbname"] . "',\n";
 		$config_str .= "        'DB_USER'=>'" . $_POST["db_user"] . "',\n";
-		$config_str .= "			'VAR_PAGE'=>'p',\n";
+		$config_str .= "		'VAR_PAGE'=>'p',\n";
 		$config_str .= "        'DB_PWD'=>'" . $_POST["db_pass"] . "',\n";
 		$config_str .= "        'DB_PORT'=>'3306',\n";
 		$config_str .= "        'DB_PREFIX'=>'" . $_POST["db_tag"] . "',\n";
@@ -42,7 +42,7 @@
 		$config_str .= "        'USER_AUTH_GATEWAY'         =>'login/index',// 默认认证网关\n";
 		$config_str .= "       'NOT_AUTH_MODULE'           =>'Push,Login,Home,Index,File',\n";
 		$config_str .= "        'DB_LIKE_FIELDS'            =>'title|content|name|remark',\n";
-		$config_str .= "			'SAVE_PATH'=>'Data/Files/',\n";
+		$config_str .= "		'SAVE_PATH'=>'Data/Files/',\n";
 		$config_str .= "        'SHOW_PAGE_TRACE'=>0, //显示调试信息\n";
 		$config_str .= " 		'AUTH'=>array('index'=>'read','read'=>'read','down'=>'read','add'=>'write','edit'=>'write','save'=>'write','del'=>'admin','rstore'=>'admin','destory'=>'admin'),";
 		$config_str .= "    );\n";
