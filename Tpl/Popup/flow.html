@@ -3,40 +3,30 @@
 	function save() {
 		$("#confirm_wrap", parent.document).hide();
 		$("#consult_wrap", parent.document).hide();
-
-		$("#confirm_wrap", parent.document).html("");
-		$("#consult_wrap", parent.document).html("");
+		$("#refer_wrap", parent.document).hide();
 
 		$("#rc select option").each(function(i) {
-			//email=($(this).html().split(";")[1].split("&")[0]);
-			$("#confirm_wrap", parent.document).append('<span  emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + ' </span>');
+			$("#confirm_wrap span.address_list", parent.document).append('<span emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + ' </span>');
 		});
 		$("#cc select option").each(function(i) {
-			//email=($(this).html().split(";")[1].split("&")[0]);
-			$("#consult_wrap", parent.document).append('<span  emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + ' </span>');
+			$("#consult_wrap span.address_list", parent.document).append('<span  emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + ' </span>');
+		});
+		$("#bcc select option").each(function(i) {
+			$("#refer_wrap span.address_list", parent.document).append('<span emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + '; </span>');
 		});
 
-		$("#confirm_wrap span b", parent.document).each(function() {
-			$(this).remove();
-		})
+		$("#confirm_wrap span b", parent.document).remove();
+		$("#confirm_wrap span.address_list span", parent.document).append("<b><i class=\"icon-arrow-right\"></i></b>");	
+		$("#confirm_wrap span.address_list span b:last", parent.document).remove();
 
-		$("#confirm_wrap span", parent.document).each(function() {
-			$(this).append("<b>&rarr;</b>   ");
-		})
-		$("#confirm_wrap span", parent.document).last().find("b").remove();
-
-		$("#consult_wrap span b", parent.document).each(function() {
-			$(this).remove();
-		})
-
-		$("#consult_wrap span", parent.document).each(function() {
-			$(this).append("<b>&rarr;</b>   ");
-		})
-		$("#consult_wrap span", parent.document).last().find("b").remove();
+		$("#consult_wrap span b", parent.document).remove();
+		$("#consult_wrap span.address_list span", parent.document).append("<b><i class=\"icon-arrow-right\"></i></b>");
+		$("#consult_wrap span.address_list span b:last", parent.document).remove();
 
 		$("#confirm_wrap", parent.document).show();
 		$("#consult_wrap", parent.document).show();
-
+		$("#refer_wrap", parent.document).show();
+		
 		myclose();
 	}
 
@@ -66,7 +56,6 @@
 
 
 	$(document).ready(function() {
-
 		$("#rb_{$type}").iCheck('check');
 		// 选择用户默认选择的类型
 
@@ -277,8 +266,6 @@
 				break
 		}
 	}
-
-	//-->
 </script>
 <div class="panel panel-default ">
 	<div class="panel-heading clearfix">

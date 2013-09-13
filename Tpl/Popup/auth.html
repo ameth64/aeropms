@@ -3,25 +3,41 @@
 <script type="text/javascript">
 	function save() {
 		$("#rc select option").each(function(i) {
-			$("#admin_list .address_list", parent.document).append('<span title="' + $(this).text() + '" emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + ' </span>');
+			email = ($(this).html().split(";")[1].split("&")[0]);
+			emp_no = $(this).val();
+			name = jQuery.trim($(this).text());
+			name = name.replace(/<.*>/, '');
+			html = "<span email=\"" + email + "\" emp_no=\"" + emp_no + "\"><nobr><b  title=\"" + email + "\">" + name + "</b><a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";			
+			$("#admin_list .address_list", parent.document).append(html);
 		});
+				
 		$("#cc select option").each(function(i) {
-			$("#write_list .address_list", parent.document).append('<span title="' + jQuery.trim($(this).text()) + '" emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + ' </span>');
+			email = ($(this).html().split(";")[1].split("&")[0]);
+			emp_no = $(this).val();
+			name = jQuery.trim($(this).text());
+			name = name.replace(/<.*>/, '');
+			html = "<span email=\"" + email + "\" emp_no=\"" + emp_no + "\"><nobr><b  title=\"" + email + "\">" + name + "</b><a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";			
+			$("#write_list .address_list", parent.document).append(html);
 		});
+		
 		$("#bcc select option").each(function(i) {
-			$("#read_list .address_list", parent.document).append('<span title="' + jQuery.trim($(this).text()) + '" emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + '; </span>');
+			email = ($(this).html().split(";")[1].split("&")[0]);
+			emp_no = $(this).val();
+			name = jQuery.trim($(this).text());
+			name = name.replace(/<.*>/, '');
+			html = "<span email=\"" + email + "\" emp_no=\"" + emp_no + "\"><nobr><b  title=\"" + email + "\">" + name + "</b><a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";			
+			$("#read_list .address_list", parent.document).append(html);
 		});
 		myclose();
 	}
 
-	// 显示AJAX 读取的数据
 	function showdata(result) {
 		$("#addr_list").html("");
 		if ( type = $("input[name='type']:checked").val() == "company") {
 			var id = $("#company a.active").attr("node");
 			var dept_name = $("#company a.active span").text();
 			var email = "dept@group";
-			var html_string = "<label><input type=\"checkbox\" name=\"addr_id\" value=\"dept_" + id + "\"><a id=\"D" + id + "\" title=" + email + " onmousedown=\"return false\" href=\"javascript:void(0);\">" + dept_name + "&lt;" + email + "&gt; </a></label>";
+			var html_string = "<label><span class=\"checkbox\"><input type=\"checkbox\" name=\"addr_id\" value=\"dept_" + id + "\"></span><div class=\"wrap\"><a id=\"D" + id + "\" title=" + email + " onmousedown=\"return false\" href=\"javascript:void(0);\">" + dept_name + "&lt;" + email + "&gt; </a></div></label>";
 			$("#addr_list").html(html_string);
 		}
 		for (s in result.data) {
@@ -31,9 +47,9 @@
 			var name = result.data[s].name;
 			var email = result.data[s].email;
 			if (position_name == undefined) {
-				var html_string = "<label><input type=\"checkbox\" name=\"addr_id\" value=\"" + emp_no + "\"><a  title=" + email + " onmousedown=\"return false\" href=\"javascript:void(0);\">" + name + " &lt;" + email + "&gt; </a></label>";
+				var html_string = "<label><span class=\"checkbox\"><input type=\"checkbox\" name=\"addr_id\" value=\"" + emp_no + "\"></span><div class=\"wrap\"><a  title=" + email + " onmousedown=\"return false\" href=\"javascript:void(0);\">" + name + " &lt;" + email + "&gt; </a></div></label>";
 			} else {
-				var html_string = "<label><input type=\"checkbox\" name=\"addr_id\" value=\"" + emp_no + "\"><a  title=" + email + " onmousedown=\"return false\" href=\"javascript:void(0);\">" + name + " / " + position_name + " </a></label>";
+				var html_string = "<label><span class=\"checkbox\"><input type=\"checkbox\" name=\"addr_id\" value=\"" + emp_no + "\"></span><div class=\"wrap\"><a  title=" + email + " onmousedown=\"return false\" href=\"javascript:void(0);\">" + name + " / " + position_name + " &lt;" + email + "&gt; </a></div></label>";
 			}
 			$("#addr_list").html($("#addr_list").html() + html_string);
 		}
@@ -41,9 +57,8 @@
 			checkboxClass : 'icheckbox_minimal-grey',
 			radioClass : 'iradio_minimal-grey',
 			increaseArea : '20%' // optional
-		});		
+		});
 	}
-
 
 	$(document).ready(function() {
 

@@ -7,7 +7,7 @@
 			emp_no = $(this).val();
 			name = jQuery.trim($(this).text());
 			name = name.replace(/<.*>/, '');
-			html = "<span email=\"" + email + "\" emp_no=\"" + emp_no + "\"><nobr><b  title=\"" + email + "\">" + name + "</b><a class=\"del\" title=\"删除\">&#10005</a></nobr></span>";
+			html = "<span email=\"" + email + "\" emp_no=\"" + emp_no + "\"><nobr><b  title=\"" + email + "\">" + name + "</b><a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";
 			$("#actor_wrap .address_list", parent.document).append(html);
 		});
 		myclose();
@@ -28,17 +28,18 @@
 			var position_name = result.data[s].position_name;
 			var emp_no = result.data[s].emp_no;
 			var name = result.data[s].name;
-			var email = result.data[s].email;
+			//var email = result.data[s].email;
 			if (position_name == undefined) {
-				var html_string = "<label><span class=\"checkbox\"><input type=\"checkbox\" name=\"addr_id\" value=\"" + emp_no + "\"></span><div class=\"wrap\"><a  title=" + email + " onmousedown=\"return false\" href=\"javascript:void(0);\">" + name + " &lt;" + email + "&gt; </a></div></label>";
+				var html_string = "<label><span class=\"checkbox\"><input type=\"checkbox\" name=\"addr_id\" value=\"" + emp_no + "\"></span><div class=\"wrap\"><a  title=" + name + " onmousedown=\"return false\" href=\"javascript:void(0);\">" + name + " &lt;" + email + "&gt; </a></div></label>";
 			} else {
-				var html_string = "<label><span class=\"checkbox\"><input type=\"checkbox\" name=\"addr_id\" value=\"" + emp_no + "\"></span><div class=\"wrap\"><a  title=" + email + " onmousedown=\"return false\" href=\"javascript:void(0);\">" + name + " / " + position_name + " &lt;" + email + "&gt; </a></div></label>";
+				var html_string = "<label><span class=\"checkbox\"><input type=\"checkbox\" name=\"addr_id\" value=\"" + emp_no + "\"></span><div class=\"wrap\"><a  title=" + name + " onmousedown=\"return false\" href=\"javascript:void(0);\">" + name + " / " + position_name + " &lt;" + email + "&gt; </a></div></label>";
 			}
 			$("#addr_list").html($("#addr_list").html() + html_string);
 		}
 		$("#addr_list input").iCheck({
 			checkboxClass : 'icheckbox_minimal-grey',
 			radioClass : 'iradio_minimal-grey',
+			increaseArea : '20%' // optional
 		});
 	}
 

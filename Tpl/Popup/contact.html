@@ -6,15 +6,14 @@
 			emp_no = $(this).val();
 			name = jQuery.trim($(this).text());
 			name = name.replace(/<.*>/, '');
-			html = "<span email=\"" + email + "\" emp_no=\"" + emp_no + "\"><nobr><b  title=\"" + email + "\">" + name + "</b><a class=\"del\" title=\"删除\">&#10005</a></nobr></span>";
-			$("#recever .address_list", parent.document).append(html);
+			html = "<span email=\"" + email + "\" emp_no=\"" + emp_no + "\"><nobr><b  title=\"" + email + "\">" + name + "</b><a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";			$("#recever .address_list", parent.document).append(html);
 		});
 		$("#cc select option").each(function(i) {
 			email = ($(this).html().split(";")[1].split("&")[0]);
 			emp_no = $(this).val();
 			name = jQuery.trim($(this).text());
 			name = name.replace(/<.*>/, '');
-			html = "<span email=\"" + email + "\" emp_no=\"" + emp_no + "\"><nobr><b  title=\"" + email + "\">" + name + "</b><a class=\"del\" title=\"删除\">&#10005</a></nobr></span>";
+			html = "<span email=\"" + email + "\" emp_no=\"" + emp_no + "\"><nobr><b  title=\"" + email + "\">" + name + "</b><a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";
 			$("#carbon_copy .address_list", parent.document).append(html);
 		});
 		$("#bcc select option").each(function(i) {
@@ -22,7 +21,7 @@
 			emp_no = $(this).val();
 			name = jQuery.trim($(this).text());
 			name = name.replace(/<.*>/, '');
-			html = "<span email=\"" + email + "\" emp_no=\"" + emp_no + "\"><nobr><b  title=\"" + email + "\">" + name + "</b><a class=\"del\" title=\"删除\">&#10005</a></nobr></span>";
+			html = "<span email=\"" + email + "\" emp_no=\"" + emp_no + "\"><nobr><b  title=\"" + email + "\">" + name + "</b><a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";
 			$("#blind_carbon_copy .address_list", parent.document).append(html);
 		});
 		myclose();

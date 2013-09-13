@@ -2,54 +2,54 @@
 <script type="text/javascript" src="__PUBLIC__/editor/kindeditor.js"></script>
 <script type="text/javascript" src="__PUBLIC__/editor/kindeditor.setting.js"></script>
 <script type="text/javascript">
-	function send(flag){
-		$("#to").val("");
-		$("#recever .address_list span").each(function() {
-			$("#to").val($("#to").val() + $(this).find("b").text() + '|' + $(this).attr("email") + ";")
-		})
-		$("#cc").val("");
-		$("#carbon_copy .address_list span").each(function() {
-			$("#cc").val($("#cc").val() + $(this).find("b").text() + '|' + $(this).attr("email") + ";")
-		})
-	
-		$("#bcc").val("");
-		$("#blind_carbon_copy .address_list span").each(function() {
-			$("#cc").val($("#cc").val() + $(this).find("b").text() + '|' + $(this).attr("email") + ";")
-		})
-		if ($("#to").val().indexOf("@") < 1) {
-			alert("请选择收件人");
-			$("#recever letter").focus();
-			return
-		}
-		editor.sync();
-		if(check_form("form_send")){
-			if (flag) {
-				sendForm("form_send", "{:U('send')}");
-			} else {
-				sendForm("form_send", "{:U('save_darft')}");
-			}
-		}
-	}
+function send(flag){
+$("#to").val("");
+$("#recever .address_list span").each(function() {
+$("#to").val($("#to").val() + $(this).find("b").text() + '|' + $(this).attr("email") + ";")
+})
+$("#cc").val("");
+$("#carbon_copy .address_list span").each(function() {
+$("#cc").val($("#cc").val() + $(this).find("b").text() + '|' + $(this).attr("email") + ";")
+})
 
-	function switch_bcc() {
-		if ($("#bcc").attr("class").indexOf("display-none") < 0) {
-			$("#bcc").addClass("display-none");
-			$("#switch_bcc").addClass("icon-chevron-down");
-			$("#switch_bcc").removeClass("icon-chevron-up");
-		} else {
-			$("#bcc").removeClass("display-none");
-			$("#switch_bcc").addClass("icon-chevron-up");
-			$("#switch_bcc").removeClass("icon-chevron-down");
-		}
-	}
+$("#bcc").val("");
+$("#blind_carbon_copy .address_list span").each(function() {
+$("#cc").val($("#cc").val() + $(this).find("b").text() + '|' + $(this).attr("email") + ";")
+})
+if ($("#to").val().indexOf("@") < 1) {
+alert("请选择收件人");
+$("#recever letter").focus();
+return
+}
+editor.sync();
+if(check_form("form_send")){
+if (flag) {
+sendForm("form_send", "{:U('send')}");
+} else {
+sendForm("form_send", "{:U('save_darft')}");
+}
+}
+}
 
-	function popup_contact(){
-		winopen("{:U("popup/contact")}",750,570);
-	}
+function switch_bcc() {
+if ($("#bcc").attr("class").indexOf("display-none") < 0) {
+$("#bcc").addClass("display-none");
+$("#switch_bcc").addClass("icon-chevron-down");
+$("#switch_bcc").removeClass("icon-chevron-up");
+} else {
+$("#bcc").removeClass("display-none");
+$("#switch_bcc").addClass("icon-chevron-up");
+$("#switch_bcc").removeClass("icon-chevron-down");
+}
+}
 
-	$(document).ready(function() {
-		editor_init();
-	})
+function popup_contact(){
+winopen("{:U("popup/contact")}",750,570);
+}
+
+$(document).ready(function() {
+editor_init();
+})
 </script>
 <div class="title panel panel-default">
 	<div class="panel-body">
@@ -73,26 +73,20 @@
 	<div class="form-group">
 		<label class="col-md-2 control-label" for="recever">收件人*：</label>
 		<div class="col-md-10">
-			<div class="input-group">
-				<div id="recever" class="inputbox form-control">
-					<div class="wrap" >
-						<span class="address_list"></span>
-						<span class="text" >
-							<input class="letter" type="text"  >
-						</span>
-					</div>
-					<div class="search dropdown ">
-						<ul class="dropdown-menu"></ul>
-					</div>
+			<div id="recever" class="inputbox">
+				<a class="pull-right btn btn-link text-center" onclick="popup_contact();"> <i class="icon-user"></i> </a>
+				<div class="wrap" >
+					<span class="address_list"></span>
+					<span class="text" >
+						<input class="letter" type="text"  >
+					</span>
 				</div>
-				<span class="input-group-btn">
-					<a class="btn btn-link" onclick="popup_contact();">
-						<i class="icon-user"></i>
-					</a> </span>
+				<div class="search dropdown ">
+					<ul class="dropdown-menu"></ul>
+				</div>
 			</div>
 		</div>
 	</div>
-
 	<div class="form-group">
 		<div class="col-md-2 control-label">
 			<label for="carbon_copy"> 抄送：</label>

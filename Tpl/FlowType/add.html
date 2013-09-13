@@ -5,28 +5,28 @@
 <script type="text/javascript">
 	function save() {
 		$("#confirm").val("");
-		$("#confirm_wrap  span").each(function() {
+		$("#confirm_wrap  span.address_list span").each(function() {
 			$("#confirm").val($("#confirm").val() + $(this).attr("emp_no") + '|');
 		})
 
 		$("#confirm_name").val("");
-		$("#confirm_name").val($("#confirm_wrap").html());
+		$("#confirm_name").val($("#confirm_wrap span.address_list").html());
 
 		$("#consult").val("");
-		$("#consult_wrap  span").each(function() {
+		$("#consult_wrap span.address_list span").each(function() {
 			$("#consult").val($("#consult").val() + $(this).attr("emp_no") + '|');
 		})
 
 		$("#consult_name").val("");
-		$("#consult_name").val($("#consult_wrap").html());
+		$("#consult_name").val($("#consult_wrap span.address_list").html());
 
 		$("#refer").val("");
-		$("#refer_wrap  span").each(function() {
+		$("#refer_wrap span.address_list span").each(function() {
 			$("#refer").val($("#refer").val() + $(this).attr("emp_no") + '|');
 		})
 
 		$("#refer_name").val("");
-		$("#refer_name").val($("#refer_wrap").html());
+		$("#refer_name").val($("#refer_wrap span.address_list").html());
 
 		editor.sync();
 		if (check_form("form_data")) {
@@ -124,24 +124,54 @@
 	<div class="form-group col-md-12">
 		<label class="col-md-2 control-label" for="type">裁决步骤：</label>
 		<div class="col-md-10">
-				<div class="address_list" id="confirm_wrap" style="display: block;"></div>
-				<a onclick="popup_flow();" class="btn btn-default">选择裁决条件</a>
+			<div id="confirm_wrap" class="inputbox">
+				<a class="pull-right btn btn-link text-center" onclick="popup_flow();"> <i class="icon-user"></i> </a>
+				<div class="wrap" >
+					<span class="address_list"></span>
+					<span class="text" >
+						<input class="letter" type="text"  >
+					</span>
+				</div>
+				<div class="search dropdown ">
+					<ul class="dropdown-menu"></ul>
+				</div>
+			</div>			
 		</div>
 	</div>
 		
 	<div class="form-group col-md-12">
 		<label class="col-md-2 control-label" for="type">协商步骤：</label>
 		<div class="col-md-10">
-				<div class="address_list" id="confirm_wrap" style="display: block;"></div>
-				<a onclick="popup_flow();" class="btn btn-default">选择协商步骤</a>
+			<div id="consult_wrap" class="inputbox">
+				<a class="pull-right btn btn-link text-center" onclick="popup_flow();"> <i class="icon-user"></i> </a>
+				<div class="wrap" >
+					<span class="address_list"></span>
+					<span class="text" >
+						<input class="letter" type="text"  >
+					</span>
+				</div>
+				<div class="search dropdown ">
+					<ul class="dropdown-menu"></ul>
+				</div>
+			</div>	
 		</div>
 	</div>
 
 	<div class="form-group col-md-12">
 		<label class="col-md-2 control-label" for="type">抄送：</label>
 		<div class="col-md-10">
-				<div class="address_list" id="confirm_wrap" style="display: block;"></div>
-				<a onclick="popup_flow();" class="btn btn-default">选择协商步骤</a>
+			<div id="refer_wrap" class="inputbox">
+				<a class="pull-right btn btn-link text-center" onclick="popup_flow();"> <i class="icon-user"></i> </a>
+				<div class="wrap" >
+					<span class="address_list"></span>
+					<span class="text" >
+						<input class="letter" type="text"  >
+					</span>
+				</div>
+				<div class="search dropdown ">
+					<ul class="dropdown-menu"></ul>
+				</div>
+			</div>	
 		</div>
 	</div>
 		

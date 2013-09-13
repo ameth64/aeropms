@@ -48,10 +48,8 @@ class MailOrganizeAction extends CommonAction {
 	}
 
 	function del() {
-
 		$id = $_REQUEST["id"];
-		$this->destory($id);
-		
+		$this->_destory($id);		
 	}
 }
 ?>

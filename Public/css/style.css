@@ -9,23 +9,42 @@ body {
 }
 	
 body, h1, h2, h3, h4, h5, h6, p, ul, li, ol, dt, dl, input, textarea {
-	font-family: Microsoft YaHei, simsun, Arial, sans-serif;
+	font-family: Microsoft YaHei,simsun,Arial,sans-serif;
 }
-
-.bold{
-	font-weight:bold;
-}
-
 #wrap {
 	margin: 0px auto -60px;
 	padding: 0px 0px 60px;
 	height: auto !important;
 	min-height: 100%;
 }
+
 #footer {
 	height: 60px;
 	background-color: rgb(245, 245, 245);
 }
+
+#push_msg{
+	width:100%;
+	bottom: 0px;
+	position: fixed;
+	z-index: 50;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+}
+#push_msg .alert{
+	min-width:300px;
+	float:right;
+	margin-left:15px;
+	margin-right:15px;
+}
+
+.bold{
+	font-weight:bold;
+}
+
+
 #push {
 	display: none;
 }
@@ -61,6 +80,65 @@ body, h1, h2, h3, h4, h5, h6, p, ul, li, ol, dt, dl, input, textarea {
 		-khtml-text-overflow: ellipsis;  
 		-moz-text-overflow: ellipsis;  
 		-webkit-text-overflow: ellipsis;  
+}
+
+.page {
+	margin-bottom:20px;
+}
+.page input{
+	box-shadow:inset 0px 0px 0px rgba(0,0,0,0.1)
+	color: #3498db;
+	padding-top: 2px;
+	padding-right: 5px;
+	padding-bottom: 2px;
+	padding-left: 5px;
+	text-decoration: none;
+	margin-top: 2px;
+	margin-right: 2px;
+	margin-bottom: 2px;
+	margin-left: 2px;
+	border-top-color: #eee;
+	border-right-color: #eee;
+	border-bottom-color: #eee;
+	border-left-color: #eee;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+}
+
+.page input:hover{
+	BORDER-RIGHT: #3498db 1px solid; BORDER-TOP: rgb(16, 152, 242) 1px solid; BORDER-LEFT: rgb(16, 152, 242) 1px solid; COLOR: #666; BORDER-BOTTOM: rgb(16, 152, 242) 1px solid
+}
+.page input.current{
+	cursor:default;
+	color: #fff;
+	padding-top: 2px;
+	padding-right: 5px;
+	padding-bottom: 2px;
+	padding-left: 5px;
+	font-weight: bold;
+	margin-top: 2px;
+	margin-right: 2px;
+	margin-bottom: 2px;
+	margin-left: 2px;
+	border-top-color: #3498db;
+	border-right-color: #3498db;
+	border-bottom-color: #3498db;
+	border-left-color: #3498db;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	background-color: #3498db;
 }
 
 .col-1 {
@@ -696,82 +774,83 @@ Mail -----------------------------------------------------*/
 						height:16px;
 						float:left;
 				}
-
-.Mail .inputbox {
-	padding:0;
-	margin:0;
-	width:100%;
+.inputbox {
+	float:none;
+	padding:0;	
 	max-height:100px;
-	background: #fff;
 	}
-.Mail .inputbox input{
-	outline: 0;
-	border:0px;
-  -webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.075), 0 0 0px rgba(82, 168, 236, 0.6);
-     -moz-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.075), 0 0 0px rgba(82, 168, 236, 0.6);
-          box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.075), 0 0 0px rgba(82, 168, 236, 0.6);	
-}
-.Mail .inputbox .address_list span{
-	margin-right:5px;
-	padding-top:4px;
-	padding-bottom:4px;
-	background-color:rgb(204, 227, 244);
-}
-span b{
-	font-weight:normal;
-}
-span.address_list span b{
-	position:static;
-	font-weight: normal;
-	padding-top:4px;
-	margin-left:0px;
-	padding-bottom:4px;
-	padding-left:5px;
-	padding-right:5px;
-	vertical-align:bottom;
-}
-span.address_list .del{
-	font-weight:bold;
-	padding-top:4px;
-	padding-bottom:4px;
-	padding-left:3px;
-	padding-right:3px;
-	color:#666;
-}
-span.address_list .del:hover{
-	background-color:#ccc;
-	color:red;
-}
-.Mail .inputbox.form-control{
-	border: 0px;
-}
-.Mail .inputbox .wrap{
+.inputbox .wrap{
+	background: #fff;	
+	overflow:hidden;
+	display:block;
+	float:none;
+	width:auto;	
 	line-height: 32px;
 	padding-left:5px;
-	margin:0;
 	min-height:32px;
 	border:1px solid #ccc;
 	  -webkit-border-radius: 4px;
 	     -moz-border-radius: 4px;
 	          border-radius: 4px;	
 }
-.Mail .inputbox span.text{
+
+.inputbox input{
+	outline: 0;
+	border:0px;
+  -webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.075), 0 0 0px rgba(82, 168, 236, 0.6);
+     -moz-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.075), 0 0 0px rgba(82, 168, 236, 0.6);
+          box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.075), 0 0 0px rgba(82, 168, 236, 0.6);	
+}
+.inputbox .address_list span{
+	margin-right:5px;
+	padding-top:4px;
+	padding-bottom:4px;
+	background-color:rgb(204, 227, 244);
+}
+.inputbox span.address_list span b{
+	position:static;
+	font-weight: normal;
+	padding-top:4px;
+	margin-left:0px;
+	padding-bottom:4px;
+	padding-left:5px;
+	padding-right:0px;
+	vertical-align:bottom;
+}
+.inputbox. span.address_list .del{
+	cursor:default;
+	font-weight:bold;
+	padding-top:4px;
+	padding-bottom:4px;
+	padding-left:4px;
+	padding-right:4px;
+	color:#666;
+}
+.inputbox. span.address_list .del:hover{
+	background-color:#ccc;
+	color:red;
+}
+.inputbox.form-control{
+	border: 0px;
+}
+
+ .inputbox span.text{
 	height: 28px;
 	line-height: 28px;
 	width:auto;
 }
-.Mail .inputbox .text input{
+.inputbox .text input{
 	padding-left:0px;
 	padding-top:0px;
 	padding-bottom:0px;
 	margin:0;
 }
-.Mail	input.letter {
+ input.letter {
 	border:0;
 	display:inline-block;
 	width:auto;
 }
-.Mail	 div.address_list{
+div.address_list{
 	background:#fff;
 	border:1px solid #cccccc;
 }
@@ -1164,13 +1243,13 @@ span.address_list .del:hover{
 }
 
 .container.popup {	
-	padding-left:0px;
-	padding-right:0px;
+	padding-left:15px;
+	padding-right:15px;
 	margin-top: 15px;
-	width:700px;
+	max-width:700px;
 }
 .popup .panel{
-	margin-bottom:0px;
+	margin-bottom:15px;
 }
 .popup .popup_tree_menu div{
 	overflow-x:hidden;

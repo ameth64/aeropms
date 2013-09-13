@@ -1,8 +1,7 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang='en'>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta name="keywords" content="keywords" />
-		<meta name="description" content="description" />
+		<meta charset='utf-8' />
 		<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
 		<script type="text/javascript">
 			var flag = true;
@@ -21,8 +20,8 @@
 			function hide_msg($obj) {
 				runing = true;
 				setTimeout(function() {
-					$($obj).find("h4:first").remove();
-					if ($($obj).find("h4:first").length) {
+					$($obj).find("div.alert").remove();
+					if ($($obj).find("div.alert").length) {
 						hide_msg($obj);
 					} else {
 						runing = false;
@@ -32,8 +31,8 @@
 
 			function show_msg(info) {
 				if (info != "no-data") {
-					html = "<h4><button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button><span>" + info + "</span></h4>"
-					$obj = $(".msg", parent.document);
+					html = "<div class=\"col-md-3 alert alert-info fade in\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button><span>" + info + "</span></div>"
+					$obj = $("#push_msg", parent.document);
 					$obj.prepend(html);
 					if (runing == false) {
 						hide_msg($obj);
@@ -56,5 +55,4 @@
 
 		</script>
 	</head>
-	<body></body>
 </html>
