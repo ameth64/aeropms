@@ -149,7 +149,6 @@ class DocAction extends CommonAction {
 	}
 
 	function down() {
-		$this->down();
+		$this->_down();
 	}
-
 }
