@@ -4,7 +4,7 @@
 <script type="text/javascript">
 	
 	function popup_actor(){
-		winopen("{:U("popup/actor")}",800,574);
+		winopen("{:U("popup/actor")}",730,574);
 	}
 
 	function save() {
@@ -72,7 +72,7 @@
 		<label class="col-md-4 control-label" for="name">开始时间*：</label>
 		<div class="col-md-8">
 			<input value="{$vo.start_date}" type="text" id="start_date" name="start_date" readonly="readonly" class="form-control input-date"   check="require" msg="请输入开始日期">
-			<select id="start_time" name="start_time" class="form-control input-sm"></select>
+			<select id="start_time" name="start_time" class="form-control"></select>
 		</div>
 	</div>
 
@@ -81,12 +81,12 @@
 		<div class="col-md-8">
 			<input value="{$vo.end_date}" type="text" id="end_date" name="end_date" readonly="readonly"
 			class="form-control input-date" check="require" msg="请输入结束日期">
-			<select id="end_time" name="end_time" class="form-control input-sm"></select>
+			<select id="end_time" name="end_time" class="form-control"></select>
 		</div>
 	</div>
 
 	<div class="form-group col-md-6">
-		<label class="col-md-4 control-label" for="location">地点*：</label>
+		<label class="col-md-4 control-label" for="location">地点：</label>
 		<div class="col-md-8">
 			<input class="form-control" {$vo.location}" type="text" id="location" name="location">
 		</div>
@@ -95,21 +95,23 @@
 	<div class="form-group col-md-6">
 		<label class="col-md-4 control-label" for="location">优先级：</label>
 		<div class="col-md-8">
-			<input type="hidden" id="priority" name="priority"/>
-			<div  class="slider_box" >
-				<div class="left" style="padding-right:12px">
-					低
-				</div>
-				<div id="slider-range-priority"></div>
-				<div class="left"  style="padding-left:12px">
-					高
+			<div class="form-control-static" >
+				<input type="hidden" id="priority" name="priority"/>
+				<div  class="slider_box" >
+					<div class="left" >
+						低
+					</div>
+					<div id="slider-range-priority"></div>
+					<div class="right" >
+						高
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<div class="form-group">
-		<label class="col-md-2 control-label" for="location">参与人员*：</label>
+		<label class="col-md-2 control-label" for="location">参与人员：</label>
 		<div class="col-md-10">
 			<div id="actor_wrap" class="inputbox">
 				<a class="pull-right btn btn-link text-center" onclick="popup_actor();"> <i class="icon-user"></i> </a>
@@ -127,7 +129,7 @@
 	</div>
 
 	<div class="form-group">
-		<label class="col-md-2 control-label" >附件*：</label>
+		<label class="col-md-2 control-label" >附件：</label>
 		<div class="col-md-10">
 			<include file="Layout:uploader" />
 		</div>

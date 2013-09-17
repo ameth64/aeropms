@@ -101,7 +101,7 @@
 						<input  class="form-control" type="text"  onkeydown="key_search_2();" name="keyword" id="keyword"/>
 						<div class="input-group-btn">
 							<a class="btn btn-default" onclick="btn_search();" > <i class="icon-search" ></i> </a>
-							<a class="btn btn-default" onclick="open_search();" ><i class="icon-angle-down" ></i></a>
+							<a class="btn btn-default" onclick="open_adv_search();" ><i class="icon-angle-down" ></i></a>
 						</div>
 					</div>
 				</div>
@@ -114,7 +114,7 @@
 				<h4 class="col-md-6">高级搜索</h4>
 				<div class="col-md-6 text-right">
 					<a  class="btn btn-default" onclick="adv_search();">搜索</a>
-					<a  class="btn btn-default" onclick="close_search();">关闭</a>
+					<a  class="btn btn-default" onclick="close_adv_search();">关闭</a>
 				</div>
 			</div>
 		</div>
@@ -209,7 +209,7 @@
 						<span  class="checkbox" >
 							<input name="mail_id[]" type="checkbox" value="{$vo.id}"/>
 						</span>
-						<span class="col-12">
+						<span class="col-20 autocut">
 							<in name="folder" value="darftbox,outbox">
 								{$vo.to|show_contact}
 								<else/>

@@ -43,6 +43,7 @@ class NodeModel extends CommonModel {
 		$sql.="		AND c.pid = 0 ";
 		$sql.="		ORDER BY c.sort asc";
 		$rs = $this->db->query($sql);
+		//dump($sql);
 		return $rs;
 	}
 }

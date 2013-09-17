@@ -1,12 +1,12 @@
 <?php
 class PostAction extends CommonAction {
-	protected $config=array('app_type'=>'public');
+	protected $config=array('app_type'=>'asst');
 	//过滤查询字段
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
 	}
 
-	public function del() {
+	public function del(){
 		$id = $_POST['id'];
 		$user_id = get_user_id();
 		$post_user_id = M("Post") -> where($where) -> getfield('user_id');

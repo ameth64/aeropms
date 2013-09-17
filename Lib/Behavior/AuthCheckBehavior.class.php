@@ -12,12 +12,17 @@ class AuthCheckBehavior extends Behavior {
 		 $this->config=&$params;
 		 
 		 $app_type=$params['app_type'];		 
-		 switch ($app_type){
+		 switch($app_type){
 			 case 'public':
+					$auth=array('admin'=>false,'write'=>false,'read'=>true);
+					$params['auth']=$auth;
+					return true;
+					break;
+			 case 'asst':
 					$auth=array('admin'=>true,'write'=>true,'read'=>true);
 					$params['auth']=$auth;
 					return true;
-					break;			 
+					break;
 
 			 case 'personal':
 

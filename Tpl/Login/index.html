@@ -1,4 +1,6 @@
 <layout name='Layout/layout_page' />
+<div class="container">
+	<!-- /container -->
 	<div class="row">
 		<div class="col-md-12 hidden-xs" style="margin-top:120px;"></div>
 	</div>
@@ -6,60 +8,78 @@
 		<div class="col-md-8 hidden-xs">
 			<div class="img" ></div>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-4 well">
 			<div style="margin-bottom:44px">
 				<h1 class="text-center">{:get_system_config("SYSTEM_NAME")} </h1>
 			</div>
 			<form method="post" id="form_login" class="form-horizontal">
 				<div class="form-group">
-					<label class="col-md-3 col-md-2 control-label" for="emp_no">帐号：</label>
+					<label class="col-md-3  control-label" for="emp_no">帐号：</label>
 					<div class="col-md-9">
 						<input class="form-control" id="emp_no"  name="emp_no"/>
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-3 col-md-2 control-label" for="password">密码：</label>
+					<label class="col-md-3  control-label" for="password">密码：</label>
 					<div class="col-md-9">
 						<input class="form-control" id="password" type="password" name="password"/>
 					</div>
 				</div>
 				<div class="form-group">
+					<span class="col-md-3  control-label" ></span>
+					<div class="col-md-9">
+						<span class="checkbox" >
+							<input type="checkbox" value="remember-me" id="remember-me">
+						</span><label for="remember-me" >记住我的登录状态</label>
+					</div>
+				</div>
+
+				<div class="form-group">
 					<div class="col-md-offset-3 col-md-9">
-						<input type="button" value="登录" onclick="login();" class="btn btn-default">
+						<input type="button" value="登录" onclick="login();" class="btn btn-lg btn-primary">
 					</div>
 				</div>
 			</form>
-			<span>用户名：admin 密码：admin</span>
+			<p>
+				用户名：admin 密码：admin
+			</p>
+			<p>
+				&nbsp;
+			</p>
+			<p>
+				&nbsp;
+			</p>			
 		</div>
 	</div>
 	<div class="row">
+
 		<div class="col-md-8">
-			<span>©2012 SMEOA 小薇企业信息化交流群：137109597</span>
+			<span>©2012 SMEOA 小微OA开源交流群：137109597</span>
 		</div>
-		<div class="col-md-4">
-			<span> <a href="">帮助中心</a> </span>
-			<span> <a href="">反馈</a> </span>
+
+		<div class="col-md-4 text-right">
+			<span> <a href="//www.smeoa.com/doc/">文档</a> </span>&nbsp;&nbsp;&nbsp;&nbsp; <span> <a title="点击这里给我发消息" href="http://wpa.qq.com/msgrd?v=3&uin=1006666005&site=qq&menu=yes" target="_blank"><img title="点击这里给我发消息" alt="点击这里给我发消息" src="http://wpa.qq.com/pa?p=2:1006666005:52" border="0" />&nbsp;在线咨询</a></span>
 		</div>
 	</div>
-<script src="__PUBLIC__/js/bootstrap.min.js"></script>
-<script src="__PUBLIC__/js/common.js"></script>
-<script type="text/javascript">
-	function login() {
-		if (check_form("form_login")) {
-			$("#form_login").attr("action", "{:U('login/check_login')}");
-			$("#form_login").submit();
-		}
-	}
-
-
-	$(document).ready(function() {
-		$("#password").keydown(function(event) {
-			if (event.keyCode == 13) {
-				if (check_form("form_login")) {
-					sendForm("form_login", "{:U('login/check_login')}");
-					return false;
-				}
+	<script src="__PUBLIC__/js/bootstrap.min.js"></script>
+	<script src="__PUBLIC__/js/common.js"></script>
+	<script type="text/javascript">
+		function login() {
+			if (check_form("form_login")) {
+				$("#form_login").attr("action", "{:U('login/check_login')}");
+				$("#form_login").submit();
 			}
+		}
+
+
+		$(document).ready(function() {
+			$("#password").keydown(function(event) {
+				if (event.keyCode == 13) {
+					if (check_form("form_login")) {
+						sendForm("form_login", "{:U('login/check_login')}");
+						return false;
+					}
+				}
+			})
 		})
-	})
-</script>
+	</script>

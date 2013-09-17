@@ -14,23 +14,23 @@
 	};
 
 	function showdata(result) {
-		$(".wrap .tree_menu input").each(function() {
-			$(this).attr("checked", false);
+		$(".wrap .tree_menu input").each(function() {			
+			$(this).iCheck('uncheck');
 			$(this).parents("td").removeClass("active");
 		});
 		for (var s in result.data) {
-			$(".wrap .tree_menu input[name='node_id'][value=" + result.data[s].node_id + "]").attr("checked", true);
+			$(".wrap .tree_menu input[name='node_id'][value=" + result.data[s].node_id + "]").iCheck('check');
 
 			if (result.data[s].admin == 1) {
-				$(".wrap .tree_menu input[name='admin[]'][value=" + result.data[s].node_id + "]").attr("checked", true);
+				$(".wrap .tree_menu input[name='admin[]'][value=" + result.data[s].node_id + "]").iCheck('check');
 				$(".wrap .tree_menu input[name='admin[]'][value=" + result.data[s].node_id + "]").parents("td").addClass("active");
 			}
 			if (result.data[s].write == 1) {
-				$(".wrap .tree_menu input[name='write[]'][value=" + result.data[s].node_id + "]").attr("checked", true);
+				$(".wrap .tree_menu input[name='write[]'][value=" + result.data[s].node_id + "]").iCheck('check');
 				$(".wrap .tree_menu input[name='write[]'][value=" + result.data[s].node_id + "]").parents("td").addClass("active");
 			}
 			if (result.data[s].read == 1) {
-				$(".wrap .tree_menu input[name='read[]'][value=" + result.data[s].node_id + "]").attr("checked", true);
+				$(".wrap .tree_menu input[name='read[]'][value=" + result.data[s].node_id + "]").iCheck('check');
 				$(".wrap .tree_menu input[name='read[]'][value=" + result.data[s].node_id + "]").parents("td").addClass("active");
 			}
 			$(".wrap .tree_menu input[node=" + result.data[s].node_id + "]").parents("td").addClass("active");
@@ -54,22 +54,23 @@
 			return false;
 		})
 
-		$(".wrap .tree_menu input").click(function(event) {
-			if ($(this).attr("checked") == "checked") {
-				$(this).parents("td").addClass("active");
-			} else {
-				$(this).parents("td").removeClass("active");
-			}
-			event.stopPropagation();
+		$(".wrap .tree_menu input").on('ifChecked',function(event) {
+			$(this).parents("td").addClass("active");
+			event.stopPropagation();		
 		})
-
+		
+		$(".wrap .tree_menu input").on('ifUnchecked',function(event) {
+			$(this).parents("td").removeClass("active");
+			event.stopPropagation();		
+		})
+				
 		$(".wrap .tree_menu  td").click(function() {
 			if ($(this).find("input").attr("checked") == "checked") {
-				$(this).find("input").attr("checked", false);
+				$(this).find("input").iCheck('uncheck');
 				$(this).removeClass("active");
 			} else {
 				if ($(this).find("input").length > 0) {
-					$(this).find("input").attr("checked", true);
+					$(this).find("input").iCheck('check');
 					$(this).addClass("active");
 				}
 			}

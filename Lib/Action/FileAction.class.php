@@ -1,5 +1,6 @@
 <?php
 class FileAction extends CommonAction {
+	protected $config=array('app_type'=>'asst');
 	//过滤查询字段
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');

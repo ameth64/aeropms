@@ -365,13 +365,14 @@ class CommonAction extends Action {
 			$list = $top_menu_list;
 		} else {
 			$list = $model -> get_top_menu();
+			
 			if (empty($list)) {
 				$this -> assign('jumpUrl', U("Login/logout"));
 				$this -> error("没有权限");
 			}
 			session('top_menu' . $user_id, $list);
 		}
-
+		//dump($list);
 		$this -> assign('list_top_menu', $list);
 
 		if (!session('menu' . $user_id)) {

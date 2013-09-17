@@ -95,7 +95,7 @@ class ForumAction extends CommonAction {
 		$where = array();
 		$folder_id = $map['folder'];		
 		$where['id'] = array('eq', $folder_id);
-		$folder_name = M("Folder") -> where($where) -> getField("name");
+		$folder_name = M("SystemFolder") -> where($where) -> getField("name");
 		$this -> assign("folder_name", $folder_name);
 
 		//$this -> _assign_folder_list('/forum/folder/');

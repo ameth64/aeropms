@@ -1,6 +1,6 @@
 <?php
 class SystemTagAction extends CommonAction {
-	protected $config=array('app_type'=>'public');
+	protected $config=array('app_type'=>'asst');
 		
 	function _search_filter(&$map) {
 		if (!empty($_POST['keyword'])) {

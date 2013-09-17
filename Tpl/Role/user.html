@@ -26,10 +26,10 @@
 
 	function showdata(result) {
 		$("input[name='role_list[]']").each(function() {
-			$(this).attr("checked", false);
+			$(this).iCheck('uncheck');
 		});
 		for (var s in result.data) {
-			$("#role_" + result.data[s].role_id).attr("checked", "checked");
+			$("#role_" + result.data[s].role_id).iCheck('check');
 		}
 	}
 
@@ -51,14 +51,12 @@
 			<h3 class="col-md-8">用户管理</h3>
 			<div class="col-md-4 pull-right">
 				<div class="search_box">
-					<form id="form_search" name="form_data" method='post'>
-						<div class="input-group ">
-							<input  class="form-control" type="text"  onkeydown="key_search();" name="keyword" id="keyword"/>
-							<div class="input-group-btn">
-								<a class="btn btn-default" onclick="btn_search();" > <i class="icon-search" ></i> </a>
-							</div>
+					<div class="input-group ">
+						<input  class="form-control" type="text"  onkeydown="key_search();" name="keyword" id="keyword"/>
+						<div class="input-group-btn">
+							<a class="btn btn-default" onclick="btn_search();" > <i class="icon-search" ></i> </a>
 						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -72,13 +70,14 @@
 	</div>
 </div>
 <!-- 列表显示区域  -->
-<form id="form_data" name="form_data"method="post" >
-	<div class="row">
-		<div class="col-md-8 sub_left_menu">
+
+<div class="row">
+	<div class="col-md-8 sub_left_menu">
+		<form id="form_data" name="form_data"method="post" >
 			<table class="table table-bordered">
 				<thead>
 					<tr>
-						<th>
+						<th class="text-center">
 						<input  type="checkbox" id="chk_select_all" value="all" onclick="select_all('emp_id[]')"/>
 						</th>
 						<th>
@@ -110,10 +109,9 @@
 				<tbody>
 					<volist name="user_list" id="data">
 						<tr id="{$data.id}">
-							<td style="text-align: center">
-							<div class="chk_wrap">
-								<input type="checkbox" name="emp_id[]" value="{$data.id}">
-							</div></td>
+							<td class="text-center">
+							<input type="checkbox" name="emp_id[]" value="{$data.id}">
+							</td>
 							<td>
 							<nobr>
 								{$data.emp_no}
@@ -142,30 +140,31 @@
 					</volist>
 				</tbody>
 			</table>
-		</div>
-		<div class="col-md-4 sub_content">
-			<input type="hidden" name="id" id="id">
-			<input type="hidden" name="pid" id="pid" value="">
-			<input type="hidden" name="ajax" id="ajax" value="1">
-			<input type="hidden" name="opmode" id="opmode" value="">
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th>&nbsp;</th>
-						<th>名称</th>
-					</tr>
-				</thead>
-				<tbody>
-					<volist name="role_list" id="data">
-						<tr id="{$data.id}">
-							<td>
-							<input type="checkbox" id="role_{$data.id}" name="role_list[]" value="{$data.id}">
-							</td>
-							<td>{$data.name}</td>
-						</tr>
-					</volist>
-				</tbody>
-			</table>
-		</div>
 	</div>
-</form>
+	<div class="col-md-4 sub_content">
+		<input type="hidden" name="id" id="id">
+		<input type="hidden" name="pid" id="pid" value="">
+		<input type="hidden" name="ajax" id="ajax" value="1">
+		<input type="hidden" name="opmode" id="opmode" value="">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>&nbsp;</th>
+					<th>名称</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="role_list" id="data">
+					<tr id="{$data.id}">
+						<td>
+						<input type="checkbox" id="role_{$data.id}" name="role_list[]" value="{$data.id}">
+						</td>
+						<td>{$data.name}</td>
+					</tr>
+				</volist>
+			</tbody>
+		</table>
+		</form>
+	</div>
+</div>
+
