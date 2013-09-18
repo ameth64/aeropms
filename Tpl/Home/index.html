@@ -20,18 +20,18 @@
 						<ul>
 							<volist name="new_mail_list" id="vo">
 								<li>
-									<span class="pull-right hidden-phone">{$vo.create_time|toDate='m-d h:m'}</span>
-									<span  class="auto autocut"><a href="{:U('mail/read?id='.$vo['id'])}" node="85" return_url="{:U('mail/mail_list?folder=inbox')}">{$vo.title}</a> </span>
+									<span class="pull-right hidden-phone">{$vo.create_time|toDate='m-d'}</span>
+									<span  class="auto autocut"><a href="{:U('mail/read?id='.$vo['id'])}" node="85" return_url="{:U('mail/folder/?fid=inbox')}">{$vo.name}</a></span>
 								</li>
 							</volist>
 						</ul>
 					</div>
-					<div class="tab-pane sortable" id="tab2">
+					<div class="col-md-12 tab-pane sortable" id="tab2">
 						<ul>
 							<volist name="unread_mail_list" id="vo">
 								<li>
-									<span class="pull-right hidden-phone">{$vo.create_time|toDate='m-d h:m'}</span>
-									<span  class="auto autocut"> <a href="{:U('flow/read?id='.$vo['id'])}" node="87" return_url="{:U('flow/flow_list?folder=submit')}">{$vo.title}</a> </span>
+									<span class="pull-right hidden-phone">{$vo.create_time|toDate='m-d '}</span>
+									<span  class="auto autocut"> <a href="{:U('mail/read?id='.$vo['id'])}" node="85" return_url="{:U('mail/folder/?fid=inbox')}">{$vo.name}</a> </span>
 								</li>
 							</volist>
 						</ul>
@@ -61,8 +61,8 @@
 						<ul>
 							<volist name="todo_flow_list" id="vo">
 								<li>
-									<span class="pull-right hidden-phone">{$vo.create_time|toDate='m-d h:m'}</span>
-									<span  class="auto autocut"> <a href="{:U('flow/read?id='.$vo['id'])}" node="87" return_url="{:U('flow/flow_list?folder=confirm')}">{$vo.title}</a> </span>
+									<span class="pull-right hidden-phone">{$vo.create_time|toDate='m-d'}</span>
+									<span  class="auto autocut"> <a href="{:U('flow/read?id='.$vo['id'])}" node="87" return_url="{:U('flow/folder?fid=confirm')}">{$vo.name}</a> </span>
 								</li>
 							</volist>
 						</ul>
@@ -71,8 +71,8 @@
 						<ul>
 							<volist name="submit_flow_list" id="vo">
 								<li>
-									<span class="pull-right hidden-phone">{$vo.create_time|toDate='m-d h:m'}</span>
-									<span  class="auto autocut"> <a href="{:U('flow/read?id='.$vo['id'])}" node="87" return_url="{:U('flow/flow_list?folder=submit')}">{$vo.title}</a> </span>
+									<span class="pull-right hidden-phone">{$vo.create_time|toDate='m-d'}</span>
+									<span  class="auto autocut"> <a href="{:U('flow/read?id='.$vo['id'])}" node="87" return_url="{:U('flow/folder?fid=submit')}">{$vo.name}</a> </span>
 								</li>
 							</volist>
 						</ul>
@@ -87,32 +87,14 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<b>文档</b>
-				<ul class="col-md-6 nav nav-tabs pull-right" >
-					<li class="active" >
-						<a href="#tab5" data-toggle="tab" >待办</a>
-					</li>
-					<li>
-						<a href="#tab6" data-toggle="tab">已提交</a>
-					</li>
-				</ul>
 			</div>
 			<div class="panel-body">
 				<div class="tab-content row  ul-table">
 					<div class="col-md-12 tab-pane active sortable" id="tab3">
 						<ul>
-							<volist name="common_list" id="vo">
+							<volist name="doc_list" id="vo">
 								<li>
-									<span class="pull-right hidden-phone">{$vo.create_time|toDate='m-d h:m'}</span>
-									<span  class="auto autocut"> <a href="{:U('doc/read?id='.$vo['id'])}" node="88" return_url="{:U('doc/index')}">{$vo.name}</a> </span>
-								</li>
-							</volist>
-						</ul>
-					</div>
-					<div class="col-md-12 tab-pane sortable" id="tab4">
-						<ul>
-							<volist name="common_list" id="vo">
-								<li>
-									<span class="pull-right hidden-phone">{$vo.create_time|toDate='m-d h:m'}</span>
+									<span class="pull-right hidden-phone">{$vo.create_time|toDate='m-d'}</span>
 									<span  class="auto autocut"> <a href="{:U('doc/read?id='.$vo['id'])}" node="88" return_url="{:U('doc/index')}">{$vo.name}</a> </span>
 								</li>
 							</volist>
@@ -122,18 +104,17 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- 文档-->
+		
 	<div class="col-md-6 tab_box" sort="4">
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<b>日程</b>
 				<ul class="col-md-6 nav nav-tabs pull-right" >
 					<li class="active" >
-						<a href="#tab7" data-toggle="tab" >待办</a>
+						<a href="#tab7" data-toggle="tab" >日历</a>
 					</li>
 					<li>
-						<a href="#tab8" data-toggle="tab">日历</a>
+						<a href="#tab8" data-toggle="tab">待办</a>
 					</li>
 				</ul>
 			</div>
@@ -177,7 +158,7 @@
 							<volist name="new_notice_list" id="vo">
 								<li>
 									<span class="pull-right hidden-phone">{$vo.create_time|toDate='m-d'}</span>
-									<span  class="auto autocut"> <a href="{:U('notice/read?id='.$vo['id'])}" node="83" return_url="{:U('notice/index')}">{$vo.title}</a> </span>
+									<span  class="auto autocut"> <a href="{:U('notice/read?id='.$vo['id'])}" node="83" return_url="{:U('notice/index')}">{$vo.name}</a> </span>
 								</li>
 							</volist>
 						</ul>
@@ -200,7 +181,7 @@
 							<volist name="new_forum_list" id="vo">
 								<li>
 									<span class="pull-right hidden-phone">{$vo.create_time|toDate='m-d'}</span>
-									<span  class="auto autocut"> <a href="{:U('forum/read?id='.$vo['id'])}"  node="83" return_url="{:U('forum/index')}">{$vo.title}</a> </span>
+									<span  class="auto autocut"> <a href="{:U('forum/read?id='.$vo['id'])}"  node="83" return_url="{:U('forum/index')}">{$vo.name}</a> </span>
 								</li>
 							</volist>
 						</ul>

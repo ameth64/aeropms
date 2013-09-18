@@ -34,9 +34,9 @@
 		</div>
 		<div class="panel-body">
 			<div class="form-group col-md-6">
-				<label class="col-md-4 control-label" for="li_title">标题：</label>
+				<label class="col-md-4 control-label" for="li_name">标题：</label>
 				<div class="col-md-8">
-					<input  class="form-control" type="text" id="li_title" name="li_title" >
+					<input  class="form-control" type="text" id="li_name" name="li_name" >
 				</div>
 			</div>
 
@@ -92,7 +92,7 @@
 				<span class="col-9 pull-right text-center">&nbsp;{$vo.create_time|toDate='Y-m-d'}&nbsp;</span>
 				<span class="col-6 right text-center">{$vo.user_name}</span>
 				<div class="auto autocut">
-					<a href="{:U('read?id='.$vo['id'])}"> {$vo.title}
+					<a href="{:U('read?id='.$vo['id'])}"> {$vo.name}
 					<eq name="vo.title|strlen" value="0">
 						无标题
 					</eq> </a>

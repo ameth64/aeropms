@@ -8,9 +8,9 @@ class MailAction extends CommonAction {
 	function _search_filter(&$map){
 		$map['is_del'] = array('eq', '0');
 		$map['user_id'] = array('eq', get_user_id());
-		if (!empty($_REQUEST['keyword']) && empty($map['title'])) {
+		if (!empty($_REQUEST['keyword']) && empty($map['name'])) {
 			$this -> _set_search("keyword", $_POST['keyword']);
-			$map['title'] = array('like', "%" . $_POST['keyword'] . "%");
+			$map['name'] = array('like', "%" . $_POST['keyword'] . "%");
 		}
 	}
 
@@ -192,7 +192,7 @@ class MailAction extends CommonAction {
 	//--------------------------------------------------------------------
 	public function send() {
 		$this -> _get_mail_account();
-		$title = $_REQUEST['title'];
+		$title = $_REQUEST['name'];
 		$body = $_REQUEST['content'];
 		$add_file = $_REQUEST['add_file'];
 
@@ -632,10 +632,10 @@ class MailAction extends CommonAction {
 		$where['_string'] = "create_time>$create_time";
 		$where['user_id'] = array('eq', get_user_id());
 
-		$prev = $model -> where($where) -> field("id,title") -> order('create_time asc') -> limit('1') -> select();
+		$prev = $model -> where($where) -> field("id,name") -> order('create_time asc') -> limit('1') -> select();
 		if ($prev) {
 			$prev_id = $prev[0]["id"];
-			$title = $prev[0]["title"];
+			$title = $prev[0]["name"];
 			$url = U('mail/read?id=' . $prev_id);
 			$prev_html = "<a id=\"prev_link\" class=\"btn btn-default\" href=\"$url\" title=\"$title\">上一封</a>";
 		} else {
@@ -647,11 +647,11 @@ class MailAction extends CommonAction {
 		$where['_string'] = "create_time<$create_time";
 		$where['user_id'] = array('eq', get_user_id());
 
-		$next = $model -> where($where) -> field("id,title") -> order('create_time desc') -> limit('1') -> select();
+		$next = $model -> where($where) -> field("id,name") -> order('create_time desc') -> limit('1') -> select();
 
 		if ($next) {
 			$next_id = $next[0]["id"];
-			$title = $next[0]["title"];
+			$title = $next[0]["name"];
 			$url = U('mail/read?id=' . $next_id);
 			$next_html = "<a id=\"next_link\" class=\"btn btn-default\" href=\"$url\" title=\"$title\">下一封</a>";
 		} else {

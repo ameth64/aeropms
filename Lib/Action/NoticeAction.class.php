@@ -6,8 +6,8 @@ class NoticeAction extends CommonAction {
 	//过滤查询字段
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
-		if (!empty($_REQUEST['keyword']) && empty($map['title'])) {
-			$map['title'] = array('like', "%" . $_POST['keyword'] . "%");
+		if (!empty($_REQUEST['keyword']) && empty($map['name'])) {
+			$map['name'] = array('like', "%" . $_POST['keyword'] . "%");
 		}
 	}
 

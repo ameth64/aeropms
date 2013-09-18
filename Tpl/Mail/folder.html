@@ -120,7 +120,7 @@
 		</div>
 		<div class="panel-body">
 			<div class="form-group col-md-6">
-				<label class="col-md-4 control-label" for="li_name">文件名：</label>
+				<label class="col-md-4 control-label" for="li_name">主题：</label>
 				<div class="col-md-8">
 					<input  class="form-control" type="text" id="li_name" name="li_name" >
 				</div>
@@ -133,15 +133,24 @@
 				</div>
 			</div>
 
-			<div class="form-group col-md-6">
-				<label class="col-md-4 control-label" for="eq_user_name">登录人：</label>
-				<div class="col-md-8">
-					<input  class="form-control" type="text" id="eq_user_name" name="eq_user_name" >
+			<in name="folder" value="darftbox,outbox">
+				<div class="form-group col-md-6">
+					<label class="col-md-4 control-label" for="li_to">收件人：</label>
+					<div class="col-md-8">
+						<input  class="form-control" type="text" id="li_to" name="li_to" >
+					</div>
 				</div>
-			</div>
+				<else/>
+				<div class="form-group col-md-6">
+					<label class="col-md-4 control-label" for="li_from">发件人：</label>
+					<div class="col-md-8">
+						<input  class="form-control" type="text" id="li_from" name="li_from" >
+					</div>
+				</div>
+			</in>
 
 			<div class="form-group col-md-6">
-				<label class="col-md-4 control-label" for="be_create_time">登录时间：</label>
+				<label class="col-md-4 control-label" for="be_create_time">时间：</label>
 				<div class="col-md-8">
 					<input  class="form-control input-date" type="text" name="be_create_time" id="be_create_time"    readonly="readonly">
 					-
@@ -190,7 +199,7 @@
 					收件人
 					<else/>
 					发件人
-				</in> </span>
+				</in></span>
 			<span class="col-9 pull-right text-center" >时间</span>
 			<span class="autocut auto">主题</span>
 		</li>
@@ -223,13 +232,13 @@
 								<i class="icon-paper-clip" style="text-indent:-9999px;"></i>
 							</notempty>
 							<in name="folder" value="darftbox">
-								<a  title="{$vo.title|htmlspecialchars}" href="{:U('edit?id='.$vo['id'])}"> {$vo.title}&nbsp;&nbsp;&nbsp;
-								<eq name="vo.title|strlen" value="0">
+								<a  title="{$vo.name|htmlspecialchars}" href="{:U('edit?id='.$vo['id'])}"> {$vo.name}&nbsp;&nbsp;&nbsp;
+								<eq name="vo.name|strlen" value="0">
 									无标题
 								</eq> </a>
 								<else/>
-								<a title="{$vo.title|htmlspecialchars}" href="{:U('read?id='.$vo['id'])}"> {$vo.title}&nbsp;&nbsp;&nbsp;
-								<eq name="vo.title|strlen" value="0">
+								<a title="{$vo.name|htmlspecialchars}" href="{:U('read?id='.$vo['id'])}"> {$vo.name}&nbsp;&nbsp;&nbsp;
+								<eq name="vo.name|strlen" value="0">
 									无标题
 								</eq> </a>
 							</in> </span>

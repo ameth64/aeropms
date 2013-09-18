@@ -1,5 +1,6 @@
 <?php
 class CommonAction extends Action {
+	public $_where;
 	/**
 	 *  1. 确认SESSION
 	 *  2. 确认权限
@@ -247,6 +248,9 @@ class CommonAction extends Action {
 		}
 	}
 
+	protected function _set_search($key, $val) {
+		$this -> _where[$key] = $val;
+	}
 	//生成查询条件
 	protected function _search($name = '', $view = false) {
 		$map = array();
@@ -266,10 +270,10 @@ class CommonAction extends Action {
 			}
 			if (substr($val, 0, 3) == "be_") {
 				if (isset($_REQUEST["en_" . substr($val, 3)])) {
-					if (strpos($val, "date")) {
+					if (strpos($val, "time")) {
 						$map[substr($val, 3)] = array( array('egt', date_to_int(trim($_REQUEST[$val]))), array('elt', date_to_int(trim($_REQUEST["en_" . substr($val, 3)]))));
 					}
-					if (strpos($val, "time")) {
+					if (strpos($val, "date")) {
 						$map[substr($val, 3)] = array( array('egt', trim($_REQUEST[$val])), array('elt', trim($_REQUEST["en_" . substr($val, 3)])));
 					}
 				}
@@ -326,7 +330,7 @@ class CommonAction extends Action {
 			//分页查询数据
 			$voList = $model -> where($map) -> order("`" . $order . "` " . $sort) -> limit($p -> firstRow . ',' . $p -> listRows) -> select();
 
-			$p -> parameter = $this -> _search;
+			$p -> parameter = $this -> _search();
 			//分页显示
 			$page = $p -> show();
 			

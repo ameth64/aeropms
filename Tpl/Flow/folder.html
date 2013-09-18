@@ -95,9 +95,9 @@
 		<span class="col-9 pull-right  text-center"> {$vo.create_time|toDate='Y-m-d'} </span>
 		<span class="autocut auto">
 			<in name="folder" value="darft">
-				<a href="{:U('edit?id='.$vo['id'])}">{$vo.title}
+				<a href="{:U('edit?id='.$vo['id'])}">{$vo.name}
 				<else/>
-				<a href="{:U('read?id='.$vo['id'])}">{$vo.title}
+				<a href="{:U('read?id='.$vo['id'])}">{$vo.name}
 			</in>
 			<eq name="vo.title|strlen" value="0">
 				无标题

@@ -2,7 +2,7 @@
 class ForumModel extends CommonModel {
 	// 自动验证设置
 	protected $_validate	 =	 array(
-		array('title','require','标题必须',1),
+		array('name','require','标题必须',1),
 		array('content','require','内容必须'),
 		);
 	// 自动填充设置

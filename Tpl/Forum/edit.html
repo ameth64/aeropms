@@ -10,13 +10,13 @@
 	<input type="hidden" id="add_file" name="add_file" value="{$vo.add_file}">
 	<input type="hidden" id="opmode" name="opmode" value="edit">
 	<div class="form-group">
-		<label class="col-md-2 control-label" for="title">主题*：</label>
+		<label class="col-md-2 control-label" for="name">主题*：</label>
 		<div class="col-md-10">
-			<input value="{$vo.title}"  class="form-control" type="text" id="title" name="title" check="require" msg="请输入主题">
+			<input value="{$vo.name}"  class="form-control" type="text" id="name" name="name" check="require" msg="请输入主题">
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="col-md-2 control-label" for="title">附件：</label>
+		<label class="col-md-2 control-label">附件：</label>
 		<div class="col-md-10">
 			<include file="Layout:uploader" />
 		</div>

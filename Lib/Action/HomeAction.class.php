@@ -37,12 +37,12 @@ class HomeAction extends CommonAction {
 		$where['is_del'] = array('eq', '0');
 		$where['folder'] = array( array('eq', 1), array('gt', 6), 'or');
 
-		$new_mail_list = $model -> where($where) -> field("id,title,create_time") -> order("create_time desc") -> limit(6) -> select();
+		$new_mail_list = $model -> where($where) -> field("id,name,create_time") -> order("create_time desc") -> limit(6) -> select();
 		$this -> assign('new_mail_list', $new_mail_list);
 
 		//获取未读邮件
 		$where['read'] = array('eq', '0');
-		$unread_mail_list = $model -> where($where) -> field("id,title,create_time") -> order("create_time desc") -> limit(6) -> select();
+		$unread_mail_list = $model -> where($where) -> field("id,name,create_time") -> order("create_time desc") -> limit(6) -> select();
 		$this -> assign('unread_mail_list', $unread_mail_list);
 	}
 
@@ -58,14 +58,14 @@ class HomeAction extends CommonAction {
 		$log_list = rotate($log_list);
 		if (!empty($log_list)) {
 			$map['id'] = array('in', $log_list['flow_id']);
-			$todo_flow_list = $model -> where($map) -> field("id,title,create_time") -> select();
+			$todo_flow_list = $model -> where($map) -> field("id,name,create_time") -> select();
 			$this -> assign("todo_flow_list", $todo_flow_list);
 		}
 		//已提交
 		$map = array();
 		$map['user_id'] = $user_id;
 		$map['step'] = array('gt', 10);
-		$submit_process_list = $model -> where($map) -> field("id,title,create_time") -> select();
+		$submit_process_list = $model -> where($map) -> field("id,name,create_time") -> select();
 		$this -> assign("submit_flow_list", $submit_process_list);
 	}
 
@@ -75,16 +75,8 @@ class HomeAction extends CommonAction {
 		//获取最新邮件
 
 		$where['is_del'] = array('eq', '0');
-		$where['type'] = array('eq', '/doc/common/');
 		$common_list = $model -> where($where) -> field("id,name,create_time") -> order("create_time desc") -> limit(6) -> select();
-		$this -> assign("common_list", $common_list);
-
-		$where = array();
-		$where['is_del'] = array('eq', '0');
-		$where['user_id'] = $user_id;
-		$where['type'] = array('eq', '/doc/personal/');
-		$personal_list = $model -> where($where) -> field("id,name,create_time") -> order("create_time desc") -> limit(6) -> select();
-		$this -> assign("personal_list", $personal_list);
+		$this -> assign("doc_list", $common_list);
 	}
 
 	protected function schedule_list() {
@@ -110,14 +102,14 @@ class HomeAction extends CommonAction {
 		//获取最新邮件
 
 		$where['is_del'] = array('eq', '0');
-		$new_notice_list = $model -> where($where) -> field("id,title,create_time") -> order("create_time desc") -> limit(6) -> select();
+		$new_notice_list = $model -> where($where) -> field("id,name,create_time") -> order("create_time desc") -> limit(6) -> select();
 		$this -> assign("new_notice_list", $new_notice_list);
 	}
 
 	protected function forum_list() {
 		$model = D('Forum');
 		$where['is_del'] = array('eq', '0');
-		$new_forum_list = $model -> where($where) -> field("id,title,create_time") -> order("create_time desc") -> limit(6) -> select();
+		$new_forum_list = $model -> where($where) -> field("id,name,create_time") -> order("create_time desc") -> limit(6) -> select();
 		$this -> assign("new_forum_list", $new_forum_list);
 	}
 
