@@ -54,8 +54,8 @@
 			set_val(s, result.data[s]);
 		}
 		$("#dept_name").val($("#dept_list option[value='" + $("#dept_id").val() + "']").text());
-		img_url = "{:C('SAVE_PATH')}" + $("#pic").val();
-		$("#emp_pic").attr("src", img_url.split(";")[0]);
+		img_url = "/{:C('SAVE_PATH')}" + $("#pic").val();
+		$("#emp_pic").attr("src",img_url);
 		$("#save_name").val("");
 		$("#opmode").val("edit");
 	}
