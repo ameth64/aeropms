@@ -914,16 +914,16 @@ div.address_list{
 	margin-top:-1px;
 	margin-left:-1px;
 	border:1px solid #ccc;
-	width:475px;
+	width:485px;
 	position:absolute;
 	background:#fff;
 }
 .Forum div.read_info table{
-	margin-top:5px;
-	margin-right:5px;
+	margin-top:15px;
+	margin-right:15px;
 	width:320px;
 	float:right;
-	margin-bottom:0px;
+	margin-bottom:20px;
 }
 .Forum div.read_info table th,.Forum div.read_info table td{
 	line-height:21px;
@@ -931,8 +931,8 @@ div.address_list{
 }
 .Forum div.face{
 	width:140px;
-	min-height:200px;
-	margin-top:5px;
+	min-height:215px;
+	margin-top:15px;
 }
 .Forum	 div.face img{
 		padding-left:4px;

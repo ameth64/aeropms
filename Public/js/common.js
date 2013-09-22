@@ -162,8 +162,12 @@ function click_left_menu(obj_node) {
 
 function click_home_list(obj_node) {
 	node = $(obj_node).attr("node");
-	set_cookie("top_menu", node);
+	tmp = node.split("|");
+	top_menu = tmp[0];
+	left_menu = tmp[1];
 	return_url = $(obj_node).attr("return_url");
+	set_cookie("top_menu", top_menu);
+	set_cookie("left_menu", left_menu);
 	set_cookie("return_url", return_url);
 }
 

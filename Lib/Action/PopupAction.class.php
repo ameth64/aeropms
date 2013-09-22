@@ -1,6 +1,6 @@
 <?php
 class PopupAction extends CommonAction {
-	protected $config=array('app_type'=>'personal');
+	protected $config = array('app_type' => 'asst');
 	//过滤查询字段
 	private $position;
 	private $rank;
@@ -36,21 +36,21 @@ class PopupAction extends CommonAction {
 				$sql = D("UserView") -> buildSql();
 				$model = new Model();
 				$where['dept_id'] = array('in', $dept);
-				$data = $model -> table($sql . "a") -> where($where) ->  select();
+				$data = $model -> table($sql . "a") -> where($where) -> select();
 				break;
 
 			case "rank" :
 				$sql = D("UserView") -> buildSql();
 				$model = new Model();
 				$where['rank_id'] = array('eq', $id);
-				$data = $model -> table($sql . "a") -> where($where) ->  select();
+				$data = $model -> table($sql . "a") -> where($where) -> select();
 				break;
 
 			case "position" :
 				$sql = D("UserView") -> buildSql();
 				$model = new Model();
 				$where['position_id'] = array('eq', $id);
-				$data = $model -> table($sql . "a") -> where($where) ->  select();
+				$data = $model -> table($sql . "a") -> where($where) -> select();
 				break;
 
 			case "personal" :
@@ -74,7 +74,7 @@ class PopupAction extends CommonAction {
 		}
 		$new = array();
 		if (true) {// 读取成功
-			$this -> ajaxReturn($data,dump($data,false), 1);
+			$this -> ajaxReturn($data, dump($data, false), 1);
 		}
 	}
 
@@ -100,7 +100,7 @@ class PopupAction extends CommonAction {
 		$model = D("UserTag");
 
 		$tag_list = $model -> get_list();
-		$tag_list['#']="未分组";
+		$tag_list['#'] = "未分组";
 		$this -> assign("list_personal", $tag_list);
 
 		$this -> assign('type', 'rank');
@@ -131,10 +131,27 @@ class PopupAction extends CommonAction {
 		$this -> display();
 		return;
 	}
-	
-	function emp(){
-		$this->auth();
+
+	function upload() {
+		$auth_id = session(C('USER_AUTH_KEY'));
+		if (!isset($auth_id)) {
+			//跳转到认证网关
+			redirect(U(C('USER_AUTH_GATEWAY')));
+		}
+		$this -> _upload();
 	}
+
+	function emp() {
+		$this -> auth();
+	}
+
+	function avatar(){
+		$id=$_REQUEST['id'];
+		$this->assign("id",$id);
+		$this->assign("pic",M("User")->where("id=$id")->getField('pic'));
+		$this->display();
+	}
+	
 	function actor() {
 
 		$model = M("Dept");
@@ -185,7 +202,7 @@ class PopupAction extends CommonAction {
 		return;
 	}
 
-	function flow(){
+	function flow() {
 		$model = M("DeptGrade");
 		$list = array();
 		$list = $model -> field('id,name') -> order('sort asc') -> select();
@@ -209,7 +226,7 @@ class PopupAction extends CommonAction {
 		return;
 	}
 
-	function popup_depts(){
+	function popup_depts() {
 		$model = M("Dept");
 		$list = array();
 		$list = $model -> field('id,pid,name') -> order('sort asc') -> select();
@@ -219,9 +236,7 @@ class PopupAction extends CommonAction {
 		return;
 	}
 
-
-	function position(){
-
+	function position() {
 		$model = M("Position");
 		$list = array();
 		$list = $model -> field('id,name') -> order('sort asc') -> select();
@@ -231,12 +246,97 @@ class PopupAction extends CommonAction {
 		return;
 	}
 
-	function json(){
+	function resize_img() {
+		if (!$image = $_POST["img"]) {
+			$result['result_code'] = 101;
+			$result['result_des'] = "图片不存在";
+		} else {
+			define('ROOT_PATH', realpath(dirname(__ROOT__)) . '/');
+			$real_img = ROOT_PATH . $image;
+			$info = get_img_info($real_img);
+
+			if (!$info) {
+				$result['result_code'] = 102;
+				$result['result_des'] = $image;
+			} else {
+				$max_width = 630;
+
+				if ($info['type'] == 'jpg' || $info['type'] == 'jpeg') {
+					$im = imagecreatefromjpeg($real_img);
+				}
+				if ($info['type'] == 'gif') {
+					$im = imagecreatefromgif($real_img);
+				}
+				if ($info['type'] == 'png') {
+					$im = imagecreatefrompng($real_img);
+				}
+				if ($info['width'] <= $max_width) {
+					$rate = 1;
+				} else {
+					$rate = $info['width'] / $max_width;
+					if ($info['width'] > $info['height']) {
+						$max_height = intval($info['height'] / ($info['width'] / $max_width));
+					} else {
+						$max_width = intval($info['width'] / ($info['height'] / $max_height));
+					}
+				}
+
+				$x = $_POST["x"];
+				$y = $_POST["y"];
+				$w = $_POST["w"];
+				$h = $_POST["h"];
+
+				$width = $srcWidth = $info['width'];
+				$height = $srcHeight = $info['height'];
+				$type = empty($type) ? $info['type'] : $type;
+				$type = strtolower($type);
+
+				unset($info);
+
+				//创建缩略图
+				if ($type != 'gif' && function_exists('imagecreatetruecolor'))
+					$thumbImg = imagecreatetruecolor($width, $height);
+				else
+					$thumbImg = imagecreate($width, $height);
+				// 复制图片
+				if (function_exists("imagecopyresampled"))
+					imagecopyresampled($thumbImg, $im, 0, 0, 0, 0, $width, $height, $srcWidth, $srcHeight);
+				else
+					imagecopyresized($thumbImg, $im, 0, 0, 0, 0, $width, $height, $srcWidth, $srcHeight);
+				if ('gif' == $type || 'png' == $type) {
+					$background_color = imagecolorallocate($thumbImg, 0, 255, 0);
+					imagecolortransparent($thumbImg, $background_color);
+				}
+				// 对jpeg图形设置隔行扫描
+				if ('jpg' == $type || 'jpeg' == $type)
+					imageinterlace($thumbImg, 1);
+
+				// 生成图片
+				$imageFun = 'image' . ($type == 'jpg' ? 'jpeg' : $type);
+				$id=$_REQUEST['id'];
+				$thumbname = C('SAVE_PATH') . "emp_pic/" .$id.".".$type;
+
+				$imageFun($thumbImg, $thumbname, 100);
+
+				$thumbImg_120 = imagecreatetruecolor(120, 120);
+				imagecopyresampled($thumbImg_120, $thumbImg, 0, 0,intval($x * $rate), intval($y * $rate), intval(120 * 1), intval(120 * 1),intval($w*$rate),intval($h*$rate));				
+				$imageFun($thumbImg_120, $thumbname, 100);
+
+				imagedestroy($thumbImg);
+				imagedestroy($im);
+
+				$result['result_code'] = 1;
+				$result['result_des'] = str_replace(C('SAVE_PATH'), "", $thumbname);
+			}
+		}
+		echo json_encode($result);
+	}
+
+	function json() {
 		header("Content-Type:text/html; charset=utf-8");
 		$key = $_REQUEST['key'];
 		$ajax = $_REQUEST['ajax'];
-		//dump($ajax);
-
+	
 		$model = M("User");
 		$where['emp_name'] = array('like', "%" . $key . "%");
 		$where['letter'] = array('like', "%" . $key . "%");
@@ -265,5 +365,6 @@ class PopupAction extends CommonAction {
 		$contact = array_merge_recursive($company, $personal);
 		exit(json_encode($contact));
 	}
+
 }
 ?>

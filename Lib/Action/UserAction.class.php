@@ -45,7 +45,7 @@ class UserAction extends CommonAction {
 	}
 
 	// 插入数据
-	public function insert() {
+	public function _insert() {
 		// 创建数据对象
 		$model = D("User");
 		if (!$model -> create()) {
@@ -62,7 +62,7 @@ class UserAction extends CommonAction {
 		}
 	}
 
-	function update() {
+	function _update() {
 		$name = $this -> getActionName();
 		$model = D($name);
 		if (false === $model -> create()) {

@@ -11,6 +11,23 @@
 // $Id: common.php 2601 2012-01-15 04:59:14Z liu21st $
 
 //公共函数
+
+function get_img_info( $img ){
+	$img_info = getimagesize($img);
+	if( $img_info!== false) {
+		$img_type = strtolower(substr(image_type_to_extension($img_info[2]),1));
+		$info = array(
+				"width"		=>$img_info[0],
+				"height"	=>$img_info[1],
+				"type"		=>$img_type,
+				"mime"		=>$img_info['mime'],
+		);
+		return $info;
+	}else {
+		return false;
+	}
+}
+
  function get_return_url() {
 		$return_url = cookie('return_url');
 		if (!empty($return_url)) {
