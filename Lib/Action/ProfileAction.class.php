@@ -4,23 +4,7 @@ class ProfileAction extends CommonAction {
 	
 	function index(){
 		cookie("top_menu", null);
-		cookie("left_menu", null);
-		$model = M("Position");
-		$list = $model -> where('is_del=0') -> order('sort asc') -> getField('id,name');
-		$this -> assign('position_list', $list);
-
-		$model = M("Rank");
-		$list = $model -> where('is_del=0') -> order('sort asc') -> getField('id,name');
-		$this -> assign('rank_list', $list);
-
-		$model = M("Dept");
-		$list = $model -> where('is_del=0') -> order('sort asc') -> getField('id,name');
-		$this -> assign('dept_list', $list);
-
-		$model = M("Rank");
-		$list = $model -> where('is_del=0') -> order('sort asc') -> getField('id,name');
-		$this -> assign('rank_list', $list);
-				
+		cookie("left_menu", null);				
 		$user=D("UserView")->find(get_user_id());
 		$this->assign("vo",$user);
 		$this->display();

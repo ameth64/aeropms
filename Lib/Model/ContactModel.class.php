@@ -11,7 +11,7 @@ class ContactModel extends CommonModel {
 		array('create_time','time',self::MODEL_INSERT,'function'),
 		);
 	public function get_dept_list($id){
-        $dept = tree_to_list(list_to_tree( M("Dept") -> select(), $id));
+        $dept = tree_to_list(list_to_tree(M("Dept")->where('is_del=0') -> select(), $id));
         $dept = rotate($dept);
         $dept = implode(",", $dept['id']) . ",$id";
         $model = M("User");
@@ -20,7 +20,7 @@ class ContactModel extends CommonModel {
         return $data;		
 	}
 	
-	public function get_detp_list_by_name($name){
+	public function get_dept_list_by_name($name){
 		$id = M("Dept") -> getFieldByName($name, "id");
 		$this->get_dept_list($id);
 	}

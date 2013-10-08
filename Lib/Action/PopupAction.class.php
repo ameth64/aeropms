@@ -23,13 +23,13 @@ class PopupAction extends CommonAction {
 		switch ($type) {
 			case "company" :
 				$model = M("Dept");
-				$dept = tree_to_list(list_to_tree( M("Dept") -> select(), $id));
+				$dept = tree_to_list(list_to_tree( M("Dept")->where('is_del=0') -> select(), $id));
 				$dept = rotate($dept);
 				$dept = implode(",", $dept['id']) . ",$id";
 
 			case "emp" :
 				$model = M("Dept");
-				$dept = tree_to_list(list_to_tree( M("Dept") -> select(), $id));
+				$dept = tree_to_list(list_to_tree(M("Dept")->where('is_del=0') -> select(), $id));
 				$dept = rotate($dept);
 				$dept = implode(",", $dept['id']) . ",$id";
 
@@ -81,7 +81,7 @@ class PopupAction extends CommonAction {
 	function contact() {
 		$model = M("Dept");
 		$list = array();
-		$list = $model -> field('id,pid,name') -> order('sort asc') -> select();
+		$list = $model->where('is_del=0') -> field('id,pid,name') -> order('sort asc') -> select();
 		$list = list_to_tree($list);
 		$this -> assign('list_company', popup_tree_menu($list));
 
@@ -111,7 +111,7 @@ class PopupAction extends CommonAction {
 	function auth() {
 		$model = M("Dept");
 		$list = array();
-		$list = $model -> field('id,pid,name') -> order('sort asc') -> select();
+		$list = $model->where('is_del=0') -> field('id,pid,name') -> order('sort asc') -> select();
 		$list = list_to_tree($list);
 		$this -> assign('list_company', popup_tree_menu($list));
 
@@ -151,7 +151,7 @@ class PopupAction extends CommonAction {
 
 		$model = M("Dept");
 		$list = array();
-		$list = $model -> field('id,pid,name') -> order('sort asc') -> select();
+		$list = $model->where('is_del=0') -> field('id,pid,name') -> order('sort asc') -> select();
 		$list = list_to_tree($list);
 		$this -> assign('list_company', popup_tree_menu($list));
 
@@ -176,7 +176,7 @@ class PopupAction extends CommonAction {
 
 		$model = M("Dept");
 		$list = array();
-		$list = $model -> field('id,pid,name') -> order('sort asc') -> select();
+		$list = $model->where('is_del=0') -> field('id,pid,name') -> order('sort asc') -> select();
 		$list = list_to_tree($list);
 		$this -> assign('list_company', popup_tree_menu($list));
 
@@ -206,7 +206,7 @@ class PopupAction extends CommonAction {
 
 		$model = M("Dept");
 		$list = array();
-		$list = $model -> field('id,pid,name') -> order('sort asc') -> select();
+		$list = $model ->where('is_del=0')-> field('id,pid,name') -> order('sort asc') -> select();
 		$list = list_to_tree($list);
 		$this -> assign('list_dept', sub_tree_menu($list));
 
@@ -224,7 +224,7 @@ class PopupAction extends CommonAction {
 	function popup_depts() {
 		$model = M("Dept");
 		$list = array();
-		$list = $model -> field('id,pid,name') -> order('sort asc') -> select();
+		$list = $model ->where('is_del=0')-> field('id,pid,name') -> order('sort asc') -> select();
 		$list = list_to_tree($list);
 		$this -> assign('list_dept', sub_tree_menu($list));
 		$this -> display();

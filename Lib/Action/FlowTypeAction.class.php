@@ -102,7 +102,7 @@ class FlowTypeAction extends CommonAction {
 		switch ($type) {
 			case "company" :
 				$model = M("Dept");
-				$dept = tree_to_list(list_to_tree( M("Dept") -> select(), $id));
+				$dept = tree_to_list(list_to_tree(M("Dept")->where('is_del=0') -> select(), $id));
 				$dept = rotate($dept);
 				$dept = implode(",", $dept['id']) . ",$id";
 

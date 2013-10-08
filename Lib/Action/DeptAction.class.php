@@ -53,18 +53,8 @@ class DeptAction extends CommonAction {
 
 		$tree = list_to_tree($menu);
 		$this -> assign('pid', $pid);
-
-		$model = M("Dept");
-		$list = $model -> order('sort asc') -> getField('id,name');
-		$this -> assign('dept_list', $list);
 		$this -> assign('menu', popup_tree_menu($tree));
-
-		$model = M("DeptGrade");
-		$list = $model -> order('sort asc') -> getField('id,name');
-		$this -> assign('dept_grade_list', $list);
-
 		$this -> display();
 	}
-
 }
 ?>
