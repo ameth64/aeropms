@@ -23,7 +23,7 @@
 					<div class="input-group ">
 						<input  class="form-control" type="text"  onkeydown="key_search_2();" name="keyword" id="keyword"/>
 						<div class="input-group-btn">
-							<a class="btn btn-default" onclick="btn_search_2();" > <span class="glyphicon glyphicon-search" ></span> </a>
+							<a class="btn btn-default" onclick="btn_search_2();" > <span class="icon-search" ></span> </a>
 						</div>
 					</div>
 				</form>
@@ -58,7 +58,7 @@
 					</li>
 					<foreach name="tag_list" item="vo">
 						<li>
-							<a><label style="padding-top:5px;"><span class="checkbox">
+							<a><label><span class="checkbox">
 									<input type="checkbox" name="tag[]" value="{$key}">
 								</span><span>{$vo}</span></label></a>
 						</li>
@@ -232,7 +232,7 @@
 
 	$(document).ready(function() {
 		set_return_url();
-		$(".dropdown-menu li").click(function() {
+		$(".dropdown-menu .title li").click(function() {
 			$("#keyword").val("");
 			$(".ul-table li").hide();
 			gid = $(this).attr("gid");

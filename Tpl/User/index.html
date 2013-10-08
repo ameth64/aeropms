@@ -26,11 +26,11 @@
 	function select_dept() {
 		winopen("{:U('dept/winpop2')}", 730, 500);
 	}
-	
+
 	function select_avatar() {
 		winopen("{:U('popup/avatar')}?id=" + $("#id").val(), 730, 500);
 	}
-	
+
 	function btn_search() {
 		sendForm("form_search", "__SELF__");
 		$("#form_search").submit();
@@ -43,7 +43,7 @@
 		}
 	}
 
-	function save() {	
+	function save() {
 		if (check_form("form_data")) {
 			sendForm("form_data", "{:U('save')}", "__URL__");
 		}
@@ -55,15 +55,16 @@
 		}
 		$("#dept_name").val($("#dept_list option[value='" + $("#dept_id").val() + "']").text());
 		img_url = "/{:C('SAVE_PATH')}" + $("#pic").val();
-		$("#emp_pic").attr("src",img_url);
+		$("#emp_pic").attr("src", img_url);
 		$("#save_name").val("");
 		$("#opmode").val("edit");
 	}
 
 
 	$(document).ready(function() {
+		set_val('eq_is_del', "{$eq_is_del}");
+		set_return_url();
 		$(".input-date").datepicker();
-
 		$(".sub_left_menu tbody tr").click(function() {
 			$(".sub_left_menu tbody tr.active").removeClass("active");
 			$(this).attr("class", "active");
@@ -75,7 +76,7 @@
 	});
 
 </script>
-<form method="post" action="" id="form_search" name="form_search">
+<form method="post" id="form_search" name="form_search" method="post">
 	<div class="title panel panel-default">
 		<div class="panel-body">
 			<h3 class="col-md-8">用户管理</h3>
@@ -91,10 +92,17 @@
 			</div>
 		</div>
 	</div>
-</form>
-<form id="form_data" name="form_data" method='post'>
+
 	<div class="operate panel panel-default">
 		<div class="panel-body">
+			<div class="pull-left">
+				<label class="radio-inline" for="eq_is_del"><b>状态:</b></label>
+				<span class="checkbox">
+					<select id="eq_is_del" name="eq_is_del" class="form-control col-10" onchange="search();">
+						<option value="0">启用</option>
+						<option value="1">禁用</option>
+					</select> </span>
+			</div>
 			<div class="pull-right">
 				<a onclick="reset_pwd()" class="btn btn-default">设置密码</a>
 				<a onclick="add()"  class="btn btn-default">新增</a>
@@ -102,6 +110,8 @@
 			</div>
 		</div>
 	</div>
+</form>
+<form id="form_data" name="form_data" method='post'>
 	<div class="row">
 		<div class="col-md-4 sub_left_menu ">
 			<table class="table table-bordered">
@@ -127,10 +137,9 @@
 			<form id="form_data" name="form_data" method="post" class="form-horizontal">
 				<input type="hidden" id="save_name" name="save_name">
 				<input type="hidden" name="id" id="id">
-				<input type="hidden" name="pid" id="pid" value="">
 				<input type="hidden" name="pic" id="pic" >
 				<input type="hidden" name="ajax" id="ajax" value="0">
-				<input type="hidden" name="opmode" id="opmode" value="">
+				<input type="hidden" name="opmode" id="opmode" value="edit">
 				<html:select id="dept_list" name="dept_list"  options="dept_list" style="display-none"/>
 				<table class="table table-bordered" >
 					<tr>
@@ -145,7 +154,8 @@
 					</tr>
 					<tr>
 						<th>姓名*</th>
-						<td colspan="2"><input  class="form-control" type="text" id="emp_name" name="emp_name" class="input-sm" check="require" msg="请输入姓名">
+						<td colspan="2">
+						<input  class="form-control" type="text" id="emp_name" name="emp_name" class="input-sm" check="require" msg="请输入姓名">
 						</td>
 					</tr>
 					<tr>
@@ -167,14 +177,12 @@
 						<td colspan="2">
 						<input name="dept_id" id="dept_id" type="hidden" msg="请选择部门" check="require" />
 						<div class="input-group ">
-							<input class="form-control" type="dept_name"  id="dept_name" type="text" msg="请选择部门" check="require"  />
+							<input class="form-control" type="dept_name"  id="dept_name" type="text" msg="请选择部门" check="require" readonly="readonly" />
 							<div class="input-group-btn">
 								<a class="btn btn-default" onclick="select_dept();" > <i class="icon-search" ></i> </a>
 							</div>
 						</div></td>
-						<td colspan="2">
-							<a onclick="select_avatar();" class="btn btn-default">上传头像</a>
-						</td>
+						<td colspan="2"><a onclick="select_avatar();" class="btn btn-default">上传头像</a></td>
 					</tr>
 					<tr>
 						<th>职级</th>
@@ -183,7 +191,7 @@
 						</td>
 						<th>职位</th>
 						<td>
-						<html:select id="position_id" name="position_id" style="form-control"  first="选择组" options="position_list"  />
+						<html:select id="position_id" name="position_id" style="form-control"  first="选择组" options="position_list" />
 						</td>
 					</tr>
 					<tr>
@@ -194,12 +202,15 @@
 						<td>
 						<input type="text" id="office_tel" name="office_tel" class="form-control">
 						</td>
-						<th><nobr>移动电话</nobr></th>
+						<th>
+						<nobr>
+							移动电话
+						</nobr></th>
 						<td>
 						<input type="text" id="mobile_tel" name="mobile_tel" class="form-control">
 						</td>
 					</tr>
-					<tr>					
+					<tr>
 					<tr>
 						<th>电子邮箱</th>
 						<td colspan="3">
@@ -215,6 +226,7 @@
 						<input type="text" id="duty" name="duty" class="form-control">
 						</td>
 					</tr>
+					<tr>
 						<th>状态</th>
 						<td colspan="3">
 						<select class="form-control col-10"  name="is_del" id="is_del">

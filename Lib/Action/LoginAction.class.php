@@ -29,8 +29,6 @@ class LoginAction extends Action {
 		if (isset($auth_id)) {
 			session(C('USER_AUTH_KEY'), null);
 			session('top_menu' . $auth_id, null);
-			//dump($_SESSION);
-			//die();
 			$this -> assign("jumpUrl", __URL__ . '/');
 			$this -> success('登出成功！');
 		} else {
@@ -53,6 +51,7 @@ class LoginAction extends Action {
 		$map["is_del"] = array('eq', 0);
 		$model = M(C('USER_AUTH_MODEL'));
 		$authInfo = $model -> where($map) -> find();
+		//die;
 		//使用用户名、密码和状态的方式进行认证
 		if (false === $authInfo) {
 			$this -> error('帐号或密码错误！');
@@ -64,6 +63,8 @@ class LoginAction extends Action {
 			session('emp_no', $authInfo['emp_no']);
 			session('email', $authInfo['email']);
 			session('user_name', $authInfo['emp_name']);
+			session('user_pic', $authInfo['pic']);
+
 			session('last_login_time', $authInfo['last_login_time']);
 			session('login_count', $authInfo['login_count']);
 			session('dept_id', $authInfo['dept_id']);

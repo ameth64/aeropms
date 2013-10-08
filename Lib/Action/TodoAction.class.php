@@ -120,10 +120,10 @@ class TodoAction extends CommonAction {
 		$result = $this -> _set_field($id, $field, $val);
 		if ($result !== false) {//保存成功
 			$this -> assign('jumpUrl', get_return_url());
-			$this -> success('删除成功!');
+			$this -> success('操作成功!');
 		} else {
 			//失败提示
-			$this -> error('删除失败!');
+			$this -> error('操作失败!');
 		}
 	}
 

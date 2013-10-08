@@ -22,7 +22,9 @@
 			$("#sample li").attr("mobile_tel", result.data[s].mobile_tel);
 			$("#sample li").attr("pic", result.data[s].pic);
 			html = $("#sample").html();
+
 			$(".user_list ul").append(html);
+
 			$("#sample li span").text("");
 		}
 		if ($(".user_list li.tbody").length > 0) {
@@ -45,7 +47,7 @@
 			});
 			return false;
 		})
-		$(".user_list li").live("click", function() {
+		$(".user_list li.tbody").live("click", function() {
 			$(".user_info .name").text($(this).attr("name"));
 			$(".user_info .office_tel").text($(this).attr("office_tel"));
 			$(".user_info .mobile_tel").text($(this).attr("mobile_tel"));
@@ -116,12 +118,11 @@
 						</li>
 						<ul>
 				</div>
-			</div>
-			</ul>
+			</div>			
 		</div>
 	</div>
 </div>
-<div id="sample">
+<div id="sample" class="display-none">
 	<li class="tbody row">
 		<div class="col-md-7">
 			<span style="width:25%;" class="text-center name"></span>

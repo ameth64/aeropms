@@ -1,6 +1,6 @@
 <?php
 class ForumAction extends CommonAction {
-	protected $config=array('app_type'=>'common','action_auth'=>array('folder'=>'read','save_post'=>'write','edit_post'=>'write','del_post'=>'admin'));
+	protected $config=array('app_type'=>'common','action_auth'=>array('folder'=>'read','save_post'=>'write','edit_post'=>'write','del_post'=>'admin'),'folder_auth'=>true);
 	//过滤查询字段
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');

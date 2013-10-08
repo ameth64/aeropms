@@ -3,25 +3,32 @@ class DeptAction extends CommonAction {
 
 	protected $config=array('app_type'=>'master');
 	
-	function _search_filter(&$map) {
-		if (!empty($_GET['pid'])) {
-			$map['pid'] = $_POST['pid'];
-		}
-	}
-
 	public function index() {
+		
+		if (isset($_POST['eq_is_del'])){					
+			$eq_is_del = $_POST['eq_is_del'];
+			
+		} else{
+			$eq_is_del="0";
+		}
+		$this->assign('eq_is_del',$eq_is_del);
+		
+		if($eq_is_del!="#"){
+			$map['is_del']=array('eq',$eq_is_del);				
+		}
+				
 		$node = M("Dept");
 		$menu = array();
-		$menu = $node -> field('id,pid,name') -> order('sort asc') -> select();
-		$tree = list_to_tree($menu);
+		$menu = $node ->where($map)-> field('id,pid,name') -> order('sort asc') -> select();
+		$tree = list_to_tree($menu);		
 		$this -> assign('menu', popup_tree_menu($tree));
 
 		$model = M("Dept");
-		$list = $model -> order('sort asc') -> getField('id,name');
+		$list = $model ->order('sort asc') -> getField('id,name');
 		$this -> assign('dept_list', $list);
 
 		$model = M("DeptGrade");
-		$list = $model -> order('sort asc') -> getField('id,name');
+		$list = $model ->where('is_del=0')-> order('sort asc') -> getField('id,name');
 		$this -> assign('dept_grade_list', $list);
 
 		$this -> display();
@@ -30,19 +37,12 @@ class DeptAction extends CommonAction {
 	public function winpop() {
 		$node = M("Dept");
 		$menu = array();
-		$menu = $node -> field('id,pid,name') -> order('sort asc') -> select();
+		$menu = $node ->where('is_del=0') ->field('id,pid,name') -> order('sort asc') -> select();
 
 		$tree = list_to_tree($menu);
-		$this -> assign('pid', $pid);
-
-		$model = M("Dept");
-		$list = $model -> order('sort asc') -> getField('id,name');
-		$this -> assign('dept_list', $list);
 		$this -> assign('menu', popup_tree_menu($tree));
 
-		$model = M("DeptGrade");
-		$list = $model -> order('sort asc') -> getField('id,name');
-		$this -> assign('dept_grade_list', $list);
+		$this -> assign('pid', $pid);
 		$this -> display();
 	}
 

@@ -4,8 +4,7 @@
 <script type="text/javascript" src="__PUBLIC__/js/plupload/plupload.html5.js"></script>
 <script type="text/javascript" src="__PUBLIC__/js/jcrop/jquery.Jcrop.min.js"></script>
 <link rel="stylesheet" href="__PUBLIC__/js/jcrop/jquery.Jcrop.css" type="text/css" />
-<div id="uploader">
-	
+<div id="uploader">	
 	<input type="hidden" id="avatarUpload" value="" />
 	<input type="hidden" id="img" name="img" />
 	<input type="hidden" id="id" name="id" value="{$id}"/>
@@ -13,26 +12,6 @@
 	<input type="hidden" id="y" name="y" />
 	<input type="hidden" id="w" name="w" />
 	<input type="hidden" id="h" name="h" />
-
-	<div class="well clearfix" >
-		<div class="col-21 text-center pull-left">
-			当前头像：
-			<br />
-			<div><img class="current"  src="/{:C('SAVE_PATH')}{$pic}" />
-			</div>
-		</div>
-		<div class="col-21 text-center pull-left">
-			头像预览：
-			<br />
-			<div style="width:120px;height:120px;overflow:hidden;margin-left: auto;margin-right: auto;"><img class="preview" id="preview" src="" />
-			</div>
-		</div>
-		<div class="col-20 text-center pull-left">
-			<a id="pickfiles" href="javascript:;" class="btn btn-default">上传头像</a>
-			<a onclick="save()"  class="btn btn-default">确定</a>
-			<a onclick="myclose()"  class="btn btn-default">关闭</a>
-		</div>
-	</div>
 	<div class="ul-table display-none">
 		<ul id="file_list">
 			<li class="thead">
@@ -57,14 +36,37 @@
 			</notempty>
 		</ul>
 	</div>
-	<div class="well imgchoose"  style="display:none;">
+	<div class="well clearfix">
+		<div class="imgchoose col-xs-9">
 		编辑头像：
 		<br />
-		<img src="" id="target" style="max-width: 630px;height:auto;"/>
+		<img src="" id="target" style="max-width:440px;height:auto;"/>
+	</div>
+	<div class="col-xs-3" >
+		<div class="text-center">
+			<a onclick="save()"  class="btn btn-default">确定</a>
+			<a onclick="myclose()"  class="btn btn-default">关闭</a>
+		</div>
+		<div class="text-center">
+			<a id="pickfiles" href="javascript:;" class="btn btn-default">上传头像</a>
+		</div>
+		<div class="text-center display-none">
+			当前头像：
+			<br />
+			<div><img class="current"  src="/{:C('SAVE_PATH')}{$pic}" />
+			</div>
+		</div>
+		<div class="text-center">
+			头像预览：
+			<br />
+			<div style="width:120px;height:120px;overflow:hidden;margin-left: auto;margin-right: auto;"><img class="preview" id="preview" src="" />
+			</div>
+		</div>
+	</div>
 	</div>
 </div>
 <script>
-	$(function() {
+	$(function(){
 		uploader_init();
 		var uploader
 		var save_path = "/{:C('SAVE_PATH')}";
@@ -195,7 +197,7 @@
 					dataType : "json",
 					success : function(msg) {
 						if( msg.result_code == 1 ){
-							$("#emp_pic", parent.document).attr("src","/{:C('SAVE_PATH')}"+msg.result_des);
+							$("#emp_pic", parent.document).attr("src","/{:C('SAVE_PATH')}"+msg.result_des+'?t='+Math.random());
 							$("#pic", parent.document).val(msg.result_des);
 						}
 						myclose();

@@ -2,6 +2,8 @@
 class UserConfigAction extends CommonAction {
 	protected $config=array('app_type'=>'personal');
 	public function index() {
+		cookie("top_menu", null);
+		cookie("left_menu", null);
 		$config = M("UserConfig") -> find(get_user_id());
 		$this -> assign("config", $config);
 		if (count($config)) {

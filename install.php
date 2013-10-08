@@ -44,7 +44,7 @@
 		$config_str .= "        'DB_LIKE_FIELDS'            =>'title|content|name|remark',\n";
 		$config_str .= "		'SAVE_PATH'=>'Data/Files/',\n";
 		$config_str .= "        'SHOW_PAGE_TRACE'=>0, //显示调试信息\n";
-		$config_str .= " 		'AUTH'=>array('index'=>'read','read'=>'read','down'=>'read','add'=>'write','edit'=>'write','save'=>'write','del'=>'admin','rstore'=>'admin','destory'=>'admin'),";
+		$config_str .= " 		'AUTH'=>array('index'=>'read','read'=>'read','down'=>'read','add'=>'write','edit'=>'write','upload'=>'write','save'=>'write','del'=>'admin','rstore'=>'admin','destory'=>'admin','import'=>'admin','export'=>'read'),";
 		$config_str .= "    );\n";
 		$config_str .= '    return $array;' . "\n";
 		$config_str .= "?>\n";

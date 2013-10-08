@@ -2,37 +2,12 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		set_return_url();
-		$(function() {
-			$(".input-date").datepicker();
-			$("#slider-range-important").slider({
-				range : "min",
-				min : 1,
-				max : 5,
-				value : 3,
-				slide : function(event, ui) {
-					$("#important").val(ui.value);
-					$("div.slider_box div.ui-widget-header").css("background-color", schedule_bg(ui.value, $("#urgency").val()));
-				}
-			});
-
-			$("#important").val($("#slider-range-important").slider("value"));
-			$("#slider-range-urgency").slider({
-				range : "min",
-				min : 1,
-				max : 5,
-				value : 3,
-				slide : function(event, ui) {
-					$("#urgency").val(ui.value);
-					$("div.slider_box div.ui-widget-header").css("background-color", schedule_bg($("#important").val(), ui.value));
-				}
-			});
-			$("#urgency").val($("#slider-range-urgency").slider("value"));
-			$("div.slider_box div.ui-widget-header").css("background-color", schedule_bg(3, 3));
+		$(function(){
+			$("li.tbody").each(function(){
+				$(this).css("background-color",schedule_bg($(this).attr("priority")));
+			})
 		})
 	});
-	function month_view() {
-		window.open("__URL__", "_self");
-	}
 </script>
 <div class="schedule">
 	<form id="form_search" method='post' >
@@ -64,7 +39,7 @@
 			</div>
 			<div class="panel-body">
 				<div class="form-group col-md-6">
-					<label class="col-md-4 control-label" for="li_name">文件名：</label>
+					<label class="col-md-4 control-label" for="li_name">标题：</label>
 					<div class="col-md-8">
 						<input  class="form-control" type="text" id="li_name" name="li_name" >
 					</div>
@@ -116,7 +91,7 @@
 				<else/>
 				<ul>
 					<foreach name="list" item="vo">
-						<li class="tbody">
+						<li class="tbody" priority="{$vo.priority}">
 							<span class="col-9 pull-right text-center">{$vo.end_date}</span>
 							<span class="col-9 pull-right text-center">{$vo.start_date}</span>
 							<span class="col-12 right text-center">{$vo.location}&nbsp;</span>

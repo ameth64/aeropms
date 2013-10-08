@@ -72,8 +72,8 @@
 <!-- 列表显示区域  -->
 
 <div class="row">
-	<div class="col-md-8 sub_left_menu">
-		<form id="form_data" name="form_data"method="post" >
+	<form id="form_data" name="form_data" method="post" >
+		<div class="col-md-8 sub_left_menu">
 			<table class="table table-bordered">
 				<thead>
 					<tr>
@@ -140,31 +140,30 @@
 					</volist>
 				</tbody>
 			</table>
-	</div>
-	<div class="col-md-4 sub_content">
-		<input type="hidden" name="id" id="id">
-		<input type="hidden" name="pid" id="pid" value="">
-		<input type="hidden" name="ajax" id="ajax" value="1">
-		<input type="hidden" name="opmode" id="opmode" value="">
-		<table class="table table-bordered">
-			<thead>
-				<tr>
-					<th>&nbsp;</th>
-					<th>名称</th>
-				</tr>
-			</thead>
-			<tbody>
-				<volist name="role_list" id="data">
-					<tr id="{$data.id}">
-						<td>
-						<input type="checkbox" id="role_{$data.id}" name="role_list[]" value="{$data.id}">
-						</td>
-						<td>{$data.name}</td>
+		</div>
+		<div class="col-md-4 sub_content">
+			<input type="hidden" name="id" id="id">
+			<input type="hidden" name="pid" id="pid" value="">
+			<input type="hidden" name="ajax" id="ajax" value="0">
+			<input type="hidden" name="opmode" id="opmode" value="">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>&nbsp;</th>
+						<th>名称</th>
 					</tr>
-				</volist>
-			</tbody>
-		</table>
-		</form>
-	</div>
+				</thead>
+				<tbody>
+					<volist name="role_list" id="data">
+						<tr id="{$data.id}">
+							<td>
+							<input type="checkbox" id="role_{$data.id}" name="role_list[]" value="{$data.id}">
+							</td>
+							<td>{$data.name}</td>
+						</tr>
+					</volist>
+				</tbody>
+			</table>
+	</form>
 </div>
 

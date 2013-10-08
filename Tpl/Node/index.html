@@ -17,13 +17,10 @@
 
 	function save() {
 		if (check_form("form_data")) {
-			sendForm("form_data", "{:U('node/save')}", fix_url("{:U('node/index')}?s_pid=" + $("#s_pid").val()));
+			sendForm("form_data", "{:U('node/save')}", fix_url("{:U('node/index')}?eq_pid=" + $("#eq_pid").val()));
 		}
 	}
 
-	function test() {
-		form_search.submit();
-	};
 	function select_pid() {
 		winopen("{:U('winpop')}",730, 500);
 	}
@@ -48,7 +45,7 @@
 			});
 			return false;
 		})
-		sendAjax("{:U('read')}", "id={$pid}", function(data) {
+		sendAjax("{:U('read')}", "id={$eq_pid}", function(data) {
 			showdata(data);
 		});
 	});
@@ -59,11 +56,11 @@
 		<h3 class="col-md-12">节点管理</h3>
 	</div>
 </div>
-<form name="form_search" method="post" action="">
+<form id="form_search" name="form_search" method="post" action="">
 	<div class="operate panel panel-default">
 		<div class="panel-body">
 			<div class="pull-left">
-				<html:select  name="s_pid" id="s_pid" options='groupList' style="form-control" selected='pid'  change='test()'/>
+				<html:select  name="eq_pid" id="eq_pid" options='groupList' style="form-control col-10" selected='eq_pid'  change='search()'/>
 			</div>
 			<div class="pull-right">
 				<a onclick="add();" class="btn btn-default">新增</a>
@@ -104,8 +101,8 @@
 				<label class="col-md-4 control-label" for="url">父节点：</label>
 				<div class="col-md-8">
 					<div class="input-group">
-						<input name="node_name" class="form-control val" id="node_name" type="text"  source="{:U('dept/json')}" />
-						<input name="pid" class="key" id="pid" type="hidden" msg="请选择父节点" check="require"  />
+						<input name="node_name" class="form-control val" id="node_name" type="text"  readonly="readonly"/>
+						<input name="pid"  id="pid" type="hidden" msg="请选择父节点" check="require"  />
 						<span class="input-group-btn">
 							<button class="btn btn-default" onclick="select_pid()" type="button">
 								选择
@@ -116,7 +113,7 @@
 			<div class="form-group col-md-12">
 				<label class="col-md-4 control-label" for="sort">排序：</label>
 				<div class="col-md-8">
-					<input class="form-control" type="text" id="sort" name="short" check="require" msg="请输入简称">
+					<input class="form-control" type="text" id="sort" name="sort" >
 				</div>
 			</div>
 

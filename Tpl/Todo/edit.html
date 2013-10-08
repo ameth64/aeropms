@@ -34,9 +34,10 @@
 	<h3 class="col-md-12">编辑事项</h3></div>
 </div>
 <form method='post' id="form_data" name="form_data" enctype="multipart/form-data"   class="well form-horizontal">
+	<input type="hidden" id="id" name="id" value="{$vo.id}">
 	<input type="hidden" id="ajax" name="ajax" value="0">
 	<input type="hidden" id="add_file" name="add_file">
-	<input type="hidden" id="opmode" name="opmode" value="add">
+	<input type="hidden" id="opmode" name="opmode" value="edit">
 	<div class="form-group">
 		<label class="col-md-2 control-label" for="name">标题*：</label>
 		<div class="col-md-10">
@@ -70,6 +71,7 @@
 			</div>
 		</div>
 	</div>
+	<div class="clearfix"></div>
 	<div class="form-group">
 		<label class="col-md-2 control-label" for="name">附件：</label>
 		<div class="col-md-10">

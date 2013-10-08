@@ -17,12 +17,12 @@
 	$(document).ready(function() {
 		set_return_url();
 		$("#dialog2").mouseleave(function() {
-			$("#dialog2").hide();
+			//$("#dialog2").hide();
 		});
 
-		$("li a.status").live("click", (function() {
-			$("#dialog2").css("left", $(this).parents("span").offset().left);
-			$("#dialog2").css("top", $(this).parents("span").offset().top);
+		$("li a.status").live("click",(function() {
+			$("#dialog2").css("left",$(this).parents("span").offset().left-$(".Todo").offset().left);
+			$("#dialog2").css("top",$(this).parents("span").offset().top-$(".Todo").offset().top);
 			$("#dialog2").show();
 			node = $(this).parents("li").find("input.node").val();
 			$("#dialog2").attr("node", node);
@@ -38,6 +38,7 @@
 			moveDown($(this));
 		})
 	})
+	
 	function moveUp(obj) {
 		var current = $(obj).parent().parent();
 		var prev = current.prev();
@@ -112,7 +113,7 @@
 					<span class="col-3 pull-right">&nbsp;</span>
 					<span class="col-3 pull-right">&nbsp;</span>
 					<span class="col-3 pull-right">&nbsp;</span>
-					<span class="col-6 right">状态</span>
+					<span class="col-10 right">状态</span>
 					<span class="col-9 pull-right">截至日期</span>
 					<div class="auto autocut text-left">
 						待办事项
@@ -123,10 +124,10 @@
 						<input class="node" type="hidden" name="node[]" value="{$vo.id}">
 						<input class="priority" type="hidden" name="priority[]" value="{$vo.priority}">
 						<input class="sort" type="hidden" name="sort[]">
-						<span class="col-3 pull-right text-center"> <a title="删除" class="del" onclick="del(this);">✕</a> </span>
+						<span class="col-3 pull-right text-center"> <a title="删除" class="del" onclick="del(this);"><i class="icon-remove"></i></a> </span>
 						<span class="col-3 pull-right text-center"> <a title="调低优先级" class="down"><i class="icon-arrow-down"></i></a> </span>
 						<span class="col-3 pull-right text-center"> <a title="调高优先级" class="up"><i class="icon-arrow-up"></i></a> </span>
-						<span class="col-6 right text-center"> <a class="status">{$vo.status|todo_status}</a> </span>
+						<span class="col-10 right text-center"> <a class="status">{$vo.status|todo_status}</a> </span>
 						<span class="col-9 pull-right text-center">{$vo.end_date}</span>
 						<span class="auto"> <a href="{:U('edit?id='.$vo['id'])}">{$vo.name}</a> </span>
 					</li>
@@ -138,7 +139,7 @@
 					<span class="col-3 pull-right">&nbsp;</span>
 					<span class="col-3 pull-right">&nbsp;</span>
 					<span class="col-3 pull-right">&nbsp;</span>
-					<span class="col-6 right">状态</span>
+					<span class="col-10 right">状态</span>
 					<span class="col-9 pull-right">完成日期</span>
 					<div class="auto autocut text-left">
 						已完成事项
@@ -149,10 +150,10 @@
 						<input class="node" type="hidden" name="node[]" value="{$vo.id}">
 						<input class="priority" type="hidden" name="priority[]" value="{$vo.priority}">
 						<input class="sort" type="hidden" name="sort[]">
-						<span class="col-3 pull-right text-center"> <a title="删除" class="del" onclick="del(this);">✕</a> </span>
-						<span class="col-3 pull-right text-center"> <a title="低" class="down">&#9660;</a> </span>
-						<span class="col-3 pull-right text-center"> <a title="高" class="up">&#9650;</a> </span>
-						<span class="col-6 right text-center"> <a class="status">{$vo.status|todo_status}</a> </span>
+						<span class="col-3 pull-right text-center"> <a title="删除" class="del" onclick="del(this);"><i class="icon-remove"></i></a> </span>
+						<span class="col-3 pull-right text-center"> <a title="低" class="down"><i class="icon-arrow-down"></i></a> </span>
+						<span class="col-3 pull-right text-center"> <a title="高" class="up"><i class="icon-arrow-up"></i></a> </span>
+						<span class="col-10 right text-center"><a class="status">{$vo.status|todo_status}</a> </span>
 						<span class="col-9 pull-right text-center">{$vo.end_date}</span>
 						<span class="auto"> <a href="{:U('edit?id='.$vo['id'])}">{$vo.name}</a> </span>
 					</li>

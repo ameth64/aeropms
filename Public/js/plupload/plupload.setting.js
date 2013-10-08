@@ -5,8 +5,8 @@ function uploader_init(){
 		browse_button : 'pickfiles',
 		container: 'uploader',
 		max_file_size : '10mb',
-		url : upload_url,
-		flash_swf_url : '/Public/js/plupload/plupload.flash.swf',
+		url :  root_path+upload_url,
+		flash_swf_url : root_path+'/Public/js/plupload/plupload.flash.swf',
 		filters : [
 			{title : "Office Files", extensions : "doc,dox,xls,xlsx,ppt,pptx,pdf"},
 			{title : "Image Files", extensions : "jpg,gif,png,tif,xps"},

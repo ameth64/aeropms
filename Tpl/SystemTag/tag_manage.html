@@ -2,12 +2,10 @@
 <tagLib name="html" />
 <script type="text/javascript">
 	function add() {
-		pid = $("#id").val();
 		$("#form_data :text").each(function() {
 			$(this).val("");
 		});
-		$("#id").val("");
-		$("#pid").val(pid);
+		$("#id").val("");		
 		$("#opmode").val("add");
 	};
 
@@ -34,10 +32,8 @@
 		for (var s in result.data) {
 			set_val(s, result.data[s]);
 		}
-		$("#tag_name").val($("#tag_list option[value='" + $("#pid").val() + "']").text());
 		$("#opmode").val("edit");
 	}
-
 	function select_pid() {
 		if ($("div.sub_left_menu a.active").length > 0) {
 			winopen("{:U('system_tag/winpop?module='.MODULE_NAME)}",730, 400);
@@ -45,7 +41,6 @@
 			alert("请选择文件夹");
 		};
 	}
-
 
 	$(document).ready(function() {
 		set_return_url();
@@ -63,79 +58,73 @@
 
 </script>
 <div class="title panel panel-default">
-<div class="panel-body">
-	<h3 class="col-md-12">{$tag_name}</h3></div>
-</div>
-<div class="operate panel panel-default">	<div class="panel-body">
-	<div class="pull-right">
-		<a onclick="add()" class="btn btn-default">新增</a>
-		<a onclick="save()" class="btn btn-default">保存</a>
-		&nbsp;|&nbsp;
-		<a onclick="del()" class="btn btn-default">删除</a>
+	<div class="panel-body">
+		<h3 class="col-md-12">{$tag_name}</h3>
 	</div>
 </div>
+<div class="operate panel panel-default">
+	<div class="panel-body">
+		<div class="pull-right">
+			<a onclick="add()" class="btn btn-default">新增</a>
+			<a onclick="save()" class="btn btn-default">保存</a>
+			&nbsp;|&nbsp;
+			<a onclick="del()" class="btn btn-default">删除</a>
+		</div>
+	</div>
 </div>
 <div class="row">
 	<div class="col-md-4 sub_left_menu ">
-		<div class="wrap">
+		<div class="well">
 			<?php echo $menu ?>
 		</div>
 	</div>
 	<div class="col-md-8 ">
-		<form id="form_data" name="form_data" method="post" action="">
+		<form id="form_data" name="form_data" method="post" class="form-horizontal well">
 			<input type="hidden" name="id" id="id">
 			<input type="hidden" name="pid" id="pid" value="0">
 			<input type="hidden" name="ajax" id="ajax" value="0">
 			<input type="hidden" name="opmode" id="opmode" value="">
 			<html:select id="tag_list" name="tag_list"  options="tag_list" style="display-none"/>
-			<div class="row form-horizontal">
-				<div class="form-group">
-					<label class="col-md-2 control-label" for="name">名称：</label>
-					<div class="col-md-10">
-						<input type="text" id="name" name="name" check="require" msg="请输入名称">
-					</div>
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="name">名称：</label>
+				<div class="col-md-8">
+					<input type="text" id="name" name="name" check="require" msg="请输入名称" class="form-control">
 				</div>
 			</div>
-			<div class="row form-horizontal">
-				<div class="form-group">
-					<label class="col-md-2 control-label" for="tag_name">父节点：</label>
-					<div class="col-md-10">
-						<div class="input-append">
-							<input  type="text" id="tag_name" name="tag_name" readonly>
-							<button class="btn btn-default" type="button"  onclick="select_pid()" >
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="tag_name">父节点*：</label>
+				<div class="col-md-8">
+					<div class="input-group">
+						<input name="tag_name" class="form-control val" id="tag_name" type="text" msg="请选择上级部门" check="require" source="{:U('dept/json')}" readonly="readonly"/>
+						<span class="input-group-btn">
+							<button class="btn btn-default" onclick="select_pid()" type="button">
 								选择
-							</button>
-						</div>
+							</button> </span>
 					</div>
 				</div>
 			</div>
-			<div class="row form-horizontal">
-				<div class="form-group">
-					<label class="col-md-2 control-label" for="sort">排序：</label>
-					<div class="col-md-10">
-						<input type="text" id="sort" name="sort">
-					</div>
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="sort">排序：</label>
+				<div class="col-md-8">
+					<input type="text" id="sort" name="sort" class="form-control">
 				</div>
 			</div>
-			<div class="row form-horizontal">
-				<div class="form-group">
-					<label class="col-md-2 control-label" for="is_del">状态：</label>
-					<div class="col-md-10">
-						<select   name="is_del" id="is_del">
-							<option  value="0">启用</option>
-							<option value="1">禁用</option>
-						</select>
-					</div>
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="is_del">状态：</label>
+				<div class="col-md-8">
+					<select   name="is_del" id="is_del" class="form-control col-10">
+						<option  value="0">启用</option>
+						<option value="1">禁用</option>
+					</select>
 				</div>
 			</div>
-			<div class="row form-horizontal">
-				<div class="form-group">
-					<label class="col-md-2 control-label" for="remark">备注：</label>
-					<div class="col-md-10">
-						<textarea id="remark" name="remark" class="col-md-12"></textarea>
-					</div>
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="remark">备注：</label>
+				<div class="col-md-8">
+					<textarea id="remark" name="remark" class="col-md-12 form-control"></textarea>
 				</div>
 			</div>
-		</form>
 	</div>
+	</form>
+</div>
 </div>

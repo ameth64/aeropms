@@ -25,6 +25,10 @@ function _strReplace(search, replace, str) {
 	return str.replace(regex, replace);
 }
 
+function search() {
+	$("#form_search").submit();
+};
+
 /* 回车进行搜索 */
 function key_search() {
 	if (event.keyCode == 13) {
@@ -184,11 +188,11 @@ function fill_time(id) {
 /* 获取日历背景颜色*/
 function schedule_bg(j) {
 	var myArray = new Array(5);
-	myArray[0] = "#d9534f";
-	myArray[1] = "#bbe9ff";
-	myArray[2] = "#ffc6ff";
-	myArray[3] = "#ffddbb";
-	myArray[4] = "#ffc6c6";
+	myArray[0] = "#CCCCCC";
+	myArray[1] = "#99CCFF";
+	myArray[2] = "#CCFFCC";
+	myArray[3] = "#FFFFCC";
+	myArray[4] = "#FFCCCC ";
 	return myArray[j - 1];
 }
 
@@ -367,7 +371,7 @@ function contact_conv(val) {
 	var html = "";
 	for (key in arr_temp) {
 		if (arr_temp[key] != '') {
-			html += '<span title="' + arr_temp[key].split("|")[1] + '" emp_no="' + arr_temp[key].split("|")[1] + '" onmousedown="return false">' + arr_temp[key].split("|")[0] + ';</span>';
+			html += '<span title="' + arr_temp[key].split("|")[1] + '" emp_no="' + arr_temp[key].split("|")[1] + '" onmousedown="return false"><nobr>' + arr_temp[key].split("|")[0] + '<a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>';
 		}
 	}
 	return html;

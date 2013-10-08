@@ -9,20 +9,22 @@ class NodeAction extends CommonAction {
 		$this -> assign('groupList', $list);
 	}
 
-	public function index() {
+	public function index(){
 		$node = M("Node");
-		if (!empty($_POST['s_pid'])) {
-			$pid = $_POST['s_pid'];
-		} elseif (!empty($_GET['s_pid'])) {
-			$pid = $_GET['s_pid'];
+		if (!empty($_POST['eq_pid'])) {
+			$eq_pid = $_POST['eq_pid'];
+		} elseif (!empty($_GET['eq_pid'])) {
+			$eq_pid = $_GET['eq_pid'];
 		} else {
-			$pid = $node -> where('pid=0') -> order('sort asc') -> getField('id');
+			$eq_pid = $node -> where('pid=0') -> order('sort asc') -> getField('id');
 		}
+		
+		$this -> assign('eq_pid', $eq_pid);
 
 		$menu = array();
 		$menu = $node -> field('id,pid,name') -> order('sort asc') -> select();
-		$tree = list_to_tree($menu, $pid);
-		$this -> assign('pid', $pid);
+		$tree = list_to_tree($menu, $eq_pid);
+		
 
 		$model = M("Node");
 		$list = $model -> order('sort asc') -> getField('id,name');

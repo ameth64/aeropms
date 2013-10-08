@@ -1,15 +1,14 @@
 <layout name='Layout/layout_main' />
 <tagLib name="html" />
 <script type="text/javascript">
-	function add() {
-		pid = $("#id").val();
+	function add(){	
 		$("#form_data :input :not(:button)").each(function() {
 			$(this).val("");
 		});
 		$("#form_data :text").each(function() {
 			$(this).val("");
-		});
-		$("#pid").val(pid);
+		});	
+		$("div.sub_left_menu a.active").removeClass("active");	
 		$("#id").val("");
 		$("#type").val("{$type}");
 		$("#opmode").val("add");
@@ -103,13 +102,12 @@
 <div class="row">
 	<div class="col-md-4 sub_left_menu ">
 		<div class="well">
-			<?php echo $menu ?>
-		</div>
+			<?php echo $menu ?></div>
 	</div>
 	<div class="col-md-8 ">
 		<form id="form_data" name="form_data" method="post" class="well form-horizontal">
 			<input type="hidden" name="id" id="id">
-			<input type="hidden" name="pid" id="pid" value="">
+			<input type="hidden" name="pid" id="pid" value="" check="require" msg="请选择父节点">
 			<input type="hidden" name="public" id="public" value="1">
 			<input type="hidden" name="folder" id="folder" value="{$type}">
 			<input type="hidden" name="ajax" id="ajax" value="0">
@@ -121,33 +119,31 @@
 			<div class="form-group col-md-12">
 				<label class="col-md-3 control-label" for="name">名称*：</label>
 				<div class="col-md-9">
-					<input class="form-control" type="text" id="name" name="name" check="require" msg="请输入名称">
-				</div>
+					<input class="form-control" type="text" id="name" name="name" check="require" msg="请输入名称"></div>
 			</div>
 
 			<div class="form-group col-md-12">
 				<label class="col-md-3 control-label" for="folder_name">父节点*：</label>
 				<div class="col-md-9">
 					<div class="input-group">
-						<input class="form-control" type="text" id="folder_name" name="folder_name" check="require" msg="请选择父节点">
+						<input class="form-control" type="text" id="folder_name" name="folder_name" readonly="readonly">
 						<span class="input-group-btn">
-							<button class="btn btn-default" onclick="select_pid()" type="button">
-								选择
-							</button> </span>
+							<button class="btn btn-default" onclick="select_pid()" type="button">选择</button>
+						</span>
 					</div>
 				</div>
 			</div>
 
 			<div class="form-group col-md-12">
-				<label class="col-md-3 control-label" for="folder_name">管理*：</label>
+				<label class="col-md-3 control-label" for="folder_name">管理：</label>
 				<div class="col-md-9">
 					<div id="admin_list" class="inputbox">
-						<a class="pull-right btn btn-link text-center" onclick="select_auth();"> <i class="icon-user"></i> </a>
+						<a class="pull-right btn btn-link text-center" onclick="select_auth();"> <i class="icon-user"></i>
+						</a>
 						<div class="wrap" >
 							<span class="address_list"></span>
 							<span class="text" >
-								<input class="letter" type="text"  >
-							</span>
+								<input class="letter" type="text"  ></span>
 						</div>
 						<div class="search dropdown ">
 							<ul class="dropdown-menu"></ul>
@@ -160,12 +156,12 @@
 				<label class="col-md-3 control-label" for="folder_name">写入 / 修改：</label>
 				<div class="col-md-9">
 					<div id="write_list" class="inputbox">
-						<a class="pull-right btn btn-link text-center" onclick="select_auth();"> <i class="icon-user"></i> </a>
+						<a class="pull-right btn btn-link text-center" onclick="select_auth();"> <i class="icon-user"></i>
+						</a>
 						<div class="wrap" >
 							<span class="address_list"></span>
 							<span class="text" >
-								<input class="letter" type="text"  >
-							</span>
+								<input class="letter" type="text"  ></span>
 						</div>
 						<div class="search dropdown ">
 							<ul class="dropdown-menu"></ul>
@@ -177,25 +173,25 @@
 				<label class="col-md-3 control-label" for="folder_name">读取：</label>
 				<div class="col-md-9">
 					<div id="read_list" class="inputbox">
-						<a class="pull-right btn btn-link text-center" onclick="select_auth();"> <i class="icon-user"></i> </a>
+						<a class="pull-right btn btn-link text-center" onclick="select_auth();">
+							<i class="icon-user"></i>
+						</a>
 						<div class="wrap" >
 							<span class="address_list"></span>
 							<span class="text" >
-								<input class="letter" type="text"  >
-							</span>
+								<input class="letter" type="text"  ></span>
 						</div>
 						<div class="search dropdown ">
 							<ul class="dropdown-menu"></ul>
 						</div>
-					</div>									
+					</div>
 				</div>
 			</div>
 
 			<div class="form-group col-md-12">
-				<label class="col-md-3 control-label" for="sort">排序*：</label>
+				<label class="col-md-3 control-label" for="sort">排序：</label>
 				<div class="col-md-9">
-					<input class="form-control" type="text" id="sort" name="sort" >
-				</div>
+					<input class="form-control" type="text" id="sort" name="sort" ></div>
 			</div>
 
 			<div class="form-group col-md-12">

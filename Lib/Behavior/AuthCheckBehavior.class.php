@@ -6,7 +6,6 @@
 
 class AuthCheckBehavior extends Behavior {
 	 protected $config;
-
      public function run(&$params){
 		 //个人数据
 		 $this->config=&$params;
@@ -18,11 +17,13 @@ class AuthCheckBehavior extends Behavior {
 					$params['auth']=$auth;
 					return true;
 					break;
+
 			 case 'asst':
 					$auth=array('admin'=>true,'write'=>true,'read'=>true);
 					$params['auth']=$auth;
 					return true;
 					break;
+
 
 			 case 'personal':
 
@@ -68,13 +69,14 @@ class AuthCheckBehavior extends Behavior {
 	 break;
 		 
 			}
+
 		if($auth[$action_auth[ACTION_NAME]]){
 			$this->config['auth']=$auth;
 			return true;
 		}else{
 			 //dump("没有权限");
 			 $e['message'] ="没有权限";
-			 include C('TMPL_EXCEPTION_FILE');
+			 include C('TMPL_NO_HAVE_AUTH');
 			 die;
 		};
      }

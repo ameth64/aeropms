@@ -48,11 +48,6 @@
 		show_content();
 	}); 
 </script>
-<style type="text/css">
-	#content_1 {
-		display: none;
-	}
-</style>
 <div class="title panel panel-default">
 	<div class="panel-body">
 		<h3 class="col-md-12">{$flow_type.name}:{$vo.name}</h3>
@@ -80,65 +75,51 @@
 	<input type="hidden" id="step" name="step" value="">
 
 	<div class="form-group col-md-6">
-		<label class="col-md-4 control-label" >文件编号*：</label>
+		<label class="col-md-4 control-label" >文件编号：</label>
 		<div class="col-md-8">
-			<p class="form-control-static">
-				{$vo.doc_no}
-			</p>
+			<p class="form-control-static">{$vo.doc_no}</p>
 		</div>
 	</div>
 
 	<div class="form-group col-md-6">
 		<label class="col-md-4 control-label" >日期：</label>
 		<div class="col-md-8">
-			<p class="form-control-static">
-				{$vo.create_time|toDate='Y-m-d'}
-			</p>
+			<p class="form-control-static">{$vo.create_time|toDate='Y-m-d'}</p>
 		</div>
 	</div>
 
 	<div class="form-group  col-md-6">
 		<label class="col-md-4 control-label" >编写人：</label>
 		<div class="col-md-8">
-			<p class="form-control-static">
-				{$vo.user_name}
-			</p>
+			<p class="form-control-static">{$vo.user_name}</p>
 		</div>
 	</div>
 
 	<div class="form-group  col-md-6">
 		<label class="col-md-4 control-label" >部门：</label>
 		<div class="col-md-8">
-			<p class="form-control-static">
-				{$vo.dept_name}
-			</p>
+			<p class="form-control-static">{$vo.dept_name}</p>
 		</div>
 	</div>
 
 	<div class="form-group">
 		<label class="col-md-2 control-label" >裁决：</label>
 		<div class="col-md-10">
-			<p id="confirm_wrap" class="form-control-static address_list">
-				{$vo.confirm_name}
-			</p>
+			<p id="confirm_wrap" class="form-control-static address_list">{$vo.confirm_name}</p>
 		</div>
 	</div>
 
 	<div class="form-group">
 		<label class="col-md-2 control-label" >协商：</label>
 		<div class="col-md-10">
-			<p id="consult_wrap" class="form-control-static address_list">
-				{$vo.consult_name}
-			</p>
+			<p id="consult_wrap" class="form-control-static address_list">{$vo.consult_name}</p>
 		</div>
 	</div>
 
 	<div class="form-group">
 		<label class="col-md-2 control-label" >抄送：</label>
 		<div class="col-md-10">
-			<p id="refer_wrap" class="form-control-static address_list">
-				{$vo.consult_name}
-			</p>
+			<p id="refer_wrap" class="form-control-static address_list">{$vo.consult_name}</p>
 		</div>
 	</div>
 
@@ -147,7 +128,7 @@
 			<div id="content_wrap">
 				<iframe id="content_iframe"></iframe>
 			</div>
-			<textarea id="content_1" name="content" style="width:100%;height:300px;">{$vo.content}</textarea>
+			<textarea id="content_1" name="content" style="width:100%;height:300px;" class="display-none">{$vo.content}</textarea>
 		</div>
 	</div>
 
@@ -163,11 +144,14 @@
 
 <div class="title panel panel-default">
 	<div class="panel-body">
-		<h3 class="col-md-12"><a name="flow_status"></a>裁决情况</h3>
+		<h3 class="col-md-12">
+			<a name="flow_status"></a>
+			裁决情况
+		</h3>
 	</div>
 </div>
 
-<div class="ul-table ">
+<div class="ul-table">
 	<ul>
 		<li class="thead">
 			<span style="width:90px;">类型</span>
@@ -183,9 +167,8 @@
 				<span style="width:90px;" class="text-center">{$item.create_time|toDate='Y-m-d'}</span>
 				<span style="width:90px;" class="text-center">{$item.result}</span>
 				<span class="auto">
-					<div style="overflow:hidden">
-						{$item.comment}
-					</div></span>
+					<div style="overflow:hidden">{$item.comment}</div>
+				</span>
 			</li>
 		</volist>
 	</ul>
@@ -193,7 +176,10 @@
 <notempty name="confirm">
 	<div class="title panel panel-default">
 		<div class="panel-body">
-			<h3 class="col-md-12"><a name="confirm"></a>办理意见</h3>
+			<h3 class="col-md-12">
+				<a name="confirm"></a>
+				办理意见
+			</h3>
 		</div>
 	</div>
 
@@ -201,7 +187,7 @@
 		<input type="hidden" name="id" value="{$confirm.id}">
 		<input type="hidden" name="flow_id" value="{$vo.id}">
 		<input type="hidden" name="step" value="{$confirm.step}">
-		<div class="operate panel panel-default ">
+		<div class="operate panel panel-default">
 			<div class="panel-heading clearfix">
 				<div class="pull-left">
 					<a onclick="go_return_url();" class="btn btn-default">返回</a>
@@ -211,11 +197,10 @@
 					<a onclick="reject();" class="btn btn-default">驳回</a>
 				</div>
 			</div>
-		<div class="form-group panel-body">
-			<label class="col-md-2 control-label" >办理意见：</label>
-			<div class="col-md-10">
-				<textarea name="comment" class="col-md-12" style="height:120px"></textarea>
-			</div>
-	</form>
-</notempty>
-
+			<div class="form-group panel-body">
+				<label class="col-md-2 control-label" >办理意见：</label>
+				<div class="col-md-10">
+					<textarea name="comment" class="col-md-12" style="height:120px"></textarea>
+				</div>
+			</form>
+		</notempty>

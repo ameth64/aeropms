@@ -32,7 +32,7 @@
 			}, function(data) {
 				count = 0;
 				prev_date = '';
-				if (data != null) {					
+				if (data != null) {
 					$.each(data, function(i) {
 						html = '<li id=li_' + data[i].id + ' style=background-color:' + schedule_bg(data[i].priority) + ">";
 						html += '<i class="ico_square"></i>';

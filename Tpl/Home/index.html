@@ -194,9 +194,9 @@
 	<!-- 论坛结束 -->
 </div>
 <script>
-	$(function() {
+	$(function(){
 		$(".home.row").sortable({
-			cancel : "ul.nav li",
+			cancel : "ul.nav li,.panel-body",
 			stop : function(event, ui) {
 				set_sort()
 			}
@@ -220,6 +220,7 @@
 			}
 		}
 	};
+	
 	function set_sort() {
 		var sort_string = "";
 		$(".tab_box").each(function() {

@@ -1,7 +1,10 @@
 <?php
 class ProfileAction extends CommonAction {
 	protected $config=array('app_type'=>'personal');
-	public function _before_index() {
+	
+	function index(){
+		cookie("top_menu", null);
+		cookie("left_menu", null);
 		$model = M("Position");
 		$list = $model -> where('is_del=0') -> order('sort asc') -> getField('id,name');
 		$this -> assign('position_list', $list);
@@ -17,9 +20,7 @@ class ProfileAction extends CommonAction {
 		$model = M("Rank");
 		$list = $model -> where('is_del=0') -> order('sort asc') -> getField('id,name');
 		$this -> assign('rank_list', $list);
-	}
-
-	function index(){
+				
 		$user=D("UserView")->find(get_user_id());
 		$this->assign("vo",$user);
 		$this->display();
@@ -45,6 +46,7 @@ class ProfileAction extends CommonAction {
 	}
 
 	public function password(){
+		cookie("top_menu", null);			
 		$this -> display();
 	}
 

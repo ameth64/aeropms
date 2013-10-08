@@ -59,9 +59,9 @@
 						</li>
 						<foreach name="tag_list" item="vo">
 							<li>
-								<a><label style="padding-top:5px;"><span class="checkbox">
+								<a><label><span class="checkbox">
 										<input type="checkbox" name="tag[]" value="{$key}">
-									</span><span>{$vo}</span></label></a>
+									</span><span class="text">{$vo}</span></label></a>
 							</li>
 						</foreach>
 						<li class="new_tag">
@@ -223,16 +223,23 @@
 
 	function export_contact() {
 		window.open("{:U('export')}", "_blank");
+		return false;
 	}
 
 	function import_contact() {
 		window.open("{:U('import')}", "_self");
+		return false;
 	}
+	
+	function manage_tag() {
+		window.open("{:U('tag_manage')}", "_self");
+		return false;
+	}	
 
 
 	$(document).ready(function() {
 		set_return_url();
-		$(".dropdown-menu li").click(function() {
+		$(".title .dropdown-menu li").click(function() {
 			$("#keyword").val("");
 			$(".ul-table li").hide();
 			gid = $(this).attr("gid");

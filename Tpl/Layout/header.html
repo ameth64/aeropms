@@ -17,11 +17,10 @@
 				</li>
 			</volist>
           </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="{:U('UserConfig/index')}">设置</a></li>
-            <li><a href="{:U('profile/index')}">{$Think.session.user_name}</a></li>
-            <li ><a href="{:U('login/logout')}">退出</a></li>
-          </ul>
+		  <div class="navbar-right">
+			<a href="{:U('Profile/index')}"><img style="width:30px;height:30px;" src="/{:C('SAVE_PATH')}{$Think.session.user_pic}"></a>
+			<a href="{:U('login/logout')}">退出</a>
+		  </div>
         </div><!--/.nav-collapse -->
       </div>
     </div>

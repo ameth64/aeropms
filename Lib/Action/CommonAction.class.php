@@ -450,7 +450,7 @@ class CommonAction extends Action {
 
 	protected function _tag_manage($tag_name) {		
 		 if($this->config['app_type']=='personal'){
-			$tag = A('UserTag');
+			$tag = A('UserTag');	
 		 }else{
 			$tag = A('SystemTag');
 		 }

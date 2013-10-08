@@ -15,9 +15,14 @@
 	</div>
 	<div class="panel-body">
 		<div class="popup_tree_menu">
-			<ul class="tree_menu">
+		<ul class="tree_menu">
+			<li>
+				<a node="0"><i class="icon"></i>
+					<span>根节点</span>
+				</a>
 				{$menu}
-			</ul>
+			</li>
+		</ul>
 		</div>
 	</div>
 </div>
@@ -33,7 +38,6 @@
 		}
 		myclose();
 	}
-
 
 	$(document).ready(function() {
 		parent_node = $(".sub_left_menu ul.tree_menu a.active", parent.document).attr("node");

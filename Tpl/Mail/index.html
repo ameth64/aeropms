@@ -104,7 +104,7 @@
 						{$vo.from|show_contact}
 					</nobr></td>
 					<td><a href="{:U('read?id='.$vo['id'])}">{$vo.name}<span class="sort_content">
-						<eq name="vo.title|strlen" value="0">
+						<eq name="vo.name|strlen" value="0">
 							无标题
 						</eq></span></a></td>
 					<td > {$vo.create_time|toDate='Y-m-d'} </td>

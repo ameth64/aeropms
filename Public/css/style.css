@@ -10,6 +10,10 @@ body {
 body, h1, h2, h3, h4, h5, h6, p, ul, li, ol, dt, dl, input, textarea {
 	font-family: Microsoft YaHei,simsun,Arial,sans-serif;
 }
+.radio-inline, .checkbox-inline{
+	padding-left: 0px;
+	padding-right: 10px;
+}
 #wrap {
 	margin: 0px auto -60px;
 	padding: 0px 0px 60px;
@@ -399,7 +403,9 @@ span.checkbox input {
 	width:100%;
 	background: transparent;
 }
-
+.ul-table{
+	margin-bottom:15px;
+}
 .ul-table ul {
 	margin: 0;
 	padding: 0;
@@ -491,7 +497,12 @@ span.checkbox input {
 	color: #fff;
 	background: #2980b9;
 }
-
+.navbar-right a{
+	line-height:48px;
+	color:#fff;
+	padding-left:10px;
+	padding-right:10px;
+}
 /*-
  Left Menu ---------------------------*/
 .content {
@@ -712,7 +723,13 @@ ul.tree_menu .level4 {
 .Contact  li.tbody {
 	border-bottom: 1px dotted #cdcdcd;
 }
-
+.Contact .tag_list a{
+	padding-top:6px;
+	padding-bottom:0px;
+}
+.Contact .tag_list span.checkbox{
+	margin-top: 0px;
+}
 
 .Contact .dropdown-menu .apply, .Contact .dropdown-menu .cmd, .Contact .dropdown-menu .new_tag {
 	margin-left: 20px;
@@ -736,7 +753,13 @@ ul.tree_menu .level4 {
 .Customer  .tbody {
 	border-bottom: 1px dotted #cdcdcd;
 }
-
+.Customer .tag_list a{
+	padding-top:6px;
+	padding-bottom:0px;
+}
+.Customer .tag_list span.checkbox{
+	margin-top: 0px;
+}
 .Customer .dropdown-menu .apply, .Customer .dropdown-menu .cmd, .Customer .dropdown-menu .new_tag {
 	margin-left: 20px;
 	margin-right: 20px;
@@ -759,7 +782,13 @@ ul.tree_menu .level4 {
 .Supplier .tbody {
 	border-bottom: 1px dotted #cdcdcd;
 }
-
+.Supplier .tag_list a{
+	padding-top:6px;
+	padding-bottom:0px;
+}
+.Supplier .tag_list span.checkbox{
+	margin-top: 0px;
+}
 .Supplier .dropdown-menu .apply, .Supplier .dropdown-menu .cmd, .Supplier .dropdown-menu .new_tag {
 	margin-left: 20px;
 	margin-right: 20px;
@@ -959,8 +988,25 @@ div.address_list{
 	text-align:center;
 }
 
+.Schedule #dialog2 {
+	width:240px;
+	margin:0;
+	background:#fff;
+	position:absolute;
+}
+.Schedule #dialog2 ol,.Schedule #dialog2 li,.Schedule #dialog2 p{
+	cursor:pointer;
+	line-height:20px;
+	float:left;
+	width:100%;
+	margin:0;
+	padding:0;
+	overflow:hidden;
+}
+
+
 .slider_box{
-	height:32px;
+	height:17px;
 	width:250px;
 }
 .ui-slider{	
@@ -1031,6 +1077,12 @@ div.address_list{
 	position: relative;
 	table-layout: fixed;
 }
+
+.Schedule  a
+{
+	color:#222;
+}
+
 .Schedule td.st-c
 {
 	border-left-color: #ddd;
@@ -1047,6 +1099,7 @@ div.address_list{
 	border-top:none;
 	background:none;
 }
+
 .Schedule td.st-c ul,.Schedule td.st-c li,.Schedule td.st-c p{
 	cursor:pointer;
 	line-height:20px;
@@ -1104,7 +1157,7 @@ div.address_list{
 	overflow: hidden;
 	padding-top: 4px;
 	padding-right: 4px;
-	padding-bottom: 1px;
+	padding-bottom: 4px;
 	padding-left: 4px;
 	border-top-color: #ddd;
 	border-left-color: #ddd;
@@ -1234,37 +1287,47 @@ div.address_list{
 	position: absolute;
 }
 
-.todo #slider-range-priority{	
+.Todo  a
+{
+	color:#222;
+}
+
+.Todo #slider-range-priority{	
 	float:left;
 	margin-top:8px;
 	width:140px;
 }
 
-.todo .right{
-	float:right;
-}
-
-.todo .auto{
+.Todo .auto{
 	padding-left:10px;
 }
-.todo li.tbody {
+
+.Todo .status,.Todo .up,.Todo .down{
+	cursor: pointer;
+}
+
+.Todo li.tbody {
 	border-bottom:1px solid #fff;
 }
-.todo #dialog2 ul.dropdown-menu{
+
+.Todo #dialog2 ul.dropdown-menu{
+	width:100px;
+	min-width:100px;
 	display:block;
 	margin:0;
 	padding:0;
 }
-.todo #dialog2.dropdown {
+
+.Todo #dialog2.dropdown {
 	display:none;
 	text-align:center;
 	width:100px;
 	margin:0;
 	background:#fff;
 	position:absolute;
-	border:2px solid #ccc;
 }
-.todo #dialog2 li{
+
+.Todo #dialog2 li{
 	line-height:32px;
 	cursor:pointer;
 	float:left;
@@ -1280,18 +1343,22 @@ div.address_list{
 	margin-top: 15px;
 	width:700px;
 }
+
 .popup .panel{
 	margin-bottom:15px;
 }
+
 .popup .popup_tree_menu div{
 	overflow-x:hidden;
 	overflow-y:scroll;
 	margin-bottom:15px;
 	border:1px solid #ccc;
 }
+
 .popup select{
 	border:1px solid #ccc;
 }
+
 .popup #addr_list,.popup #position{
 	overflow-x:hidden;
 	overflow-y:scroll;
@@ -1318,3 +1385,16 @@ div.address_list{
 	padding-left: 5px;
 }
 
+.Staff .user_list{
+	height:280px;	
+	overflow-y: none;
+	overflow-x: none;
+}
+
+.Staff .user_list li{	
+	cursor:pointer;	
+}
+
+.Staff .user_list li.tbody:hover{
+	background:#ccc;
+}

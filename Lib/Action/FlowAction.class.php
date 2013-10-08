@@ -1,6 +1,6 @@
 <?php
 class FlowAction extends CommonAction {
-	protected $config=array('app_type'=>'flow','action_auth'=>array('folder'=>'read','approve'=>'admin'));
+	protected $config=array('app_type'=>'flow','action_auth'=>array('folder'=>'read','approve'=>'admin','reject'=>'admin'));
 
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');

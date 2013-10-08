@@ -58,14 +58,14 @@ class HomeAction extends CommonAction {
 		$log_list = rotate($log_list);
 		if (!empty($log_list)) {
 			$map['id'] = array('in', $log_list['flow_id']);
-			$todo_flow_list = $model -> where($map) -> field("id,name,create_time") -> select();
+			$todo_flow_list = $model -> where($map) -> field("id,name,create_time") -> limit(6)-> select();
 			$this -> assign("todo_flow_list", $todo_flow_list);
 		}
 		//已提交
 		$map = array();
 		$map['user_id'] = $user_id;
 		$map['step'] = array('gt', 10);
-		$submit_process_list = $model -> where($map) -> field("id,name,create_time") -> select();
+		$submit_process_list = $model -> where($map) -> field("id,name,create_time") -> limit(6)-> select();
 		$this -> assign("submit_flow_list", $submit_process_list);
 	}
 

@@ -95,6 +95,8 @@ class RoleAction extends CommonAction {
 	public function set_role() {
 		$emp_list = $_POST["emp_id"];
 		$role_list = $_POST["role_list"];
+		//dump($_POST);
+		//die;
 		$model = D("Role");
 		$model -> del_role($emp_list);
 

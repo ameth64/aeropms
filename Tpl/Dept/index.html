@@ -3,14 +3,12 @@
 <script type="text/javascript">
 	var manager = null;
 	function add() {
-		pid = $("#id").val();
 		$("#form_data :input :not(:button)").each(function() {
 			$(this).val("");
 		});
 		$("#form_data :text").each(function() {
 			$(this).val("");
 		});
-		$("#pid").val(pid);
 		$("#opmode").val("add");
 	};
 
@@ -20,12 +18,8 @@
 		}
 	}
 
-	function test() {
-		form_search.submit();
-	};
-
 	function select_pid() {
-		winopen("{:U('winpop')}",730,500);
+		winopen("{:U('winpop')}", 730, 500);
 	}
 
 	function showdata(result) {
@@ -38,6 +32,7 @@
 
 
 	$(document).ready(function() {
+		set_val('eq_is_del', "{$eq_is_del}");
 		$(".sub_left_menu .tree_menu  a").click(function() {
 			$(".sub_left_menu .tree_menu  a").each(function() {
 				$(this).attr("class", "");
@@ -57,19 +52,27 @@
 		</div>
 	</div>
 </div>
-
-<div class="operate panel panel-default">
-	<div class="panel-body">
-		<div class="pull-right">
-			<a onclick="add()" class="btn btn-default">新增</a>
-			<a onclick="save()"  class="btn btn-default">保存</a>
+<form id="form_search" name="form_search" method="post">
+	<div class="operate panel panel-default">
+		<div class="panel-body">
+			<div class="pull-left">
+				<label class="radio-inline" for="eq_is_del"><b>状态:</b></label>
+				<span class="checkbox">
+					<select id="eq_is_del" name="eq_is_del" class="form-control col-10" onchange="search();">
+						<option value="#">全部</option>
+						<option value="0">启用</option>
+					</select> </span>
+			</div>
+			<div class="pull-right">
+				<a onclick="add()" class="btn btn-default">新增</a>
+				<a onclick="save()"  class="btn btn-default">保存</a>
+			</div>
 		</div>
 	</div>
-</div>
-
+</form>
 <!-- 功能操作区域结束 -->
 <!-- 列表显示区域  -->
-<div class="row main">
+<div class="row">
 	<div class="col-md-4 sub_left_menu ">
 		<div class="well">
 			<?php echo $menu ?>
@@ -113,22 +116,19 @@
 				<label class="col-md-4 control-label" for="dept_name">上级部门*：</label>
 				<div class="col-md-8">
 					<div class="input-group">
-						<input name="dept_name" class="form-control val" id="dept_name" type="text" msg="请选择上级部门" check="require" source="{:U('dept/json')}" />
-						<input name="pid" class=" key" id="pid" type="hidden" msg="请选择上级部门" check="require" />
+						<input name="dept_name" class="form-control val" id="dept_name" type="text" readonly="readonly"/>
+						<input name="pid" id="pid" type="hidden" msg="请选择上级部门" check="require" />
 						<span class="input-group-btn">
 							<button class="btn btn-default" onclick="select_pid()" type="button">
 								选择
 							</button> </span>
-					</div>
-					<div class="search dropdown ">
-						<ul class="dropdown-menu"></ul>
 					</div>
 				</div>
 			</div>
 			<div class="form-group col-md-12">
 				<label class="col-md-4 control-label" for="sort">排序：</label>
 				<div class="col-md-8">
-					<input class="form-control" type="text" id="sort" name="short" check="require" msg="请输入简称">
+					<input class="form-control" type="text" id="sort" name="sort" >
 				</div>
 			</div>
 

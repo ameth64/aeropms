@@ -1,5 +1,4 @@
 <layout name='Layout/layout_main' />
-
 <script type="text/javascript" src="__PUBLIC__/js/calendar.js"></script>
 <script type="text/javascript" src="__PUBLIC__/js/jquery-ui.min.js"></script>
 	<script type="text/javascript">
@@ -26,7 +25,7 @@
 						if (prev_date == data[i].start_date) {
 							count++;
 							if (count == 4) {
-								$("ul.div_" + data[i].start_date).append('<li class=\"all\">显示全部</li>');
+								$("ul.div_" + data[i].start_date).append('<li class=\"all\">显示全部...</li>');
 							}
 						}
 						prev_date = data[i].start_date;
@@ -35,8 +34,6 @@
 				}
 			});
 		}
-
-
 
 		$(document).ready(function() {
 			initial();
@@ -59,9 +56,10 @@
 				$(this).parent().find("li.all").show();
 				html = $("<ol></ol>").html(html);
 				$("#dialog2").html(html);
-				$("#dialog2").css("left", $(this).parents("td").offset().left);
-				$("#dialog2").css("top", $(this).parents("td").offset().top);
-				$("#dialog2").show();
+				$("#dialog2").show();				
+
+				$("#dialog2").css("left",$(this).parents("ul").offset().left- $(".Schedule").offset().left);
+				$("#dialog2").css("top",$(this).parents("ul").offset().top-$(".Schedule").offset().top);						
 			}))
 		})
 		//-->
@@ -561,6 +559,5 @@
 				</div>
 			</div>
 		</div>
-	</form>
-	<div id="dialog2"></div>
-</div>
+	</form>	
+</div><div id="dialog2"></div>

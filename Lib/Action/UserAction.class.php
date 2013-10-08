@@ -9,7 +9,7 @@ class UserAction extends CommonAction {
 		}
 	}
 
-	public function _before_index() {
+	public function index() {				
 		$model = M("Position");
 		$list = $model -> where('is_del=0') -> order('sort asc') -> getField('id,name');
 		$this -> assign('position_list', $list);
@@ -25,6 +25,27 @@ class UserAction extends CommonAction {
 		$model = M("Rank");
 		$list = $model -> where('is_del=0') -> order('sort asc') -> getField('id,name');
 		$this -> assign('rank_list', $list);
+				
+		if (isset($_POST['eq_is_del'])){					
+			$eq_is_del = $_POST['eq_is_del'];			
+		} else{
+			$eq_is_del="0";
+		}
+		//die;
+		$this->assign('eq_is_del',$eq_is_del);
+
+		$map = $this -> _search();
+		if (method_exists($this, '_search_filter')) {
+			$this -> _search_filter($map);
+		}
+		$map['is_del']=array('eq',$eq_is_del);	
+		$name = $this -> getActionName();
+		$model = D($name);
+
+		if (!empty($model)) {
+			$this -> _list($model, $map);
+		}
+		$this -> display();							
 	}
 
 	// 检查帐号

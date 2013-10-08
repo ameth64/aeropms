@@ -1,16 +1,4 @@
 <?php
-// +----------------------------------------------------------------------
-// | ThinkPHP
-// +----------------------------------------------------------------------
-// | Copyright (c) 2007 http://thinkphp.cn All rights reserved.
-// +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
-// +----------------------------------------------------------------------
-// | Author: liu21st <liu21st@gmail.com>
-// +----------------------------------------------------------------------
-// $Id: common.php 2601 2012-01-15 04:59:14Z liu21st $
-
-//公共函数
 
 function get_img_info( $img ){
 	$img_info = getimagesize($img);
@@ -37,35 +25,6 @@ function get_img_info( $img ){
 		}
 	}
 
-function timediff($starttime, $end_time = null) {
-	date_Default_TimeZone_set("PRC");
-	$starttime = strtotime($starttime);
-	if (!$end_time)
-		$end_time = strtotime(date("Y-m-d H:i:s"));
-	if ($starttime >= $end_time)
-		return "1秒";
-	$timediff = $end_time - $starttime;
-	//var_dump($timediff);
-	$days = intval($timediff / 86400);
-	$remain = $timediff % 86400;
-	$hours = intval($remain / 3600);
-	$remain = $remain % 3600;
-	$mins = intval($remain / 60);
-	$secs = $remain % 60;
-	if ($mins > 0)
-		$res .= $mins . "分";
-	if ($secs > 0)
-		$res .= $secs . "秒";
-	if ($hours > 0)
-		$res = $hours . "小时";
-	if ($days > 0)
-		$res = $days . "天";
-	if (!$res) {
-		$res = "1秒";
-	}
-	return $res;
-}
-
 function get_system_config($code) {
 	$model = M("SystemConfig");
 	$where['code'] = array('eq', $code);
@@ -84,11 +43,6 @@ function get_user_config($field) {
 	}
 }
 
-function big_num($num) {
-	$arr = array("零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十");
-	return $arr[$num];
-}
-
 function conv_tag_list($tag) {
 	$tag_list = explode("|", $tag);
 	$tag_list = array_filter($tag_list);
@@ -102,11 +56,6 @@ function conv_tag_list($tag) {
 		$tag_list = array_filter(explode("|", $tag_list));
 		return $tag_list;
 	}
-}
-
-function winclose($msg) {
-	header("Content-Type:text/html; charset=utf-8");
-	exit('<script>alert("' . $msg . '");window.opener=null;window.open("","_self");window.close();</script>');
 }
 
 function get_user_id() {
@@ -148,67 +97,6 @@ function del_folder($dir) {
 function get_user_name() {
 	$user_name = session('user_name');
 	return isset($user_name) ? $user_name : 0;
-}
-
-function C2($name = NULL, $value = NULL, $cache = 0) {
-	if ($value == NULL) {
-		if ($cache == 0) {
-			if (!F("config") || is_null(F("config"))) {
-				$config = m("config");
-				$row = $config -> getField("n,v");
-				F("config", $row);
-				if (empty($name))
-					return $row;
-				return isset($row[$name]) ? $row[$name] : null;
-			} else {
-				$row = F("config");
-				return isset($row[$name]) ? $row[$name] : null;
-			}
-		} else {
-			$row = F("config", $row);
-			if (!$row) {
-				$config = D("web.config");
-				$row = $config -> getField("n,v");
-			}
-			if (empty($name))
-				return $row;
-			return isset($row[$name]) ? $row[$name] : null;
-		}
-	} else {
-		//if($cache==1) $config= m("sys_config"); else $config= D("web.config");
-		$config = m("config");
-		str_replace("\\", "", $value);
-		$r = $config -> where("n='" . $name . "'") -> setField("v", $value);
-		if ($r <= 0) {
-			$data["n"] = $name;
-			$data["v"] = $value;
-			$r = $config -> add($data);
-		}
-		if ($r > 0 && $cache == 1)
-			F("config", NULL);
-		return $r;
-	}
-}
-
-function ages($birth) {
-	list($by, $bm, $bd) = explode('-', $birth);
-	if (empty($by))
-		return '-';
-	$cm = date('n');
-	$cd = date('j');
-	$age = date('Y') - $by - 1;
-	if ($cm > $bm || $cm = $bm && $cd > $$bd)
-		$age++;
-	return $age;
-}
-
-function agey($age) {
-	list($by, $bm, $bd) = explode('-', $birth);
-	$cm = date('n');
-	$cd = date('j');
-	$year = date('Y') - $age - 1;
-	//if ($cm>$bm || $cm=$bm && $cd>$$bd) $age++;
-	return $year;
 }
 
 function toDate($time, $format = 'Y-m-d H:i:s') {
@@ -471,31 +359,6 @@ function tree_nav($tree, $level = 0) {
 	}
 	return $html;
 }
-function tree_menu2($tree) {
-	$html = "";
-	if (is_array($tree)) {
-		$html = "<ul>\r\n";
-		foreach ($tree as $val) {
-			if (isset($val["name"])) {
-				$title = $val["name"];
-				$url = $val["url"];
-				$id = $val["id"];
-				if (empty($val["id"])) {
-					$id = $val["name"];
-				}
-				if (isset($val['_child'])) {
-					$html = $html . "<li id=\"$id\" url=\"$url\">\r\n<span>$title</span>\r\n";
-					$html = $html . tree_menu2($val['_child']);
-					$html = $html . "</li>\r\n";
-				} else {
-					$html = $html . "<li id=\"$id\" url=\"$url\">\r\n<span>$title</span>\r\n</li>\r\n";
-				}
-			}
-		}
-		$html = $html . "</ul>\r\n";
-	}
-	return $html;
-}
 
 function left_menu($tree, $level = 0) {
 	$level++;
@@ -572,32 +435,6 @@ function sub_tree_menu($tree, $level = 0) {
 					$html = $html . "</li>\r\n";
 				} else {
 					$html = $html . "<li>\r\n<a  node=\"$id\" ><i class=\"icon-angle-right level$level\"></i><span>$title</span></a>\r\n</li>\r\n";
-				}
-			}
-		}
-		$html = $html . "</ul>\r\n";
-	}
-	return $html;
-}
-
-function folder_tree_menu($tree, $level = 0) {
-	$level++;
-	$html = "";
-	if (is_array($tree)) {
-		$html = "<ul class=\"tree_menu\">\r\n";
-		foreach ($tree as $val) {
-			if (isset($val["name"])) {
-				$title = $val["name"];
-				$id = $val["id"];
-				if (empty($val["id"])) {
-					$id = $val["name"];
-				}
-				if (isset($val['_child'])) {
-					$html = $html . "<li id=\"$id\">\r\n<span class=\"level$level\">$title</span>\r\n";
-					$html = $html . folder_tree_menu($val['_child'], $level);
-					$html = $html . "</li>\r\n";
-				} else {
-					$html = $html . "<li  id=\"$id\">\r\n<span class=\"level$level\">$title</span>\r\n</li>\r\n";
 				}
 			}
 		}
@@ -786,7 +623,7 @@ function show_confirm($confirm) {
 		foreach ($arr_emp_no as $emp_no) {
 			if (strlen($emp_no) > 1) {
 				$emp = $model -> get_user($emp_no);
-				$str .= $emp['emp_name'] . " / " . $emp['position_name'] . " &rarr; ";
+				$str .= $emp['emp_name'] . " / " . $emp['position_name'] . " <b><i class=\"icon-arrow-right\"></i></b> ";
 			}
 		}
 		return substr($str, 0, -7);
@@ -1072,10 +909,7 @@ function phpexcel($data, $templete, $file_name) {
 }
 
 function mb_unserialize($serial_str) {
-
 	$out = preg_replace('!s:(\d+):"(.*?)";!se', "'s:'.strlen('$2').':\"$2\";'", $serial_str);
-
 	return unserialize($out);
-
 }
 ?>

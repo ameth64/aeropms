@@ -1,11 +1,9 @@
 <?php
 // 用户模型
 class UserTagModel extends CommonModel {
-	public function get_list($module=MODULE_NAME){
+	public function get_list($field="id,name",$module=MODULE_NAME){
 		$where['module']=$module;
-		$user_id=get_user_id();
-		$where['user_id']=$user_id;
-		$field="id,name";
+		$where['user_id']=array('eq',get_user_id());		
 		$list=$this->where($where)->getfield($field);
 		return $list;
 	}
@@ -21,7 +19,18 @@ class UserTagModel extends CommonModel {
 		$list=$model->join($join)->where($where)->field("row_id,tag_id")->select();
 		return $list;
 	}
-
+	
+	function del_tag($tag_id){
+		$model = M("UserTag");		
+		$tag_list = tree_to_list(list_to_tree($this->get_list("id,pid,name"), $tag_id));
+		$tag_list = rotate($tag_list);
+		
+		$tag_list = implode(",", $tag_list['id']) . ",$tag_id";	
+		$where['id']=array('in',$tag_list);
+		$this->where($where)->delete();
+		$this->del_data_by_tag($tag_list);
+	}
+	
 	function del_data_by_row($row_list,$module=MODULE_NAME){
 		$model=M("UserTagData");
 		$where['row_id']=array('in',$row_list);
