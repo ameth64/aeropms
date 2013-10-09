@@ -41,6 +41,7 @@
 
 	$(document).ready(function() {
 		editor_init();
+		set_val('group','$vo.group');
 	}); 
 </script>
 <div class="title panel panel-default">
@@ -81,11 +82,10 @@
 	<div class="form-group col-md-6">
 		<label class="col-md-4 control-label" for="group">分组：</label>
 		<div class="col-md-8">
-			<html:select id="group" name="group"  options="group_list" first="选择或录入" style="form-control" />
-			<script type="text/javascript">
-				<!--$("#group option[value='{$vo.group}'").attr("selected", "selected");
-				//-->
-			</script>
+			<select name="group" id="group" class="form-control" msg="请选择职级" check="require">
+				<option>选择或录入</option>
+				{:fill_option($group_list)}
+			</select>
 		</div>
 	</div>
 

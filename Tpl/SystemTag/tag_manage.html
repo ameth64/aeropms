@@ -1,11 +1,10 @@
 <layout name='Layout/layout_main' />
-<tagLib name="html" />
 <script type="text/javascript">
 	function add() {
 		$("#form_data :text").each(function() {
 			$(this).val("");
 		});
-		$("#id").val("");		
+		$("#id").val("");
 		$("#opmode").val("add");
 	};
 
@@ -34,13 +33,15 @@
 		}
 		$("#opmode").val("edit");
 	}
+
 	function select_pid() {
 		if ($("div.sub_left_menu a.active").length > 0) {
-			winopen("{:U('system_tag/winpop?module='.MODULE_NAME)}",730, 400);
+			winopen("{:U('system_tag/winpop?module='.MODULE_NAME)}", 730, 400);
 		} else {
 			alert("请选择文件夹");
 		};
 	}
+
 
 	$(document).ready(function() {
 		set_return_url();
@@ -84,7 +85,9 @@
 			<input type="hidden" name="pid" id="pid" value="0">
 			<input type="hidden" name="ajax" id="ajax" value="0">
 			<input type="hidden" name="opmode" id="opmode" value="">
-			<html:select id="tag_list" name="tag_list"  options="tag_list" style="display-none"/>
+			<select name="tag_list" id="tag_list" class="display-none">
+				{:fill_option($tag_list)}
+			</select>
 			<div class="form-group">
 				<label class="col-md-4 control-label" for="name">名称：</label>
 				<div class="col-md-8">
@@ -124,7 +127,6 @@
 					<textarea id="remark" name="remark" class="col-md-12 form-control"></textarea>
 				</div>
 			</div>
+		</form>
 	</div>
-	</form>
-</div>
 </div>

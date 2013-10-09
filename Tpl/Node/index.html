@@ -22,7 +22,7 @@
 	}
 
 	function select_pid() {
-		winopen("{:U('winpop')}",730, 500);
+		winopen("{:U('winpop')}", 730, 500);
 	}
 
 	function showdata(result) {
@@ -35,6 +35,7 @@
 
 
 	$(document).ready(function() {
+		set_val('eq_pid', '{$eq_pid}');
 		$(".sub_left_menu .tree_menu a").click(function() {
 			$(".sub_left_menu .tree_menu  a").each(function() {
 				$(this).attr("class", "");
@@ -60,7 +61,10 @@
 	<div class="operate panel panel-default">
 		<div class="panel-body">
 			<div class="pull-left">
-				<html:select  name="eq_pid" id="eq_pid" options='groupList' style="form-control col-10" selected='eq_pid'  change='search()'/>
+				<select name="eq_pid" id="eq_pid" class="form-control" onchange="search();">
+					<option>选择职级</option>
+					{:fill_option($groupList)}
+				</select>
 			</div>
 			<div class="pull-right">
 				<a onclick="add();" class="btn btn-default">新增</a>
@@ -82,7 +86,9 @@
 			<input type="hidden" name="id" id="id">
 			<input type="hidden" name="ajax" id="ajax" value="1">
 			<input type="hidden" name="opmode" id="opmode" value="">
-			<html:select id="node_list" name="node_list"  options="node_list" style="display-none"/>
+			<select name="node_list" id="node_list" class="display-none">
+				{:fill_option($node_list)}
+			</select>
 			<div class="form-group col-md-12">
 				<label class="col-md-4 control-label" for="name">名称*：</label>
 				<div class="col-md-8">

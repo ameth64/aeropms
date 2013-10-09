@@ -45,6 +45,9 @@
 		})
 	}); 
 </script>
+<select name="dept_list" id="dept_list" class="display-none">
+	{:fill_option($dept_list)}
+</select>
 <div class="title panel panel-default">
 	<div class="panel-body">
 		<div class="panel-body">
@@ -83,7 +86,6 @@
 			<input type="hidden" name="id" id="id">
 			<input type="hidden" name="ajax" id="ajax" value="1">
 			<input type="hidden" name="opmode" id="opmode" value="">
-			<html:select id="dept_list" name="dept_list"  options="dept_list" style="display-none"/>
 			<div class="form-group col-md-12">
 				<label class="col-md-4 control-label" for="dept_no">编码*：</label>
 				<div class="col-md-8">
@@ -108,7 +110,10 @@
 			<div class="form-group col-md-12">
 				<label class="col-md-4 control-label" for="dept_grade_id">部门级别*：</label>
 				<div class="col-md-8">
-					<html:select id="dept_grade_id" name="dept_grade_id" style="form-control"  first="选择部门级别" options="dept_grade_list" />
+					<select name="dept_grade_id" id="dept_grade_id" class="form-control" msg="请选择职级" check="require">
+						<option>选择部门级别</option>
+						{:fill_option($dept_grade_list)}
+					</select>
 				</div>
 			</div>
 

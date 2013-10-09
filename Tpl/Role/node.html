@@ -1,10 +1,5 @@
 <layout name='Layout/layout_main' />
-<tagLib name="html" />
 <script type="text/javascript">
-	function test() {
-		form_search.submit();
-	};
-
 	function save() {
 		$("#node_list").val('');
 		$(".wrap .tree_menu input[name='node_id']:checked").each(function() {
@@ -14,7 +9,7 @@
 	};
 
 	function showdata(result) {
-		$(".wrap .tree_menu input").each(function() {			
+		$(".wrap .tree_menu input").each(function() {
 			$(this).iCheck('uncheck');
 			$(this).parents("td").removeClass("active");
 		});
@@ -54,16 +49,16 @@
 			return false;
 		})
 
-		$(".wrap .tree_menu input").on('ifChecked',function(event) {
+		$(".wrap .tree_menu input").on('ifChecked', function(event) {
 			$(this).parents("td").addClass("active");
-			event.stopPropagation();		
+			event.stopPropagation();
 		})
-		
-		$(".wrap .tree_menu input").on('ifUnchecked',function(event) {
+
+		$(".wrap .tree_menu input").on('ifUnchecked', function(event) {
 			$(this).parents("td").removeClass("active");
-			event.stopPropagation();		
+			event.stopPropagation();
 		})
-				
+
 		$(".wrap .tree_menu  td").click(function() {
 			if ($(this).find("input").attr("checked") == "checked") {
 				$(this).find("input").iCheck('uncheck');
@@ -82,11 +77,13 @@
 		<h3 class="col-md-12">权限组管理</h3>
 	</div>
 </div>
-<form name="form_search" method="post" action="">
+<form id="form_search" name="form_search" method="post" action="">
 	<div class="operate panel panel-default">
 		<div class="panel-body">
 			<div class="pull-left">
-				<html:select name="s_pid" options='groupList' selected='pid' style="form-control" change='test()'/>
+				<select name="s_pid" id="s_pid" class="form-control col-10" onchange="search();">					
+					{:fill_option($groupList)}
+				</select>				
 			</div>
 			<div class="pull-right">
 				<a onclick="save()" class="btn btn-default">保存</a>
@@ -131,21 +128,15 @@
 								<input node="{$data.id}" type="checkbox" name="node_id" value="{$data.id}">
 							</span> {$data.name}</td>
 							<if condition="strpos($data['url'],'/index')">
-								<td style="text-align:center">
-									<span class="checkbox">
-										<input type="checkbox" name="read[]" value="{$data.id}">
-									</span>
-								</td>
-								<td  style="text-align:center">
-									<span class="checkbox">
-										<input type="checkbox" name="write[]" value="{$data.id}">
-									</span>
-								</td>
-								<td  style="text-align:center">
-									<span class="checkbox">
-										<input type="checkbox" name="admin[]" value="{$data.id}">
-									</span>
-								</td>
+								<td style="text-align:center"><span class="checkbox">
+									<input type="checkbox" name="read[]" value="{$data.id}">
+								</span></td>
+								<td  style="text-align:center"><span class="checkbox">
+									<input type="checkbox" name="write[]" value="{$data.id}">
+								</span></td>
+								<td  style="text-align:center"><span class="checkbox">
+									<input type="checkbox" name="admin[]" value="{$data.id}">
+								</span></td>
 								<else/>
 								<td class="check_box text-center">&nbsp;</td>
 								<td class="check_box text-center">&nbsp;</td>

@@ -16,7 +16,7 @@ function get_img_info( $img ){
 	}
 }
 
- function get_return_url() {
+function get_return_url() {
 		$return_url = cookie('return_url');
 		if (!empty($return_url)) {
 			return $return_url;
@@ -236,6 +236,13 @@ function fix_array_key($list, $key) {
 		$arr[$val[$key]] = $val;
 	}
 	return $arr;
+}
+
+function fill_option($list) {
+	foreach ($list as $key=>$val) {
+		$html = $html . "<option value='{$key}'>{$val}</option>";
+	}
+	echo $html;
 }
 
 /**

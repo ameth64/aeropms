@@ -1,5 +1,4 @@
 <layout name='Layout/layout_main' />
-<tagLib name="html" />
 <script type="text/javascript">
 	function add(){	
 		$("#form_data :input :not(:button)").each(function() {
@@ -59,6 +58,8 @@
 			popup_auth();
 		} else if($("div.sub_left_menu a").length==0) {			
 			popup_auth();
+		}else if($("#opmode").val()=="add"){
+				popup_auth();	
 		}else{
 			alert("请选择文件夹");
 		};
@@ -122,7 +123,8 @@
 			<input type="hidden" name="admin" id="admin">
 			<input type="hidden" name="write" id="write">
 			<input type="hidden" name="read" id="read">
-			<html:select id="folder_list" name="folder_list"  options="folder_list" style="display-none"/>
+			<select name="folder_list" id="folder_list" class="display-none">{:fill_option($folder_list)}	</select>
+						
 			<div class="form-group col-md-12">
 				<label class="col-md-3 control-label" for="name">名称*：</label>
 				<div class="col-md-9">
@@ -217,7 +219,6 @@
 					<textarea class="form-control" name="remark" rows="5" class="col-md-12" ></textarea>
 				</div>
 			</div>
-
 		</form>
 	</div>
 </div>

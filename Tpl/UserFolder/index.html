@@ -1,5 +1,4 @@
 <layout name='Layout/layout_main' />
-<tagLib name="html" />
 <script type="text/javascript">
 	function add() {	
 		$("#form_data :input :not(:button)").each(function() {
@@ -85,8 +84,7 @@
 			<input type="hidden" name="pid" id="pid" value="0" check="require" msg="请选择父节点">
 			<input type="hidden" name="ajax" id="ajax" value="1">
 			<input type="hidden" name="opmode" id="opmode" value="">
-			<html:select id="folder_list" name="folder_list"  options="folder_list" style="display-none"/>
-
+			<select name="folder_list" id="folder_list" class="display-none">{:fill_option($folder_list)}</select>			
 			<div class="form-group col-md-12">
 				<label class="col-md-3 control-label" for="name">名称*：</label>
 				<div class="col-md-9">

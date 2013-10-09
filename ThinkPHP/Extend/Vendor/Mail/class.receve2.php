@@ -36,6 +36,7 @@
   * @author      Chen Qiao 
  * @version     $$Id: Email.PHP 175 2011-03-26 09:52:16Z chen.qiao $$
   */
+
  class receiveMail {
      
     /**
@@ -98,11 +99,6 @@
          return $this->_mailInfo;
      }
 
-	 public function test(){
-		  $range = "1:28";
-		    return strtotime("2 Mar 2012 16:9:27 +0800"); 
-	 }
-     
     /**
       * Read an overview of the information in the headers of the given message
       *
@@ -145,7 +141,7 @@
          $mail_header = array();
          $header=imap_header($this->_connect,$msg_count);
          if(strtolower($sender->mailbox)!='mailer-daemon' && strtolower($sender->mailbox)!='postmaster') {
-			$mail_header['title']=$this->mail_decode($header -> subject);
+			$mail_header['name']=$this->mail_decode($header -> subject);
 			$mail_header['mid']=$header -> message_id;
 			$mail_header['to']=$this->contact_conv($header -> to);
 			$mail_header['from']=$this->contact_conv($header -> from);
@@ -386,7 +382,7 @@ function auto_charset($fContents,$from,$to){
          if(is_dir($file_path)) {
              $file_open = fopen($file_path.$name,"w");
          } else {
-             mkdir($file_path);
+             mkdir($file_path,,"0777",true);
          }
          fwrite($file_open,$message);
          fclose($file_open);
@@ -485,16 +481,16 @@ function auto_charset($fContents,$from,$to){
          imap_close($this->_connect,CL_EXPUNGE);
      }
 
-	 	function contact_conv($contact){
-			foreach($contact as $vo) {
-				if (isset($vo -> personal)) {
-					$tmp .= $this->mail_decode($vo -> personal)."|".$vo -> mailbox . '@' . $vo -> host.';';
-				} else {
-					$tmp .= $this->mail_decode($vo -> mailbox)."|".$vo -> mailbox . '@' . $vo -> host.';';
-				}
-				return $tmp;
-			}
-	}
+	 function contact_conv($contact){
+		foreach($contact as $vo) {
+			if (isset($vo -> personal)) {
+				$tmp = $tmp.$this->mail_decode($vo -> personal)."|".$vo -> mailbox . '@' . $vo -> host.';';
+			} else {
+				$tmp = $tmp.$this->mail_decode($vo -> mailbox)."|".$vo -> mailbox . '@' . $vo -> host.';';
+			} 
+			return $tmp;
+		}
+	}     
 }
  
 ?>
