@@ -162,10 +162,10 @@
 		</li>
 		<volist name="flow_log" id="item">
 			<li class="tbody">
-				<span style="width:90px;" class="text-center">{$item.step|step_type}</span>
+				<span style="width:90px;" class="text-center">{$item.step|show_step_type}</span>
 				<span style="width:90px;" class="text-center">{$item.user_name}</span>
 				<span style="width:90px;" class="text-center">{$item.create_time|toDate='Y-m-d'}</span>
-				<span style="width:90px;" class="text-center">{$item.result}</span>
+				<span style="width:90px;" class="text-center">{$item.result|show_result}</span>
 				<span class="auto">
 					<div style="overflow:hidden">{$item.comment}</div>
 				</span>

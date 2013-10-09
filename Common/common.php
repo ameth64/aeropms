@@ -146,7 +146,7 @@ function get_view_fields($model) {
 	return $arr_field;
 }
 
-function step_type($step) {
+function show_step_type($step) {
 	if ($step >= 20) {
 		return "裁决";
 	}
@@ -155,7 +155,16 @@ function step_type($step) {
 	}
 }
 
-function step($step) {
+function show_result($result){
+	if ($result ==1) {
+		return "通过";
+	}
+	if ($result ==0) {
+		return "驳回";
+	}	
+}
+
+function show_step($step) {
 	if ($step == 40) {
 		return "通过";
 	}
@@ -163,7 +172,7 @@ function step($step) {
 		return "协商中";
 	}
 	if ($step == 30) {
-		return "带协商";
+		return "待协商";
 	}
 	if ($step > 20) {
 		return "裁决中";

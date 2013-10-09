@@ -38,11 +38,12 @@
 			winopen("{:U('winpop')}",730, 400);
 		} else if($("div.sub_left_menu a").length==0) {			
 			winopen("{:U('winpop')}",730, 400);
+		}else if($("#opmode").val()=="add"){
+			winopen("{:U('winpop')}",730, 400);
 		}else{
 			alert("请选择文件夹");
 		};
 	}
-
 
 	$(document).ready(function() {
 		$(".sub_left_menu .tree_menu  a").click(function() {
