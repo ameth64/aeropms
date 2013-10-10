@@ -1,4 +1,17 @@
 <?php
+/*---------------------------------------------------------------------------
+  小微OA系统 - 让工作更轻松快乐 
+
+  Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
+
+  Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )  
+
+  Author:  jinzhu.yin<smeoa@qq.com>                         
+
+  Support: https://git.oschina.net/smeoa/smeoa               
+ -------------------------------------------------------------------------*/
+
+
 class FlowAction extends CommonAction {
 	protected $config=array('app_type'=>'flow','action_auth'=>array('folder'=>'read','approve'=>'admin','reject'=>'admin'));
 
@@ -85,15 +98,6 @@ class FlowAction extends CommonAction {
 		$this -> display();
 	}
 
-	function new_count() {
-		$user_id = get_user_id();
-		$model = M("FlowLog");
-		$where['emp_no'] = $_SESSION['emp_no'];
-		$where['_string'] = "result is null";
-		$where['is_del'] = 0;
-		return $model -> where($where) -> count('id');
-	}
-
 	function group_list() {
 		$model = M("FlowType");
 		$where['group'] = array("neq", "");
@@ -107,8 +111,7 @@ class FlowAction extends CommonAction {
 	function add() {
 		$type = $_REQUEST['type'];
 		$model = M("FlowType");
-		$flow_type = $model -> find($type);
-		$this -> assign('confirm_name', $flow_type['confirm_name']);
+		$flow_type = $model -> find($type);	
 		$this -> assign("flow_type", $flow_type);
 		$this -> display();
 	}

@@ -841,7 +841,7 @@ $(document).ready(function() {
 	});
 
 	/* 双击删除已选联系人*/
-	$(".inputbox .address_list span").live("dblclick", function() {
+	$(".address_list span").live("dblclick", function() {
 		$(this).remove();
 	});
 

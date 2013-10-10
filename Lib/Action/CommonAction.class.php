@@ -1,12 +1,25 @@
 <?php
+/*---------------------------------------------------------------------------
+  小微OA系统 - 让工作更轻松快乐 
+
+  Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
+
+  Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )  
+
+  Author:  jinzhu.yin<smeoa@qq.com>                         
+
+  Support: https://git.oschina.net/smeoa/smeoa               
+ -------------------------------------------------------------------------*/
+
+
 class CommonAction extends Action {
 	public $_where;
-	/**
-	 *  1. 确认SESSION
-	 *  2. 确认权限
-	 *  3. 处理显示菜单
-	 *  **/
-
+	/* -----------------------------
+	 1. 确认SESSION
+	 2. 确认权限
+	 3. 处理显示菜单
+	--------------------------------*/
+	
 	function _initialize() {
 		$auth_id = session(C('USER_AUTH_KEY'));
 		if (!isset($auth_id)) {
