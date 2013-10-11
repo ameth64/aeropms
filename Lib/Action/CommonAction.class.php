@@ -3,7 +3,6 @@
   小微OA系统 - 让工作更轻松快乐 
 
   Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
-
   Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )  
 
   Author:  jinzhu.yin<smeoa@qq.com>                         
@@ -38,8 +37,8 @@ class CommonAction extends Action {
 		$name = $this -> getActionName();
 		$model = D($name);
 
-		if (!empty($model)) {
-			$this -> _list($model, $map);
+		if (!empty($model)){
+			$this -> _list($model,$map);
 		}
 		$this -> display();
 	}
@@ -312,8 +311,13 @@ class CommonAction extends Action {
 		//排序字段 默认为主键名
 		if (isset($_REQUEST['_order'])) {
 			$order = $_REQUEST['_order'];
-		} else {
-			$order = !empty($sortBy) ? $sortBy : $model -> getPk();
+		} else if(!empty($sortBy)){
+			$order = $sortBy;
+		}else if(in_array('sort', $model -> getDbFields())){
+			$order = 'sort';
+			$asc=true;
+		}else{
+			$order = $model -> getPk();
 		}
 		//排序方式默认按照倒序排列
 		//接受 sost参数 0 表示倒序 非0都 表示正序
