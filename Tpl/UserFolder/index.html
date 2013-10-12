@@ -1,15 +1,12 @@
 <layout name='Layout/layout_main' />
 <script type="text/javascript">
-	function add() {	
-		$("#form_data :input :not(:button)").each(function() {
-			$(this).val("");
-		});
-		$("#form_data :text").each(function() {
-			$(this).val("");
+	function add(){	
+		$("#form_data :input[type='hidden']").val("");
+		$("#form_data :text").val("");
+		$("#form_data select ").each(function() {
+			$(this).find('option:first').attr('selected', 'selected');
 		});		
-		$("#id").val("");
-		$("div.sub_left_menu a.active").removeClass("active");
-		$("#type").val("{$type}");
+		$("div.sub_left_menu a.active").removeClass("active");			
 		$("#opmode").val("add");
 	};
 
@@ -58,6 +55,7 @@
 	});
 
 </script>
+<input type="hidden" name="ajax" id="ajax" value="1">
 <div class="title panel panel-default">
 	<div class="panel-body">
 		<h3 class="col-md-12">{$folder_name}</h3>
@@ -79,10 +77,7 @@
 	<div class="col-md-9 ">
 		<form id="form_data" name="form_data" method="post" class="well form-horizontal">
 			<input type="hidden" name="id" id="id">
-			<input type="hidden" name="public" id="public" value="2">
-			<input type="hidden" name="folder" id="folder" value="{$folder}">
-			<input type="hidden" name="pid" id="pid" value="0" check="require" msg="请选择父节点">
-			<input type="hidden" name="ajax" id="ajax" value="1">
+			
 			<input type="hidden" name="opmode" id="opmode" value="">
 			<select name="folder_list" id="folder_list" class="display-none">{:fill_option($folder_list)}</select>			
 			<div class="form-group col-md-12">
@@ -90,12 +85,12 @@
 				<div class="col-md-9">
 					<input class="form-control" type="text" id="name" name="name" check="require" msg="请输入名称"></div>
 			</div>
-
 			<div class="form-group col-md-12">
 				<label class="col-md-3 control-label" for="folder_name">父节点*：</label>
 				<div class="col-md-9">
 					<div class="input-group">
 						<input class="form-control" type="text" id="folder_name" name="folder_name"  readonly="readonly">
+									<input type="hidden" name="pid" id="pid" value="0" check="require" msg="请选择父节点">
 						<span class="input-group-btn">
 							<button class="btn btn-default" onclick="select_pid()" type="button">选择</button>
 						</span>

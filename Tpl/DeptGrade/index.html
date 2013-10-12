@@ -1,15 +1,14 @@
 <layout name='Layout/layout_main' />
 
 <script type="text/javascript">
-	function add() {
-		$("#form_data input").each(function() {
-			$(this).val("");
-		});
-		$("#form_data :text").each(function() {
-			$(this).val("");
-		});
+	function add(){
+		$("#form_data :input[type='hidden']").val("");
+		$("#form_data :text").val("");
+		$("#form_data select ").each(function() {
+			$(this).find('option:first').attr('selected', 'selected');
+		});	
 		$("#opmode").val("add");
-	}
+	};
 
 	function btn_search() {
 		sendForm("form_search", "__SELF__");
@@ -49,6 +48,7 @@
 		})
 	}); 
 </script>
+<input type="hidden" name="ajax" id="ajax" value="1">
 <form method="post" action="" id="form_search" name="form_search">
 	<div class="title panel panel-default">
 		<div class="panel-body">
@@ -101,7 +101,6 @@
 	<div class="col-md-8 last sub_content">
 		<form id="form_data" name="form_data"method="post" class="well form-horizontal">
 			<input type="hidden" name="id" id="id">
-			<input type="hidden" name="ajax" id="ajax" value="1">
 			<input type="hidden" name="opmode" id="opmode" value="">
 		<div class="form-group col-md-12">
 			<label class="col-md-4 control-label" for="grade_no">编码*：</label>

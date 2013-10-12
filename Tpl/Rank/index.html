@@ -1,15 +1,14 @@
 <layout name='Layout/layout_main' />
 
 <script type="text/javascript">
-	function add() {
-		$("#form_data input").each(function() {
-			$(this).val("");
-		});
-		$("#form_data :text").each(function() {
-			$(this).val("");
-		});
+	function add(){
+		$("#form_data :input[type='hidden']").val("");
+		$("#form_data :text").val("");
+		$("#form_data select ").each(function() {
+			$(this).find('option:first').attr('selected', 'selected');
+		});		
 		$("#opmode").val("add");
-	}
+	};
 
 	function save() {
 		if (check_form("form_data")) {

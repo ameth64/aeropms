@@ -2,13 +2,12 @@
 <tagLib name="html" />
 <script type="text/javascript">
 	var manager = null;
-	function add() {
-		$("#form_data :input :not(:button)").each(function() {
-			$(this).val("");
-		});
-		$("#form_data :text").each(function() {
-			$(this).val("");
-		});
+	function add(){
+		$("#form_data :input[type='hidden']").val("");
+		$("#form_data :text").val("");
+		$("#form_data select ").each(function() {
+			$(this).find('option:first').attr('selected', 'selected');
+		});		
 		$("#opmode").val("add");
 	};
 
@@ -45,6 +44,7 @@
 		})
 	}); 
 </script>
+<input type="hidden" name="ajax" id="ajax" value="1">
 <select name="dept_list" id="dept_list" class="display-none">
 	{:fill_option($dept_list)}
 </select>
@@ -83,8 +83,7 @@
 	</div>
 	<div class="col-md-8 sub_content">
 		<form id="form_data" name="form_data" method="post" class="well form-horizontal">
-			<input type="hidden" name="id" id="id">
-			<input type="hidden" name="ajax" id="ajax" value="1">
+			<input type="hidden" name="id" id="id">			
 			<input type="hidden" name="opmode" id="opmode" value="">
 			<div class="form-group col-md-12">
 				<label class="col-md-4 control-label" for="dept_no">编码*：</label>
@@ -121,7 +120,7 @@
 				<label class="col-md-4 control-label" for="dept_name">上级部门*：</label>
 				<div class="col-md-8">
 					<div class="input-group">
-						<input name="dept_name" class="form-control val" id="dept_name" type="text" readonly="readonly"/>
+						<input name="dept_name" class="form-control" id="dept_name" type="text" readonly="readonly" msg="请选择上级部门" check="require"/>
 						<input name="pid" id="pid" type="hidden" msg="请选择上级部门" check="require" />
 						<span class="input-group-btn">
 							<button class="btn btn-default" onclick="select_pid()" type="button">
@@ -149,7 +148,7 @@
 			<div class="form-group col-md-12">
 				<label class="col-md-4 control-label" for="remark" >其他：</label>
 				<div class="col-md-8" >
-					<textarea class="form-control" name="remark" rows="5" class="col-md-12" ></textarea>
+					<textarea class="form-control" name="remark" id="remark" rows="5" class="col-md-12" ></textarea>
 				</div>
 			</div>
 		</form>

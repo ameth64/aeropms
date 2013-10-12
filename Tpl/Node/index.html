@@ -2,16 +2,14 @@
 <tagLib name="html" />
 <script type="text/javascript">
 	var manager = null;
-	function add() {
+	function add(){
 		pid = $("#id").val();
-		$("#form_data :text").each(function() {
-			$(this).val("");
-		});
-		$("#form_data :text").each(function() {
-			$(this).val("");
-		});
+		$("#form_data :input[type='hidden']").val("");
+		$("#form_data :text").val("");
+		$("#form_data select ").each(function() {
+			$(this).find('option:first').attr('selected', 'selected');
+		});		
 		$("#pid").val(pid);
-		$("#id").val('');
 		$("#opmode").val("add");
 	};
 

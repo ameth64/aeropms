@@ -359,8 +359,8 @@ function set_val(name, val) {
 		$("#" + name).val(val);
 		return;
 	}
-	if (name == "remark") {
-		$("#" + name).val(val);
+	if (name == "remark"){
+		$("#" + name).text(val);
 		return;
 	}
 }

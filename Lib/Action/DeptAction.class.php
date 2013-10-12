@@ -62,8 +62,7 @@ class DeptAction extends CommonAction {
 	public function winpop2() {
 		$node = M("Dept");
 		$menu = array();
-		$menu = $node -> field('id,pid,name') -> order('sort asc') -> select();
-
+		$menu = $node ->where('is_del=0')-> field('id,pid,name') -> order('sort asc') -> select();
 		$tree = list_to_tree($menu);
 		$this -> assign('pid', $pid);
 		$this -> assign('menu', popup_tree_menu($tree));

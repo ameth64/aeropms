@@ -11,7 +11,6 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 // 后台用户模块
 class UserAction extends CommonAction {
 	protected $config=array('app_type'=>'master');
