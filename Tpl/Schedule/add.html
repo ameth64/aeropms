@@ -1,43 +1,4 @@
 <layout name='Layout/ace_layout' />
-<script type="text/javascript" src="__PUBLIC__/editor/kindeditor.js"></script>
-<script type="text/javascript" src="__PUBLIC__/editor/kindeditor.setting.js"></script>
-<script type="text/javascript">
-	function popup_actor(){
-		winopen("{:U("popup/actor")}",730,574);
-	}
-	function save() {
-		editor.sync();
-		$("#actor").val("");
-		$("#actor_wrap div.address_list span").each(function() {
-			$("#actor").val($("#actor").val() + $(this).text().replace(';', '') + '|' + $(this).attr("title") + ";")
-		})
-		if (check_form("form_data")) {
-			sendForm("form_data", "{:U('save')}");
-		}
-	}
-	$(document).ready(function() {
-			fill_time("start_time");
-			fill_time("end_time");
-
-		$(function(){			
-			$("#priority").val(3);
-			$("#slider-range-priority").slider({
-				range : "min",
-				min : 1,
-				max : 5,
-				value : 3,
-				slide : function(event, ui) {
-					$("#priority").val(ui.value);
-					$("div.slider_box div.ui-slider").css( "background-color", schedule_bg(ui.value));
-					$("div.slider_box div.ui-widget-header").css("background-color", schedule_bg(ui.value));
-				}
-			});
-			$("div.slider_box div.ui-slider").css( "background-color", schedule_bg(3));
-			$("div.slider_box div.ui-widget-header").css("background-color", schedule_bg(3));
-		})
-	});
-</script>
-
 {:W('PageHeader',array('name'=>'新建日历事项','search'=>'N'))}
 
 <form method='post' id="form_data" name="form_data" enctype="multipart/form-data"  class="well form-horizontal">
@@ -55,7 +16,7 @@
 	<div class="form-group col-md-6">
 		<label class="col-md-4 control-label" for="name">开始时间*：</label>
 		<div class="col-md-8">
-			<input type="text" id="start_date" name="start_date" readonly="readonly" class="form-control input-date"   check="require" msg="请输入开始日期">
+			<input data-date-format="yyyy-mm-dd" type="text" id="start_date" name="start_date" readonly="readonly" class="form-control input-date"   check="require" msg="请输入开始日期">
 			<select id="start_time" name="start_time" class="form-control"></select>
 		</div>
 	</div>
@@ -63,7 +24,7 @@
 	<div class="form-group col-md-6">
 		<label class="col-md-4 control-label" for="name">结束时间*：</label>
 		<div class="col-md-8">
-			<input type="text" id="end_date" name="end_date" readonly="readonly"
+			<input data-date-format="yyyy-mm-dd" type="text" id="end_date" name="end_date" readonly="readonly"
 			class="form-control input-date" check="require" msg="请输入结束日期">
 			<select id="end_time" name="end_time" class="form-control "></select>
 		</div>

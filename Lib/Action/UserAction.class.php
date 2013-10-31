@@ -21,7 +21,9 @@ class UserAction extends CommonAction {
 		}
 	}
 
-	public function index() {				
+	public function index() {
+		$widget['date'] = true;							
+		$this -> assign("widget", $widget);					
 		$model = M("Position");
 		$list = $model -> where('is_del=0') -> order('sort asc') -> getField('id,name');
 		$this -> assign('position_list', $list);

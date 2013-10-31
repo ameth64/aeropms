@@ -25,6 +25,9 @@ class NoticeAction extends CommonAction {
 	}
 
 	public function index() {
+		$widget['date-range'] = true;		
+		$this -> assign("widget", $widget);
+				
 		$user_id = get_user_id();
 		$map = $this -> _search();
 		if (method_exists($this, '_search_filter')) {
@@ -83,9 +86,19 @@ class NoticeAction extends CommonAction {
 	}
 
 	function add() {
+		$widget['uploader'] = true;
+		$widget['editor'] = true;
+		$this -> assign("widget", $widget);		
+		
 		$fid = $_REQUEST['fid'];
 		$this -> assign('folder', $fid);
 		$this->display();
+	}
+
+	public function _before_edit() {
+		$widget['uploader'] = true;
+		$widget['editor'] = true;
+		$this -> assign("widget", $widget);
 	}
 
 	public function _before_read() {
@@ -97,7 +110,8 @@ class NoticeAction extends CommonAction {
 	}
 
 	public function folder() {
-
+		$widget['date-range'] = true;		
+		$this -> assign("widget", $widget);
 		
 		$model = D("Notice");
 		$map = $this -> _search();

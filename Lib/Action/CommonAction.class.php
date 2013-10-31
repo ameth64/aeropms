@@ -50,7 +50,7 @@ class CommonAction extends Action {
 	}
 
 	/**编辑页面 **/
-	function edit() {
+	function edit(){
 		$name = $this -> getActionName();
 		$model = M($name);
 		$id = $_REQUEST[$model -> getPk()];

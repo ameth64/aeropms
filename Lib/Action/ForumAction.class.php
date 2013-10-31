@@ -50,13 +50,27 @@ class ForumAction extends CommonAction {
 	}
 
 	public function add(){
+		$widget['uploader'] = true;
+		$widget['editor'] = true;
+		$this -> assign("widget", $widget);		
+				
 		$this -> assign('folder', $_REQUEST['fid']);
 		$this->display();
 	}
 
-	public function read(){
-		$this->assign('auth',$this->config['auth']);
+	public function _before_edit() {
+		$widget['uploader'] = true;
+		$widget['editor'] = true;
+		$this -> assign("widget", $widget);
+	}
 
+
+	public function read(){
+		$widget['uploader'] = true;
+		$widget['editor'] = true;
+		$this -> assign("widget", $widget);		
+				
+		$this->assign('auth',$this->config['auth']);
 		$model = M("Forum");
 		$id = $_REQUEST['id'];
 		$fid= $_REQUEST['fid'];
@@ -96,6 +110,9 @@ class ForumAction extends CommonAction {
 	}
 
 	public function folder(){
+		$widget['date-range'] = true;		
+		$this -> assign("widget", $widget);
+				
 		$this->assign('auth',$this->config['auth']);
 		$map = $this -> _search();
 		if (method_exists($this, '_search_filter')) {

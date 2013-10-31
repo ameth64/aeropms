@@ -82,15 +82,21 @@ class TodoAction extends CommonAction {
 	}
 
 	public function add() {
+		$widget['date-range'] = true;					
+		$widget['uploader'] = true;
+		$widget['editor'] = true;
+		$this -> assign("widget", $widget);		
 		$this -> display();
 	}
 
 	public function edit() {
-
+		$widget['date-range'] = true;					
+		$widget['uploader'] = true;
+		$widget['editor'] = true;
+		$this -> assign("widget", $widget);			
+		
+			
 		$this -> assign("time_list", $time_list);
-		$this -> assign('type_data', $this -> type_data);
-		$this -> assign('warn_data', $this -> warn_data);
-
 		$id = $_REQUEST['id'];
 		$model = M('Todo');
 		$where['user_id'] = get_user_id();

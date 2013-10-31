@@ -1,18 +1,18 @@
 <?php
 /*---------------------------------------------------------------------------
-  小微OA系统 - 让工作更轻松快乐 
+ 小微OA系统 - 让工作更轻松快乐
 
-  Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
+ Copyright (c) 2013 http://www.smeoa.com All rights reserved.
 
-  Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )  
+ Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 
-  Author:  jinzhu.yin<smeoa@qq.com>                         
+ Author:  jinzhu.yin<smeoa@qq.com>
 
-  Support: https://git.oschina.net/smeoa/smeoa               
+ Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
 
 class DocAction extends CommonAction {
-	protected $config=array('app_type'=>'common','action_auth'=>array('folder'=>'read','tag_manage'=>'admin','mark'=>'admin'),'folder_auth'=>true);
+	protected $config = array('app_type' => 'common', 'action_auth' => array('folder' => 'read', 'tag_manage' => 'admin', 'mark' => 'admin'), 'folder_auth' => true);
 	//过滤查询字段
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
@@ -21,7 +21,10 @@ class DocAction extends CommonAction {
 		}
 	}
 
-	public function index(){
+	public function index() {
+		$widget['date-range'] = true;		
+		$this -> assign("widget", $widget);
+				
 		$user_id = get_user_id();
 		$map = $this -> _search();
 		if (method_exists($this, '_search_filter')) {
@@ -36,12 +39,17 @@ class DocAction extends CommonAction {
 		return;
 	}
 
-	public function folder(){
-		$widget['date-range']=true;
-		$widget['editor']=true;
-		$this->assign("widget",$widget);
+	public function _before_edit() {
+		$widget['uploader'] = true;
+		$widget['editor'] = true;
+		$this -> assign("widget", $widget);
+	}
 
-		$this->assign('auth',$this->config['auth']);
+	public function folder() {
+		$widget['date-range'] = true;		
+		$this -> assign("widget", $widget);
+
+		$this -> assign('auth', $this -> config['auth']);
 		$model = D("Doc");
 		$map = $this -> _search();
 		if (method_exists($this, '_search_filter')) {
@@ -59,22 +67,26 @@ class DocAction extends CommonAction {
 
 		$where = array();
 		$where['id'] = array('eq', $folder_id);
-		
+
 		$folder_name = M("SystemFolder") -> where($where) -> getField("name");
 		$this -> assign("folder_name", $folder_name);
 		$this -> assign("folder_id", $folder_id);
-		
-		$this->_assign_folder_list();
+
+		$this -> _assign_folder_list();
 		$this -> display();
 		return;
 	}
 
 	public function add() {
+		$widget['uploader'] = true;
+		$widget['editor'] = true;
+		$this -> assign("widget", $widget);		
+		
 		$fid = $_REQUEST['fid'];
 		$type = D("Folder") -> where("id=$fid") -> getField("folder");
 		$this -> assign('folder', $fid);
 		$this -> assign('type', $type);
-		$this->display();
+		$this -> display();
 	}
 
 	public function _before_read() {
@@ -123,24 +135,24 @@ class DocAction extends CommonAction {
 						$auth = D("SystemFolder") -> get_folder_auth($folder[0]["folder"]);
 						if ($auth['admin'] == true) {
 							$field = 'is_del';
-							$result=$this -> _set_field($id,$field,1);
-							if($result){
-								$this -> ajaxReturn('',"删除成功",1);		
-							}else{
-								$this -> ajaxReturn('', "删除失败",0);
+							$result = $this -> _set_field($id, $field, 1);
+							if ($result) {
+								$this -> ajaxReturn('', "删除成功", 1);
+							} else {
+								$this -> ajaxReturn('', "删除失败", 0);
 							}
-						}						
+						}
 					} else {
-						$this -> ajaxReturn('', "删除失败",0);
+						$this -> ajaxReturn('', "删除失败", 0);
 					}
 					break;
 				case 'move_folder' :
 					$target_folder = $_REQUEST['val'];
 					$where['id'] = array('in', $id);
 					$folder = M("Doc") -> distinct(true) -> where($where) -> field("folder") -> select();
-					if (count($folder) == 1){
-						$auth = D("SystemFolder") ->get_folder_auth($folder[0]["folder"]);
-						if ($auth['admin'] == true){
+					if (count($folder) == 1) {
+						$auth = D("SystemFolder") -> get_folder_auth($folder[0]["folder"]);
+						if ($auth['admin'] == true) {
 							$field = 'folder';
 							$this -> _set_field($id, $field, $target_folder);
 						}
@@ -155,19 +167,20 @@ class DocAction extends CommonAction {
 		}
 	}
 
-	 function _assign_doc_folder_list(){
-		$this->_assign_folder_list();
+	function _assign_doc_folder_list() {
+		$this -> _assign_folder_list();
 	}
 
 	function tag_manage() {
-		$this->_tag_manage("标签管理");		
+		$this -> _tag_manage("标签管理");
 	}
 
 	function upload() {
-		$this->_upload();
+		$this -> _upload();
 	}
 
 	function down() {
-		$this->_down();
+		$this -> _down();
 	}
+
 }

@@ -11,7 +11,6 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 class FlowAction extends CommonAction {
 	protected $config=array('app_type'=>'flow','action_auth'=>array('folder'=>'read','approve'=>'admin','reject'=>'admin'));
 
@@ -40,6 +39,9 @@ class FlowAction extends CommonAction {
 	}
 
 	function folder() {
+		$widget['date-range'] = true;		
+		$this -> assign("widget", $widget);
+				
 		$folder = $_REQUEST['fid'];
 		$this -> assign("folder", $folder);
 		$emp_no = $_SESSION['emp_no'];
@@ -125,8 +127,12 @@ class FlowAction extends CommonAction {
 	}
 
 	function edit() {
+			
+		$widget['uploader']=true;
+		$widget['editor']=true;
+		$this->assign("widget",$widget);
+			
 		$model = D("Flow");
-
 		$id = $_REQUEST['id'];
 		$vo = $model -> getById($id);
 		$this -> assign('vo', $vo);

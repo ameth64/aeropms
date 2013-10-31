@@ -1,19 +1,18 @@
 <?php
 /*---------------------------------------------------------------------------
-  小微OA系统 - 让工作更轻松快乐 
+ 小微OA系统 - 让工作更轻松快乐
 
-  Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
+ Copyright (c) 2013 http://www.smeoa.com All rights reserved.
 
-  Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )  
+ Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 
-  Author:  jinzhu.yin<smeoa@qq.com>                         
+ Author:  jinzhu.yin<smeoa@qq.com>
 
-  Support: https://git.oschina.net/smeoa/smeoa               
+ Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
 
-
 class ScheduleAction extends CommonAction {
-	protected $config=array('app_type'=>'personal');
+	protected $config = array('app_type' => 'personal');
 	//过滤查询字段
 	function _search_filter(&$map) {
 		if (!empty($_POST["name"])) {
@@ -31,7 +30,7 @@ class ScheduleAction extends CommonAction {
 	}
 
 	public function upload() {
-		$this->_upload();
+		$this -> _upload();
 	}
 
 	function read() {
@@ -58,6 +57,9 @@ class ScheduleAction extends CommonAction {
 	}
 
 	function search() {
+		$widget['date-range'] = true;
+		$this -> assign("widget", $widget);
+
 		$map = $this -> _search();
 		if (method_exists($this, '_search_filter')) {
 			$this -> _search_filter($map);
@@ -88,18 +90,26 @@ class ScheduleAction extends CommonAction {
 	}
 
 	public function down() {
-		$this->_down();
+		$this -> _down();
 	}
 
 	public function add() {
-		$this -> assign('type_data', $this -> type_data);
-		$this -> assign('warn_data', $this -> warn_data);
+		$widget['date'] = true;
+		$this -> assign("widget", $widget);
+
+		$widget['uploader'] = true;
+		$widget['editor'] = true;
+		$this -> assign("widget", $widget);
+
 		$this -> display();
 	}
 
 	public function edit() {
-		$this -> assign('type_data', $this -> type_data);
-		$this -> assign('warn_data', $this -> warn_data);
+		$widget['date-range'] = true;
+		$this -> assign("widget", $widget);
+		$widget['uploader'] = true;
+		$widget['editor'] = true;
+		$this -> assign("widget", $widget);
 
 		$id = $_REQUEST['id'];
 		$model = M('Schedule');

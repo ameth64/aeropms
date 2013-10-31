@@ -43,8 +43,10 @@ class MailAction extends CommonAction {
 	//--------------------------------------------------------------------
 
 	public function folder(){
+		
 		$widget['date-range']=true;
 		$this->assign("widget",$widget);
+		
 		$this -> _assign_mail_folder_list();
 		$this -> _get_mail_account();
 		$folder_id = $_GET['fid'];
@@ -193,11 +195,11 @@ class MailAction extends CommonAction {
 	//  写邮件
 	//--------------------------------------------------------------------
 	function add() {
-		$this -> _get_mail_account();
-		$this -> assign("recent",$this -> _get_recent());
 		$widget['uploader']=true;
 		$widget['editor']=true;
-		$this->assign("widget",$widget);
+		$this->assign("widget",$widget);		
+		$this -> _get_mail_account();
+		$this -> assign("recent",$this -> _get_recent());
 		//添加最近联系人
 		$this -> display();
 	}
