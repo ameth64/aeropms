@@ -1,16 +1,6 @@
-<layout name='Layout/layout_main' />
+<layout name='Layout/ace_layout' />
+{:W('PageHeader',array('name'=>array('编辑客户：',$vo['name']),'search'=>'N'))}
 
-<script type="text/javascript">
-	function save() {
-		if (check_form("form_data")) {
-			sendForm("form_data", "{:U('save')}", "__URL__");
-		}
-	}
-</script>
-<div class="title panel panel-default">
-<div class="panel-body">
-	<h3 class="col-md-12">编辑客户：{$vo.name}</h3></div>
-</div>
 <form method='post' id="form_data" class="well form-horizontal">
 	<input type="hidden" name="opmode" value="edit">
 	<input type="hidden" name="id" value="{$vo.id}">
@@ -99,7 +89,7 @@
 			</div>
 		</div>
 	<div class="action">
-		<input class="btn btn-default" type="button" value="保存" onclick="save();">
-		<input  class="btn btn-default" type="button" value="取消" onclick="go_return_url();">
+		<input class="btn btn-sm btn-primary" type="button" value="保存" onclick="save();">
+		<input  class="btn btn-sm btn-default" type="button" value="取消" onclick="go_return_url();">
 	</div>
 </form>

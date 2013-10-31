@@ -1,4 +1,4 @@
-<layout name='Layout/layout_popup' />
+<layout name='Layout/ace_popup' />
 <script type="text/javascript" src="__PUBLIC__/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	function save() {
@@ -43,7 +43,7 @@
 			//禁止连接生效
 		});
 
-		$("#addr_list a").live("dblclick", function() {// 双击添加到收件人 因后添加的数据 所以需要用live函数
+		$("#addr_list a").on("dblclick", function() {// 双击添加到收件人 因后添加的数据 所以需要用live函数
 			$text = $(this).text();
 			$val = $(this).parent().find("input").val();
 			if ($("#rc select option[value='" + $val + "']").val() == undefined) {
@@ -54,16 +54,16 @@
 			};
 		});
 
-		$("#rc  select").live("dblclick", function() {// 双击添加到收件人 因后添加的数据 所以需要用live函数
+		$("#rc  select").on("dblclick", function() {// 双击添加到收件人 因后添加的数据 所以需要用live函数
 			$(this).find("option:selected").remove();
 			$("#rc_count").text("(" + $("#rc select option").length + ")");
 		});
 
-		$("#cc  select").live("dblclick", function() {// 双击添加到收件人 因后添加的数据 所以需要用live函数
+		$("#cc  select").on("dblclick", function() {// 双击添加到收件人 因后添加的数据 所以需要用live函数
 			$(this).find("option:selected").remove();
 			$("#cc_count").text("(" + $("#cc select option").length + ")");
 		});
-		$("#addr_list").live("mouseover", function() {//通过jquery_ui 添加 拖动功能
+		$("#addr_list").on("mouseover", function() {//通过jquery_ui 添加 拖动功能
 			$("#addr_list label").draggable({
 				appendTo : "body",
 				helper : "clone"
@@ -133,15 +133,12 @@
 
 	//-->
 </script>
-<div class="title panel panel-default">
-<div class="panel-body">
-	<span>选择职称</span>
-</div>
+{:W('PageHeader',array('name'=>'选择职称','search'=>'N'))}
 <div class="operate panel panel-default">	<div class="panel-body">
 	<span class="left">双击可以添加和删除对应的节点</span>
 	<div class="pull-right">
-		<a  onclick="save();" class="btn btn-default">确定</a>
-		<a  onclick="myclose();" class="btn btn-default">关闭</a>
+		<a  onclick="save();" class="btn btn-sm btn-primary">确定</a>
+		<a  onclick="myclose();" class="btn btn-sm btn-primary">关闭</a>
 	</div>
 </div></div>
 <div class="row">

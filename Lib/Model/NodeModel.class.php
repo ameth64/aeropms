@@ -35,10 +35,11 @@ class NodeModel extends CommonModel {
 	
 	public function access_list(){
 		$emp_id=get_user_id();
-		$sql="		SELECT  c.id, c.pid, c.name, c.url,sum(b.admin) as 'admin' ,sum(b.write) as  'write' ,sum(b.read) as 'read'";
+		$sql="		SELECT  c.id, c.pid, c.name, c.url,sum(b.admin) as 'admin' ,sum(b.write) as  'write' ,sum(b.read) as 'read',c.icon ";
 		$sql.="		FROM ".$this->tablePrefix."role_user AS a, ".$this->tablePrefix."role_node b, ".$this->tablePrefix."node AS c ";
 		$sql.="		WHERE a.role_id = b.role_id and c.is_del=0 ";
 		$sql.="		AND a.user_id ={$emp_id}";
+		$sql.="		AND c.is_del =0 ";
 		$sql.="		AND c.id = b.node_id ";
 		$sql.="		group by c.id";
 		$sql.="		ORDER BY c.sort ";
@@ -52,6 +53,7 @@ class NodeModel extends CommonModel {
 		$sql.="		FROM ".$this->tablePrefix."role_user AS a, ".$this->tablePrefix."role_node b, ".$this->tablePrefix."node AS c ";
 		$sql.="		WHERE a.role_id = b.role_id and c.is_del=0 ";
 		$sql.="		AND a.user_id ={$emp_id}";
+		$sql.="		AND c.is_del =0 ";		
 		$sql.="		AND c.id = b.node_id ";
 		$sql.="		AND c.pid = 0 ";
 		$sql.="		ORDER BY c.sort asc";

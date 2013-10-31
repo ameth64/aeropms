@@ -1,74 +1,23 @@
-<layout name='Layout/layout_main' />
-<tagLib name="html" />
-<script type="text/javascript">
-	var manager = null;
-	function add(){
-		$("#form_data :input[type='hidden']").val("");
-		$("#form_data :text").val("");
-		$("#form_data select ").each(function() {
-			$(this).find('option:first').attr('selected', 'selected');
-		});		
-		$("#opmode").val("add");
-	};
-
-	function save() {
-		if (check_form("form_data")) {
-			sendForm("form_data", "{:U('save')}", "__URL__");
-		}
-	}
-
-	function select_pid() {
-		winopen("{:U('winpop')}", 730, 500);
-	}
-
-	function showdata(result) {
-		for (var s in result.data) {
-			set_val(s, result.data[s]);
-		}
-		$("#dept_name").val($("#dept_list option[value='" + $("#pid").val() + "']").text());
-		$("#opmode").val("edit");
-	}
-
-
-	$(document).ready(function() {
-		set_val('eq_is_del', "{$eq_is_del}");
-		$(".sub_left_menu .tree_menu  a").click(function() {
-			$(".sub_left_menu .tree_menu  a").each(function() {
-				$(this).attr("class", "");
-			});
-			$(this).attr("class", "active");
-			sendAjax("{:U('read')}", "id=" + $(this).attr("node"), function(data) {
-				showdata(data);
-			});
-			return false;
-		})
-	}); 
-</script>
+<layout name='Layout/ace_layout' />
 <input type="hidden" name="ajax" id="ajax" value="1">
 <select name="dept_list" id="dept_list" class="display-none">
 	{:fill_option($dept_list)}
 </select>
-<div class="title panel panel-default">
-	<div class="panel-body">
-		<div class="panel-body">
-			<h3 class="col-md-12">部门管理</h3>
-		</div>
-	</div>
-</div>
+{:W('PageHeader',array('name'=>'部门管理','search'=>'N'))}
+
 <form id="form_search" name="form_search" method="post">
 	<div class="operate panel panel-default">
 		<div class="panel-body">
-			<div class="pull-left">
-				<label class="radio-inline" for="eq_is_del"><b>状态:</b></label>
-				<span class="checkbox">
-					<select id="eq_is_del" name="eq_is_del" class="form-control col-10" onchange="search();">
-						<option value="#">全部</option>
-						<option value="0">启用</option>
-					</select> </span>
+			<div class="col-xs-6 ">
+				<label for="eq_is_del"><b>状态：</b></label>
+				<select id="eq_is_del" name="eq_is_del" class="col-10" onchange="search();">
+					<option value="#">全部</option>
+					<option value="0">启用</option>
+				</select>
 			</div>
-			<div class="pull-right">
-				<a onclick="add()" class="btn btn-default">新增</a>
-				<a onclick="save()"  class="btn btn-default">保存</a>
+			<div class="col-xs-6 text-right">
+				<a onclick="add()" class="btn btn-sm btn-primary">新增</a>
+				<a onclick="save()"  class="btn btn-sm btn-primary">保存</a>
 			</div>
 		</div>
 	</div>
@@ -82,8 +31,8 @@
 		</div>
 	</div>
 	<div class="col-md-8 sub_content">
-		<form id="form_data" name="form_data" method="post" class="well form-horizontal">
-			<input type="hidden" name="id" id="id">			
+		<form id="form_data" name="form_data" method="post" class="well form-horizontal clearfix">
+			<input type="hidden" name="id" id="id">
 			<input type="hidden" name="opmode" id="opmode" value="">
 			<div class="form-group col-md-12">
 				<label class="col-md-4 control-label" for="dept_no">编码*：</label>
@@ -123,7 +72,7 @@
 						<input name="dept_name" class="form-control" id="dept_name" type="text" readonly="readonly" msg="请选择上级部门" check="require"/>
 						<input name="pid" id="pid" type="hidden" msg="请选择上级部门" check="require" />
 						<span class="input-group-btn">
-							<button class="btn btn-default" onclick="select_pid()" type="button">
+							<button class="btn btn-sm btn-primary" onclick="select_pid()" type="button">
 								选择
 							</button> </span>
 					</div>

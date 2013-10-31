@@ -1,112 +1,91 @@
-<layout name='Layout/layout_main' />
-<script type="text/javascript">
-	$(document).ready(function() {
-		set_return_url();
-		$(".input-date").datepicker();
-	}); 
-</script>
-<form id="form_search" method='post' class="form-horizontal">
-	<div class="title panel panel-default">
-		<div class="panel-body">
-			<h3 class="col-md-8">{$folder_name}</h3>
-			<div class="col-md-4 pull-right">
-				<div class="search_box">
-					<div class="input-group ">
-						<input  class="form-control" type="text"  onkeydown="key_search_2();" name="keyword" id="keyword"/>
-						<div class="input-group-btn">
-							<a class="btn btn-default" onclick="btn_search();" > <i class="icon-search" ></i> </a>
-							<a class="btn btn-default" onclick="open_adv_search();" ><i class="icon-angle-down" ></i></a>
-						</div>
-					</div>
-				</div>
+<layout name='Layout/ace_layout' />
+{:W('PageHeader',array('name'=>$folder_name,'search'=>'M'))}
+<div class="adv_search panel panel-default display-none" id="adv_search">
+	<div class="panel-heading">
+		<div class="row">
+			<h4 class="col-md-6">高级搜索</h4>
+			<div class="col-md-6 text-right">
+				<a  class="btn btn-sm btn-primary" onclick="adv_search();">搜索</a>
+				<a  class="btn btn-sm btn-primary" onclick="close_adv_search();">关闭</a>
 			</div>
 		</div>
 	</div>
-	<div class="adv_search panel panel-default">
-		<div class="panel-heading">
-			<div class="row">
-				<h4 class="col-md-6">高级搜索</h4>
-				<div class="col-md-6 text-right">
-					<a  class="btn btn-default" onclick="adv_search();">搜索</a>
-					<a  class="btn btn-default" onclick="close_adv_search();">关闭</a>
-				</div>
+	<div class="panel-body">
+		<div class="form-group col-md-6">
+			<label class="col-md-4 control-label" for="li_name">标题：</label>
+			<div class="col-md-8">
+				<input  class="form-control" type="text" id="li_name" name="li_name" >
 			</div>
 		</div>
-		<div class="panel-body">
-			<div class="form-group col-md-6">
-				<label class="col-md-4 control-label" for="li_name">标题：</label>
-				<div class="col-md-8">
-					<input  class="form-control" type="text" id="li_name" name="li_name" >
-				</div>
-			</div>
 
-			<div class="form-group col-md-6">
-				<label class="col-md-4 control-label" for="li_content">内容：</label>
-				<div class="col-md-8">
-					<input  class="form-control" type="text" id="li_content" name="li_content" >
-				</div>
+		<div class="form-group col-md-6">
+			<label class="col-md-4 control-label" for="li_content">内容：</label>
+			<div class="col-md-8">
+				<input  class="form-control" type="text" id="li_content" name="li_content" >
 			</div>
+		</div>
 
-			<div class="form-group col-md-6">
-				<label class="col-md-4 control-label" for="eq_user_name">登录人：</label>
-				<div class="col-md-8">
-					<input  class="form-control" type="text" id="eq_user_name" name="eq_user_name" >
-				</div>
+		<div class="form-group col-md-6">
+			<label class="col-md-4 control-label" for="eq_user_name">登录人：</label>
+			<div class="col-md-8">
+				<input  class="form-control" type="text" id="eq_user_name" name="eq_user_name" >
 			</div>
+		</div>
 
-			<div class="form-group col-md-6">
-				<label class="col-md-4 control-label" for="be_create_time">登录时间：</label>
-				<div class="col-md-8">
-					<input  class="form-control input-date" type="text" name="be_create_time" id="be_create_time"    readonly="readonly">
-					-
-					<input class="form-control input-date" type="text" name="en_create_time" id="en_create_time" readonly="readonly"  >
-				</div>
+		<div class="form-group col-md-6">
+			<label class="col-md-4 control-label" for="be_create_time">登录时间：</label>
+			<div class="col-md-8">
+				<input data-date-format="yyyy-mm-dd" class="form-control input-date-range" type="text" name="create_time" id="create_time"    readonly="readonly">
 			</div>
 		</div>
 	</div>
-</form>
+</div>
 
-<div class="ul-table">
+<div class="ul_table">
 	<ul>
 		<li class="thead" style="padding-left:10px">
-			<span class="col-16 ">编号</span>
-			<span class="col-8">类型</span>
-			<span class="col-6 right">状态</span>
-			<span  class="col-6 right"> 登录人</span>
-			<span  class="col-9 pull-right">登录时间</span>
+			<span class="col-16 text-center">编号</span>
+			<span class="col-8 text-center">类型</span>
+			<span class="col-6 pull-right text-center">状态</span>
+			<span  class="col-6 pull-right text-center"> 登录人</span>
+			<span  class="col-9 pull-right text-center">登录时间</span>
 			<div class="autocut auto">
 				标题
 			</div>
 		</li>
-		<if condition="count($list) eq 0 ">
-			<li class="tbody  text-center">
-				<h3>没找到相应的数据</h3>
+	</ul>
+	<empty name="list">
+		<ul>
+			<li class="no-data">
+				没找到数据
+			</li>
+		</ul>
+		<else/>
+		<form method="post" action="" name="form_data" id="form_data">
+			<ul>
+				<foreach name="list" item="vo">
+					<li class="tbody">
+						<span class="col-16">{$vo.doc_no}</span>
+						<span class="col-8  text-center"> {$vo.type_name} &nbsp;</span>
+						<span class="col-6 pull-right  text-center">{$vo.step|show_step}</span>
+						<span class="col-6 pull-right  text-center">{$vo.user_name}</span>
+						<span class="col-9 pull-right  text-center"> {$vo.create_time|toDate='Y-m-d'} </span>
+						<span class="autocut auto">
+							<in name="folder" value="darft">
+								<a href="{:U('edit?id='.$vo['id'])}">{$vo.name}
+								<else/>
+								<a href="{:U('read?id='.$vo['id'])}">{$vo.name}
+							</in>
+							<eq name="vo.name|strlen" value="0">
+								无标题
+							</eq></a> </span>
+					</li>
+				</foreach>
+			</ul>
+		</form>
+		<div class="pagination">
+			{$page}
+		</div>
+	</empty>
 </div>
-</li>
-</ul>
 </div>
-<else/>
-<foreach name="list" item="vo">
-	<li class="tbody" style="padding-left:10px;">
-		<span class="col-16">{$vo.doc_no}</span>
-		<span class="col-8  text-center"> {$vo.type_name} &nbsp;</span>
-		<span class="col-6 right  text-center">{$vo.step|show_step}</span>
-		<span class="col-6 right  text-center">{$vo.user_name}</span>
-		<span class="col-9 pull-right  text-center"> {$vo.create_time|toDate='Y-m-d'} </span>
-		<span class="autocut auto">
-			<in name="folder" value="darft">
-				<a href="{:U('edit?id='.$vo['id'])}">{$vo.name}
-				<else/>
-				<a href="{:U('read?id='.$vo['id'])}">{$vo.name}
-			</in>
-			<eq name="vo.name|strlen" value="0">
-				无标题
-			</eq></a> </span>
-	</li>
-</foreach>
-</ul>
-</div>
-<div class="page">
-	{$page}
-</div>
-</if>

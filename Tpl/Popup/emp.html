@@ -1,8 +1,8 @@
-<layout name='Layout/layout_popup' />
+<layout name='Layout/ace_popup' />
 <script type="text/javascript" src="__PUBLIC__/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	function save() {
-		$("#rc select option").each(function(i) {
+		$("#rc select option").each(function(i){
 			$("#emp_list .address_list", parent.document).append('<span title="' + $(this).text() + '" emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + ' </span>');
 		});
 		myclose();
@@ -61,7 +61,7 @@
 			//禁止连接生效
 		});
 		// 双击添加到收件人 因后添加的数据 所以需要用live函数
-		$("#addr_list a").live("dblclick", function() {
+		$("#addr_list a").on("dblclick", function() {
 			$text = $(this).text();
 			$val = $(this).parent().find("input").val();
 			if ($("#rc select option[value='" + $val + "']").val() == undefined) {
@@ -72,22 +72,22 @@
 			};
 		});
 		/* 双击添加到收件人 因后添加的数据 所以需要用live函数 */
-		$("#rc select").live("dblclick", function() {
+		$("#rc select").on("dblclick", function() {
 			$(this).find("option:selected").remove();
 			$("#rc_count").text("(" + $("#rc select option").length + ")");
 		});
 
-		$("#cc select").live("dblclick", function() {
+		$("#cc select").on("dblclick", function() {
 			$(this).find("option:selected").remove();
 			$("#cc_count").text("(" + $("#cc select option").length + ")");
 		});
 
-		$("#bcc select").live("dblclick", function() {
+		$("#bcc select").on("dblclick", function() {
 			$(this).find("option:selected").remove();
 			$("#bcc_count").text("(" + $("#bcc select option").length + ")");
 		});
 
-		$("#addr_list").live("mouseover", function() {
+		$("#addr_list").on("mouseover", function() {
 			$("#addr_list label").draggable({
 				appendTo : "body",
 				helper : "clone"
@@ -179,10 +179,7 @@
 	//-->
 </script>
 <input class="left dis" type="radio" id="rb_company" name="type" value="company" >
-<div class="title panel panel-default">
-<div class="panel-body">
-	<h3 class="col-md-12">选择人员</h3></div>
-</div>
+{:W('PageHeader',array('name'=>'选择人员','search'=>'N'))}
 <div class="operate panel panel-default">	<div class="panel-body">
 	<div class="pull-left">
 		<label class="checkbox inline">
@@ -196,8 +193,8 @@
 			职位</label>
 	</div>
 	<div class="pull-right">
-		<a  onclick="save();" class="btn btn-default">确定</a>
-		<a  onclick="myclose();" class="btn btn-default">关闭</a>
+		<a  onclick="save();" class="btn btn-sm btn-primary">确定</a>
+		<a  onclick="myclose();" class="btn btn-sm btn-primary">关闭</a>
 	</div>
 </div></div>
 <div class="row">
@@ -234,7 +231,7 @@
 		</div>
 		<div class="row form-horizontal">
 			<div class="form-group">
-				<label class="col-md-2 control-label" > <a onclick="add_address('rc');" class="btn btn-default"> <i class="icon-double-angle-right"></i> </a> </label>
+				<label class="col-md-2 control-label" > <a onclick="add_address('rc');" class="btn btn-sm btn-primary"> <i class="icon-double-angle-right"></i> </a> </label>
 				<div class="col-md-10">
 					<div id="rc" style="width:100%;height:400px;overflow:hidden">
 						<select size="6" style="height:100%;width:100%;"></select>

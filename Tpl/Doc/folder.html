@@ -1,177 +1,100 @@
-<layout name='Layout/layout_main' />
-<script type="text/javascript">
-	function mark(action) {
-		var vars = $("#form_data").serialize();
-		switch(action) {
-			case "del":
-				if (confirm('确定要删除吗?')) {
-					sendAjax("{:U('Doc/mark?action=del')}", vars, function(data) {
-						if (data.status) {
-							alert(data.info);
-							$("input[name='doc_id[]']:checkbox:checked").each(function() {
-								$(this).parents("li").remove();
-							})
-						}
-					});
-				}
-				break;
-			default:
-		}
-		$("#select_all").attr("checked", false);
-	}
-
-	function add() {
-		window.open("{:U('add?fid='.$folder_id)}", "_self");
-	}
-
-	function move_to(val) {
-		var vars = $("#form_data").serialize();
-		sendAjax("{:U('mark?action=move_folder')}", 'val=' + val + '&' + vars);
-		$("input[name='doc_id[]']:checkbox:checked").each(function() {
-			$(this).parent().parent().hide();
-		})
-	}
-
-
-	$(document).ready(function() {
-		set_return_url();
-		$(".input-date").datepicker();
-
-		$("#move_to li").click(function() {
-			move_to($(this).attr("id"));
-		})
-	}); 
-</script>
-<form id="form_search" method='post' class="form-horizontal">
-	<div class="title panel panel-default">
-		<div class="panel-body">
-			<h3 class="col-md-8">文档搜索</h3>
-			<div class="col-md-4 pull-right">
-				<div class="search_box">
-					<div class="input-group ">
-						<input  class="form-control" type="text"  onkeydown="key_search_2();" name="keyword" id="keyword"/>
-						<div class="input-group-btn">
-							<a class="btn btn-default" onclick="btn_search();" > <i class="icon-search" ></i> </a>
-							<a class="btn btn-default" onclick="open_adv_search();" ><i class="icon-angle-down" ></i></a>
-						</div>
-					</div>
-				</div>
+<layout name='Layout/ace_layout' />
+{:W('PageHeader',array('name'=>$folder_name,'search'=>'M'))}
+<div class="adv_search panel panel-default  display-none"  id="adv_search">
+	<div class="panel-heading">
+		<div class="row">
+			<h4 class="col-md-6">高级搜索</h4>
+			<div class="col-md-6 text-right">
+				<a class="btn btn-sm">搜索</a>
+				<a class="btn btn-sm">关闭</a>
 			</div>
 		</div>
 	</div>
-	<div class="adv_search panel panel-default">
-		<div class="panel-heading">
-			<div class="row">
-				<h4 class="col-md-6">高级搜索</h4>
-				<div class="col-md-6 text-right">
-					<a  class="btn btn-default" onclick="adv_search();">搜索</a>
-					<a  class="btn btn-default" onclick="close_adv_search();">关闭</a>
-				</div>
+	<div class="panel-body">
+		<div class="form-group col-md-6">
+			<label class="col-md-4 control-label" for="li_name">文件名：</label>
+			<div class="col-md-8">
+				<input  class="form-control" type="text" id="li_name" name="li_name" >
 			</div>
 		</div>
-		<div class="panel-body">
-			<div class="form-group col-md-6">
-				<label class="col-md-4 control-label" for="li_name">文件名：</label>
-				<div class="col-md-8">
-					<input  class="form-control" type="text" id="li_name" name="li_name" >
-				</div>
+		<div class="form-group col-md-6">
+			<label class="col-md-4 control-label" for="li_content">内容：</label>
+			<div class="col-md-8">
+				<input  class="form-control" type="text" id="li_content" name="li_content" >
 			</div>
+		</div>
 
-			<div class="form-group col-md-6">
-				<label class="col-md-4 control-label" for="li_content">内容：</label>
-				<div class="col-md-8">
-					<input  class="form-control" type="text" id="li_content" name="li_content" >
-				</div>
+		<div class="form-group col-md-6">
+			<label class="col-md-4 control-label" for="eq_user_name">登录人：</label>
+			<div class="col-md-8">
+				<input  class="form-control" type="text" id="eq_user_name" name="eq_user_name" >
 			</div>
-
-			<div class="form-group col-md-6">
-				<label class="col-md-4 control-label" for="eq_user_name">登录人：</label>
-				<div class="col-md-8">
-					<input  class="form-control" type="text" id="eq_user_name" name="eq_user_name" >
-				</div>
-			</div>
-
-			<div class="form-group col-md-6">
-				<label class="col-md-4 control-label" for="be_create_time">登录时间：</label>
-				<div class="col-md-8">
-					<input  class="form-control input-date" type="text" name="be_create_time" id="be_create_time"    readonly="readonly">
-					-
-					<input class="form-control input-date" type="text" name="en_create_time" id="en_create_time" readonly="readonly"  >
-				</div>
+		</div>
+		<div class="form-group col-md-6">
+			<label class="col-md-4 control-label" for="be_create_time">登录时间：</label>
+			<div class="col-md-8">
+				<input data-date-format="yyyy-mm-dd" class="form-control input-date-range" type="text" name="create_time" id="create_time"    readonly="readonly">
 			</div>
 		</div>
 	</div>
-</form>
+</div>
+<div class="space-8"></div>
 <div class="operate panel panel-default">
 	<div class="panel-body">
 		<div class="pull-left">
 			<if condition="$auth['admin']">
-				<a class="btn btn-default" onclick="mark('del');">删除</a>
+				<a class="btn btn-sm" onclick="mark('del');">删除</a>
 				<div class="btn-group" id="move_to">
-					<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#" > 转移到 <span class="caret"></span> </a>
+					<a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" href="#" > 转移到 <span class="caret"></span> </a>
 					<ul class="dropdown-menu">
 						{$folder_list}
 					</ul>
 				</div>
 			</if>
 		</div>
-
 		<div class="pull-right">
 			<if condition="$auth['write']">
-				<a class="btn btn-default" onclick="add()">新建</a>
+				<a class="btn btn-sm btn-primary" onclick="add()">新建</a>
 			</if>
 		</div>
 	</div>
 </div>
-<div class="ul-table">
+<div class="ul_table">
 	<ul>
 		<li class="thead">
-			<span class="checkbox">
-				<input  type="checkbox" id="chk_select_all" value="all" onclick="select_all('doc_id[]')"/>
-			</span>
-			<span class="col-12">编号</span>
-			<span class="col-9 pull-right hidden-phone">修改时间</span>
-			<span class="col-9 pull-right">登录时间</span>
-			<span class="col-6 right">登录人</span>
-			<div class="auto autocut">
-				文件名
-			</div>
+			<label class="inline pull-left col-3">
+				<input class="ace" type="checkbox" name="id-toggle-all" id="id-toggle-all" />
+				<span class="lbl"></span></label>
+			<span class="col-8 text-center">编号</span>
+			<span class="col-9 pull-right text-center">登录时间</span>
+			<span class="col-6 pull-right text-center">登录人</span>
+			<span class="auto autocut"> 文件名 </span>
 		</li>
-	</ul>
-	<if condition="count($list) eq 0 ">
-		<ul>
-			<li class="tbody text-center">
-				<h3>没找到相应的数据</h3>
+		<empty name="list">
+			<li class="no-data">
+				没找到数据
 			</li>
-		</ul>
-		<else/>
-		<form method="post" action="" id="form_data">
-			<ul>
+			<else/>
+			<form method="post" action="" id="form_data">
 				<foreach name="list" item="vo">
-					<li class="tbody" >
-						<span class="checkbox">
-							<input  type="checkbox" name="doc_id[]" value="{$vo.id}" />
-						</span>
-						<span class="col-12 text-center">
-							<div class="wrap">
-								{$vo.doc_no}
-							</div> </span>
-						<span class="col-9 pull-right text-center hidden-phone">&nbsp;{$vo.update_time|toDate='Y-m-d'}&nbsp;</span>
-						<span class="col-9 pull-right text-center">&nbsp;{$vo.create_time|toDate='Y-m-d'}&nbsp;</span>
-						<span class="col-6 right text-center">{$vo.user_name}</span>
-						<div class="auto autocut">
-							<a href="{:U('read?id='.$vo['id'])}"> {$vo.name} <span class="sort_content">
-								<eq name="vo.name|strlen" value="0">
-									无标题
-								</eq> </span> </a>
-						</div>
+					<li class="tbody">
+						<label class="inline pull-left col-3">
+							<input class="ace" type="checkbox" name="id[]" value="{$vo.id}" />
+							<span class="lbl"></span></label>
+						<span class="col-8 text-center">{$vo.doc_no}</span>
+						<span class="col-9 pull-right text-center">{$vo.create_time|toDate='Y-m-d'}</span>
+						<span class="col-6 pull-right text-center">{$vo.user_name}</span>
+						<span class="auto autocut"> <a href="{:U('read?id='.$vo['id'])}"> {$vo.name}
+							<eq name="vo.name|strlen" value="0">
+								无标题
+							</eq> </a> </span>
 					</li>
 				</foreach>
-			</ul>
-		</form>
-		<div class="page">
-			{$page}
-		</div>
-	</if>
+			</form>
+			<div class="pagination">
+				{$page}
+			</div>
+		</empty>
+	</ul>
 </div>
 

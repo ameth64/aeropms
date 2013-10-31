@@ -1,35 +1,10 @@
-<layout name='Layout/layout_main' />
-<script type="text/javascript">
-	function add() {
-		window.open("{:U('add')}", "_self");
-	}
-
-
-	$(document).ready(function() {
-		set_return_url();
-	})
-</script>
+<layout name='Layout/ace_layout' />
 <form method="post" action="" id="form_search" name="form_search">
-	<div class="title panel panel-default">
-		<div class="panel-body">
-			<h3 class="col-md-8">系统参数</h3>
-			<div class="col-md-4 pull-right">
-				<div class="search_box">
-					<div class="input-group ">
-						<input  class="form-control" type="text"  onkeydown="key_search();" name="keyword" id="keyword"/>
-						<div class="input-group-btn">
-							<a class="btn btn-default" onclick="btn_search();" > <i class="icon-search" ></i> </a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</form>
+	{:W('PageHeader',array('name'=>'系统参数','search'=>'S'))}
 <div class="operate panel panel-default">
 	<div class="panel-body">
 		<div class="pull-right" >
-			<a onclick="add()" class="btn btn-default">新增</a>
+			<a onclick="add()" class="btn btn-sm btn-primary">新增</a>
 		</div>
 	</div>
 </div>
@@ -84,7 +59,7 @@
 		</tr>
 	</foreach>
 </table>
-<div class="page">
-	{$page}
-</div>
+	<div class="pagination">
+		{$page}
+	</div>
 

@@ -1,119 +1,18 @@
-<layout name='Layout/layout_main' />
-<script type="text/javascript" src="__PUBLIC__/editor/kindeditor.js"></script>
-<script type="text/javascript" src="__PUBLIC__/editor/kindeditor.setting.js"></script>
-<script type="text/javascript" src="__PUBLIC__/js/swfupload/swfupload.js"></script>
-<script type="text/javascript" src="__PUBLIC__/js/swfupload/swfupload.queue.js"></script>
-<script type="text/javascript" src="__PUBLIC__/js/swfupload/fileprogress.js"></script>
-<script type="text/javascript" src="__PUBLIC__/js/swfupload/handlers.js"></script>
-<script type="text/javascript" src="__PUBLIC__/js/swfupload/setting.js"></script>
-<script type="text/javascript">
-	function add() {
-		window.open("{:U('add?tid='.$vo['id'])}", "_self");
-	}
-
-	function reply() {
-		editor.sync();
-		if (check_form("form_data")) {
-			sendForm("form_data", "{:U('post/save')}", "__SELF__");
-		}
-	}
-
-	function del() {
-		if (confirm('确定要删除吗?')) {
-			sendAjax("{:U('del')}", 'id=' + $("#id").val(), function(data) {
-				if (data.status) {
-					alert(data.info);
-				}
-			});
-		}
-	}
-
-	function del_post(id) {
-		if (confirm('确定要删除吗?')) {
-			sendAjax("{:U('post/del')}", 'id=' + id, function(data) {
-				if (data.status) {
-					alert(data.info);
-					location.href = location.href;
-				}
-			});
-		}
-	}
-
-	function edit() {
-		window.open(fix_url("{:U('edit')}?id=" + $("#id").val()), "_self");
-	}
-
-	function edit_post(id) {
-		window.open(fix_url("{:U('post/edit')}?id=" + id), "_self");
-	}
-
-
-	$(document).ready(function() {
-		$("div.face").mouseover(function() {
-			$(this).parent().parent().find("div.read_info").show();
-		})
-
-		$("div.read_info").mouseout(function() {
-			$(this).hide();
-		})
-
-		$('.post img').each(function() {
-			var maxWidth = $("div.operate").width() - 170;
-			// 图片最大宽度
-			var maxHeight = 1020;
-			// 图片最大高度
-			var ratio = 0;
-			// 缩放比例
-			var width = $(this).width();
-			// 图片实际宽度
-			var height = $(this).height();
-			// 图片实际高度
-
-			// 检查图片是否超宽
-			if (width > maxWidth) {
-				ratio = maxWidth / width;
-				// 计算缩放比例
-				$(this).css("width", maxWidth);
-				// 设定实际显示宽度
-				height = height * ratio;
-				// 计算等比例缩放后的高度
-				$(this).css("height", height);
-				// 设定等比例缩放后的高度
-			}
-
-			// 检查图片是否超高
-			if (height > maxHeight) {
-				ratio = maxHeight / height;
-				// 计算缩放比例
-				$(this).css("height", maxHeight);
-				// 设定实际显示高度
-				width = width * ratio;
-				// 计算等比例缩放后的高度
-				$(this).css("width", width * ratio);
-				// 设定等比例缩放后的高度
-			}
-		});
-		editor_init();
-
-	}); 
-</script>
+<layout name='Layout/ace_layout' />
 <input type="hidden" name="id" id="id" value="{$vo.id}">
-<div class="title panel panel-default">
-	<div class="panel-body">
-		<h3 class="col-md-12">{$vo.name}</h3>
-	</div>
-</div>
+{:W('PageHeader',array('name'=>$vo['name'],'search'=>'N'))}
+
 <div class="operate panel panel-default">
 	<div class="panel-body">
 		<div class="pull-left">
-			<a onclick="go_return_url();" class="btn btn-default">返回</a>
+			<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
 			<if condition="$auth['admin']">
-				<a onclick="del();"  class="btn btn-default">删除</a>
+				<a onclick="del();"  class="btn btn-sm btn-primary">删除</a>
 			</if>
 		</div>
 		<div class="pull-right">
 			<if condition="$auth['write']">
-				<a onclick="add();" class="btn btn-default">发帖</a>
+				<a onclick="add();" class="btn btn-sm btn-primary">发帖</a>
 			</if>
 		</div>
 	</div>
@@ -132,9 +31,10 @@
 			</if>
 		</div>
 		<div class="pull-right">
-			<a href="#reply" class="btn btn-default">回复</a>
+			<a href="#reply" class="btn btn-sm btn-primary">回复</a>
 		</div></td>
-	</tr>
+	</tr>
+
 	<tr>
 		<td style="width:145px;text-align:center;padding:0;margin:0;">
 		<div class="read_info">
@@ -196,7 +96,7 @@
 				</if>
 			</div>
 			<div class="pull-right">
-				<a href="#reply" class="btn btn-default">回复</a>
+				<a href="#reply" class="btn btn-sm btn-primary">回复</a>
 			</div></td>
 		</tr>
 		<td style="width:145px;text-align:center;vertical-align:top;padding:0;margin:0;">
@@ -244,22 +144,18 @@
 		</tr>
 	</foreach>
 </table>
-<div class="page">
-	{$page}
-</div>
-<if condition="$auth['write']">
-	<div class="title panel panel-default">
-		<div class="panel-body">
-			<h3 class="col-md-12" id="reply">回复</h3>
-		</div>
+	<div class="pagination">
+		{$page}
 	</div>
+<if condition="$auth['write']">
+	{:W('PageHeader',array('name'=>'回复','search'=>'N'))}
 	<div class="operate panel panel-default">
 		<div class="panel-body">
 			<div class="pull-left">
-				<a onclick="go_return_url();" class="btn btn-default">返回</a>
+				<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
 			</div>
 			<div class="pull-right">
-				<a onclick="reply();"  class="btn btn-default">提交</a>
+				<a onclick="reply();"  class="btn btn-sm btn-primary">提交</a>
 			</div>
 		</div>
 	</div>

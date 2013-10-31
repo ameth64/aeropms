@@ -1,50 +1,11 @@
-<layout name='Layout/layout_main' />
-<script type="text/javascript">
-	function add() {
-		window.open("{:U('add')}", "_self");
-	}
-
-	function btn_search() {
-		$("#form_search").submit();
-	}
-
-	function move_to(val) {
-		var vars = $("#form_data").serialize();
-		sendAjax("{:U('mark')}", 'val=' + val + '&' + vars);
-		$("input[name='flow_type_id[]']:checkbox:checked").each(function() {
-			$(this).parent().next().find("nobr").text(val);
-			$(this).attr("checked", false);
-		})
-	}
-
-
-	$(document).ready(function() {
-		set_return_url();
-	}); 
-</script>
-<form method="post" action="" id="form_search" name="form_search">
-	<div class="title panel panel-default">
-		<div class="panel-body">
-			<h3 class="col-md-8">审批管理</h3>
-			<div class="col-md-4 pull-right">
-				<div class="search_box">
-					<div class="input-group ">
-						<input  class="form-control" type="text"  onkeydown="key_search();" name="keyword" id="keyword"/>
-						<div class="input-group-btn">
-							<a class="btn btn-default" onclick="btn_search();" > <i class="icon-search" ></i> </a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</form>
+<layout name='Layout/ace_layout' />
+{:W('PageHeader',array('name'=>'审批管理','search'=>'S'))}
 <!--  功能操作区域  -->
 <div class="operate panel panel-default">
 	<div class="panel-body">
 		<div class="pull-left" >
 			<div class="btn-group">
-				<a class="btn btn-default  dropdown-toggle" data-toggle="dropdown" href="#"> 移动到 <span class="caret"></span> </a>
+				<a class="btn btn-sm btn-primary  dropdown-toggle" data-toggle="dropdown" href="#"> 移动到 <span class="caret"></span> </a>
 				<ul class="dropdown-menu">
 					<foreach name="group_list" item="vo">
 						<li onclick="move_to('{$key}');">
@@ -55,46 +16,46 @@
 			</div>
 		</div >
 		<div class="pull-right">
-			<a  onclick="add();" class="btn btn-default">新建</a>
+			<a  onclick="add();" class="btn btn-sm btn-primary">新建</a>
 		</div>
 	</div>
 </div>
 <!-- 功能操作区域结束 -->
-<form id="form_data" name="form_data" method='post'>
-	<div class="ul-table">
-		<ul>
-			<li class="thead"  >
-				<span class="checkbox" >
-					<input type="checkbox" name="chk_select_all" id="chk_select_all" onclick="select_all('flow_type_id[]')">
-				</span>
-				<span class="col-14">
-					<div class="wrap">
-						分组
-					</div> </span>
-				<span class="col-6 right text-center">状态</span>
-				<span  class="col-25 right text-center">文档编码格式</span>
-				<span class="autocut auto">名称</span>
-			</li>
-			<if condition="count($list) eq 0 ">
-				<li class="tbody text-center">
-					<h3>没找到相应的数据</h3>
-	</div>
-	</li>
-	</ul>
-	</div>
-	<else/>
-	<foreach name="list" item="vo">
-		<li class="tbody" >
-			<span  class="checkbox">
-				<input type="checkbox" name="flow_type_id[]" value="{$vo.id}">
-			</span>
-			<span  class="col-14 text-center" >{$vo.group}&nbsp;</span>
-			<span class="col-6 right text-center"  >{$vo.is_del|status}&nbsp;</span>
-			<span class="col-25 right text-center">{$vo.doc_no_format }&nbsp;</span>
-			<span class="autocut auto"><a href="{:U('edit?id='.$vo['id'])}">{$vo.name}&nbsp;</a></span>
+<div class="ul_table">
+	<ul>
+		<li class="thead"  >
+			<label class="inline pull-left col-3">
+				<input class="ace" type="checkbox" name="id-toggle-all" id="id-toggle-all" />
+				<span class="lbl"></span></label>
+			<span class="col-14">
+				<div class="wrap">
+					分组
+				</div> </span>
+			<span class="col-6 right text-center">状态</span>
+			<span  class="col-25 right text-center">文档编码格式</span>
+			<span class="autocut auto">名称</span>
 		</li>
-	</foreach>
+		<empty name="list">
+			<li class="no-data">
+				没找到数据
+			</li>
+			<else/>
+			<form method="post" action="" name="form_data" id="form_data">
+				<foreach name="list" item="vo">
+					<li class="tbody" >
+						<label class="inline pull-left col-3">
+							<input class="ace" type="checkbox" name="id[]" value="{$vo.id}" />
+							<span class="lbl"></span></label>
+						<span  class="col-14 text-center" >{$vo.group}&nbsp;</span>
+						<span class="col-6 right text-center"  >{$vo.is_del|status}&nbsp;</span>
+						<span class="col-25 right text-center">{$vo.doc_no_format }&nbsp;</span>
+						<span class="autocut auto"><a href="{:U('edit?id='.$vo['id'])}">{$vo.name}&nbsp;</a></span>
+					</li>
+				</foreach>
+			</form>
+			<div class="pagination">
+				{$page}
+			</div>
+		</empty>
 	</ul>
-	</if>
-	</div>
-</form>
+</div>

@@ -69,7 +69,7 @@ function uploader_init(){
 		return false;
 	});
 
-	$("#uploader a.del").live('click',function(){
+	$("#uploader a.del").on('click',function(){
 		if (confirm("确定要删除吗？")){
 			id=$(this).parents("li").attr("id");
 			file=uploader.getFile(id);

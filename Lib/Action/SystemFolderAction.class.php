@@ -11,7 +11,6 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 class SystemFolderAction extends CommonAction {
 	protected $config = array('app_type' => 'master');
 	
@@ -32,6 +31,7 @@ class SystemFolderAction extends CommonAction {
 		$model = M("SystemFolder");
 		$list = $model -> where($where) -> getField('id,name');
 		$this -> assign('folder_list', $list);
+		$this -> assign('js_file',"SystemFolder:js/index");
 		$this -> display("SystemFolder:index");
 	}
 

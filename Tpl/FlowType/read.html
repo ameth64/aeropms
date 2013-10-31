@@ -1,14 +1,8 @@
-<layout name='Layout/layout_main' />
-<script type="text/javascript">
-	function edit() {
-		window.location = "{:U('edit?id='.$vo['id'])}";
-	}
-</script>
+<layout name='Layout/ace_layout' />
 <input type="hidden" id="ajax" name="ajax" value="1">
-<div class="flow_type col-md-9">
 <div class="panel-body">
-	<div class="title panel panel-default">
-		<h3 class="col-md-12">详细信息 : {$vo.name}</h3></div>
+	{:W('PageHeader',array('name'=>'XXX','search'=>'N'))}
+<div class="page-header"><h3 class="col-md-12">详细信息 : {$vo.name}</h3></div>
 	</div>
 	<div class="operate">
 		<div class="pull-left">

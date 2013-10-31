@@ -1,42 +1,38 @@
-<layout name='Layout/layout_main' />
-<div class="title panel panel-default">
-	<div class="panel-body">
-		<div class="dropdown col-md-8">
-			<span class="dropdown-toggle" data-toggle="dropdown" href="#"><h3>
-				<nobr>
-					全部
-				</nobr><b class="caret"></b></h3></span>
-			<ul class="dropdown-menu">
-				<li gid="">
-					<a>全部</a>
+<layout name='Layout/ace_layout' />
+<div class="page-header clearfix">
+	<div class="dropdown col-sm-8">
+		<span class="title">全部</span>
+		<b class="dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></b>
+		<ul class="dropdown-menu">
+			<li gid="">
+				<a>全部</a>
+			</li>
+			<foreach name="tag_list" item="vo">
+				<li gid="{$key}">
+					<a>{$vo}</a>
 				</li>
-				<foreach name="tag_list" item="vo">
-					<li gid="{$key}">
-						<a>{$vo}</a>
-					</li>
-				</foreach>
-			</ul>
-		</div>
-		<div class="col-md-4 pull-right">
-			<div class="search_box">
-				<form id="form_search" name="form_data" method='post'>
-					<div class="input-group ">
-						<input  class="form-control" type="text"  onkeydown="key_search_2();" name="keyword" id="keyword"/>
-						<div class="input-group-btn">
-							<a class="btn btn-default" onclick="btn_search_2();" > <i class="icon-search" ></i> </a>
-						</div>
-					</div>
-				</form>
+			</foreach>
+		</ul>
+	</div>
+	<div class="col-sm-4 pull-right">
+		<div class="search_box">
+			<div class="input-group ">
+				<input type="hidden" value="abc" >
+				<input  class="form-control" type="text"  name="keyword" id="keyword" onkeydown="key_local_search();"/>
+				<div class="input-group-btn">
+					<a class="btn btn-sm btn-info" onclick="btn_local_search();"><i class="icon-search" ></i> </a>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
 <form id="form_data" name="form_data" method='post'>
 	<div class="operate panel panel-default">
 		<div class="panel-body">
 			<div class="pull-left">
 				<div class="btn-group">
-					<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"> 管理 <b class="caret"></b></a>
+					<a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" href="#"> 管理 <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li>
 							<a onclick="manage_tag();">管理组</a>
@@ -49,46 +45,48 @@
 						</li>
 					</ul>
 				</div>
-				<a class="btn btn-default" onclick="edit();">编辑</a>
-				<a class="btn btn-default" onclick="del();" >删除</a>
+				<a class="btn btn-sm btn-primary" onclick="edit();">编辑</a>
+				<a class="btn btn-sm btn-primary" onclick="del();" >删除</a>
 				<div class="btn-group">
-					<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"> 组 <span class="caret"></span> </a>
+					<a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" href="#"> 组 <span class="caret"></span> </a>
 					<ul class="dropdown-menu tag_list">
 						<li class="dropdown-header">
 							添加到
 						</li>
 						<foreach name="tag_list" item="vo">
 							<li>
-								<a><label><span class="checkbox">
-										<input type="checkbox" name="tag[]" value="{$key}">
-									</span><span class="text">{$vo}</span></label></a>
+								<label class="clearfix">
+									<input class="ace" type="checkbox" name="tag[]" value="{$key}"/>
+									<span class="lbl"></span><span class="text">{$vo}</span></label>
 							</li>
 						</foreach>
 						<li class="new_tag">
-							<input type="text" name="new_tag" class="input-medium">
+							<input type="text" name="new_tag" class="col-20">
 						</li>
 						<li class="divider"></li>
 						<li class="apply">
-							<input class="btn btn-default" type="button" value="应用" onclick="apply();">
+							<input class="btn btn-sm btn-primary" type="button" value="应用" onclick="apply();">
 						</li>
 						<li class="cmd">
-							<input class="btn btn-default" type="button" onclick="create_new_tag();" value="新组">
+							<input class="btn btn-sm btn-primary" type="button" onclick="create_new_tag();" value="新组">
 						</li>
 					</ul>
 				</div>
 			</div>
 			<div class="pull-right">
-				<a class="btn btn-default" onclick="add();">新建</a>
+				<a class="btn btn-sm btn-primary" onclick="add();">新建</a>
 			</div>
 		</div>
 	</div>
-	<if condition="count($list) eq 0 ">
-		<div name="list" class="table row text-center">
-			<h3>没找到相应的数据</h3></div>
-		</div>
-		<else/>
-		<div  class="ul-table">
-			<ul class="col-md-12">
+	<div class="ul_table border-top border-bottom">
+		<empty name="list">
+			<ul>
+				<li class="no-data">
+					没找到数据
+				</li>
+			</ul>
+			<else/>
+			<ul class="col-md-12 border">
 				<foreach name="list" item="vo">
 					<li class="tbody">
 						<div class="row">
@@ -101,10 +99,10 @@
 								</php>
 							</div>
 							<div class="col-md-6 col-xs-12">
-								<span class="checkbox">
-									<input type="checkbox" name="contact_id[]" value="{$vo.id}" >
-								</span>
-								<a href="{:U('read?id='.$vo['id'])}" class="data wrap"> {$vo.name}&nbsp;
+								<label class="inline pull-left col-3">
+									<input class="ace" type="checkbox" name="id[]" value="{$vo.id}"/>
+									<span class="lbl"></span></label>
+								<a href="{:U('edit?id='.$vo['id'])}" class="data wrap"> {$vo.name}&nbsp;
 								<notempty name="vo.dept">
 									/ {$vo.dept}&nbsp;
 								</notempty>
@@ -113,7 +111,7 @@
 								</notempty> </a>
 							</div>
 							<div class="col-md-6 col-xs-12" >
-								<nobr style="padding-left:15px;">
+								<nobr style="padding-left:30px;">
 									公司：
 								</nobr>
 								<nobr class="data">
@@ -123,7 +121,7 @@
 						</div>
 						<div class="row">
 							<div  class="col-md-6 col-xs-12" >
-								<nobr style="padding-left:15px;">
+								<nobr style="padding-left:30px;">
 									邮箱：
 								</nobr>
 								<nobr class="data">
@@ -131,7 +129,7 @@
 								</nobr>
 							</div>
 							<div  class="col-md-6 col-xs-12">
-								<nobr style="padding-left:15px;">
+								<nobr style="padding-left:30px;">
 									电话：
 								</nobr>
 								<nobr class="data">
@@ -145,142 +143,6 @@
 					</li>
 				</foreach>
 			</ul>
-		</div>
-	</if>
+		</empty>
+	</div>
 </form>
-<script type="text/javascript">
-	function add() {
-		window.open("{:U('add')}", "_self");
-		return false;
-	}
-
-	function edit() {
-		id = $("li.tbody.active :checkbox").val();
-		if (id == undefined) {
-			alert("请选择要编辑的联系人");
-			return false;
-		} else {
-			window.open(fix_url("{:U('edit')}?id=" + id), "_self");
-		}
-	}
-
-	function del() {
-		if (confirm('确定要删除吗?')) {
-			if ($("#form_data .ul-table input:checked").length == 0) {
-				$("li.tbody.active :checkbox").attr("checked", true);
-			}
-			sendForm("form_data", "{:U('del')}");
-			$("#form_data input:checked").each(function() {
-				$(this).parents("li").remove();
-			})
-		}
-	}
-
-	function apply() {
-		if ($("#form_data .ul-table input:checked").length == 0) {
-			$("li.tbody.active input:checkbox").iCheck('check');
-		}
-		sendForm("form_data", "{:U('set_tag')}", "__URL__");
-	}
-
-	function create_new_tag() {
-		$(".cmd").hide();
-		$(".new_tag").css("display", "block");
-		$(".apply").show();
-	}
-
-	function key_search_2() {
-		if (event.keyCode == 13) {
-			$(".ul-table li").hide();
-			val = $("#keyword").val().toUpperCase();
-			if (val.length == 0) {
-				$(".title nobr").html("全部");
-			} else {
-				$(".title nobr").html("搜索结果");
-			}
-			$(".ul-table li .data").each(function() {
-				if ($(this).text().indexOf(val) >= 0) {
-					$(this).parents("li").show();
-				};
-			})
-		}
-	}
-
-	function btn_search_2() {
-		$(".ul-table li").hide();
-		val = $("#keyword").val().toUpperCase();
-		if (val.length == 0) {
-			$(".title nobr").html("全部");
-		} else {
-			$(".title nobr").html("搜索结果");
-		}
-		$(".ul-table li .data").each(function() {
-			if ($(this).text().indexOf(val) >= 0) {
-				$(this).parents("li").show();
-			};
-		})
-	}
-
-	function export_contact() {
-		window.open("{:U('export')}", "_blank");
-		return false;
-	}
-
-	function import_contact() {
-		window.open("{:U('import')}", "_self");
-		return false;
-	}
-	
-	function manage_tag() {
-		window.open("{:U('tag_manage')}", "_self");
-		return false;
-	}	
-
-
-	$(document).ready(function() {
-		set_return_url();
-		$(".title .dropdown-menu li").click(function() {
-			$("#keyword").val("");
-			$(".ul-table li").hide();
-			gid = $(this).attr("gid");
-			$(".title nobr").html($(this).text());
-			$(".ul-table li div.tag").each(function() {
-				if ($(this).text().indexOf(gid) >= 0) {
-					$(this).parents("li").show();
-				};
-			})
-		})
-
-		$(".ul-table input:checkbox").on('ifChecked', function(e) {
-			$("li.tbody.active").removeClass("active");
-			$("li.tbody input:checked").each(function() {
-				$(this).parents("li.tbody").addClass("active");
-			})
-			e.stopPropagation();
-		})
-
-		$('.tag_list input:checkbox').on('ifChecked', function(event) {
-			$(".cmd").hide();
-			$(".apply").show();
-		});
-
-		$('.tag_list input:checkbox').on('ifUnchecked', function(event) {
-			if ($('.tag_list input:checked').length == 0) {
-				$(".cmd").show();
-				$(".apply").hide();
-			}
-		});
-
-		$("li.tbody").click(function() {
-			$("li.tbody.active").removeClass("active");
-			$(this).addClass("active");
-			$(".ul-table input:checkbox").iCheck('uncheck');
-			$(".tag_list input[name='tag[]']").iCheck('uncheck');
-			str = trim($(this).find(".tag").text());
-			strs = str.split(",");
-			for ( i = 0; i < strs.length; i++) {
-				$(".tag_list input[name='tag[]'][value='" + strs[i] + "']").iCheck('check');
-			}
-		})
-	}); 
-</script>

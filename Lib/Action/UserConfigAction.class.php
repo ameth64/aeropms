@@ -37,7 +37,7 @@ class UserConfigAction extends CommonAction {
 		}
 	}
 
-	function insert() {
+	function _insert() {
 		$model = M('UserConfig');
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
@@ -61,7 +61,7 @@ class UserConfigAction extends CommonAction {
 		}
 	}
 
-	function update() {
+	function _update() {
 		//B('FilterString');
 
 		$model = M('UserConfig');

@@ -11,7 +11,6 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 // 角色模块
 class RoleAction extends CommonAction {
 	protected $config=array('app_type'=>'master',
@@ -26,14 +25,18 @@ class RoleAction extends CommonAction {
 	public function node() {
 		$node_model = M("Node");
 		if (!empty($_POST['s_pid'])) {
-			$pid = $_POST['s_pid'];
-		} else {
+			$pid = $_POST['s_pid'];						
+		} else {			
 			$pid = $node_model -> where('pid=0') -> order('sort asc') -> getField('id');
 		}
-
-		$node_list = tree_to_list(list_to_tree($node_model -> select(), $pid));
+				
+		//dump($node_model -> select());
+		$node_list=$node_model ->order('sort asc')-> select();		
+		
+		$node_list = tree_to_list(list_to_tree($node_list,$pid));
+		 
 		$node_list = rotate($node_list);
-
+		//dump($node_list);
 		$node_list = implode(",", $node_list['id']) . ",$pid";
 
 		$where['id'] = array('in', $node_list);

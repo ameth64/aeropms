@@ -1,4 +1,4 @@
-<layout name='Layout/layout_main' />
+<layout name='Layout/ace_layout' />
 <script type="text/javascript" src="__PUBLIC__/editor/kindeditor.js"></script>
 <script type="text/javascript" src="__PUBLIC__/editor/kindeditor.setting.js"></script>
 <script type="text/javascript">
@@ -16,12 +16,10 @@
 		}
 	}
 	$(document).ready(function() {
-		editor_init();
 			fill_time("start_time");
 			fill_time("end_time");
 
-		$(function(){
-			$(".input-date").datepicker();
+		$(function(){			
 			$("#priority").val(3);
 			$("#slider-range-priority").slider({
 				range : "min",
@@ -40,11 +38,8 @@
 	});
 </script>
 
-<div class="title panel panel-default">
-	<div class="panel-body">
-		<h3 class="col-md-12">新建日历事项</h3>
-	</div>
-</div>
+{:W('PageHeader',array('name'=>'新建日历事项','search'=>'N'))}
+
 <form method='post' id="form_data" name="form_data" enctype="multipart/form-data"  class="well form-horizontal">
 	<input type="hidden" id="ajax" name="ajax" value="0">
 	<input type="hidden" id="add_file" name="add_file">
@@ -120,7 +115,7 @@
 	<div class="form-group">
 		<label class="col-md-2 control-label" >附件：</label>
 		<div class="col-md-10">
-			<include file="Layout:uploader" />
+			<include file="Widget:uploader" />
 		</div>
 	</div>
 
@@ -131,7 +126,7 @@
 	</div>
 
 	<div class="action">
-		<input class="btn btn-default" type="button" value="保存" onclick="save();">
-		<input  class="btn btn-default" type="button" value="取消" onclick="go_return_url();">
+		<input class="btn btn-sm btn-primary" type="button" value="保存" onclick="save();">
+		<input  class="btn btn-sm btn-default" type="button" value="取消" onclick="go_return_url();">
 	</div>
 </form>

@@ -1,31 +1,28 @@
-<layout name='Layout/layout_popup' />
+<layout name='Layout/ace_popup' />
 <script type="text/javascript" src="__PUBLIC__/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	function save() {
 		$("#rc select option").each(function(i) {
 			email = ($(this).html().split(";")[1].split("&")[0]);
 			emp_no = $(this).val();
-			name = jQuery.trim($(this).text());
-			name = name.replace(/<.*>/, '');
-			html = "<span email=\"" + email + "\" emp_no=\"" + emp_no + "\"><nobr><b  title=\"" + email + "\">" + name + "</b><a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";			
+			name = jQuery.trim($(this).text()).replace(/<.*>/, '');
+			html = conv_inputbox_item(emp_no, name, email, emp_no);	
 			$("#admin_list .address_list", parent.document).append(html);
 		});
 				
 		$("#cc select option").each(function(i) {
 			email = ($(this).html().split(";")[1].split("&")[0]);
 			emp_no = $(this).val();
-			name = jQuery.trim($(this).text());
-			name = name.replace(/<.*>/, '');
-			html = "<span email=\"" + email + "\" emp_no=\"" + emp_no + "\"><nobr><b  title=\"" + email + "\">" + name + "</b><a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";			
+			name = jQuery.trim($(this).text()).replace(/<.*>/, '');
+			html = conv_inputbox_item(emp_no, name, email, emp_no);	
 			$("#write_list .address_list", parent.document).append(html);
 		});
 		
 		$("#bcc select option").each(function(i) {
 			email = ($(this).html().split(";")[1].split("&")[0]);
 			emp_no = $(this).val();
-			name = jQuery.trim($(this).text());
-			name = name.replace(/<.*>/, '');
-			html = "<span email=\"" + email + "\" emp_no=\"" + emp_no + "\"><nobr><b  title=\"" + email + "\">" + name + "</b><a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";			
+			name = jQuery.trim($(this).text()).replace(/<.*>/, '');
+			html = conv_inputbox_item(emp_no, name, email, emp_no);			
 			$("#read_list .address_list", parent.document).append(html);
 		});
 		myclose();
@@ -34,35 +31,28 @@
 	function showdata(result) {
 		$("#addr_list").html("");
 		if ( type = $("input[name='type']:checked").val() == "company") {
-			var id = $("#company a.active").attr("node");
+			var id = "dept_"+$("#company a.active").attr("node");
 			var dept_name = $("#company a.active span").text();
 			var email = "dept@group";
-			var html_string = "<label><span class=\"checkbox\"><input type=\"checkbox\" name=\"addr_id\" value=\"dept_" + id + "\"></span><div class=\"wrap\"><a id=\"D" + id + "\" title=" + email + " onmousedown=\"return false\" href=\"javascript:void(0);\">" + dept_name + "&lt;" + email + "&gt; </a></div></label>";
+			var name = dept_name + "&lt;" + email + "&gt;";
+			var html_string = conv_address_item(id, name);
 			$("#addr_list").html(html_string);
 		}
 		for (s in result.data) {
 			var id = result.data[s].id;
 			var position_name = result.data[s].position_name;
 			var emp_no = result.data[s].emp_no;
-			var name = result.data[s].name;
 			var email = result.data[s].email;
-			if (position_name == undefined) {
-				var html_string = "<label><span class=\"checkbox\"><input type=\"checkbox\" name=\"addr_id\" value=\"" + emp_no + "\"></span><div class=\"wrap\"><a  title=" + email + " onmousedown=\"return false\" href=\"javascript:void(0);\">" + name + " &lt;" + email + "&gt; </a></div></label>";
-			} else {
-				var html_string = "<label><span class=\"checkbox\"><input type=\"checkbox\" name=\"addr_id\" value=\"" + emp_no + "\"></span><div class=\"wrap\"><a  title=" + email + " onmousedown=\"return false\" href=\"javascript:void(0);\">" + name + " / " + position_name + " &lt;" + email + "&gt; </a></div></label>";
-			}
-			$("#addr_list").html($("#addr_list").html() + html_string);
+			var name = result.data[s].name;
+			var name = name + "/" + position_name + "&lt;" + email + "&gt;";
+			var html_string = conv_address_item(emp_no, name);
+			$("#addr_list").append(html_string);
 		}
-		$("#addr_list input").iCheck({
-			checkboxClass : 'icheckbox_minimal-grey',
-			radioClass : 'iradio_minimal-grey',
-			increaseArea : '20%' // optional
-		});
 	}
 
 	$(document).ready(function() {
 
-		$("#rb_{$type}").iCheck('check');
+		$("#rb_{$type}").prop('checked', true);
 		// 选择用户默认选择的类型
 		$("#{$type}").removeClass("display-none");
 		
@@ -75,11 +65,9 @@
 		
 		//点击节点时读取相应的数据
 		$(".tree_menu  a").click(function() {
-			$(".tree_menu a").each(function() {
-				$(this).attr("class", "");
-			});
+			$(".tree_menu a").removeClass("active");
 			var type = $("input[name='type']:checked").val();
-			$(this).attr("class", "active");
+			$(this).addClass("active");
 			sendAjax("{:U('read')}", "type=" + type + "&id=" + $(this).attr("node"), function(data) {
 				showdata(data);
 			})
@@ -88,34 +76,32 @@
 		});
 		
 		// 双击添加到收件人 因后添加的数据 所以需要用live函数
-		$("#addr_list a").live("dblclick", function() {
+		$(document).on("dblclick", "#addr_list label", function() {
 			$text = $(this).text();
-			$val = $(this).parents("label").find("input").val();
+			$val = $(this).find("input").val();
 			if ($("#rc select option[value='" + $val + "']").val() == undefined) {
-				$option = $("<option></option>");
-				$option.val($val);
-				$option.text($text).appendTo("#rc select");
+				$("<option></option>").val($val).text($text).appendTo("#rc select");
 				$("#rc_count").text("(" + $("#rc select option").length + ")");
 			};
 		});
 		
 		/* 双击添加到收件人 因后添加的数据 所以需要用live函数 */
-		$("#rc select").live("dblclick", function() {
+		$("#rc select").on("dblclick", function() {
 			$(this).find("option:selected").remove();
 			$("#rc_count").text("(" + $("#rc select option").length + ")");
 		});
 
-		$("#cc select").live("dblclick", function() {
+		$("#cc select").on("dblclick", function() {
 			$(this).find("option:selected").remove();
 			$("#cc_count").text("(" + $("#cc select option").length + ")");
 		});
 
-		$("#bcc select").live("dblclick", function() {
+		$("#bcc select").on("dblclick", function() {
 			$(this).find("option:selected").remove();
 			$("#bcc_count").text("(" + $("#bcc select option").length + ")");
 		});
 
-		$("#addr_list").live("mouseover", function() {
+		$("#addr_list").on("mouseover", function() {
 			$("#addr_list label").draggable({
 				appendTo : "body",
 				helper : "clone"
@@ -130,9 +116,7 @@
 				$text = ui.draggable.text();
 				$val = ui.draggable.find("input").val();
 				if ($("#rc select option[value='" + $val + "']").val() == undefined) {
-					$option = $("<option></option>");
-					$option.val($val);
-					$option.text($text).appendTo(this);
+					$("<option></option>").val($val).text($text).appendTo(this);
 					$("#rc_count").text("(" + $("#rc select option").length + ")");
 				};
 			},
@@ -153,9 +137,7 @@
 				$text = ui.draggable.text();
 				$val = ui.draggable.find("input").val();
 				if ($("#cc select option[value='" + $val + "']").val() == undefined) {
-					$option = $("<option></option>");
-					$option.val($val);
-					$option.text($text).appendTo(this);
+					$("<option></option>").val($val).text($text).appendTo(this);
 					$("#cc_count").text("(" + $("#cc select option").length + ")");
 				};
 			},
@@ -176,9 +158,7 @@
 				$text = ui.draggable.text();
 				$val = ui.draggable.find("input").val();
 				if ($("#bcc select option[value='" + $val + "']").val() == undefined) {
-					$option = $("<option></option>");
-					$option.val($val);
-					$option.text($text).appendTo(this);
+					$("<option></option>").val($val).text($text).appendTo(this);
 					$("#bcc_count").text("(" + $("#bcc select option").length + ")");
 				};
 			},
@@ -193,12 +173,10 @@
 
 	function add_address(name) {
 		$("input:checked[name='addr_id']").each(function() {
-			$text = $(this).parents("label").find("a").text();
+			$text = $(this).parents("label").find("span").text();
 			$val = $(this).val();
 			if ($("#" + name + " select option[value='" + $val + "']").val() == undefined) {
-				$option = $("<option></option>");
-				$option.val($val);
-				$option.text($text).appendTo("#" + name + " select");
+				$("<option></option>").val($val).text($text).appendTo("#" + name + " select");
 				$("#" + name + "_count").text("(" + $("#" + name + " select option").length + ")");
 			};
 		})
@@ -223,8 +201,8 @@
 			<label class="radio-inline" for="rb_position">职位</label>
 		</div>
 		<div class="pull-right">
-			<a  onclick="save();" class="btn btn-default">确定</a>
-			<a  onclick="myclose();" class="btn btn-default">关闭</a>
+			<a  onclick="save();" class="btn btn-sm btn-primary">确定</a>
+			<a  onclick="myclose();" class="btn btn-sm btn-primary">关闭</a>
 		</div>
 	</div>
 	<div class="panel-body">
@@ -252,7 +230,7 @@
 				<b style="padding-left: 60px;">管理</b><span id="rc_count"></span>
 			</div>
 			<div class="clearfix" style="margin-bottom: 15px;">
-				<label class="col-4 pull-left text-right" ><a onclick="add_address('rc');" class="btn btn-default"> <i class="icon-double-angle-right"></i> </a> </label>
+				<label class="col-4 pull-left text-right" ><a onclick="add_address('rc');" class="btn btn-sm btn-primary"> <i class="icon-double-angle-right"></i> </a> </label>
 				<div class="col-28 pull-right">
 					<div id="rc" style="width:100%;height:130px;overflow:hidden">
 						<select size="6" style="height:100%;width:100%;"></select>
@@ -264,7 +242,7 @@
 				<b  style="padding-left: 60px;">读取</b><span id="cc_count"></span>
 			</div>
 			<div class="clearfix" style="margin-bottom: 15px;">
-				<label class="col-4 pull-left text-right" ><a onclick="add_address('cc');" class="btn btn-default"> <i class="icon-double-angle-right"></i></a></label>
+				<label class="col-4 pull-left text-right" ><a onclick="add_address('cc');" class="btn btn-sm btn-primary"> <i class="icon-double-angle-right"></i></a></label>
 				<div class="col-28 pull-right">
 					<div id="cc" style="width:100%;height:130px;overflow:hidden">
 						<select size="6" style="height:100%;width:100%;"></select>
@@ -275,7 +253,7 @@
 				<b  style="padding-left: 60px;">查询</b><span id="cc_count"></span>
 			</div>
 			<div class="clearfix">
-				<label class="col-4 pull-left text-right" ><a onclick="add_address('bcc');" class="btn btn-default"> <i class="icon-double-angle-right"></i></a></label>
+				<label class="col-4 pull-left text-right" ><a onclick="add_address('bcc');" class="btn btn-sm btn-primary"> <i class="icon-double-angle-right"></i></a></label>
 				<div class="col-28 pull-right">
 					<div id="bcc" style="width:100%;height:95px;overflow:hidden">
 						<select size="6" style="height:100%;width:100%;"></select>

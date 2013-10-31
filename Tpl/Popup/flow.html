@@ -1,4 +1,4 @@
-<layout name='Layout/layout_popup' />
+<layout name='Layout/ace_popup' />
 <script type="text/javascript">
 	function save() {
 		$("#confirm_wrap", parent.document).hide();
@@ -34,24 +34,16 @@
 	function showdata(result) {
 
 		$("#addr_list").html("");
-		//alert(result.info);
 		for (s in result.data) {
 			var id = result.data[s].id;
 			var position_name = result.data[s].position_name;
 			var emp_no = result.data[s].emp_no;
-			var name = result.data[s].name;
 			var email = result.data[s].email;
-			if (position_name == undefined) {
-				var html_string = "<label><span class=\"checkbox\"><input type=\"checkbox\" name=\"addr_id\" value=\"" + emp_no + "\"></span><div class=\"wrap\"><a  title=" + email + " onmousedown=\"return false\" href=\"javascript:void(0);\">" + name + " &lt;" + email + "&gt; </a></div></label>";
-			} else {
-				var html_string = "<label><span class=\"checkbox\"><input type=\"checkbox\" name=\"addr_id\" value=\"" + emp_no + "\"></span><div class=\"wrap\"><a  title=" + email + " onmousedown=\"return false\" href=\"javascript:void(0);\">" + name + " / " + position_name + " &lt;" + email + "&gt; </a></div></label>";
-			}
-			$("#addr_list").html($("#addr_list").html() + html_string);
+			var name = result.data[s].name;
+			var name = name + "/" + position_name + "&lt;" + email + "&gt;";
+			var html_string = conv_address_item(id, name);
+			$("#addr_list").append(html_string);
 		}
-		$("#addr_list input").iCheck({
-			checkboxClass : 'icheckbox_minimal-grey',
-			radioClass : 'iradio_minimal-grey',
-		});
 	}
 
 
@@ -61,17 +53,17 @@
 
 		$(".{$type}").removeClass("display-none");
 
-		$("input[name='type']").on('ifChanged', function() {
+		$("input[name='type']").on('click', function() {
 			$("input[name='type']").each(function() {
-				$("." + $(this).val()).addClass("display-none");
+				$("#" + $(this).val()).addClass("display-none");
 			});
-			$("." + $(this).val()).removeClass("display-none");
+			$("#" + $(this).val()).removeClass("display-none")
 		})
 
 		$("#emp .tree_menu  a").click(function() {
 			$(".emp .tree_menu a").attr("class", "");
 			var type = $("input[name='type']:checked").val();
-			$(this).attr("class", "active");
+			$(this).addClass("active");
 			sendAjax("{:U('read')}", "type=" + type + "&id=" + $(this).attr("node"), function(data) {
 				showdata(data);
 			})
@@ -83,7 +75,7 @@
 			$("#dept .tree_menu a").each(function() {
 				$(this).attr("class", "");
 			});
-			$(this).attr("class", "active");
+			$(this).addClass("active");
 
 			var type = $("input[name='type']:checked").val();
 
@@ -95,7 +87,7 @@
 			$("#dept_grade .tree_menu a").each(function() {
 				$(this).attr("class", "");
 			});
-			$(this).attr("class", "active");
+			$(this).addClass("active");
 
 			var type = $("input[name='type']:checked").val();
 
@@ -107,7 +99,7 @@
 			$("#position .tree_menu a").each(function() {
 				$(this).attr("class", "");
 			});
-			$(this).attr("class", "active");
+			$(this).addClass("active");
 
 			var type = $("input[name='type']:checked").val();
 
@@ -115,27 +107,25 @@
 			//禁止连接生效
 		});
 
-		$("#addr_list a").live("dblclick", function() {
+		$("#addr_list a").on("dblclick", function() {
 			$text = $(this).text();
 			$val = $(this).parents("label").find("input").val();
 			if ($("#rc select option[value='" + $val + "']").val() == undefined) {
-				$option = $("<option></option>");
-				$option.val($val);
-				$option.text($text).appendTo("#rc select");
+				$("<option></option>").val($val).text($text).appendTo("#rc select");
 				$("#rc_count").text("(" + $("#rc select option").length + ")");
 			};
 		});
 
-		$("#rc  select").live("dblclick", function() {
+		$("#rc  select").on("dblclick", function() {
 			$(this).find("option:selected").remove();
 			$("#rc_count").text("(" + $("#rc select option").length + ")");
 		});
 
-		$("#cc  select").live("dblclick", function() {
+		$("#cc  select").on("dblclick", function() {
 			$(this).find("option:selected").remove();
 			$("#cc_count").text("(" + $("#cc select option").length + ")");
 		});
-		$("#addr_list").live("mouseover", function() {
+		$("#addr_list").on("mouseover", function() {
 			$("#addr_list label").draggable({
 				appendTo : "body",
 				helper : "clone"
@@ -149,9 +139,7 @@
 				$text = ui.draggable.text();
 				$val = ui.draggable.find("input").val();
 				if ($("#rc select option[value='" + $val + "']").val() == undefined) {
-					$option = $("<option></option>");
-					$option.val($val);
-					$option.text($text).appendTo(this);
+					$("<option></option>").val($val).text($text).appendTo(this);
 					$("#rc_count").text("(" + $("#rc select option").length + ")");
 				};
 			},
@@ -171,9 +159,7 @@
 				$text = ui.draggable.text();
 				$val = ui.draggable.find("input").val();
 				if ($("#cc select option[value='" + $val + "']").val() == undefined) {
-					$option = $("<option></option>");
-					$option.val($val);
-					$option.text($text).appendTo(this);
+					$("<option></option>").val($val).text($text).appendTo(this);
 					$("#cc_count").text("(" + $("#cc select option").length + ")");
 				};
 			},
@@ -209,9 +195,7 @@
 				}
 				$text = $dept_grade_name + "-" + $position_name;
 				$val = "dgp_" + $dept_grade_id + "_" + $position_id;
-				$option = $("<option></option>");
-				$option.val($val);
-				$option.text($text).appendTo("#" + name + " select");
+				$("<option></option>").val($val).text($text).appendTo("#" + name + " select");
 				$("#" + name + "_count").text("(" + $("#" + name + " select option").length + ")");
 				break
 			case "dp":
@@ -231,9 +215,7 @@
 				}
 				$text = $dept_name + "-" + $position_name;
 				$val = "dp_" + $dept_id + "_" + $position_id;
-				$option = $("<option></option>");
-				$option.val($val);
-				$option.text($text).appendTo("#" + name + " select");
+				$("<option></option>").val($val).text($text).appendTo("#" + name + " select");
 				$("#" + name + "_count").text("(" + $("#" + name + " select option").length + ")");
 				break
 			case "dept":
@@ -246,9 +228,7 @@
 				}
 				$text = $dept_name;
 				$val = "dept_" + $dept_id;
-				$option = $("<option></option>");
-				$option.val($val);
-				$option.text($text).appendTo("#" + name + " select");
+				$("<option></option>").val($val).text($text).appendTo("#" + name + " select");
 				$("#" + name + "_count").text("(" + $("#" + name + " select option").length + ")");
 				break
 
@@ -257,9 +237,7 @@
 					$text = $(this).parents("label").find("a").text();
 					$val = "emp_" + $(this).val();
 					if ($("#" + name + " select option[value='" + $val + "']").val() == undefined) {
-						$option = $("<option></option>");
-						$option.val($val);
-						$option.text($text).appendTo("#" + name + " select");
+						$("<option></option>").val($val).text($text).appendTo("#" + name + " select");
 						$("#" + name + "_count").text("(" + $("#" + name + " select option").length + ")");
 					};
 				})
@@ -291,8 +269,8 @@
 			<label class="radio-inline" for="rb_emp">人员</label>
 		</div>
 		<div class="pull-right">
-			<a  onclick="save();" class="btn btn-default">确定</a>
-			<a  onclick="myclose();" class="btn btn-default">关闭</a>
+			<a  onclick="save();" class="btn btn-sm btn-primary">确定</a>
+			<a  onclick="myclose();" class="btn btn-sm btn-primary">关闭</a>
 		</div>
 	</div>
 	<div class="panel-body">
@@ -326,7 +304,7 @@
 				<b style="padding-left: 60px;">裁决</b><span id="rc_count"></span>
 			</div>
 			<div class="clearfix" style="margin-bottom: 15px;">
-				<label class="col-4 pull-left text-right" ><a onclick="add_address('rc');" class="btn btn-default"> <i class="icon-double-angle-right"></i> </a> </label>
+				<label class="col-4 pull-left text-right" ><a onclick="add_address('rc');" class="btn btn-sm btn-primary"> <i class="icon-double-angle-right"></i> </a> </label>
 				<div class="col-28 pull-right">
 					<div id="rc" style="width:100%;height:130px;overflow:hidden">
 						<select size="6" style="height:100%;width:100%;"></select>
@@ -337,7 +315,7 @@
 				<b  style="padding-left: 60px;">协商</b><span id="cc_count"></span>
 			</div>
 			<div class="clearfix" style="margin-bottom: 15px;">
-				<label class="col-4 pull-left text-right" ><a onclick="add_address('cc');" class="btn btn-default"> <i class="icon-double-angle-right"></i></a></label>
+				<label class="col-4 pull-left text-right" ><a onclick="add_address('cc');" class="btn btn-sm btn-primary"> <i class="icon-double-angle-right"></i></a></label>
 				<div class="col-28 pull-right">
 					<div id="cc" style="width:100%;height:130px;overflow:hidden">
 						<select size="6" style="height:100%;width:100%;"></select>
@@ -348,7 +326,7 @@
 				<b  style="padding-left: 60px;">抄送</b><span id="cc_count"></span>
 			</div>
 			<div class="clearfix">
-				<label class="col-4 pull-left text-right" ><a onclick="add_address('bcc');" class="btn btn-default"> <i class="icon-double-angle-right"></i></a></label>
+				<label class="col-4 pull-left text-right" ><a onclick="add_address('bcc');" class="btn btn-sm btn-primary"> <i class="icon-double-angle-right"></i></a></label>
 				<div class="col-28 pull-right">
 					<div id="bcc" style="width:100%;height:95px;overflow:hidden">
 						<select size="6" style="height:100%;width:100%;"></select>

@@ -1,0 +1,16 @@
+<script type="text/javascript" src="__PUBLIC__/editor/kindeditor.js"></script>
+<script type="text/javascript" src="__PUBLIC__/editor/kindeditor.setting.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/swfupload/swfupload.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/swfupload/swfupload.queue.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/swfupload/fileprogress.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/swfupload/handlers.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/swfupload/setting.js"></script>
+<script type="text/javascript">
+	function save() {
+		editor.sync();
+		if (check_form("form_data")) {
+			sendForm("form_data", "{:U('save')}");
+		}
+	}
+
+</script>

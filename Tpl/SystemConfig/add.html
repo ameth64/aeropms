@@ -1,28 +1,17 @@
-<layout name='Layout/layout_main' />
+<layout name='Layout/ace_layout' />
+{:W('PageHeader',array('name'=>'新建系统参数','search'=>'N'))}
 
-<script type="text/javascript">
-	function save() {
-		if (check_form("form_data")) {
-			sendForm("form_data", "{:U('save')}");
-		}
-	}
-</script>
-<div class="title panel panel-default">
-	<div class="panel-body">
-		<h3 class="col-md-12">新建系统参数</span>
-	</div>
-</div>
 <div class="operate panel panel-default">
 	<div class="panel-body">
 		<div class="pull-left">
-			<a onclick="go_return_url();" class="btn btn-default">返回</a>
+			<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
 		</div>
 		<div class="pull-right">
-			<a onclick="save();" class="btn btn-default">保存</a>
+			<a onclick="save();" class="btn btn-sm btn-primary">保存</a>
 		</div>
 	</div>
 </div>
-<form method='post' id="form_data" action="" name="form_data"  class="well form-horizontal">
+<form method='post' id="form_data" action="" name="form_data"  class="well form-horizontal clearfix">
 	<input type="hidden" name="opmode" id="opmode" value="add">
 	<div class="form-group col-md-12">
 		<label class="col-md-4 control-label" for="name">名称*：</label>

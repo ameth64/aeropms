@@ -14,7 +14,7 @@
 
 class NoticeAction extends CommonAction {
 	
-	protected $config=array('app_type'=>'common','action_auth'=>array('folder'=>'read'),'folder_auth'=>true);
+	protected $config=array('app_type'=>'common','action_auth'=>array('folder'=>'read','mark'=>'admin'),'folder_auth'=>true);
 	
 	//过滤查询字段
 	function _search_filter(&$map) {
@@ -39,9 +39,9 @@ class NoticeAction extends CommonAction {
 		return;
 	}
 
-	public function mark() {
+	public function mark(){
 		$action = $_REQUEST['action'];
-		$id = $_REQUEST['notice_id'];
+		$id = $_REQUEST['id'];
 		switch ($action) {
 			case 'del' :
 				$where['id'] = array('in', $id);
@@ -50,18 +50,22 @@ class NoticeAction extends CommonAction {
 					$auth = D("SystemFolder") -> get_folder_auth($folder[0]["folder"]);
 					if ($auth['admin'] == true) {
 						$field = 'is_del';
-						$this -> _set_field($id, $field, 1);
+							$result=$this -> _set_field($id,$field,1);
+							if($result){
+								$this -> ajaxReturn('',"删除成功",1);		
+							}else{
+								$this -> ajaxReturn('', "删除失败",0);
+							}
 					}
-					$this -> ajaxReturn('', "删除成功", 1);
 				} else {
-					$this -> ajaxReturn('', "删除失败", 1);
+					$this -> ajaxReturn('', "删除失败",0);
 				}
 				break;
 			case 'move_folder' :
 				$target_folder = $_REQUEST['val'];
 				$where['id'] = array('in', $id);
 				$folder = M("Notice") -> distinct(true) -> where($where) -> field("folder") -> select();
-				if (count($folder) == 1) {
+				if (count($folder) == 1){
 					$auth = D("SystemFolder") ->get_folder_auth($folder[0]["folder"]);
 					if ($auth['admin'] == true){
 						$field = 'folder';

@@ -1,14 +1,12 @@
-<layout name='Layout/layout_main' />
+<layout name='Layout/ace_layout' />
 <script type="text/javascript"></script>
 <form method="post" action="" id="form_search" name="form_search">
-	<div class="title panel panel-default">
-	<div class="panel-body">
-		<h3 class="col-md-12">系统信息</h3></div>
-	</div>
+	{:W('PageHeader',array('name'=>'系统信息','search'=>'N'))}
+
 </form>
 <div class="row" >
 	<div class="pull-right">
-		<a onclick="save()" class="btn btn-default">保存</a>
+		<a onclick="save()" class="btn btn-sm btn-primary">保存</a>
 	</div>
 </div>
 <form id="form_data" name="form_data"method="post" action="">

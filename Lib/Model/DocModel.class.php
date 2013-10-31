@@ -33,7 +33,7 @@ class DocModel extends CommonModel {
             return $rs[0]['doc_no'];    
         }else{
             return date('Y')."-0001"; 
-        }               
+        }
     }
 }	
 ?>

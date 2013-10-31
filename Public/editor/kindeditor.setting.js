@@ -4,7 +4,7 @@
 			{
 				settings={
 					resizeType:1,	
-					filterMode : true,
+					filterMode : false,
 					uploadJson:upload_url,
 					afterCreate : function() {
 						editor.width="100%";
@@ -14,7 +14,7 @@
 			}else{
 				settings={
 					resizeType:1,	
-					filterMode : true,
+					filterMode : false,
 					uploadJson:upload_url,
 					afterCreate : function() {
 						editor.width="100%";

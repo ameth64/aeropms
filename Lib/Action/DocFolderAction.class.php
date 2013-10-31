@@ -11,7 +11,6 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 class DocFolderAction extends SystemFolderAction {
 	protected $config=array('app_type'=>'master','action_auth'=>array('winpop'=>'admin'));
 	//过滤查询字段
@@ -21,6 +20,6 @@ class DocFolderAction extends SystemFolderAction {
 	}
 
 	public function _before_index() {
-		$this -> assign("folder_name", "文档库设置");
+		$this -> assign("folder_name", "文档库设置");				
 	}
 }

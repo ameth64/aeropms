@@ -11,9 +11,8 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 class DocAction extends CommonAction {
-	protected $config=array('app_type'=>'common','action_auth'=>array('folder'=>'read','tag_manage'=>'admin'),'folder_auth'=>true);
+	protected $config=array('app_type'=>'common','action_auth'=>array('folder'=>'read','tag_manage'=>'admin','mark'=>'admin'),'folder_auth'=>true);
 	//过滤查询字段
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
@@ -38,6 +37,10 @@ class DocAction extends CommonAction {
 	}
 
 	public function folder(){
+		$widget['date-range']=true;
+		$widget['editor']=true;
+		$this->assign("widget",$widget);
+
 		$this->assign('auth',$this->config['auth']);
 		$model = D("Doc");
 		$map = $this -> _search();
@@ -110,37 +113,40 @@ class DocAction extends CommonAction {
 
 	public function mark() {
 		$action = $_REQUEST['action'];
-		$id = $_REQUEST['doc_id'];
+		$id = $_REQUEST['id'];
 		if (!empty($id)) {
 			switch ($action) {
 				case 'del' :
 					$where['id'] = array('in', $id);
 					$folder = M("Doc") -> distinct(true) -> where($where) -> field("folder") -> select();
 					if (count($folder) == 1) {
-						$auth = D("Folder") -> _get_folder_auth($folder[0]["folder"]);
+						$auth = D("SystemFolder") -> get_folder_auth($folder[0]["folder"]);
 						if ($auth['admin'] == true) {
 							$field = 'is_del';
-							$this -> _set_field($id, $field, 0);
-						}
-						$this -> ajaxReturn('', "删除成功", 1);
+							$result=$this -> _set_field($id,$field,1);
+							if($result){
+								$this -> ajaxReturn('',"删除成功",1);		
+							}else{
+								$this -> ajaxReturn('', "删除失败",0);
+							}
+						}						
 					} else {
-						$this -> ajaxReturn('', "删除失败", 1);
+						$this -> ajaxReturn('', "删除失败",0);
 					}
 					break;
 				case 'move_folder' :
 					$target_folder = $_REQUEST['val'];
-
 					$where['id'] = array('in', $id);
 					$folder = M("Doc") -> distinct(true) -> where($where) -> field("folder") -> select();
-					if (count($folder) == 1) {
-						$auth = D("Folder") -> _get_folder_auth($folder[0]["folder"]);
-						if ($auth['admin'] == true) {
+					if (count($folder) == 1){
+						$auth = D("SystemFolder") ->get_folder_auth($folder[0]["folder"]);
+						if ($auth['admin'] == true){
 							$field = 'folder';
 							$this -> _set_field($id, $field, $target_folder);
 						}
 						$this -> ajaxReturn('', "操作成功", 1);
 					} else {
-						$this -> ajaxReturn('', "操作失败", 1);
+						$this -> ajaxReturn('', "操作成功", 1);
 					}
 					break;
 				default :

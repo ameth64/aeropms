@@ -1,54 +1,6 @@
-<layout name='Layout/layout_main' />
-<tagLib name="html" />
-<script type="text/javascript" src="__PUBLIC__/editor/kindeditor.js"></script>
-<script type="text/javascript" src="__PUBLIC__/editor/kindeditor.setting.js"></script>
-<script type="text/javascript">
-	function save() {
-		$("#confirm").val("");
-		$("#confirm_wrap  span.address_list span").each(function() {
-			$("#confirm").val($("#confirm").val() + $(this).attr("emp_no") + '|');
-		})
+<layout name='Layout/ace_layout' />
+{:W('PageHeader',array('name'=>'新建流程类型','search'=>'N'))}
 
-		$("#confirm_name").val("");
-		$("#confirm_name").val($("#confirm_wrap span.address_list").html());
-
-		$("#consult").val("");
-		$("#consult_wrap span.address_list span").each(function() {
-			$("#consult").val($("#consult").val() + $(this).attr("emp_no") + '|');
-		})
-
-		$("#consult_name").val("");
-		$("#consult_name").val($("#consult_wrap span.address_list").html());
-
-		$("#refer").val("");
-		$("#refer_wrap span.address_list span").each(function() {
-			$("#refer").val($("#refer").val() + $(this).attr("emp_no") + '|');
-		})
-
-		$("#refer_name").val("");
-		$("#refer_name").val($("#refer_wrap span.address_list").html());
-
-		editor.sync();
-		if (check_form("form_data")) {
-			sendForm("form_data", "{:U('save')}", "{:U('edit?id='.$vo['id'])}");
-		}
-	}
-
-	function popup_flow() {
-		winopen("{:U('popup/flow')}", 730, 574);
-	}
-
-
-	$(document).ready(function() {
-		editor_init();
-		set_val('group','$vo.group');
-	}); 
-</script>
-<div class="title panel panel-default">
-	<div class="panel-body">
-		<h3 class="col-md-12">新建流程类型</h3>
-	</div>
-</div>
 <form method='post' id="form_data" class="well form-horizontal">
 	<input type="hidden" id="opmode" name="opmode" value="add">
 	<input type="hidden" id="ajax" name="ajax" value="1">
@@ -176,7 +128,7 @@
 	</div>
 
 	<div class="action">
-		<input class="btn btn-default" type="button" value="保存" onclick="save();">
-		<input  class="btn btn-default" type="button" value="取消" onclick="go_return_url();">
+		<input class="btn btn-sm btn-primary" type="button" value="保存" onclick="save();">
+		<input  class="btn btn-sm btn-default" type="button" value="取消" onclick="go_return_url();">
 	</div>
 </form>

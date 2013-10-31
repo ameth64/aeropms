@@ -95,7 +95,7 @@ function is_mobile() {
 }
 
 /* 在iframe里显示textarea的内容*/
-function show_content() {
+function show_content(){
 	var iframe = $("#content_iframe").get(0).contentWindow;
 	var div = document.createElement("div");
 	div.innerHTML = $("#content_1").val();
@@ -148,7 +148,7 @@ function click_top_menu(node) {
 
 /* 单击left_menu菜单*/
 
-function click_left_menu(obj_node) {
+function click_left_menu(obj_node){
 	url = $(obj_node).attr("href");
 	if (url.length > 0 && (url != "#")) {
 		node = $(obj_node).attr("node");
@@ -294,6 +294,7 @@ function getHtml(url, vars, callback) {
 }
 
 /*提交表单*/
+/*提交表单*/
 function sendForm(formId, post_url, return_url) {
 	if ($("#ajax").val() == 1) {
 		var vars = $("#" + formId).serialize();
@@ -311,9 +312,9 @@ function sendForm(formId, post_url, return_url) {
 		});
 	} else {
 		$("#" + formId).attr("action", post_url);
-		input1 = $("<input type='hidden' name='return_url' />");
-		input1.attr('value', return_url);
-		$("#" + formId).append(input1);
+		if (return_url) {
+			set_cookie('return_url',return_url);
+		}	
 		$("#" + formId).submit();
 	}
 }
@@ -339,7 +340,7 @@ function reunit(filesize) {
 
 /*赋值*/
 
-function set_val(name, val) {
+function set_val(name, val){
 	if ($("#" + name + " option").length > 0) {
 		$("#" + name + " option[value='" + val + "']").attr("selected", "selected");
 		return;
@@ -359,14 +360,14 @@ function set_val(name, val) {
 		$("#" + name).val(val);
 		return;
 	}
-	if (name == "remark"){
+	if (($("#" + name).attr("rows"))>0){
 		$("#" + name).text(val);
-		return;
+		return;		
 	}
 }
 
 /*联系人显示格式转换*/
-function contact_conv(val) {
+function contact_conv(val){
 	var arr_temp = val.split(";");
 	var html = "";
 	for (key in arr_temp) {
@@ -378,7 +379,7 @@ function contact_conv(val) {
 }
 
 /*设置要返回的URL*/
-function set_return_url(url) {
+function set_return_url(url){
 	if (url != undefined) {
 		set_cookie("return_url", url);
 	} else {
@@ -438,6 +439,7 @@ function del_cookie(cookie_name) {
 function winclose() {
 	$("html,body").css("overflow", "auto");
 	$("div.shade").hide();
+	$("#dialog").html("");
 	$("#dialog").remove();
 }
 
@@ -458,7 +460,7 @@ function trim(str) {//删除左右两端的空格
 }
 
 /*打开弹出窗口*/
-function winopen(url, w, h) {
+function winopen(url, w, h){
 	url = fix_url(url);
 	$("html,body").css("overflow", "hidden");
 	$("div.shade").show();
@@ -581,7 +583,7 @@ function checkbox_init() {
 	});
 }
 
-function select_all_init() {
+function select_all_init(){
 	$("#chk_select_all").on('ifChecked', function(event) {
 		$('#form_data input').iCheck('check')
 
@@ -635,7 +637,7 @@ $(document).ready(function() {
 		move_to($(this).attr("id"));
 	})
 	/* 查找联系人input 功能*/
-	$(".inputbox .search li").live("click", function() {
+	$(".inputbox .search li").on("click", function() {
 		name = $(this).text().replace(/<.*>/, '');
 		email = $(this).find("a").attr("title");
 		html = "<span email=\"" + email + "\"><nobr><b  title=\"" + email + "\">" + name + "</b><a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";
@@ -720,7 +722,7 @@ $(document).ready(function() {
 		}
 	})
 	/* 自动完成功能*/
-	$(".controls .search li").live("click", function() {
+	$(".controls .search li").on("click", function() {
 		inputbox = $(this).parents(".controls");
 
 		data = $(this).data("data");
@@ -744,7 +746,7 @@ $(document).ready(function() {
 		inputbox.find(".search ul").hide();
 	})
 	/* 自动完成功能*/
-	$(".controls .val").live("keyup", function(e) {
+	$(".controls .val").on("keyup", function(e) {
 		switch(e.keyCode) {
 			case 40:
 				var $curr = $(this).parents(".controls").find(".search li.active").next();
@@ -815,7 +817,7 @@ $(document).ready(function() {
 	});
 
 	/* 查找联系人input 功能*/
-	$(".inputbox").live("click", function(e) {
+	$(".inputbox").on("click", function(e) {
 		$(this).find(".letter").focus();
 		$(this).addClass("focus");
 	})
@@ -841,12 +843,12 @@ $(document).ready(function() {
 	});
 
 	/* 双击删除已选联系人*/
-	$(".address_list span").live("dblclick", function() {
+	$(".address_list span").on("dblclick", function() {
 		$(this).remove();
 	});
 
 	/*单击删除已选联系人*/
-	$(".inputbox .address_list a.del").live("click", function() {
+	$(".inputbox .address_list a.del").on("click", function() {
 		$(this).parent().parent().remove();
 	});
 })

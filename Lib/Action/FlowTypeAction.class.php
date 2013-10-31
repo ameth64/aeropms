@@ -36,7 +36,7 @@ class FlowTypeAction extends CommonAction {
 	}
 
 	function mark() {
-		$id = $_REQUEST["flow_type_id"];
+		$id = $_REQUEST["id"];
 		$val = $_REQUEST["val"];
 		$field = 'group';
 		$result=$this -> _set_field($id, $field, $val);

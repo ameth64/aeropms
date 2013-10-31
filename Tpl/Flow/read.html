@@ -1,66 +1,13 @@
-<layout name='Layout/layout_main' />
-<script type="text/javascript" src="__PUBLIC__/editor/kindeditor.js"></script>
-<script type="text/javascript" src="__PUBLIC__/editor/kindeditor.setting.js"></script>
-<script type="text/javascript">
-	function approve() {
-		sendForm("form_confirm", "{:U('approve')}", "{:U('read?id='.$vo['id'])}");
-	}
-
-	function reject() {
-		sendForm("form_confirm", "{:U('reject')}", "{:U('read?id='.$vo['id'])}");
-	}
-
-	function save(step) {
-		$("#confirm").val("");
-		$("#confirm_wrap  span").each(function() {
-			$("#confirm").val($("#confirm").val() + $(this).attr("emp_no") + '|');
-		})
-
-		$("#consult").val("");
-		$("#consult_wrap  span").each(function() {
-			$("#consult").val($("#consult").val() + $(this).attr("emp_no") + '|');
-		})
-
-		$("#refer").val("");
-		$("#refer_wrap  span").each(function() {
-			$("#refer").val($("#refer").val() + $(this).attr("emp_no") + '|');
-		})
-		if ($("#confirm").val().length < 2) {
-			alert('请选择审批流程');
-			return
-		}
-		$("#step").val(step);
-		editor.sync();
-		sendForm("form_data", "{:U('save')}");
-	}
-
-	function select_confirm() {
-		winopen("{:U('popup/confirm')}",730, 750);
-	};
-
-	$(document).ready(function() {
-		$("#confirm span").live("dblclick", function() {
-			$("#confirm span").last().find("b").remove();
-		});
-		$("#consult span").live("dblclick", function() {
-			$("#consult span").last().find("b").remove();
-		});
-		show_content();
-	}); 
-</script>
-<div class="title panel panel-default">
-	<div class="panel-body">
-		<h3 class="col-md-12">{$flow_type.name}:{$vo.name}</h3>
-	</div>
-</div>
+<layout name='Layout/ace_layout' />
+{:W('PageHeader',array('name'=>array($flow_type['name'],'：',$vo['name']),'search'=>'N'))}
 
 <div class="operate panel panel-default">
 	<div class="panel-body">
 		<div class="pull-left">
-			<a onclick="go_return_url();" class="btn btn-default">返回</a>
-			<a href="#flow_status"  class="btn btn-default">裁决情况</a>
+			<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
+			<a href="#flow_status"  class="btn btn-sm btn-primary">裁决情况</a>
 			<notempty name="confirm">
-				<a href="#confirm"  class="btn btn-default">办理意见</a>
+				<a href="#confirm"  class="btn btn-sm btn-primary">办理意见</a>
 			</notempty>
 		</div>
 	</div>
@@ -136,28 +83,20 @@
 		<label class="col-md-2 control-label" >附件：</label>
 		<div class="col-md-10">
 			<p id="refer_wrap" class="form-control-static address_list">
-				<include file="Layout:file_list" />
+				<include file="Widget:file_list" />
 			</p>
 		</div>
 	</div>
 </form>
 
-<div class="title panel panel-default">
-	<div class="panel-body">
-		<h3 class="col-md-12">
-			<a name="flow_status"></a>
-			裁决情况
-		</h3>
-	</div>
-</div>
-
-<div class="ul-table">
+{:W('PageHeader',array('name'=>'裁决情况','search'=>'N'))}
+<div class="ul_table border-bottom">
 	<ul>
 		<li class="thead">
-			<span style="width:90px;">类型</span>
-			<span style="width:90px;">裁决人</span>
-			<span style="width:90px;">日期</span>
-			<span style="width:90px;">结果</span>
+			<span class="col-9 text-center">类型</span>
+			<span class="col-9 text-center">裁决人</span>
+			<span class="col-9 text-center">日期</span>
+			<span class="col-9 text-center">结果</span>
 			<span class="auto">意见</span>
 		</li>
 		<volist name="flow_log" id="item">
@@ -174,14 +113,7 @@
 	</ul>
 </div>
 <notempty name="confirm">
-	<div class="title panel panel-default">
-		<div class="panel-body">
-			<h3 class="col-md-12">
-				<a name="confirm"></a>
-				办理意见
-			</h3>
-		</div>
-	</div>
+	{:W('PageHeader',array('name'=>'办理意见','search'=>'N'))}
 
 	<form method="post" action="" name="form_confirm" id="form_confirm">
 		<input type="hidden" name="id" value="{$confirm.id}">
@@ -190,11 +122,11 @@
 		<div class="operate panel panel-default">
 			<div class="panel-heading clearfix">
 				<div class="pull-left">
-					<a onclick="go_return_url();" class="btn btn-default">返回</a>
+					<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
 				</div>
 				<div class="pull-right">
-					<a onclick="approve();" class="btn btn-default">同意</a>
-					<a onclick="reject();" class="btn btn-default">驳回</a>
+					<a onclick="approve();" class="btn btn-sm btn-primary">同意</a>
+					<a onclick="reject();" class="btn btn-sm btn-primary">驳回</a>
 				</div>
 			</div>
 			<div class="form-group panel-body">

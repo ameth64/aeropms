@@ -1,72 +1,13 @@
-<layout name='Layout/layout_main' />
-<script type="text/javascript">
-	function add() {
-		$("#form_data :text").val("");
-		$("#id").val("");		
-		$("#opmode").val("add");
-	};
-
-	function del() {
-		if (confirm("相应的子目录也会自动删除,真的要删除吗?")) {
-			$("#opmode").val("del");
-			if (check_form("form_data")) {
-				sendForm("form_data", "", "__SELF__");
-			}
-		}
-	}
-
-	function save() {
-		if ($("#opmode").val() == "") {
-			alert("请选择文件夹或新增");
-		} else {
-			if (check_form("form_data")) {
-				sendForm("form_data", "", "__SELF__");
-			}
-		}
-	};
-
-	function showdata(result) {
-		for (var s in result.data) {
-			set_val(s, result.data[s]);
-		}
-		$("#opmode").val("edit");
-	}
-	function select_pid() {
-		if ($("div.sub_left_menu a.active").length > 0) {
-			winopen("{:U('user_tag/winpop?module='.MODULE_NAME)}",730, 400);
-		} else {
-			alert("请选择文件夹");
-		};
-	}
-
-	$(document).ready(function() {
-		set_return_url();
-		$(".sub_left_menu .tree_menu  a").click(function() {
-			$(".sub_left_menu .tree_menu  a").each(function() {
-				$(this).attr("class", "");
-			});
-			$(this).attr("class", "active");
-			sendAjax("{:U('user_tag/read')}", "id=" + $(this).attr("node"), function(data) {
-				showdata(data);
-			});
-			return false;
-		})
-	});
-
-</script>
+<layout name='Layout/ace_layout' />
 <input type="hidden" name="ajax" id="ajax" value="0">
-<div class="title panel panel-default">
-	<div class="panel-body">
-		<h3 class="col-md-12">{$tag_name}</h3>
-	</div>
-</div>
+{:W('PageHeader',array('name'=>$tag_name,'search'=>'N'))}
 <div class="operate panel panel-default">
 	<div class="panel-body">
 		<div class="pull-right">
-			<a onclick="add()" class="btn btn-default">新增</a>
-			<a onclick="save()" class="btn btn-default">保存</a>
+			<a onclick="add()" class="btn btn-sm btn-primary">新增</a>
+			<a onclick="save()" class="btn btn-sm btn-primary">保存</a>
 			&nbsp;|&nbsp;
-			<a onclick="del()" class="btn btn-default">删除</a>
+			<a onclick="del()" class="btn btn-sm btn-primary">删除</a>
 		</div>
 	</div>
 </div>
@@ -94,7 +35,7 @@
 					<div class="input-group">
 						<input name="tag_name" class="form-control" id="tag_name" type="text" msg="请选择上级部门" check="require"  readonly="readonly"/>
 						<span class="input-group-btn">
-							<button class="btn btn-default" onclick="select_pid()" type="button">
+							<button class="btn btn-sm btn-primary" onclick="select_pid()" type="button">
 								选择
 							</button> </span>
 					</div>

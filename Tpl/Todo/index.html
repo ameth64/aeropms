@@ -1,119 +1,21 @@
-<layout name='Layout/layout_main' />
-<script type="text/javascript">
-	function add() {
-		window.open("{:U('add')}", "_self");
-	}
+<layout name='Layout/ace_layout' />
 
-	function del(obj) {
-		if (confirm('确定要删除吗?')) {
-			id = $(obj).parent().parent().find("input.node").val();
-			sendAjax("{:U('del')}", "id=" + id, function(data) {
-				$(obj).parent().parent().remove();
-				alert(data.info);
-			});
-		}
-	}
-
-	$(document).ready(function() {
-		set_return_url();
-		$("#dialog2").mouseleave(function() {
-			//$("#dialog2").hide();
-		});
-
-		$("li a.status").live("click",(function() {
-			$("#dialog2").css("left",$(this).parents("span").offset().left-$(".Todo").offset().left);
-			$("#dialog2").css("top",$(this).parents("span").offset().top-$(".Todo").offset().top);
-			$("#dialog2").show();
-			node = $(this).parents("li").find("input.node").val();
-			$("#dialog2").attr("node", node);
-		}))
-
-		$("li").each(function() {
-			$(this).css("background-color", schedule_bg($(this).find("input.priority").val()));
-		})
-		$("a.up").click(function() {
-			moveUp($(this));
-		})
-		$("a.down").click(function() {
-			moveDown($(this));
-		})
-	})
-	
-	function moveUp(obj) {
-		var current = $(obj).parent().parent();
-		var prev = current.prev();
-		if (current.index() > 1) {
-			current.insertBefore(prev);
-			current.find("input.priority").val(prev.find("input.priority").val());
-			current.css("background-color", schedule_bg(current.find("input.priority").val()));
-		}
-		set_sort();
-	}
-
-	function moveDown(obj) {
-		var current = $(obj).parent().parent();
-		var next = current.next();
-		if (next) {
-			current.insertAfter(next);
-			current.find("input.priority").val(next.find("input.priority").val());
-			current.css("background-color", schedule_bg(next.find("input.priority").val()));
-		}
-		set_sort();
-	}
-
-	function mark_status(val) {
-		node = $("#dialog2").attr("node");
-		if (node) {
-			sendAjax("{:U('mark_status')}", "id=" + node + "&val=" + val, function(data) {
-				alert(data.info);
-				location.href = location.href;
-			});
-		}
-	}
-
-	function set_sort() {
-		$("li.tbody").each(function() {
-			$(this).find("input.sort").val($(this).index());
-		})
-		var vars = $("#form_data").serialize();
-		sendAjax("{:U('set_sort')}", vars);
-	}
-
-</script>
-<form method="post" action="" id="form_search" name="form_search">
-	<div class="title panel panel-default">
-		<div class="panel-body">
-			<h3 class="col-md-8">待办事项</h3>
-			<div class="col-md-4 pull-right">
-				<div class="search_box">
-					<div class="input-group ">
-						<input  class="form-control" type="text"  onkeydown="key_search_2();" name="keyword" id="keyword"/>
-						<div class="input-group-btn">
-							<a class="btn btn-default" onclick="btn_search();" > <i class="icon-search" ></i> </a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</form>
+{:W('PageHeader',array('name'=>'待办事项','search'=>'L'))}
 <div class="operate panel panel-default">
 	<div class="panel-body">
 		<div class="pull-left"></div>
 		<div class="pull-right">
-			<a  onclick="add();" class="btn btn-default" >新建</a>
+			<a  onclick="add();" class="btn btn-sm btn-primary" >新建</a>
 		</div>
 	</div>
 </div>
 <form id="form_data" name="form_data" method='post' >
 	<div>
-		<div class="ul-table">
+		<div class="ul_table">
 			<ul>
 				<li class="thead">
-					<span class="col-3 pull-right">&nbsp;</span>
-					<span class="col-3 pull-right">&nbsp;</span>
-					<span class="col-3 pull-right">&nbsp;</span>
-					<span class="col-10 right">状态</span>
+					<span class="col-9 pull-right text-center">操作</span>					
+					<span class="col-10 pull-right text-center">状态</span>
 					<span class="col-9 pull-right">截至日期</span>
 					<div class="auto autocut text-left">
 						待办事项
@@ -127,7 +29,7 @@
 						<span class="col-3 pull-right text-center"> <a title="删除" class="del" onclick="del(this);"><i class="icon-remove"></i></a> </span>
 						<span class="col-3 pull-right text-center"> <a title="调低优先级" class="down"><i class="icon-arrow-down"></i></a> </span>
 						<span class="col-3 pull-right text-center"> <a title="调高优先级" class="up"><i class="icon-arrow-up"></i></a> </span>
-						<span class="col-10 right text-center"> <a class="status">{$vo.status|todo_status}</a> </span>
+						<span class="col-10 pull-right text-center"> <a class="status">{$vo.status|todo_status}</a> </span>
 						<span class="col-9 pull-right text-center">{$vo.end_date}</span>
 						<span class="auto"> <a href="{:U('edit?id='.$vo['id'])}">{$vo.name}</a> </span>
 					</li>
@@ -136,9 +38,7 @@
 			<br>
 			<ul>
 				<li class="thead">
-					<span class="col-3 pull-right">&nbsp;</span>
-					<span class="col-3 pull-right">&nbsp;</span>
-					<span class="col-3 pull-right">&nbsp;</span>
+					<span class="col-9 pull-right text-center">操作</span>	
 					<span class="col-10 right">状态</span>
 					<span class="col-9 pull-right">完成日期</span>
 					<div class="auto autocut text-left">

@@ -1,0 +1,10 @@
+<script type="text/javascript">
+	function save() {
+		if (check_form("form_data")) {
+			sendForm("form_data", "{:U('save')}");
+		}
+	}
+	$(function(){
+		set_val('is_del',{$vo.is_del});
+	})
+</script>

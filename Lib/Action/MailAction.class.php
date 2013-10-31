@@ -11,7 +11,6 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 class MailAction extends CommonAction {
 	private $_account;
 	protected $config = array('app_type' => 'personal');
@@ -43,7 +42,9 @@ class MailAction extends CommonAction {
 	// mailbox 6. 永久删除	is_del=1
 	//--------------------------------------------------------------------
 
-	public function folder() {
+	public function folder(){
+		$widget['date-range']=true;
+		$this->assign("widget",$widget);
 		$this -> _assign_mail_folder_list();
 		$this -> _get_mail_account();
 		$folder_id = $_GET['fid'];
@@ -116,7 +117,6 @@ class MailAction extends CommonAction {
 		}
 
 		$model = D('Mail');
-
 		if (!empty($model)) {
 			$this -> _list($model, $where, "create_time");
 		}
@@ -134,7 +134,7 @@ class MailAction extends CommonAction {
 	//--------------------------------------------------------------------
 	public function mark() {
 		$action = $_REQUEST['action'];
-		$id = $_REQUEST['mail_id'];
+		$id = $_REQUEST['id'];
 		switch ($action) {
 			case 'del' :
 				$field = 'folder';
@@ -194,7 +194,10 @@ class MailAction extends CommonAction {
 	//--------------------------------------------------------------------
 	function add() {
 		$this -> _get_mail_account();
-		$this -> assign("recent", $this -> _get_recent());
+		$this -> assign("recent",$this -> _get_recent());
+		$widget['uploader']=true;
+		$widget['editor']=true;
+		$this->assign("widget",$widget);
 		//添加最近联系人
 		$this -> display();
 	}
@@ -696,10 +699,14 @@ class MailAction extends CommonAction {
 	//--------------------------------------------------------------------
 	function _assign_mail_folder_list() {
 		$model = D("UserFolder");
-		$list = $model -> get_list("MailFolder");
-		$mail_folder = array( array("id" => 1, "name" => "收件箱"), array("id" => 2, "name" => "已发送"));
-		$list = array_merge($mail_folder, $list);
-		$tree = list_to_tree($list);
+		$user_folder = $model -> get_list("MailFolder");		
+		$system_folder = array( array("id" => 1, "name" => "收件箱"), array("id" => 2, "name" => "已发送"));
+		if(!empty($user_folder)){
+			$mail_folder = array_merge($system_folder, $user_folder);	
+		}else{
+			$mail_folder=$system_folder;
+		}	
+		$tree = list_to_tree($mail_folder);
 		$this -> assign('folder_list', dropdown_menu($tree));
 		$temp = tree_to_list($tree);
 		return $temp;

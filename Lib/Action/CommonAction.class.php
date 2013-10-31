@@ -2,7 +2,8 @@
 /*---------------------------------------------------------------------------
   小微OA系统 - 让工作更轻松快乐 
 
-  Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
+  Copyright (c) 2013 http://www.smeoa.com All rights reserved. 
+        
   Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )  
 
   Author:  jinzhu.yin<smeoa@qq.com>                         
@@ -17,14 +18,14 @@ class CommonAction extends Action {
 	 1. 确认SESSION
 	 2. 确认权限
 	 3. 处理显示菜单
-	--------------------------------*/
-	
+	--------------------------------*/	
 	function _initialize() {
 		$auth_id = session(C('USER_AUTH_KEY'));
 		if (!isset($auth_id)) {
 			//跳转到认证网关
 			redirect(U(C('USER_AUTH_GATEWAY')));
 		}
+		$this->assign('js_file','js/'.ACTION_NAME);
 		$this -> _assign_menu();
 	}
 
@@ -271,11 +272,8 @@ class CommonAction extends Action {
 			$name = $this -> getActionName();
 		}
 		$model = D($name);
-		if ($view) {
-			$fields = get_view_fields($model);
-		} else {
-			$fields = $model -> getDbFields();
-		}
+		$fields=get_model_fields($model);
+		
 		foreach ($request as $val) {
 			if (!in_array(substr($val, 3), $fields)) {
 				continue;
@@ -313,7 +311,7 @@ class CommonAction extends Action {
 			$order = $_REQUEST['_order'];
 		} else if(!empty($sortBy)){
 			$order = $sortBy;
-		}else if(in_array('sort', $model -> getDbFields())){
+		}else if(in_array('sort', get_model_fields($model))){
 			$order = 'sort';
 			$asc=true;
 		}else{
@@ -345,8 +343,7 @@ class CommonAction extends Action {
 			}
 			$p = new Page($count, $listRows);
 			//分页查询数据
-			$voList = $model -> where($map) -> order("`" . $order . "` " . $sort) -> limit($p -> firstRow . ',' . $p -> listRows) -> select();
-
+			$voList = $model -> where($map) -> order("`" . $order . "` " . $sort) -> limit($p -> firstRow . ',' . $p -> listRows) -> select();			
 			$p -> parameter = $this -> _search();
 			//分页显示
 			$page = $p -> show();
@@ -364,7 +361,7 @@ class CommonAction extends Action {
 			
 			//模板赋值显示
 
-			$name = $this -> getActionName();
+			$name = $this -> getActionName();			
 			$this -> assign('list', $voList);
 			$this -> assign('sort', $sort);
 			$this -> assign('order', $order);
@@ -377,7 +374,7 @@ class CommonAction extends Action {
 
 	/**显示top menu及 left menu **/
 
-	protected function _assign_menu() {
+	protected function _assign_menu(){
 		$model = D("Node");
 		$top_menu = cookie('top_menu');
 		$user_id = get_user_id();
@@ -391,7 +388,7 @@ class CommonAction extends Action {
 				$this -> assign('jumpUrl', U("Login/logout"));
 				$this -> error("没有权限");
 			}
-			session('top_menu' . $user_id, $list);
+			session('top_menu' . $user_id,$list);
 		}
 		//dump($list);
 		$this -> assign('list_top_menu', $list);
@@ -413,7 +410,10 @@ class CommonAction extends Action {
 			$this -> assign("top_menu_name", $model -> where("id=$top_menu") -> getField('name'));
 		}
 
-		$tree = list_to_tree($menu, $top_menu);
+		$tree = list_to_tree($menu,$top_menu);
+		$tree = list_to_tree($menu);
+		$this -> assign('tree', $tree);
+		$tree = list_to_tree($menu,$top_menu);
 		$this -> assign('html_left_menu', tree_nav($tree));
 	}
 
@@ -424,7 +424,7 @@ class CommonAction extends Action {
 			 $model = D("SystemFolder");
 		 }
 		$list = $model -> get_list();
-		$tree = list_to_tree($list);
+		$tree = list_to_tree($list);		
 		$this -> assign('folder_list', dropdown_menu($tree));
 	}
 

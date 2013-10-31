@@ -109,6 +109,10 @@ class FlowAction extends CommonAction {
 	}
 
 	function add() {
+		$widget['uploader']=true;
+		$widget['editor']=true;
+		$this->assign("widget",$widget);
+				
 		$type = $_REQUEST['type'];
 		$model = M("FlowType");
 		$flow_type = $model -> find($type);	

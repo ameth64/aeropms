@@ -30,17 +30,12 @@ class StaffAction extends CommonAction {
 	}
 
 	function index() {
+		$this->assign("title",'职员查询');
 		$node = D("Dept");
 		$menu = array();
 		$menu = $node -> field('id,pid,name') -> order('sort asc') -> select();
 		$tree = list_to_tree($menu);
-		$this -> assign('menu', popup_tree_menu($tree));
-				
-		$model = D("UserView");
-		$where['user_id'] = array('eq', get_user_id());
-		$list = $model -> where($where) -> select();
-		$this -> assign('list', $list);
-
+		$this -> assign('menu', popup_tree_menu($tree));				
 		$this -> display();
 		return;
 	}

@@ -1,42 +1,18 @@
-<layout name='Layout/layout_main' />
-
-<script type="text/javascript">
-	$(function() {
-		show_content();
-	});
-	function del() {
-		if (confirm('确定要删除吗?')) {
-			sendAjax("{:U('mark?action=del')}", 'doc_id=' + $("#id").val(), function(data) {
-				if (data.status) {
-					alert(data.info);
-					go_return_url();
-				}
-			});
-		}
-	}
-
-	function edit() {
-		window.open(fix_url("{:U('edit')}?id=" + $("#id").val()), "_self");
-	}
-</script>
-<div class="title panel panel-default">
-	<div class="panel-body">
-		<h3 class="col-md-12">{$vo.name}</h3>
-	</div>
-</div>
+<layout name='Layout/ace_layout' />
+{:W('PageHeader',array('name'=>$vo['name'],'search'=>'N'))}
 <div class="operate panel panel-default">
 	<div class="panel-body">
 		<div class="pull-left">
-			<a onclick="go_return_url();" class="btn btn-default">返回</a>
+			<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
 			<if condition="$auth['admin']">
-				<a onclick="del();" class="btn btn-default">删除</a>
+				<a onclick="del();" class="btn btn-sm btn-primary">删除</a>
 			</if>
 		</div>
 
 		<div class="pull-right">
-			<a onclick="myprint()" class="btn btn-default">打印</a>
+			<a onclick="myprint()" class="btn btn-sm btn-primary">打印</a>
 			<if condition="$auth['write']">
-				<a onclick="edit();" class="btn btn-default">修改</a>
+				<a onclick="edit();" class="btn btn-sm btn-primary">修改</a>
 			</if>
 		</div>
 	</div>
@@ -108,7 +84,7 @@
 	<div class="form-group">
 		<label class="col-md-2 control-label" for="name">附件：</label>
 		<div class="col-md-10">
-			<include file="Layout:file_list" />
+			<include file="Widget:file_list" />
 		</div>
 	</div>
 </form>

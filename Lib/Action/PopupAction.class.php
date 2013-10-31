@@ -160,6 +160,16 @@ class PopupAction extends CommonAction {
 		$this->display();
 	}
 	
+	function depts(){
+		$model = M("Dept");
+		$list = array();
+		$list = $model ->where('is_del=0')->field('id,pid,name') -> order('sort asc') -> select();
+		$list = list_to_tree($list);
+		$this -> assign('list_dept', sub_tree_menu($list));
+		$this -> display();
+		return;
+	}
+		
 	function actor() {
 
 		$model = M("Dept");

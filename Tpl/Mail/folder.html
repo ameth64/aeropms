@@ -1,174 +1,63 @@
-<layout name='Layout/layout_main' />
-<script type="text/javascript">
-	function mark(action) {
-		var vars = $("#form_data").serialize();
-		switch (action) {
-			case "readed":
-				sendAjax("{:U('mark?action=readed')}", vars, function(data) {
-					if (data.status) {
-						$("input[name='mail_id[]']:checked").each(function() {
-							$(this).parents("li").removeClass("bold");
-							$(this).parents("li").addClass("normal");
-						});
-						$("input[name='mail_id[]']:checked").iCheck('uncheck');
-					}
-				});
-				break;
-			case "unread":
-				sendAjax("{:U('mark?action=unread')}", vars, function(data) {
-					if (data.status) {
-						$("input[name='mail_id[]']:checked").each(function() {
-							$(this).parents("li").removeClass("normal");
-							$(this).parents("li").addClass("bold");
-						})
-						$("input[name='mail_id[]']:checked").iCheck('uncheck');
-					}
-				});
-
-				break;
-			case "del":
-				sendAjax("{:U('mark?action=del')}", vars, function(data) {
-					if (data.status) {
-						alert(data.info);
-						$("input[name='mail_id[]']:checkbox:checked").each(function() {
-							$(this).parents("li").remove();
-						})
-					}
-				});
-				break;
-			case "del_forever":
-				if (confirm('确定要删除吗?')) {
-					sendAjax("{:U('mark?action=del_forever')}", vars, function(data) {
-						if (data.status) {
-							alert(data.info);
-							$("input[name='mail_id[]']:checkbox:checked").each(function() {
-								$(this).parents("li").remove();
-							})
-						}
-					});
-				}
-				break;
-			case "spam":
-				sendAjax("{:U('mark?action=spam')}", vars, function(data) {
-					if (data.status) {
-						alert(data.info);
-						$("input[name='mail_id[]']:checkbox:checked").each(function() {
-							$(this).parents("li").remove();
-						})
-					}
-				});
-				break;
-			default:
-		}
-		$("#chk_select_all").attr("checked", false);
-	}
-
-	function forword() {
-		if ($("input[name='mail_id[]']:checkbox:checked").length == 1) {
-			window.open("http://localhost/mail/reply/id/" + $("input[name='mail_id[]']:checkbox:checked:first").val() + "/type/forward", "main");
-		} else {
-			alert("请选择一封要转发的邮件");
-		};
-	}
-
-	function move_to(val) {
-		var vars = $("#form_data").serialize();
-		sendAjax("{:U('mark?action=move_folder')}", 'val=' + val + '&' + vars);
-		$("input[name='mail_id[]']:checkbox:checked").each(function() {
-			$(this).parents("li").hide();
-		})
-	}
-
-
-	$(document).ready(function() {
-		$("#move_to li").click(function() {
-			move_to($(this).attr("id"));
-		})
-		set_return_url();
-		$(".input-date").datepicker();
-		<notempty
-		name = "receve" > sendAjax("{:U('receve')}");
-		</notempty>
-	}); 
-</script>
-<form id="form_search" method='post' class="form-horizontal">
-	<div class="title panel panel-default">
-		<div class="panel-body">
-			<h3 class="col-md-8">{$folder_name}</h3>
-			<div class="col-md-4 pull-right">
-				<div class="search_box">
-					<div class="input-group ">
-						<input  class="form-control" type="text"  onkeydown="key_search_2();" name="keyword" id="keyword"/>
-						<div class="input-group-btn">
-							<a class="btn btn-default" onclick="btn_search();" > <i class="icon-search" ></i> </a>
-							<a class="btn btn-default" onclick="open_adv_search();" ><i class="icon-angle-down" ></i></a>
-						</div>
-					</div>
-				</div>
+<layout name='Layout/ace_layout' />
+{:W('PageHeader',array('name'=>$folder_name,'search'=>'M'))}
+<div class="adv_search panel panel-default  display-none"  id="adv_search">
+	<div class="panel-heading">
+		<div class="row">
+			<h4 class="col-md-6">高级搜索</h4>
+			<div class="col-md-6 text-right">
+				<a  class="btn btn-sm btn-primary" onclick="adv_search();">搜索</a>
+				<a  class="btn btn-sm btn-primary" onclick="close_adv_search();">关闭</a>
 			</div>
 		</div>
 	</div>
-	<div class="adv_search panel panel-default">
-		<div class="panel-heading">
-			<div class="row">
-				<h4 class="col-md-6">高级搜索</h4>
-				<div class="col-md-6 text-right">
-					<a  class="btn btn-default" onclick="adv_search();">搜索</a>
-					<a  class="btn btn-default" onclick="close_adv_search();">关闭</a>
-				</div>
+	<div class="panel-body">
+		<div class="form-group col-md-6">
+			<label class="col-md-4 control-label" for="li_name">主题：</label>
+			<div class="col-md-8">
+				<input  class="form-control" type="text" id="li_name" name="li_name" >
 			</div>
 		</div>
-		<div class="panel-body">
+
+		<div class="form-group col-md-6">
+			<label class="col-md-4 control-label" for="li_content">内容：</label>
+			<div class="col-md-8">
+				<input  class="form-control" type="text" id="li_content" name="li_content" >
+			</div>
+		</div>
+
+		<in name="folder" value="darftbox,outbox">
 			<div class="form-group col-md-6">
-				<label class="col-md-4 control-label" for="li_name">主题：</label>
+				<label class="col-md-4 control-label" for="li_to">收件人：</label>
 				<div class="col-md-8">
-					<input  class="form-control" type="text" id="li_name" name="li_name" >
+					<input  class="form-control" type="text" id="li_to" name="li_to" >
 				</div>
 			</div>
-
+			<else/>
 			<div class="form-group col-md-6">
-				<label class="col-md-4 control-label" for="li_content">内容：</label>
+				<label class="col-md-4 control-label" for="li_from">发件人：</label>
 				<div class="col-md-8">
-					<input  class="form-control" type="text" id="li_content" name="li_content" >
+					<input  class="form-control" type="text" id="li_from" name="li_from" >
 				</div>
 			</div>
+		</in>
 
-			<in name="folder" value="darftbox,outbox">
-				<div class="form-group col-md-6">
-					<label class="col-md-4 control-label" for="li_to">收件人：</label>
-					<div class="col-md-8">
-						<input  class="form-control" type="text" id="li_to" name="li_to" >
-					</div>
-				</div>
-				<else/>
-				<div class="form-group col-md-6">
-					<label class="col-md-4 control-label" for="li_from">发件人：</label>
-					<div class="col-md-8">
-						<input  class="form-control" type="text" id="li_from" name="li_from" >
-					</div>
-				</div>
-			</in>
-
-			<div class="form-group col-md-6">
-				<label class="col-md-4 control-label" for="be_create_time">时间：</label>
-				<div class="col-md-8">
-					<input  class="form-control input-date" type="text" name="be_create_time" id="be_create_time"    readonly="readonly">
-					-
-					<input class="form-control input-date" type="text" name="en_create_time" id="en_create_time" readonly="readonly"  >
-				</div>
+		<div class="form-group col-md-6">
+			<label class="col-md-4 control-label" for="create_time">时间：</label>
+			<div class="col-md-8">
+				<input data-date-format="yyyy-mm-dd" class="form-control input-date-range" type="text" name="create_time" id="create_time"    readonly="readonly">
 			</div>
 		</div>
 	</div>
-</form>
+</div>
 <div class="operate panel panel-default">
 	<div class="panel-body">
 		<div class="left">
-			<a onclick="mark('del');" class="btn btn-default">删除</a>
-			<a onclick="mark('del_forever');" class="btn btn-default">彻底删除</a>
-			<a onclick="forword();" class="btn btn-default">转发</a>
-			<a onclick="mark('spam');" class="btn btn-default">举报</a>
+			<a onclick="mark('del');" class="btn btn-sm btn-warning">删除</a>
+			<a onclick="mark('del_forever');" class="btn btn-sm btn-danger">彻底删除</a>
+			<a onclick="forword();" class="btn btn-sm btn-primary">转发</a>
+			<a onclick="mark('spam');" class="btn btn-sm btn-primary">举报</a>
 			<div class="btn-group">
-				<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"> 标记为 <span class="caret"></span> </a>
+				<a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" href="#"> 标记为 <span class="caret"></span> </a>
 				<ul class="dropdown-menu">
 					<li onclick="mark('readed');">
 						<a>已读</a>
@@ -179,7 +68,7 @@
 				</ul>
 			</div>
 			<div class="btn-group" id="move_to">
-				<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#"> 转移到 <span class="caret"></span> </a>
+				<a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" href="#"> 转移到 <span class="caret"></span> </a>
 				<ul class="dropdown-menu">
 					{$folder_list}
 				</ul>
@@ -188,12 +77,12 @@
 	</div>
 </div>
 
-<div class="ul-table">
+<div class="ul_table">
 	<ul>
 		<li class="thead" >
-			<span class="checkbox">
-				<input type="checkbox" id="chk_select_all" value="mail_id[]"/>
-			</span>
+			<label class="inline pull-left col-3">
+				<input class="ace" type="checkbox" name="id-toggle-all" id="id-toggle-all" />
+				<span class="lbl"></span></label>
 			<span class="col-20">
 				<in name="folder" value="darftbox,outbox">
 					收件人
@@ -203,21 +92,17 @@
 			<span class="col-9 pull-right text-center" >时间</span>
 			<span class="autocut auto">主题</span>
 		</li>
-	</ul>
-	<if condition="count($list) eq 0 ">
-		<ul>
-			<li class="tbody text-center">
-				<h3>没找到相应的数据</h3>
+		<empty name="list">
+			<li class="no-data">
+				没找到数据
 			</li>
-		</ul>
-		<else/>
-		<form method="post" action="" name="form_data" id="form_data">
-			<ul>
+			<else/>
+			<form method="post" action="" name="form_data" id="form_data">
 				<foreach name="list" item="vo">
 					<li class="tbody <eq name='vo.read' value='1'>normal</eq><eq name='vo.read' value='0'>bold</eq>" >
-						<span  class="checkbox" >
-							<input name="mail_id[]" type="checkbox" value="{$vo.id}"/>
-						</span>
+						<label class="inline pull-left col-3">
+							<input class="ace" type="checkbox" name="id[]" value="{$vo.id}" />
+							<span class="lbl"></span></label>
 						<span class="col-20 autocut">
 							<in name="folder" value="darftbox,outbox">
 								{$vo.to|show_contact}
@@ -235,7 +120,7 @@
 								<a  title="{$vo.name|htmlspecialchars}" href="{:U('edit?id='.$vo['id'])}"> {$vo.name}&nbsp;&nbsp;&nbsp;
 								<eq name="vo.name|strlen" value="0">
 									无标题
-								</eq> </a>
+								</eq></a>
 								<else/>
 								<a title="{$vo.name|htmlspecialchars}" href="{:U('read?id='.$vo['id'])}"> {$vo.name}&nbsp;&nbsp;&nbsp;
 								<eq name="vo.name|strlen" value="0">
@@ -244,10 +129,10 @@
 							</in> </span>
 					</li>
 				</foreach>
-			</ul>
-		</form>
-		<div class="page">
-			{$page}
-		</div>
-	</if>
+			</form>
+			<div class="pagination">
+				{$page}
+			</div>
+		</empty>
+	</ul>
 </div>

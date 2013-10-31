@@ -1,13 +1,11 @@
-<layout name='Layout/layout_main' />
+<layout name='Layout/ace_layout' />
 <script type="text/javascript">
 	function save() {
 		sendForm("form_data", "{:U('import')}", "__URL__");
 	}
 </script>
-<div class="title panel panel-default">
-<div class="panel-body">
-	<h3 class="col-md-12">导入供应商</h3></div>
-</div>
+{:W('PageHeader',array('name'=>'导入供应商','search'=>'N'))}
+
 <form method='post' id="form_data" enctype="multipart/form-data">
 	<input type="hidden" name="opmode" value="import">
 	<ol>
@@ -23,7 +21,7 @@
 		</li>
 	</ol>
 	<div class="action">
-		<input class="btn btn-default" type="button" value="导入" onclick="save();">
-		<input  class="btn btn-default" type="button" value="取消" onclick="go_return_url();">
+		<input class="btn btn-sm btn-primary" type="button" value="导入" onclick="save();">
+		<input  class="btn btn-sm btn-default" type="button" value="取消" onclick="go_return_url();">
 	</div>
 </form>

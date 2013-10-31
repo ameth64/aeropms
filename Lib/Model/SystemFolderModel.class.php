@@ -1,6 +1,6 @@
 <?php
 /*---------------------------------------------------------------------------
-  Ð¡Î¢OAÏµÍ³ - ÈÃ¹¤×÷¸üÇáËÉ¿ìÀÖ 
+  å°å¾®OAç³»ç»Ÿ - è®©å·¥ä½œæ›´è½»æ¾å¿«ä¹ 
 
   Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
 
@@ -10,7 +10,6 @@
 
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
-
 
 class SystemFolderModel extends CommonModel {
 
@@ -30,14 +29,14 @@ class SystemFolderModel extends CommonModel {
 	}
 
 	function get_folder_menu(){
-		$sql="		select concat('sfid_',a.id) as id,a.name,a.folder,a.sort,CONCAT('sfid_',a.pid) as pid,concat(replace(a.folder,'Folder','/folder/?fid='),a.id) as url";
+		$sql="		select concat('sfid',a.id) as id,a.name,a.folder,a.sort,CONCAT('sfid',a.pid) as pid,concat(replace(a.folder,'Folder','/folder/?fid='),a.id) as url";
 		$sql.="		FROM {$this->trueTableName} AS a";
 		$sql.="		WHERE  is_del=0 ";
 		$sql.="		ORDER BY a.folder,a.sort ";
 		$rs = $this->db->query($sql);
 		$list=array();
 		foreach($rs as $val){
-			if ($val["pid"]=='sfid_0'){
+			if ($val["pid"]=='sfid0'){
 				$where['sub_folder']=$val['folder'];
 				$pid=M("Node")->where($where)->getField('id');
 				$val["pid"]=$pid;
@@ -75,7 +74,7 @@ class SystemFolderModel extends CommonModel {
 							return true;
 						}
 					} else {
-						if (stripos($item,$_SESSION['emp_no'])){
+						if (stripos($item,$_SESSION['emp_no'])!==false){
 							return true;
 						}
 					}

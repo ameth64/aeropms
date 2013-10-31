@@ -1,49 +1,11 @@
-<layout name='Layout/layout_main' />
+<layout name='Layout/ace_layout' />
+{:W('PageHeader',array('name'=>'权限组管理','search'=>'N'))}
 
-<script type="text/javascript">
-	function add(){
-		$("#form_data :input[type='hidden']").val("");
-		$("#form_data :text").val("");
-		$("#form_data select ").each(function() {
-			$(this).find('option:first').attr('selected', 'selected');
-		});		
-		$("#opmode").val("add");
-	};
-
-	function save() {
-		sendForm("form_data", "{:U('save')}");
-	}
-
-	function showdata(result) {
-		for (var s in result.data) {
-			set_val(s, result.data[s]);
-		}
-		$("#opmode").val("edit");
-	}
-
-
-	$(document).ready(function() {
-		set_return_url();
-		$(".sub_left_menu tbody tr").click(function() {
-			$(".sub_left_menu  tr.active").removeClass("active");
-			$(this).attr("class", "active");
-			sendAjax("{:U('read')}", "id=" + $(this).attr("id"), function(data) {
-				showdata(data);
-			});
-			return false;
-		})
-	}); 
-</script>
-<div class="title panel panel-default">
-	<div class="panel-body">
-		<h3 class="col-md-12">权限组管理</h3>
-	</div>
-</div>
 <div class="operate panel panel-default">
 	<div class="panel-body">
 		<div class="pull-right">
-			<a onclick="add()" class="btn btn-default">新增</a>
-			<a onclick="save()" class="btn btn-default">保存</a>
+			<a onclick="add()" class="btn btn-sm btn-primary">新增</a>
+			<a onclick="save()" class="btn btn-sm btn-primary">保存</a>
 		</div>
 	</div>
 </div>
@@ -69,7 +31,7 @@
 		</table>
 	</div>
 	<div class="col-md-8 last sub_content">
-		<form id="form_data" name="form_data"method="post" class="well form-horizontal">
+		<form id="form_data" name="form_data"method="post" class="well form-horizontal clearfix">
 			<input type="hidden" name="id" id="id">
 			<input type="hidden" name="ajax" id="ajax" value="1">
 			<input type="hidden" name="opmode" id="opmode" value="">
@@ -102,6 +64,5 @@
 					<textarea class="form-control" name="remark" rows="5" class="col-md-12" ></textarea>
 				</div>
 			</div>
-
 		</form>
 	</div>

@@ -1,52 +1,12 @@
-<layout name='Layout/layout_main' />
-<script type="text/javascript">
-	function add() {
-		window.open("{:U('add?fid='.$folder_id)}", "_self");
-	}
-
-	function del() {
-		if (confirm('确定要删除吗?')) {
-			sendAjax("{:U('del')}", 'id=' + $("#forum_id").val(), function(data) {
-				if (data.status) {
-					alert(data.info);
-					$("input[name='forum_id']:checkbox:checked").each(function() {
-						$(this).parent().parent().hide();
-					})
-				}
-			});
-		}
-	}
-
-
-	$(document).ready(function() {
-		set_return_url();
-		$(".input-date").datepicker();
-	}); 
-</script>
-<form id="form_search" method='post' class="form-horizontal">
-	<div class="title panel panel-default">
-		<div class="panel-body">
-			<h3 class="col-md-8">最新帖子</h3>
-			<div class="col-md-4 pull-right">
-				<div class="search_box">
-					<div class="input-group ">
-						<input  class="form-control" type="text"  onkeydown="key_search_2();" name="keyword" id="keyword"/>
-						<div class="input-group-btn">
-							<a class="btn btn-default" onclick="btn_search();" > <i class="icon-search" ></i> </a>
-							<a class="btn btn-default" onclick="open_adv_search();" ><i class="icon-angle-down" ></i></a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="adv_search panel panel-default">
+<layout name='Layout/ace_layout' />
+	{:W('PageHeader',array('name'=>'最新帖子','search'=>'M'))}
+	<div class="adv_search panel panel-default display-none"  id="adv_search">
 		<div class="panel-heading">
 			<div class="row">
 				<h4 class="col-md-6">高级搜索</h4>
 				<div class="col-md-6 text-right">
-					<a  class="btn btn-default" onclick="adv_search();">搜索</a>
-					<a  class="btn btn-default" onclick="close_adv_search();">关闭</a>
+					<a  class="btn btn-sm btn-primary" onclick="adv_search();">搜索</a>
+					<a  class="btn btn-sm btn-primary" onclick="close_adv_search();">关闭</a>
 				</div>
 			</div>
 		</div>
@@ -83,7 +43,7 @@
 		</div>
 	</div>
 </form>
-<div class="ul-table">
+<div class="ul_table">
 	<ul>
 		<li class="thead">
 			<span class="col-8 right"> 回复/查看</span>
@@ -96,9 +56,9 @@
 	</ul>
 	<if condition="count($list) eq 0">
 		<ul>
-			<li class="tbody text-center">
-				<h3>没找到相应的数据</h3>
-			</li>
+				<li class="no-data">
+					没找到数据
+				</li>
 		</ul>
 		<else/>
 		<ul>
@@ -117,7 +77,7 @@
 			</foreach>
 		</ul>
 	</if>
-	<div class="page">
+	<div class="pagination">
 		{$page}
 	</div>
 </div>

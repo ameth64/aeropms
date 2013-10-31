@@ -11,7 +11,6 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 class IndexAction extends CommonAction {
 	protected $config=array('app_type'=>'asst');
 	// 框架首页

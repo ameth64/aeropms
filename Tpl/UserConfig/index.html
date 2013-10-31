@@ -1,20 +1,10 @@
 <layout name='Layout/layout_profile' />
-<script type="text/javascript">
-	function save() {
-		if (check_form("form_data")) {
-			sendForm("form_data", "{:U('save')}", "__URL__");
-		}
-	}
-</script>
-<div class="title panel panel-default">
-	<div class="panel-body">
-		<h3 class="col-md-12">系统设置</h3>
-	</div>
-</div>
+{:W('PageHeader',array('name'=>'系统设置','search'=>'N'))}
+
 <div class="operate panel panel-default">
 	<div class="panel-body">
 		<div class="pull-right">
-			<a onclick="save()"  class="btn btn-default">保存</a>
+			<a onclick="save()"  class="btn btn-sm btn-primary">保存</a>
 		</div>
 	</div>
 </div>

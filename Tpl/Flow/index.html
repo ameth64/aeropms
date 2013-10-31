@@ -1,50 +1,12 @@
-<layout name='Layout/layout_main' />
-<script type="text/javascript">
-	$(document).ready(function() {
-		$(".title .dropdown-menu li").click(function() {
-			$(".list span").hide();
-			gid = $(this).attr("gid");
-			$(".title nobr").html($(this).text());
-			count = 0;
-			$(".list span div.group").each(function() {
-				if ($(this).text().indexOf(gid) >= 0) {
-					count++;
-					$(this).parents("span").show();
-				};
-			})
-		})
-	})
-</script>
-<div class="title panel panel-default">
-	<div class="panel-body">
-		<div class="dropdown col-md-8">
-			<span class="dropdown-toggle" data-toggle="dropdown" href="#"><h3>
-				<nobr>
-					全部
-				</nobr><b class="caret"></b></h3></span>
-			<ul class="dropdown-menu">
-				<li gid="">
-					<a>全部</a>
-				</li>
-				<foreach name="group_list" item="vo">
-					<li gid="{$key}">
-						<a>{$vo}</a>
-					</li>
-				</foreach>
-			</ul>
-		</div>
-	</div>
-</div>
+<layout name='Layout/ace_layout' />
+{:W('PageHeader',array('name'=>'新建流程','search'=>'L'))}
 <div class="list">
 	<div class="row">
 		<foreach name="list" item="vo">
-			<div class="col-md-3 col-xs-6">
-				<div class="box">
-					<div class="group" style="display:none">
-						{$vo.group}
-					</div>
-					<a class="box" href="{:U('add?type='.$vo['id'])}">{$vo.name}</a>
-				</div>
+			<div class="col-md-3 col-xs-6 text-center">
+				<span class="group" style="display:none">{$vo.group} </span>
+				<a class="btn btn-info btn-block" href="{:U('add?type='.$vo['id'])}">{$vo.name}</a>
+				<div class="space-8"></div>
 			</div>
 		</foreach>
 	</div>

@@ -167,44 +167,44 @@ span.checkbox input{
 }
 
 /*
-	ul-table
+	ul_table
 */
 
-.ul-table ul{
+.ul_table ul{
 	margin:0;
 	padding:0;
 	list-style:none;
 }
-.ul-table ul li{
+.ul_table ul li{
 	display:block;
 }
-.ul-table .th{
+.ul_table .th{
 	font-weight:bold;
 	background-color:rgb(201, 227, 242);
 	text-align:center;
 }
-.ul-table .td{
+.ul_table .td{
 	font-weight:bold;
 	background-color:rgb(238, 245, 250);
 	text-align:center;
 }
 
-.ul-table li.thead{
+.ul_table li.thead{
 	float:none;
 	line-height:36px;
 	text-align:center;
 	font-weight:bold;
 	background-color:rgb(201, 227, 242);
 }
-.ul-table li.tbody{
+.ul_table li.tbody{
 	float:none;
 	line-height:32px;
 	background-color:rgb(238, 245, 250);
 }
-.ul-table .tbody.active{
+.ul_table .tbody.active{
 	background:#eee;
 }
-.ul-table .right{
+.ul_table .right{
 	float:right;
 }
 

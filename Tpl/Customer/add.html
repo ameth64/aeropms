@@ -1,15 +1,5 @@
-<layout name='Layout/layout_main' />
-<script type="text/javascript">
-	function save() {
-		if (check_form("form_data")) {
-			sendForm("form_data", "{:U('save')}", "__URL__");
-		}
-	}
-</script>
-<div class="title panel panel-default">
-<div class="panel-body">
-	<h3 class="col-md-12"> 添加客户 </h3></div>
-</div>
+<layout name='Layout/ace_layout' />
+{:W('PageHeader',array('name'=>'新建客户','search'=>'N'))}
 <form method='post' id="form_data" class="well form-horizontal">
 	<input type="hidden" name="opmode" value="add">
 	<input type="hidden" name="ajax" id="ajax" value="1">
@@ -96,7 +86,7 @@
 			</div>
 		</div>
 	<div class="action">
-		<input class="btn btn-default" type="button" value="保存" onclick="save();">
-		<input  class="btn btn-default" type="button" value="取消" onclick="go_return_url();">
+		<input class="btn btn-sm btn-primary" type="button" value="保存" onclick="save();">
+		<input  class="btn btn-sm btn-default" type="button" value="取消" onclick="go_return_url();">
 	</div>
 </form>

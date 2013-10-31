@@ -1,66 +1,11 @@
-<layout name='Layout/layout_main' />
-<script type="text/javascript" src="__PUBLIC__/editor/kindeditor.js"></script>
-<script type="text/javascript" src="__PUBLIC__/editor/kindeditor.setting.js"></script>
-<script type="text/javascript">
-function send(flag){
-$("#to").val("");
-$("#recever .address_list span").each(function() {
-$("#to").val($("#to").val() + $(this).find("b").text() + '|' + $(this).attr("email") + ";")
-})
-$("#cc").val("");
-$("#carbon_copy .address_list span").each(function() {
-$("#cc").val($("#cc").val() + $(this).find("b").text() + '|' + $(this).attr("email") + ";")
-})
+<layout name='Layout/ace_layout' />
+{:W('PageHeader',array('name'=>'写邮件','search'=>'N'))}
 
-$("#bcc").val("");
-$("#blind_carbon_copy .address_list span").each(function() {
-$("#cc").val($("#cc").val() + $(this).find("b").text() + '|' + $(this).attr("email") + ";")
-})
-if ($("#to").val().indexOf("@") < 1) {
-alert("请选择收件人");
-$("#recever letter").focus();
-return
-}
-editor.sync();
-if(check_form("form_send")){
-if (flag) {
-sendForm("form_send", "{:U('send')}");
-} else {
-sendForm("form_send", "{:U('save_darft')}");
-}
-}
-}
-
-function switch_bcc() {
-if ($("#bcc").attr("class").indexOf("display-none") < 0) {
-$("#bcc").addClass("display-none");
-$("#switch_bcc").addClass("icon-chevron-down");
-$("#switch_bcc").removeClass("icon-chevron-up");
-} else {
-$("#bcc").removeClass("display-none");
-$("#switch_bcc").addClass("icon-chevron-up");
-$("#switch_bcc").removeClass("icon-chevron-down");
-}
-}
-
-function popup_contact(){
-winopen("{:U("popup/contact")}",730,570);
-}
-
-$(document).ready(function() {
-editor_init();
-})
-</script>
-<div class="title panel panel-default">
-	<div class="panel-body">
-		<h3 class="col-md-12">写邮件</h3>
-	</div>
-</div>
 <div class="operate panel panel-default">
 	<div class="panel-body">
 		<div class="left">
-			<a class="btn btn-default" onclick="send(true);">发送</a>
-			<a class="btn btn-default" onclick="send(false);" >临时保管</a>
+			<a class="btn btn-sm btn-primary" onclick="send(true);">发送</a>
+			<a class="btn btn-sm btn-default" onclick="send(false);" >临时保管</a>
 		</div>
 	</div>
 </div>
@@ -90,7 +35,7 @@ editor_init();
 	<div class="form-group">
 		<div class="col-md-2 control-label">
 			<label for="carbon_copy"> 抄送：</label>
-			<a onclick="switch_bcc();" ><i id="switch_bcc" class="icon-chevron-down"></i></a>
+			<a onclick="toggle_bcc();"><i id="toggle_bcc_icon" class="icon-chevron-down"></i></a>
 		</div>
 		<div class="col-md-10">
 			<div id="carbon_copy" class="inputbox">
@@ -130,14 +75,12 @@ editor_init();
 			<input class="form-control"  type="text" name="name" id="mail_title"  check="require" msg="请输入主题">
 		</div>
 	</div>
-
 	<div class="form-group">
 		<label class="col-md-2 control-label" > 附件： </label>
 		<div class="col-md-10">
-			<include file="Layout:uploader" />
+			<include file="Widget:uploader" />
 		</div>
 	</div>
-
 	<div class="form-group">
 		<div class="col-md-12">
 			<textarea id="content" name="content" class="col-md-12"></textarea>

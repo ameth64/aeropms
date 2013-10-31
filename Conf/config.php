@@ -4,8 +4,8 @@
         'URL_MODEL'=>2, // 如果你的环境不支持PATHINFO 请设置为3
         'LOAD_EXT_CONFIG'=>'db,auth',
 		'VAR_PAGE'=>'p',
-		'TMPL_EXCEPTION_FILE'=>'./Tpl/Layout/error.html',
-		'TMPL_NO_HAVE_AUTH'=>'./Tpl/Layout/no_have_auth.html',		
+		'TMPL_EXCEPTION_FILE'=>'./Tpl/Public/error.html',
+		'TMPL_NO_HAVE_AUTH'=>'./Tpl/Public/no_have_auth.html',		
 		'TOKEN_ON'=>false, 
 		'URL_CASE_INSENSITIVE' =>   true,
 		'TMPL_CACHE_ON'=>false,
@@ -17,7 +17,7 @@
         'USER_AUTH_GATEWAY'=>'login/index',// 默认认证网关
         'DB_LIKE_FIELDS'            =>'title|content|name|remark',
 		'SAVE_PATH'=>'Data/Files/',
-        'SHOW_PAGE_TRACE'=>0, //显示调试信息		
+        'SHOW_PAGE_TRACE'=>1, //显示调试信息		
     );
     return $array;
 ?>

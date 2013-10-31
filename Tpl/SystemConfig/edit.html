@@ -1,24 +1,12 @@
-<layout name='Layout/layout_main' />
-<script type="text/javascript">
-	function save() {
-		if (check_form("form_data")) {
-			sendForm("form_data", "{:U('save')}");
-		}
-	}
-	$(function(){
-		set_val('is_del',{$vo.is_del});
-	})
-</script>
-<div class="title panel panel-default">
-<div class="panel-body">
-	<h3 class="col-md-12">编辑系统参数</h3></div>
-</div>
+<layout name='Layout/ace_layout' />
+{:W('PageHeader',array('name'=>'编辑系统参数','search'=>'N'))}
+
 <div class="operate panel panel-default">	<div class="panel-body">
 	<div class="pull-left">
-		<a onclick="go_return_url();" class="btn btn-default">返回</a>
+		<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
 	</div>
 	<div class="pull-right">
-		<a onclick="save();"  class="btn btn-default">保存</a>
+		<a onclick="save();"  class="btn btn-sm btn-primary">保存</a>
 	</div>
 </div></div>
 <form method='post' id="form_data" action="{:U('update')}" class="well form-horizontal">

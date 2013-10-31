@@ -1,71 +1,11 @@
-<layout name='Layout/layout_main' />
-<script type="text/javascript">
-	function add(){	
-		$("#form_data :input[type='hidden']").val("");
-		$("#form_data :text").val("");
-		$("#form_data select ").each(function() {
-			$(this).find('option:first').attr('selected', 'selected');
-		});		
-		$("div.sub_left_menu a.active").removeClass("active");			
-		$("#opmode").val("add");
-	};
-
-	function save() {
-		if ($("#opmode").val() == "") {
-			alert("请选择文件夹或新增");
-		} else {
-			if (check_form("form_data")) {
-				sendForm("form_data", "{:U('save')}", "__SELF__");
-			}
-		}
-	};
-
-	function showdata(result) {
-		for (var s in result.data) {
-			set_val(s, result.data[s]);
-		}
-		$("#type").val("{$type}");
-		$("#folder_name").val($("#folder_list option[value='" + $("#pid").val() + "']").text());
-		$("#opmode").val("edit");
-	}
-
-	function select_pid() {
-		if ($("div.sub_left_menu a.active").length > 0) {
-			winopen("{:U('winpop')}",730, 400);
-		} else if($("div.sub_left_menu a").length==0) {			
-			winopen("{:U('winpop')}",730, 400);
-		}else if($("#opmode").val()=="add"){
-			winopen("{:U('winpop')}",730, 400);
-		}else{
-			alert("请选择文件夹");
-		};
-	}
-
-	$(document).ready(function() {
-		$(".sub_left_menu .tree_menu  a").click(function() {
-			$(".sub_left_menu .tree_menu  a").each(function() {
-				$(this).attr("class", "");
-			});
-			$(this).attr("class", "active");
-			sendAjax("{:U('read')}", "id=" + $(this).attr("node"), function(data) {
-				showdata(data);
-			});
-			return false;
-		})
-	});
-
-</script>
+<layout name='Layout/ace_layout' />
 <input type="hidden" name="ajax" id="ajax" value="1">
-<div class="title panel panel-default">
-	<div class="panel-body">
-		<h3 class="col-md-12">{$folder_name}</h3>
-	</div>
-</div>
+{:W('PageHeader',array('name'=>$folder_name,'search'=>'N'))}
 <div class="operate  panel panel-default">
 	<div class="panel-body">
 		<div class="pull-right">
-			<a onclick="add()" class="btn btn-default">新增</a>
-			<a onclick="save()" class="btn btn-default">保存</a>
+			<a onclick="add()" class="btn btn-sm btn-primary">新增</a>
+			<a onclick="save()" class="btn btn-sm btn-primary">保存</a>
 		</div>
 	</div>
 </div>
@@ -74,10 +14,9 @@
 		<div class="well">
 			<?php echo $menu ?></div>
 	</div>
-	<div class="col-md-9 ">
-		<form id="form_data" name="form_data" method="post" class="well form-horizontal">
-			<input type="hidden" name="id" id="id">
-			
+	<div class="col-md-9">
+		<form id="form_data" name="form_data" method="post" class="well form-horizontal clearfix">
+			<input type="hidden" name="id" id="id">			
 			<input type="hidden" name="opmode" id="opmode" value="">
 			<select name="folder_list" id="folder_list" class="display-none">{:fill_option($folder_list)}</select>			
 			<div class="form-group col-md-12">
@@ -92,7 +31,7 @@
 						<input class="form-control" type="text" id="folder_name" name="folder_name"  readonly="readonly">
 									<input type="hidden" name="pid" id="pid" value="0" check="require" msg="请选择父节点">
 						<span class="input-group-btn">
-							<button class="btn btn-default" onclick="select_pid()" type="button">选择</button>
+							<button class="btn btn-sm btn-primary" onclick="select_pid()" type="button">选择</button>
 						</span>
 					</div>
 				</div>
@@ -113,7 +52,6 @@
 					</select>
 				</div>
 			</div>
-
 			<div class="form-group col-md-12">
 				<label class="col-md-3 control-label" for="remark" >备注：</label>
 				<div class="col-md-9" >

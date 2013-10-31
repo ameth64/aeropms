@@ -1,5 +1,4 @@
-<layout name='Layout/layout_main' />
-
+<layout name='Layout/ace_layout' />
 <script type="text/javascript">
 	function add(){
 		$("#form_data :input[type='hidden']").val("");
@@ -49,28 +48,12 @@
 	}); 
 </script>
 <input type="hidden" name="ajax" id="ajax" value="1">
-<form method="post" action="" id="form_search" name="form_search">
-	<div class="title panel panel-default">
-		<div class="panel-body">
-			<h3 class="col-md-8">部门级别</h3>
-			<div class="col-md-4 pull-right">
-				<div class="search_box">
-					<div class="input-group ">
-						<input  class="form-control" type="text"  onkeydown="key_search();" name="keyword" id="keyword"/>
-						<div class="input-group-btn">
-							<a class="btn btn-default" onclick="btn_search();" > <i class="icon-search" ></i> </a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</form>
+{:W('PageHeader',array('name'=>'部门级别','search'=>'S'))}
 <div class="operate panel panel-default">
 	<div class="panel-body">
 		<div class="pull-right">
-			<a onclick="add()" class="btn btn-default">新增</a>
-			<a onclick="save()"  class="btn btn-default">保存</a>
+			<a onclick="add()" class="btn btn-sm btn-primary">新增</a>
+			<a onclick="save()"  class="btn btn-sm btn-primary">保存</a>
 		</div>
 	</div>
 </div>
@@ -99,7 +82,7 @@
 		</table>
 	</div>
 	<div class="col-md-8 last sub_content">
-		<form id="form_data" name="form_data"method="post" class="well form-horizontal">
+		<form id="form_data" name="form_data"method="post" class="well form-horizontal clearfix">
 			<input type="hidden" name="id" id="id">
 			<input type="hidden" name="opmode" id="opmode" value="">
 		<div class="form-group col-md-12">

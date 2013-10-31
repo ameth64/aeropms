@@ -1,51 +1,13 @@
-<layout name='Layout/layout_main' />
+<layout name='Layout/ace_layout' />
+{:W('PageHeader',array('name'=>'业务管理映射','search'=>'N'))}
 
-<style type="text/css">
-	.icon input {
-		margin-left: 10px;
-		margin-top: 10px;
-	}
-</style>
-<script type="text/javascript">
-	function test() {
-		form_search.submit();
-	};
-
-	function save() {
-		sendForm("form_data", "{:U('set_duty')}");
-	};
-
-	function showdata(result) {
-		$("input[name='duty_list[]']").attr("checked", false);
-		for (var s in result.data) {
-			$("#duty_" + result.data[s].duty_id).attr("checked", "checked");
-		}
-	}
-
-
-	$(document).ready(function() {
-		set_return_url();
-
-		$(".sub_left_menu  tr").click(function() {
-			$(".sub_left_menu  tr").attr("class", "");
-			$(this).attr("class", "active");
-			$("#role_id").val($(this).attr("id"));
-			sendAjax("{:U('get_duty_list')}", "role_id=" + $(this).attr("id"), function(data) {
-				showdata(data);
-			});
-			return false;
-		})
-	}); 
-</script>
-<div class="title panel panel-default">
-<div class="panel-body">
-	<h3 class="col-md-12">业务管理映射</h3></div>
-</div>
-<div class="operate panel panel-default">	<div class="panel-body">
-	<div class="pull-right">
-		<a onclick="save()"  class="btn btn-default">保存</a>
+<div class="operate panel panel-default">
+	<div class="panel-body">
+		<div class="pull-right">
+			<a onclick="save()"  class="btn btn-sm btn-primary">保存</a>
+		</div>
 	</div>
-</div></div>
+</div>
 <div class="row">
 	<div class="col-md-4 sub_left_menu">
 		<table class="table table-bordered">

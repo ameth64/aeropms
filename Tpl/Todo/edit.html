@@ -1,38 +1,5 @@
-<layout name='Layout/layout_main' />
-<script type="text/javascript" src="__PUBLIC__/editor/kindeditor.js"></script>
-<script type="text/javascript" src="__PUBLIC__/editor/kindeditor.setting.js"></script>
-<script type="text/javascript">
-		function save() {
-	editor.sync();
-	if (check_form("form_data")) {
-	sendForm("form_data", "{:U('save')}");
-	}
-	}
-	$(function(){
-	$(".input-date").datepicker();
-	$("#priority").val({$vo.priority});
-	$("#slider-range-priority").slider({
-	range : "min",
-	min : 1,
-	max : 5,
-	value : {$vo.priority},
-	slide : function(event,ui) {
-	$("#priority").val(ui.value);
-	$("div.slider_box div.ui-slider").css( "background-color", schedule_bg(ui.value));
-	$("div.slider_box div.ui-widget-header").css("background-color", schedule_bg(ui.value));
-	}
-	});
-	$("div.slider_box div.ui-slider").css( "background-color", schedule_bg({$vo.priority}));
-	$("div.slider_box div.ui-widget-header").css( "background-color", schedule_bg({$vo.priority}));
-	})
-
-	$(document).ready( function(){
-	editor_init();
-	});</script>
-<div class="title panel panel-default">
-<div class="panel-body">
-	<h3 class="col-md-12">编辑事项</h3></div>
-</div>
+<layout name='Layout/ace_layout' />
+{:W('PageHeader',array('name'=>'编辑事项','search'=>'N'))}
 <form method='post' id="form_data" name="form_data" enctype="multipart/form-data"   class="well form-horizontal">
 	<input type="hidden" id="id" name="id" value="{$vo.id}">
 	<input type="hidden" id="ajax" name="ajax" value="0">
@@ -75,7 +42,7 @@
 	<div class="form-group">
 		<label class="col-md-2 control-label" for="name">附件：</label>
 		<div class="col-md-10">
-			<include file="Layout:uploader" />
+			<include file="Widget:uploader" />
 		</div>
 	</div>
 	<div class="form-group">
@@ -85,7 +52,7 @@
 	</div>
 
 	<div class="action">
-		<input class="btn btn-default" type="button" value="保存" onclick="save();">
-		<input  class="btn btn-default" type="button" value="取消" onclick="go_return_url();">
+		<input class="btn btn-sm btn-primary" type="button" value="保存" onclick="save();">
+		<input  class="btn btn-sm btn-default" type="button" value="取消" onclick="go_return_url();">
 	</div>
 </form>

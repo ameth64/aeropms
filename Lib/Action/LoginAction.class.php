@@ -8,16 +8,16 @@
 
   Author:  jinzhu.yin<smeoa@qq.com>                         
 
-  Support: https://git.oschina.net/smeoa/smeoa               
+  Support: https://git.oschina.net/smeoa/smeoa        
+  
  -------------------------------------------------------------------------*/
-
-
 class LoginAction extends Action {
 	protected $config=array('app_type'=>'public');
 	// 检查用户是否登录
 
 	public function index(){
 		//如果通过认证跳转到首页
+		$this->assign("js_file","js/index");
 		$auth_id = session(C('USER_AUTH_KEY'));
 		if (!isset($auth_id)) {
 			$this -> display();

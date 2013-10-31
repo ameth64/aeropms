@@ -142,21 +142,26 @@ function filter_search_field($v1) {
 	}
 }
 
-function get_view_fields($model) {
+function get_model_fields($model) {
 	$arr_field = array();
-	foreach ($model->viewFields as $key => $val) {
-		unset($val['_on']);
-		unset($val['_type']);
-		if ($val[0] == "*") {
-			$model = M($key);
-			$fields = $model -> getDbFields();
-			$arr_field = array_merge($arr_field, array_values($fields));
-		} else {
-			$arr_field = array_merge($arr_field, array_values($val));
+	if (isset($model -> viewFields)) {
+		foreach ($model->viewFields as $key => $val) {
+			unset($val['_on']);
+			unset($val['_type']);			
+			if ($val[0] == "*") {
+				$model = M($key);
+				$fields = $model -> getDbFields();
+				$arr_field = array_merge($arr_field, array_values($fields));
+			} else {
+				$arr_field = array_merge($arr_field, array_values($val));
+			}
 		}
+	}else{
+		$arr_field=$model -> getDbFields();
 	}
 	return $arr_field;
 }
+
 
 function show_step_type($step) {
 	if ($step >= 20) {
@@ -251,6 +256,7 @@ function fix_array_key($list, $key) {
 }
 
 function fill_option($list) {
+	 $html="";
 	foreach ($list as $key=>$val) {
 		$html = $html . "<option value='{$key}'>{$val}</option>";
 	}

@@ -71,11 +71,13 @@ class ContactAction extends CommonAction {
 		$objPHPExcel -> setActiveSheetIndex(0);
 
 		// Redirect output to a client’s web browser (Excel2007)
+		header("Content-Type: application/force-download");
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 		header('Content-Disposition: attachment;filename="' . $file_name . '"');
 		header('Cache-Control: max-age=0');
 
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+		//readfile($filename);
 		$objWriter -> save('php://output');
 		exit ;
 	}
@@ -153,7 +155,7 @@ class ContactAction extends CommonAction {
 		$this->_tag_manage("分组管理");		
 	}
 
-	function insert() {
+	function _insert() {
 		$model = D('Contact');
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
@@ -171,7 +173,7 @@ class ContactAction extends CommonAction {
 		}
 	}
 
-	function update() {
+	function _update() {
 		$ajax = $_POST['ajax'];
 		$id = $_POST['id'];
 		$model = D("Contact");
@@ -192,9 +194,9 @@ class ContactAction extends CommonAction {
 	}
 
 	function del() {
-		if (!empty($_POST['contact_id'])) {
+		if (!empty($_POST['id'])) {
 			$model = M("Contact");
-			$contact_list = $_POST['contact_id'];
+			$contact_list = $_POST['id'];
 			if (!is_array($contact_list)) {
 				$contact_list = explode(",", $contact_list);
 			}
@@ -202,7 +204,7 @@ class ContactAction extends CommonAction {
 			$where['user_id'] = get_user_id();
 			$model -> where($where) -> delete();
 			$model = D("UserTag");
-			$result = $model -> del_data_by_row($_POST['contact_id']);
+			$result = $model -> del_data_by_row($_POST['id']);
 		};
 		if ($result !== false) {//保存成功
 			$this -> assign('jumpUrl', $this->get_return_url());
@@ -222,11 +224,12 @@ class ContactAction extends CommonAction {
 	}
 
 	function set_tag(){
-		if (!empty($_POST['contact_id'])) {
+		dump($_POST);
+		if (!empty($_POST['id'])) {
 			$model = D("UserTag");
-			$model -> del_data_by_row($_POST['contact_id']);
+			$model -> del_data_by_row($_POST['id']);
 			if (!empty($_POST['tag'])) {
-				$result = $model -> set_tag($_POST['contact_id'], $_POST['tag']);
+				$result = $model -> set_tag($_POST['id'],$_POST['tag']);
 			}
 		};
 
@@ -237,9 +240,9 @@ class ContactAction extends CommonAction {
 			$model -> is_del = 0;
 			$model -> user_id = get_user_id();
 			$new_tag_id = $model -> add();
-			if (!empty($_POST['contact_id'])) {
+			if (!empty($_POST['id'])) {
 				$model = D("UserTag");
-				$result = $model -> set_tag($_POST['contact_id'], $new_tag_id);
+				$result = $model -> set_tag($_POST['id'], $new_tag_id);
 			}
 		};
 		if ($result !== false) {//保存成功
