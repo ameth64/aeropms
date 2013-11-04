@@ -9,11 +9,12 @@
 
 	function showdata(result) {
 		$(".wrap .tree_menu input").each(function() {
-			$(this).prop("checked", "true");
+			$(this).prop("checked", false);
 			$(this).parents("td").removeClass("active");
 		});
 		for (var s in result.data) {
 			$(".wrap .tree_menu input[name='node_id'][value=" + result.data[s].node_id + "]").prop("checked", "true");
+			$(".wrap .tree_menu input[name='node_id'][value=" + result.data[s].node_id + "]").parents("td").addClass("active");
 
 			if (result.data[s].admin == 1) {
 				$(".wrap .tree_menu input[name='admin[]'][value=" + result.data[s].node_id + "]").prop("checked", "true");
@@ -27,7 +28,7 @@
 				$(".wrap .tree_menu input[name='read[]'][value=" + result.data[s].node_id + "]").prop("checked", "true");
 				$(".wrap .tree_menu input[name='read[]'][value=" + result.data[s].node_id + "]").parents("td").addClass("active");
 			}
-			$(".wrap .tree_menu input[node=" + result.data[s].node_id + "]").parents("td").addClass("active");
+
 		};
 		$("#org_node_list").val('');
 		$(".wrap .tree_menu input[name='node_id']:checked").each(function() {;
@@ -48,34 +49,35 @@
 			return false;
 		})
 
-		$(".wrap .tree_menu input").on('click', function(event) {
+		$(".wrap .tree_menu input").on('click', function(event) {								
+			return false;			
 			if ($(this).prop("checked") == true) {
-				$(this).find("input").prop('checked', false);		
-			}else{
-				$(this).find("input").prop('checked', true);
+				$(this).prop("checked",true);
+				$(this).parents("td").addClass("active");							
+			} else {
+				$(this).prop("checked",false);				
+				$(this).parents("td").removeClass("active");
 			}
-			$(this).parents("label").click();
+			event.stopPropagation();
+			return false;
 		})
-		
+
 		$(".wrap .tree_menu label").on('click', function(event) {			
 			if ($(this).find("input").prop("checked") == true) {
-				$(this).find("input").prop('checked', false);				
+				$(this).find("input").prop('checked', false);
 				$(this).parents("td").removeClass("active");
 				//alert($(this).parents("td").html());
-				
 			} else {
 				if ($(this).find("input").length > 0) {
-				
-					$(this).find("input").prop('checked', true);			
-					$(this).parents("td").removeClass("active");						
+
+					$(this).find("input").prop('checked', true);
+					$(this).parents("td").addClass("active");
 				}
 			}
 			event.stopPropagation();
 		})
-		
-		
 
-		$(".wrap.tree_menu  td").click(function() {
+		$(".wrap.tree_menu  td").click(function(){			
 			if ($(this).find("input").prop("checked") == true) {
 				$(this).find("input").prop('checked', false);
 				$(this).removeClass("active");

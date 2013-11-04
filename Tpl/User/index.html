@@ -3,16 +3,16 @@
 <select name="dept_list" id="dept_list" class="display-none">
 	{:fill_option($dept_list)}
 </select>
-<form method="post" id="form_search" name="form_search" method="post">
-	{:W('PageHeader',array('name'=>'用户管理','search'=>'S'))}
+{:W('PageHeader',array('name'=>'用户管理','search'=>'S'))}
+<form method="post" id="form_adv_search" name="form_adv_search" method="post">
 	<div class="operate panel panel-default">
 		<div class="panel-body">
 			<div class="pull-left">
-				<label  for="eq_is_del"><b>状态:</b></label>				
-					<select id="eq_is_del" name="eq_is_del" class="col-10" onchange="search();">
-						<option value="0">启用</option>
-						<option value="1">禁用</option>
-					</select>
+				<label  for="eq_is_del"><b>状态:</b></label>
+				<select id="eq_is_del" name="eq_is_del" class="col-10" onchange="submit_adv_search();">
+					<option value="0">启用</option>
+					<option value="1">禁用</option>
+				</select>
 			</div>
 			<div class="pull-right">
 				<a onclick="reset_pwd()" class="btn btn-sm btn-primary">设置密码</a>
@@ -98,8 +98,7 @@
 					<select name="rank_id" id="rank_id" class="form-control" msg="请选择职级" check="require">
 						<option value="">选择职级</option>
 						{:fill_option($rank_list)}
-					</select>
-				</td>
+					</select></td>
 					<th>职位*</th>
 					<td>
 					<select name="position_id" id="position_id" class="form-control" msg="请选择职位" check="require">

@@ -1,11 +1,12 @@
 <layout name='Layout/ace_layout' />
 	{:W('PageHeader',array('name'=>'公告','search'=>'N'))}
+	<form method="post" name="form_adv_serach" id="form_adv_serach">
 	<div class="adv_search panel panel-default display-none"  id="adv_search">
 		<div class="panel-heading">
 			<div class="row">
 				<h4 class="col-md-6">高级搜索</h4>
 				<div class="col-md-6 text-right">
-					<a  class="btn btn-sm btn-primary" onclick="adv_search();">搜索</a>
+					<a  class="btn btn-sm btn-primary" onclick="submit_adv_search();">搜索</a>
 					<a  class="btn btn-sm btn-primary" onclick="close_adv_search();">关闭</a>
 				</div>
 			</div>

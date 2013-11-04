@@ -22,6 +22,12 @@ class FlowTypeAction extends CommonAction {
 		}
 	}
 
+	function add(){		
+		$widget['editor']=true;
+		$this->assign("widget",$widget);		
+		$this->display();
+	}
+	
 	function index(){
 		$model = M("FlowType");
 		$map = $this -> _search();
@@ -65,6 +71,8 @@ class FlowTypeAction extends CommonAction {
 	}
 
 	function _before_edit() {
+		$widget['editor']=true;
+		$this->assign("widget",$widget);				
 		$this -> group_list();
 		$user_id = get_user_id();
 		$this -> assign("user_id", $user_id);

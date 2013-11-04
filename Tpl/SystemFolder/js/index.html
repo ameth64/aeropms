@@ -74,6 +74,12 @@
 
 	$(document).ready(function(){
 		set_return_url();
+		
+		$(document).on("click", ".inputbox .address_list a.del", function() {
+			$(this).parent().parent().remove();
+		});
+		
+				
 		$(".sub_left_menu .tree_menu  a").click(function(){
 			$(".sub_left_menu .tree_menu  a").attr("class","");				
 			$(this).attr("class","active");

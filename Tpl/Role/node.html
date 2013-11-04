@@ -1,11 +1,10 @@
 <layout name='Layout/ace_layout' />
 {:W('PageHeader',array('name'=>'权限组管理','search'=>'N'))}
-
 <form id="form_search" name="form_search" method="post" action="">
 	<div class="operate panel panel-default">
 		<div class="panel-body">
 			<div class="pull-left">
-				<select name="s_pid" id="s_pid" class="form-control col-10" onchange="search();">
+				<select name="s_pid" id="s_pid" class="form-control col-10" onchange="submit_search();">
 					{:fill_option($groupList)}
 				</select>
 			</div>
@@ -48,7 +47,7 @@
 					</tr>
 					<volist name="node_list" id="data">
 						<tr>
-							<td><label class="inline">
+							<td><label>
 								<input class="ace" type="checkbox"  name="node_id"  value="{$data.id}" />
 								<span class="lbl">{$data.name}</span></label></td>
 							<if condition="strpos($data['url'],'/index')">

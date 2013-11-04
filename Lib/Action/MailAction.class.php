@@ -21,8 +21,13 @@ class MailAction extends CommonAction {
 		$map['is_del'] = array('eq', '0');
 		$map['user_id'] = array('eq', get_user_id());
 		if (!empty($_REQUEST['keyword']) && empty($map['name'])) {
-			$this -> _set_search("keyword", $_POST['keyword']);
-			$map['name'] = array('like', "%" . $_POST['keyword'] . "%");
+			$keyword=$_POST['keyword'];
+			$this -> _set_search("keyword",$keyword);			
+			$where['name'] = array('like', "%" . $keyword . "%");
+			$where['content'] = array('like', "%" . $keyword . "%");
+			$where['from'] = array('like', "%" . $keyword . "%");
+			$where['_logic'] = 'or';
+			$map['_complex'] = $where;							
 		}
 	}
 
@@ -113,16 +118,15 @@ class MailAction extends CommonAction {
 				$folder_name = M("UserFolder") -> where("id={$folder_id}") -> getField("name");
 				$this -> assign("folder_name", $folder_name);
 				$where['folder'] = array('eq', $folder_id);
-
 			default :
 				break;
 		}
 
 		$model = D('Mail');
-		if (!empty($model)) {
+		//dump($where);
+		if (!empty($model)){
 			$this -> _list($model, $where, "create_time");
 		}
-
 		$this -> display();
 	}
 
@@ -513,7 +517,7 @@ class MailAction extends CommonAction {
 				$file_name = $ar2[2];
 				$File = M("File");
 				$File -> name = $file_name;
-				$File -> user_id = $this -> get_user_id();
+				$File -> user_id = get_user_id();
 				$File -> size = filesize($this -> tmpPath . urlencode($value));
 				$File -> extension = getExt($value);
 				$File -> create_time = time();
@@ -709,10 +713,9 @@ class MailAction extends CommonAction {
 			$mail_folder=$system_folder;
 		}	
 		$tree = list_to_tree($mail_folder);
-		$this -> assign('folder_list', dropdown_menu($tree));
+		$this -> assign('folder_list',dropdown_menu($tree));
 		$temp = tree_to_list($tree);
 		return $temp;
 	}
-
 }
 ?>

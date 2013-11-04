@@ -9,28 +9,30 @@
 		</div>
 	</div>
 </div>
-<div class="ul_table border">
+<div class="ul_table border-bottom">
 	<ul>
 		<li class="thead">
-			<span class="col-md-6"> 规则 </span>
-			<span class="col-md-3 text-center"> 状态 </span>
-			<span class="col-md-3 text-center"> 操作 </span>
+			<span class="pull-right col-12 text-center"> 操作 </span>
+			<span class="pull-right col-3text-center"> 状态 </span>
+			<span class="auto"> 规则 </span>
 		</li>
-	<empty name="list">
+		<empty name="list">
 			<li class="no-data">
 				没找到数据
 			</li>
-		<else/>
-		<form method='post' id="form_data">
+			<else/>
+			<form method='post' id="form_data">
 				<foreach name="list" item="vo">
 					<li class="tbody">
-						<span class="col-md-6"> 如果：
+						<span class="pull-right col-12 text-center">
+							<a  href="{:U('edit?id='.$vo['id'])}">修改</a>&nbsp;
+							<a  onclick="del({$vo.id});return false;">删除</a></span>
+						<span class="pull-right col-3 text-center">{$vo.is_del|status} </span>
+						<span class="auto"> 如果：
 							{$vo|mail_org_string} </span>
-						<span class="col-md-3 text-center"> {$vo.is_del|status} </span>
-						<span class="col-md-3 text-center"> <a class="btn btn-link" href="{:U('edit?id='.$vo['id'])}">修改</a> &nbsp;&nbsp; <a class="btn btn-link" onclick="del({$vo.id});return false;">删除</a> </span>
 					</li>
 				</foreach>
-				</form>
-			</ul>		
-	</empty>
+			</form>
+		</empty>
+	</ul>
 </div>

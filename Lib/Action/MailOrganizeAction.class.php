@@ -11,12 +11,10 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 class MailOrganizeAction extends CommonAction {
 	protected $config=array('app_type'=>'personal');
-	public function index() {
-		$user_id = get_user_id();
-		$where["user_id"] = $user_id;
+	public function index() {		
+		$where["user_id"] = get_user_id();
 		$list = M("MailOrganize") -> where($where) -> select();
 		$this -> assign("list", $list);
 		$this -> display();
@@ -29,8 +27,15 @@ class MailOrganizeAction extends CommonAction {
 	}
 
 	function _before_edit() {
-		$temp = R("Mail/_assign_mail_folder_list");
-		$this -> assign('mail_folder', $temp);
+		$model = D("UserFolder");
+		$user_folder = $model -> get_list("MailFolder");		
+		$system_folder = array( array("id" => 1, "name" => "收件箱"), array("id" => 2, "name" => "已发送"));
+		if(!empty($user_folder)){
+			$mail_folder = array_merge($system_folder, $user_folder);	
+		}else{
+			$mail_folder=$system_folder;
+		}
+		$this->assign('folder_list',$mail_folder);
 	}
 
 	function update() {

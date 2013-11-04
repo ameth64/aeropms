@@ -92,6 +92,9 @@ class PopupAction extends CommonAction {
 	}
 
 	function contact() {
+		$widget['jquery-ui'] = true;		
+		$this -> assign("widget", $widget);
+		
 		$model = M("Dept");
 		$list = array();
 		$list = $model->where('is_del=0') -> field('id,pid,name') -> order('sort asc') -> select();
@@ -122,6 +125,9 @@ class PopupAction extends CommonAction {
 	}
 
 	function auth() {
+		$widget['jquery-ui'] = true;		
+		$this -> assign("widget", $widget);
+				
 		$model = M("Dept");
 		$list = array();
 		$list = $model->where('is_del=0') -> field('id,pid,name') -> order('sort asc') -> select();
@@ -161,6 +167,9 @@ class PopupAction extends CommonAction {
 	}
 	
 	function depts(){
+		$widget['jquery-ui'] = true;		
+		$this -> assign("widget", $widget);
+				
 		$model = M("Dept");
 		$list = array();
 		$list = $model ->where('is_del=0')->field('id,pid,name') -> order('sort asc') -> select();
@@ -171,7 +180,9 @@ class PopupAction extends CommonAction {
 	}
 		
 	function actor() {
-
+		$widget['jquery-ui'] = true;		
+		$this -> assign("widget", $widget);
+		
 		$model = M("Dept");
 		$list = array();
 		$list = $model->where('is_del=0') -> field('id,pid,name') -> order('sort asc') -> select();
@@ -196,7 +207,9 @@ class PopupAction extends CommonAction {
 	}
 
 	function confirm() {
-
+		$widget['jquery-ui'] = true;		
+		$this -> assign("widget", $widget);
+		
 		$model = M("Dept");
 		$list = array();
 		$list = $model->where('is_del=0') -> field('id,pid,name') -> order('sort asc') -> select();
@@ -221,6 +234,9 @@ class PopupAction extends CommonAction {
 	}
 
 	function flow() {
+		$widget['jquery-ui'] = true;		
+		$this -> assign("widget", $widget);
+				
 		$model = M("DeptGrade");
 		$list = array();
 		$list = $model -> field('id,name') -> order('sort asc') -> select();
@@ -245,6 +261,9 @@ class PopupAction extends CommonAction {
 	}
 
 	function popup_depts() {
+		$widget['jquery-ui'] = true;		
+		$this -> assign("widget", $widget);
+				
 		$model = M("Dept");
 		$list = array();
 		$list = $model ->where('is_del=0')-> field('id,pid,name') -> order('sort asc') -> select();
@@ -255,6 +274,9 @@ class PopupAction extends CommonAction {
 	}
 
 	function position() {
+		$widget['jquery-ui'] = true;		
+		$this -> assign("widget", $widget);
+				
 		$model = M("Position");
 		$list = array();
 		$list = $model -> field('id,name') -> order('sort asc') -> select();

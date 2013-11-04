@@ -11,7 +11,6 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 function get_img_info( $img ){
 	$img_info = getimagesize($img);
 	if( $img_info!== false) {
@@ -134,7 +133,7 @@ function filter_search_field($v1) {
 	if ($v1 == "keyword")
 		return true;
 	$prefix = substr($v1, 0, 3);
-	$arr_key = array("be_", "en_", "eq_", "li_", "lt_", "gt_");
+	$arr_key = array("be_", "en_", "eq_", "li_", "lt_", "gt_","bt_");
 	if (in_array($prefix, $arr_key)) {
 		return true;
 	} else {
@@ -257,8 +256,14 @@ function fix_array_key($list, $key) {
 
 function fill_option($list) {
 	 $html="";
-	foreach ($list as $key=>$val) {
-		$html = $html . "<option value='{$key}'>{$val}</option>";
+	foreach ($list as $key=>$val){
+		if(is_array($val)){
+			$id=$val['id'];
+			$name=$val['name'];
+			$html = $html . "<option value='{$id}'>{$name}</option>";	
+		}else{
+			$html = $html . "<option value='{$key}'>{$val}</option>";	
+		}
 	}
 	echo $html;
 }

@@ -27,15 +27,6 @@ class UserConfigAction extends CommonAction {
 		$this -> display();
 	}
 
-	function save() {
-		$opmode = $_POST["opmode"];
-		if ($opmode == "add") {
-			$this -> insert();
-		}
-		if ($opmode == "edit") {
-			$this -> update();
-		}
-	}
 
 	function _insert() {
 		$model = M('UserConfig');

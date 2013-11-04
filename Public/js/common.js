@@ -637,7 +637,7 @@ $(document).ready(function() {
 		move_to($(this).attr("id"));
 	})
 	/* 查找联系人input 功能*/
-	$(".inputbox .search li").on("click", function() {
+	$(".inputbox .search li").on("click", function(){
 		name = $(this).text().replace(/<.*>/, '');
 		email = $(this).find("a").attr("title");
 		html = "<span email=\"" + email + "\"><nobr><b  title=\"" + email + "\">" + name + "</b><a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";

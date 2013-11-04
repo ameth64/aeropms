@@ -1,5 +1,5 @@
 ﻿# Host: localhost  (Version: 5.1.41)
-# Date: 2013-10-30 23:00:15
+# Date: 2013-11-03 21:53:29
 # Generator: MySQL-Front 5.3  (Build 1.27)
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -23,7 +23,7 @@
 
 DROP TABLE IF EXISTS `think_contact`;
 CREATE TABLE `think_contact` (
-  `id` int(6) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL DEFAULT '' COMMENT '姓名',
   `letter` varchar(50) NOT NULL DEFAULT '' COMMENT '拼音',
   `company` varchar(30) NOT NULL DEFAULT '' COMMENT '公司',
@@ -55,7 +55,7 @@ INSERT INTO `think_contact` VALUES (8,'马云1','MY','阿里巴巴','董事会',
 
 DROP TABLE IF EXISTS `think_customer`;
 CREATE TABLE `think_customer` (
-  `id` int(6) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL DEFAULT '' COMMENT '名称',
   `letter` varchar(50) NOT NULL DEFAULT '' COMMENT '拼音',
   `biz_license` varchar(30) NOT NULL DEFAULT '' COMMENT '营业许可',
@@ -88,7 +88,7 @@ INSERT INTO `think_customer` VALUES (18,'123123','','2342342','123123','lianxire
 
 DROP TABLE IF EXISTS `think_dept`;
 CREATE TABLE `think_dept` (
-  `id` smallint(3) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(11) NOT NULL,
   `dept_no` varchar(20) NOT NULL DEFAULT '',
   `dept_grade_id` int(11) NOT NULL,
@@ -116,7 +116,7 @@ DROP TABLE IF EXISTS `think_dept_grade`;
 CREATE TABLE `think_dept_grade` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `grade_no` varchar(10) NOT NULL DEFAULT '',
-  `name` varchar(20) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
   `sort` varchar(10) NOT NULL,
   `is_del` tinyint(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
@@ -139,7 +139,7 @@ CREATE TABLE `think_doc` (
   `id` smallint(4) unsigned NOT NULL AUTO_INCREMENT,
   `doc_no` varchar(20) NOT NULL,
   `type` varchar(20) NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
   `content` text NOT NULL,
   `folder` int(11) NOT NULL,
   `add_file` varchar(200) NOT NULL,
@@ -191,7 +191,7 @@ INSERT INTO `think_duty` VALUES (14,'P001','采购员','',0,'采购员'),(15,'S0
 DROP TABLE IF EXISTS `think_file`;
 CREATE TABLE `think_file` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
   `savename` varchar(100) NOT NULL,
   `size` varchar(20) NOT NULL,
   `extension` varchar(20) NOT NULL,
@@ -200,14 +200,14 @@ CREATE TABLE `think_file` (
   `create_time` int(11) NOT NULL,
   `is_del` tinyint(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=747 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=756 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_file"
 #
 
 /*!40000 ALTER TABLE `think_file` DISABLE KEYS */;
-INSERT INTO `think_file` VALUES (596,'logo.png','file/201305/5188996c21ed6.png','5208','png',0,1,1367906668,0),(597,'《中小企业管理制度精细化设计全案》配套光盘.doc','file/201305/51919fc8275c8.doc','2442752','doc',0,1,1368498120,0),(598,'小微企业信息化之道.doc','Doc/201305/5191a5b250fb3.doc','214016','doc',0,1,1368499634,0),(599,'VID_20111105_202255.mp4','Video/201305/51a75c8bcb76f.mp4','16815909','mp4',0,1,1369922699,0),(600,'照片3 031.avi','Video/201305/51a75d6e70fbd.avi','24719178','avi',0,1,1369922926,0),(601,'3.AVI','Video/201305/51a75eb5bb733.AVI','403773818','AVI',0,1,1369923255,0),(602,'mc_slide9_animation_cut.avi','video/201306/51ad73c8c04e3.avi','3211668','avi',0,1,1370321864,0),(603,'video.mp4','video/201306/51afedee248dd.mp4','3479719','mp4',0,1,1370484206,0),(604,'video.mp4','video/201306/51b018c715313.mp4','3479719','mp4',0,1,1370495175,0),(605,'video.mp4','video/201306/51b01d4daaa66.mp4','3479719','mp4',0,1,1370496333,0),(606,'IMG_8604.JPG','question/201306/51b1305038283.JPG','5251295','JPG',0,1,1370566736,0),(607,'IMG_20130129_091441.jpg','question/201306/51b1307b677ed.jpg','560884','jpg',0,1,1370566779,0),(608,'__-0020.jpg','doc/201306/51b44d1f13b20.jpg','96376','jpg',0,1,1370770719,0),(609,'mc_slide9_animation_cut.avi','doc/201306/51b4546f3ce3f.avi','3211668','avi',0,1,1370772591,0),(610,'video.mp4','doc/201306/51b454a6b325e.mp4','3479719','mp4',0,1,1370772646,0),(611,'文档想法.xlsx','userinfo/201306/51b6c753d28ac.xlsx','10267','xlsx',0,1,1370933075,0),(612,'文档想法.xlsx','userinfo/201306/51b6c773efd58.xlsx','10267','xlsx',0,1,1370933107,0),(613,'IMG_8234.JPG','userinfo/201306/51bb2182c2346.JPG','7616658','JPG',0,1,1371218306,0),(614,'video.mp4','video/201306/51bfbb057c8cf.mp4','3479719','mp4',0,1,1371519749,0),(615,'a1ec08fa513d2697b9526ce454fbb2fb4216d882.jpg','userinfo/201306/51bffdef88b9b.jpg','8564','jpg',0,1,1371536879,0),(616,'ThinkPHP3.0 完全开发手册.pdf','notice/201307/51f73668660cd.pdf','2516024','pdf',0,1,1375155816,0),(617,'ThinkPHP3.0 完全开发手册.pdf','notice/201307/51f7374a1c95f.pdf','2516024','pdf',0,1,1375156042,0),(618,'신사업추진팀 네트워크 개선방안20130718.pptx','doc/201308/51f9bebbb9e52.pptx','437704','pptx',0,1,1375321787,0),(619,'logo.jpg','doc/201309/52327b892e6bc.jpg','64628','jpg',0,1,1379040137,0),(620,'IMG_20130129_091441.jpg','mail/201309/5238089d603c6.jpg','560884','jpg',0,1,1379403933,0),(621,'2011-06-18_12-12-22_723_2012-03-05_11-10-26-000.jpg','popup/201309/523aab5a9964c.jpg','1699280','jpg',0,1,1379576666,0),(622,'C360_2012-02-11-14-54-18_2012-02-11_14-54-28-000.jpg','popup/201309/523aacad4eaa6.jpg','243560','jpg',0,1,1379577005,0),(623,'C360_2012-01-08-16-25-35_org_repair_2012-07-20_19-42-14-000.jpg','popup/201309/523aad1ec5210.jpg','456843','jpg',0,1,1379577118,0),(624,'C360_2012-01-08-16-25-35_org_repair_2012-07-20_19-42-14-000.jpg','popup/201309/523aaeb0efe3a.jpg','456843','jpg',0,1,1379577520,0),(625,'C360_2011-10-23-12-44-23.jpg','popup/201309/523aaf406832a.jpg','523414','jpg',0,1,1379577664,0),(626,'C360_2011-10-23-10-11-37_2011-10-23_12-44-20-000.jpg','popup/201309/523ab1f3a7339.jpg','531235','jpg',0,1,1379578355,0),(627,'Blue hills.jpg','popup/201309/523ab2d65c19f.jpg','28521','jpg',0,1,1379578582,0),(628,'C360_2012-01-08-16-25-35_org_repair.jpg','popup/201309/523ab3354c1ba.jpg','456843','jpg',0,1,1379578677,0),(629,'C360_2011-10-23-12-44-23.jpg','popup/201309/523ab46dd11a6.jpg','523414','jpg',0,1,1379578989,0),(630,'C360_2012-01-14-14-15-10_org_repair_2012-07-20_19-42-14-000.jpg','popup/201309/523ab495022c5.jpg','472227','jpg',0,1,1379579029,0),(631,'C360_2011-10-23-12-44-23.jpg','popup/201309/523ab571e9f58.jpg','523414','jpg',0,1,1379579249,0),(632,'C360_2011-10-23-12-44-23.jpg','popup/201309/523ab5fc4f1d2.jpg','523414','jpg',0,1,1379579388,0),(633,'C360_2012-01-14-14-14-52_org_repair_2012-07-20_19-42-14-000.jpg','popup/201309/523ab64435372.jpg','433735','jpg',0,1,1379579460,0),(634,'C360_2011-10-23-12-44-23.jpg','popup/201309/523ab65745f01.jpg','523414','jpg',0,1,1379579479,0),(635,'C360_2012-01-14-14-15-10_org_repair.jpg','popup/201309/523ab68871bd7.jpg','472227','jpg',0,1,1379579528,0),(636,'C360_2012-01-14-14-14-52_org_repair.jpg','popup/201309/523ab6a458b5b.jpg','433735','jpg',0,1,1379579556,0),(637,'C360_2011-10-23-12-44-23.jpg','popup/201309/523ab76c0d18d.jpg','523414','jpg',0,1,1379579756,0),(638,'C360_2012-01-14-14-14-52_org_repair.jpg','popup/201309/523ab78307d06.jpg','433735','jpg',0,1,1379579779,0),(639,'C360_2011-10-23-12-44-23.jpg','popup/201309/523ab8dea29f9.jpg','523414','jpg',0,1,1379580126,0),(640,'C360_2012-01-14-14-15-10_org_repair_2012-07-20_19-42-14-000.jpg','popup/201309/523ab8f1e8d45.jpg','472227','jpg',0,1,1379580145,0),(641,'C360_2011-10-23-12-44-23.jpg','popup/201309/523ab9029fc5f.jpg','523414','jpg',0,1,1379580162,0),(642,'C360_2012-01-14-14-14-52_org_repair.jpg','popup/201309/523ab908d3588.jpg','433735','jpg',0,1,1379580168,0),(643,'Blue hills.jpg','popup/201309/523af83f84a78.jpg','28521','jpg',0,1,1379596351,0),(644,'Blue hills.jpg','popup/201309/523af8e84c3fa.jpg','28521','jpg',0,1,1379596520,0),(645,'Blue hills.jpg','popup/201309/523af90ea35db.jpg','28521','jpg',0,1,1379596558,0),(646,'Blue hills.jpg','popup/201309/523af9316a058.jpg','28521','jpg',0,1,1379596593,0),(647,'Blue hills.jpg','popup/201309/523af97982cb9.jpg','28521','jpg',0,1,1379596665,0),(648,'Blue hills.jpg','popup/201309/523af9b901f4d.jpg','28521','jpg',0,1,1379596729,0),(649,'Blue hills.jpg','popup/201309/523af9ebbab57.jpg','28521','jpg',0,1,1379596779,0),(650,'Blue hills.jpg','popup/201309/523afaa76f041.jpg','28521','jpg',0,1,1379596967,0),(651,'Blue hills.jpg','popup/201309/523afaced3d81.jpg','28521','jpg',0,1,1379597006,0),(652,'Blue hills.jpg','popup/201309/523afbe7f3231.jpg','28521','jpg',0,1,1379597287,0),(653,'Blue hills.jpg','popup/201309/523afc0c4a892.jpg','28521','jpg',0,1,1379597324,0),(654,'Blue hills.jpg','popup/201309/523afc7722c9e.jpg','28521','jpg',0,1,1379597431,0),(655,'Blue hills.jpg','popup/201309/523afccf6dcce.jpg','28521','jpg',0,1,1379597519,0),(656,'Blue hills.jpg','popup/201309/523afd04a95ca.jpg','28521','jpg',0,1,1379597572,0),(657,'Blue hills.jpg','popup/201309/523afd876b6e8.jpg','28521','jpg',0,1,1379597703,0),(658,'Blue hills.jpg','popup/201309/523afe44ac0be.jpg','28521','jpg',0,1,1379597892,0),(659,'Blue hills.jpg','popup/201309/523b0309742a1.jpg','28521','jpg',0,1,1379599113,0),(660,'Blue hills.jpg','popup/201309/523b03435b78a.jpg','28521','jpg',0,1,1379599171,0),(661,'Blue hills.jpg','popup/201309/523b03ae8cc4d.jpg','28521','jpg',0,1,1379599278,0),(662,'Blue hills.jpg','popup/201309/523b03db77fb1.jpg','28521','jpg',0,1,1379599323,0),(663,'Blue hills.jpg','popup/201309/523b04613aa21.jpg','28521','jpg',0,1,1379599457,0),(664,'C360_2011-10-23-12-44-23.jpg','popup/201309/523b04f881193.jpg','523414','jpg',0,1,1379599608,0),(665,'Blue hills.jpg','popup/201309/523b064e3ec13.jpg','28521','jpg',0,1,1379599950,0),(666,'Blue hills.jpg','popup/201309/523b0b8cd0d5e.jpg','28521','jpg',0,1,1379601292,0),(667,'Blue hills.jpg','popup/201309/523b0bcc863d7.jpg','28521','jpg',0,1,1379601356,0),(668,'Blue hills.jpg','popup/201309/523b0c1ea9b75.jpg','28521','jpg',0,1,1379601438,0),(669,'Blue hills.jpg','popup/201309/523b0d991b49e.jpg','28521','jpg',0,1,1379601817,0),(670,'Blue hills.jpg','popup/201309/523b0ec063099.jpg','28521','jpg',0,1,1379602112,0),(671,'Blue hills.jpg','popup/201309/523b0f0232ed0.jpg','28521','jpg',0,1,1379602178,0),(672,'Blue hills.jpg','popup/201309/523b0fb6679e1.jpg','28521','jpg',0,1,1379602358,0),(673,'Blue hills.jpg','popup/201309/523b10173a9f6.jpg','28521','jpg',0,1,1379602455,0),(674,'Blue hills.jpg','popup/201309/523b10e5d89ce.jpg','28521','jpg',0,1,1379602661,0),(675,'Blue hills.jpg','popup/201309/523b113a22a44.jpg','28521','jpg',0,1,1379602746,0),(676,'Blue hills.jpg','popup/201309/523b11752a5ca.jpg','28521','jpg',0,1,1379602805,0),(677,'Blue hills.jpg','popup/201309/523b11a7c4a6a.jpg','28521','jpg',0,1,1379602855,0),(678,'Blue hills.jpg','popup/201309/523b1215a23cc.jpg','28521','jpg',0,1,1379602965,0),(679,'Blue hills.jpg','popup/201309/523b12e5386ab.jpg','28521','jpg',0,1,1379603173,0),(680,'Blue hills.jpg','popup/201309/523b135479779.jpg','28521','jpg',0,1,1379603284,0),(681,'Blue hills.jpg','popup/201309/523b13afcd9ab.jpg','28521','jpg',0,1,1379603375,0),(682,'Blue hills.jpg','popup/201309/523b13e31ff05.jpg','28521','jpg',0,1,1379603427,0),(683,'Blue hills.jpg','popup/201309/523b147178942.jpg','28521','jpg',0,1,1379603569,0),(684,'捕获.JPG','popup/201309/523b16d6ebd63.JPG','151234','JPG',0,1,1379604182,0),(685,'捕获.JPG','popup/201309/523b179316f21.JPG','151234','JPG',0,1,1379604371,0),(686,'捕获.JPG','popup/201309/523b1825847b2.JPG','151234','JPG',0,1,1379604517,0),(687,'捕获.JPG','popup/201309/523b1d1038be2.JPG','151234','JPG',0,1,1379605776,0),(688,'捕获.JPG','popup/201309/523b1ef3de805.JPG','151234','JPG',0,1,1379606259,0),(689,'捕获.JPG','popup/201309/523b1f554dc1b.JPG','151234','JPG',0,1,1379606357,0),(690,'捕获.JPG','popup/201309/523b1f9350b37.JPG','151234','JPG',0,1,1379606419,0),(691,'捕获.JPG','popup/201309/523b1fd90139c.JPG','151234','JPG',0,1,1379606489,0),(692,'捕获.JPG','popup/201309/523b1ff8a8983.JPG','151234','JPG',0,1,1379606520,0),(693,'捕获.JPG','popup/201309/523b20371520a.JPG','151234','JPG',0,1,1379606583,0),(694,'捕获.JPG','popup/201309/523b205cb5ec6.JPG','151234','JPG',0,1,1379606620,0),(695,'捕获.JPG','popup/201309/523b7ec7d18dd.JPG','151234','JPG',0,1,1379630791,0),(696,'捕获.JPG','popup/201309/523b7ed7ebbdc.JPG','151234','JPG',0,1,1379630807,0),(697,'1.JPG','popup/201309/523b7f2406648.JPG','91382','JPG',0,1,1379630884,0),(698,'捕获.JPG','popup/201309/523b7f28ba167.JPG','151234','JPG',0,1,1379630888,0),(699,'1.JPG','popup/201309/523b7f5b5efeb.JPG','91382','JPG',0,1,1379630939,0),(700,'捕获.JPG','popup/201309/523b7f60b27da.JPG','151234','JPG',0,1,1379630944,0),(701,'1.JPG','popup/201309/523b801a1076e.JPG','91382','JPG',0,1,1379631130,0),(702,'捕获.JPG','popup/201309/523b801d6ee45.JPG','151234','JPG',0,1,1379631133,0),(703,'1.JPG','popup/201309/523b80367ba12.JPG','91382','JPG',0,1,1379631158,0),(704,'捕获.JPG','popup/201309/523b80395668c.JPG','151234','JPG',0,1,1379631161,0),(705,'1.JPG','popup/201309/523b80440fe97.JPG','91382','JPG',0,1,1379631172,0),(706,'捕获.JPG','popup/201309/523b80473ed4e.JPG','151234','JPG',0,1,1379631175,0),(707,'1.JPG','popup/201309/523b8082cd44d.JPG','91382','JPG',0,1,1379631234,0),(708,'捕获.JPG','popup/201309/523b8086e7a3e.JPG','151234','JPG',0,1,1379631238,0),(709,'1.JPG','popup/201309/523b812bb0160.JPG','91382','JPG',0,1,1379631403,0),(710,'捕获.JPG','popup/201309/523b812e46d54.JPG','151234','JPG',0,1,1379631406,0),(711,'捕获.JPG','popup/201309/523bfdb0433aa.JPG','151234','JPG',0,1,1379663280,0),(712,'捕获.JPG','popup/201309/523bfee3161a9.JPG','151234','JPG',0,1,1379663587,0),(713,'捕获.JPG','popup/201309/523bff2a2c04a.JPG','151234','JPG',0,1,1379663658,0),(714,'捕获.JPG','popup/201309/523bff550512f.JPG','151234','JPG',0,1,1379663701,0),(715,'1.JPG','popup/201309/523bffbc4d711.JPG','91382','JPG',0,1,1379663804,0),(716,'1.JPG','popup/201309/523c004c4e43a.JPG','91382','JPG',0,1,1379663948,0),(717,'1.JPG','popup/201309/523c0457c90e7.JPG','91382','JPG',0,1,1379664983,0),(718,'1.JPG','popup/201309/523c049adf649.JPG','91382','JPG',0,1,1379665050,0),(719,'1.JPG','popup/201309/523c05050701c.JPG','91382','JPG',0,1,1379665157,0),(720,'1.JPG','popup/201309/523c07e805ea5.JPG','91382','JPG',0,1,1379665896,0),(721,'1.JPG','popup/201309/523c0820820d0.JPG','91382','JPG',0,1,1379665952,0),(722,'捕获.JPG','popup/201309/523c085d7668c.JPG','151234','JPG',0,1,1379666013,0),(723,'捕获.JPG','popup/201309/523c08f3d2e63.JPG','151234','JPG',0,1,1379666163,0),(724,'捕获.JPG','popup/201309/523c09199da01.JPG','151234','JPG',0,1,1379666201,0),(725,'捕获.JPG','popup/201309/523c49e37a25f.JPG','151234','JPG',0,1,1379682787,0),(726,'捕获.JPG','popup/201309/523c4b2ed52ff.JPG','151234','JPG',0,1,1379683118,0),(727,'捕获.JPG','popup/201309/523c4c9899bb2.JPG','151234','JPG',0,1,1379683480,0),(728,'捕获.JPG','popup/201309/523c4cd5f0664.JPG','151234','JPG',0,1,1379683541,0),(729,'捕获.JPG','popup/201309/523c4d9103b39.JPG','151234','JPG',0,1,1379683729,0),(730,'捕获.JPG','popup/201309/523c4e194a888.JPG','151234','JPG',0,1,1379683865,0),(731,'捕获.JPG','popup/201309/523c4e69450df.JPG','151234','JPG',0,1,1379683945,0),(732,'捕获.JPG','popup/201309/523c4f8709e5b.JPG','151234','JPG',0,1,1379684231,0),(733,'捕获.JPG','popup/201309/523c4ff37048c.JPG','151234','JPG',0,1,1379684339,0),(734,'捕获.JPG','popup/201309/523c5022c6bf2.JPG','151234','JPG',0,1,1379684386,0),(735,'捕获.JPG','popup/201309/523c50762d8b6.JPG','151234','JPG',0,1,1379684470,0),(736,'捕获.JPG','popup/201309/523c50ceb9df6.JPG','151234','JPG',0,1,1379684558,0),(737,'捕获.JPG','popup/201309/523c512317df5.JPG','151234','JPG',0,1,1379684643,0),(738,'1.JPG','popup/201309/523c513732d9c.JPG','91382','JPG',0,1,1379684663,0),(739,'1.JPG','popup/201309/523c514bd0184.JPG','91382','JPG',0,1,1379684683,0),(740,'捕获.JPG','popup/201309/523c54ddab0d2.JPG','151234','JPG',0,1,1379685597,0),(741,'1.JPG','popup/201309/523c54ef16b23.JPG','91382','JPG',0,1,1379685615,0),(742,'捕获.JPG','popup/201309/523c556649482.JPG','151234','JPG',0,1,1379685734,0),(743,'捕获.JPG','popup/201309/523c5595e88f9.JPG','151234','JPG',0,1,1379685781,0),(744,'1.JPG','popup/201309/523c55a525237.JPG','91382','JPG',0,1,1379685797,0),(745,'DSC_0013_2000-01-01_09-59-16-000.jpg','popup/201309/52417ed42d1b9.jpg','594294','jpg',0,1,1380024020,0),(746,'logo.jpg','popup/201309/52467b9086618.jpg','64628','jpg',0,1,1380350864,0);
+INSERT INTO `think_file` VALUES (596,'logo.png','file/201305/5188996c21ed6.png','5208','png',0,1,1367906668,0),(597,'《中小企业管理制度精细化设计全案》配套光盘.doc','file/201305/51919fc8275c8.doc','2442752','doc',0,1,1368498120,0),(598,'小微企业信息化之道.doc','Doc/201305/5191a5b250fb3.doc','214016','doc',0,1,1368499634,0),(599,'VID_20111105_202255.mp4','Video/201305/51a75c8bcb76f.mp4','16815909','mp4',0,1,1369922699,0),(600,'照片3 031.avi','Video/201305/51a75d6e70fbd.avi','24719178','avi',0,1,1369922926,0),(601,'3.AVI','Video/201305/51a75eb5bb733.AVI','403773818','AVI',0,1,1369923255,0),(602,'mc_slide9_animation_cut.avi','video/201306/51ad73c8c04e3.avi','3211668','avi',0,1,1370321864,0),(603,'video.mp4','video/201306/51afedee248dd.mp4','3479719','mp4',0,1,1370484206,0),(604,'video.mp4','video/201306/51b018c715313.mp4','3479719','mp4',0,1,1370495175,0),(605,'video.mp4','video/201306/51b01d4daaa66.mp4','3479719','mp4',0,1,1370496333,0),(606,'IMG_8604.JPG','question/201306/51b1305038283.JPG','5251295','JPG',0,1,1370566736,0),(607,'IMG_20130129_091441.jpg','question/201306/51b1307b677ed.jpg','560884','jpg',0,1,1370566779,0),(608,'__-0020.jpg','doc/201306/51b44d1f13b20.jpg','96376','jpg',0,1,1370770719,0),(609,'mc_slide9_animation_cut.avi','doc/201306/51b4546f3ce3f.avi','3211668','avi',0,1,1370772591,0),(610,'video.mp4','doc/201306/51b454a6b325e.mp4','3479719','mp4',0,1,1370772646,0),(611,'文档想法.xlsx','userinfo/201306/51b6c753d28ac.xlsx','10267','xlsx',0,1,1370933075,0),(612,'文档想法.xlsx','userinfo/201306/51b6c773efd58.xlsx','10267','xlsx',0,1,1370933107,0),(613,'IMG_8234.JPG','userinfo/201306/51bb2182c2346.JPG','7616658','JPG',0,1,1371218306,0),(614,'video.mp4','video/201306/51bfbb057c8cf.mp4','3479719','mp4',0,1,1371519749,0),(615,'a1ec08fa513d2697b9526ce454fbb2fb4216d882.jpg','userinfo/201306/51bffdef88b9b.jpg','8564','jpg',0,1,1371536879,0),(616,'ThinkPHP3.0 完全开发手册.pdf','notice/201307/51f73668660cd.pdf','2516024','pdf',0,1,1375155816,0),(617,'ThinkPHP3.0 完全开发手册.pdf','notice/201307/51f7374a1c95f.pdf','2516024','pdf',0,1,1375156042,0),(618,'신사업추진팀 네트워크 개선방안20130718.pptx','doc/201308/51f9bebbb9e52.pptx','437704','pptx',0,1,1375321787,0),(619,'logo.jpg','doc/201309/52327b892e6bc.jpg','64628','jpg',0,1,1379040137,0),(620,'IMG_20130129_091441.jpg','mail/201309/5238089d603c6.jpg','560884','jpg',0,1,1379403933,0),(621,'2011-06-18_12-12-22_723_2012-03-05_11-10-26-000.jp','popup/201309/523aab5a9964c.jpg','1699280','jpg',0,1,1379576666,0),(622,'C360_2012-02-11-14-54-18_2012-02-11_14-54-28-000.j','popup/201309/523aacad4eaa6.jpg','243560','jpg',0,1,1379577005,0),(623,'C360_2012-01-08-16-25-35_org_repair_2012-07-20_19-','popup/201309/523aad1ec5210.jpg','456843','jpg',0,1,1379577118,0),(624,'C360_2012-01-08-16-25-35_org_repair_2012-07-20_19-','popup/201309/523aaeb0efe3a.jpg','456843','jpg',0,1,1379577520,0),(625,'C360_2011-10-23-12-44-23.jpg','popup/201309/523aaf406832a.jpg','523414','jpg',0,1,1379577664,0),(626,'C360_2011-10-23-10-11-37_2011-10-23_12-44-20-000.j','popup/201309/523ab1f3a7339.jpg','531235','jpg',0,1,1379578355,0),(627,'Blue hills.jpg','popup/201309/523ab2d65c19f.jpg','28521','jpg',0,1,1379578582,0),(628,'C360_2012-01-08-16-25-35_org_repair.jpg','popup/201309/523ab3354c1ba.jpg','456843','jpg',0,1,1379578677,0),(629,'C360_2011-10-23-12-44-23.jpg','popup/201309/523ab46dd11a6.jpg','523414','jpg',0,1,1379578989,0),(630,'C360_2012-01-14-14-15-10_org_repair_2012-07-20_19-','popup/201309/523ab495022c5.jpg','472227','jpg',0,1,1379579029,0),(631,'C360_2011-10-23-12-44-23.jpg','popup/201309/523ab571e9f58.jpg','523414','jpg',0,1,1379579249,0),(632,'C360_2011-10-23-12-44-23.jpg','popup/201309/523ab5fc4f1d2.jpg','523414','jpg',0,1,1379579388,0),(633,'C360_2012-01-14-14-14-52_org_repair_2012-07-20_19-','popup/201309/523ab64435372.jpg','433735','jpg',0,1,1379579460,0),(634,'C360_2011-10-23-12-44-23.jpg','popup/201309/523ab65745f01.jpg','523414','jpg',0,1,1379579479,0),(635,'C360_2012-01-14-14-15-10_org_repair.jpg','popup/201309/523ab68871bd7.jpg','472227','jpg',0,1,1379579528,0),(636,'C360_2012-01-14-14-14-52_org_repair.jpg','popup/201309/523ab6a458b5b.jpg','433735','jpg',0,1,1379579556,0),(637,'C360_2011-10-23-12-44-23.jpg','popup/201309/523ab76c0d18d.jpg','523414','jpg',0,1,1379579756,0),(638,'C360_2012-01-14-14-14-52_org_repair.jpg','popup/201309/523ab78307d06.jpg','433735','jpg',0,1,1379579779,0),(639,'C360_2011-10-23-12-44-23.jpg','popup/201309/523ab8dea29f9.jpg','523414','jpg',0,1,1379580126,0),(640,'C360_2012-01-14-14-15-10_org_repair_2012-07-20_19-','popup/201309/523ab8f1e8d45.jpg','472227','jpg',0,1,1379580145,0),(641,'C360_2011-10-23-12-44-23.jpg','popup/201309/523ab9029fc5f.jpg','523414','jpg',0,1,1379580162,0),(642,'C360_2012-01-14-14-14-52_org_repair.jpg','popup/201309/523ab908d3588.jpg','433735','jpg',0,1,1379580168,0),(643,'Blue hills.jpg','popup/201309/523af83f84a78.jpg','28521','jpg',0,1,1379596351,0),(644,'Blue hills.jpg','popup/201309/523af8e84c3fa.jpg','28521','jpg',0,1,1379596520,0),(645,'Blue hills.jpg','popup/201309/523af90ea35db.jpg','28521','jpg',0,1,1379596558,0),(646,'Blue hills.jpg','popup/201309/523af9316a058.jpg','28521','jpg',0,1,1379596593,0),(647,'Blue hills.jpg','popup/201309/523af97982cb9.jpg','28521','jpg',0,1,1379596665,0),(648,'Blue hills.jpg','popup/201309/523af9b901f4d.jpg','28521','jpg',0,1,1379596729,0),(649,'Blue hills.jpg','popup/201309/523af9ebbab57.jpg','28521','jpg',0,1,1379596779,0),(650,'Blue hills.jpg','popup/201309/523afaa76f041.jpg','28521','jpg',0,1,1379596967,0),(651,'Blue hills.jpg','popup/201309/523afaced3d81.jpg','28521','jpg',0,1,1379597006,0),(652,'Blue hills.jpg','popup/201309/523afbe7f3231.jpg','28521','jpg',0,1,1379597287,0),(653,'Blue hills.jpg','popup/201309/523afc0c4a892.jpg','28521','jpg',0,1,1379597324,0),(654,'Blue hills.jpg','popup/201309/523afc7722c9e.jpg','28521','jpg',0,1,1379597431,0),(655,'Blue hills.jpg','popup/201309/523afccf6dcce.jpg','28521','jpg',0,1,1379597519,0),(656,'Blue hills.jpg','popup/201309/523afd04a95ca.jpg','28521','jpg',0,1,1379597572,0),(657,'Blue hills.jpg','popup/201309/523afd876b6e8.jpg','28521','jpg',0,1,1379597703,0),(658,'Blue hills.jpg','popup/201309/523afe44ac0be.jpg','28521','jpg',0,1,1379597892,0),(659,'Blue hills.jpg','popup/201309/523b0309742a1.jpg','28521','jpg',0,1,1379599113,0),(660,'Blue hills.jpg','popup/201309/523b03435b78a.jpg','28521','jpg',0,1,1379599171,0),(661,'Blue hills.jpg','popup/201309/523b03ae8cc4d.jpg','28521','jpg',0,1,1379599278,0),(662,'Blue hills.jpg','popup/201309/523b03db77fb1.jpg','28521','jpg',0,1,1379599323,0),(663,'Blue hills.jpg','popup/201309/523b04613aa21.jpg','28521','jpg',0,1,1379599457,0),(664,'C360_2011-10-23-12-44-23.jpg','popup/201309/523b04f881193.jpg','523414','jpg',0,1,1379599608,0),(665,'Blue hills.jpg','popup/201309/523b064e3ec13.jpg','28521','jpg',0,1,1379599950,0),(666,'Blue hills.jpg','popup/201309/523b0b8cd0d5e.jpg','28521','jpg',0,1,1379601292,0),(667,'Blue hills.jpg','popup/201309/523b0bcc863d7.jpg','28521','jpg',0,1,1379601356,0),(668,'Blue hills.jpg','popup/201309/523b0c1ea9b75.jpg','28521','jpg',0,1,1379601438,0),(669,'Blue hills.jpg','popup/201309/523b0d991b49e.jpg','28521','jpg',0,1,1379601817,0),(670,'Blue hills.jpg','popup/201309/523b0ec063099.jpg','28521','jpg',0,1,1379602112,0),(671,'Blue hills.jpg','popup/201309/523b0f0232ed0.jpg','28521','jpg',0,1,1379602178,0),(672,'Blue hills.jpg','popup/201309/523b0fb6679e1.jpg','28521','jpg',0,1,1379602358,0),(673,'Blue hills.jpg','popup/201309/523b10173a9f6.jpg','28521','jpg',0,1,1379602455,0),(674,'Blue hills.jpg','popup/201309/523b10e5d89ce.jpg','28521','jpg',0,1,1379602661,0),(675,'Blue hills.jpg','popup/201309/523b113a22a44.jpg','28521','jpg',0,1,1379602746,0),(676,'Blue hills.jpg','popup/201309/523b11752a5ca.jpg','28521','jpg',0,1,1379602805,0),(677,'Blue hills.jpg','popup/201309/523b11a7c4a6a.jpg','28521','jpg',0,1,1379602855,0),(678,'Blue hills.jpg','popup/201309/523b1215a23cc.jpg','28521','jpg',0,1,1379602965,0),(679,'Blue hills.jpg','popup/201309/523b12e5386ab.jpg','28521','jpg',0,1,1379603173,0),(680,'Blue hills.jpg','popup/201309/523b135479779.jpg','28521','jpg',0,1,1379603284,0),(681,'Blue hills.jpg','popup/201309/523b13afcd9ab.jpg','28521','jpg',0,1,1379603375,0),(682,'Blue hills.jpg','popup/201309/523b13e31ff05.jpg','28521','jpg',0,1,1379603427,0),(683,'Blue hills.jpg','popup/201309/523b147178942.jpg','28521','jpg',0,1,1379603569,0),(684,'捕获.JPG','popup/201309/523b16d6ebd63.JPG','151234','JPG',0,1,1379604182,0),(685,'捕获.JPG','popup/201309/523b179316f21.JPG','151234','JPG',0,1,1379604371,0),(686,'捕获.JPG','popup/201309/523b1825847b2.JPG','151234','JPG',0,1,1379604517,0),(687,'捕获.JPG','popup/201309/523b1d1038be2.JPG','151234','JPG',0,1,1379605776,0),(688,'捕获.JPG','popup/201309/523b1ef3de805.JPG','151234','JPG',0,1,1379606259,0),(689,'捕获.JPG','popup/201309/523b1f554dc1b.JPG','151234','JPG',0,1,1379606357,0),(690,'捕获.JPG','popup/201309/523b1f9350b37.JPG','151234','JPG',0,1,1379606419,0),(691,'捕获.JPG','popup/201309/523b1fd90139c.JPG','151234','JPG',0,1,1379606489,0),(692,'捕获.JPG','popup/201309/523b1ff8a8983.JPG','151234','JPG',0,1,1379606520,0),(693,'捕获.JPG','popup/201309/523b20371520a.JPG','151234','JPG',0,1,1379606583,0),(694,'捕获.JPG','popup/201309/523b205cb5ec6.JPG','151234','JPG',0,1,1379606620,0),(695,'捕获.JPG','popup/201309/523b7ec7d18dd.JPG','151234','JPG',0,1,1379630791,0),(696,'捕获.JPG','popup/201309/523b7ed7ebbdc.JPG','151234','JPG',0,1,1379630807,0),(697,'1.JPG','popup/201309/523b7f2406648.JPG','91382','JPG',0,1,1379630884,0),(698,'捕获.JPG','popup/201309/523b7f28ba167.JPG','151234','JPG',0,1,1379630888,0),(699,'1.JPG','popup/201309/523b7f5b5efeb.JPG','91382','JPG',0,1,1379630939,0),(700,'捕获.JPG','popup/201309/523b7f60b27da.JPG','151234','JPG',0,1,1379630944,0),(701,'1.JPG','popup/201309/523b801a1076e.JPG','91382','JPG',0,1,1379631130,0),(702,'捕获.JPG','popup/201309/523b801d6ee45.JPG','151234','JPG',0,1,1379631133,0),(703,'1.JPG','popup/201309/523b80367ba12.JPG','91382','JPG',0,1,1379631158,0),(704,'捕获.JPG','popup/201309/523b80395668c.JPG','151234','JPG',0,1,1379631161,0),(705,'1.JPG','popup/201309/523b80440fe97.JPG','91382','JPG',0,1,1379631172,0),(706,'捕获.JPG','popup/201309/523b80473ed4e.JPG','151234','JPG',0,1,1379631175,0),(707,'1.JPG','popup/201309/523b8082cd44d.JPG','91382','JPG',0,1,1379631234,0),(708,'捕获.JPG','popup/201309/523b8086e7a3e.JPG','151234','JPG',0,1,1379631238,0),(709,'1.JPG','popup/201309/523b812bb0160.JPG','91382','JPG',0,1,1379631403,0),(710,'捕获.JPG','popup/201309/523b812e46d54.JPG','151234','JPG',0,1,1379631406,0),(711,'捕获.JPG','popup/201309/523bfdb0433aa.JPG','151234','JPG',0,1,1379663280,0),(712,'捕获.JPG','popup/201309/523bfee3161a9.JPG','151234','JPG',0,1,1379663587,0),(713,'捕获.JPG','popup/201309/523bff2a2c04a.JPG','151234','JPG',0,1,1379663658,0),(714,'捕获.JPG','popup/201309/523bff550512f.JPG','151234','JPG',0,1,1379663701,0),(715,'1.JPG','popup/201309/523bffbc4d711.JPG','91382','JPG',0,1,1379663804,0),(716,'1.JPG','popup/201309/523c004c4e43a.JPG','91382','JPG',0,1,1379663948,0),(717,'1.JPG','popup/201309/523c0457c90e7.JPG','91382','JPG',0,1,1379664983,0),(718,'1.JPG','popup/201309/523c049adf649.JPG','91382','JPG',0,1,1379665050,0),(719,'1.JPG','popup/201309/523c05050701c.JPG','91382','JPG',0,1,1379665157,0),(720,'1.JPG','popup/201309/523c07e805ea5.JPG','91382','JPG',0,1,1379665896,0),(721,'1.JPG','popup/201309/523c0820820d0.JPG','91382','JPG',0,1,1379665952,0),(722,'捕获.JPG','popup/201309/523c085d7668c.JPG','151234','JPG',0,1,1379666013,0),(723,'捕获.JPG','popup/201309/523c08f3d2e63.JPG','151234','JPG',0,1,1379666163,0),(724,'捕获.JPG','popup/201309/523c09199da01.JPG','151234','JPG',0,1,1379666201,0),(725,'捕获.JPG','popup/201309/523c49e37a25f.JPG','151234','JPG',0,1,1379682787,0),(726,'捕获.JPG','popup/201309/523c4b2ed52ff.JPG','151234','JPG',0,1,1379683118,0),(727,'捕获.JPG','popup/201309/523c4c9899bb2.JPG','151234','JPG',0,1,1379683480,0),(728,'捕获.JPG','popup/201309/523c4cd5f0664.JPG','151234','JPG',0,1,1379683541,0),(729,'捕获.JPG','popup/201309/523c4d9103b39.JPG','151234','JPG',0,1,1379683729,0),(730,'捕获.JPG','popup/201309/523c4e194a888.JPG','151234','JPG',0,1,1379683865,0),(731,'捕获.JPG','popup/201309/523c4e69450df.JPG','151234','JPG',0,1,1379683945,0),(732,'捕获.JPG','popup/201309/523c4f8709e5b.JPG','151234','JPG',0,1,1379684231,0),(733,'捕获.JPG','popup/201309/523c4ff37048c.JPG','151234','JPG',0,1,1379684339,0),(734,'捕获.JPG','popup/201309/523c5022c6bf2.JPG','151234','JPG',0,1,1379684386,0),(735,'捕获.JPG','popup/201309/523c50762d8b6.JPG','151234','JPG',0,1,1379684470,0),(736,'捕获.JPG','popup/201309/523c50ceb9df6.JPG','151234','JPG',0,1,1379684558,0),(737,'捕获.JPG','popup/201309/523c512317df5.JPG','151234','JPG',0,1,1379684643,0),(738,'1.JPG','popup/201309/523c513732d9c.JPG','91382','JPG',0,1,1379684663,0),(739,'1.JPG','popup/201309/523c514bd0184.JPG','91382','JPG',0,1,1379684683,0),(740,'捕获.JPG','popup/201309/523c54ddab0d2.JPG','151234','JPG',0,1,1379685597,0),(741,'1.JPG','popup/201309/523c54ef16b23.JPG','91382','JPG',0,1,1379685615,0),(742,'捕获.JPG','popup/201309/523c556649482.JPG','151234','JPG',0,1,1379685734,0),(743,'捕获.JPG','popup/201309/523c5595e88f9.JPG','151234','JPG',0,1,1379685781,0),(744,'1.JPG','popup/201309/523c55a525237.JPG','91382','JPG',0,1,1379685797,0),(745,'DSC_0013_2000-01-01_09-59-16-000.jpg','popup/201309/52417ed42d1b9.jpg','594294','jpg',0,1,1380024020,0),(746,'logo.jpg','popup/201309/52467b9086618.jpg','64628','jpg',0,1,1380350864,0),(747,'QQ图片20131029195313.jpg','notice/201310/52726cba0afa8.jpg','455148','jpg',0,1,1383230650,0),(748,'QQ图片20131029195313.jpg','popup/201311/5274fb4066bb5.jpg','455148','jpg',0,1,1383398208,0),(749,'QQ图片20131029195313.jpg','popup/201311/527645f93225f.jpg','455148','jpg',0,1,1383482873,0),(750,'QQ图片20131029195313.jpg','popup/201311/5276471ad8917.jpg','455148','jpg',0,1,1383483162,0),(751,'QQ图片20131029195313.jpg','popup/201311/5276473ed651a.jpg','455148','jpg',0,1,1383483198,0),(752,'QQ图片20131029195313.jpg','popup/201311/5276477fc8e69.jpg','455148','jpg',0,1,1383483263,0),(753,'QQ图片20131029195313.jpg','popup/201311/527648af1f5c8.jpg','455148','jpg',0,1,1383483567,0),(754,'QQ图片20131029195313.jpg','popup/201311/527648c47ce9d.jpg','455148','jpg',0,1,1383483588,0),(755,'QQ图片20131029195313.jpg','popup/201311/52764916c593b.jpg','455148','jpg',0,1,1383483670,0);
 /*!40000 ALTER TABLE `think_file` ENABLE KEYS */;
 
 #
@@ -218,7 +218,7 @@ DROP TABLE IF EXISTS `think_flow`;
 CREATE TABLE `think_flow` (
   `id` smallint(4) unsigned NOT NULL AUTO_INCREMENT,
   `doc_no` varchar(20) NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
   `content` text NOT NULL,
   `confirm` varchar(200) NOT NULL,
   `confirm_name` text NOT NULL,
@@ -287,7 +287,7 @@ CREATE TABLE `think_flow_type` (
   `group` varchar(20) NOT NULL,
   `type` int(11) NOT NULL,
   `doc_no_format` varchar(50) NOT NULL,
-  `name` varchar(25) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
   `short` varchar(20) NOT NULL,
   `content` text NOT NULL,
   `confirm` varchar(100) NOT NULL,
@@ -321,7 +321,7 @@ CREATE TABLE `think_forum` (
   `folder` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `user_name` varchar(20) NOT NULL,
-  `name` varchar(20) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
   `content` text NOT NULL,
   `views` int(11) NOT NULL,
   `reply` int(11) NOT NULL,
@@ -339,7 +339,7 @@ CREATE TABLE `think_forum` (
 #
 
 /*!40000 ALTER TABLE `think_forum` DISABLE KEYS */;
-INSERT INTO `think_forum` VALUES (8,17,1,'管理员','发表主题 ','<span>发表主题</span>',10,0,0,'',0,0,1366872802,0),(9,25,1,'管理员','发了各自','发了各自',63,5,0,'',0,0,1374028398,0),(10,27,1,'管理员','员工交流天地','<p>\r\n\t员工交流天地\r\n</p>\r\n<p>\r\n\t&nbsp;\r\n</p>\r\n<p>\r\n\t&nbsp; 今年秋天旅游去哪里&nbsp;\r\n</p>\r\n<p>\r\n\t&nbsp;&nbsp; 1. 夏威夷\r\n</p>\r\n<p>\r\n\t&nbsp;&nbsp; 2. 韩国\r\n</p>\r\n<p>\r\n\t&nbsp;&nbsp; 3. 马尔代夫\r\n</p>\r\n<p>\r\n\t&nbsp;&nbsp; 4. 香港\r\n</p>\r\n<p>\r\n\t&nbsp;&nbsp; 5. 西藏\r\n</p>',10,0,0,'',0,0,1374053565,1376634141),(11,0,1,'管理员','12313','123123132',0,0,0,'',0,0,1376877052,0),(12,25,1,'管理员','123123','123123123',11,1,0,'',0,0,1376877231,0),(13,25,2,'演示','发表主题','发表主题',34,2,0,'',0,0,1379406463,0);
+INSERT INTO `think_forum` VALUES (8,17,1,'管理员','发表主题 ','<span>发表主题</span>',10,0,0,'',0,0,1366872802,0),(9,25,1,'管理员','发了各自','发了各自',63,5,0,'',0,0,1374028398,0),(10,27,1,'管理员','员工交流天地','<p>\r\n\t员工交流天地\r\n</p>\r\n<p>\r\n\t&nbsp;\r\n</p>\r\n<p>\r\n\t&nbsp; 今年秋天旅游去哪里&nbsp;\r\n</p>\r\n<p>\r\n\t&nbsp;&nbsp; 1. 夏威夷\r\n</p>\r\n<p>\r\n\t&nbsp;&nbsp; 2. 韩国\r\n</p>\r\n<p>\r\n\t&nbsp;&nbsp; 3. 马尔代夫\r\n</p>\r\n<p>\r\n\t&nbsp;&nbsp; 4. 香港\r\n</p>\r\n<p>\r\n\t&nbsp;&nbsp; 5. 西藏\r\n</p>',10,0,0,'',0,0,1374053565,1376634141),(11,0,1,'管理员','12313','123123132',0,0,0,'',0,0,1376877052,0),(12,25,1,'管理员','123123','123123123',11,1,0,'',0,0,1376877231,0),(13,27,2,'演示','发表主题','发表主题',42,4,0,'',0,0,1379406463,0);
 /*!40000 ALTER TABLE `think_forum` ENABLE KEYS */;
 
 #
@@ -351,7 +351,7 @@ CREATE TABLE `think_mail` (
   `id` smallint(4) unsigned NOT NULL AUTO_INCREMENT,
   `folder` int(11) NOT NULL,
   `mid` varchar(200) DEFAULT NULL,
-  `name` varchar(255) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
   `content` text NOT NULL,
   `add_file` varchar(200) DEFAULT NULL,
   `from` varchar(2000) DEFAULT NULL,
@@ -366,7 +366,7 @@ CREATE TABLE `think_mail` (
   `is_del` tinyint(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `mid` (`mid`)
-) ENGINE=MyISAM AUTO_INCREMENT=1409 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1477 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_mail"
@@ -422,14 +422,14 @@ CREATE TABLE `think_mail_organize` (
   `title_key` varchar(50) NOT NULL,
   `to` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_mail_organize"
 #
 
 /*!40000 ALTER TABLE `think_mail_organize` DISABLE KEYS */;
-INSERT INTO `think_mail_organize` VALUES (12,1,0,0,0,1,'',1,1,'12345',0,1,'',0,1,'',0),(13,1,0,0,0,1,'',1,1,'12345',0,1,'',0,1,'',8),(14,1,1,0,1,1,'1231',0,1,'',0,1,'',0,1,'',0);
+INSERT INTO `think_mail_organize` VALUES (17,1,0,0,0,1,'',1,1,'123456',0,1,'',0,1,'',30);
 /*!40000 ALTER TABLE `think_mail_organize` ENABLE KEYS */;
 
 #
@@ -480,14 +480,14 @@ CREATE TABLE `think_node` (
   PRIMARY KEY (`id`),
   KEY `pid` (`pid`),
   KEY `status` (`is_del`)
-) ENGINE=MyISAM AUTO_INCREMENT=177 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=178 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_node"
 #
 
 /*!40000 ALTER TABLE `think_node` DISABLE KEYS */;
-INSERT INTO `think_node` VALUES (83,'公告',0,'notice/index','icon-compass','','','7',0),(84,'管理',0,'user/index','icon-cogs','','','999',0),(85,'邮件',0,'mail/folder?fid=inbox','icon-envelope-alt','','','1',0),(87,'审批',0,'flow/index','icon-pencil','','','2',0),(88,'文档',0,'doc/index','icon-file','','','3',0),(91,'日程',0,'schedule/index','icon-calendar','','','4',0),(94,'职位',0,'position/index',NULL,NULL,'','',1),(97,'部门',0,'dept/index',NULL,NULL,'','',1),(100,'写信',0,'mail/add',NULL,'','','1',85),(101,'收件箱',0,'mail/index',NULL,'MailFolder','','3',85),(102,'邮件设置',0,'',NULL,'','','4',85),(104,'垃圾箱',0,'mail/folder?fid=spambox',NULL,'','','5',101),(105,'发件箱',0,'mail/folder?fid=outbox',NULL,'','','2',101),(106,'已删除',0,'mail/folder?fid=delbox',NULL,'','','3',101),(107,'草稿箱',0,'mail/folder?fid=darftbox',NULL,'','','4',101),(108,'邮件帐户设置',0,'mail_account/index',NULL,'','','1',102),(110,'公司信息管理',0,'',NULL,NULL,'','1',84),(112,'权限管理',0,'',NULL,NULL,'','3',84),(113,'系统设定',0,'',NULL,NULL,'','4',84),(114,'系统设置',0,'system_config/index',NULL,'','','1',113),(115,'组织图管理',0,'dept/index',NULL,'','','1',110),(116,'员工登记',0,'user/index',NULL,'','','5',110),(118,'权限编码登记',0,'role/index',NULL,NULL,'','1',112),(119,'权限编码-菜单映射',0,'role/node',NULL,NULL,'','2',112),(120,'权限编码-用户映射',0,'role/user',NULL,NULL,'','3',112),(121,'菜单信息设置',0,'node/index',NULL,NULL,'','1',113),(122,'职级',0,'rank/index',NULL,'','','3',110),(123,'职位',0,'position/index',NULL,'','','2',110),(124,'文件夹设置',0,'mail_folder/index',NULL,'','','2',102),(125,'联系人',0,'contact/index',NULL,'','','1',157),(126,'文档搜索',0,'doc/index',NULL,'','','1',88),(127,'文档库管理',0,'',NULL,NULL,'','4',88),(131,'公用文档库管理',0,'doc_folder/index',NULL,'','','',127),(132,'公用文档库',0,'',NULL,'DocFolder','','2',88),(134,'公告',0,'',NULL,'NoticeFolder','','1',83),(137,'论坛',0,'forum/index','icon-comments-alt','ForumFolder','','3',0),(138,'公告管理',0,'notice_folder/index',NULL,'','','4',134),(139,'论坛管理',0,'forum_folder/index',NULL,'','','',137),(140,'按月查看',0,'schedule/index',NULL,'','','1',91),(141,'日程查询',0,'schedule/search',NULL,'','','2',91),(142,'按日查看',0,'schedule/day_view',NULL,'','','2',91),(143,'邮件分类',0,'mail_organize/index',NULL,'','','',102),(144,'起案',0,'flow/index',NULL,'','','1',87),(145,'审批箱',0,'',NULL,'','','2',87),(146,'流程管理',0,'flow_type/index',NULL,'','','3',87),(147,'待审批',0,'flow/folder?fid=confirm',NULL,'','','3',145),(148,'已办理',0,'flow/folder?fid=finish',NULL,'','','1',145),(149,'草稿箱',0,'flow/folder?fid=darft',NULL,'','','2',145),(150,'已提交',0,'flow/folder?fid=submit',NULL,'','','4',145),(151,'收信',0,'mail/folder?fid=receve',NULL,'','','2',85),(152,'待办事项',0,'todo/index',NULL,'','','4',91),(153,'部门级别',0,'dept_grade/index',NULL,'','','4',110),(154,'业务权限',1,'duty/index',NULL,'','','4',112),(155,'权限编码-业务权限',1,'role/duty',NULL,'','','5',112),(156,'客户',0,'customer/index',NULL,'','','2',157),(157,'人脉',0,'contact/index','icon-group','','','5',0),(158,'供应商',0,'supplier/index',NULL,'','','3',157),(169,'职员',0,'staff/index',NULL,'','','',157);
+INSERT INTO `think_node` VALUES (83,'公告',0,'##notice','icon-bell-alt','NoticeFolder','','7',0),(84,'管理',0,'user/index','icon-cogs','','','999',0),(85,'邮件',0,'mail/folder?fid=inbox','icon-envelope-alt','','','1',0),(87,'审批',0,'flow/index','icon-pencil','','','2',0),(88,'文档',0,'##doc','icon-file-alt','DocFolder','','3',0),(91,'日程',0,'schedule/index','icon-calendar','','','4',0),(94,'职位',0,'position/index',NULL,NULL,'','',1),(97,'部门',0,'dept/index',NULL,NULL,'','',1),(100,'写信',0,'mail/add',NULL,'','','1',85),(101,'收件箱',0,'mail/folder?fid=inbox','','','','3',85),(102,'邮件设置',0,'','','','','9',85),(104,'垃圾箱',0,'mail/folder?fid=spambox','','','','5',85),(105,'发件箱',0,'mail/folder?fid=outbox','','','','3',85),(106,'已删除',0,'mail/folder?fid=delbox','','','','4',85),(107,'草稿箱',0,'mail/folder?fid=darftbox','','','','5',85),(108,'邮件帐户设置',0,'mail_account/index',NULL,'','','1',102),(110,'公司信息管理',0,'',NULL,NULL,'','1',84),(112,'权限管理',0,'',NULL,NULL,'','3',84),(113,'系统设定',0,'',NULL,NULL,'','4',84),(114,'系统设置',0,'system_config/index',NULL,'','','1',113),(115,'组织图管理',0,'dept/index',NULL,'','','1',110),(116,'员工登记',0,'user/index',NULL,'','','5',110),(118,'权限编码登记',0,'role/index',NULL,NULL,'','1',112),(119,'权限编码-菜单映射',0,'role/node',NULL,NULL,'','2',112),(120,'权限编码-用户映射',0,'role/user',NULL,NULL,'','3',112),(121,'菜单信息设置',0,'node/index',NULL,NULL,'','1',113),(122,'职级',0,'rank/index',NULL,'','','3',110),(123,'职位',0,'position/index',NULL,'','','2',110),(124,'文件夹设置',0,'mail_folder/index',NULL,'','','2',102),(125,'联系人',0,'contact/index',NULL,'','','1',157),(126,'文档搜索',0,'doc/index',NULL,'','','1',88),(127,'文档库管理',0,'doc_folder/index','','','','4',88),(137,'论坛',0,'forum/index','icon-comments-alt','ForumFolder','','3',0),(138,'公告管理',0,'notice_folder/index','','','','4',83),(139,'论坛管理',0,'forum_folder/index',NULL,'','','',137),(140,'按月查看',0,'schedule/index',NULL,'','','1',91),(141,'日程查询',0,'schedule/search',NULL,'','','2',91),(142,'按日查看',0,'schedule/day_view',NULL,'','','2',91),(143,'邮件分类',0,'mail_organize/index',NULL,'','','',102),(144,'起案',0,'flow/index',NULL,'','','1',87),(145,'审批箱',0,'',NULL,'','','2',87),(146,'流程管理',0,'flow_type/index',NULL,'','','3',87),(147,'待审批',0,'flow/folder?fid=confirm',NULL,'','','3',145),(148,'已办理',0,'flow/folder?fid=finish',NULL,'','','1',145),(149,'草稿箱',0,'flow/folder?fid=darft',NULL,'','','2',145),(150,'已提交',0,'flow/folder?fid=submit',NULL,'','','4',145),(151,'收信',0,'mail/folder?fid=receve',NULL,'','','2',85),(152,'待办',0,'todo/index','icon-tasks','','','4',0),(153,'部门级别',0,'dept_grade/index',NULL,'','','4',110),(156,'客户',0,'customer/index',NULL,'','','2',157),(157,'人脉',0,'contact/index','icon-group','','','5',0),(158,'供应商',0,'supplier/index',NULL,'','','3',157),(169,'职员',0,'staff/index',NULL,'','','',157),(177,'我的文件夹',0,'##mail','','MailFolder','','8',85);
 /*!40000 ALTER TABLE `think_node` ENABLE KEYS */;
 
 #
@@ -515,7 +515,7 @@ CREATE TABLE `think_notice` (
 #
 
 /*!40000 ALTER TABLE `think_notice` DISABLE KEYS */;
-INSERT INTO `think_notice` VALUES (24,'2013-0001','sssss','ssssssssssssssssssssssssss',15,'',1,'管理员',0,1366874793,0),(25,'2013-0002','xxxxxx','xxxxxxxxxxxxxxxxxxxxxx',15,'',1,'管理员',0,1367735751,0),(26,'2013-0003','q','qqqqqqqqqqqqq',15,'',1,'管理员',0,1367735757,0),(27,'2013-0004','1','111111111111111',15,'',1,'管理员',0,1370508661,0),(28,'2013-0005','33333','333333333333333333333',15,'',1,'管理员',0,1370508667,0),(29,'2013-0006','333','3333333333333333333',15,'',1,'管理员',0,1370508673,0),(30,'2013-0007','3222222222','22222222222222222222',15,'',1,'管理员',0,1370508678,0),(31,'2013-0008','XXXXXXXXXXXXXXXXXXX','SSSSSSSSSSSSSSS',15,'',1,'管理员',0,1370508706,0),(32,'2013-0009','ZZZZZZZZZZZZZ','ZZZZZZZZZZZZZZZZZZ',15,'',1,'管理员',0,1370508714,0),(33,'2013-0010','CCCCCC','CCCCCCCCCCCCCCCCCCCCC',15,'',1,'管理员',0,1370508723,0),(34,'2013-0011','DDDDDDDD','DDDDDDDDDDDDDDDDDDDDD',15,'',1,'管理员',0,1370508728,0),(35,'2013-0012','FFFFFFFFFF','FFFFFFFFFFFFFFFFF',15,'',1,'管理员',0,1370508734,0),(36,'2013-0013','33333333','333333333333333333',15,'',1,'管理员',0,1370508785,0),(37,'2013-0014','333333333','3333333333333333333',15,'',1,'管理员',0,1370508791,0),(38,'2013-0015','3333333333','33333333333333333333',15,'',1,'管理员',0,1370508799,0),(39,'2013-0016','333333333','33333333333333333333',15,'',1,'管理员',0,1370508805,0),(40,'2013-0017','333333333333','333333333333333333333333333',15,'',1,'管理员',0,1370508812,0),(41,'2013-0018','公告 1','1公告',26,'',1,'管理员',0,1373937632,0),(42,'2013-0019','QQQQQQQQ','AAAAAAAAAAAAAAAAAAAAQQQQQQQQQQQQQQQQQQ',26,'',1,'管理员',0,1374031714,1375155796),(43,'2013-0020','岗位轮换 XXX部 部长 担任 XX部 ','岗位轮换 XXX部 部长 担任 XX部 部长',26,'',1,'管理员',0,1374031720,1376634040),(44,'2013-0021','BABABABABABBABABB','XXXXXXX',0,'616;',1,'管理员',0,1375155819,0),(45,'2013-0022','XXX晋升为XXXX X月X日开始生效','XXX晋升为XXXX X月X日开始生效',28,'617;',1,'管理员',0,1375156032,1376634004);
+INSERT INTO `think_notice` VALUES (24,'2013-0001','sssss','ssssssssssssssssssssssssss',15,'',1,'管理员',0,1366874793,0),(25,'2013-0002','xxxxxx','xxxxxxxxxxxxxxxxxxxxxx',15,'',1,'管理员',0,1367735751,0),(26,'2013-0003','q','qqqqqqqqqqqqq',15,'',1,'管理员',0,1367735757,0),(27,'2013-0004','1','111111111111111',15,'',1,'管理员',0,1370508661,0),(28,'2013-0005','33333','333333333333333333333',15,'',1,'管理员',0,1370508667,0),(29,'2013-0006','333','3333333333333333333',15,'',1,'管理员',0,1370508673,0),(30,'2013-0007','3222222222','22222222222222222222',15,'',1,'管理员',0,1370508678,0),(31,'2013-0008','XXXXXXXXXXXXXXXXXXX','SSSSSSSSSSSSSSS',15,'',1,'管理员',0,1370508706,0),(32,'2013-0009','ZZZZZZZZZZZZZ','ZZZZZZZZZZZZZZZZZZ',15,'',1,'管理员',0,1370508714,0),(33,'2013-0010','CCCCCC','CCCCCCCCCCCCCCCCCCCCC',15,'',1,'管理员',0,1370508723,0),(34,'2013-0011','DDDDDDDD','DDDDDDDDDDDDDDDDDDDDD',15,'',1,'管理员',0,1370508728,0),(35,'2013-0012','FFFFFFFFFF','FFFFFFFFFFFFFFFFF',15,'',1,'管理员',0,1370508734,0),(36,'2013-0013','33333333','333333333333333333',15,'',1,'管理员',0,1370508785,0),(37,'2013-0014','333333333','3333333333333333333',15,'',1,'管理员',0,1370508791,0),(38,'2013-0015','3333333333','33333333333333333333',15,'',1,'管理员',0,1370508799,0),(39,'2013-0016','333333333','33333333333333333333',15,'',1,'管理员',0,1370508805,0),(40,'2013-0017','333333333333','333333333333333333333333333',15,'',1,'管理员',0,1370508812,0),(41,'2013-0018','公告 1','1公告',26,'',1,'管理员',0,1373937632,0),(42,'2013-0019','QQQQQQQQ','AAAAAAAAAAAAAAAAAAAAQQQQQQQQQQQQQQQQQQ',26,'',1,'管理员',0,1374031714,1375155796),(43,'2013-0020','岗位轮换 XXX部 部长 担任 XX部 ','岗位轮换 XXX部 部长 担任 XX部 部长',26,'747;',1,'管理员',0,1374031720,1383230652),(44,'2013-0021','BABABABABABBABABB','XXXXXXX',0,'616;',1,'管理员',0,1375155819,0),(45,'2013-0022','XXX晋升为XXXX X月X日开始生效','XXX晋升为XXXX X月X日开始生效',28,'617;',1,'管理员',0,1375156032,1376634004);
 /*!40000 ALTER TABLE `think_notice` ENABLE KEYS */;
 
 #
@@ -526,7 +526,7 @@ DROP TABLE IF EXISTS `think_position`;
 CREATE TABLE `think_position` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `position_no` varchar(10) NOT NULL DEFAULT '',
-  `name` varchar(20) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
   `sort` varchar(10) NOT NULL,
   `is_del` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
@@ -548,7 +548,7 @@ DROP TABLE IF EXISTS `think_post`;
 CREATE TABLE `think_post` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tid` int(11) NOT NULL,
-  `name` varchar(20) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
   `content` text NOT NULL,
   `user_id` int(11) NOT NULL,
   `user_name` varchar(20) NOT NULL,
@@ -557,14 +557,14 @@ CREATE TABLE `think_post` (
   `create_time` int(11) NOT NULL,
   `update_time` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_post"
 #
 
 /*!40000 ALTER TABLE `think_post` DISABLE KEYS */;
-INSERT INTO `think_post` VALUES (37,9,'','1234123123',1,'管理员','',1,1374029462,0),(38,9,'','123123123123',1,'管理员','',1,1374029878,0),(39,9,'','asdfasdf',1,'管理员','',0,1376880653,0),(40,9,'','123123121111111111111',1,'管理员','',0,1376880661,0),(41,9,'','333333333333333',1,'管理员','',1,1376880668,0),(42,13,'','<p>\r\n\t回复主题\r\n</p>',2,'演示','',0,1379406480,0),(43,13,'','回复巴巴变',2,'演示','',0,1379406497,0),(44,12,'','asdfsdfas',1,'管理员','',0,1380548052,0);
+INSERT INTO `think_post` VALUES (37,9,'','1234123123',1,'管理员','',1,1374029462,0),(38,9,'','123123123123',1,'管理员','',1,1374029878,0),(39,9,'','asdfasdf',1,'管理员','',0,1376880653,0),(40,9,'','123123121111111111111',1,'管理员','',0,1376880661,0),(41,9,'','333333333333333',1,'管理员','',1,1376880668,0),(42,13,'','<p>\r\n\t回复主题\r\n</p>',2,'演示','',0,1379406480,0),(43,13,'','回复巴巴变',2,'演示','',0,1379406497,0),(44,12,'','asdfsdfas',1,'管理员','',0,1380548052,0),(45,13,'','23423423424',1,'管理员','',0,1383230442,0),(46,13,'','babababbab',1,'管理员','',0,1383230452,0);
 /*!40000 ALTER TABLE `think_post` ENABLE KEYS */;
 
 #
@@ -580,14 +580,13 @@ CREATE TABLE `think_push` (
   `time` int(11) NOT NULL,
   `info` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=753 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=755 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_push"
 #
 
 /*!40000 ALTER TABLE `think_push` DISABLE KEYS */;
-INSERT INTO `think_push` VALUES (752,1,'8',1,1383049632,'收到8封邮件');
 /*!40000 ALTER TABLE `think_push` ENABLE KEYS */;
 
 #
@@ -598,7 +597,7 @@ DROP TABLE IF EXISTS `think_rank`;
 CREATE TABLE `think_rank` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `rank_no` varchar(10) NOT NULL DEFAULT '',
-  `name` varchar(20) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
   `sort` varchar(10) NOT NULL,
   `is_del` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
@@ -627,7 +626,7 @@ CREATE TABLE `think_recent` (
 #
 
 /*!40000 ALTER TABLE `think_recent` DISABLE KEYS */;
-INSERT INTO `think_recent` VALUES (1,'jzyin@sohu.com|jzyin@sohu.com;管理员 / 主管 |smeoa@qq.com;smeoa@qq.com|smeoa@qq.com;cn86shichang@foxmail.com|cn86shichang@foxmail.com;');
+INSERT INTO `think_recent` VALUES (1,'jzyin@qq.com|jzyin@qq.com;jzyin@sohu.com|jzyin@sohu.com;管理员 / 主管 |smeoa@qq.com;smeoa@qq.com|smeoa@qq.com;cn86shichang@foxmail.com|cn86shichang@foxmail.com;');
 /*!40000 ALTER TABLE `think_recent` ENABLE KEYS */;
 
 #
@@ -657,7 +656,7 @@ INSERT INTO `think_relation` VALUES (17,31,'Course|Video'),(16,29,'Course|Video'
 DROP TABLE IF EXISTS `think_role`;
 CREATE TABLE `think_role` (
   `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
   `pid` smallint(6) DEFAULT NULL,
   `is_del` tinyint(3) NOT NULL DEFAULT '0',
   `remark` varchar(255) DEFAULT NULL,
@@ -714,7 +713,7 @@ CREATE TABLE `think_role_node` (
 #
 
 /*!40000 ALTER TABLE `think_role_node` DISABLE KEYS */;
-INSERT INTO `think_role_node` VALUES (2,136,NULL,NULL,NULL),(2,137,1,1,1),(2,135,NULL,NULL,NULL),(2,83,1,1,1),(1,94,NULL,NULL,NULL),(1,97,NULL,NULL,NULL),(1,98,NULL,NULL,NULL),(1,99,NULL,NULL,NULL),(1,69,NULL,NULL,NULL),(1,6,NULL,NULL,NULL),(1,2,NULL,NULL,NULL),(1,7,NULL,NULL,NULL),(1,131,1,1,1),(1,130,NULL,NULL,NULL),(1,127,NULL,NULL,NULL),(1,133,NULL,NULL,NULL),(1,132,NULL,NULL,NULL),(1,126,1,1,1),(2,152,1,1,1),(1,137,1,1,1),(1,135,NULL,NULL,NULL),(1,136,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,138,1,1,1),(1,134,NULL,NULL,NULL),(2,125,1,1,1),(2,103,NULL,NULL,NULL),(2,126,1,1,1),(2,88,1,1,1),(2,133,NULL,NULL,NULL),(2,130,NULL,NULL,NULL),(2,169,1,1,1),(7,124,NULL,NULL,NULL),(7,108,NULL,NULL,NULL),(7,102,NULL,NULL,NULL),(7,104,NULL,NULL,NULL),(7,107,NULL,NULL,NULL),(7,106,NULL,NULL,NULL),(7,105,NULL,NULL,NULL),(7,101,NULL,NULL,NULL),(7,100,NULL,NULL,NULL),(7,125,NULL,NULL,NULL),(1,152,NULL,NULL,NULL),(1,142,NULL,NULL,NULL),(1,141,NULL,NULL,NULL),(2,134,NULL,NULL,NULL),(2,158,1,1,1),(2,156,1,1,1),(2,132,NULL,NULL,NULL),(2,150,NULL,NULL,NULL),(2,124,1,1,1),(2,108,1,1,1),(2,103,NULL,NULL,NULL),(2,157,1,1,1),(1,140,NULL,NULL,NULL),(1,91,NULL,NULL,NULL),(1,91,NULL,NULL,NULL),(2,143,1,1,1),(2,102,NULL,NULL,NULL),(2,104,NULL,NULL,NULL),(2,107,NULL,NULL,NULL),(2,106,NULL,NULL,NULL),(2,105,NULL,NULL,NULL),(2,103,NULL,NULL,NULL),(2,109,NULL,NULL,NULL),(2,101,1,1,1),(2,151,NULL,NULL,NULL),(2,100,NULL,NULL,NULL),(2,85,NULL,NULL,NULL),(2,147,NULL,NULL,NULL),(2,149,NULL,NULL,NULL),(2,148,NULL,NULL,NULL),(2,145,NULL,NULL,NULL),(2,144,1,1,1),(2,87,1,1,1),(2,142,NULL,NULL,NULL),(2,141,NULL,NULL,NULL),(2,140,1,1,1),(2,91,1,1,1),(1,117,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,103,NULL,NULL,NULL),(1,109,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,163,NULL,NULL,NULL),(1,158,1,1,1),(1,170,NULL,NULL,NULL),(1,164,NULL,NULL,NULL),(1,114,1,1,1),(1,146,1,1,1),(1,121,1,1,1),(1,177,1,1,1),(1,188,NULL,NULL,NULL),(1,113,NULL,NULL,NULL),(1,155,NULL,NULL,NULL),(1,154,1,1,1),(1,120,NULL,NULL,NULL),(1,119,NULL,NULL,NULL),(1,118,1,1,1),(1,112,NULL,NULL,NULL),(1,116,1,1,1),(1,111,NULL,NULL,NULL),(1,153,1,1,1),(1,156,1,1,1),(1,122,1,1,1),(1,123,1,1,1),(1,115,1,1,1),(1,150,NULL,NULL,NULL),(1,149,NULL,NULL,NULL),(1,148,NULL,NULL,NULL),(1,147,NULL,NULL,NULL),(1,145,NULL,NULL,NULL),(1,144,1,1,1),(1,124,1,1,1),(1,108,1,1,1),(1,143,1,1,1),(1,102,NULL,NULL,NULL),(1,104,NULL,NULL,NULL),(1,107,NULL,NULL,NULL),(1,106,NULL,NULL,NULL),(1,105,NULL,NULL,NULL),(1,101,1,1,1),(1,151,NULL,NULL,NULL),(1,125,1,1,1),(1,168,NULL,NULL,NULL),(1,162,NULL,NULL,NULL),(1,166,NULL,NULL,NULL),(1,161,NULL,NULL,NULL),(1,171,NULL,NULL,NULL),(1,169,1,1,1),(1,165,NULL,NULL,NULL),(1,174,NULL,NULL,NULL),(1,172,NULL,NULL,NULL),(1,173,NULL,NULL,NULL),(1,160,NULL,NULL,NULL),(1,175,NULL,NULL,NULL),(1,186,NULL,NULL,NULL),(1,185,NULL,NULL,NULL),(1,183,NULL,NULL,NULL),(1,182,NULL,NULL,NULL),(1,181,NULL,NULL,NULL),(1,180,NULL,NULL,NULL),(1,179,NULL,NULL,NULL),(1,178,NULL,NULL,NULL),(1,184,NULL,NULL,NULL),(1,176,NULL,NULL,NULL),(1,110,NULL,NULL,NULL),(1,194,NULL,NULL,NULL),(1,193,NULL,NULL,NULL),(1,187,NULL,NULL,NULL),(1,100,NULL,NULL,NULL),(1,85,NULL,NULL,NULL),(1,87,1,1,1),(1,88,1,1,1),(1,157,1,1,1),(1,167,NULL,NULL,NULL),(1,83,1,1,1),(1,128,NULL,NULL,NULL),(1,192,NULL,NULL,NULL),(1,191,NULL,NULL,NULL),(1,190,NULL,NULL,NULL),(1,189,NULL,NULL,NULL),(1,84,1,1,1),(1,195,NULL,NULL,NULL),(1,199,NULL,NULL,NULL),(1,213,NULL,NULL,NULL),(1,198,NULL,NULL,NULL),(1,197,NULL,NULL,NULL),(1,229,NULL,NULL,NULL),(1,228,NULL,NULL,NULL),(1,227,NULL,NULL,NULL),(1,226,NULL,NULL,NULL),(1,225,NULL,NULL,NULL),(1,224,NULL,NULL,NULL),(1,223,NULL,NULL,NULL),(1,222,NULL,NULL,NULL),(1,221,NULL,NULL,NULL),(1,220,NULL,NULL,NULL),(1,219,NULL,NULL,NULL),(1,217,NULL,NULL,NULL),(1,218,NULL,NULL,NULL),(1,216,NULL,NULL,NULL),(1,215,NULL,NULL,NULL),(1,214,NULL,NULL,NULL),(1,196,NULL,NULL,NULL),(1,200,NULL,NULL,NULL),(1,201,NULL,NULL,NULL),(1,202,NULL,NULL,NULL),(1,203,NULL,NULL,NULL),(1,204,NULL,NULL,NULL),(1,205,NULL,NULL,NULL),(1,206,NULL,NULL,NULL),(1,207,NULL,NULL,NULL),(1,208,NULL,NULL,NULL),(1,209,NULL,NULL,NULL),(1,210,NULL,NULL,NULL),(1,211,NULL,NULL,NULL),(1,212,NULL,NULL,NULL),(1,139,1,1,1);
+INSERT INTO `think_role_node` VALUES (2,136,NULL,NULL,NULL),(2,137,1,1,1),(2,135,NULL,NULL,NULL),(2,83,1,1,1),(1,94,NULL,NULL,NULL),(1,97,NULL,NULL,NULL),(1,98,NULL,NULL,NULL),(1,99,NULL,NULL,NULL),(1,69,NULL,NULL,NULL),(1,6,NULL,NULL,NULL),(1,2,NULL,NULL,NULL),(1,7,NULL,NULL,NULL),(1,131,1,1,1),(1,130,NULL,NULL,NULL),(1,127,1,1,1),(1,133,NULL,NULL,NULL),(1,132,NULL,NULL,NULL),(1,126,1,1,1),(2,152,1,1,1),(1,137,1,1,1),(1,135,NULL,NULL,NULL),(1,136,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,138,1,1,1),(1,134,NULL,NULL,NULL),(2,125,1,1,1),(2,103,NULL,NULL,NULL),(2,126,1,1,1),(2,88,1,1,1),(2,133,NULL,NULL,NULL),(2,130,NULL,NULL,NULL),(2,169,1,1,1),(7,124,NULL,NULL,NULL),(7,108,NULL,NULL,NULL),(7,102,NULL,NULL,NULL),(7,104,NULL,NULL,NULL),(7,107,NULL,NULL,NULL),(7,106,NULL,NULL,NULL),(7,105,NULL,NULL,NULL),(7,101,NULL,NULL,NULL),(7,100,NULL,NULL,NULL),(7,125,NULL,NULL,NULL),(1,152,NULL,NULL,NULL),(1,142,NULL,NULL,NULL),(1,141,NULL,NULL,NULL),(2,134,NULL,NULL,NULL),(2,158,1,1,1),(2,156,1,1,1),(2,132,NULL,NULL,NULL),(2,150,NULL,NULL,NULL),(2,124,1,1,1),(2,108,1,1,1),(2,103,NULL,NULL,NULL),(2,157,1,1,1),(1,140,NULL,NULL,NULL),(1,91,NULL,NULL,NULL),(1,91,NULL,NULL,NULL),(2,143,1,1,1),(2,102,NULL,NULL,NULL),(2,104,NULL,NULL,NULL),(2,107,NULL,NULL,NULL),(2,106,NULL,NULL,NULL),(2,105,NULL,NULL,NULL),(2,103,NULL,NULL,NULL),(2,109,NULL,NULL,NULL),(2,101,1,1,1),(2,151,NULL,NULL,NULL),(2,100,NULL,NULL,NULL),(2,85,NULL,NULL,NULL),(2,147,NULL,NULL,NULL),(2,149,NULL,NULL,NULL),(2,148,NULL,NULL,NULL),(2,145,NULL,NULL,NULL),(2,144,1,1,1),(2,87,1,1,1),(2,142,NULL,NULL,NULL),(2,141,NULL,NULL,NULL),(2,140,1,1,1),(2,91,1,1,1),(1,117,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,103,NULL,NULL,NULL),(1,109,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,163,NULL,NULL,NULL),(1,158,1,1,1),(1,170,NULL,NULL,NULL),(1,164,NULL,NULL,NULL),(1,114,1,1,1),(1,146,1,1,1),(1,121,1,1,1),(1,177,1,1,1),(1,188,NULL,NULL,NULL),(1,113,NULL,NULL,NULL),(1,155,NULL,NULL,NULL),(1,154,1,1,1),(1,120,NULL,NULL,NULL),(1,119,NULL,NULL,NULL),(1,118,1,1,1),(1,112,NULL,NULL,NULL),(1,116,1,1,1),(1,111,NULL,NULL,NULL),(1,153,1,1,1),(1,156,1,1,1),(1,122,1,1,1),(1,123,1,1,1),(1,115,1,1,1),(1,150,NULL,NULL,NULL),(1,149,NULL,NULL,NULL),(1,148,NULL,NULL,NULL),(1,147,NULL,NULL,NULL),(1,145,NULL,NULL,NULL),(1,144,1,1,1),(1,124,1,1,1),(1,108,1,1,1),(1,143,1,1,1),(1,102,NULL,NULL,NULL),(1,104,NULL,NULL,NULL),(1,107,NULL,NULL,NULL),(1,106,NULL,NULL,NULL),(1,105,NULL,NULL,NULL),(1,101,1,1,1),(1,151,NULL,NULL,NULL),(1,125,1,1,1),(1,168,NULL,NULL,NULL),(1,162,NULL,NULL,NULL),(1,166,NULL,NULL,NULL),(1,161,NULL,NULL,NULL),(1,171,NULL,NULL,NULL),(1,169,1,1,1),(1,165,NULL,NULL,NULL),(1,174,NULL,NULL,NULL),(1,172,NULL,NULL,NULL),(1,173,NULL,NULL,NULL),(1,160,NULL,NULL,NULL),(1,175,NULL,NULL,NULL),(1,186,NULL,NULL,NULL),(1,185,NULL,NULL,NULL),(1,183,NULL,NULL,NULL),(1,182,NULL,NULL,NULL),(1,181,NULL,NULL,NULL),(1,180,NULL,NULL,NULL),(1,179,NULL,NULL,NULL),(1,178,NULL,NULL,NULL),(1,184,NULL,NULL,NULL),(1,176,NULL,NULL,NULL),(1,110,NULL,NULL,NULL),(1,194,NULL,NULL,NULL),(1,193,NULL,NULL,NULL),(1,187,NULL,NULL,NULL),(1,100,NULL,NULL,NULL),(1,85,NULL,NULL,NULL),(1,87,1,1,1),(1,88,NULL,NULL,NULL),(1,157,1,1,1),(1,167,NULL,NULL,NULL),(1,83,1,1,1),(1,128,NULL,NULL,NULL),(1,192,NULL,NULL,NULL),(1,191,NULL,NULL,NULL),(1,190,NULL,NULL,NULL),(1,189,NULL,NULL,NULL),(1,84,1,1,1),(1,195,NULL,NULL,NULL),(1,199,NULL,NULL,NULL),(1,213,NULL,NULL,NULL),(1,198,NULL,NULL,NULL),(1,197,NULL,NULL,NULL),(1,229,NULL,NULL,NULL),(1,228,NULL,NULL,NULL),(1,227,NULL,NULL,NULL),(1,226,NULL,NULL,NULL),(1,225,NULL,NULL,NULL),(1,224,NULL,NULL,NULL),(1,223,NULL,NULL,NULL),(1,222,NULL,NULL,NULL),(1,221,NULL,NULL,NULL),(1,220,NULL,NULL,NULL),(1,219,NULL,NULL,NULL),(1,217,NULL,NULL,NULL),(1,218,NULL,NULL,NULL),(1,216,NULL,NULL,NULL),(1,215,NULL,NULL,NULL),(1,214,NULL,NULL,NULL),(1,196,NULL,NULL,NULL),(1,200,NULL,NULL,NULL),(1,201,NULL,NULL,NULL),(1,202,NULL,NULL,NULL),(1,203,NULL,NULL,NULL),(1,204,NULL,NULL,NULL),(1,205,NULL,NULL,NULL),(1,206,NULL,NULL,NULL),(1,207,NULL,NULL,NULL),(1,208,NULL,NULL,NULL),(1,209,NULL,NULL,NULL),(1,210,NULL,NULL,NULL),(1,211,NULL,NULL,NULL),(1,212,NULL,NULL,NULL),(1,139,1,1,1);
 /*!40000 ALTER TABLE `think_role_node` ENABLE KEYS */;
 
 #
@@ -774,7 +773,7 @@ INSERT INTO `think_schedule` VALUES (43,'新建事项','','123123',1,'2013-03-01
 DROP TABLE IF EXISTS `think_supplier`;
 CREATE TABLE `think_supplier` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
   `letter` varchar(50) DEFAULT '',
   `short` varchar(30) DEFAULT '',
   `account` varchar(20) DEFAULT '',
@@ -810,7 +809,7 @@ DROP TABLE IF EXISTS `think_system_config`;
 CREATE TABLE `think_system_config` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(20) NOT NULL,
-  `name` varchar(20) NOT NULL,
+  `name` varchar(50) NOT NULL DEFAULT '',
   `val` varchar(255) DEFAULT NULL,
   `is_del` tinyint(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
@@ -849,7 +848,7 @@ CREATE TABLE `think_system_folder` (
 #
 
 /*!40000 ALTER TABLE `think_system_folder` DISABLE KEYS */;
-INSERT INTO `think_system_folder` VALUES (21,0,'DocFolder','公司制度','管理员 / 主管 |admin;','','','',0,''),(22,0,'DocFolder','公司表格','管理员 / 主管 |admin;','管理员 / 总经理 |admin;','','',0,''),(23,0,'DocFolder','系统使用手册','管理员 / 总经理 |admin;演示 / 部长 |demo;员工 / 经理1 |member;','','','',0,''),(25,0,'ForumFolder','员工之家','演示 / 总监 |demo;员工 / 副总 |member;管理员 / 主管 |admin;','','XX企业|dept_1;','',0,''),(26,0,'NoticeFolder','人事令','管理员 / 总经理 |admin;','','','',0,''),(27,0,'ForumFolder','OA系统错误提交','','','','',0,''),(28,0,'NoticeFolder','培训通知','管理员 / 主管 |admin;','','','',0,''),(29,0,'NoticeFolder','放假通知','','','','',0,'');
+INSERT INTO `think_system_folder` VALUES (21,0,'DocFolder','公司制度','','','','',0,''),(22,0,'DocFolder','公司表格','管理员 / 总经理 |admin;','管理员 / 总经理 |admin;','管理员 / 总经理 |admin;','',0,''),(23,0,'DocFolder','系统使用手册','管理员 / 总经理 |admin;演示 / 部长 |demo;员工 / 经理1 |member;','','','',0,''),(25,0,'ForumFolder','员工之家','演示 / 总监 |demo;员工 / 副总 |member;管理员 / 主管 |admin;','','XX企业|dept_1;','',0,''),(26,0,'NoticeFolder','人事令','管理员 / 总经理 |admin;','','','',0,''),(27,0,'ForumFolder','OA系统错误提交','管理员/主管|admin;','','','',0,''),(28,0,'NoticeFolder','培训通知','管理员 / 主管 |admin;','','','',0,''),(29,0,'NoticeFolder','放假通知','','','','',0,'');
 /*!40000 ALTER TABLE `think_system_folder` ENABLE KEYS */;
 
 #
@@ -918,7 +917,7 @@ CREATE TABLE `think_todo` (
 #
 
 /*!40000 ALTER TABLE `think_todo` DISABLE KEYS */;
-INSERT INTO `think_todo` VALUES (11,'邮件整理时显示名称错误','',1,'2013-09-26',4,'',2,NULL),(12,'日历今天样式颜色','日历今天样式颜色',1,'2013-09-26',3,'',1,NULL),(13,'12312','123123',2,'3123123',3,'',1,1),(14,'12312','123123123123123123',2,'3123123',3,'',0,NULL),(15,'待办事项确认','待办事项确认',2,'',3,'',0,NULL),(16,'新建待办事项','123',2,'',3,'',2,3),(17,'新建待办事项1','新建待办事项',2,'2013-09-19',3,'',1,2),(18,'新建待办事项','123',2,'2013-09-19',3,'',1,NULL),(19,'优先级高','',1,'2013-09-26',5,'',1,NULL),(20,'新建待办事项','1131',1,'',2,'',1,NULL),(21,'事项优先级低','',1,'2013-10-06',1,'',3,NULL);
+INSERT INTO `think_todo` VALUES (11,'邮件整理时显示名称错误','',1,'2013-09-26',4,'',2,NULL),(12,'日历今天样式颜色','日历今天样式颜色',1,'2013-11-02',3,'',3,NULL),(13,'12312','123123',2,'3123123',3,'',1,1),(14,'12312','123123123123123123',2,'3123123',3,'',0,NULL),(15,'待办事项确认','待办事项确认',2,'',3,'',0,NULL),(16,'新建待办事项','123',2,'',3,'',2,3),(17,'新建待办事项1','新建待办事项',2,'2013-09-19',3,'',1,2),(18,'新建待办事项','123',2,'2013-09-19',3,'',1,NULL),(19,'优先级高','',1,'2013-09-26',5,'',2,NULL),(20,'新建待办事项','1131',1,'',2,'',2,NULL),(21,'事项优先级低','',1,'2013-10-06',1,'',3,NULL);
 /*!40000 ALTER TABLE `think_todo` ENABLE KEYS */;
 
 #
@@ -956,7 +955,7 @@ CREATE TABLE `think_user` (
 #
 
 /*!40000 ALTER TABLE `think_user` DISABLE KEYS */;
-INSERT INTO `think_user` VALUES (1,'admin','管理员','GLY','21232f297a57a5a743894a0e4a801fc3',10,1,2,'male','2013-09-18','127.0.0.1',2010,'emp_pic/1.jpeg','smeoa@qq.com','1231254123123','123123','12123123',1222907803,1381034107,0),(2,'demo','演示','YS','fe01ce2a7fbac8fafaed7c982a04e229',9,1,3,'female','1983-03-17','127.0.0.1',117,'emp_pic/2.jpeg','XXXX','asdf','','2',1239783735,1381034084,0),(3,'member','员工','YG','202cb962ac59075b964b07152d234b70',13,1,3,'male','2012-03-15','127.0.0.1',19,'','XXXX','asd','','3',1253514375,1381034067,0),(41,'2002','2002','','4ba29b9f9e5732ed33761840f4ba6c53',4,2,0,'male','2013-10-30','127.0.0.1',NULL,'','','','','',1376896154,1381503141,0),(42,'2001','2001','','d0fb963ff976f9c37fc81fe03c21ea7b',6,3,1,'male','2013-10-10','127.0.0.1',NULL,'','','123123123','123','12312312',1380970837,1381034348,0),(43,'2003','2003','','a591024321c5e2bdbd23ed35f0574dde',4,1,3,'male','0000-00-00','127.0.0.1',NULL,'','','','','',1381035116,1381035208,0),(44,'1001','1001','','',4,2,0,'male','0000-00-00',NULL,NULL,'','','','','',1381502796,1381503154,0),(45,'123','123','','',5,0,0,'male','0000-00-00',NULL,NULL,'','','','','',1381502854,0,0),(46,'1111','1111','','',13,0,0,'male','0000-00-00',NULL,NULL,'','','','','',1381503262,1381503329,0),(47,'2222','2222','','',13,3,1,'male','0000-00-00',NULL,NULL,'','werwer','','2222wer','werwer',1381503437,0,0),(48,'3333','3333','','',8,4,2,'male','0000-00-00',NULL,NULL,'','','','','',1381503490,0,0);
+INSERT INTO `think_user` VALUES (1,'admin','管理员','GLY','21232f297a57a5a743894a0e4a801fc3',10,1,2,'male','2013-09-18','127.0.0.1',2020,'emp_pic/1.jpeg','smeoa@qq.com','1231254123123','123123','12123123',1222907803,1383483594,0),(2,'demo','演示','YS','fe01ce2a7fbac8fafaed7c982a04e229',9,1,3,'female','1983-03-17','127.0.0.1',117,'emp_pic/2.jpeg','XXXX','asdf','','2',1239783735,1381034084,0),(3,'member','员工','YG','202cb962ac59075b964b07152d234b70',13,1,3,'male','2012-03-15','127.0.0.1',19,'','XXXX','asd','','3',1253514375,1381034067,0),(41,'2002','2002','','4ba29b9f9e5732ed33761840f4ba6c53',4,2,0,'male','2013-10-30','127.0.0.1',NULL,'','','','','',1376896154,1381503141,0),(42,'2001','2001','','d0fb963ff976f9c37fc81fe03c21ea7b',6,3,1,'male','2013-10-10','127.0.0.1',NULL,'','','123123123','123','12312312',1380970837,1381034348,0),(43,'2003','2003','','a591024321c5e2bdbd23ed35f0574dde',4,1,3,'male','0000-00-00','127.0.0.1',NULL,'','','','','',1381035116,1381035208,0),(44,'1001','1001','','',4,2,0,'male','0000-00-00',NULL,NULL,'','','','','',1381502796,1381503154,0),(45,'123','123','','',5,0,0,'male','0000-00-00',NULL,NULL,'','','','','',1381502854,0,0),(46,'1111','1111','','',13,0,0,'male','0000-00-00',NULL,NULL,'','','','','',1381503262,1381503329,0),(47,'2222','2222','','',13,3,1,'male','0000-00-00',NULL,NULL,'','werwer','','2222wer','werwer',1381503437,0,0),(48,'3333','3333','','',8,4,2,'male','0000-00-00',NULL,NULL,'','','','','',1381503490,0,0);
 /*!40000 ALTER TABLE `think_user` ENABLE KEYS */;
 
 #
@@ -976,7 +975,7 @@ CREATE TABLE `think_user_config` (
 #
 
 /*!40000 ALTER TABLE `think_user_config` DISABLE KEYS */;
-INSERT INTO `think_user_config` VALUES (1,'11,13,12,|21,22,23,',13);
+INSERT INTO `think_user_config` VALUES (1,'11,13,12,|21,22,23,',10);
 /*!40000 ALTER TABLE `think_user_config` ENABLE KEYS */;
 
 #
@@ -994,13 +993,14 @@ CREATE TABLE `think_user_folder` (
   `is_del` tinyint(3) NOT NULL DEFAULT '0',
   `remark` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_user_folder"
 #
 
 /*!40000 ALTER TABLE `think_user_folder` DISABLE KEYS */;
+INSERT INTO `think_user_folder` VALUES (30,0,'MailFolder',1,'123','',0,'');
 /*!40000 ALTER TABLE `think_user_folder` ENABLE KEYS */;
 
 #

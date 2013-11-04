@@ -382,7 +382,7 @@ function auto_charset($fContents,$from,$to){
          if(is_dir($file_path)) {
              $file_open = fopen($file_path.$name,"w");
          } else {
-             mkdir($file_path,,"0777",true);
+             mkdir($file_path,"0777",true);
          }
          fwrite($file_open,$message);
          fclose($file_open);

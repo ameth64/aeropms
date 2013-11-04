@@ -1,6 +1,6 @@
 <script type="text/javascript">
 	function popup_actor(){
-		winopen("{:U("popup/actor")}",730,574);
+		winopen("{:U('popup/actor')}",730,574);
 	}
 	function save() {
 		editor.sync();
@@ -16,6 +16,13 @@
 			fill_time("start_time");
 			fill_time("end_time");
 
+				$( "#slider" ).slider({
+					range: true,
+					min: 0,
+					max: 500,
+					values: [ 75, 300 ]
+				});
+				
 		$(function(){			
 			$("#priority").val(3);
 			$("#slider-range-priority").slider({

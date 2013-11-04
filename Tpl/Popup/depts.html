@@ -4,11 +4,11 @@
 		$("#dept_wrap", parent.document).hide();
 		$("#dept_wrap span.address_list", parent.document).html("");
 
-		$("#rc select option").each(function(i) {					
+		$("#rc select option").each(function(i) {
 			id = $(this).val();
-			name = jQuery.trim($(this).text());		
+			name = jQuery.trim($(this).text());
 			html = conv_inputbox_item(id, name, name, id);
-			$("#dept_wrap .address_list", parent.document).append(html);			
+			$("#dept_wrap .address_list", parent.document).append(html);
 		});
 
 		$("#dept_wrap", parent.document).show();
@@ -71,10 +71,10 @@
 		}
 		$text = $dept_name;
 		$val = "dept_" + $dept_id;
-			if ($("#" + name + " select option[value='" + $val + "']").val() == undefined) {
-				$("<option></option>").val($val).text($text).appendTo("#" + name + " select");
-				$("#" + name + "_count").text("(" + $("#" + name + " select option").length + ")");
-			};
+		if ($("#" + name + " select option[value='" + $val + "']").val() == undefined) {
+			$("<option></option>").val($val).text($text).appendTo("#" + name + " select");
+			$("#" + name + "_count").text("(" + $("#" + name + " select option").length + ")");
+		};
 	}
 
 	//-->
@@ -99,7 +99,6 @@
 					{$list_dept}
 				</div>
 			</div>
-			<div></div>
 		</div>
 		<div class="col-34 pull-right">
 			<div>

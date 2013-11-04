@@ -1,54 +1,56 @@
 <layout name='Layout/ace_layout' />
 {:W('PageHeader',array('name'=>$folder_name,'search'=>'M'))}
-<div class="adv_search panel panel-default  display-none"  id="adv_search">
-	<div class="panel-heading">
-		<div class="row">
-			<h4 class="col-md-6">高级搜索</h4>
-			<div class="col-md-6 text-right">
-				<a  class="btn btn-sm btn-primary" onclick="adv_search();">搜索</a>
-				<a  class="btn btn-sm btn-primary" onclick="close_adv_search();">关闭</a>
+<form method="post" name="form_adv_serach" id="form_adv_serach">
+	<div class="adv_search panel panel-default  display-none"  id="adv_search">
+		<div class="panel-heading">
+			<div class="row">
+				<h4 class="col-md-6">高级搜索</h4>
+				<div class="col-md-6 text-right">
+					<a  class="btn btn-sm btn-primary" onclick="submit_adv_search();">搜索</a>
+					<a  class="btn btn-sm btn-primary" onclick="close_adv_search();">关闭</a>
+				</div>
+			</div>
+		</div>
+		<div class="panel-body">
+			<div class="form-group col-md-6">
+				<label class="col-md-4 control-label" for="li_name">标题：</label>
+				<div class="col-md-8">
+					<input  class="form-control" type="text" id="li_name" name="li_name" >
+				</div>
+			</div>
+
+			<div class="form-group col-md-6">
+				<label class="col-md-4 control-label" for="li_content">内容：</label>
+				<div class="col-md-8">
+					<input  class="form-control" type="text" id="li_content" name="li_content" >
+				</div>
+			</div>
+
+			<in name="folder" value="darftbox,outbox">
+				<div class="form-group col-md-6">
+					<label class="col-md-4 control-label" for="li_to">收件人：</label>
+					<div class="col-md-8">
+						<input  class="form-control" type="text" id="li_to" name="li_to" >
+					</div>
+				</div>
+				<else/>
+				<div class="form-group col-md-6">
+					<label class="col-md-4 control-label" for="li_from">发件人：</label>
+					<div class="col-md-8">
+						<input  class="form-control" type="text" id="li_from" name="li_from" >
+					</div>
+				</div>
+			</in>
+
+			<div class="form-group col-md-6">
+				<label class="col-md-4 control-label" for="bt_create_time">时间：</label>
+				<div class="col-md-8">
+					<input data-date-format="yyyy-mm-dd" class="form-control input-date-range" type="text" name="bt_create_time" id="bt_create_time" readonly="readonly">
+				</div>
 			</div>
 		</div>
 	</div>
-	<div class="panel-body">
-		<div class="form-group col-md-6">
-			<label class="col-md-4 control-label" for="li_name">主题：</label>
-			<div class="col-md-8">
-				<input  class="form-control" type="text" id="li_name" name="li_name" >
-			</div>
-		</div>
-
-		<div class="form-group col-md-6">
-			<label class="col-md-4 control-label" for="li_content">内容：</label>
-			<div class="col-md-8">
-				<input  class="form-control" type="text" id="li_content" name="li_content" >
-			</div>
-		</div>
-
-		<in name="folder" value="darftbox,outbox">
-			<div class="form-group col-md-6">
-				<label class="col-md-4 control-label" for="li_to">收件人：</label>
-				<div class="col-md-8">
-					<input  class="form-control" type="text" id="li_to" name="li_to" >
-				</div>
-			</div>
-			<else/>
-			<div class="form-group col-md-6">
-				<label class="col-md-4 control-label" for="li_from">发件人：</label>
-				<div class="col-md-8">
-					<input  class="form-control" type="text" id="li_from" name="li_from" >
-				</div>
-			</div>
-		</in>
-
-		<div class="form-group col-md-6">
-			<label class="col-md-4 control-label" for="bt_create_time">时间：</label>
-			<div class="col-md-8">
-				<input data-date-format="yyyy-mm-dd" class="form-control input-date-range" type="text" name="bt_create_time" id="bt_create_time"    readonly="readonly">
-			</div>
-		</div>
-	</div>
-</div>
+</form>
 <div class="operate panel panel-default">
 	<div class="panel-body">
 		<div class="left">
@@ -90,7 +92,7 @@
 					发件人
 				</in></span>
 			<span class="col-9 pull-right text-center" >时间</span>
-			<span class="autocut auto">主题</span>
+			<span class="autocut auto">标题</span>
 		</li>
 		<empty name="list">
 			<li class="no-data">

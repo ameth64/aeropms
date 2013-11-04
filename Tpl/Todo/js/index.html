@@ -63,8 +63,7 @@
 	function mark_status(val) {
 		node = $("#dialog2").attr("node");
 		if (node) {
-			sendAjax("{:U('mark_status')}", "id=" + node + "&val=" + val, function(data) {
-				alert(data.info);
+			sendAjax("{:U('mark_status')}", "id=" + node + "&val=" + val, function(data) {				
 				location.href = location.href;
 			});
 		}

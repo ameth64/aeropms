@@ -11,7 +11,6 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 class PushAction extends CommonAction {
 	protected $config=array('app_type'=>'asst');
 	//过滤查询字段
@@ -29,12 +28,12 @@ class PushAction extends CommonAction {
 			$data = $model -> where($where) -> find();
 			$where['id'] = $data['id'];
 			//dump($model);
-			if ($data) {
+			if ($data){
 				sleep(1);
 				$model -> where("id=" . $data['id']) -> delete();
 				$this -> ajaxReturn($data['data'], $data['info'], $data['status']);
 			} else {
-				sleep(2);
+				sleep(5);
 			}
 		}
 		$this -> ajaxReturn(null, "no-data", 0);
@@ -49,6 +48,5 @@ class PushAction extends CommonAction {
 		$model -> info = $info;
 		$model -> add();
 	}
-
 }
 ?>

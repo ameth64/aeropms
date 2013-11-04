@@ -1,28 +1,27 @@
 <layout name='Layout/ace_popup' />
-<script type="text/javascript" src="__PUBLIC__/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	function save() {
 		$("#rc select option").each(function(i) {
 			email = ($(this).html().split(";")[1].split("&")[0]);
 			emp_no = $(this).val();
 			name = jQuery.trim($(this).text()).replace(/<.*>/, '');
-			html = conv_inputbox_item(emp_no, name, email, emp_no);	
+			html = conv_inputbox_item(emp_no, name, email, emp_no);
 			$("#admin_list .address_list", parent.document).append(html);
 		});
-				
+
 		$("#cc select option").each(function(i) {
 			email = ($(this).html().split(";")[1].split("&")[0]);
 			emp_no = $(this).val();
 			name = jQuery.trim($(this).text()).replace(/<.*>/, '');
-			html = conv_inputbox_item(emp_no, name, email, emp_no);	
+			html = conv_inputbox_item(emp_no, name, email, emp_no);
 			$("#write_list .address_list", parent.document).append(html);
 		});
-		
+
 		$("#bcc select option").each(function(i) {
 			email = ($(this).html().split(";")[1].split("&")[0]);
 			emp_no = $(this).val();
 			name = jQuery.trim($(this).text()).replace(/<.*>/, '');
-			html = conv_inputbox_item(emp_no, name, email, emp_no);			
+			html = conv_inputbox_item(emp_no, name, email, emp_no);
 			$("#read_list .address_list", parent.document).append(html);
 		});
 		myclose();
@@ -31,7 +30,7 @@
 	function showdata(result) {
 		$("#addr_list").html("");
 		if ( type = $("input[name='type']:checked").val() == "company") {
-			var id = "dept_"+$("#company a.active").attr("node");
+			var id = "dept_" + $("#company a.active").attr("node");
 			var dept_name = $("#company a.active span").text();
 			var email = "dept@group";
 			var name = dept_name + "&lt;" + email + "&gt;";
@@ -50,19 +49,19 @@
 		}
 	}
 
-	$(document).ready(function() {
 
+	$(document).ready(function() {
+		
 		$("#rb_{$type}").prop('checked', true);
 		// 选择用户默认选择的类型
 		$("#{$type}").removeClass("display-none");
-		
-		$("input[name='type']").on('ifChanged', function() {
+
+		$("input[name='type']").on('click', function() {
 			$("input[name='type']").each(function() {
 				$("#" + $(this).val()).addClass("display-none");
 			});
 			$("#" + $(this).val()).removeClass("display-none")
 		})
-		
 		//点击节点时读取相应的数据
 		$(".tree_menu  a").click(function() {
 			$(".tree_menu a").removeClass("active");
@@ -74,7 +73,7 @@
 			return false;
 			//禁止连接生效
 		});
-		
+
 		// 双击添加到收件人 因后添加的数据 所以需要用live函数
 		$(document).on("dblclick", "#addr_list label", function() {
 			$text = $(this).text();
@@ -84,7 +83,7 @@
 				$("#rc_count").text("(" + $("#rc select option").length + ")");
 			};
 		});
-		
+
 		/* 双击添加到收件人 因后添加的数据 所以需要用live函数 */
 		$("#rc select").on("dblclick", function() {
 			$(this).find("option:selected").remove();
@@ -187,18 +186,17 @@
 <div class="panel panel-default ">
 	<div class="panel-heading clearfix">
 		<div class="pull-left">
-			<span class="checkbox">
-				<input  type="radio" id="rb_company" name="type" value="company" >
-			</span>
-			<label class="radio-inline" for="rb_company">公司</label>
-			<span class="checkbox">
-				<input  type="radio" id="rb_rank" name="type" value="rank">
-			</span>
-			<label class="radio-inline" for="rb_rank">职级</label>
-			<span class="checkbox">
-				<input  type="radio" id="rb_position" name="type" value="position">
-			</span>
-			<label class="radio-inline" for="rb_position">职位</label>
+			<label>
+				<input class="ace"  type="radio" id="rb_company" name="type" value="company" >
+				<span class="lbl">公司</span> </label>
+
+			<label>
+				<input  class="ace"  type="radio" id="rb_rank" name="type" value="rank">
+				<span class="lbl">职级</span> </label>
+
+			<label>
+				<input  class="ace"  type="radio" id="rb_position" name="type" value="position">
+				<span class="lbl">职位</span> </label>
 		</div>
 		<div class="pull-right">
 			<a  onclick="save();" class="btn btn-sm btn-primary">确定</a>

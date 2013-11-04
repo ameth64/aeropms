@@ -23,7 +23,10 @@ class HomeAction extends CommonAction {
 	}
 
 	public function index() {
-		cookie("top_menu", null);
+		$widget['jquery-ui'] = true;		
+		$this -> assign("widget", $widget);
+				
+		cookie("current_node", null);
 		$config = D("UserConfig") -> get_config();
 		$this -> assign("home_sort", $config['home_sort']);
 		$this -> mail_list();

@@ -1,5 +1,4 @@
 <layout name='Layout/ace_popup' />
-<script type="text/javascript" src="__PUBLIC__/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	function save() {
 		$("#rc select option").each(function(i) {
@@ -16,7 +15,7 @@
 	function showdata(result) {
 		$("#addr_list").html("");
 		if ( type = $("input[name='type']:checked").val() == "company") {
-			var id = "dept_"+$("#company a.active").attr("node");
+			var id = "dept_" + $("#company a.active").attr("node");
 			var dept_name = $("#company a.active span").text();
 			var email = "dept@group";
 			var name = dept_name + "&lt;" + email + "&gt;";
@@ -34,6 +33,7 @@
 			$("#addr_list").append(html_string);
 		}
 	}
+
 
 	$(document).ready(function() {
 
@@ -74,7 +74,7 @@
 			$("#rc_count").text("(" + $("#rc select option").length + ")");
 		});
 
-		$("#addr_list").on("mouseover", function(){
+		$("#addr_list").on("mouseover", function() {
 			$("#addr_list label").draggable({
 				appendTo : "body",
 				helper : "clone"
@@ -114,24 +114,23 @@
 			};
 		})
 	}
-
 	//-->
 </script>
 <div class="panel panel-default ">
 	<div class="panel-heading clearfix">
 		<div class="pull-left">
-			<span class="checkbox">
-				<input  type="radio" id="rb_company" name="type" value="company" >
-			</span>
-			<label class="radio-inline" for="rb_company">公司</label>
-			<span class="checkbox">
-				<input  type="radio" id="rb_rank" name="type" value="rank">
-			</span>
-			<label class="radio-inline" for="rb_rank">职级</label>
-			<span class="checkbox">
-				<input  type="radio" id="rb_position" name="type" value="position">
-			</span>
-			<label class="radio-inline" for="rb_position">职位</label>
+			<label>
+				<input class="ace"  type="radio" id="rb_company" name="type" value="company" >
+				<span class="lbl">公司</span> </label>
+
+			<label>
+				<input  class="ace"  type="radio" id="rb_rank" name="type" value="rank">
+				<span class="lbl">职级</span> </label>
+
+			<label>
+				<input  class="ace"  type="radio" id="rb_position" name="type" value="position">
+				<span class="lbl">职位</span> </label>
+
 		</div>
 		<div class="pull-right">
 			<a  onclick="save();" class="btn btn-sm btn-primary">确定</a>

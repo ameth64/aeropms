@@ -13,13 +13,14 @@
 
 
 class UserFolderAction extends CommonAction {
-
 	function _search_filter(&$map) {
 		$map['name'] = array('like', "%" . $_POST['name'] . "%");
 		$map['is_del'] = array('eq', '0');
 	}
 
 	function index() {
+		$this -> assign('js_file',"UserFolder:js/index");
+				
 		$node = M("UserFolder");
 		$menu = array();
 		$where['user_id'] = get_user_id();

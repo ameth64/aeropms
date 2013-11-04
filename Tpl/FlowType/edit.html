@@ -1,5 +1,5 @@
 <layout name='Layout/ace_layout' />
-{:W('PageHeader',array('name'=>array('编辑流程：',$vo.['name']),'search'=>'N'))}
+{:W('PageHeader',array('name'=>array('编辑流程：',$vo['name']),'search'=>'N'))}
 <form method='post' id="form_data" class="well form-horizontal">
 	<input type="hidden" id="id" name="id" value="{$vo.id}">
 	<input type="hidden" id="opmode" name="opmode" value="edit">
@@ -35,7 +35,7 @@
 	<div class="form-group col-md-6">
 		<label class="col-md-4 control-label" for="group">分组：</label>
 		<div class="col-md-8">
-			<select name="group" id="group" class="form-control" msg="请选择职级" check="require">
+			<select name="group" id="group" class="form-control">
 				<option>选择或录入</option>
 				{:fill_option($group_list)}
 			</select>

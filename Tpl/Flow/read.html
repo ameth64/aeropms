@@ -24,49 +24,63 @@
 	<div class="form-group col-md-6">
 		<label class="col-md-4 control-label" >文件编号：</label>
 		<div class="col-md-8">
-			<p class="form-control-static">{$vo.doc_no}</p>
+			<p class="form-control-static">
+				{$vo.doc_no}
+			</p>
 		</div>
 	</div>
 
 	<div class="form-group col-md-6">
 		<label class="col-md-4 control-label" >日期：</label>
 		<div class="col-md-8">
-			<p class="form-control-static">{$vo.create_time|toDate='Y-m-d'}</p>
+			<p class="form-control-static">
+				{$vo.create_time|toDate='Y-m-d'}
+			</p>
 		</div>
 	</div>
 
 	<div class="form-group  col-md-6">
 		<label class="col-md-4 control-label" >编写人：</label>
 		<div class="col-md-8">
-			<p class="form-control-static">{$vo.user_name}</p>
+			<p class="form-control-static">
+				{$vo.user_name}
+			</p>
 		</div>
 	</div>
 
 	<div class="form-group  col-md-6">
 		<label class="col-md-4 control-label" >部门：</label>
 		<div class="col-md-8">
-			<p class="form-control-static">{$vo.dept_name}</p>
+			<p class="form-control-static">
+				{$vo.dept_name}
+			</p>
 		</div>
 	</div>
 
 	<div class="form-group">
 		<label class="col-md-2 control-label" >裁决：</label>
 		<div class="col-md-10">
-			<p id="confirm_wrap" class="form-control-static address_list">{$vo.confirm_name}</p>
+			<p id="confirm_wrap" class="form-control-static address_list">
+				{$vo.confirm_name}
+			</p>
 		</div>
 	</div>
 
 	<div class="form-group">
 		<label class="col-md-2 control-label" >协商：</label>
 		<div class="col-md-10">
-			<p id="consult_wrap" class="form-control-static address_list">{$vo.consult_name}</p>
+			<p id="consult_wrap" class="form-control-static address_list">
+				{$vo.consult_name}
+			</p>
 		</div>
 	</div>
 
 	<div class="form-group">
 		<label class="col-md-2 control-label" >抄送：</label>
 		<div class="col-md-10">
-			<p id="refer_wrap" class="form-control-static address_list">{$vo.consult_name}</p>
+			<p id="refer_wrap" class="form-control-static address_list">
+				{$vo.consult_name}
+			</p>
 		</div>
 	</div>
 
@@ -106,8 +120,9 @@
 				<span style="width:90px;" class="text-center">{$item.create_time|toDate='Y-m-d'}</span>
 				<span style="width:90px;" class="text-center">{$item.result|show_result}</span>
 				<span class="auto">
-					<div style="overflow:hidden">{$item.comment}</div>
-				</span>
+					<div style="overflow:hidden">
+						{$item.comment}
+					</div> </span>
 			</li>
 		</volist>
 	</ul>
@@ -134,5 +149,5 @@
 				<div class="col-md-10">
 					<textarea name="comment" class="col-md-12" style="height:120px"></textarea>
 				</div>
-			</form>
-		</notempty>
+	</form>
+</notempty>

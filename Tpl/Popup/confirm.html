@@ -1,5 +1,4 @@
 <layout name='Layout/ace_popup' />
-<script type="text/javascript" src="__PUBLIC__/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	function save() {
 		$("#confirm_wrap,#consult_wrap,#refer_wrap", parent.document).hide();
@@ -58,7 +57,7 @@
 		// 选择用户默认选择的类型
 		$("#{$type}").removeClass("display-none");
 
-		$("input[name='type']").on('ifChanged', function() {
+		$("input[name='type']").on('click', function() {
 			$("input[name='type']").each(function() {
 				$("#" + $(this).val()).addClass("display-none");
 			});
@@ -188,18 +187,17 @@
 <div class="panel panel-default ">
 	<div class="panel-heading clearfix">
 		<div class="pull-left">
-			<span class="checkbox">
-				<input  type="radio" id="rb_company" name="type" value="company" >
-			</span>
-			<label class="radio-inline" for="rb_company">公司</label>
-			<span class="checkbox">
-				<input  type="radio" id="rb_rank" name="type" value="rank">
-			</span>
-			<label class="radio-inline" for="rb_rank">职级</label>
-			<span class="checkbox">
-				<input  type="radio" id="rb_position" name="type" value="position">
-			</span>
-			<label class="radio-inline" for="rb_position">职位</label>
+			<label>
+				<input class="ace"  type="radio" id="rb_company" name="type" value="company" >
+				<span class="lbl">公司</span> </label>
+
+			<label>
+				<input  class="ace"  type="radio" id="rb_rank" name="type" value="rank">
+				<span class="lbl">职级</span> </label>
+
+			<label>
+				<input  class="ace"  type="radio" id="rb_position" name="type" value="position">
+				<span class="lbl">职位</span> </label>
 		</div>
 		<div class="pull-right">
 			<a  onclick="save();" class="btn btn-sm btn-primary">确定</a>

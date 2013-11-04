@@ -23,19 +23,5 @@ class ContactModel extends CommonModel {
 		array('is_del','0',self::MODEL_INSERT),
 		array('create_time','time',self::MODEL_INSERT,'function'),
 		);
-	public function get_dept_list($id){
-        $dept = tree_to_list(list_to_tree(M("Dept")->where('is_del=0') -> select(), $id));
-        $dept = rotate($dept);
-        $dept = implode(",", $dept['id']) . ",$id";
-        $model = M("User");
-        $where['dept_id'] = array('in', $dept);
-        $data = $model -> where($where) -> select();
-        return $data;		
-	}
-	
-	public function get_dept_list_by_name($name){
-		$id = M("Dept") -> getFieldByName($name, "id");
-		$this->get_dept_list($id);
-	}
 }
 ?>

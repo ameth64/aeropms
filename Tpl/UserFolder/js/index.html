@@ -1,11 +1,11 @@
 <script type="text/javascript">
-	function add(){	
+	function add() {
 		$("#form_data :input[type='hidden']").val("");
 		$("#form_data :text").val("");
 		$("#form_data select ").each(function() {
 			$(this).find('option:first').attr('selected', 'selected');
-		});		
-		$("div.sub_left_menu a.active").removeClass("active");			
+		});
+		$("div.sub_left_menu a.active").removeClass("active");
 		$("#opmode").val("add");
 	};
 
@@ -30,15 +30,16 @@
 
 	function select_pid() {
 		if ($("div.sub_left_menu a.active").length > 0) {
-			winopen("{:U('winpop')}",730, 400);
-		} else if($("div.sub_left_menu a").length==0) {			
-			winopen("{:U('winpop')}",730, 400);
-		}else if($("#opmode").val()=="add"){
-			winopen("{:U('winpop')}",730, 400);
-		}else{
+			winopen("{:U('winpop')}", 730, 400);
+		} else if ($("div.sub_left_menu a").length == 0) {
+			winopen("{:U('winpop')}", 730, 400);
+		} else if ($("#opmode").val() == "add") {
+			winopen("{:U('winpop')}", 730, 400);
+		} else {
 			alert("请选择文件夹");
-		};
+		}
 	}
+
 
 	$(document).ready(function() {
 		$(".sub_left_menu .tree_menu  a").click(function() {

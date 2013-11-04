@@ -1,6 +1,6 @@
 <?php
 /*---------------------------------------------------------------------------
-  Ð¡Î¢OAÏµÍ³ - ÈÃ¹¤×÷¸üÇáËÉ¿ìÀÖ 
+  å°å¾®OAç³»ç»Ÿ - è®©å·¥ä½œæ›´è½»æ¾å¿«ä¹ 
 
   Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
 
@@ -15,7 +15,7 @@ class DeptGradeAction extends CommonAction {
 	protected $config=array('app_type'=>'master');
 	function _search_filter(&$map) {
 		if (!empty($_POST['keyword'])) {
-			$map['code|name'] = array('like', "%" . $_POST['keyword'] . "%");
+			$map['grade_no|name'] = array('like', "%" . $_POST['keyword'] . "%");
 		}
 	}
 

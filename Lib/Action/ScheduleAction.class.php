@@ -34,6 +34,10 @@ class ScheduleAction extends CommonAction {
 	}
 
 	function read() {
+		$widget['jquery-ui'] = true;
+		$widget['date'] = true;
+		$this -> assign("widget", $widget);
+				
 		$model = M('Schedule');
 		$id = $_REQUEST['id'];
 		$list = $_REQUEST['list'];
@@ -94,6 +98,7 @@ class ScheduleAction extends CommonAction {
 	}
 
 	public function add() {
+		$widget['jqery-ui'] = true;
 		$widget['date'] = true;
 		$this -> assign("widget", $widget);
 
@@ -127,7 +132,7 @@ class ScheduleAction extends CommonAction {
 		$this -> index();
 	}
 
-	public function read2() {
+	public function read2(){
 		$this -> read();
 	}
 

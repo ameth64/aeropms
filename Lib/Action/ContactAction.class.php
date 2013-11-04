@@ -1,19 +1,18 @@
 <?php
 /*---------------------------------------------------------------------------
-  小微OA系统 - 让工作更轻松快乐 
+ 小微OA系统 - 让工作更轻松快乐
 
-  Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
+ Copyright (c) 2013 http://www.smeoa.com All rights reserved.
 
-  Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )  
+ Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 
-  Author:  jinzhu.yin<smeoa@qq.com>                         
+ Author:  jinzhu.yin<smeoa@qq.com>
 
-  Support: https://git.oschina.net/smeoa/smeoa               
+ Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
 
-
 class ContactAction extends CommonAction {
-	protected $config=array('app_type'=>'personal');
+	protected $config = array('app_type' => 'personal');
 	//过滤查询字段
 	private $position;
 	private $rank;
@@ -29,11 +28,11 @@ class ContactAction extends CommonAction {
 		$map['user_id'] = array('eq', get_user_id());
 	}
 
-	function index(){
+	function index() {
 		$model = M("Contact");
 		$where['user_id'] = array('eq', get_user_id());
 		$list = $model -> where($where) -> select();
-		$this -> assign('list', $list);		
+		$this -> assign('list', $list);
 		$tag_data = D("UserTag") -> get_data_list();
 
 		$new = array();
@@ -52,7 +51,7 @@ class ContactAction extends CommonAction {
 
 		//导入thinkphp第三方类库
 		Vendor('Excel.PHPExcel');
-	
+
 		$inputFileName = C("SAVE_PATH") . "templete/contact.xlsx";
 		$objPHPExcel = PHPExcel_IOFactory::load($inputFileName);
 
@@ -152,7 +151,7 @@ class ContactAction extends CommonAction {
 	}
 
 	function tag_manage() {
-		$this->_tag_manage("分组管理");		
+		$this -> _tag_manage("分组管理");
 	}
 
 	function _insert() {
@@ -207,7 +206,7 @@ class ContactAction extends CommonAction {
 			$result = $model -> del_data_by_row($_POST['id']);
 		};
 		if ($result !== false) {//保存成功
-			$this -> assign('jumpUrl', $this->get_return_url());
+			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('操作成功!');
 		} else {
 			//失败提示
@@ -216,20 +215,20 @@ class ContactAction extends CommonAction {
 	}
 
 	function read() {
-			$model = M('Contact');
-			$id = $_REQUEST[$model -> getPk()];
-			$vo = $model -> getById($id);
-			$this -> assign('vo', $vo);
-			$this -> display();
+		$model = M('Contact');
+		$id = $_REQUEST[$model -> getPk()];
+		$vo = $model -> getById($id);
+		$this -> assign('vo', $vo);
+		$this -> display();
 	}
 
-	function set_tag(){
+	function set_tag() {
 		dump($_POST);
 		if (!empty($_POST['id'])) {
 			$model = D("UserTag");
 			$model -> del_data_by_row($_POST['id']);
 			if (!empty($_POST['tag'])) {
-				$result = $model -> set_tag($_POST['id'],$_POST['tag']);
+				$result = $model -> set_tag($_POST['id'], $_POST['tag']);
 			}
 		};
 
@@ -247,12 +246,13 @@ class ContactAction extends CommonAction {
 		};
 		if ($result !== false) {//保存成功
 			if ($ajax || $this -> isAjax())
-			$this -> assign('jumpUrl', $this->_get_return_url());
+				$this -> assign('jumpUrl',get_return_url());
 			$this -> success('操作成功!');
 		} else {
 			//失败提示
 			$this -> error('操作失败!');
 		}
 	}
+
 }
 ?>

@@ -13,13 +13,22 @@
 
 
 class ForumAction extends CommonAction {
-	protected $config=array('app_type'=>'common','action_auth'=>array('folder'=>'read','save_post'=>'write','edit_post'=>'write','del_post'=>'admin'),'folder_auth'=>true);
+	protected $config=array('app_type'=>'common','action_auth'=>array('folder'=>'read','save_post'=>'write','edit_post'=>'write','del_post'=>'admin','mark'=>'admin','upload'=>'write'),'folder_auth'=>true);
 	//过滤查询字段
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
 		if (!empty($_REQUEST['fid'])) {
 			$map['folder'] = $_REQUEST['fid'];
 		}
+		if (!empty($_REQUEST['keyword']) && empty($map['name'])) {
+			$keyword=$_POST['keyword'];
+			$this -> _set_search("keyword",$keyword);			
+			$where['name'] = array('like', "%" . $keyword . "%");
+			$where['content'] = array('like', "%" . $keyword . "%");
+			$where['user_name'] = array('like', "%" . $keyword . "%");
+			$where['_logic'] = 'or';
+			$map['_complex'] = $where;							
+		}		
 	}
 
 	public function _conv_data(&$item){
@@ -128,26 +137,55 @@ class ForumAction extends CommonAction {
 		$folder_name = M("SystemFolder") -> where($where) -> getField("name");
 		$this -> assign("folder_name", $folder_name);
 
-		//$this -> _assign_folder_list('/forum/folder/');
+		$this -> _assign_folder_list('/forum/folder/');
 		$this -> assign("folder_id", $folder_id);
 		$this -> display();
 		return;
 	}
 
-	public function del() {
+
+	public function mark() {
+		$action = $_REQUEST['action'];
 		$id = $_REQUEST['id'];
-		$where['id'] = array('in', explode(',', $id));
-		$list = M("Forum") -> where($where) -> getfield('id,folder');
-
-		$result = array_map(array("FolderAction", "_get_folder_auth"), $list);
-
-		foreach ($result as $key => $val) {
-			if ($val['admin'] == true) {
-				$field = 'is_del';
-				$this -> _set_field($key, $field, 0);
+		if (!empty($id)) {
+			switch ($action) {
+				case 'del' :
+					$where['id'] = array('in', $id);
+					$folder = M("Forum") -> distinct(true) -> where($where) -> field("folder") -> select();
+					if (count($folder) == 1) {
+						$auth = D("SystemFolder") -> get_folder_auth($folder[0]["folder"]);
+						if ($auth['admin'] == true) {
+							$field = 'is_del';
+							$result = $this -> _set_field($id, $field, 1);
+							if ($result) {
+								$this -> ajaxReturn('', "删除成功", 1);
+							} else {
+								$this -> ajaxReturn('', "删除失败", 0);
+							}
+						}
+					} else {
+						$this -> ajaxReturn('', "删除失败", 0);
+					}
+					break;
+				case 'move_folder' :
+					$target_folder = $_REQUEST['val'];
+					$where['id'] = array('in', $id);
+					$folder = M("Forum") -> distinct(true) -> where($where) -> field("folder") -> select();
+					if (count($folder) == 1) {
+						$auth = D("SystemFolder") -> get_folder_auth($folder[0]["folder"]);
+						if ($auth['admin'] == true) {
+							$field = 'folder';
+							$this -> _set_field($id, $field, $target_folder);
+						}
+						$this -> ajaxReturn('', "操作成功", 1);
+					} else {
+						$this -> ajaxReturn('', "操作成功", 1);
+					}
+					break;
+				default :
+					break;
 			}
 		}
-		$this -> ajaxReturn('', "删除成功", 1);
 	}
 
 	public function save_post(){
@@ -162,31 +200,6 @@ class ForumAction extends CommonAction {
 		R("post/del");
 	}
 
-	public function move_folder() {
-		$id = $_REQUEST['id'];
-		$user_id = get_user_id();
-
-		$where['id'] = array('in', explode(',', $id));
-		$list = $list = M("Forum") -> where($where) -> getfield('id,folder,user_id');
-
-		foreach ($list as $key => $val) {
-			if ($val['user_id'] == $user_id) {
-				$field = 'folder';
-				$target_folder = $_REQUEST['folder'];
-				$this -> _set_field($key, $field, $target_folder);
-			}
-		}
-
-		$list = M("Forum") -> where($where) -> getfield('id,folder');
-		$result = array_map(array("FolderAction", "_get_folder_auth"), $list);
-		foreach ($result as $key => $val) {
-			if ($val['admin'] == true) {
-				$field = 'folder';
-				$target_folder = $_REQUEST['folder'];
-				$this -> _set_field($key, $field, $target_folder, '', true);
-			}
-		}
-	}
 
 	public function upload() {
 		$this->_upload();

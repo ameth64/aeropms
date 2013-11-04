@@ -1,5 +1,6 @@
 <layout name='Layout/ace_layout' />
 {:W('PageHeader',array('name'=>'文档搜索','search'=>'M'))}
+<form method="post" name="form_adv_serach" id="form_adv_serach">
 <div class="adv_search panel panel-default  display-none"  id="adv_search">
 	<div class="panel-heading">
 		<div class="row">
@@ -38,15 +39,14 @@
 		</div>
 	</div>
 </div>
-
+</form>
 <div class="ul_table message-container">
 	<ul>
 		<li class="thead">
-			<span class="col-12">编号</span>
-			<span class="col-10">文件夹</span>
-			<span class="col-20">分类</span>
-			<span class="col-9 pull-right">登录时间</span>
-			<span class="col-6 pull-right">登录人</span>
+			<span class="col-10 text-center">编号</span>
+			<span class="col-10 text-center">文件夹</span>			
+			<span class="col-9 pull-right text-center">登录时间</span>
+			<span class="col-6 pull-right text-center">登录人</span>
 			<div class="auto autocut">
 				文件名
 			</div>
@@ -63,11 +63,10 @@
 			<ul>
 				<foreach name="list" item="vo">
 					<li class="tbody">
-						<span class="col-12 text-center">{$vo.doc_no}</span>
-						<span class="col-10 text-center autocut">&nbsp;{$vo.folder_name}&nbsp;</span>
-						<span class="col-20 text-center">{$vo.tag_name}</span>
+						<span class="col-10 text-center">{$vo.doc_no}</span>
+						<span class="col-10 text-center autocut">&nbsp;{$vo.folder_name}&nbsp;</span>					
 						<span class="col-9 pull-right text-center">&nbsp;{$vo.create_time|toDate='Y-m-d'}&nbsp;</span>
-						<span class="col-6 right text-center">{$vo.user_name}</span>
+						<span class="col-6 pull-right text-center">{$vo.user_name}</span>
 						<div class="auto autocut">
 							<a href="{:U('read?id='.$vo['id'])}"> {$vo.name}
 							<eq name="vo.name|strlen" value="0">

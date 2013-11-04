@@ -1,7 +1,7 @@
 <layout name='Layout/ace_popup' />
 <script type="text/javascript">
-		function edit(){
-	parent.window.location.href="{:U('edit?id='.$vo['id'])}";
+	function edit(){
+	parent.window.location.href='{:U("edit?id=".$vo["id"])};
 	myclose();
 	}
 	function next(){
@@ -38,12 +38,10 @@
 	fill_time("start_time");
 	fill_time("end_time");
 	show_content();
-	});</script>
+	});
+	</script>
 <div class="schedule">
 	{:W('PageHeader',array('name'=>$vo['name'],'search'=>'N'))}
-<div class="page-header">
-			<h3 class="col-xs-12">{$vo.name}</h3>
-		</div>
 	<div class="operate panel panel-default">
 		<div class="panel-body">
 			<div class="pull-left">

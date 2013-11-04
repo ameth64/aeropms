@@ -48,16 +48,16 @@
 
 
 	$(document).ready(function() {
-		$("#rb_{$type}").iCheck('check');
+		$("#rb_{$type}").prop('checked',true);
 		// 选择用户默认选择的类型
 
 		$(".{$type}").removeClass("display-none");
 
-		$("input[name='type']").on('click', function() {
+		$("input[name='type']").on('click', function() {			
 			$("input[name='type']").each(function() {
-				$("#" + $(this).val()).addClass("display-none");
+				$("." + $(this).val()).addClass("display-none");
 			});
-			$("#" + $(this).val()).removeClass("display-none")
+			$("." + $(this).val()).removeClass("display-none");
 		})
 
 		$("#emp .tree_menu  a").click(function() {
@@ -197,7 +197,7 @@
 				$val = "dgp_" + $dept_grade_id + "_" + $position_id;
 				$("<option></option>").val($val).text($text).appendTo("#" + name + " select");
 				$("#" + name + "_count").text("(" + $("#" + name + " select option").length + ")");
-				break
+				break;
 			case "dp":
 				$dept_id = $("#dept a.active").attr("node");
 				$dept_name = $("#dept a.active span").text();
@@ -217,7 +217,7 @@
 				$val = "dp_" + $dept_id + "_" + $position_id;
 				$("<option></option>").val($val).text($text).appendTo("#" + name + " select");
 				$("#" + name + "_count").text("(" + $("#" + name + " select option").length + ")");
-				break
+				break;
 			case "dept":
 				$dept_id = $("#dept a.active").attr("node");
 				$dept_name = $("#dept a.active span").text();
@@ -230,11 +230,11 @@
 				$val = "dept_" + $dept_id;
 				$("<option></option>").val($val).text($text).appendTo("#" + name + " select");
 				$("#" + name + "_count").text("(" + $("#" + name + " select option").length + ")");
-				break
+				break;
 
 			case "emp":
 				$("input:checked[name='addr_id']").each(function() {
-					$text = $(this).parents("label").find("a").text();
+					$text = $(this).parents("label").text();
 					$val = "emp_" + $(this).val();
 					if ($("#" + name + " select option[value='" + $val + "']").val() == undefined) {
 						$("<option></option>").val($val).text($text).appendTo("#" + name + " select");
@@ -248,25 +248,21 @@
 <div class="panel panel-default ">
 	<div class="panel-heading clearfix">
 		<div class="pull-left">
-			<span class="checkbox">
-				<input  type="radio" id="rb_dgp" name="type" value="dgp" >
-			</span>
-			<label class="radio-inline" for="rb_dgp">部门级别-职位</label>
+			<label>
+				<input class="ace" type="radio" id="rb_dgp" name="type" value="dgp" >
+				<span class="lbl">部门级别-职位</span> </label>
 
-			<span class="checkbox">
-				<input  type="radio" id="rb_dp" name="type" value="dp" >
-			</span>
-			<label class="radio-inline" for="rb_dp">部门-职位</label>
-
-			<span class="checkbox">
-				<input  type="radio" id="rb_dept" name="type" value="dept" >
-			</span>
-			<label class="radio-inline" for="rb_dept">部门</label>
-
-			<span class="checkbox">
-				<input  type="radio" id="rb_emp" name="type" value="emp" >
-			</span>
-			<label class="radio-inline" for="rb_emp">人员</label>
+			<label>
+				<input class="ace" type="radio" id="rb_dp" name="type" value="dp" >
+				<span class="lbl">部门-职位</span> </label>				
+	
+			<label>
+				<input class="ace" type="radio" id="rb_dept" name="type" value="dept"  >
+				<span class="lbl">部门</span> </label>		
+					
+			<label>
+				<input class="ace" type="radio" id="rb_emp" name="type" value="emp"  >
+				<span class="lbl">人员</span> </label>			
 		</div>
 		<div class="pull-right">
 			<a  onclick="save();" class="btn btn-sm btn-primary">确定</a>

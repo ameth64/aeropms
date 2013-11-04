@@ -11,7 +11,6 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 class DocModel extends CommonModel {
 	// 自动验证设置
 	protected $_validate	 =	 array(

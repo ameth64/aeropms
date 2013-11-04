@@ -1,3 +1,13 @@
+/* 填充时间*/
+function fill_time(id) {
+	for (var i = 5; i < 22; i++) {
+		val = ("0" + i);
+		val = val.substring(val.length - 2)
+		$("#" + id).append("<option value='" + val + ":00'>" + val + ":00</option>");
+		$("#" + id).append("<option value='" + val + ":30'>" + val + ":30</option>");
+	}
+}
+
 /* 获取日历背景颜色*/
 function schedule_bg(j) {
 	var myArray = new Array(5);
@@ -75,6 +85,14 @@ function toggle_adv_search() {
 		$("#toggle_adv_search_icon").removeClass("icon-chevron-down");
 	}
 }
+
+function submit_search(){
+	$("#form_search").submit();
+}
+function submit_adv_search(){
+	$("#form_adv_serach").submit();
+}
+
 
 function close_adv_search() {
 	$("#adv_search").addClass("display-none");
@@ -433,81 +451,6 @@ $(document).ready(function() {
 	$(".sidebar .nav a").click(function() {
 		click_nav_menu($(this));
 	})
-	/* 查找联系人input 功能*/
-	$(".inputbox .search li").on("click", function() {
-		name = $(this).text().replace(/<.*>/, '');
-		email = $(this).find("a").attr("title");
-		html = "<span email=\"" + email + "\"><nobr><b  title=\"" + email + "\">" + name + "</b><a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";
-		inputbox = $(this).parents(".inputbox");
-		inputbox.find("span.address_list").append(html);
-		inputbox.find("input.letter").val("");
-		inputbox.find(".search ul").html("");
-		inputbox.find(".search ul").hide();
-		inputbox.find(".search").hide();
-	})
-	/* 查找联系人input 功能*/
-	$(".inputbox .letter").keyup(function(e) {
-		switch(e.keyCode) {
-			case 40:
-				var $curr = $(this).parents(".inputbox").find(".search li.active").next();
-				if ($curr.html() != null) {
-					$(this).parents(".inputbox").find(".search li").removeClass("active");
-					$curr.addClass("active");
-				}
-				break;
-			case 38:
-				var $curr = $(this).parents(".inputbox").find(".search li.active").prev();
-				if ($curr.html() != null) {
-					$(this).parents(".inputbox").find(".search li").removeClass("active");
-					$curr.addClass("active");
-				}
-				break;
-			case 13:
-				if ($(this).parents(".inputbox").find(".search ul").html() != "") {
-					name = $(".search li.active").text().replace(/<.*>/, '');
-					email = $(".search li.active a").attr("title");
-					html = "<span email=\"" + email + "\"><nobr><b  title=\"" + email + "\">" + name + "</b><a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";
-					$(this).parents(".inputbox").find("span.address_list").append(html);
-					$(this).parents(".inputbox").find(".search ul").html("");
-					$(this).val("");
-					$(this).parents(".inputbox").find(".search ul").hide();
-				} else {
-					email = $(this).val();
-					if (validate(email, 'email')) {
-						name = email;
-						html = "<span email=\"" + email + "\"><nobr><b  title=\"" + email + "\">" + name + "</b><a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";
-						$(this).parents(".inputbox").find("span.address_list").append(html);
-						$(this).val("");
-					} else {
-						alert("邮件格式错误");
-					}
-				}
-				break;
-			default:
-				var search = $(this).parents(".inputbox").find("div.search ul");
-				if ($(this).val().length > 1) {
-					$.getJSON("/contact/json", {
-						key : $(this).val()
-					}, function(json) {
-						if (json != "") {
-							if (json.length > 0) {
-								search.html("");
-								$.each(json, function(i) {
-									search.append('<li><a title="' + json[i].email + '">' + json[i].name + '&lt;' + json[i].email + '&gt;</a></li>')
-								})
-								search.children("li:first").addClass("active");
-								search.show();
-							}
-						} else {
-							search.html("");
-							search.hide();
-						}
-					});
-				} else {
-					search.hide();
-				}
-		}
-	});
 	$('.ul_table .tbody input[type=checkbox]').removeAttr('checked');
 	$('.ul_table').delegate('.tbody input[type=checkbox]', 'click', function() {
 		$(this).closest('.tbody').toggleClass('selected');
@@ -526,7 +469,11 @@ $(document).ready(function() {
 		} else
 			ul_table.select_none();
 	});
-
+	breadcrumb="";
 	current_node = get_cookie("current_node");
-	$(".sidebar .nav a[node='" + current_node + "']").parents("li").addClass("active open");
+	$(".sidebar .nav a[node='" + current_node + "']").parents("li").each(function(){
+		$(this).addClass("active open");		
+		breadcrumb='<li>'+$(this).find("a:first").text()+'</li>'+breadcrumb;					
+	})	
+	$(".breadcrumb").append(breadcrumb);		
 }); 

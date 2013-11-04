@@ -46,8 +46,22 @@ class SystemFolderModel extends CommonModel {
 		return $list;
 	}
 
+	function get_authed_folder($user_id,$folder){
+		if(empty($folder)){
+			$folder=MODULE_NAME."Folder";
+		}
+		$folder_list=array();
+		$list=$this->where("folder='$folder'")->getField('id,id');
+		foreach ($list as $key => $val) {
+			$auth=$this->get_folder_auth($key);
+			if($auth['read']){
+				$folder_list[]=$key;
+			}
+		}
+		return $folder_list;
+	}
+	
 	function get_folder_auth($folder_id){				 
-
 		$auth_list=M("SystemFolder")->where("id=$folder_id")->Field('admin,write,read')->find();	
 		$result= array_map(array("SystemFolderModel","_check_auth"),$auth_list);
 
@@ -59,6 +73,16 @@ class SystemFolderModel extends CommonModel {
 		}
 		return $result;			
 	}
+
+	private function get_emp_list_by_dept_id($id){
+        $dept = tree_to_list(list_to_tree(M("Dept")->where('is_del=0') -> select(), $id));
+        $dept = rotate($dept);
+        $dept = implode(",", $dept['id']) . ",$id";
+        $model = M("User");
+        $where['dept_id'] = array('in', $dept);
+        $data = $model -> where($where) -> select();
+        return $data;		
+	}
 	
 	private function _check_auth($auth_list){
 			$arrtmp = explode(';', $auth_list);					
@@ -68,7 +92,7 @@ class SystemFolderModel extends CommonModel {
 						$arr_dept = explode('|', $item);
 						$dept_id=substr($arr_dept[1],5);
 						
-						$emp_list =D("Contact")->get_dept_list($dept_id);
+						$emp_list =$this->get_emp_list_by_dept_id($dept_id);
 						$emp_list=rotate($emp_list);		
 						if (in_array($_SESSION['emp_no'],$emp_list["emp_no"])){
 							return true;

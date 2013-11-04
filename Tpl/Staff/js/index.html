@@ -18,7 +18,7 @@
 			$("#sample li").attr("name", result.data[s].name);
 			$("#sample li").attr("office_tel", result.data[s].office_tel);
 			$("#sample li").attr("mobile_tel", result.data[s].mobile_tel);
-			$("#sample li").attr("pic", result.data[s].pic);
+			$("#sample li").attr("pic", result.data[s].pic+'?t=' + Math.random());
 			html = $("#sample").html();
 
 			$(".user_list ul").append(html);

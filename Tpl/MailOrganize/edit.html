@@ -1,7 +1,8 @@
 <layout name='Layout/ace_layout' />
 {:W('PageHeader',array('name'=>'修改邮件分类','search'=>'N'))}
 <form method='post' id="form_data" name="form_data"  class="well form-horizontal">
-	<input type="hidden" name="opmode" id="opmode" value="add">
+	<input type="hidden" name="id" id="id" value="{$vo.id}">
+	<input type="hidden" name="opmode" id="opmode" value="edit">
 	<div class="form-group">
 		<label class="col-md-2 control-label" for="is_del">状态：</label>
 		<div class="col-md-10">
@@ -81,14 +82,13 @@
 		<div class="col-md-10">
 			<select class="form-control col-20"  id="to" name="to" >
 				<option>移动到...</option>
-				{:fill_option($mail_folder)}
+				{:fill_option($folder_list)}
 			</select>
 		</div>
 	</div>
 
 	<div class="action">
 		<input class="btn btn-sm btn-primary" type="button" value="保存" onclick="save();">
-		<input  class="btn btn-sm btn-primary" type="button" value="取消" onclick="go_return_url();">
+		<input  class="btn btn-sm btn-default" type="button" value="取消" onclick="go_return_url();">
 	</div>
 </form>
-</div>

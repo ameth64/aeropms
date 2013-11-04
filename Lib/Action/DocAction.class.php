@@ -24,14 +24,16 @@ class DocAction extends CommonAction {
 	public function index() {
 		$widget['date-range'] = true;		
 		$this -> assign("widget", $widget);
-				
-		$user_id = get_user_id();
+									
 		$map = $this -> _search();
 		if (method_exists($this, '_search_filter')) {
 			$this -> _search_filter($map);
 		}
-
+				
+		$folder_list=D("SystemFolder")->get_authed_folder(get_user_id());
+		$map['folder']=array("in",$folder_list);
 		$model = D("DocView");
+				
 		if (!empty($model)) {
 			$this -> _list($model, $map);
 		}

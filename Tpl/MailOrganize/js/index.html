@@ -3,10 +3,9 @@
 		window.open("{:U('add')}", "_self");
 	}
 
-	function del(id){
-		yes=confirm('确定要删除吗？')
-		if (yes)
-		{
+	function del(id) {
+		yes = confirm('确定要删除吗？')
+		if (yes) {
 			window.open(fix_url("{:U('del')}?id=" + id), "_self");
 		}
 	}
