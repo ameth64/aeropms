@@ -2,6 +2,7 @@
 <script type="text/javascript">
 	function save() {
 		$("#confirm_wrap,#consult_wrap,#refer_wrap", parent.document).hide();
+		$("#confirm_wrap,#consult_wrap,#refer_wrap", parent.document).html("");
 
 		$("#rc select option").each(function(i) {
 			$("#confirm_wrap", parent.document).append('<span emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + ' </span>');
@@ -43,15 +44,14 @@
 			var emp_no = result.data[s].emp_no;
 			var email = result.data[s].email;
 			var name = result.data[s].name;
-			var name = name + "/" + position_name + "&lt;" + email + "&gt;";
-			var html_string = conv_address_item(id, name);
+			var name = name + "/" + position_name ;
+			var html_string = conv_address_item(emp_no, name);
 			$("#addr_list").append(html_string);
 		}
 	}
 
-
-	$(document).ready(function() {
-
+	$(document).ready(function(){
+		
 		$("#rb_{$type}").prop('checked', true);
 		// 选择用户默认选择的类型
 		$("#{$type}").removeClass("display-none");

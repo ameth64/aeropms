@@ -1,32 +1,28 @@
 <layout name='Layout/ace_popup' />
 <script type="text/javascript">
 	function save() {
-		$("#confirm_wrap", parent.document).hide();
-		$("#consult_wrap", parent.document).hide();
-		$("#refer_wrap", parent.document).hide();
+		$("#confirm_wrap,#confirm_wrap ,#refer_wrap", parent.document).hide();
+		$("#confirm_wrap .address_list,#confirm_wrap .address_list,#refer_wrap .address_list", parent.document).html("");
 
 		$("#rc select option").each(function(i) {
-			$("#confirm_wrap span.address_list", parent.document).append('<span emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + ' </span>');
+			$("#confirm_wrap .address_list", parent.document).append('<span emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + ' </span>');
 		});
 		$("#cc select option").each(function(i) {
-			$("#consult_wrap span.address_list", parent.document).append('<span  emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + ' </span>');
+			$("#consult_wrap .address_list", parent.document).append('<span  emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + ' </span>');
 		});
 		$("#bcc select option").each(function(i) {
-			$("#refer_wrap span.address_list", parent.document).append('<span emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + '; </span>');
+			$("#refer_wrap .address_list", parent.document).append('<span emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + '; </span>');
 		});
 
 		$("#confirm_wrap span b", parent.document).remove();
-		$("#confirm_wrap span.address_list span", parent.document).append("<b><i class=\"icon-arrow-right\"></i></b>");	
-		$("#confirm_wrap span.address_list span b:last", parent.document).remove();
+		$("#confirm_wrap .address_list span", parent.document).append("<b><i class=\"icon-arrow-right\"></i></b>");	
+		$("#confirm_wrap .address_list span b:last", parent.document).remove();
 
 		$("#consult_wrap span b", parent.document).remove();
-		$("#consult_wrap span.address_list span", parent.document).append("<b><i class=\"icon-arrow-right\"></i></b>");
-		$("#consult_wrap span.address_list span b:last", parent.document).remove();
-
-		$("#confirm_wrap", parent.document).show();
-		$("#consult_wrap", parent.document).show();
-		$("#refer_wrap", parent.document).show();
+		$("#consult_wrap .address_list span", parent.document).append("<b><i class=\"icon-arrow-right\"></i></b>");
+		$("#consult_wrap .address_list span b:last", parent.document).remove();
 		
+		$("#confirm_wrap,#confirm_wrap,#refer_wrap", parent.document).show();		
 		myclose();
 	}
 
