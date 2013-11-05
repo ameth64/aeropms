@@ -825,22 +825,7 @@ $(document).ready(function() {
 	$(".inputbox input.letter").blur(function(e) {
 		$(this).parents(".inputbox").removeClass("focus");
 	})
-	/* select 可以手动输入*/
-	$("select.writeable").keypress(function(e) {
-		if (this.options[0].text == "选择或录入") {
-			this.options[0].text = '';
-		}
-		this.options[0].selected = "selected";
-		this.options[0].text = this.options[0].text + String.fromCharCode(event.keyCode);
-		this.options[0].value = this.options[0].text;
-		e.returnValue = false;
-	});
-	/* select 可以手动输入*/
-	$("select.writeable").keydown(function(e) {
-		if (e.keyCode == 46) {
-			this.options[0].text = '';
-		}
-	});
+
 
 	/* 双击删除已选联系人*/
 	$(".address_list span").on("dblclick", function() {

@@ -1,5 +1,5 @@
 <script type="text/javascript">
-	function save() {
+	function save(){
 		$("#confirm").val("");
 		$("#confirm_wrap  span.address_list span").each(function() {
 			$("#confirm").val($("#confirm").val() + $(this).attr("emp_no") + '|');
@@ -34,8 +34,23 @@
 		winopen("{:U('popup/flow')}", 730, 574);
 	}
 
-
 	$(document).ready(function() {
-		set_val('group','$vo.group');
+		set_val('group', '$vo.group');
+		/* select 可以手动输入*/
+		$("select.writeable").keypress(function(e) {
+			if (this.options[0].text == "选择或录入") {
+				this.options[0].text = '';
+			}
+			this.options[0].selected = "selected";
+			this.options[0].text = this.options[0].text + String.fromCharCode(event.keyCode);
+			this.options[0].value = this.options[0].text;
+			e.returnValue = false;
+		});
+		/* select 可以手动输入*/
+		$("select.writeable").keydown(function(e) {
+			if (e.keyCode == 46) {
+				this.options[0].text = '';
+			}
+		});
 	}); 
 </script>

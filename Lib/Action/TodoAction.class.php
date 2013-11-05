@@ -82,6 +82,7 @@ class TodoAction extends CommonAction {
 	}
 
 	public function add() {
+		$widget['jquery-ui'] = true;			
 		$widget['date'] = true;					
 		$widget['uploader'] = true;
 		$widget['editor'] = true;
@@ -90,6 +91,7 @@ class TodoAction extends CommonAction {
 	}
 
 	public function edit() {
+		$widget['jquery-ui'] = true;				
 		$widget['date'] = true;						
 		$widget['uploader'] = true;
 		$widget['editor'] = true;

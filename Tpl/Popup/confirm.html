@@ -14,16 +14,15 @@
 		});
 
 		$("#confirm_wrap span b", parent.document).remove();
-		$("#confirm_wrap span", parent.document).append("<b><i class=\"icon-arrow-right\"></i></b>");	
+		$("#confirm_wrap span", parent.document).append("<b><i class=\"icon-arrow-right\"></i></b>");
 		$("#confirm_wrap span b:last", parent.document).remove();
-
 
 		$("#consult_wrap span b", parent.document).remove();
 
 		$("#consult_wrap span", parent.document).append("<b><i class=\"icon-arrow-right\"></i></b>");
 		$("#consult_wrap span b:last", parent.document).remove();
 
-		$("#confirm_wrap,#consult_wrap,#refer_wrap", parent.document).show();	
+		$("#confirm_wrap,#consult_wrap,#refer_wrap", parent.document).show();
 		myclose();
 	}
 
@@ -31,7 +30,7 @@
 	function showdata(result) {
 		$("#addr_list").html("");
 		if ( type = $("input[name='type']:checked").val() == "company") {
-			var id = "dept_"+$("#company a.active").attr("node");
+			var id = "dept_" + $("#company a.active").attr("node");
 			var dept_name = $("#company a.active span").text();
 			var email = "dept@group";
 			var name = dept_name + "&lt;" + email + "&gt;";
@@ -63,7 +62,6 @@
 			});
 			$("#" + $(this).val()).removeClass("display-none")
 		})
-		
 		//点击节点时读取相应的数据
 		$(".tree_menu  a").click(function() {
 			$(".tree_menu a").removeClass("active");
@@ -77,7 +75,7 @@
 		});
 
 		$(document).on("dblclick", "#addr_list label", function() {
-			$text = $(this).text();
+			$text = $(this).find("span").text();
 			$val = $(this).find("input").val();
 			if ($("#rc select option[value='" + $val + "']").val() == undefined) {
 				$("<option></option>").val($val).text($text).appendTo("#rc select");
@@ -173,10 +171,10 @@
 
 	function add_address(name) {
 		$("input:checked[name='addr_id']").each(function() {
-			$text = $(this).parents("label").find("a").text();
+			$text = $(this).parents("label").find("span").text();
 			$val = $(this).val();
 			if ($("#" + name + " select option[value='" + $val + "']").val() == undefined) {
-				$("<option></option>").val($val).text($text).appendTo(this);
+				$("<option></option>").val($val).text($text).appendTo("#" + name + " select");
 				$("#" + name + "_count").text("(" + $("#" + name + " select option").length + ")");
 			};
 		})
@@ -190,11 +188,9 @@
 			<label>
 				<input class="ace"  type="radio" id="rb_company" name="type" value="company" >
 				<span class="lbl">公司</span> </label>
-
 			<label>
 				<input  class="ace"  type="radio" id="rb_rank" name="type" value="rank">
 				<span class="lbl">职级</span> </label>
-
 			<label>
 				<input  class="ace"  type="radio" id="rb_position" name="type" value="position">
 				<span class="lbl">职位</span> </label>
