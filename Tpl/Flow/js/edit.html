@@ -29,9 +29,9 @@
 		}
 	}
 
-	function select_confirm() {
-		winopen("{:U('popup/confirm')}",730,500);
-	};
+	function popup_confirm() {
+		winopen("{:U('popup/confirm')}", 730, 574);
+	}
 
 	$(document).ready(function() {
 		$("#confirm span").on("dblclick", function() {
@@ -39,6 +39,6 @@
 		});
 		$("#consult span").on("dblclick", function() {
 			$("#consult span").last().find("b").remove();
-		});		
+		});
 	}); 
 </script>

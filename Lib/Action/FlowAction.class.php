@@ -126,12 +126,14 @@ class FlowAction extends CommonAction {
 		$this -> edit();
 	}
 
-	function edit() {
-			
-		$widget['uploader']=true;
+	function _before_edit(){
+				$widget['uploader']=true;
 		$widget['editor']=true;
 		$this->assign("widget",$widget);
-			
+	}
+	
+	function edit() {
+								
 		$model = D("Flow");
 		$id = $_REQUEST['id'];
 		$vo = $model -> getById($id);

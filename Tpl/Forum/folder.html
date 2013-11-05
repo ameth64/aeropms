@@ -4,10 +4,10 @@
 <div class="adv_search panel panel-default display-none" id="adv_search">
 	<div class="panel-heading">
 		<div class="row">
-			<h4 class="col-md-6">高级搜索</h4>
-			<div class="col-md-6 text-right">
-				<a  class="btn btn-sm btn-primary" onclick="submit_adv_search();">搜索</a>
-				<a  class="btn btn-sm btn-primary" onclick="close_adv_search();">关闭</a>
+			<h4 class="col-xs-6">高级搜索</h4>
+			<div class="col-xs-6 text-right">
+				<a  class="btn btn-sm btn-info" onclick="submit_adv_search();">搜索</a>
+				<a  class="btn btn-sm " onclick="close_adv_search();">关闭</a>
 			</div>
 		</div>
 	</div>
@@ -52,7 +52,7 @@
 
 		<div class="pull-left">
 			<if condition="$auth['admin']">
-				<a onclick="mark('del');" class="btn btn-sm btn-primary">删除</a>
+				<a onclick="mark('del');" class="btn btn-sm btn-danger">删除</a>
 				<div class="btn-group"  id="move_to">
 					<a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" href="#"> 转移到 <span class="caret"></span> </a>
 					<ul class="dropdown-menu">

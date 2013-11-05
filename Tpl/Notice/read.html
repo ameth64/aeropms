@@ -6,7 +6,7 @@
 		<div class="pull-left">
 			<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
 			<if condition="$auth['admin']">
-				<a onclick="del();" class="btn btn-sm btn-primary">删除</a>
+				<a onclick="del();" class="btn btn-sm btn-danger">删除</a>
 			</if>
 		</div>
 		<div class="pull-right">
@@ -56,7 +56,7 @@
 	</div>
 	<div class="clearfix"></div>
 	<div class="form-group">
-		<div class="col-md-12">
+		<div class="col-xs-12">
 			<div id="content_wrap" >
 				<iframe id="content_iframe"></iframe>
 			</div>
