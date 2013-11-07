@@ -38,7 +38,6 @@
 			set_return_url();
 
 			$(document).on("click","a.event_msg",(function(){
-			
 				var msg_list = "";
 				current = $(this).attr('id');
 				$("a#" + current).parent().parent().find('a.event_msg').each(function() {

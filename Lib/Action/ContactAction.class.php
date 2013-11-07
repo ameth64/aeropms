@@ -193,17 +193,18 @@ class ContactAction extends CommonAction {
 	}
 
 	function del() {
-		if (!empty($_POST['id'])) {
+		if (!empty($_POST['id[]'])) {
 			$model = M("Contact");
-			$contact_list = $_POST['id'];
+			$contact_list = $_POST['id[]'];
 			if (!is_array($contact_list)) {
 				$contact_list = explode(",", $contact_list);
 			}
 			$where['id'] = array('in', $contact_list);
 			$where['user_id'] = get_user_id();
 			$model -> where($where) -> delete();
+			
 			$model = D("UserTag");
-			$result = $model -> del_data_by_row($_POST['id']);
+			$result = $model -> del_data_by_row($contact_list);
 		};
 		if ($result !== false) {//保存成功
 			$this -> assign('jumpUrl', get_return_url());

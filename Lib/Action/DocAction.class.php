@@ -52,6 +52,7 @@ class DocAction extends CommonAction {
 		$this -> assign("widget", $widget);
 
 		$this -> assign('auth', $this -> config['auth']);
+		
 		$model = D("Doc");
 		$map = $this -> _search();
 		if (method_exists($this, '_search_filter')) {

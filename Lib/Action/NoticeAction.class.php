@@ -43,11 +43,11 @@ class NoticeAction extends CommonAction {
 
 	public function mark(){
 		$action = $_REQUEST['action'];
-		$id = $_REQUEST['id'];
+		$id = $_REQUEST['id'];		
 		switch ($action) {
 			case 'del' :
 				$where['id'] = array('in', $id);
-				$folder = M("Doc") -> distinct(true) -> where($where) -> field("folder") -> select();
+				$folder = M("Notice") -> distinct(true) -> where($where) -> field("folder") -> select();
 				if (count($folder) == 1) {
 					$auth = D("SystemFolder") -> get_folder_auth($folder[0]["folder"]);
 					if ($auth['admin'] == true) {

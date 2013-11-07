@@ -191,21 +191,20 @@ class SupplierAction extends CommonAction {
 	}
 
 	function del() {
-		if (!empty($_POST['supplier_id'])) {
+		if (!empty($_POST['id[]'])) {
 			$model = M("Supplier");
-			$Supplier_list = $_POST['supplier_id'];
-			if (!is_array($Supplier_list)) {
-				$Supplier_list = explode(",", $Supplier_list);
+			$contact_list = $_POST['id[]'];
+			if (!is_array($contact_list)) {
+				$contact_list = explode(",", $contact_list);
 			}
-			$where['id'] = array('in', $Supplier_list);
+			$where['id'] = array('in', $contact_list);
 			$where['user_id'] = get_user_id();
 			$model -> where($where) -> delete();
-			$model = D("SystemTag");
-			$result = $model -> del_data_by_row($_POST['supplier_id'], 'Supplier');
+			
+			$model = D("UserTag");
+			$result = $model -> del_data_by_row($contact_list);
 		};
 		if ($result !== false) {//保存成功
-			if ($ajax || $this -> isAjax())
-				$this -> ajaxReturn($list, "操作成功", 1);
 			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('操作成功!');
 		} else {

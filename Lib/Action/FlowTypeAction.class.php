@@ -11,7 +11,6 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 class FlowTypeAction extends CommonAction {
 	protected $config=array('app_type'=>'master');
 
@@ -76,44 +75,6 @@ class FlowTypeAction extends CommonAction {
 		$this -> group_list();
 		$user_id = get_user_id();
 		$this -> assign("user_id", $user_id);
-	}
-
-	function insert() {
-		$ajax = $_POST['ajax'];
-		$model = D('FlowType');
-
-		if (false === $model -> create()) {
-			$this -> error($model -> getError());
-		}
-		$model -> __set('letter', get_letter($model -> __get('name')));
-		//保存当前数据对象
-		$list = $model -> add();
-		if ($list !== false) {//保存成功
-			$this -> assign('jumpUrl', get_return_url());
-			$this -> success('新增成功!');
-		} else {
-			//失败提示
-			$this -> error('新增失败!');
-		}
-	}
-
-	function update() {
-		$id = $_POST['id'];
-		$model = D("FlowType");
-		if (false === $model -> create()) {
-			$this -> error($model -> getError());
-		}
-		// 更新数据
-
-		$list = $model -> save();
-		if (false !== $list) {
-			//成功提示
-			$this -> assign('jumpUrl', get_return_url());
-			$this -> success('编辑成功!');
-		} else {
-			//错误提示
-			$this -> error('编辑失败!');
-		}
 	}
 
 	function ajaxRead() {

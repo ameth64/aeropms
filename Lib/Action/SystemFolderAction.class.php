@@ -12,7 +12,7 @@
  -------------------------------------------------------------------------*/
 
 class SystemFolderAction extends CommonAction {
-	protected $config = array('app_type' => 'master');
+	protected $config = array('app_type' => 'asst');
 	
 	//过滤查询字段
 	function _search_filter(&$map) {

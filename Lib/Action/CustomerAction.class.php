@@ -190,23 +190,22 @@ class CustomerAction extends CommonAction {
 			$this -> error('编辑失败!');
 		}
 	}
-
+	
 	function del() {
-		if (!empty($_POST['customer_id'])) {
+		if (!empty($_POST['id[]'])) {
 			$model = M("Customer");
-			$Customer_list = $_POST['customer_id'];
-			if (!is_array($Customer_list)) {
-				$Customer_list = explode(",", $Customer_list);
+			$contact_list = $_POST['id[]'];
+			if (!is_array($contact_list)) {
+				$contact_list = explode(",", $contact_list);
 			}
-			$where['id'] = array('in', $Customer_list);
-			$where['user_id'] = get_user_id();
-			$model -> where($where) -> delete();
-			$model = D("SystemTag");
-			$result = $model -> del_data_by_row($_POST['customer_id'], 'Customer');
+			$where['id'] = array('in', $contact_list);
+			//$where['user_id'] = get_user_id();
+			dump($model -> where($where) ->select());
+			die;
+			$model = D("UserTag");
+			$result = $model -> del_data_by_row($contact_list);
 		};
 		if ($result !== false) {//保存成功
-			if ($ajax || $this -> isAjax())
-				$this -> ajaxReturn($list, "操作成功", 1);
 			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('操作成功!');
 		} else {

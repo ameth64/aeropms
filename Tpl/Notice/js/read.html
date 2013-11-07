@@ -2,12 +2,16 @@
 	$(function() {
 		show_content();
 	});
+	
 	function del() {
-		sendAjax("{:U('del')}", 'id=' + $("#id").val(), function(data) {
-			if (data.status) {
-				alert(data.info);
-			}
-		});
+		if (confirm('确定要删除吗?')) {
+			sendAjax("{:U('mark?action=del')}", 'id=' + $("#id").val(), function(data) {
+				if (data.status){
+					alert(data.info);
+					go_return_url();
+				}
+			});
+		}
 	}
 
 	function attach_down(obj) {

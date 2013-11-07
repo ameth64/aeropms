@@ -101,7 +101,7 @@
 								<volist name="new_notice_list" id="vo">
 									<li>
 										<span class="pull-right hidden-phone">{$vo.start_date}</span>
-										<span  class="auto autocut"> <a href="{:U('doc/edit?id='.$vo['id'])}" node="91|152" return_url="{:U('doc/index')}">{$vo.name}</a> </span>
+										<span  class="auto autocut"> <a href="{:U('notice/read?id='.$vo['id'])}" node="91|152" return_url="{:U('doc/index')}">{$vo.name}</a> </span>
 									</li>
 								</volist>
 							</ul>
@@ -165,7 +165,7 @@
 								<volist name="doc_list" id="vo">
 									<li>
 										<span class="pull-right hidden-phone">{$vo.start_date}</span>
-										<span  class="auto autocut"> <a href="{:U('doc/edit?id='.$vo['id'])}" node="91|152" return_url="{:U('doc/index')}">{$vo.name}</a> </span>
+										<span  class="auto autocut"> <a href="{:U('doc/read?id='.$vo['id'])}" node="91|152" return_url="{:U('doc/index')}">{$vo.name}</a> </span>
 									</li>
 								</volist>
 							</ul>

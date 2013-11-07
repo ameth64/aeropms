@@ -3,8 +3,8 @@
 		var vars = $("#form_data").serialize();
 		switch(action) {
 			case "del":
-				if (confirm('È·¶¨ÒªÉ¾³ıÂğ?')) {
-					sendAjax("{:U('Doc/mark?action=del')}", vars, function(data) {
+				if (confirm('ç¡®å®šè¦åˆ é™¤å—?')) {
+					sendAjax("{:U('mark?action=del')}", vars, function(data) {
 						if (data.status) {
 							alert(data.info);
 							$("input[name='id[]']:checkbox:checked").each(function() {

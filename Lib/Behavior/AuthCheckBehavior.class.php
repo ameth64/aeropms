@@ -100,7 +100,9 @@ class AuthCheckBehavior extends Behavior {
 		$module_list = array_map("get_module", $module_list);
 		$module_list = str_replace("_", "", $module_list);
 		//dump($module_list);
-
+		
+		
+		//dump($access_list);
 		$access_list_admin = array_filter(array_combine($module_list, $access_list['admin']));
 		$access_list_write = array_filter(array_combine($module_list, $access_list['write']));
 		$access_list_read = array_filter(array_combine($module_list, $access_list['read']));

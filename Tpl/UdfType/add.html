@@ -1,0 +1,81 @@
+<layout name='Layout/ace_layout' />
+{:W('PageHeader',array('name'=>'新建自助查询','search'=>'N'))}
+<form method='post' id="form_data" class="well form-horizontal">
+	<input type="hidden" id="opmode" name="opmode" value="add">
+	<input type="hidden" id="ajax" name="ajax" value="1">
+	<input type="hidden" id="confirm" name="confirm" >
+	<input type="hidden" id="confirm_name" name="confirm_name" >
+	<input type="hidden" id="consult" name="consult" >
+	<input type="hidden" id="consult_name" name="consult_name">
+	<input type="hidden" id="refer" name="refer">
+	<input type="hidden" id="refer_name" name="refer_name" >
+	<div class="form-group">
+		<label class="col-md-2 control-label" for="name">标题*：</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" id="name" name="name" check="require" msg="请输入姓名">
+		</div>
+	</div>
+
+	<div class="form-group col-md-6">
+		<label class="col-md-4 control-label" for="folder">文件夹*：</label>
+		<div class="col-md-8">
+			<input class="form-control" type="text" id="folder" name="folder" check="require" msg="请输入文件夹">
+		</div>
+	</div>
+
+	<div class="form-group col-md-6">
+		<label class="col-md-4 control-label" for="delimiter">分隔符*：</label>
+		<div class="col-md-8">
+			<input class="form-control" type="text" id="delimiter" name="delimiter" check="require" msg="请输入分隔符">
+		</div>
+	</div>
+
+	<div class="form-group col-md-6">
+		<label class="col-md-4 control-label" for="first_row">第一行</label>
+		<div class="col-md-8">
+			<input class="form-control" type="text" id="first_row" name="first_row" check="require" msg="请输入第一行">
+		</div>
+	</div>
+
+	<div class="form-group col-md-6">
+		<label class="col-md-4 control-label" for="field_count">列数：</label>
+		<div class="col-md-8">
+			<input class="form-control" type="text" id="field_count" name="field_count" >
+		</div>
+	</div>
+
+	<div class="form-group col-md-6">
+		<label class="col-md-4 control-label" for="is_unique">唯一性</label>
+		<div class="col-md-8">
+			<select class="form-control" name="is_unique" id="is_unique">
+				<option value="1" >启用</option>
+				<option value="0">禁用</option>
+			</select>
+		</div>
+	</div>
+	<div class="form-group col-md-6">
+		<label class="col-md-4 control-label" for="is_del">状态</label>
+		<div class="col-md-8">
+			<select class="form-control" name="is_del" id="is_del">
+				<option value="0" >启用</option>
+				<option value="1">禁用</option>
+			</select>
+		</div>
+	</div>	
+	<div class="form-group">
+		<label class="col-md-2 control-label" for="field_name">字段名*：</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" id="field_name" name="field_name" check="require" msg="请输入字段名">
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-md-2 control-label" for="field_width">字段宽度*：</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" id="field_width" name="field_width" check="require" msg="请输入字段名">
+		</div>
+	</div>
+	<div class="action">
+		<input class="btn btn-sm btn-primary" type="button" value="保存" onclick="save();">
+		<input  class="btn btn-sm btn-default" type="button" value="取消" onclick="go_return_url();">
+	</div>
+</form>

@@ -13,7 +13,7 @@
 
 // 后台用户模块
 class UserAction extends CommonAction {
-	protected $config=array('app_type'=>'master');
+	protected $config=array('app_type'=>'master','action_auth'=>array('password'=>'admin','reset_pwd'=>'admin'));
 	
 	function _search_filter(&$map) {
 		if (!empty($_POST['keyword'])) {

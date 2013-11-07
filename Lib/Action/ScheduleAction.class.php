@@ -98,10 +98,8 @@ class ScheduleAction extends CommonAction {
 	}
 
 	public function add() {
-		$widget['jqery-ui'] = true;
-		$widget['date'] = true;
-		$this -> assign("widget", $widget);
-
+		$widget['jquery-ui'] = true;
+		$widget['date'] = true;	
 		$widget['uploader'] = true;
 		$widget['editor'] = true;
 		$this -> assign("widget", $widget);
@@ -110,8 +108,8 @@ class ScheduleAction extends CommonAction {
 	}
 
 	public function edit() {
-		$widget['date-range'] = true;
-		$this -> assign("widget", $widget);
+		$widget['jquery-ui'] = true;
+		$widget['date'] = true;		
 		$widget['uploader'] = true;
 		$widget['editor'] = true;
 		$this -> assign("widget", $widget);

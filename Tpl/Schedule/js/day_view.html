@@ -58,7 +58,6 @@
 			window.open("{:U('day_view')}", "_self");
 		}
 
-
 		$(document).ready(function() {
 			initial();
 			set_return_url();
@@ -67,7 +66,7 @@
 				$(this).addClass("active");
 			});
 
-			$("p.event_msg").on("click", (function() {
+			$(document).on("click","p.event_msg",(function(){
 				var msg_list = "";
 				current = $(this).attr('id');
 				$("p#" + current).parent().parent().find('p.event_msg').each(function() {

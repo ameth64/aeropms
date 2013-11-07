@@ -51,27 +51,35 @@
 		<label class="col-md-4 control-label" for="is_del">状态：</label>
 		<div class="col-md-8">
 			<select class="form-control" name="is_del" id="is_del">
-				<option value="1" >启用</option>
+				<option value="0" >启用</option>
 				<option value="1">禁用</option>
 			</select>
 		</div>
 	</div>
 	<div class="clearfix"></div>
-	<div class="form-group">
+	<div class="form-group ">
 		<div class="col-xs-12">
 			<textarea id="content" name="content" style="width:100%;height:300px;">{$vo.content}</textarea>
 		</div>
 	</div>
-
-	<div class="form-group col-xs-12">
-		<label class="col-md-2 control-label" for="type">流程类型：</label>
-		<div class="col-md-10">
+	<div class="form-group col-md-6">
+		<label class="col-md-4 control-label" for="type">流程类型：</label>
+		<div class="col-md-8">
 			<select class="form-control col-10" name="type" id="type" type="select-one">
 				<option value="0" >自由</option>
 				<option value="1">固定</option>
 			</select>
 		</div>
 	</div>
+	<div class="form-group col-md-6">
+		<label class="col-md-4 control-label" for="is_edit">可编辑：</label>
+		<div class="col-md-8">
+			<select class="form-control col-10" name="is_edit" id="is_edit">
+				<option value="1" >启用</option>
+				<option value="0">禁用</option>
+			</select>
+		</div>
+	</div>	
 	<div class="form-group col-xs-12">
 		<label class="col-md-2 control-label" for="type">裁决步骤：</label>
 		<div class="col-md-10">

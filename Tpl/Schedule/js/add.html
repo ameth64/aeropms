@@ -15,15 +15,7 @@
 	$(document).ready(function() {
 			fill_time("start_time");
 			fill_time("end_time");
-
-				$( "#slider" ).slider({
-					range: true,
-					min: 0,
-					max: 500,
-					values: [ 75, 300 ]
-				});
-				
-		$(function(){			
+								
 			$("#priority").val(3);
 			$("#slider-range-priority").slider({
 				range : "min",
@@ -37,7 +29,6 @@
 				}
 			});
 			$("div.slider_box div.ui-slider").css( "background-color", schedule_bg(3));
-			$("div.slider_box div.ui-widget-header").css("background-color", schedule_bg(3));
-		})
+			$("div.slider_box div.ui-widget-header").css("background-color", schedule_bg(3));		
 	});
 </script>
