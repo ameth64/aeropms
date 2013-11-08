@@ -69,7 +69,7 @@ class MailAction extends CommonAction {
 		if ($folder == "receve") {
 			$this -> assign("receve", true);
 			$folder = "inbox";
-			cookie('left_menu', 101);
+			cookie('current_node', 101);
 		}
 		$this -> assign("folder", $folder);
 
@@ -450,59 +450,63 @@ class MailAction extends CommonAction {
 	//--------------------------------------------------------------------
 	//   接收邮件
 	//--------------------------------------------------------------------
-	public function receve() {
+	public function receve(){
 		$new = 0;
 		$this -> _get_mail_account();
 		$user_id = get_user_id();
-		session_write_close();
-
-		vendor("Mail.class#receve2");
-		$mail_list = array();
-		$mail = new receiveMail();
-		$connect = $mail -> connect($this -> _account['pop3svr'], '110', $this -> _account['mail_id'], $this -> _account['mail_pwd'], 'INBOX', 'pop3');
-
-		$mail_count = $mail -> mail_total_count();
-
-		if ($connect) {
-			for ($i = 1; $i < $mail_count; $i++) {
-				$mail_id = $mail_count - $i + 1;
-				$item = $mail -> mail_list($mail_id);
-				$where = array();
-
-				$where['user_id'] = $user_id;
-				$where['mid'] = $item[$mail_id];
-				$count = M('Mail') -> where($where) -> count();
-
-				if (empty($item[$mail_id])) {//mid 空时当成新邮件处理
-					$count = 0;
-				}
-				if ($count == 0) {
-					$new++;
-					$model = M("Mail");
-					$model -> create($mail -> mail_header($mail_id));
-					if ($model -> create_time < strtotime(date('y-m-d h:i:s')) - 86400 * 30) {
-						$mail -> close_mail();
-						$this -> _pushReturn($new, "收到" . $new . "封邮件", 1);
+		if(session('mail_receve'.$user_id)!==true){
+			session('mail_receve'.$user_id,true);
+			session_write_close();
+			vendor("Mail.class#receve2");
+			$mail_list = array();
+			$mail = new receiveMail();
+			$connect = $mail -> connect($this -> _account['pop3svr'], '110', $this -> _account['mail_id'], $this -> _account['mail_pwd'], 'INBOX', 'pop3');
+	
+			$mail_count = $mail -> mail_total_count();
+	
+			if ($connect) {
+				for ($i = 1; $i < $mail_count; $i++) {
+					$mail_id = $mail_count - $i + 1;
+					$item = $mail -> mail_list($mail_id);
+					$where = array();
+	
+					$where['user_id'] = $user_id;
+					$where['mid'] = $item[$mail_id];
+					$count = M('Mail') -> where($where) -> count();
+	
+					if (empty($item[$mail_id])) {//mid 空时当成新邮件处理
+						$count = 0;
 					}
-					$model -> user_id = $user_id;
-					$model -> read = 0;
-					$model -> folder = 1;
-					$model -> is_del = 0;
-					$str = $mail -> get_attach($mail_id, $this -> tmpPath);
-					$model -> add_file = $this -> _receive_file($str, $model);
-					$this -> _organize($model);
-					$model -> add();
-				} else {
-					$mail -> close_mail();
-					if ($new == 0) {
-						$this -> _pushReturn($new, "没有新邮件", 1);
+					if ($count == 0) {
+						$new++;
+						$model = M("Mail");
+						$model -> create($mail -> mail_header($mail_id));
+						if ($model -> create_time < strtotime(date('y-m-d h:i:s')) - 86400 * 30) {
+							$mail -> close_mail();
+							session('mail_receve'.$user_id,false);
+							$this -> _pushReturn($new, "收到" . $new . "封邮件", 1);
+						}
+						$model -> user_id = $user_id;
+						$model -> read = 0;
+						$model -> folder = 1;
+						$model -> is_del = 0;
+						$str = $mail -> get_attach($mail_id, $this -> tmpPath);
+						$model -> add_file = $this -> _receive_file($str, $model);
+						$this -> _organize($model);
+						$model -> add();
+					} else {
+						$mail -> close_mail();
+						if ($new == 0) {
+							session('mail_receve'.$user_id,false);
+							$this -> _pushReturn($new, "没有新邮件", 1);
+						}
 					}
 				}
 			}
-		}
-		$this -> _pushReturn($new, "收到" . $new . "封邮件", 1);
-		$mail -> close_mail();
-		
+			session('mail_receve'.$user_id,false);
+			$this -> _pushReturn($new, "收到" . $new . "封邮件", 1);
+			$mail -> close_mail();
+		}		
 		//$this -> ajaxReturn($new, "收到" . $new . "封邮件", 1);
 	}
 
