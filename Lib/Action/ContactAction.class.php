@@ -193,9 +193,9 @@ class ContactAction extends CommonAction {
 	}
 
 	function del() {
-		if (!empty($_POST['id[]'])) {
+		if (!empty($_POST['id'])) {
 			$model = M("Contact");
-			$contact_list = $_POST['id[]'];
+			$contact_list = $_POST['id'];
 			if (!is_array($contact_list)) {
 				$contact_list = explode(",", $contact_list);
 			}

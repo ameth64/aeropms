@@ -662,9 +662,9 @@ class MailAction extends CommonAction {
 			$prev_id = $prev[0]["id"];
 			$title = $prev[0]["name"];
 			$url = U('mail/read?id=' . $prev_id);
-			$prev_html = "<a id=\"prev_link\" class=\"btn btn-default\" href=\"$url\" title=\"$title\">上一封</a>";
+			$prev_html = "<a id=\"prev_link\" class=\"btn btn-primary\" href=\"$url\" title=\"$title\">上一封</a>";
 		} else {
-			$prev_html = "<a class=\"btn btn-default disabled\" onclick=\"javascript:return false;\">上一封</a>";
+			$prev_html = "<a class=\"btn btn-primary disabled\" onclick=\"javascript:return false;\">上一封</a>";
 		}
 
 		$where = array();
@@ -678,9 +678,9 @@ class MailAction extends CommonAction {
 			$next_id = $next[0]["id"];
 			$title = $next[0]["name"];
 			$url = U('mail/read?id=' . $next_id);
-			$next_html = "<a id=\"next_link\" class=\"btn btn-default\" href=\"$url\" title=\"$title\">下一封</a>";
+			$next_html = "<a id=\"next_link\" class=\"btn btn-primary\" href=\"$url\" title=\"$title\">下一封</a>";
 		} else {
-			$next_html = "<a class=\"disabled btn btn-default\" onclick=\"javascript:return false;\">下一封</a>";
+			$next_html = "<a class=\"disabled btn btn-primary\" onclick=\"javascript:return false;\">下一封</a>";
 		}
 		$html = $prev_html . $next_html;
 		$this -> assign('next_link', $html);

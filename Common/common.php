@@ -1,40 +1,54 @@
 <?php
 /*---------------------------------------------------------------------------
-  小微OA系统 - 让工作更轻松快乐 
+ 小微OA系统 - 让工作更轻松快乐
 
-  Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
+ Copyright (c) 2013 http://www.smeoa.com All rights reserved.
 
-  Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )  
+ Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 
-  Author:  jinzhu.yin<smeoa@qq.com>                         
+ Author:  jinzhu.yin<smeoa@qq.com>
 
-  Support: https://git.oschina.net/smeoa/smeoa               
+ Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
 
-function get_img_info( $img ){
+
+function _encode($arr) {
+	$na = array();
+	foreach ($arr as $k => $value) {
+		$na[_urlencode($k)] = _urlencode($value);
+	}
+	return addcslashes(urldecode(json_encode($na)), "\r\n");
+}
+
+function _urlencode($elem) {
+	if (is_array($elem)) {
+		foreach ($elem as $k => $v) {
+			$na[_urlencode($k)] = _urlencode($v);
+		}
+		return $na;
+	}
+	return urlencode($elem);
+}
+
+function get_img_info($img) {
 	$img_info = getimagesize($img);
-	if( $img_info!== false) {
-		$img_type = strtolower(substr(image_type_to_extension($img_info[2]),1));
-		$info = array(
-				"width"		=>$img_info[0],
-				"height"	=>$img_info[1],
-				"type"		=>$img_type,
-				"mime"		=>$img_info['mime'],
-		);
+	if ($img_info !== false) {
+		$img_type = strtolower(substr(image_type_to_extension($img_info[2]), 1));
+		$info = array("width" => $img_info[0], "height" => $img_info[1], "type" => $img_type, "mime" => $img_info['mime'], );
 		return $info;
-	}else {
+	} else {
 		return false;
 	}
 }
 
 function get_return_url() {
-		$return_url = cookie('return_url');
-		if (!empty($return_url)) {
-			return $return_url;
-		} else {
-			return __URL__ . '?' . C('VAR_MODULE') . '=' . MODULE_NAME . '&' . C('VAR_ACTION') . '=' . C('DEFAULT_ACTION');
-		}
+	$return_url = cookie('return_url');
+	if (!empty($return_url)) {
+		return $return_url;
+	} else {
+		return __URL__ . '?' . C('VAR_MODULE') . '=' . MODULE_NAME . '&' . C('VAR_ACTION') . '=' . C('DEFAULT_ACTION');
 	}
+}
 
 function get_system_config($code) {
 	$model = M("SystemConfig");
@@ -133,7 +147,7 @@ function filter_search_field($v1) {
 	if ($v1 == "keyword")
 		return true;
 	$prefix = substr($v1, 0, 3);
-	$arr_key = array("be_", "en_", "eq_", "li_", "lt_", "gt_","bt_");
+	$arr_key = array("be_", "en_", "eq_", "li_", "lt_", "gt_", "bt_");
 	if (in_array($prefix, $arr_key)) {
 		return true;
 	} else {
@@ -146,7 +160,7 @@ function get_model_fields($model) {
 	if (isset($model -> viewFields)) {
 		foreach ($model->viewFields as $key => $val) {
 			unset($val['_on']);
-			unset($val['_type']);			
+			unset($val['_type']);
 			if ($val[0] == "*") {
 				$model = M($key);
 				$fields = $model -> getDbFields();
@@ -155,12 +169,11 @@ function get_model_fields($model) {
 				$arr_field = array_merge($arr_field, array_values($val));
 			}
 		}
-	}else{
-		$arr_field=$model -> getDbFields();
+	} else {
+		$arr_field = $model -> getDbFields();
 	}
 	return $arr_field;
 }
-
 
 function show_step_type($step) {
 	if ($step >= 20) {
@@ -171,13 +184,13 @@ function show_step_type($step) {
 	}
 }
 
-function show_result($result){
-	if ($result ==1) {
+function show_result($result) {
+	if ($result == 1) {
 		return "通过";
 	}
-	if ($result ==0) {
+	if ($result == 0) {
 		return "驳回";
-	}	
+	}
 }
 
 function show_step($step) {
@@ -255,14 +268,14 @@ function fix_array_key($list, $key) {
 }
 
 function fill_option($list) {
-	 $html="";
-	foreach ($list as $key=>$val){
-		if(is_array($val)){
-			$id=$val['id'];
-			$name=$val['name'];
-			$html = $html . "<option value='{$id}'>{$name}</option>";	
-		}else{
-			$html = $html . "<option value='{$key}'>{$val}</option>";	
+	$html = "";
+	foreach ($list as $key => $val) {
+		if (is_array($val)) {
+			$id = $val['id'];
+			$name = $val['name'];
+			$html = $html . "<option value='{$id}'>{$name}</option>";
+		} else {
+			$html = $html . "<option value='{$key}'>{$val}</option>";
 		}
 	}
 	echo $html;
@@ -708,15 +721,25 @@ function reunit($size) {
 }
 
 function get_module($str) {
-	$arr_str = explode("/", $str);
-	return $arr_str[0];
+	if (strpos($str, '##') !== false) {
+		return str_replace("##", "", $str);
+	} else {
+		$arr_str = explode("/", $str);
+		return $arr_str[0];
+	}
 }
 
-function filter_module($str){
-	if(empty($str['admin'])&&empty($str['write'])&&empty($str['read'])){
+function filter_module($str) {
+	if (empty($str['admin']) && empty($str['write']) && empty($str['read'])) {
 		return false;
 	}
-	return strpos($str['url'],'index');
+	if (strpos($str, '##') !== false) {
+		return true;
+	}
+	if (strpos($str['url'], 'index')) {
+		return true;
+	}
+	return false;
 }
 
 function rotate($a) {
@@ -807,19 +830,19 @@ function getfirstchar($s0) {
 
 function get_folder_name($id) {
 
-	if($id==1){
+	if ($id == 1) {
 		return "收件箱";
 	}
-	if($id==2){
+	if ($id == 2) {
 		return "已发送";
 	}
-	if($id==3){
+	if ($id == 3) {
 		return "草稿箱";
 	}
-	if($id==4){
+	if ($id == 4) {
 		return "已删除";
 	}
-	if($id==5){
+	if ($id == 5) {
 		return "垃圾邮件";
 	}
 
@@ -871,7 +894,7 @@ function mail_org_string($vo) {
 		}
 		$str2 = $vo['recever_key'];
 
-		$str3 =get_folder_name($vo["to"]);
+		$str3 = get_folder_name($vo["to"]);
 
 		$html = "收件人" . $str1 . " " . $str2 . " 则 : 移动到 " . $str3;
 	};

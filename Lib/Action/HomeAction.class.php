@@ -55,7 +55,7 @@ class HomeAction extends CommonAction {
 
 		$new_mail_list = $model -> where($where) -> field("id,name,create_time") -> order("create_time desc") -> limit(6) -> select();
 		$this -> assign('new_mail_list', $new_mail_list);
-
+	
 		//获取未读邮件
 		$where['read'] = array('eq', '0');
 		$unread_mail_list = $model -> where($where) -> field("id,name,create_time") -> order("create_time desc") -> limit(6) -> select();
@@ -115,9 +115,10 @@ class HomeAction extends CommonAction {
 
 	protected function notice_list() {
 		$model = D('Notice');
-		//获取最新邮件
-
+		//获取最新通知
 		$where['is_del'] = array('eq', '0');
+		$folder_list=D("SystemFolder")->get_authed_folder(get_user_id(),"NoticeFolder");
+		$where['folder']=array("in",$folder_list);
 		$new_notice_list = $model -> where($where) -> field("id,name,create_time") -> order("create_time desc") -> limit(6) -> select();
 		$this -> assign("new_notice_list", $new_notice_list);
 	}
@@ -125,6 +126,8 @@ class HomeAction extends CommonAction {
 	protected function forum_list() {
 		$model = D('Forum');
 		$where['is_del'] = array('eq', '0');
+		$folder_list=D("SystemFolder")->get_authed_folder(get_user_id(),"ForumFolder");
+		$where['folder']=array("in",$folder_list);		
 		$new_forum_list = $model -> where($where) -> field("id,name,create_time") -> order("create_time desc") -> limit(6) -> select();
 		$this -> assign("new_forum_list", $new_forum_list);
 	}

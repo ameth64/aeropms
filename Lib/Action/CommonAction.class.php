@@ -26,10 +26,11 @@ class CommonAction extends Action {
 		}
 		$this -> assign('js_file', 'js/' . ACTION_NAME);
 		$this -> _assign_menu();
+		$this->_get_new();
 	}
 
 	/**列表页面 **/
-	function index() {
+	function index(){		
 		$map = $this -> _search();
 		if (method_exists($this, '_search_filter')) {
 			$this -> _search_filter($map);
@@ -501,5 +502,48 @@ class CommonAction extends Action {
 		$model -> add();
 		exit();
 	}
+
+protected function _get_new() {
+	//获取未读邮件
+	$user_id = get_user_id();
+	$where['user_id'] = $user_id;
+	$where['is_del'] = array('eq', '0');
+	$where['folder'] = array( array('eq', 1), array('gt', 6), 'or');
+	$where['read'] = array('eq', '0');
+	$model=M("Mail");
+	$new_mail = $model -> where($where) -> count();
+	$this -> assign("new_mail", $new_mail);
+
+	//获取待裁决
+	$where=array();
+	$FlowLog = M("FlowLog");
+	$emp_no = $_SESSION['emp_no'];
+	$where['emp_no'] = $emp_no;
+	$where['_string'] = "result is null";
+	$log_list = $FlowLog -> where($where) -> field('flow_id') -> select();
+	$log_list = rotate($log_list);
+	if (!empty($log_list)) {
+		$map['id'] = array('in', $log_list['flow_id']);
+		$todo_flow_list = $model -> where($map) -> count();
+		$this -> assign("new_flow_todo", $todo_flow_list);
+	}
+
+	//获取最新通知
+	$model = D('Notice');
+	$where=array();
+	$where['is_del'] = array('eq', '0');
+	$folder_list = D("SystemFolder") -> get_authed_folder(get_user_id(), "NoticeFolder");
+	$where['folder'] = array("in", $folder_list);
+	$new_notice_list = $model -> where($where) -> select();
+	$this -> assign("new_notice",count($new_notice_list));
+
+	$model = M("Todo");
+	$where = array();
+	$where['user_id'] = $user_id;
+	$where['status'] = array("in", "1,2");
+	$new_todo = M("Todo") -> where($where) ->count();
+	$this -> assign("new_todo",$new_todo);
+
+}	
 }
 ?>
