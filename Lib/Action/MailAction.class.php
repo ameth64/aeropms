@@ -416,7 +416,10 @@ class MailAction extends CommonAction {
 	//   回复，转发邮件内容
 	//--------------------------------------------------------------------
 	public function reply() {
-
+		$widget['uploader']=true;
+		$widget['editor']=true;
+		$this->assign("widget",$widget);		
+		
 		$type = $_REQUEST['type'];
 		$this -> assign('type', $type);
 

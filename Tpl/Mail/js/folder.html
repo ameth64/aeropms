@@ -64,7 +64,7 @@
 
 	function forword() {
 		if ($("input[name='id[]']:checkbox:checked").length == 1) {
-			window.open("http://localhost/mail/reply/id/" + $("input[name='id[]']:checkbox:checked:first").val() + "/type/forward", "main");
+			window.open('{:U("reply")}?id="' + $("input[name='id[]']:checkbox:checked:first").val() + "&type=forward", "_self");
 		} else {
 			alert("请选择一封要转发的邮件");
 		};
