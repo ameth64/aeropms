@@ -56,8 +56,8 @@
 
 
 	$(document).ready(function() {
-		set_val('eq_is_del', "{$eq_is_del}");
 		set_return_url();		
+		set_val('eq_is_del', "{$eq_is_del}");	
 		$(".sub_left_menu tbody tr").click(function() {
 			$(".sub_left_menu tbody tr.active").removeClass("active");
 			$(this).attr("class", "active");

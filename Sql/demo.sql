@@ -1,5 +1,5 @@
 ﻿# Host: localhost  (Version: 5.5.16)
-# Date: 2013-11-11 08:17:10
+# Date: 2013-11-11 08:51:01
 # Generator: MySQL-Front 5.3  (Build 4.4)
 
 /*!40101 SET NAMES utf8 */;
@@ -92,7 +92,7 @@ CREATE TABLE `think_dept` (
 #
 
 /*!40000 ALTER TABLE `think_dept` DISABLE KEYS */;
-INSERT INTO `think_dept` VALUES (1,0,'A1',5,'XX企业','','',0,''),(2,1,'BD',7,'运营部','运营','5',0,''),(3,1,'PD',7,'产品部','产品','4',0,''),(4,6,'HR',9,'人事科','人事','',0,''),(5,1,'CEO1',5,'总经理','总经','1',0,''),(6,1,'AD',7,'行政部','行政','2',0,''),(7,1,'SD',7,'销售部','销售','3',0,''),(8,1,'RD',7,'开发部','开发','2',0,''),(9,7,'SD1',9,'销售1科','销售1','',0,''),(10,6,'AC',9,'会计科','会计','',0,''),(11,7,'SD2',9,'销售2科','销售2','',1,''),(12,8,'RD2',9,'开发二科','开二','',1,''),(13,8,'RD1',9,'开发一科','开一','',0,''),(15,5,'XXX',6,'XXX','XXX','',1,''),(16,8,'333',5,'333','333','',0,''),(17,1,'4444',7,'4444','4444','',0,'44444');
+INSERT INTO `think_dept` VALUES (1,0,'A1',5,'小微企业','小微','',0,''),(2,1,'BD',7,'运营部','运营','5',0,''),(3,1,'PD',7,'产品部','产品','4',0,''),(4,6,'HR',9,'人事科','人事','',0,''),(5,1,'CEO1',7,'总经办','总经','1',0,''),(6,1,'AD',7,'行政部','行政','2',0,''),(7,1,'SD',7,'销售部','销售','3',0,''),(8,1,'RD',7,'开发部','开发','2',0,''),(9,7,'SD1',9,'北方区域','销售1','',0,''),(10,6,'AC',9,'会计科','会计','',0,''),(11,7,'SD2',9,'销售2科','销售2','',1,''),(12,8,'RD2',9,'开发二科','开二','',1,''),(13,8,'项目开发科',9,'项目开发科','开一','',0,''),(15,5,'XXX',6,'XXX','XXX','',1,''),(16,8,'小微OA开发科',9,'OA开发科','OA','',0,''),(17,1,'4444',7,'4444','4444','',1,'44444');
 /*!40000 ALTER TABLE `think_dept` ENABLE KEYS */;
 
 #
@@ -474,7 +474,7 @@ CREATE TABLE `think_node` (
 #
 
 /*!40000 ALTER TABLE `think_node` DISABLE KEYS */;
-INSERT INTO `think_node` VALUES (83,'公告',0,'##notice','icon-bell-alt','NoticeFolder','','7',0),(84,'管理',0,'user/index','icon-cogs','','','999',0),(85,'邮件',0,'mail/folder?fid=inbox','icon-envelope-alt','','','1',0),(87,'审批',0,'flow/index','icon-pencil','','','2',0),(88,'文档',0,'##doc','icon-file-alt','DocFolder','','3',0),(91,'日程',0,'schedule/index','icon-calendar','','','4',0),(94,'职位',0,'position/index',NULL,NULL,'','',1),(97,'部门',0,'dept/index',NULL,NULL,'','',1),(100,'写信',0,'mail/add',NULL,'','','1',85),(101,'收件箱',0,'mail/folder?fid=inbox','','','','3',85),(102,'邮件设置',0,'','','','','9',85),(104,'垃圾箱',0,'mail/folder?fid=spambox','','','','5',85),(105,'发件箱',0,'mail/folder?fid=outbox','','','','6',85),(106,'已删除',0,'mail/folder?fid=delbox','','','','4',85),(107,'草稿箱',0,'mail/folder?fid=darftbox','','','','7',85),(108,'邮件帐户设置',0,'mail_account/index',NULL,'','','1',102),(110,'公司信息管理',0,'',NULL,NULL,'','1',84),(112,'权限管理',0,'',NULL,NULL,'','3',84),(113,'系统设定',0,'',NULL,NULL,'','4',84),(114,'系统设置',0,'system_config/index',NULL,'','','1',113),(115,'组织图管理',0,'dept/index',NULL,'','','1',110),(116,'员工登记',0,'user/index',NULL,'','','5',110),(118,'权限编码登记',0,'role/index',NULL,NULL,'','1',112),(119,'权限编码-菜单映射',0,'role/node',NULL,NULL,'','2',112),(120,'权限编码-用户映射',0,'role/user',NULL,NULL,'','3',112),(121,'菜单信息设置',0,'node/index',NULL,NULL,'','1',113),(122,'职级',0,'rank/index',NULL,'','','3',110),(123,'职位',0,'position/index',NULL,'','','2',110),(124,'文件夹设置',0,'mail_folder/index',NULL,'','','2',102),(125,'联系人',0,'contact/index',NULL,'','','1',157),(126,'文档搜索',0,'doc/index',NULL,'','','1',88),(127,'文档库管理',0,'doc_folder/index','','','','C1',88),(137,'论坛',0,'forum/index','icon-comments-alt','ForumFolder','','3',0),(138,'公告管理',0,'notice_folder/index','','','','4',83),(139,'论坛管理',0,'forum_folder/index',NULL,'','','',137),(140,'按月查看',0,'schedule/index',NULL,'','','1',91),(141,'日程查询',0,'schedule/search',NULL,'','','2',91),(142,'按日查看',0,'schedule/day_view',NULL,'','','2',91),(143,'邮件分类',0,'mail_organize/index',NULL,'','','',102),(144,'起案',0,'flow/index',NULL,'','','1',87),(145,'审批箱',0,'',NULL,'','','2',87),(146,'流程管理',0,'flow_type/index',NULL,'','','3',87),(147,'待审批',0,'flow/folder?fid=confirm',NULL,'','','3',145),(148,'已办理',0,'flow/folder?fid=finish',NULL,'','','1',145),(149,'草稿箱',0,'flow/folder?fid=darft',NULL,'','','2',145),(150,'已提交',0,'flow/folder?fid=submit',NULL,'','','4',145),(151,'收信',0,'mail/folder?fid=receve',NULL,'','','2',85),(152,'待办',0,'todo/index','icon-tasks','','','4',0),(153,'部门级别',0,'dept_grade/index',NULL,'','','4',110),(156,'客户',0,'customer/index',NULL,'','','2',157),(157,'人脉',0,'contact/index','icon-group','','','5',0),(158,'供应商',0,'supplier/index',NULL,'','','3',157),(169,'职员',0,'staff/index',NULL,'','','',157),(177,'我的文件夹',0,'##mail','','MailFolder','','8',85),(178,'自助',0,'','','','','',0),(179,'工资查询',0,'udf_salary/index','','','','',178),(180,'报销查询',0,'udf_expense/index','','','','',178);
+INSERT INTO `think_node` VALUES (83,'公告',0,'##notice','icon-bell-alt','NoticeFolder','','7',0),(84,'管理',0,'user/index','icon-cogs','','','999',0),(85,'邮件',0,'mail/folder?fid=inbox','icon-envelope-alt','','','1',0),(87,'审批',0,'flow/index','icon-pencil','','','2',0),(88,'文档',0,'##doc','icon-file-alt','DocFolder','','3',0),(91,'日程',0,'schedule/index','icon-calendar','','','4',0),(94,'职位',0,'position/index',NULL,NULL,'','',1),(97,'部门',0,'dept/index',NULL,NULL,'','',1),(100,'写信',0,'mail/add',NULL,'','','1',85),(101,'收件箱',0,'mail/folder?fid=inbox','','','','3',85),(102,'邮件设置',0,'','','','','9',85),(104,'垃圾箱',0,'mail/folder?fid=spambox','','','','5',85),(105,'发件箱',0,'mail/folder?fid=outbox','','','','6',85),(106,'已删除',0,'mail/folder?fid=delbox','','','','4',85),(107,'草稿箱',0,'mail/folder?fid=darftbox','','','','7',85),(108,'邮件帐户设置',0,'mail_account/index',NULL,'','','1',102),(110,'公司信息管理',0,'',NULL,NULL,'','1',84),(112,'权限管理',0,'',NULL,NULL,'','3',84),(113,'系统设定',0,'',NULL,NULL,'','4',84),(114,'系统设置',0,'system_config/index',NULL,'','','1',113),(115,'组织图管理',0,'dept/index',NULL,'','','1',110),(116,'员工登记',0,'user/index',NULL,'','','5',110),(118,'权限编码登记',0,'role/index',NULL,NULL,'','1',112),(119,'权限编码-菜单映射',0,'role/node',NULL,NULL,'','2',112),(120,'权限编码-用户映射',0,'role/user',NULL,NULL,'','3',112),(121,'菜单信息设置',0,'node/index',NULL,NULL,'','1',113),(122,'职级',0,'rank/index',NULL,'','','3',110),(123,'职位',0,'position/index',NULL,'','','2',110),(124,'文件夹设置',0,'mail_folder/index',NULL,'','','2',102),(125,'联系人',0,'contact/index',NULL,'','','1',157),(126,'文档搜索',0,'doc/index',NULL,'','','1',88),(127,'文档库管理',0,'doc_folder/index','','','','C1',88),(137,'论坛',0,'forum/index','icon-comments-alt','ForumFolder','','3',0),(138,'公告管理',0,'notice_folder/index','','','','4',83),(139,'论坛管理',0,'forum_folder/index',NULL,'','','',137),(140,'按月查看',0,'schedule/index',NULL,'','','1',91),(141,'日程查询',0,'schedule/search',NULL,'','','2',91),(142,'按日查看',0,'schedule/day_view',NULL,'','','2',91),(143,'邮件分类',0,'mail_organize/index',NULL,'','','',102),(144,'起案',0,'flow/index',NULL,'','','1',87),(145,'审批箱',0,'',NULL,'','','2',87),(146,'流程管理',0,'flow_type/index',NULL,'','','3',87),(147,'待审批',0,'flow/folder?fid=confirm',NULL,'','','3',145),(148,'已办理',0,'flow/folder?fid=finish',NULL,'','','1',145),(149,'草稿箱',0,'flow/folder?fid=darft',NULL,'','','2',145),(150,'已提交',0,'flow/folder?fid=submit',NULL,'','','4',145),(151,'收信',0,'mail/folder?fid=receve',NULL,'','','2',85),(152,'待办',0,'todo/index','icon-tasks','','','4',0),(153,'部门级别',0,'dept_grade/index',NULL,'','','4',110),(156,'客户',0,'customer/index',NULL,'','','2',157),(157,'人脉',0,'contact/index','icon-group','','','5',0),(158,'供应商',0,'supplier/index',NULL,'','','3',157),(169,'职员',0,'staff/index',NULL,'','','',157),(177,'我的文件夹',0,'##mail','','MailFolder','','8',85),(178,'自助',0,'','','','','',0),(179,'工资查询',0,'udf_salary/index','','','','',178),(180,'报销查询',0,'udf_expense/index','','','','',178),(181,'公告搜索',0,'notice/index','','','','',83);
 /*!40000 ALTER TABLE `think_node` ENABLE KEYS */;
 
 #
@@ -524,7 +524,7 @@ CREATE TABLE `think_position` (
 #
 
 /*!40000 ALTER TABLE `think_position` DISABLE KEYS */;
-INSERT INTO `think_position` VALUES (1,'PG40','主管','5',0),(2,'PG30','经理','4',0),(3,'PG20','总监','3',0),(4,'PG10','副总','2',0),(5,'PG1','总经理','1',0),(6,'PG50','员工','6',1);
+INSERT INTO `think_position` VALUES (1,'PG40','主管','5',0),(2,'PG30','经理','4',0),(3,'PG20','总监','3',0),(4,'PG10','副总','2',0),(5,'PG1','总经理','1',0),(6,'PG50','助理','6',0);
 /*!40000 ALTER TABLE `think_position` ENABLE KEYS */;
 
 #
@@ -1027,7 +1027,7 @@ CREATE TABLE `think_user_config` (
 #
 
 /*!40000 ALTER TABLE `think_user_config` DISABLE KEYS */;
-INSERT INTO `think_user_config` VALUES (1,'11,22,13,|21,12,23,',10,'48|1383898426_47|1383898012_46|1383896478_');
+INSERT INTO `think_user_config` VALUES (1,'11,22,13,|21,12,23,',10,'47|1383898012_46|1383896478_48|1383898426_');
 /*!40000 ALTER TABLE `think_user_config` ENABLE KEYS */;
 
 #

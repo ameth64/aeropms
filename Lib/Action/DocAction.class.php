@@ -21,7 +21,7 @@ class DocAction extends CommonAction {
 		}
 	}
 
-	public function index() {
+	public function index(){
 		$widget['date-range'] = true;		
 		$this -> assign("widget", $widget);
 									

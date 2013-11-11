@@ -34,7 +34,8 @@
 	}
 
 
-	$(document).ready(function() {
+	$(document).ready(function(){
+		set_return_url();
 		$(".sub_left_menu tbody tr").click(function() {
 			$(".sub_left_menu  tr.active").removeClass("active");
 			$(this).attr("class", "active");

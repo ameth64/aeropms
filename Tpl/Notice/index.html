@@ -1,7 +1,7 @@
 <layout name='Layout/ace_layout' />
-	{:W('PageHeader',array('name'=>'公告','search'=>'N'))}
-	<form method="post" name="form_adv_serach" id="form_adv_serach">
-	<div class="adv_search panel panel-default display-none"  id="adv_search">
+{:W('PageHeader',array('name'=>'公告搜索','search'=>'M'))}
+<form method="post" name="form_adv_serach" id="form_adv_serach">
+	<div class="adv_search panel panel-default  display-none"  id="adv_search">
 		<div class="panel-heading">
 			<div class="row">
 				<h4 class="col-xs-6">高级搜索</h4>
@@ -18,7 +18,6 @@
 					<input  class="form-control" type="text" id="li_name" name="li_name" >
 				</div>
 			</div>
-
 			<div class="form-group col-sm-6">
 				<label class="col-sm-4 control-label" for="li_content">内容：</label>
 				<div class="col-sm-8">
@@ -32,7 +31,6 @@
 					<input  class="form-control" type="text" id="eq_user_name" name="eq_user_name" >
 				</div>
 			</div>
-
 			<div class="form-group col-sm-6">
 				<label class="col-sm-4 control-label" for="bt_create_time">登录时间：</label>
 				<div class="col-sm-8">
@@ -42,48 +40,42 @@
 		</div>
 	</div>
 </form>
-
-<div class="ul_table">
+<div class="ul_table message-container">
 	<ul>
 		<li class="thead">
-			<span class="col-10">编号</span>
-			<span class="col-9">文件夹</span>
-			<span class="col-9 pull-right">登录时间</span>
-			<span class="col-6 right">登录人</span>
+			<span class="col-10 text-center">编号</span>
+			<span class="col-10 text-center">文件夹</span>
+			<span class="col-9 pull-right text-center">登录时间</span>
+			<span class="col-6 pull-right text-center">登录人</span>
 			<div class="auto autocut">
-				文件名
+				标题
 			</div>
 		</li>
-	</ul>
-	<if condition="count($list) eq 0 ">
-		<ul>
-				<li class="no-data">
-					没找到数据
-				</li>
-		</ul>
-		<else/>
-		<foreach name="list" item="vo">
-			<li class="tbody">
-				<span class="col-10 text-center">{$vo.notice_no}</span>
-				<span class="col-9 text-center">&nbsp;{$vo.folder_name}&nbsp;</span>
-				<span class="col-9 pull-right text-center">&nbsp;{$vo.create_time|toDate='Y-m-d'}&nbsp;</span>
-				<span class="col-6 right text-center">{$vo.user_name}</span>
-				<div class="auto autocut">
-					<a href="{:U('read?id='.$vo['id'])}"> {$vo.name}
-					<eq name="vo.name|strlen" value="0">
-						无标题
-					</eq> </a>
-				</div>
+		<empty name="list">
+			<li class="no-data">
+				没找到数据
 			</li>
-		</foreach>
-		</ul>
-	<div class="pagination">
-		{$page}
-	</div>
-	</if>
+			<else/>
+			<form method="post" action="" name="form_data" id="form_data">
+				<foreach name="list" item="vo">
+					<li class="tbody">
+						<span class="col-10 text-center">{$vo.notice_no}</span>
+						<span class="col-10 text-center autocut">&nbsp;{$vo.folder_name}&nbsp;</span>
+						<span class="col-9 pull-right text-center">&nbsp;{$vo.create_time|toDate='Y-m-d'}&nbsp;</span>
+						<span class="col-6 pull-right text-center">{$vo.user_name}</span>
+						<div class="auto autocut">
+							<a href="{:U('read?id='.$vo['id'])}"> {$vo.name}
+							<eq name="vo.name|strlen" value="0">
+								无标题
+							</eq> </a>
+						</div>
+					</li>
+				</foreach>
+			</form>
+			<div class="pagination">
+				{$page}
+			</div>
+		</empty>
+	</ul>
 </div>
-<script type="text/javascript">
-	$(document).ready(function() {
-		set_return_url();
-	}); 
-</script>
+

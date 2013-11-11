@@ -32,7 +32,10 @@ class NoticeAction extends CommonAction {
 		if (method_exists($this, '_search_filter')) {
 			$this -> _search_filter($map);
 		}
-
+		
+		$folder_list=D("SystemFolder")->get_authed_folder(get_user_id());
+		$map['folder']=array("in",$folder_list);
+		
 		$model = D("NoticeView");
 		if (!empty($model)) {
 			$this -> _list($model, $map);

@@ -32,7 +32,7 @@ class StaffAction extends CommonAction {
 		$this->assign("title",'职员查询');
 		$node = D("Dept");
 		$menu = array();
-		$menu = $node -> field('id,pid,name') -> order('sort asc') -> select();
+		$menu = $node -> field('id,pid,name') ->where("is_del=0")-> order('sort asc') -> select();
 		$tree = list_to_tree($menu);
 		$this -> assign('menu', popup_tree_menu($tree));				
 		$this -> display();

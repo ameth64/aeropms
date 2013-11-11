@@ -1,6 +1,6 @@
 <?php
 /*---------------------------------------------------------------------------
-  Ð¡Î¢OAÏµÍ³ - ÈÃ¹¤×÷¸üÇáËÉ¿ìÀÖ 
+  Ð¡Î¢OAÏµÍ³ - ï¿½Ã¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¿ï¿½ï¿½ï¿½ 
 
   Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
 
@@ -15,7 +15,7 @@
 class NoticeViewModel extends ViewModel {
 	public $viewFields=array(
 		'Notice'=>array('*'),
-		'Folder'=>array('name'=>'folder_name','_on'=>'Notice.folder=Folder.id')
+		'SystemFolder'=>array('name'=>'folder_name','_on'=>'Notice.folder=SystemFolder.id')
 		);
 }
 ?>
