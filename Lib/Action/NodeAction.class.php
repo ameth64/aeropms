@@ -17,15 +17,15 @@ class NodeAction extends CommonAction {
 	protected $config=array('app_type'=>'master','action_auth'=>array('node'=>'admin'));
 
 	public function index(){
-		$node = M("Node");
-		
+		$node = M("Node");		
 		if (!empty($_POST['eq_pid'])) {
 			$eq_pid = $_POST['eq_pid'];
 		} elseif (!empty($_GET['eq_pid'])) {
 			$eq_pid = $_GET['eq_pid'];
 		} else {
 			$eq_pid = $node -> where('pid=0') -> order('sort asc') -> getField('id');
-		}		
+		}
+				
 		$this -> assign('eq_pid', $eq_pid);
 				
 		$list = $node -> where('pid=0') -> order('sort asc') -> getField('id,name');
@@ -92,5 +92,15 @@ class NodeAction extends CommonAction {
 		$this -> assign('menu', popup_tree_menu($tree));
 		$this -> display();
 	}
+	
+	function del()
+	{
+		$node_id=$_POST['id'];
+		
+		$model = M("RoleNode");
+		$where['node_id'] = $node_id;
+		$model->where($where)->delete();		
+		$this->_destory($node_id);				
+	}	
 }
 ?>

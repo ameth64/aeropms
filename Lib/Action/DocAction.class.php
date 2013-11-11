@@ -41,13 +41,14 @@ class DocAction extends CommonAction {
 		return;
 	}
 
-	public function _before_edit() {
+	public function edit() {
 		$widget['uploader'] = true;
 		$widget['editor'] = true;
 		$this -> assign("widget", $widget);
+		$this->_edit();
 	}
 
-	public function folder() {
+	public function folder(){
 		$widget['date-range'] = true;		
 		$this -> assign("widget", $widget);
 
@@ -92,12 +93,13 @@ class DocAction extends CommonAction {
 		$this -> display();
 	}
 
-	public function _before_read() {
+	public function read() {
 		$id = $_REQUEST['id'];
 		$user_id = get_user_id();
 		$model = M("Doc");
 		$folder_id = $model -> where("id=$id") -> getField('folder');
 		$this -> assign("auth", D("SystemFolder") -> get_folder_auth($folder_id));
+		$this->_edit();
 	}
 
 	protected function _insert() {

@@ -31,7 +31,7 @@
 
 			function show_msg(info){
 				if (info != "no-data") {
-					html = "<div class=\"col-md-3 alert alert-info fade in\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button><span>" + info + "</span></div>"
+					html = "<div class=\"col-sm-3 alert alert-info fade in\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\">×</button><span>" + info + "</span></div>"
 					$obj = $("#push_msg", parent.document);
 					$obj.prepend(html);
 					if (runing == false) {

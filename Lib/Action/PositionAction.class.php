@@ -22,5 +22,10 @@ class PositionAction extends CommonAction {
 			$map['position_no|name'] = array('like', "%" . $_POST['keyword'] . "%");
 		}
 	}
+	
+	function del(){
+		$id=$_POST['id'];
+		$this->_destory($id);		
+	}
 }
 ?>

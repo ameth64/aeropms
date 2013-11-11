@@ -21,9 +21,15 @@ class FlowTypeAction extends CommonAction {
 		}
 	}
 
-	function add(){		
+	function add(){
+				
 		$widget['editor']=true;
-		$this->assign("widget",$widget);		
+		$this->assign("widget",$widget);
+		
+		$this -> group_list();
+		$user_id = get_user_id();
+		$this -> assign("user_id", $user_id);
+						
 		$this->display();
 	}
 	
@@ -53,13 +59,7 @@ class FlowTypeAction extends CommonAction {
 			$this -> error('操作失败!');
 		}
 	}
-
-	function _before_add() {
-		$this -> group_list();
-		$user_id = get_user_id();
-		$this -> assign("user_id", $user_id);
-	}
-
+	
 	function group_list() {
 		$model = M("FlowType");
 		$where['group'] = array("neq", "");
@@ -69,12 +69,13 @@ class FlowTypeAction extends CommonAction {
 		$this -> assign("group_list", $group_list);
 	}
 
-	function _before_edit() {
+	function edit() {
 		$widget['editor']=true;
 		$this->assign("widget",$widget);				
 		$this -> group_list();
 		$user_id = get_user_id();
 		$this -> assign("user_id", $user_id);
+		$this->_edit();
 	}
 
 	function ajaxRead() {

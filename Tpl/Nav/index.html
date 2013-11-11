@@ -19,12 +19,12 @@
 <!-- 功能操作区域结束 -->
 <!-- 列表显示区域  -->
 <div class="row">
-	<div class="col-md-4 sub_left_menu">
+	<div class="col-sm-4 sub_left_menu">
 		<div class="well">
 			<?php echo $menu ?>
 		</div>
 	</div>
-	<div class="col-md-8 sub_content">
+	<div class="col-sm-8 sub_content">
 		<form id="form_data" name="form_data" method="post" class="well form-horizontal">
 			<input type="hidden" name="id" id="id">
 			<input type="hidden" name="opmode" id="opmode" value="">
@@ -32,29 +32,29 @@
 				{:fill_option($nav_list)}
 			</select>
 			<div class="form-group col-xs-12">
-				<label class="col-md-4 control-label" for="name">名称*：</label>
-				<div class="col-md-8">
+				<label class="col-sm-4 control-label" for="name">名称*：</label>
+				<div class="col-sm-8">
 					<input class="form-control" type="text" id="name" name="name" check="require" msg="请输入名称">
 				</div>
 			</div>
 
 			<div class="form-group col-xs-12">
-				<label class="col-md-4 control-label" for="url">地址：</label>
-				<div class="col-md-8">
+				<label class="col-sm-4 control-label" for="url">地址：</label>
+				<div class="col-sm-8">
 					<input class="form-control" type="text" id="url" name="url">
 				</div>
 			</div>
 
 			<div class="form-group col-xs-12">
-				<label class="col-md-4 control-label" for="link">链接：</label>
-				<div class="col-md-8">
+				<label class="col-sm-4 control-label" for="link">链接：</label>
+				<div class="col-sm-8">
 					<input class="form-control" type="text" id="link" name="link">
 				</div>
 			</div>
 
 			<div class="form-group col-xs-12">
-				<label class="col-md-4 control-label" for="url">父节点：</label>
-				<div class="col-md-8">
+				<label class="col-sm-4 control-label" for="url">父节点：</label>
+				<div class="col-sm-8">
 					<div class="input-group">
 						<input name="nav_name" class="form-control val" id="nav_name" type="text"  readonly="readonly"/>
 						<input name="pid"  id="pid" type="hidden" msg="请选择父节点" check="require"  />
@@ -66,14 +66,14 @@
 				</div>
 			</div>
 			<div class="form-group col-xs-12">
-				<label class="col-md-4 control-label" for="sort">排序：</label>
-				<div class="col-md-8">
+				<label class="col-sm-4 control-label" for="sort">排序：</label>
+				<div class="col-sm-8">
 					<input class="form-control" type="text" id="sort" name="sort" >
 				</div>
 			</div>
 			<div class="form-group col-xs-12">
-				<label class="col-md-4 control-label" for="layout">模版*：</label>
-				<div class="col-md-8">
+				<label class="col-sm-4 control-label" for="layout">模版*：</label>
+				<div class="col-sm-8">
 					<select   name="layout" id="layout" class="form-control">
 						<option  value="1">header</option>
 						<option value="2">hearder+left</option>
@@ -82,26 +82,26 @@
 				</div>
 			</div>
 			<div class="form-group col-xs-12">
-				<label class="col-md-4 control-label" for="title" >标题：</label>
-				<div class="col-md-8" >
+				<label class="col-sm-4 control-label" for="title" >标题：</label>
+				<div class="col-sm-8" >
 					<textarea class="form-control" id="title" name="title" rows="5" class="col-xs-12" ></textarea>
 				</div>
 			</div>
 			<div class="form-group col-xs-12">
-				<label class="col-md-4 control-label" for="keyword" >关键词：</label>
-				<div class="col-md-8" >
+				<label class="col-sm-4 control-label" for="keyword" >关键词：</label>
+				<div class="col-sm-8" >
 					<textarea class="form-control" id="keyword" name="keyword" rows="5" class="col-xs-12" ></textarea>
 				</div>
 			</div>
 			<div class="form-group col-xs-12">
-				<label class="col-md-4 control-label" for="desc" >描述：</label>
-				<div class="col-md-8" >
+				<label class="col-sm-4 control-label" for="desc" >描述：</label>
+				<div class="col-sm-8" >
 					<textarea class="form-control" id="desc" name="desc" rows="5" class="col-xs-12" ></textarea>
 				</div>
 			</div>
 			<div class="form-group col-xs-12">
-				<label class="col-md-4 control-label" for="is_del">状态*：</label>
-				<div class="col-md-8">
+				<label class="col-sm-4 control-label" for="is_del">状态*：</label>
+				<div class="col-sm-8">
 					<select   name="is_del" id="is_del" class="form-control">
 						<option  value="0">启用</option>
 						<option value="1">禁用</option>

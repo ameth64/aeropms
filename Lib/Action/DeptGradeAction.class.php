@@ -26,5 +26,11 @@ class DeptGradeAction extends CommonAction {
 		$this -> display();
 	}
 
+	function del(){
+		$id=$_POST['id'];
+		$this->_destory($id);		
+	}	
+
+
 }
 ?>

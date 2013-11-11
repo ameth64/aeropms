@@ -8,15 +8,15 @@
 		$("#opmode").val("add");
 	};
 
-	function btn_search() {
-		sendForm("form_search", "__SELF__");
-		$("#form_search").submit();
-	}
-
-	function key_search() {
-		if (event.keyCode == 13) {
-			sendForm("form_search", "__SELF__");
-			return false;
+	function del() {
+		var vars = $("#form_data").serialize();
+		if (confirm('确定要删除吗?')){
+			sendAjax("{:U('del')}", vars, function(data){
+				if (data.status) {
+					alert(data.info);
+					location.href=location.href;		
+				}
+			});
 		}
 	}
 

@@ -1,20 +1,20 @@
 <?php
 /*---------------------------------------------------------------------------
-  小微OA系统 - 让工作更轻松快乐 
+ 小微OA系统 - 让工作更轻松快乐
 
-  Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
+ Copyright (c) 2013 http://www.smeoa.com All rights reserved.
 
-  Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )  
+ Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 
-  Author:  jinzhu.yin<smeoa@qq.com>                         
+ Author:  jinzhu.yin<smeoa@qq.com>
 
-  Support: https://git.oschina.net/smeoa/smeoa               
+ Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
 
 class NoticeAction extends CommonAction {
-	
-	protected $config=array('app_type'=>'common','action_auth'=>array('folder'=>'read','mark'=>'admin','upload'=>'write'),'folder_auth'=>true);
-	
+
+	protected $config = array('app_type' => 'common', 'action_auth' => array('folder' => 'read', 'mark' => 'admin', 'upload' => 'write'), 'folder_auth' => true);
+
 	//过滤查询字段
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
@@ -24,9 +24,9 @@ class NoticeAction extends CommonAction {
 	}
 
 	public function index() {
-		$widget['date-range'] = true;		
+		$widget['date-range'] = true;
 		$this -> assign("widget", $widget);
-				
+
 		$user_id = get_user_id();
 		$map = $this -> _search();
 		if (method_exists($this, '_search_filter')) {
@@ -41,9 +41,9 @@ class NoticeAction extends CommonAction {
 		return;
 	}
 
-	public function mark(){
+	public function mark() {
 		$action = $_REQUEST['action'];
-		$id = $_REQUEST['id'];		
+		$id = $_REQUEST['id'];
 		switch ($action) {
 			case 'del' :
 				$where['id'] = array('in', $id);
@@ -52,24 +52,24 @@ class NoticeAction extends CommonAction {
 					$auth = D("SystemFolder") -> get_folder_auth($folder[0]["folder"]);
 					if ($auth['admin'] == true) {
 						$field = 'is_del';
-							$result=$this -> _set_field($id,$field,1);
-							if($result){
-								$this -> ajaxReturn('',"删除成功",1);		
-							}else{
-								$this -> ajaxReturn('', "删除失败",0);
-							}
+						$result = $this -> _set_field($id, $field, 1);
+						if ($result) {
+							$this -> ajaxReturn('', "删除成功", 1);
+						} else {
+							$this -> ajaxReturn('', "删除失败", 0);
+						}
 					}
 				} else {
-					$this -> ajaxReturn('', "删除失败",0);
+					$this -> ajaxReturn('', "删除失败", 0);
 				}
 				break;
 			case 'move_folder' :
 				$target_folder = $_REQUEST['val'];
 				$where['id'] = array('in', $id);
 				$folder = M("Notice") -> distinct(true) -> where($where) -> field("folder") -> select();
-				if (count($folder) == 1){
-					$auth = D("SystemFolder") ->get_folder_auth($folder[0]["folder"]);
-					if ($auth['admin'] == true){
+				if (count($folder) == 1) {
+					$auth = D("SystemFolder") -> get_folder_auth($folder[0]["folder"]);
+					if ($auth['admin'] == true) {
 						$field = 'folder';
 						$this -> _set_field($id, $field, $target_folder);
 					}
@@ -87,57 +87,100 @@ class NoticeAction extends CommonAction {
 	function add() {
 		$widget['uploader'] = true;
 		$widget['editor'] = true;
-		$this -> assign("widget", $widget);		
-		
+		$this -> assign("widget", $widget);
+
 		$fid = $_REQUEST['fid'];
 		$this -> assign('folder', $fid);
-		$this->display();
+		$this -> display();
 	}
 
-	public function _before_edit() {
+	public function edit() {
 		$widget['uploader'] = true;
 		$widget['editor'] = true;
 		$this -> assign("widget", $widget);
+		$this -> _edit();
 	}
 
-	public function _before_read() {
+	public function read() {
 		$id = $_REQUEST['id'];
+		$this -> _readed($id);
 		$user_id = get_user_id();
 		$model = M("Notice");
 		$folder_id = $model -> where("id=$id") -> getField('folder');
 		$this -> assign("auth", $auth = D("SystemFolder") -> get_folder_auth($folder_id));
+		$this -> _edit();
 	}
 
+
 	public function folder() {
-		$widget['date-range'] = true;		
+		$widget['date-range'] = true;
 		$this -> assign("widget", $widget);
-		
+
+		$arr_read = explode("_", get_user_config("readed_notice"));
+		$arr_readed_notice = array();
+		$arr_readed_id = array();
+		foreach ($arr_read as $key => $val) {
+			$tmp = explode("|", $val);
+			$notiec_id = $tmp[0];
+			$create_time = $tmp[1];
+			if ($create_time > time() - 3600 * 24 * 30) {
+				$arr_readed_notice[] = $val;
+				$arr_readed_id[] = $notiec_id;
+			}
+		}
+
+		$this -> assign("readed_id", $arr_readed_id);
+		trace($arr_readed_id);
 		$model = D("Notice");
 		$map = $this -> _search();
 		if (method_exists($this, '_search_filter')) {
 			$this -> _search_filter($map);
 		}
-		
+
 		$folder_id = $_REQUEST['fid'];
-		$this -> assign("folder_id", $folder_id);	
-			
+		$this -> assign("folder_id", $folder_id);
+
 		$map['folder'] = $folder_id;
 		if (!empty($model)) {
 			$this -> _list($model, $map);
 		}
 
-		$this ->assign("folder_name",D("SystemFolder")->get_folder_name($folder_id));
-		$this->assign('auth',$this->config['auth']);
-		$this ->_assign_folder_list();
-			
+		$this -> assign("folder_name", D("SystemFolder") -> get_folder_name($folder_id));
+		$this -> assign('auth', $this -> config['auth']);
+		$this -> _assign_folder_list();
+
 		$this -> display();
 	}
 
 	public function upload() {
-		$this->_upload();
+		$this -> _upload();
 	}
 
 	public function down() {
-		$this->_down();
+		$this -> _down();
 	}
+
+	private function _readed($id) {
+		$arr_read = array_filter(explode(",", get_user_config("readed_notice")));
+		$arr_readed_notice = array();
+		foreach ($arr_read as $key => $val) {
+			$tmp = explode("|", $val);
+			$create_time = $tmp[1];
+			if ($create_time > time() - 3600 * 24 * 30) {
+				$arr_readed_notice[] = $val;
+			}
+		}
+
+		$readed_notice = implode("_", $arr_readed_notice);
+		$read_notice = M("Notice") -> field("id,create_time") -> find($id);
+		if ($read_notice['create_time'] > time() - 3600 * 24 * 30) {
+			$read_notice_str = $read_notice['id'] . "|" . $read_notice['create_time'] . "_";
+			$readed_notice = str_replace($read_notice_str, "", $readed_notice);
+			trace($readed_notice);
+			$readed_notice .= $read_notice_str;
+			trace($readed_notice);
+			M("UserConfig") -> where(array('eq', get_user_id())) -> setField('readed_notice', $readed_notice);
+		}
+	}	
+
 }

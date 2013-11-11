@@ -1,6 +1,6 @@
 <?php
 /*---------------------------------------------------------------------------
-  Ğ¡Î¢OAÏµÍ³ - ÈÃ¹¤×÷¸üÇáËÉ¿ìÀÖ 
+  Ğ¡Î¢OAÏµÍ³ - ï¿½Ã¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¿ï¿½ï¿½ï¿½ 
 
   Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
 
@@ -21,7 +21,7 @@ class UserTagAction extends CommonAction {
 		}
 	}
 
-	public function tag_manage() {
+	public function index() {
 		if ($_POST) {
 			$opmode = $_POST["opmode"];
 			$model = D("UserTag");
@@ -51,6 +51,8 @@ class UserTagAction extends CommonAction {
 
 		$tag_list = $model -> get_list();
 		$this -> assign("tag_list", $tag_list);
+		$this -> assign('js_file',"Usertag:js/index");
+		trace("UserTag:js/index");
 		$this -> display('Usertag:tag_manage');
 	}
 

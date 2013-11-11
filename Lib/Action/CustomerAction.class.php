@@ -14,7 +14,7 @@
 
 class CustomerAction extends CommonAction {
 	//过滤查询字段
-	protected $config=array('app_type'=>'common','action_auth'=>array('set_tag'=>'admin'));
+	protected $config=array('app_type'=>'common','action_auth'=>array('set_tag'=>'admin','tag_manage'=>'admin'));
 	function _search_filter(&$map) {
 		$map['name'] = array('like', "%" . $_POST['name'] . "%");
 		$map['letter'] = array('like', "%" . $_POST['letter'] . "%");
@@ -251,6 +251,10 @@ class CustomerAction extends CommonAction {
 			//失败提示
 			$this -> error('操作失败!');
 		}
+	}
+	
+	function tag_manage(){
+		$this->_tag_manage("分组管理");
 	}
 }
 ?>

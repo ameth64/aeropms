@@ -25,8 +25,9 @@ class UdfExpenseAction extends UdfAction {
 		}
 	}
 
-	public function _before_index(){
+	public function index(){
 		$this -> assign('auth',$this -> config['auth']);
-	}	
+		$this->_index();
+	}
 }
 ?>

@@ -1,40 +1,33 @@
 <?php
 /*---------------------------------------------------------------------------
-  小微OA系统 - 让工作更轻松快乐 
+ 小微OA系统 - 让工作更轻松快乐
 
-  Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
+ Copyright (c) 2013 http://www.smeoa.com All rights reserved.
 
-  Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )  
+ Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 
-  Author:  jinzhu.yin<smeoa@qq.com>                         
+ Author:  jinzhu.yin<smeoa@qq.com>
 
-  Support: https://git.oschina.net/smeoa/smeoa               
+ Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
 
 // 角色模块
 class RoleAction extends CommonAction {
-	protected $config=array('app_type'=>'master',
-											 'action_auth'=>array('node'=>'admin',
-																				'get_node_list'=>'admin',
-																				'user'=>'admin',
-																				'duty'=>'admin',
-																				'get_role_list'=>'admin',
-																				'get_duty_list'=>'admin',
-																				)
-											 );
+	protected $config = array('app_type' => 'master', 'action_auth' => array('node' => 'admin', 'get_node_list' => 'admin', 'user' => 'admin', 'duty' => 'admin', 'get_role_list' => 'admin', 'get_duty_list' => 'admin', ));
+	
 	public function node() {
 		$node_model = M("Node");
 		if (!empty($_POST['s_pid'])) {
-			$pid = $_POST['s_pid'];						
-		} else {			
+			$pid = $_POST['s_pid'];
+		} else {
 			$pid = $node_model -> where('pid=0') -> order('sort asc') -> getField('id');
 		}
-				
+
 		//dump($node_model -> select());
-		$node_list=$node_model ->order('sort asc')-> select();		
-		
-		$node_list = tree_to_list(list_to_tree($node_list,$pid));
-		 
+		$node_list = $node_model -> order('sort asc') -> select();
+
+		$node_list = tree_to_list(list_to_tree($node_list, $pid));
+
 		$node_list = rotate($node_list);
 		//dump($node_list);
 		$node_list = implode(",", $node_list['id']) . ",$pid";
@@ -55,7 +48,19 @@ class RoleAction extends CommonAction {
 		$this -> assign('groupList', $list);
 		$this -> display();
 	}
-
+	
+	public function del()
+	{
+		$role_id=$_POST['id'];
+		
+		$model = M("RoleNode");
+		$where['role_id'] = $role_id;
+		$model->where($where)->delete();
+		
+		$model = M("RoleUser");
+		$model->where($where)->delete();	
+		$this->_destory($role_id);				
+	}
 	public function get_node_list() {
 		$role_id = $_POST["role_id"];
 		$model = D("Role");
@@ -64,9 +69,8 @@ class RoleAction extends CommonAction {
 			$this -> ajaxReturn($data, "", 1);
 		}
 	}
-
+	
 	public function set_node() {
-
 		$role_id = $_POST["role_id"];
 		$org_list = $_POST["org_node_list"];
 		$node_list = $_POST["node_list"];
@@ -75,7 +79,7 @@ class RoleAction extends CommonAction {
 		$read_list = $_POST["read"];
 
 		$model = D("Role");
-		$model -> del_node($role_id, $org_list);
+		$model -> del_node($role_id,$org_list);
 
 		$result = $model -> set_node($role_id, $node_list);
 

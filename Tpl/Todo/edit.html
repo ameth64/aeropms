@@ -6,23 +6,23 @@
 	<input type="hidden" id="add_file" name="add_file">
 	<input type="hidden" id="opmode" name="opmode" value="edit">
 	<div class="form-group">
-		<label class="col-md-2 control-label" for="name">标题*：</label>
-		<div class="col-md-10">
+		<label class="col-sm-2 control-label" for="name">标题*：</label>
+		<div class="col-sm-10">
 			<input value="{$vo.name}" class="form-control" type="text" id="name" name="name" check="require" msg="请输入标题">
 		</div>
 	</div>
 
-	<div class="form-group col-md-6">
-		<label class="col-md-4 control-label" for="end_date">结束：</label>
-		<div class="col-md-8">
+	<div class="form-group col-sm-6">
+		<label class="col-sm-4 control-label" for="end_date">结束：</label>
+		<div class="col-sm-8">
 			<input data-date-format="yyyy-mm-dd" type="text" id="end_date" name="end_date" readonly="readonly" class="form-control input-date" value="{$vo.end_date}">
 		</div>
 	</div>
 
-	<div class="form-group col-md-6">
-		<label class="col-md-4 control-label" >优先级：</label>
-		<div class="col-md-8">
-			<div class="col-md-8">
+	<div class="form-group col-sm-6">
+		<label class="col-sm-4 control-label" >优先级：</label>
+		<div class="col-sm-8">
+			<div class="col-sm-8">
 				<div class="form-control-static" >
 					<input type="hidden" id="priority" name="priority"/>
 					<div  class="slider_box" >
@@ -40,8 +40,8 @@
 	</div>
 	<div class="clearfix"></div>
 	<div class="form-group">
-		<label class="col-md-2 control-label" for="name">附件：</label>
-		<div class="col-md-10">
+		<label class="col-sm-2 control-label" for="name">附件：</label>
+		<div class="col-sm-10">
 			<include file="Widget:uploader" />
 		</div>
 	</div>

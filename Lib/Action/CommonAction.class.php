@@ -26,31 +26,55 @@ class CommonAction extends Action {
 		}
 		$this -> assign('js_file', 'js/' . ACTION_NAME);
 		$this -> _assign_menu();
-		$this->_get_new();
+		$this -> _get_new();
 	}
 
 	/**列表页面 **/
-	function index(){		
+	function index() {
+		$this -> _index();
+	}
+
+	/**查看页面 **/
+	function read() {
+		$this -> _edit();
+	}
+
+	/**编辑页面 **/
+	function edit() {
+		$this -> _edit();
+	}
+
+	/** 保存操作  **/
+	function save() {
+		$opmode = $_POST["opmode"];
+		if ($opmode == "add") {
+			$this -> _insert();
+		}
+		if ($opmode == "edit") {
+			$this -> _update();
+		}
+		if ($opmode == "del") {
+			$this -> _del();
+		}
+	}
+
+	/**列表页面 **/
+	protected function _index() {
 		$map = $this -> _search();
 		if (method_exists($this, '_search_filter')) {
 			$this -> _search_filter($map);
 		}
 		$name = $this -> getActionName();
 		$model = D($name);
-		
+
 		if (!empty($model)) {
 			$this -> _list($model, $map);
 		}
 		$this -> display();
 	}
 
-	/**查看页面 **/
-	function read() {
-		$this -> edit();
-	}
-
 	/**编辑页面 **/
-	function edit() {
+	protected function _edit() {
 		$name = $this -> getActionName();
 		$model = M($name);
 		$id = $_REQUEST[$model -> getPk()];
@@ -67,20 +91,6 @@ class CommonAction extends Action {
 		};
 		$this -> assign('vo', $vo);
 		$this -> display();
-	}
-
-	/** 保存操作  **/
-	function save() {
-		$opmode = $_POST["opmode"];
-		if ($opmode == "add") {
-			$this -> _insert();
-		}
-		if ($opmode == "edit") {
-			$this -> _update();
-		}
-		if ($opmode == "del") {
-			$this -> _del();
-		}
 	}
 
 	/** 插入新新数据  **/
@@ -202,10 +212,8 @@ class CommonAction extends Action {
 
 	/** 删除数据  **/
 	protected function _destory($id) {
-
 		$name = $this -> getActionName();
 		$model = M($name);
-
 		if (!empty($model)) {
 			$pk = $model -> getPk();
 			if (isset($id)) {
@@ -229,8 +237,8 @@ class CommonAction extends Action {
 				$this -> _destory_file($file_list);
 
 				$result = $model -> where($where) -> delete();
-
 				if ($result !== false) {
+					$this -> assign('jumpUrl', get_return_url());
 					$this -> success("彻底删除{$result}条!");
 				} else {
 					$this -> error('删除失败!');
@@ -413,7 +421,7 @@ class CommonAction extends Action {
 			$menu = D("Node") -> access_list();
 			$system_folder_menu = D("SystemFolder") -> get_folder_menu();
 			$user_folder_menu = D("UserFolder") -> get_folder_menu();
-			$menu = array_merge($menu,$system_folder_menu,$user_folder_menu);
+			$menu = array_merge($menu, $system_folder_menu, $user_folder_menu);
 			//缓存菜单访问
 			session('menu' . $user_id, $menu);
 		}
@@ -478,13 +486,14 @@ class CommonAction extends Action {
 	}
 
 	protected function _tag_manage($tag_name) {
+		$this -> assign("tag_name", $tag_name);
 		if ($this -> config['app_type'] == 'personal') {
-			$tag = A('UserTag');
+			R('UserTag/index');
+			$this -> assign('js_file', "UserTag:js/index");
 		} else {
-			$tag = A('SystemTag');
+			R('SystemTag/index');
+			$this -> assign('js_file', "SystemTag:js/index");			
 		}
-		$tag -> assign("tag_name", $tag_name);
-		$tag -> tag_manage();
 	}
 
 	protected function _pushReturn($data, $info, $status, $time = null) {
@@ -503,47 +512,62 @@ class CommonAction extends Action {
 		exit();
 	}
 
-protected function _get_new() {
-	//获取未读邮件
-	$user_id = get_user_id();
-	$where['user_id'] = $user_id;
-	$where['is_del'] = array('eq', '0');
-	$where['folder'] = array( array('eq', 1), array('gt', 6), 'or');
-	$where['read'] = array('eq', '0');
-	$model=M("Mail");
-	$new_mail = $model -> where($where) -> count();
-	$this -> assign("new_mail", $new_mail);
+	protected function _get_new() {
+		//获取未读邮件
+		$user_id = get_user_id();
+		$where['user_id'] = $user_id;
+		$where['is_del'] = array('eq', '0');
+		$where['folder'] = array( array('eq', 1), array('gt', 6), 'or');
+		$where['read'] = array('eq', '0');
+		$model = M("Mail");
+		$new_mail = $model -> where($where) -> count();
+		$this -> assign("new_mail", $new_mail);
 
-	//获取待裁决
-	$where=array();
-	$FlowLog = M("FlowLog");
-	$emp_no = $_SESSION['emp_no'];
-	$where['emp_no'] = $emp_no;
-	$where['_string'] = "result is null";
-	$log_list = $FlowLog -> where($where) -> field('flow_id') -> select();
-	$log_list = rotate($log_list);
-	if (!empty($log_list)) {
-		$map['id'] = array('in', $log_list['flow_id']);
-		$todo_flow_list = $model -> where($map) -> count();
-		$this -> assign("new_flow_todo", $todo_flow_list);
+		//获取待裁决
+		$where = array();
+		$FlowLog = M("FlowLog");
+		$emp_no = $_SESSION['emp_no'];
+		$where['emp_no'] = $emp_no;
+		$where['_string'] = "result is null";
+		$log_list = $FlowLog -> where($where) -> field('flow_id') -> select();
+		$log_list = rotate($log_list);
+		if (!empty($log_list)) {
+			$map['id'] = array('in', $log_list['flow_id']);
+			$todo_flow_list = $model -> where($map) -> count();
+			$this -> assign("new_flow_todo", $todo_flow_list);
+		}
+
+		//获取最新通知
+		$model = D('Notice');
+		$where = array();
+		$where['is_del'] = array('eq', '0');
+		$folder_list = D("SystemFolder") -> get_authed_folder(get_user_id(), "NoticeFolder");
+		$where['folder'] = array("in", $folder_list);
+		$where['create_time'] = array('egt', time() - 3600 * 24 * 30);
+		$new_notice_list = $model -> where($where) -> getField('id,create_time');
+		$readed = get_user_config("readed_notice");
+		$new_notice = 0;
+		if ($new_notice_list) {
+
+			foreach ($new_notice_list as $key => $val) {
+				//trace(strpos($readed,$key."|".$val)===false);
+				if (strpos($readed, $key . "|" . $val) === false) {
+					$new_notice++;
+					//trace($key);
+				}
+			}
+		}
+
+		$this -> assign("new_notice", $new_notice);
+
+		$model = M("Todo");
+		$where = array();
+		$where['user_id'] = $user_id;
+		$where['status'] = array("in", "1,2");
+		$new_todo = M("Todo") -> where($where) -> count();
+		$this -> assign("new_todo", $new_todo);
+
 	}
 
-	//获取最新通知
-	$model = D('Notice');
-	$where=array();
-	$where['is_del'] = array('eq', '0');
-	$folder_list = D("SystemFolder") -> get_authed_folder(get_user_id(), "NoticeFolder");
-	$where['folder'] = array("in", $folder_list);
-	$new_notice_list = $model -> where($where) -> select();
-	$this -> assign("new_notice",count($new_notice_list));
-
-	$model = M("Todo");
-	$where = array();
-	$where['user_id'] = $user_id;
-	$where['status'] = array("in", "1,2");
-	$new_todo = M("Todo") -> where($where) ->count();
-	$this -> assign("new_todo",$new_todo);
-
-}	
 }
 ?>

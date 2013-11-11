@@ -10,6 +10,8 @@
 							$(this).parents("li").addClass("normal");
 						});
 						$("input[name='id[]']:checked").prop('checked', false);
+						$("#id-toggle-all").prop('checked', false);
+						
 					}
 				});
 				break;
@@ -21,18 +23,15 @@
 							$(this).parents("li").addClass("bold");
 						})
 						$("input[name='id[]']:checked").prop('checked', false);
+						$("#id-toggle-all").prop('checked', false);
 					}
 				});
-
 				break;
 			case "del":
 				sendAjax("{:U('mark?action=del')}", vars, function(data) {
 					if (data.status) {
 						alert(data.info);
 						location.href=location.href;		
-						$("input[name='id[]']:checkbox:checked").each(function() {
-							$(this).parents("li").remove();
-						})
 					}
 				});
 				break;
@@ -41,10 +40,7 @@
 					sendAjax("{:U('mark?action=del_forever')}", vars, function(data) {
 						if (data.status) {
 							alert(data.info);
-							location.href=location.href;		
-							$("input[name='id[]']:checkbox:checked").each(function() {
-								$(this).parents("li").remove();
-							})
+							location.href=location.href;
 						}
 					});
 				}
@@ -53,14 +49,12 @@
 				sendAjax("{:U('mark?action=spam')}", vars, function(data) {
 					if (data.status) {
 						alert(data.info);
-						$("input[name='id[]']:checkbox:checked").each(function() {
-							$(this).parents("li").remove();
-						})
+						location.href=location.href;
 					}
 				});
 				break;
 			default:
-		}	
+		}
 	}
 
 	function forword() {
@@ -78,7 +72,6 @@
 			$(this).parents("li").hide();
 		})
 	}
-
 
 	$(document).ready(function() {
 		$("#move_to li").click(function() {

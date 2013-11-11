@@ -3,13 +3,11 @@
 		var vars = $("#form_data").serialize();
 		switch(action) {
 			case "del":
-				if (confirm('确定要删除吗?')) {
+				if (confirm('确定要删除吗?')){
 					sendAjax("{:U('Doc/mark?action=del')}", vars, function(data) {
 						if (data.status) {
 							alert(data.info);
-							$("input[name='id[]']:checkbox:checked").each(function() {
-								$(this).parents("li").remove();
-							})
+							location.href=location.href;		
 						}
 					});
 				}
@@ -25,9 +23,7 @@
 	function move_to(val) {
 		var vars = $("#form_data").serialize();
 		sendAjax("{:U('mark?action=move_folder')}", 'val=' + val + '&' + vars);
-		$("input[name='id[]']:checkbox:checked").each(function() {
-			$(this).parent().parent().hide();
-		})
+		location.href=location.href;
 	}
 
 	$(document).ready(function() {

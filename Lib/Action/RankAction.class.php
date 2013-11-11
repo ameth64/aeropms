@@ -18,6 +18,11 @@ class RankAction extends CommonAction {
 			$map['rank_no|name'] = array('like', "%" . $_POST['keyword'] . "%");
 		}
 	}
+	
+	function del(){
+		$id=$_POST['id'];
+		$this->_destory($id);		
+	}	
 
 }
 ?>

@@ -1,6 +1,6 @@
 <layout name='Layout/ace_layout' />
-<input type="hidden" name="ajax" id="ajax" value="0">
 {:W('PageHeader',array('name'=>$tag_name,'search'=>'N'))}
+
 <div class="operate panel panel-default">
 	<div class="panel-body">
 		<div class="pull-right">
@@ -20,9 +20,12 @@
 	<div class="col-sm-8 ">
 		<form id="form_data" name="form_data" method="post" class="form-horizontal well">
 			<input type="hidden" name="id" id="id">
-			<input type="hidden" name="pid" id="pid" >
+			<input type="hidden" name="pid" id="pid" value="0">
+			<input type="hidden" name="ajax" id="ajax" value="0">
 			<input type="hidden" name="opmode" id="opmode" value="">
-			<select name="tag_list" id="tag_list" class="display-none">{:fill_option($tag_list)}	</select>
+			<select name="tag_list" id="tag_list" class="display-none">
+				{:fill_option($tag_list)}
+			</select>
 			<div class="form-group">
 				<label class="col-sm-4 control-label" for="name">名称：</label>
 				<div class="col-sm-8">
@@ -33,7 +36,7 @@
 				<label class="col-sm-4 control-label" for="tag_name">父节点*：</label>
 				<div class="col-sm-8">
 					<div class="input-group">
-						<input name="tag_name" class="form-control" id="tag_name" type="text" msg="请选择上级部门" check="require"  readonly="readonly"/>
+						<input name="tag_name" class="form-control val" id="tag_name" type="text" msg="请选择上级部门" check="require" source="{:U('dept/json')}" readonly="readonly"/>
 						<span class="input-group-btn">
 							<button class="btn btn-sm btn-primary" onclick="select_pid()" type="button">
 								选择
@@ -62,7 +65,6 @@
 					<textarea id="remark" name="remark" class="col-xs-12 form-control"></textarea>
 				</div>
 			</div>
+		</form>
 	</div>
-	</form>
-</div>
 </div>

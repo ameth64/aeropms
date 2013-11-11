@@ -19,6 +19,10 @@ class UserFolderAction extends CommonAction {
 	}
 
 	function index() {
+		$this->_index();
+	}
+
+	protected function _index() {
 		$this -> assign('js_file',"UserFolder:js/index");
 				
 		$node = M("UserFolder");
@@ -34,7 +38,6 @@ class UserFolderAction extends CommonAction {
 		$this -> assign('menu', sub_tree_menu($tree));
 		$this -> display("UserFolder:index");
 	}
-
 	protected function _insert() {
 		$model = D("UserFolder");
 		if (false === $model -> create()) {
@@ -85,6 +88,24 @@ class UserFolderAction extends CommonAction {
 		}
 	}
 
+	function del() {
+		$id = $_REQUEST["id"];
+		$model = M("UserFolder");		
+		$data = $model -> getById($id);
+		$fid=$data['id'];
+		$folder=$data['folder'];
+		$count=M(str_replace("Folder","",$folder))->where("folder=$fid")->count();
+					
+		if ($count>0) {// 读取成功
+			$this -> ajaxReturn("", "只能删除空文件夹",1);
+		}else{
+			$result=$model->where("id=$id")->delete();
+			if($result){
+				$this -> ajaxReturn("", "删除文件夹成功",1);
+			}
+		}
+	}
+	
 	function winpop() {
 		$node = M("UserFolder");
 		$menu = array();

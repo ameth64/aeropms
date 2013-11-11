@@ -11,7 +11,6 @@
  Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
 
-
 function _encode($arr) {
 	$na = array();
 	foreach ($arr as $k => $value) {
@@ -730,11 +729,11 @@ function get_module($str) {
 }
 
 function filter_module($str) {
+	if (strpos($str['url'], '##') !== false) {
+		return true;
+	}
 	if (empty($str['admin']) && empty($str['write']) && empty($str['read'])) {
 		return false;
-	}
-	if (strpos($str, '##') !== false) {
-		return true;
 	}
 	if (strpos($str['url'], 'index')) {
 		return true;

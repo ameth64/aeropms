@@ -30,43 +30,43 @@
 	<input type="hidden" id="step" name="step" value="">
 	
 		<div class="form-group">
-		<label class="col-md-2 control-label" for="name">标题*：</label>
-		<div class="col-md-10">
+		<label class="col-sm-2 control-label" for="name">标题*：</label>
+		<div class="col-sm-10">
 			<input value="{$vo.name}" class="form-control" type="text" id="name" name="name" check="require" msg="请输入标题">
 		</div>
 	</div>
 
 
-	<div class="form-group col-md-6">
-		<label class="col-md-4 control-label" >文件编号*：</label>
-		<div class="col-md-8">
+	<div class="form-group col-sm-6">
+		<label class="col-sm-4 control-label" >文件编号*：</label>
+		<div class="col-sm-8">
 			<p class="form-control-static">
 				{$flow_type.doc_no_format}
 			</p>
 		</div>
 	</div>
 
-	<div class="form-group col-md-6">
-		<label class="col-md-4 control-label" >日期：</label>
-		<div class="col-md-8">
+	<div class="form-group col-sm-6">
+		<label class="col-sm-4 control-label" >日期：</label>
+		<div class="col-sm-8">
 			<p class="form-control-static">
 				{$vo.create_time|toDate='Y-m-d'}
 			</p>
 		</div>
 	</div>
 	
-	<div class="form-group col-md-6">
-		<label class="col-md-4 control-label" >编写人：</label>
-		<div class="col-md-8">
+	<div class="form-group col-sm-6">
+		<label class="col-sm-4 control-label" >编写人：</label>
+		<div class="col-sm-8">
 			<p class="form-control-static">
 				{$vo.user_name}
 			</p>
 		</div>
 	</div>		
 
-	<div class="form-group col-md-6">
-		<label class="col-md-4 control-label" >部门：</label>
-		<div class="col-md-8">
+	<div class="form-group col-sm-6">
+		<label class="col-sm-4 control-label" >部门：</label>
+		<div class="col-sm-8">
 			<p class="form-control-static">
 				{$vo.dept_name}
 			</p>
@@ -74,8 +74,8 @@
 	</div>		
 	
 	<div class="form-group">
-		<label class="col-md-2 control-label" >裁决：</label>
-		<div class="col-md-10">
+		<label class="col-sm-2 control-label" >裁决：</label>
+		<div class="col-sm-10">
 			<p id="confirm_wrap" class="form-control-static address_list">
 				{$vo.dept_name}
 			</p>
@@ -83,8 +83,8 @@
 	</div>	
 		
 	<div class="form-group">
-		<label class="col-md-2 control-label" >协商：</label>
-		<div class="col-md-10">
+		<label class="col-sm-2 control-label" >协商：</label>
+		<div class="col-sm-10">
 			<p id="consult_wrap" class="form-control-static address_list">
 				{$vo.consult_name}
 			</p>
@@ -93,8 +93,8 @@
 
 		
 	<div class="form-group">
-		<label class="col-md-2 control-label" >抄送：</label>
-		<div class="col-md-10">
+		<label class="col-sm-2 control-label" >抄送：</label>
+		<div class="col-sm-10">
 			<p id="refer_wrap" class="form-control-static address_list">
 				{$vo.consult_name}
 			</p>
@@ -102,8 +102,8 @@
 	</div>	
 		
 	<div class="form-group">
-		<label class="col-md-2 control-label" >附件：</label>
-		<div class="col-md-10">
+		<label class="col-sm-2 control-label" >附件：</label>
+		<div class="col-sm-10">
 			<include file="Widget:uploader" />
 		</div>
 	</div>	

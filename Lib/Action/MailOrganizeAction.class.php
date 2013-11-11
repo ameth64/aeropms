@@ -1,19 +1,19 @@
 <?php
 /*---------------------------------------------------------------------------
-  小微OA系统 - 让工作更轻松快乐 
+ 小微OA系统 - 让工作更轻松快乐
 
-  Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
+ Copyright (c) 2013 http://www.smeoa.com All rights reserved.
 
-  Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )  
+ Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 
-  Author:  jinzhu.yin<smeoa@qq.com>                         
+ Author:  jinzhu.yin<smeoa@qq.com>
 
-  Support: https://git.oschina.net/smeoa/smeoa               
+ Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
 
 class MailOrganizeAction extends CommonAction {
-	protected $config=array('app_type'=>'personal');
-	public function index() {		
+	protected $config = array('app_type' => 'personal');
+	public function index() {
 		$where["user_id"] = get_user_id();
 		$list = M("MailOrganize") -> where($where) -> select();
 		$this -> assign("list", $list);
@@ -23,22 +23,23 @@ class MailOrganizeAction extends CommonAction {
 	function add() {
 		$temp = R("Mail/_assign_mail_folder_list");
 		$this -> assign('mail_folder', $temp);
-		$this->display();
+		$this -> display();
 	}
 
-	function _before_edit() {
+	function edit() {
 		$model = D("UserFolder");
-		$user_folder = $model -> get_list("MailFolder");		
+		$user_folder = $model -> get_list("MailFolder");
 		$system_folder = array( array("id" => 1, "name" => "收件箱"), array("id" => 2, "name" => "已发送"));
-		if(!empty($user_folder)){
-			$mail_folder = array_merge($system_folder, $user_folder);	
-		}else{
-			$mail_folder=$system_folder;
+		if (!empty($user_folder)) {
+			$mail_folder = array_merge($system_folder, $user_folder);
+		} else {
+			$mail_folder = $system_folder;
 		}
-		$this->assign('folder_list',$mail_folder);
+		$this -> assign('folder_list', $mail_folder);
+		$this -> _edit();
 	}
 
-	function update() {
+	protected function _update() {
 		$id = $_POST["id"];
 		$model = M("MailOrganize");
 		$model -> where("id=$id") -> delete();
@@ -67,7 +68,8 @@ class MailOrganizeAction extends CommonAction {
 
 	function del() {
 		$id = $_REQUEST["id"];
-		$this->_destory($id);		
+		$this -> _destory($id);
 	}
+
 }
 ?>

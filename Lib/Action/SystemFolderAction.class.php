@@ -20,7 +20,11 @@ class SystemFolderAction extends CommonAction {
 		$map['is_del'] = array('eq', '0');
 	}
 
-	function index() {
+	function index(){
+		$this->_index();
+	}
+	
+	protected function _index() {
 		$node = M("SystemFolder");
 		$menu = array();
 		$where['folder'] = MODULE_NAME;
@@ -75,6 +79,24 @@ class SystemFolderAction extends CommonAction {
 		$data = $model -> getById($id);
 		if ($data !== false) {// 读取成功
 			$this -> ajaxReturn($data, "", 1);
+		}
+	}
+
+	function del() {
+		$id = $_REQUEST["id"];
+		$model = M("SystemFolder");		
+		$data = $model -> getById($id);
+		$fid=$data['id'];
+		$folder=$data['folder'];
+		$count=M(str_replace("Folder","",$folder))->where("folder=$fid")->count();
+					
+		if ($count>0) {// 读取成功
+			$this -> ajaxReturn("", "只能删除空文件夹",1);
+		}else{
+			$result=$model->where("id=$id")->delete();
+			if($result){
+				$this -> ajaxReturn("", "删除文件夹成功",1);
+			}
 		}
 	}
 

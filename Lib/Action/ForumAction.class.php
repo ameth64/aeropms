@@ -67,10 +67,11 @@ class ForumAction extends CommonAction {
 		$this->display();
 	}
 
-	public function _before_edit() {
+	public function edit() {
 		$widget['uploader'] = true;
 		$widget['editor'] = true;
 		$this -> assign("widget", $widget);
+		$this->_edit();
 	}
 
 

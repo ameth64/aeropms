@@ -15,15 +15,12 @@
 class NavAction extends CommonAction {
 
 	protected $config=array('app_type'=>'master','action_auth'=>array('Nav'=>'admin'));
-
-	public function _before_index() {
+	public function index(){
+		
 		$model = M("Nav");
 		$list = $model -> where('pid=0') -> order('sort asc') -> getField('id,name');
 		$this -> assign('groupList', $list);
-	}
-
-	public function index(){
-		$Nav = M("Nav");
+		
 		if (!empty($_POST['eq_pid'])) {
 			$eq_pid = $_POST['eq_pid'];
 		} elseif (!empty($_GET['eq_pid'])) {

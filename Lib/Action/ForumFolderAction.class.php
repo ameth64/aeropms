@@ -19,8 +19,9 @@ class ForumFolderAction extends SystemFolderAction {
 		$map['is_del'] = array('eq', '0');
 	}
 
-	public function _before_index() {
+	public function index() {
 		$this -> assign("folder_name", "论坛管理");
+		$this->_index();
 	}
 	//--------------------------------------------------------------------------------------------------------------------------------
 }

@@ -559,17 +559,20 @@ class MailAction extends CommonAction {
 				$model -> folder = $val['to'];
 				return;
 			}
-
+			
+			//包含
 			if (($val['domain_check'] == 1) && ($val['domain_option'] == 1) && (strpos($model -> from, $val['domain_key']) !== false)) {
 				$model -> folder = $val['to'];
 				return;
 			}
+			
 			//不包含
 			if (($val['domain_check'] == 1) && ($val['domain_option'] == 0) && (strpos($model -> from, $val['domain_key']) == false)) {
 				$model -> folder = $val['to'];
 				return;
 			}
-
+			
+			//包含
 			if (($val['recever_check'] == 1) && ($val['recever_option'] == 1) && (strpos($model -> to, $val['recever_key']) !== false)) {
 				$model -> folder = $val['to'];
 				return;
@@ -579,13 +582,14 @@ class MailAction extends CommonAction {
 				$model -> folder = $val['to'];
 				return;
 			}
-
-			if (($val['title_check'] == 1) && ($val['title_option'] == 1) && (strpos($model -> title, $val['title_key']) !== false)) {
+			
+			//包含
+			if (($val['title_check'] == 1) && ($val['title_option'] == 1) && (strpos($model -> name, $val['title_key']) !== false)) {
 				$model -> folder = $val['to'];
 				return;
 			}
 			//不包含
-			if (($val['title_check'] == 1) && ($val['title_option'] == 0) && (strpos($model -> title, $val['title_key']) == false)) {
+			if (($val['title_check'] == 1) && ($val['title_option'] == 0) && (strpos($model -> name, $val['title_key']) == false)) {
 				$model -> folder = $val['to'];
 				return;
 			}

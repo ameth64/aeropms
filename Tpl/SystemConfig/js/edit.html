@@ -4,6 +4,14 @@
 			sendForm("form_data", "{:U('save')}");
 		}
 	}
+	
+	function del() {
+		var vars = $("#form_data").serialize();
+		if (confirm('确定要删除吗?')){		
+			sendForm("form_data", "{:U('del')}");
+		}
+	}
+		
 	$(function(){
 		set_val('is_del',{$vo.is_del});
 	})
