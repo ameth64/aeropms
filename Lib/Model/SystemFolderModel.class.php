@@ -13,7 +13,7 @@
 
 class SystemFolderModel extends CommonModel {
 
-	function get_list($folder=''){
+	function get_folder_list($folder=''){
 		if(empty($folder)){
 			$folder=MODULE_NAME."Folder";
 		}

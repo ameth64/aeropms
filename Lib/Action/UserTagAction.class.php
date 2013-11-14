@@ -45,11 +45,11 @@ class UserTagAction extends CommonAction {
 		}
 		
 		$model = D("UserTag");
-		$tag_list = $model -> get_list("id,pid,name");
+		$tag_list = $model -> get_tag_list("id,pid,name");
 		$tree = list_to_tree($tag_list);
 		$this -> assign('menu', sub_tree_menu($tree));
 
-		$tag_list = $model -> get_list();
+		$tag_list = $model -> get_tag_list();
 		$this -> assign("tag_list", $tag_list);
 		$this -> assign('js_file',"Usertag:js/index");
 		trace("UserTag:js/index");

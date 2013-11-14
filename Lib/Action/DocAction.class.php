@@ -12,7 +12,9 @@
  -------------------------------------------------------------------------*/
 
 class DocAction extends CommonAction {
+	
 	protected $config = array('app_type' => 'common', 'action_auth' => array('folder' => 'read', 'tag_manage' => 'admin', 'mark' => 'admin'), 'folder_auth' => true);
+	
 	//过滤查询字段
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
@@ -38,7 +40,6 @@ class DocAction extends CommonAction {
 			$this -> _list($model, $map);
 		}
 		$this -> display();
-		return;
 	}
 
 	public function edit() {
@@ -51,7 +52,6 @@ class DocAction extends CommonAction {
 	public function folder(){
 		$widget['date-range'] = true;		
 		$this -> assign("widget", $widget);
-
 		$this -> assign('auth', $this -> config['auth']);
 		
 		$model = D("Doc");
@@ -87,45 +87,17 @@ class DocAction extends CommonAction {
 		$this -> assign("widget", $widget);		
 		
 		$fid = $_REQUEST['fid'];
-		$type = D("Folder") -> where("id=$fid") -> getField("folder");
+		$type = D("SystemFolder") -> where("id=$fid") -> getField("folder");
 		$this -> assign('folder', $fid);
-		$this -> assign('type', $type);
 		$this -> display();
 	}
 
 	public function read() {
-		$id = $_REQUEST['id'];
-		$user_id = get_user_id();
+		$id = $_REQUEST['id'];		
 		$model = M("Doc");
 		$folder_id = $model -> where("id=$id") -> getField('folder');
 		$this -> assign("auth", D("SystemFolder") -> get_folder_auth($folder_id));
 		$this->_edit();
-	}
-
-	protected function _insert() {
-		$name = $this -> getActionName();
-		$model = D($name);
-		if (false === $model -> create()) {
-			$this -> error($model -> getError());
-		}
-		if (in_array('user_id', $model -> getDbFields())) {
-			$model -> user_id = get_user_id();
-		};
-		if (in_array('user_name', $model -> getDbFields())) {
-			$model -> user_name = $this -> _session("user_name");
-		};
-		$tag_list = conv_tag_list($_POST['tag']);
-		//保存当前数据对象
-		$new_id = $model -> add();
-
-		if ($list !== false) {//保存成功
-			D("SystemTag") -> set_tag($new_id, $tag_list);
-			$this -> assign('jumpUrl', get_return_url());
-			$this -> success('新增成功!');
-		} else {
-			//失败提示
-			$this -> error('新增失败!');
-		}
 	}
 
 	public function mark() {
@@ -172,10 +144,6 @@ class DocAction extends CommonAction {
 		}
 	}
 
-	function _assign_doc_folder_list() {
-		$this -> _assign_folder_list();
-	}
-
 	function tag_manage() {
 		$this -> _tag_manage("标签管理");
 	}
@@ -187,5 +155,4 @@ class DocAction extends CommonAction {
 	function down() {
 		$this -> _down();
 	}
-
 }

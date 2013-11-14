@@ -1,6 +1,5 @@
 <layout name='Layout/ace_layout' />
-<form method="post" action="" id="form_search" name="form_search">
-	{:W('PageHeader',array('name'=>'职位管理','search'=>'S'))}
+{:W('PageHeader',array('name'=>'职位管理','search'=>'S'))}
 <div class="operate panel panel-default">
 	<div class="panel-body">
 		<div class="pull-right">
@@ -12,26 +11,26 @@
 	</div>
 </div>
 <div class="row">
-<div class="col-sm-4 sub_left_menu">
-	<table class="table table-bordered">
-		<thead>
-			<tr>
-				<th>编号</th>
-				<th>名称</th>
-				<th>状态</th>
-			</tr>
-		</thead>
-		<tbody>
-			<volist name="list" id="data">
-				<tr id="{$data.id}">
-					<td>{$data.position_no}</td>
-					<td>{$data.name}</td>
-					<td>{$data.is_del|status}</td>
+	<div class="col-sm-4 sub_left_menu">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>编号</th>
+					<th>名称</th>
+					<th>状态</th>
 				</tr>
-			</volist>
-		</tbody>
-	</table>
-</div>
+			</thead>
+			<tbody>
+				<volist name="list" id="data">
+					<tr id="{$data.id}">
+						<td>{$data.position_no}</td>
+						<td>{$data.name}</td>
+						<td>{$data.is_del|status}</td>
+					</tr>
+				</volist>
+			</tbody>
+		</table>
+	</div>
 
 	<div class="col-sm-8 sub_content">
 		<form id="form_data" name="form_data"method="post" class="well form-horizontal clearfix">

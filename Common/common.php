@@ -743,9 +743,11 @@ function filter_module($str) {
 
 function rotate($a) {
 	$b = array();
-	foreach ($a as $val) {
-		foreach ($val as $k => $v) {
-			$b[$k][] = $v;
+	if (is_array($a)) {
+		foreach ($a as $val) {
+			foreach ($val as $k => $v) {
+				$b[$k][] = $v;
+			}
 		}
 	}
 	return $b;

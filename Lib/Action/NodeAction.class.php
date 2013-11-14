@@ -42,7 +42,7 @@ class NodeAction extends CommonAction {
 		$this -> display();
 	}
 
-	function _insert() {
+	protected function _insert() {
 		$model = D('Node');
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
@@ -63,7 +63,7 @@ class NodeAction extends CommonAction {
 		}
 	}
 
-	function _update() {		
+	protected function _update() {		
 		$id = $_POST['id'];
 		$model = D("Node");
 		if (false === $model -> create()) {

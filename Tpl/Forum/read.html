@@ -36,7 +36,7 @@
 	</tr>
 
 	<tr>
-		<td style="width:145px;text-align:center;padding:0;margin:0;">
+		<td class="post_left">
 		<div class="read_info">
 			<div class="wrap">
 				<div class="face pull-left">
@@ -69,8 +69,8 @@
 		<div class="face">
 			<img src="__APP__/Data/files/{$vo.user.pic}" width="120" height="120" border="0" >
 		</div></td>
-		<td style="width:100%;vertical-align:top;">
-		<div class="post">
+		<td class="post_right">
+		<div class="post_content">
 			{$vo.content}
 		</div>
 		<gt name="vo.add_file|strlen" value="2">
@@ -144,9 +144,9 @@
 		</tr>
 	</foreach>
 </table>
-	<div class="pagination">
-		{$page}
-	</div>
+<div class="pagination">
+	{$page}
+</div>
 <if condition="$auth['write']">
 	{:W('PageHeader',array('name'=>'回复','search'=>'N'))}
 	<div class="operate panel panel-default">
@@ -168,7 +168,8 @@
 			<tr>
 				<td>附件：</td>
 				<td>
-				<include file="Widget:uploader" /></td>
+				<include file="Widget:uploader" />
+				</td>
 			</tr>
 			<td style="width:145px;text-align:center;vertical-align:top;">
 			<div class="face">

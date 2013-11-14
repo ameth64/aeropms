@@ -36,14 +36,14 @@
 					}
 					break
 				case 13:
-					if ($(this).parents(".inputbox").find(".search ul").html()!= "") {						
+					if ($(this).parents(".inputbox").find(".search ul").html() != "") {
 						name = $(".search li.active").text().replace(/<.*>/, '');
 						email = $(".search li.active a").attr("title");
 						html = conv_inputbox_item(email, name, email, email);
 						$(this).parents(".inputbox").find("span.address_list").append(html);
 						$(this).parents(".inputbox").find(".search ul").html("");
 						$(this).val("");
-						$(this).parents(".inputbox").find(".search ul").hide();						
+						$(this).parents(".inputbox").find(".search ul").hide();
 					} else {
 						email = $(this).val();
 						if (validate(email, 'email')) {
@@ -82,7 +82,6 @@
 			}
 		});
 	})
-	
 	function send(flag) {
 		$("#to").val("");
 		$("#recever .address_list span").each(function() {

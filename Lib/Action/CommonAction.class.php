@@ -12,12 +12,7 @@
  -------------------------------------------------------------------------*/
 
 class CommonAction extends Action {
-	public $_where;
-	/* -----------------------------
-	 1. 确认SESSION
-	 2. 确认权限
-	 3. 处理显示菜单
-	 --------------------------------*/
+
 	function _initialize() {
 		$auth_id = session(C('USER_AUTH_KEY'));
 		if (!isset($auth_id)) {
@@ -150,21 +145,21 @@ class CommonAction extends Action {
 				$this -> error($upload -> getErrorMsg());
 			} else {
 				//取得成功上传的文件信息
-				$uploadList = $upload -> getUploadFileInfo();
-				$File = M("File");
-				$File -> create($uploadList[0]);
-				$File -> create_time = time();
-				$user_id = get_user_id();
-				$File -> user_id = $user_id;
-				$fileId = $File -> add();
+				$upload_list = $upload -> getUploadFileInfo();
+				$file_info = $upload_list[0];
 
-				$fileInfo = $uploadList[0];
-				$fileInfo['id'] = $fileId;
-				$fileInfo['error'] = 0;
-				$fileInfo['url'] = $fileInfo['savepath'] . $fileInfo['savename'];
+				$model = M("File");
+				$model -> create($upload_list[0]);
+				$model -> create_time = time();
+				$model -> user_id = get_user_id();
+				$file_id = $model -> add();
+
+				$file_info['id'] = $file_id;
+				$file_info['error'] = 0;
+				$file_info['url'] = $file_info['savepath'] . $file_info['savename'];
 
 				//header("Content-Type:text/html; charset=utf-8");
-				exit(json_encode($fileInfo));
+				exit(json_encode($file_info));
 				//$this->success ('上传成功！');
 			}
 		}
@@ -176,7 +171,7 @@ class CommonAction extends Action {
 	}
 
 	/** 删除数据  **/
-	protected function _del($id) {
+	protected function _del($id,$return=false) {
 		$app_type = $this -> config['app_type'];
 		switch ($app_type) {
 			case 'personal' :
@@ -187,14 +182,17 @@ class CommonAction extends Action {
 				$model = M($name);
 				if (!empty($model)) {
 					$pk = $model -> getPk();
-					if (isset($id)) {
+					if (isset($id)){
 						if (is_array($id)) {
 							$where[$pk] = array("in", array_filter($id));
 						} else {
 							$where[$pk] = array('in', array_filter(explode(',', $id)));
 						}
-
+						
 						$result = $model -> where($where) -> setField("is_del", 1);
+						if($return){
+							return $result;
+						}
 						if ($result !== false) {
 							$this -> assign('jumpUrl', get_return_url());
 							$this -> success("成功删除{$result}条!");
@@ -271,13 +269,10 @@ class CommonAction extends Action {
 		}
 	}
 
-	protected function _set_search($key, $val) {
-		$this -> _where[$key] = $val;
-	}
-
 	//生成查询条件
-	protected function _search($name = '', $view = false) {
+	protected function _search($name = '') {
 		$map = array();
+		//过滤非查询条件
 		$request = array_filter(array_keys(array_filter($_REQUEST)), "filter_search_field");
 		if (empty($name)) {
 			$name = $this -> getActionName();
@@ -396,23 +391,7 @@ class CommonAction extends Action {
 
 	protected function _assign_menu() {
 		$model = D("Node");
-		$top_menu = cookie('top_menu');
 		$user_id = get_user_id();
-		$top_menu_list = session('top_menu' . $user_id);
-		if (!empty($top_menu_list)) {
-			$list = $top_menu_list;
-		} else {
-			$list = $model -> get_top_menu();
-
-			if (empty($list)) {
-				$this -> assign('jumpUrl', U("Login/logout"));
-				$this -> error("没有权限");
-			}
-			session('top_menu' . $user_id, $list);
-		}
-		//dump($list);
-		$this -> assign('list_top_menu', $list);
-
 		if (!session('menu' . $user_id)) {
 			//如果已经缓存，直接读取缓存
 			$menu = session('menu' . $user_id);
@@ -429,12 +408,8 @@ class CommonAction extends Action {
 		if (!empty($top_menu)) {
 			$this -> assign("top_menu_name", $model -> where("id=$top_menu") -> getField('name'));
 		}
-
-		$tree = list_to_tree($menu, $top_menu);
 		$tree = list_to_tree($menu);
 		$this -> assign('tree', $tree);
-		$tree = list_to_tree($menu, $top_menu);
-		$this -> assign('html_left_menu', tree_nav($tree));
 	}
 
 	protected function _assign_folder_list() {
@@ -443,7 +418,7 @@ class CommonAction extends Action {
 		} else {
 			$model = D("SystemFolder");
 		}
-		$list = $model -> get_list();
+		$list = $model -> get_folder_list();
 		$tree = list_to_tree($list);
 		$this -> assign('folder_list', dropdown_menu($tree));
 	}
@@ -492,24 +467,8 @@ class CommonAction extends Action {
 			$this -> assign('js_file', "UserTag:js/index");
 		} else {
 			R('SystemTag/index');
-			$this -> assign('js_file', "SystemTag:js/index");			
+			$this -> assign('js_file', "SystemTag:js/index");
 		}
-	}
-
-	protected function _pushReturn($data, $info, $status, $time = null) {
-		$user_id = get_user_id();
-		$model = M("Push");
-		$model -> user_id = $user_id;
-		$model -> data = $data;
-		$model -> status = $status;
-		$model -> info = $info;
-		if (empty($time)) {
-			$model -> time = time();
-		} else {
-			$model -> time = $time;
-		}
-		$model -> add();
-		exit();
 	}
 
 	protected function _get_new() {
@@ -548,13 +507,8 @@ class CommonAction extends Action {
 		$readed = get_user_config("readed_notice");
 		$new_notice = 0;
 		if ($new_notice_list) {
-
 			foreach ($new_notice_list as $key => $val) {
-				//trace(strpos($readed,$key."|".$val)===false);
-				if (strpos($readed, $key . "|" . $val) === false) {
-					$new_notice++;
-					//trace($key);
-				}
+				$new_notice++;
 			}
 		}
 
@@ -566,7 +520,22 @@ class CommonAction extends Action {
 		$where['status'] = array("in", "1,2");
 		$new_todo = M("Todo") -> where($where) -> count();
 		$this -> assign("new_todo", $new_todo);
+	}
 
+	protected function _pushReturn($data, $info, $status, $time = null) {
+		$user_id = get_user_id();
+		$model = M("Push");
+		$model -> user_id = $user_id;
+		$model -> data = $data;
+		$model -> status = $status;
+		$model -> info = $info;
+		if (empty($time)) {
+			$model -> time = time();
+		} else {
+			$model -> time = $time;
+		}
+		$model -> add();
+		exit();
 	}
 
 }

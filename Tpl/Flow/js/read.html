@@ -24,7 +24,7 @@
 		})
 		if ($("#confirm").val().length < 2) {
 			alert('请选择审批流程');
-			return
+			return;
 		}
 		$("#step").val(step);
 		editor.sync();
@@ -32,7 +32,7 @@
 	}
 
 	function select_confirm() {
-		winopen("{:U('popup/confirm')}",730, 750);
+		winopen("{:U('popup/confirm')}", 730, 750);
 	};
 
 	$(document).ready(function() {

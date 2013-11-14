@@ -10,6 +10,7 @@ body {
 body, h1, h2, h3, h4, h5, h6, p, ul, li, ol, dt, dl, input, textarea {
 	font-family: Microsoft YaHei,simsun,Arial,sans-serif;
 }
+
 .radio-inline, .checkbox-inline{
 	padding-left: 0px;
 	padding-right: 10px;
@@ -452,6 +453,7 @@ span.checkbox input {
 	line-height: 32px;
 	background-color: rgb(238, 245, 250);
 }
+
 .ul_table .tbody.active {
 	background: #eee;
 }

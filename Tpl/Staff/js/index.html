@@ -18,7 +18,7 @@
 			$("#sample li").attr("name", result.data[s].name);
 			$("#sample li").attr("office_tel", result.data[s].office_tel);
 			$("#sample li").attr("mobile_tel", result.data[s].mobile_tel);
-			$("#sample li").attr("pic", result.data[s].pic+'?t=' + Math.random());
+			$("#sample li").attr("pic", result.data[s].pic + '?t=' + Math.random());
 			html = $("#sample").html();
 
 			$(".user_list ul").append(html);
@@ -45,7 +45,7 @@
 			});
 			return false;
 		})
-		$(document).on("click", ".user_list .tbody",function() {			
+		$(document).on("click", ".user_list .tbody", function() {
 			$(".user_info .name").text($(this).attr("name"));
 			$(".user_info .office_tel").text($(this).attr("office_tel"));
 			$(".user_info .mobile_tel").text($(this).attr("mobile_tel"));

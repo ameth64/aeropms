@@ -36,7 +36,6 @@ class StaffAction extends CommonAction {
 		$tree = list_to_tree($menu);
 		$this -> assign('menu', popup_tree_menu($tree));				
 		$this -> display();
-		return;
 	}
 	
 	function read() {

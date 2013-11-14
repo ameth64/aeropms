@@ -1,6 +1,6 @@
 <?php
 /*---------------------------------------------------------------------------
-  Ğ¡Î¢OAÏµÍ³ - ÈÃ¹¤×÷¸üÇáËÉ¿ìÀÖ 
+  å°å¾®OAç³»ç»Ÿ - è®©å·¥ä½œæ›´è½»æ¾å¿«ä¹ 
 
   Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
 
@@ -10,8 +10,7 @@
 
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
-
-
+ 
 class DutyAction extends CommonAction {
 	protected $config=array('app_type'=>'master');
 

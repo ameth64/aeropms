@@ -1,6 +1,6 @@
 <?php
 /*---------------------------------------------------------------------------
-  Ð¡Î¢OAÏµÍ³ - ÈÃ¹¤×÷¸üÇáËÉ¿ìÀÖ 
+  å°å¾®OAç³»ç»Ÿ - è®©å·¥ä½œæ›´è½»æ¾å¿«ä¹ 
 
   Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
 
@@ -11,16 +11,13 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 class DeptAction extends CommonAction {
 
 	protected $config=array('app_type'=>'master');
 	
-	public function index() {
-		
+	public function index() {		
 		if (isset($_POST['eq_is_del'])){					
-			$eq_is_del = $_POST['eq_is_del'];
-			
+			$eq_is_del = $_POST['eq_is_del'];			
 		} else{
 			$eq_is_del="0";
 		}
@@ -60,13 +57,7 @@ class DeptAction extends CommonAction {
 	}
 
 	public function winpop2() {
-		$node = M("Dept");
-		$menu = array();
-		$menu = $node ->where('is_del=0')-> field('id,pid,name') -> order('sort asc') -> select();
-		$tree = list_to_tree($menu);
-		$this -> assign('pid', $pid);
-		$this -> assign('menu', popup_tree_menu($tree));
-		$this -> display();
+		$this->winpop();
 	}
 }
 ?>

@@ -1,19 +1,18 @@
 <?php
 /*---------------------------------------------------------------------------
-  小微OA系统 - 让工作更轻松快乐 
+ 小微OA系统 - 让工作更轻松快乐
 
-  Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
+ Copyright (c) 2013 http://www.smeoa.com All rights reserved.
 
-  Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )  
+ Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 
-  Author:  jinzhu.yin<smeoa@qq.com>                         
+ Author:  jinzhu.yin<smeoa@qq.com>
 
-  Support: https://git.oschina.net/smeoa/smeoa               
+ Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
 
-
 class ForumAction extends CommonAction {
-	protected $config=array('app_type'=>'common','action_auth'=>array('folder'=>'read','save_post'=>'write','edit_post'=>'write','del_post'=>'admin','mark'=>'admin','upload'=>'write'),'folder_auth'=>true);
+	protected $config = array('app_type' => 'common', 'action_auth' => array('folder' => 'read', 'save_post' => 'write', 'edit_post' => 'write', 'del_post' => 'admin', 'mark' => 'admin', 'upload' => 'write'), 'folder_auth' => true);
 	//过滤查询字段
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
@@ -21,17 +20,16 @@ class ForumAction extends CommonAction {
 			$map['folder'] = $_REQUEST['fid'];
 		}
 		if (!empty($_REQUEST['keyword']) && empty($map['name'])) {
-			$keyword=$_POST['keyword'];
-			$this -> _set_search("keyword",$keyword);			
+			$keyword = $_POST['keyword'];
 			$where['name'] = array('like', "%" . $keyword . "%");
 			$where['content'] = array('like', "%" . $keyword . "%");
 			$where['user_name'] = array('like', "%" . $keyword . "%");
 			$where['_logic'] = 'or';
-			$map['_complex'] = $where;							
-		}		
+			$map['_complex'] = $where;
+		}
 	}
 
-	public function _conv_data(&$item){
+	public function _conv_data(&$item) {
 		if (isset($item['folder'])) {
 			$model = D('SystemFolder');
 			$list = $model -> getField('id,name');
@@ -58,36 +56,35 @@ class ForumAction extends CommonAction {
 		$this -> display();
 	}
 
-	public function add(){
+	public function add() {
 		$widget['uploader'] = true;
 		$widget['editor'] = true;
-		$this -> assign("widget", $widget);		
-				
+		$this -> assign("widget", $widget);
+
 		$this -> assign('folder', $_REQUEST['fid']);
-		$this->display();
+		$this -> display();
 	}
 
 	public function edit() {
 		$widget['uploader'] = true;
 		$widget['editor'] = true;
 		$this -> assign("widget", $widget);
-		$this->_edit();
+		$this -> _edit();
 	}
 
-
-	public function read(){
+	public function read() {
 		$widget['uploader'] = true;
 		$widget['editor'] = true;
-		$this -> assign("widget", $widget);		
-				
-		$this->assign('auth',$this->config['auth']);
+		$this -> assign("widget", $widget);
+
+		$this -> assign('auth', $this -> config['auth']);
 		$model = M("Forum");
 		$id = $_REQUEST['id'];
-		$fid= $_REQUEST['fid'];
-		$where['id']=array('eq',$id);
-		$where['fid']=array('eq',$fid);
-			
-		$vo = $model ->where($where)->find();
+		$fid = $_REQUEST['fid'];
+		$where['id'] = array('eq', $id);
+		$where['fid'] = array('eq', $fid);
+
+		$vo = $model -> where($where) -> find();
 		$vo = $this -> _conv_data($vo);
 
 		$this -> assign('vo', $vo);
@@ -104,13 +101,13 @@ class ForumAction extends CommonAction {
 		$model -> where("id=$id") -> setInc('views', 1);
 
 		$model = M("Forum");
-		
-		$where=array();
+
+		$where = array();
 		$where['tid'] = $id;
 		$where['is_del'] = 0;
 
 		$model = M("Post");
-		
+
 		if (!empty($model)) {
 			$this -> _list($model, $where, "id", true);
 		}
@@ -119,11 +116,11 @@ class ForumAction extends CommonAction {
 		$this -> display();
 	}
 
-	public function folder(){
-		$widget['date-range'] = true;		
+	public function folder() {
+		$widget['date-range'] = true;
 		$this -> assign("widget", $widget);
-				
-		$this->assign('auth',$this->config['auth']);
+
+		$this -> assign('auth', $this -> config['auth']);
 		$map = $this -> _search();
 		if (method_exists($this, '_search_filter')) {
 			$this -> _search_filter($map);
@@ -133,7 +130,7 @@ class ForumAction extends CommonAction {
 			$this -> _list($model, $map);
 		}
 		$where = array();
-		$folder_id = $map['folder'];		
+		$folder_id = $map['folder'];
 		$where['id'] = array('eq', $folder_id);
 		$folder_name = M("SystemFolder") -> where($where) -> getField("name");
 		$this -> assign("folder_name", $folder_name);
@@ -143,7 +140,6 @@ class ForumAction extends CommonAction {
 		$this -> display();
 		return;
 	}
-
 
 	public function mark() {
 		$action = $_REQUEST['action'];
@@ -189,24 +185,24 @@ class ForumAction extends CommonAction {
 		}
 	}
 
-	public function save_post(){
+	public function save_post() {
 		R("post/save");
 	}
 
-	public function edit_post(){
+	public function edit_post() {
 		R("post/edit");
 	}
 
-	public function del_post(){
+	public function del_post() {
 		R("post/del");
 	}
 
-
 	public function upload() {
-		$this->_upload();
+		$this -> _upload();
 	}
 
 	public function down() {
-		$this->_down();
+		$this -> _down();
 	}
+
 }

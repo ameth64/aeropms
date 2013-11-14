@@ -76,13 +76,13 @@
 			document.cookie = cookie_string;
 		}
 
-		function go()
-		{
-			set_cookie("left_menu",null);
+		function go() {
+			set_cookie("left_menu", null);
 			window.history.go(-1);
 		}
-		setTimeout("go()",3000);
-</script>
+
+		setTimeout("go()", 3000);
+	</script>
 
 	<body>
 		<form method='post' id="form_data" class="display-none" target="_blank">
@@ -91,7 +91,7 @@
 		</form>
 		<div id="error" class="error">
 			<p class="face">
-				:( 
+				:(
 			</p>
 			<h1><?php echo strip_tags($e['message']);?></h1>
 			<div class="content">

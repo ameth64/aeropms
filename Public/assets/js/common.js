@@ -1,3 +1,6 @@
+function del_current_node(){
+	set_cookie("current_node",null);	
+}
 /* 填充时间*/
 function fill_time(id) {
 	for (var i = 5; i < 22; i++) {
@@ -6,6 +9,11 @@ function fill_time(id) {
 		$("#" + id).append("<option value='" + val + ":00'>" + val + ":00</option>");
 		$("#" + id).append("<option value='" + val + ":30'>" + val + ":30</option>");
 	}
+}
+
+/* 删除左右两端的空格*/
+function trim(str) {
+	return str.replace(/(^\s*)|(\s*$)/g, "");
 }
 
 /* 获取日历背景颜色*/
@@ -89,10 +97,9 @@ function toggle_adv_search() {
 function submit_search(){
 	$("#form_search").submit();
 }
-function submit_adv_search(){
-	$("#form_adv_serach").submit();
+function submit_adv_search(){	
+	$("#form_adv_search").submit();
 }
-
 
 function close_adv_search() {
 	$("#adv_search").addClass("display-none");
@@ -239,10 +246,10 @@ function set_val(name, val) {
 
 /*设置要返回的URL*/
 function set_return_url(url) {
-	if (url != undefined) {
+	if (url != undefined) {		
 		set_cookie("return_url", url);
 	} else {
-		set_cookie("return_url", document.location);
+		set_cookie("return_url", document.location);		
 	}
 }
 
@@ -288,7 +295,12 @@ function contact_conv(val) {
 	var html = "";
 	for (key in arr_temp) {
 		if (arr_temp[key] != '') {
-			html += '<span title="' + arr_temp[key].split("|")[1] + '" emp_no="' + arr_temp[key].split("|")[1] + '" onmousedown="return false"><nobr>' + arr_temp[key].split("|")[0] + '<a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>';
+			data=arr_temp[key].split("|")[1];
+			id=arr_temp[key].split("|")[1];
+			name=arr_temp[key].split("|")[0];
+			title=arr_temp[key].split("|")[0];
+			html +=conv_inputbox_item(id,name,title,data)
+			//html +=  '<span data="' + arr_temp[key].split("|")[1] + '" onmousedown="return false"><nobr>' + arr_temp[key].split("|")[0] + '<a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>';			
 		}
 	}
 	return html;
@@ -391,7 +403,7 @@ function sendForm(formId, post_url, return_url) {
 	} else {
 		$("#" + formId).attr("action", post_url);
 		if (return_url) {
-			set_cookie('return_url', return_url);
+			set_cookie('return_url', return_url);			
 		}
 		$("#" + formId).submit();
 	}

@@ -1,7 +1,7 @@
 <layout name='Layout/ace_popup' />
 <script type="text/javascript">
 	function save() {
-		$("#rc select option").each(function(i){
+		$("#rc select option").each(function(i) {
 			$("#emp_list .address_list", parent.document).append('<span title="' + $(this).text() + '" emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + ' </span>');
 		});
 		myclose();
@@ -31,6 +31,7 @@
 			$("#addr_list").html($("#addr_list").html() + html_string);
 		}
 	}
+
 
 	$(document).ready(function() {
 
@@ -178,23 +179,25 @@
 </script>
 <input class="left dis" type="radio" id="rb_company" name="type" value="company" >
 {:W('PageHeader',array('name'=>'选择人员','search'=>'N'))}
-<div class="operate panel panel-default">	<div class="panel-body">
-	<div class="pull-left">
-		<label class="checkbox inline">
-			<input class="left" type="radio" id="rb_company" name="type" value="company" >
-			公司</label>
-		<label class="checkbox inline">
-			<input class="left" type="radio" id="rb_rank" name="type" value="rank">
-			职级</label>
-		<label class="checkbox inline">
-			<input class="left" type="radio" id="rb_position" name="type" value="position">
-			职位</label>
+<div class="operate panel panel-default">
+	<div class="panel-body">
+		<div class="pull-left">
+			<label class="checkbox inline">
+				<input class="left" type="radio" id="rb_company" name="type" value="company" >
+				公司</label>
+			<label class="checkbox inline">
+				<input class="left" type="radio" id="rb_rank" name="type" value="rank">
+				职级</label>
+			<label class="checkbox inline">
+				<input class="left" type="radio" id="rb_position" name="type" value="position">
+				职位</label>
+		</div>
+		<div class="pull-right">
+			<a  onclick="save();" class="btn btn-sm btn-primary">确定</a>
+			<a  onclick="myclose();" class="btn btn-sm btn-primary">关闭</a>
+		</div>
 	</div>
-	<div class="pull-right">
-		<a  onclick="save();" class="btn btn-sm btn-primary">确定</a>
-		<a  onclick="myclose();" class="btn btn-sm btn-primary">关闭</a>
-	</div>
-</div></div>
+</div>
 <div class="row">
 	<div class="col-sm-5">
 		<div class="row form-horizontal">
@@ -238,4 +241,4 @@
 			</div>
 		</div>
 	</div>
-	</div>
+</div>

@@ -34,8 +34,7 @@ class ScheduleAction extends CommonAction {
 	}
 
 	function read() {
-		$widget['jquery-ui'] = true;
-		$widget['date'] = true;
+		$widget['jquery-ui'] = true;		
 		$this -> assign("widget", $widget);
 				
 		$model = M('Schedule');

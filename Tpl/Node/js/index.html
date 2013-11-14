@@ -1,28 +1,28 @@
 <script type="text/javascript">
 	var manager = null;
-	function add(){
+	function add() {
 		pid = $("#id").val();
 		$("#form_data :input[type='hidden']").val("");
 		$("#form_data :text").val("");
 		$("#form_data select ").each(function() {
 			$(this).find('option:first').attr('selected', 'selected');
-		});		
+		});
 		$("#pid").val(pid);
 		$("#opmode").val("add");
 	};
 
 	function del() {
 		var vars = $("#form_data").serialize();
-		if (confirm('确定要删除吗?')){
-			sendAjax("{:U('del')}", vars, function(data){
+		if (confirm('确定要删除吗?')) {
+			sendAjax("{:U('del')}", vars, function(data) {
 				if (data.status) {
 					alert(data.info);
-					location.href=location.href;		
+					location.href = location.href;
 				}
 			});
 		}
 	}
-	
+
 	function save() {
 		if (check_form("form_data")) {
 			sendForm("form_data", "{:U('node/save')}", fix_url("{:U('node/index')}?eq_pid=" + $("#eq_pid").val()));
@@ -43,7 +43,7 @@
 
 
 	$(document).ready(function() {
-		set_return_url();		
+		set_return_url();
 		set_val('eq_pid', '{$eq_pid}');
 		$(".sub_left_menu .tree_menu a").click(function() {
 			$(".sub_left_menu .tree_menu  a").each(function() {

@@ -1,8 +1,8 @@
 <script type="text/javascript">
-	function save(){
+	function save() {
 		$("#confirm").val("");
 		$("#confirm_wrap  span.address_list span").each(function() {
-			$("#confirm").val($("#confirm").val() + $(this).attr("emp_no") + '|');
+			$("#confirm").val($("#confirm").val() + $(this).attr("data") + '|');
 		})
 
 		$("#confirm_name").val("");
@@ -10,7 +10,7 @@
 
 		$("#consult").val("");
 		$("#consult_wrap span.address_list span").each(function() {
-			$("#consult").val($("#consult").val() + $(this).attr("emp_no") + '|');
+			$("#consult").val($("#consult").val() + $(this).attr("data") + '|');
 		})
 
 		$("#consult_name").val("");
@@ -18,7 +18,7 @@
 
 		$("#refer").val("");
 		$("#refer_wrap span.address_list span").each(function() {
-			$("#refer").val($("#refer").val() + $(this).attr("emp_no") + '|');
+			$("#refer").val($("#refer").val() + $(this).attr("data") + '|');
 		})
 
 		$("#refer_name").val("");
@@ -33,6 +33,7 @@
 	function popup_flow() {
 		winopen("{:U('popup/flow')}", 730, 574);
 	}
+
 
 	$(document).ready(function() {
 		set_val('group', '$vo.group');

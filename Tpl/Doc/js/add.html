@@ -1,17 +1,8 @@
 <script type="text/javascript">
 	function save() {
-		$("#tag").val("");
-		$("#tag_wrap  span").each(function() {
-			$("#tag").val($("#tag").val() + $(this).attr("emp_no") + '|');
-		})
-		$("#tag_name").val($("#tag_wrap").html());
 		editor.sync();
 		if (check_form("form_data")) {
 			sendForm("form_data", "{:U('save')}");
 		}
-	}
-
-	function popup_tag() {
-		winopen("{:U('system_tag/popup?module='.MODULE_NAME)}",730,500);
 	}
 </script>

@@ -54,9 +54,9 @@
 						</li>
 						<foreach name="tag_list" item="vo">
 							<li>
-								<a><label><span class="checkbox">
-										<input type="checkbox" name="tag[]" value="{$key}">
-									</span><span>{$vo}</span></label></a>
+								<label class="clearfix">
+									<input class="ace" type="checkbox" name="tag[]" value="{$key}"/>
+									<span class="lbl"></span><span class="text">{$vo}</span></label>
 							</li>
 						</foreach>
 						<li class="new_tag">

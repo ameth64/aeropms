@@ -13,8 +13,7 @@
 			window.open(fix_url("{:U('edit')}?id=" + id), "_self");
 		}
 	}
-	
-	
+
 	function del() {
 		if (confirm('确定要删除吗?')) {
 			if ($("#form_data .ul_table input:checked").length == 0) {
@@ -54,7 +53,7 @@
 					$(this).parents("li").show();
 				};
 			})
-		}			
+		}
 	}
 
 	function btn_local_search() {
@@ -70,7 +69,7 @@
 				$(this).parents("li").show();
 			};
 		})
-		return false;		
+		return false;
 	}
 
 	function export_contact() {
@@ -107,12 +106,24 @@
 		$('.tag_list li').click(function(event) {
 			event.stopPropagation();
 		})
-
+		
+		$("li.tbody").click(function(){
+			$(".table input:checkbox").attr("checked", false);
+			$(".tag_list input[name='tag[]']").attr("checked", false);
+			str=trim($(this).find(".tag").text());
+			
+			strs=str.split(","); 
+			for (i=0;i<strs.length;i++)    
+			 {  
+				 $(".tag_list input[name='tag[]'][value='"+strs[i]+"']").prop("checked",true);
+			}
+		})
+		
 		$('.tag_list input').on('change', function(event) {
-			if (($('.tag_list input:checked').length == 0)&&($(".tag_list input[name='new_tag']").val()=="")){				
+			if (($('.tag_list input:checked').length == 0) && ($(".tag_list input[name='new_tag']").val() == "")) {
 				$(".cmd").show();
-				$(".apply").hide();							
-			} else {				
+				$(".apply").hide();
+			} else {
 				$(".cmd").hide();
 				$(".apply").show();
 			}

@@ -29,6 +29,7 @@
 		$("#opmode").val("edit");
 	}
 
+
 	$(document).ready(function() {
 		set_return_url();
 		set_val('eq_pid', '{$eq_pid}');
@@ -45,5 +46,5 @@
 		sendAjax("{:U('read')}", "id={$eq_pid}", function(data) {
 			showdata(data);
 		});
-	});
+	}); 
 </script>

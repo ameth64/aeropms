@@ -5,24 +5,33 @@
 		$("#confirm_wrap .address_list,#confirm_wrap .address_list,#refer_wrap .address_list", parent.document).html("");
 
 		$("#rc select option").each(function(i) {
-			$("#confirm_wrap .address_list", parent.document).append('<span emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + ' </span>');
+			emp_no = $(this).val();
+			name = jQuery.trim($(this).text());
+			html_string = conv_inputbox_item(emp_no, name, name, emp_no);
+			$("#confirm_wrap .address_list", parent.document).append(html_string);
 		});
 		$("#cc select option").each(function(i) {
-			$("#consult_wrap .address_list", parent.document).append('<span  emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + ' </span>');
+			emp_no = $(this).val();
+			name = jQuery.trim($(this).text());
+			html_string = conv_inputbox_item(emp_no, name, name, emp_no);
+			$("#consult_wrap .address_list", parent.document).append(html_string);
 		});
 		$("#bcc select option").each(function(i) {
-			$("#refer_wrap .address_list", parent.document).append('<span emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + '; </span>');
+			emp_no = $(this).val();
+			name = jQuery.trim($(this).text());
+			html_string = conv_inputbox_item(emp_no, name, name, emp_no);
+			$("#refer_wrap .address_list", parent.document).append(html_string);
 		});
 
-		$("#confirm_wrap span b", parent.document).remove();
-		$("#confirm_wrap .address_list span", parent.document).append("<b><i class=\"icon-arrow-right\"></i></b>");	
+		$("#confirm_wrap span a", parent.document).remove();
+		$("#confirm_wrap .address_list span", parent.document).append("<b><i class=\"icon-arrow-right\"></i></b>");
 		$("#confirm_wrap .address_list span b:last", parent.document).remove();
 
-		$("#consult_wrap span b", parent.document).remove();
+		$("#consult_wrap span a", parent.document).remove();
 		$("#consult_wrap .address_list span", parent.document).append("<b><i class=\"icon-arrow-right\"></i></b>");
 		$("#consult_wrap .address_list span b:last", parent.document).remove();
-		
-		$("#confirm_wrap,#confirm_wrap,#refer_wrap", parent.document).show();		
+
+		$("#confirm_wrap,#confirm_wrap,#refer_wrap", parent.document).show();
 		myclose();
 	}
 
@@ -44,12 +53,12 @@
 
 
 	$(document).ready(function() {
-		$("#rb_{$type}").prop('checked',true);
+		$("#rb_{$type}").prop('checked', true);
 		// 选择用户默认选择的类型
 
 		$(".{$type}").removeClass("display-none");
 
-		$("input[name='type']").on('click', function() {			
+		$("input[name='type']").on('click', function() {
 			$("input[name='type']").each(function() {
 				$("." + $(this).val()).addClass("display-none");
 			});
@@ -250,15 +259,15 @@
 
 			<label>
 				<input class="ace" type="radio" id="rb_dp" name="type" value="dp" >
-				<span class="lbl">部门-职位</span> </label>				
-	
+				<span class="lbl">部门-职位</span> </label>
+
 			<label>
 				<input class="ace" type="radio" id="rb_dept" name="type" value="dept"  >
-				<span class="lbl">部门</span> </label>		
-					
+				<span class="lbl">部门</span> </label>
+
 			<label>
 				<input class="ace" type="radio" id="rb_emp" name="type" value="emp"  >
-				<span class="lbl">人员</span> </label>			
+				<span class="lbl">人员</span> </label>
 		</div>
 		<div class="pull-right">
 			<a  onclick="save();" class="btn btn-sm btn-primary">确定</a>
@@ -285,11 +294,10 @@
 				<b class="display-none dgp dp ">职位</b>
 				<b class="display-none emp">人员</b>
 			</div>
-			<div id="position" class="display-none dgp dp " style="width:100%;height:198px;">				
-					{$list_position}				
+			<div id="position" class="display-none dgp dp " style="width:100%;height:198px;">
+				{$list_position}
 			</div>
-			<div id="addr_list" class="display-none  emp" style="width:100%;height:198px;">
-			</div>
+			<div id="addr_list" class="display-none  emp" style="width:100%;height:198px;"></div>
 		</div>
 		<div class="col-34 pull-right">
 			<div>

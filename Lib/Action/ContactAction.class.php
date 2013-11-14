@@ -14,18 +14,21 @@
 class ContactAction extends CommonAction {
 	protected $config = array('app_type' => 'personal');
 	//过滤查询字段
-	private $position;
-	private $rank;
-	private $dept;
 
 	function _search_filter(&$map) {
-		$map['name'] = array('like', "%" . $_POST['name'] . "%");
-		$map['letter'] = array('like', "%" . $_POST['letter'] . "%");
-		$map['is_del'] = array('eq', '0');
-		if (!empty($_POST['group'])) {
-			$map['group'] = $_POST['group'];
-		}
 		$map['user_id'] = array('eq', get_user_id());
+		$map['is_del'] = array('eq', '0');
+		if (!empty($_POST['tag'])) {
+			$map['tag'] = $_POST['tag'];
+		}
+		if (!empty($_POST['keyword'])) {
+			$keyword = $_POST['keyword'];
+			$where['name'] = array('like', "%" . $keyword . "%");
+			$where['office_tel'] = array('like', "%" . $keyword . "%");			
+			$where['office_tel'] = array('like', "%" . $keyword . "%");
+			$where['_logic'] = 'or';
+			$map['_complex'] = $where;
+		}
 	}
 
 	function index() {
@@ -33,6 +36,7 @@ class ContactAction extends CommonAction {
 		$where['user_id'] = array('eq', get_user_id());
 		$list = $model -> where($where) -> select();
 		$this -> assign('list', $list);
+
 		$tag_data = D("UserTag") -> get_data_list();
 
 		$new = array();
@@ -40,7 +44,7 @@ class ContactAction extends CommonAction {
 			$new[$val['row_id']] = $new[$val['row_id']] . $val['tag_id'] . ",";
 		}
 		$this -> assign('tag_data', $new);
-		$this -> tag_list();
+		$this -> _assign_tag_list();
 		$this -> display();
 	}
 
@@ -138,23 +142,78 @@ class ContactAction extends CommonAction {
 		$id = $_REQUEST["id"];
 		$val = $_REQUEST["val"];
 		$field = 'group';
-		$result = $this -> _set_field($id, $field, $val);
+		$result = $this -> _set_field($id, $field,$val);
 		if ($result == true) {
 			$this -> success("操作成功");
 		}
-	}
-
-	function tag_list() {
-		$model = D("UserTag");
-		$tag_list = $model -> get_list('id,name');
-		$this -> assign("tag_list", $tag_list);
 	}
 
 	function tag_manage() {
 		$this -> _tag_manage("分组管理");
 	}
 
-	function _insert() {
+
+
+	function del(){
+		$id = $_POST['id'];
+		$count = $this ->_del($id,true);
+
+		if ($count) {
+			$model = D("UserTag");
+			$result = $model -> del_data_by_row($id);
+		}
+
+		if ($count !== false) {//保存成功
+			$this -> assign('jumpUrl', get_return_url());
+			$this -> success("成功删除{$count}条!");
+		} else {
+			//失败提示
+			$this -> error('删除失败!');
+		}
+	}
+
+	function read() {
+		$model = M('Contact');
+		$id = $_REQUEST[$model -> getPk()];
+		$vo = $model -> getById($id);
+		$this -> assign('vo', $vo);
+		$this -> display();
+	}
+
+	function set_tag(){
+		$id=	$_POST['id'];
+		$tag=$_POST['tag'];
+		$new_tag=$_POST['new_tag'];
+		if (!empty($id)){
+			$model = D("UserTag");
+			$model -> del_data_by_row($id);
+			if (!empty($_POST['tag'])) {
+				$result = $model -> set_tag($id,$tag);
+			}
+		};
+
+		if (!empty($new_tag)) {
+			$model = D("UserTag");
+			$model -> module = MODULE_NAME;
+			$model -> name = $new_tag;
+			$model -> is_del = 0;
+			$model -> user_id = get_user_id();
+			$new_tag_id = $model -> add();
+			if (!empty($id)){
+				$result = $model -> set_tag($id,$new_tag_id);
+			}
+		};
+		if ($result !== false) {//保存成功
+			if ($ajax || $this -> isAjax())
+				$this -> assign('jumpUrl', get_return_url());
+			$this -> success('操作成功!');
+		} else {
+			//失败提示
+			$this -> error('操作失败!');
+		}
+	}
+	
+	protected function _insert() {
 		$model = D('Contact');
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
@@ -172,7 +231,7 @@ class ContactAction extends CommonAction {
 		}
 	}
 
-	function _update() {
+	protected function _update() {
 		$ajax = $_POST['ajax'];
 		$id = $_POST['id'];
 		$model = D("Contact");
@@ -191,68 +250,10 @@ class ContactAction extends CommonAction {
 			$this -> error('编辑失败!');
 		}
 	}
-
-	function del() {
-		if (!empty($_POST['id'])) {
-			$model = M("Contact");
-			$contact_list = $_POST['id'];
-			if (!is_array($contact_list)) {
-				$contact_list = explode(",", $contact_list);
-			}
-			$where['id'] = array('in', $contact_list);
-			$where['user_id'] = get_user_id();
-			$model -> where($where) -> delete();
-			
-			$model = D("UserTag");
-			$result = $model -> del_data_by_row($contact_list);
-		};
-		if ($result !== false) {//保存成功
-			$this -> assign('jumpUrl', get_return_url());
-			$this -> success('操作成功!');
-		} else {
-			//失败提示
-			$this -> error('操作失败!');
-		}
-	}
-
-	function read() {
-		$model = M('Contact');
-		$id = $_REQUEST[$model -> getPk()];
-		$vo = $model -> getById($id);
-		$this -> assign('vo', $vo);
-		$this -> display();
-	}
-
-	function set_tag() {
-		dump($_POST);
-		if (!empty($_POST['id'])) {
-			$model = D("UserTag");
-			$model -> del_data_by_row($_POST['id']);
-			if (!empty($_POST['tag'])) {
-				$result = $model -> set_tag($_POST['id'], $_POST['tag']);
-			}
-		};
-
-		if (!empty($_POST['new_tag'])) {
-			$model = M("UserTag");
-			$model -> module = MODULE_NAME;
-			$model -> name = $_POST['new_tag'];
-			$model -> is_del = 0;
-			$model -> user_id = get_user_id();
-			$new_tag_id = $model -> add();
-			if (!empty($_POST['id'])) {
-				$model = D("UserTag");
-				$result = $model -> set_tag($_POST['id'], $new_tag_id);
-			}
-		};
-		if ($result !== false) {//保存成功
-			if ($ajax || $this -> isAjax())
-				$this -> assign('jumpUrl',get_return_url());
-			$this -> success('操作成功!');
-		} else {
-			//失败提示
-			$this -> error('操作失败!');
-		}
+	protected function _assign_tag_list() {
+		$model = D("UserTag");
+		$tag_list = $model -> get_tag_list('id,name');
+		$this -> assign("tag_list", $tag_list);
 	}
 
 }

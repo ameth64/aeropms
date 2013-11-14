@@ -307,6 +307,8 @@ function sendForm(formId, post_url, return_url) {
 				alert(data.info);
 				if (return_url) {
 					location.href = return_url;
+				}else{
+					location.href=get_return_url();
 				}
 			}
 		});
@@ -314,7 +316,7 @@ function sendForm(formId, post_url, return_url) {
 		$("#" + formId).attr("action", post_url);
 		if (return_url) {
 			set_cookie('return_url',return_url);
-		}	
+		}
 		$("#" + formId).submit();
 	}
 }
@@ -391,6 +393,10 @@ function set_return_url(url){
 function go_return_url() {
 	window.open(get_cookie("return_url"), "_self");
 	return false;
+}
+
+function get_return_url(){
+	return get_cookie("return_url");
 }
 
 /*设置当前节点*/

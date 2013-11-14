@@ -1,8 +1,8 @@
 <layout name='Layout/ace_popup' />
 {:W('PageHeader',array('name'=>'XXX','search'=>'N'))}
 <div class="page-header">
-		<h3 class="col-xs-12">请选择父节点</h3>
-	</div>
+	<h3 class="col-xs-12">请选择父节点</h3>
+</div>
 <div class="operate panel panel-default">
 	<div class="panel-body">
 		<div class="pull-left">
@@ -34,9 +34,10 @@
 		myclose();
 	}
 
+
 	$(document).ready(function() {
-			parent_node = $(".sub_left_menu ul.tree_menu a.active", parent.document).attr("node");
-			$("ul.tree_menu a[node='" + parent_node + "']").parent().hide();
+		parent_node = $(".sub_left_menu ul.tree_menu a.active", parent.document).attr("node");
+		$("ul.tree_menu a[node='" + parent_node + "']").parent().hide();
 		$(".popup_tree_menu a:not('.disabled')").click(function() {
 			$("#val").val($(this).attr("node"));
 			$("#name").val($(this).children("span").text());

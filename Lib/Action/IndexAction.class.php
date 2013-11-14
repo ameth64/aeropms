@@ -19,6 +19,5 @@ class IndexAction extends CommonAction {
 		//$this->display();
 		$this -> redirect("Home/index");
 	}
-
 }
 ?>

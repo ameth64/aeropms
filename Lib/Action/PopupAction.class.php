@@ -115,7 +115,7 @@ class PopupAction extends CommonAction {
 
 		$model = D("UserTag");
 
-		$tag_list = $model -> get_list();
+		$tag_list = $model -> get_tag_list();
 		$tag_list['#'] = "未分组";
 		$this -> assign("list_personal", $tag_list);
 

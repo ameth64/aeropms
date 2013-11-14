@@ -14,7 +14,7 @@
 
 class UserFolderModel extends CommonModel {
 
-	public function get_list($folder){		
+	public function get_folder_list($folder){		
 		$where['folder']=$folder;
 		$user_id=get_user_id();
 		$where['user_id']=$user_id;

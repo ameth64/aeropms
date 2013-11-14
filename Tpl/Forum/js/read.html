@@ -12,9 +12,10 @@
 
 	function del() {
 		if (confirm('确定要删除吗?')) {
-			sendAjax("{:U('del')}", 'id=' + $("#id").val(), function(data) {
+			sendAjax("{:U('mark?action=del')}", 'id=' + $("#id").val(), function(data) {
 				if (data.status) {
 					alert(data.info);
+					go_return_url();
 				}
 			});
 		}

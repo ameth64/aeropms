@@ -28,7 +28,7 @@ class MailOrganizeAction extends CommonAction {
 
 	function edit() {
 		$model = D("UserFolder");
-		$user_folder = $model -> get_list("MailFolder");
+		$user_folder = $model -> get_folder_list("MailFolder");
 		$system_folder = array( array("id" => 1, "name" => "收件箱"), array("id" => 2, "name" => "已发送"));
 		if (!empty($user_folder)) {
 			$mail_folder = array_merge($system_folder, $user_folder);
@@ -43,7 +43,6 @@ class MailOrganizeAction extends CommonAction {
 		$id = $_POST["id"];
 		$model = M("MailOrganize");
 		$model -> where("id=$id") -> delete();
-
 		$model = D("MailOrganize");
 
 		if (false === $model -> create()) {

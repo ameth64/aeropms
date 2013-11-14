@@ -1,34 +1,32 @@
 <?php
 /*---------------------------------------------------------------------------
-  小微OA系统 - 让工作更轻松快乐 
+ 小微OA系统 - 让工作更轻松快乐
 
-  Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
+ Copyright (c) 2013 http://www.smeoa.com All rights reserved.
 
-  Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )  
+ Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 
-  Author:  jinzhu.yin<smeoa@qq.com>                         
+ Author:  jinzhu.yin<smeoa@qq.com>
 
-  Support: https://git.oschina.net/smeoa/smeoa               
+ Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
 
 class FlowAction extends CommonAction {
-	protected $config=array('app_type'=>'flow','action_auth'=>array('folder'=>'read','approve'=>'admin','reject'=>'admin'));
+
+	protected $config = array('app_type' => 'flow', 'action_auth' => array('folder' => 'read', 'approve' => 'admin', 'reject' => 'admin'));
 
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
 	}
 
-	public function upload() {
-		$this->_upload();
-	}
-
-	function index(){
-		$this -> group_list();
+	function index() {
+		$this -> _assign_group_list();
+		
 		$model = M('FlowType');
 		if (!empty($_POST['group'])) {
 			$where['group'] = $_POST['group'];
 			if ($where['group'] == "全部") {
-				$where=array();
+				$where = array();
 			}
 		}
 
@@ -39,9 +37,9 @@ class FlowAction extends CommonAction {
 	}
 
 	function folder() {
-		$widget['date-range'] = true;		
+		$widget['date-range'] = true;
 		$this -> assign("widget", $widget);
-				
+
 		$folder = $_REQUEST['fid'];
 		$this -> assign("folder", $folder);
 		$emp_no = $_SESSION['emp_no'];
@@ -67,17 +65,20 @@ class FlowAction extends CommonAction {
 					return;
 				}
 				break;
+
 			case 'darft' :
 				$this -> assign("folder_name", '草稿箱');
 				$map['user_id'] = $user_id;
 				$map['step'] = 10;
 				break;
+
 			case 'submit' :
 				$this -> assign("folder_name", '已提交');
 
 				$map['user_id'] = $user_id;
 				$map['step'] = array('gt', 10);
 				break;
+
 			case 'finish' :
 				$this -> assign("folder_name", '已办理');
 				$FlowLog = M("FlowLog");
@@ -92,6 +93,7 @@ class FlowAction extends CommonAction {
 					return;
 				}
 				break;
+
 			default :
 				break;
 		}
@@ -100,47 +102,37 @@ class FlowAction extends CommonAction {
 		$this -> display();
 	}
 
-	function group_list() {
-		$model = M("FlowType");
-		$where['group'] = array("neq", "");
-		$group_list = $model -> where($where) -> distinct("group") -> field("group") -> select();
-
-		$group_list = rotate($group_list);
-		$group_list = array_combine($group_list["group"], $group_list["group"]);
-		$this -> assign("group_list", $group_list);
-	}
-
 	function add() {
-		$widget['uploader']=true;
-		$widget['editor']=true;
-		$this->assign("widget",$widget);
-				
+		$widget['uploader'] = true;
+		$widget['editor'] = true;
+		$this -> assign("widget", $widget);
+
 		$type = $_REQUEST['type'];
 		$model = M("FlowType");
-		$flow_type = $model -> find($type);	
+		$flow_type = $model -> find($type);
 		$this -> assign("flow_type", $flow_type);
 		$this -> display();
 	}
-	
+
 	function edit() {
-		$widget['uploader']=true;
-		$widget['editor']=true;
-		$this->assign("widget",$widget);
-										
+		$widget['uploader'] = true;
+		$widget['editor'] = true;
+		$this -> assign("widget", $widget);
+
 		$model = D("Flow");
 		$id = $_REQUEST['id'];
 		$vo = $model -> getById($id);
 		$this -> assign('vo', $vo);
 		if (in_array('add_file', $model -> getDbFields())) {
-			$this ->_assign_file_list($vo["add_file"]);
-		};		
+			$this -> _assign_file_list($vo["add_file"]);
+		};
+
 		$model = M("FlowType");
 		$type = $vo['type'];
 		$flow_type = $model -> find($type);
 		$this -> assign("flow_type", $flow_type);
 
 		$model = M("FlowLog");
-
 		$where['flow_id'] = $id;
 		$where['_string'] = "result is not null";
 		$flow_log = $model -> where($where) -> select();
@@ -174,7 +166,7 @@ class FlowAction extends CommonAction {
 		//保存当前数据对象
 		$list = $model -> save();
 		$model = D("FlowLog");
-		$model -> where("step=$step and flow_id=$flow_id and result is null") -> setField('is_del',1);
+		$model -> where("step=$step and flow_id=$flow_id and result is null") -> setField('is_del', 1);
 
 		if ($list !== false) {//保存成功
 			D("Flow") -> next_step($flow_id, $step);
@@ -205,7 +197,7 @@ class FlowAction extends CommonAction {
 		$list = $model -> save();
 		//可以裁决的人有多个人的时候，一个人评价完以后，禁止其他人重复裁决。
 		$model = D("FlowLog");
-		$model -> where("step=$step and flow_id=$flow_id and result is null") -> setField('is_del',1);
+		$model -> where("step=$step and flow_id=$flow_id and result is null") -> setField('is_del', 1);
 
 		if ($list !== false) {//保存成功
 			D("Flow") -> where("id=$flow_id") -> setField('step', 0);
@@ -216,7 +208,23 @@ class FlowAction extends CommonAction {
 			$this -> error('操作失败!');
 		}
 	}
+
 	public function down() {
-		$this->_down();
+		$this -> _down();
 	}
+
+	public function upload() {
+		$this -> _upload();
+	}
+
+	protected function _assign_group_list() {
+		$model = M("FlowType");
+		$where['group'] = array("neq", "");
+		$group_list = $model -> where($where) -> distinct("group") -> field("group") -> select();
+
+		$group_list = rotate($group_list);
+		$group_list = array_combine($group_list["group"], $group_list["group"]);
+		$this -> assign("group_list", $group_list);
+	}
+
 }

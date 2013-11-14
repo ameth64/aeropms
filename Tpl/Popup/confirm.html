@@ -5,20 +5,31 @@
 		$("#confirm_wrap,#consult_wrap,#refer_wrap", parent.document).html("");
 
 		$("#rc select option").each(function(i) {
-			$("#confirm_wrap", parent.document).append('<span emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + ' </span>');
+			emp_no = $(this).val();
+			name = jQuery.trim($(this).text());
+			html_string = conv_inputbox_item(emp_no, name, name, emp_no);
+			$("#confirm_wrap", parent.document).append(html_string);
 		});
-		$("#cc select option").each(function(i) {
-			$("#consult_wrap", parent.document).append('<span  emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + ' </span>');
-		});
-		$("#bcc select option").each(function(i) {
-			$("#refer_wrap", parent.document).append('<span emp_no="' + $(this).val() + '">' + jQuery.trim($(this).text()) + '; </span>');
+		$("#cc select option").each(function() {
+			emp_no = $(this).val();
+			name = jQuery.trim($(this).text());
+			html_string = conv_inputbox_item(emp_no, name, name, emp_no);
+			$("#consult_wrap", parent.document).append(html_string);
 		});
 
-		$("#confirm_wrap span b", parent.document).remove();
+		$("#bcc select option").each(function(i) {
+			emp_no = $(this).val();
+			name = jQuery.trim($(this).text());
+			html_string = conv_inputbox_item(emp_no, name, name, emp_no);
+			$("#refer_wrap", parent.document).append(html_string);
+		});
+
+		$("#confirm_wrap span a", parent.document).remove();
 		$("#confirm_wrap span", parent.document).append("<b><i class=\"icon-arrow-right\"></i></b>");
+
 		$("#confirm_wrap span b:last", parent.document).remove();
 
-		$("#consult_wrap span b", parent.document).remove();
+		$("#consult_wrap span a", parent.document).remove();
 
 		$("#consult_wrap span", parent.document).append("<b><i class=\"icon-arrow-right\"></i></b>");
 		$("#consult_wrap span b:last", parent.document).remove();
@@ -44,14 +55,15 @@
 			var emp_no = result.data[s].emp_no;
 			var email = result.data[s].email;
 			var name = result.data[s].name;
-			var name = name + "/" + position_name ;
+			var name = name + "/" + position_name;
 			var html_string = conv_address_item(emp_no, name);
 			$("#addr_list").append(html_string);
 		}
 	}
 
-	$(document).ready(function(){
-		
+
+	$(document).ready(function() {
+
 		$("#rb_{$type}").prop('checked', true);
 		// 选择用户默认选择的类型
 		$("#{$type}").removeClass("display-none");

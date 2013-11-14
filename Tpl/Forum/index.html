@@ -1,6 +1,6 @@
 <layout name='Layout/ace_layout' />
-	{:W('PageHeader',array('name'=>'最新帖子','search'=>'M'))}
-	<form method="post" name="form_adv_serach" id="form_adv_serach">
+{:W('PageHeader',array('name'=>'最新帖子','search'=>'M'))}
+<form method="post" name="form_adv_serach" id="form_adv_serach">
 	<div class="adv_search panel panel-default display-none"  id="adv_search">
 		<div class="panel-heading">
 			<div class="row">
@@ -57,9 +57,9 @@
 	</ul>
 	<if condition="count($list) eq 0">
 		<ul>
-				<li class="no-data">
-					没找到数据
-				</li>
+			<li class="no-data">
+				没找到数据
+			</li>
 		</ul>
 		<else/>
 		<ul>

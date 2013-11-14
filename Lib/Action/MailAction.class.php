@@ -1,14 +1,14 @@
 <?php
 /*---------------------------------------------------------------------------
-  小微OA系统 - 让工作更轻松快乐 
+ 小微OA系统 - 让工作更轻松快乐
 
-  Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
+ Copyright (c) 2013 http://www.smeoa.com All rights reserved.
 
-  Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )  
+ Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 
-  Author:  jinzhu.yin<smeoa@qq.com>                         
+ Author:  jinzhu.yin<smeoa@qq.com>
 
-  Support: https://git.oschina.net/smeoa/smeoa               
+ Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
 
 class MailAction extends CommonAction {
@@ -20,14 +20,13 @@ class MailAction extends CommonAction {
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
 		$map['user_id'] = array('eq', get_user_id());
-		if (!empty($_REQUEST['keyword']) && empty($map['name'])) {
-			$keyword=$_POST['keyword'];
-			$this -> _set_search("keyword",$keyword);			
+		if (!empty($_REQUEST['keyword'])) {
+			$keyword = $_POST['keyword'];
 			$where['name'] = array('like', "%" . $keyword . "%");
 			$where['content'] = array('like', "%" . $keyword . "%");
 			$where['from'] = array('like', "%" . $keyword . "%");
 			$where['_logic'] = 'or';
-			$map['_complex'] = $where;							
+			$map['_complex'] = $where;
 		}
 	}
 
@@ -47,11 +46,11 @@ class MailAction extends CommonAction {
 	// mailbox 6. 永久删除	is_del=1
 	//--------------------------------------------------------------------
 
-	public function folder(){
-		
-		$widget['date-range']=true;
-		$this->assign("widget",$widget);
-		
+	public function folder() {
+
+		$widget['date-range'] = true;
+		$this -> assign("widget", $widget);
+
 		$this -> _assign_mail_folder_list();
 		$this -> _get_mail_account();
 		$folder_id = $_GET['fid'];
@@ -124,7 +123,7 @@ class MailAction extends CommonAction {
 
 		$model = D('Mail');
 		//dump($where);
-		if (!empty($model)){
+		if (!empty($model)) {
 			$this -> _list($model, $where, "create_time");
 		}
 		$this -> display();
@@ -199,11 +198,11 @@ class MailAction extends CommonAction {
 	//  写邮件
 	//--------------------------------------------------------------------
 	function add() {
-		$widget['uploader']=true;
-		$widget['editor']=true;
-		$this->assign("widget",$widget);		
+		$widget['uploader'] = true;
+		$widget['editor'] = true;
+		$this -> assign("widget", $widget);
 		$this -> _get_mail_account();
-		$this -> assign("recent",$this -> _get_recent());
+		$this -> assign("recent", $this -> _get_recent());
 		//添加最近联系人
 		$this -> display();
 	}
@@ -416,10 +415,10 @@ class MailAction extends CommonAction {
 	//   回复，转发邮件内容
 	//--------------------------------------------------------------------
 	public function reply() {
-		$widget['uploader']=true;
-		$widget['editor']=true;
-		$this->assign("widget",$widget);		
-		
+		$widget['uploader'] = true;
+		$widget['editor'] = true;
+		$this -> assign("widget", $widget);
+
 		$type = $_REQUEST['type'];
 		$this -> assign('type', $type);
 
@@ -502,7 +501,7 @@ class MailAction extends CommonAction {
 		}
 		$this -> _pushReturn($new, "收到" . $new . "封邮件", 1);
 		$mail -> close_mail();
-		
+
 		//$this -> ajaxReturn($new, "收到" . $new . "封邮件", 1);
 	}
 
@@ -510,7 +509,6 @@ class MailAction extends CommonAction {
 	//   接收邮件附件
 	//--------------------------------------------------------------------
 	private function _receive_file($str, &$model) {
-
 		if (!empty($str)) {
 			$ar = explode(",", $str);
 			foreach ($ar as $key => $value) {
@@ -559,19 +557,19 @@ class MailAction extends CommonAction {
 				$model -> folder = $val['to'];
 				return;
 			}
-			
+
 			//包含
 			if (($val['domain_check'] == 1) && ($val['domain_option'] == 1) && (strpos($model -> from, $val['domain_key']) !== false)) {
 				$model -> folder = $val['to'];
 				return;
 			}
-			
+
 			//不包含
 			if (($val['domain_check'] == 1) && ($val['domain_option'] == 0) && (strpos($model -> from, $val['domain_key']) == false)) {
 				$model -> folder = $val['to'];
 				return;
 			}
-			
+
 			//包含
 			if (($val['recever_check'] == 1) && ($val['recever_option'] == 1) && (strpos($model -> to, $val['recever_key']) !== false)) {
 				$model -> folder = $val['to'];
@@ -582,7 +580,7 @@ class MailAction extends CommonAction {
 				$model -> folder = $val['to'];
 				return;
 			}
-			
+
 			//包含
 			if (($val['title_check'] == 1) && ($val['title_option'] == 1) && (strpos($model -> name, $val['title_key']) !== false)) {
 				$model -> folder = $val['to'];
@@ -710,19 +708,20 @@ class MailAction extends CommonAction {
 	//--------------------------------------------------------------------
 	//  显示自定义文件夹
 	//--------------------------------------------------------------------
-	function _assign_mail_folder_list() {
+	protected function _assign_mail_folder_list() {
 		$model = D("UserFolder");
-		$user_folder = $model -> get_list("MailFolder");		
+		$user_folder = $model -> get_folder_list("MailFolder");
 		$system_folder = array( array("id" => 1, "name" => "收件箱"), array("id" => 2, "name" => "已发送"));
-		if(!empty($user_folder)){
-			$mail_folder = array_merge($system_folder, $user_folder);	
-		}else{
-			$mail_folder=$system_folder;
-		}	
+		if (!empty($user_folder)) {
+			$mail_folder = array_merge($system_folder, $user_folder);
+		} else {
+			$mail_folder = $system_folder;
+		}
 		$tree = list_to_tree($mail_folder);
-		$this -> assign('folder_list',dropdown_menu($tree));
+		$this -> assign('folder_list', dropdown_menu($tree));
 		$temp = tree_to_list($tree);
 		return $temp;
 	}
+
 }
 ?>

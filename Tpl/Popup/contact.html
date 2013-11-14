@@ -29,7 +29,7 @@
 	function showdata(result) {
 		$("#addr_list").html("");
 		if ( type = $("input[name='type']:checked").val() == "company") {
-			var id = "dept_"+$("#company a.active").attr("node");
+			var id = "dept_" + $("#company a.active").attr("node");
 			var dept_name = $("#company a.active span").text();
 			var email = "dept@group";
 			var name = dept_name + "&lt;" + email + "&gt;";
@@ -71,7 +71,7 @@
 			return false;
 			//禁止连接生效
 		});
-		
+
 		$(document).on("dblclick", "#addr_list label", function() {
 			$text = $(this).text();
 			$val = $(this).find("input").val();
@@ -102,7 +102,7 @@
 				helper : "clone"
 			});
 		});
-		
+
 		$("#rc select").droppable({
 			activeClass : "ui-state-default",
 			hoverClass : "ui-state-hover",

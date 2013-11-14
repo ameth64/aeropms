@@ -1,20 +1,19 @@
 <?php
 /*---------------------------------------------------------------------------
-  小微OA系统 - 让工作更轻松快乐 
+ 小微OA系统 - 让工作更轻松快乐
 
-  Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
+ Copyright (c) 2013 http://www.smeoa.com All rights reserved.
 
-  Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )  
+ Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 
-  Author:  jinzhu.yin<smeoa@qq.com>                         
+ Author:  jinzhu.yin<smeoa@qq.com>
 
-  Support: https://git.oschina.net/smeoa/smeoa               
+ Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
-
 
 class SupplierAction extends CommonAction {
 	//过滤查询字段
-	protected $config=array('app_type'=>'common','action_auth'=>array('set_tag'=>'admin'));
+	protected $config = array('app_type' => 'common', 'action_auth' => array('set_tag' => 'admin'));
 	function _search_filter(&$map) {
 		$map['name'] = array('like', "%" . $_POST['name'] . "%");
 		$map['letter'] = array('like', "%" . $_POST['letter'] . "%");
@@ -27,7 +26,7 @@ class SupplierAction extends CommonAction {
 
 	function index() {
 		$model = M("Supplier");
-		$where['is_del']=0;
+		$where['is_del'] = 0;
 		$list = $model -> where($where) -> select();
 		$this -> assign('list', $list);
 		$tag_data = D("SystemTag") -> get_data_list();
@@ -36,7 +35,7 @@ class SupplierAction extends CommonAction {
 			$new[$val['row_id']] = $new[$val['row_id']] . $val['tag_id'] . ",";
 		}
 		$this -> assign('tag_data', $new);
-		$this -> tag_list();
+		$this -> _assign_tag_list();
 		$this -> display();
 		return;
 	}
@@ -58,7 +57,7 @@ class SupplierAction extends CommonAction {
 		//dump($list);
 		foreach ($list as $val) {
 			$i++;
-			$objPHPExcel -> setActiveSheetIndex(0) -> setCellValue("A$i", $val["name"]) -> setCellValue("B$i", $val["short"]) -> setCellValue("C$i", $val["account"]) -> setCellValue("D$i", $val["tax_no"]) -> setCellValue("E$i", $val["payment"]) -> setCellValue("F$i", $val["address"]) -> setCellValue("G$i", $val["contact"]) -> setCellValue("H$i", $val["email"]) -> setCellValue("I$i", $val["office_tel"]) -> setCellValue("J$i", $val["mobile_tel"]) -> setCellValue("J$i", $val["fax"])-> setCellValue("L$i", $val["im"])-> setCellValue("M$i", $val["remark"]);
+			$objPHPExcel -> setActiveSheetIndex(0) -> setCellValue("A$i", $val["name"]) -> setCellValue("B$i", $val["short"]) -> setCellValue("C$i", $val["account"]) -> setCellValue("D$i", $val["tax_no"]) -> setCellValue("E$i", $val["payment"]) -> setCellValue("F$i", $val["address"]) -> setCellValue("G$i", $val["contact"]) -> setCellValue("H$i", $val["email"]) -> setCellValue("I$i", $val["office_tel"]) -> setCellValue("J$i", $val["mobile_tel"]) -> setCellValue("J$i", $val["fax"]) -> setCellValue("L$i", $val["im"]) -> setCellValue("M$i", $val["remark"]);
 		}
 		// Rename worksheet
 		$objPHPExcel -> getActiveSheet() -> setTitle('Supplier');
@@ -143,108 +142,58 @@ class SupplierAction extends CommonAction {
 		}
 	}
 
-	function tag_list() {
-		$model = D("SystemTag");
-		$tag_list = $model -> get_list();
-		$this -> assign("tag_list", $tag_list);
-	}
-
-	function insert() {
-		$ajax = $_POST['ajax'];
-		$model = D('Supplier');
-		if (false === $model -> create()) {
-			$this -> error($model -> getError());
-		}
-		$model -> __set('letter', get_letter($model -> __get('name')));
-		$model -> __set('user_id', get_user_id());
-		//保存当前数据对象
-		$list = $model -> add();
-		if ($list !== false) {//保存成功
-			if ($ajax || $this -> isAjax())
-				$this -> ajaxReturn($list, "新增成功", 1);
-			$this -> assign('jumpUrl', get_return_url());
-			$this -> success('新增成功!');
-		} else {
-			//失败提示
-			$this -> error('新增失败!');
-		}
-	}
-
-	function update() {
-		$ajax = $_POST['ajax'];
-		$id = $_POST['id'];
-		$model = D("Supplier");
-		if (false === $model -> create()) {
-			$this -> error($model -> getError());
-		}
-		$model -> __set('letter', get_letter($model -> __get('name')));
-		// 更新数据
-		$list = $model -> save();
-		if (false !== $list) {
-			//成功提示
-			$this -> assign('jumpUrl', get_return_url());
-			$this -> success('编辑成功!');
-		} else {
-			//错误提示
-			$this -> error('编辑失败!');
-		}
-	}
-
 	function del() {
-		if (!empty($_POST['id[]'])) {
-			$model = M("Supplier");
-			$contact_list = $_POST['id[]'];
-			if (!is_array($contact_list)) {
-				$contact_list = explode(",", $contact_list);
-			}
-			$where['id'] = array('in', $contact_list);
-			$where['user_id'] = get_user_id();
-			$model -> where($where) -> delete();
-			
-			$model = D("UserTag");
-			$result = $model -> del_data_by_row($contact_list);
-		};
-		if ($result !== false) {//保存成功
+		$id = $_POST['id'];
+		$count = $this -> _del($id, true);
+
+		if ($count) {
+			$model = D("SystemTag");
+			$result = $model -> del_data_by_row($id);
+		}
+
+		if ($count !== false) {//保存成功
 			$this -> assign('jumpUrl', get_return_url());
-			$this -> success('操作成功!');
+			$this -> success("成功删除{$count}条!");
 		} else {
 			//失败提示
-			$this -> error('操作失败!');
+			$this -> error('删除失败!');
 		}
 	}
 
 	function read() {
-			$model = M('Supplier');
-			$id = $_REQUEST[$model -> getPk()];
-			$vo = $model -> getById($id);
-			$this -> assign('vo', $vo);
-			$this -> display();
+		$model = M('Supplier');
+		$id = $_REQUEST[$model -> getPk()];
+		$vo = $model -> getById($id);
+		$this -> assign('vo', $vo);
+		$this -> display();
 	}
 
-	function set_tag(){
-		if (!empty($_POST['supplier_id'])) {
+	function set_tag() {
+		$id = $_POST['id'];
+		$tag = $_POST['tag'];
+		$new_tag = $_POST['new_tag'];
+		if (!empty($id)) {
 			$model = D("SystemTag");
-			$model -> del_data_by_row($_POST['supplier_id'], 'supplier');
+			$model -> del_data_by_row($id);
 			if (!empty($_POST['tag'])) {
-				$result = $model -> set_tag($_POST['supplier_id'], $_POST['tag'], "supplier");
+				$result = $model -> set_tag($id, $tag);
 			}
 		};
-		if (!empty($_POST['new_tag'])) {
-			$model = M("SystemTag");
+
+		if (!empty($new_tag)) {
+			$model = D("SystemTag");
 			$model -> module = MODULE_NAME;
-			$model -> name = $_POST['new_tag'];
+			$model -> name = $new_tag;
 			$model -> is_del = 0;
 			$model -> user_id = get_user_id();
 			$new_tag_id = $model -> add();
-			if (!empty($_POST['supplier_id'])) {
-				$model = D("SystemTag");
-				$result = $model -> set_tag($_POST['supplier_id'], $new_tag_id, "supplier");
+			if (!empty($id)) {
+				$result = $model -> set_tag($id, $new_tag_id);
 			}
 		};
 		if ($result !== false) {//保存成功
 			if ($ajax || $this -> isAjax())
-				$this -> ajaxReturn($list, "操作成功", 1);
-			$this -> assign('jumpUrl', get_return_url());
+				$this -> assign('jumpUrl', get_return_url());
 			$this -> success('操作成功!');
 		} else {
 			//失败提示
@@ -252,7 +201,7 @@ class SupplierAction extends CommonAction {
 		}
 	}
 
-	function json(){
+	function json() {
 		header("Content-Type:text/html; charset=utf-8");
 		$key = $_REQUEST['key'];
 
@@ -275,5 +224,49 @@ class SupplierAction extends CommonAction {
 		$this -> assign('menu', popup_tree_menu($tree));
 		$this -> display();
 	}
+
+	protected function _insert() {
+		$model = D('Supplier');
+		if (false === $model -> create()) {
+			$this -> error($model -> getError());
+		}
+		$model -> __set('letter', get_letter($model -> __get('name')));
+		$model -> __set('user_id', get_user_id());
+		//保存当前数据对象
+		$list = $model -> add();
+		if ($list !== false) {//保存成功
+			$this -> assign('jumpUrl', get_return_url());
+			$this -> success('新增成功!');
+		} else {
+			//失败提示
+			$this -> error('新增失败!');
+		}
+	}
+
+	protected function _update() {
+		$id = $_POST['id'];
+		$model = D("Supplier");
+		if (false === $model -> create()) {
+			$this -> error($model -> getError());
+		}
+		$model -> __set('letter', get_letter($model -> __get('name')));
+		// 更新数据
+		$list = $model -> save();
+		if (false !== $list) {
+			//成功提示
+			$this -> assign('jumpUrl', get_return_url());
+			$this -> success('编辑成功!');
+		} else {
+			//错误提示
+			$this -> error('编辑失败!');
+		}
+	}
+
+	protected function _assign_tag_list() {
+		$model = D("SystemTag");
+		$tag_list = $model -> get_tag_list('id,name');
+		$this -> assign("tag_list", $tag_list);
+	}
+
 }
 ?>

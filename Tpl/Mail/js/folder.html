@@ -1,5 +1,5 @@
 <script type="text/javascript">
-	function mark(action){
+	function mark(action) {
 		var vars = $("#form_data").serialize();
 		switch (action) {
 			case "readed":
@@ -11,7 +11,7 @@
 						});
 						$("input[name='id[]']:checked").prop('checked', false);
 						$("#id-toggle-all").prop('checked', false);
-						
+
 					}
 				});
 				break;
@@ -31,7 +31,7 @@
 				sendAjax("{:U('mark?action=del')}", vars, function(data) {
 					if (data.status) {
 						alert(data.info);
-						location.href=location.href;		
+						location.href = location.href;
 					}
 				});
 				break;
@@ -40,7 +40,7 @@
 					sendAjax("{:U('mark?action=del_forever')}", vars, function(data) {
 						if (data.status) {
 							alert(data.info);
-							location.href=location.href;
+							location.href = location.href;
 						}
 					});
 				}
@@ -49,7 +49,7 @@
 				sendAjax("{:U('mark?action=spam')}", vars, function(data) {
 					if (data.status) {
 						alert(data.info);
-						location.href=location.href;
+						location.href = location.href;
 					}
 				});
 				break;
@@ -72,6 +72,7 @@
 			$(this).parents("li").hide();
 		})
 	}
+
 
 	$(document).ready(function() {
 		$("#move_to li").click(function() {

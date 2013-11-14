@@ -13,15 +13,15 @@
 		<div class="navbar-header pull-right" role="navigation">
 			<ul class="nav ace-nav">
 				<li class="grey">
-					<a  href="{:U('todo/index')}"><i class="icon-tasks"></i> <span class="badge badge-grey">{$new_todo}</span> </a>
+					<a  href="{:U('todo/index')}" onclick="del_current_node()"><i class="icon-tasks"></i> <span class="badge badge-grey">{$new_todo}</span> </a>
 				</li>
 
 				<li class="purple">
-					<a  href="{:U('notice/index')}"> <i class="icon-bell-alt icon-animated-bell"></i> <span class="badge badge-important">{$new_notice}</span> </a>
+					<a  href="{:U('notice/index')}" onclick="del_current_node()"> <i class="icon-bell-alt icon-animated-bell"></i> <span class="badge badge-important">{$new_notice}</span> </a>
 				</li>
 
 				<li class="green">
-					<a  href="{:U('mail/index')}"><i class="icon-envelope icon-animated-vertical"></i> <span class="badge badge-success">{$new_mail}</span> </a>
+					<a  href="{:U('mail/index')}" onclick="del_current_node()"><i class="icon-envelope icon-animated-vertical"></i> <span class="badge badge-success">{$new_mail}</span> </a>
 				</li>
 
 				<li class="light-blue">
@@ -29,10 +29,10 @@
 					<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 						<li>
 							<a href="{:U('Profile/index')}"> <i class="icon-user"></i> 用户资料 </a>
-						</li>						
+						</li>
 						<li>
-							<a href="{:U('Profile/password')}"> <i class="icon-lock"></i>修改密码</a>
-						</li>						
+							<a href="{:U('Profile/password')}"><i class="icon-lock"></i> 修改密码</a>
+						</li>
 						<li>
 							<a href="{:U('UserConfig/index')}"> <i class="icon-cog"></i> 用户设置 </a>
 						</li>

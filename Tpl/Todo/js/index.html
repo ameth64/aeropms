@@ -13,15 +13,16 @@
 		}
 	}
 
+
 	$(document).ready(function() {
 		set_return_url();
 		$("#dialog2").mouseleave(function() {
 			//$("#dialog2").hide();
 		});
 
-		$("li a.status").on("click",(function() {
-			$("#dialog2").css("left",$(this).parents("span").offset().left-$(".Todo").offset().left);
-			$("#dialog2").css("top",$(this).parents("span").offset().top-$(".Todo").offset().top);
+		$("li a.status").on("click", (function() {
+			$("#dialog2").css("left", $(this).parents("span").offset().left - $(".Todo").offset().left);
+			$("#dialog2").css("top", $(this).parents("span").offset().top - $(".Todo").offset().top);
 			$("#dialog2").show();
 			node = $(this).parents("li").find("input.node").val();
 			$("#dialog2").attr("node", node);
@@ -37,7 +38,6 @@
 			moveDown($(this));
 		})
 	})
-	
 	function moveUp(obj) {
 		var current = $(obj).parent().parent();
 		var prev = current.prev();
@@ -63,7 +63,7 @@
 	function mark_status(val) {
 		node = $("#dialog2").attr("node");
 		if (node) {
-			sendAjax("{:U('mark_status')}", "id=" + node + "&val=" + val, function(data) {				
+			sendAjax("{:U('mark_status')}", "id=" + node + "&val=" + val, function(data) {
 				location.href = location.href;
 			});
 		}

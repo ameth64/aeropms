@@ -1,14 +1,16 @@
 <layout name='Layout/ace_popup' />
 {:W('PageHeader',array('name'=>'请选择供应商','search'=>'N'))}
 
-<div class="operate panel panel-default">	<div class="panel-body">
-	<div class="pull-left">
-		<a  onclick="save();" class="btn btn-sm btn-primary">确定</a>
+<div class="operate panel panel-default">
+	<div class="panel-body">
+		<div class="pull-left">
+			<a  onclick="save();" class="btn btn-sm btn-primary">确定</a>
+		</div>
+		<div class="pull-right">
+			<a  onclick="myclose();" class="btn btn-sm btn-primary">关闭</a>
+		</div>
 	</div>
-	<div class="pull-right">
-		<a  onclick="myclose();" class="btn btn-sm btn-primary">关闭</a>
-	</div>
-</div></div>
+</div>
 <div class="popup_tree_menu">
 	<ul class="tree_menu">
 		{$menu}

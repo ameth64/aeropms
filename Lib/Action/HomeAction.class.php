@@ -11,7 +11,6 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 class HomeAction extends CommonAction {
 	protected $config=array('app_type'=>'asst');
 	//过滤查询字段
@@ -27,14 +26,15 @@ class HomeAction extends CommonAction {
 		$this -> assign("widget", $widget);
 				
 		cookie("current_node", null);
+		
 		$config = D("UserConfig") -> get_config();
 		$this -> assign("home_sort", $config['home_sort']);
-		$this -> mail_list();
-		$this -> flow_list();
-		$this -> schedule_list();
-		$this -> notice_list();
-		$this -> doc_list();
-		$this -> forum_list();
+		$this -> _mail_list();
+		$this -> _flow_list();
+		$this -> _schedule_list();
+		$this -> _notice_list();
+		$this -> _doc_list();
+		$this -> _forum_list();
 		$this -> display();
 	}
 
@@ -44,7 +44,7 @@ class HomeAction extends CommonAction {
 		$model = D("UserConfig") -> set_config($data);
 	}
 
-	protected function mail_list() {
+	protected function _mail_list() {
 		$user_id = get_user_id();
 		$model = D('Mail');
 
@@ -62,7 +62,7 @@ class HomeAction extends CommonAction {
 		$this -> assign('unread_mail_list', $unread_mail_list);
 	}
 
-	protected function flow_list() {
+	protected function _flow_list(){
 		$user_id = get_user_id();
 		$emp_no = $_SESSION['emp_no'];
 		$model = D('Flow');
@@ -85,7 +85,7 @@ class HomeAction extends CommonAction {
 		$this -> assign("submit_flow_list", $submit_process_list);
 	}
 
-	protected function doc_list() {
+	protected function _doc_list() {
 		$user_id = get_user_id();
 		$model = D('Doc');
 		//获取最新邮件
@@ -95,7 +95,7 @@ class HomeAction extends CommonAction {
 		$this -> assign("doc_list", $common_list);
 	}
 
-	protected function schedule_list() {
+	protected function _schedule_list() {
 		$user_id = get_user_id();
 		$model = M('Schedule');
 		//获取最新邮件
@@ -113,7 +113,7 @@ class HomeAction extends CommonAction {
 		$this -> assign("todo_list", $todo_list);
 	}
 
-	protected function notice_list() {
+	protected function _notice_list() {
 		$model = D('Notice');
 		//获取最新通知
 		$where['is_del'] = array('eq', '0');
@@ -123,7 +123,7 @@ class HomeAction extends CommonAction {
 		$this -> assign("new_notice_list", $new_notice_list);
 	}
 
-	protected function forum_list() {
+	protected function _forum_list() {
 		$model = D('Forum');
 		$where['is_del'] = array('eq', '0');
 		$folder_list=D("SystemFolder")->get_authed_folder(get_user_id(),"ForumFolder");
