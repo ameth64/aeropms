@@ -11,7 +11,6 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 class PostAction extends CommonAction {
 	protected $config=array('app_type'=>'asst');
 	//过滤查询字段
@@ -19,6 +18,13 @@ class PostAction extends CommonAction {
 		$map['is_del'] = array('eq', '0');
 	}
 
+	public function edit() {
+		$widget['uploader'] = true;
+		$widget['editor'] = true;
+		$this -> assign("widget", $widget);
+		$this->_edit();
+	}
+	
 	public function del(){
 		$id = $_POST['id'];
 		$user_id = get_user_id();
