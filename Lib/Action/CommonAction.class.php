@@ -171,7 +171,7 @@ class CommonAction extends Action {
 	}
 
 	/** 删除数据  **/
-	protected function _del($id,$return=false) {
+	protected function _del($id, $return = false) {
 		$app_type = $this -> config['app_type'];
 		switch ($app_type) {
 			case 'personal' :
@@ -182,15 +182,15 @@ class CommonAction extends Action {
 				$model = M($name);
 				if (!empty($model)) {
 					$pk = $model -> getPk();
-					if (isset($id)){
+					if (isset($id)) {
 						if (is_array($id)) {
 							$where[$pk] = array("in", array_filter($id));
 						} else {
 							$where[$pk] = array('in', array_filter(explode(',', $id)));
 						}
-						
+
 						$result = $model -> where($where) -> setField("is_del", 1);
-						if($return){
+						if ($return) {
 							return $result;
 						}
 						if ($result !== false) {
@@ -501,17 +501,18 @@ class CommonAction extends Action {
 		$where = array();
 		$where['is_del'] = array('eq', '0');
 		$folder_list = D("SystemFolder") -> get_authed_folder(get_user_id(), "NoticeFolder");
-		$where['folder'] = array("in", $folder_list);
-		$where['create_time'] = array('egt', time() - 3600 * 24 * 30);
-		$new_notice_list = $model -> where($where) -> getField('id,create_time');
-		$readed = get_user_config("readed_notice");
 		$new_notice = 0;
-		if ($new_notice_list) {
-			foreach ($new_notice_list as $key => $val) {
-				$new_notice++;
+		if ($folder_list) {
+			$where['folder'] = array("in", $folder_list);
+			$where['create_time'] = array('egt', time() - 3600 * 24 * 30);
+			$new_notice_list = $model -> where($where) -> getField('id,create_time');
+			$readed = get_user_config("readed_notice");			
+			if ($new_notice_list) {
+				foreach ($new_notice_list as $key => $val) {
+					$new_notice++;
+				}
 			}
 		}
-
 		$this -> assign("new_notice", $new_notice);
 
 		$model = M("Todo");

@@ -185,11 +185,14 @@ function show_step_type($step) {
 
 function show_result($result) {
 	if ($result == 1) {
-		return "通过";
+		return "同意";
 	}
 	if ($result == 0) {
-		return "驳回";
+		return "否决";
 	}
+	if ($result == 2) {
+		return "退回";
+	}	
 }
 
 function show_step($step) {
@@ -212,7 +215,7 @@ function show_step($step) {
 		return "临时保管";
 	}
 	if ($step == 0) {
-		return "驳回";
+		return "否决";
 	}
 }
 
@@ -268,7 +271,7 @@ function fix_array_key($list, $key) {
 
 function fill_option($list) {
 	$html = "";
-	foreach ($list as $key => $val) {
+	foreach ($list as $key => $val){
 		if (is_array($val)) {
 			$id = $val['id'];
 			$name = $val['name'];
@@ -442,7 +445,18 @@ function left_menu($tree, $level = 0) {
 	return $html;
 }
 
-function popup_tree_menu($tree, $level = 0) {
+function select_tree_menu($tree){	
+	$html = "";
+	if (is_array($tree)){
+		$list=tree_to_list($tree);			
+		foreach ($list as $val){
+			$html = $html . "<option value='{$val['id']}'>".str_pad("",$val['level']*3,"│")."├─" ."{$val['name']}</option>";			
+		}	
+	}
+	return $html;
+}
+
+function popup_tree_menu($tree, $level = 0){
 	$level++;
 	$html = "";
 	if (is_array($tree)) {
@@ -938,37 +952,6 @@ function todo_status($status) {
 	if ($status == 3) {
 		return "完成";
 	}
-}
-
-function phpexcel($data, $templete, $file_name) {
-
-	Vendor('Excel.PHPExcel');
-	//导入thinkphp第三方类库
-
-	// Create new PHPExcel object
-	$objPHPExcel = new PHPExcel();
-	// Set document properties
-	$objPHPExcel -> getProperties() -> setCreator("小薇") -> setLastModifiedBy("小薇") -> setTitle("Office 2007 XLSX Test Document") -> setSubject("Office 2007 XLSX Test Document") -> setDescription("Test document for Office 2007 XLSX, generated using PHP classes.") -> setKeywords("office 2007 openxml php") -> setCategory("Test result file");
-	// Add some data
-	$objPHPExcel -> setActiveSheetIndex(0) -> setCellValue('A1', 'Hello') -> setCellValue('B2', 'world!') -> setCellValue('C1', 'Hello') -> setCellValue('D2', 'world!');
-
-	// Miscellaneous glyphs, UTF-8
-	$objPHPExcel -> setActiveSheetIndex(0) -> setCellValue('A4', '中文') -> setCellValue('A5', '한글');
-
-	// Rename worksheet
-	$objPHPExcel -> getActiveSheet() -> setTitle('Contact');
-
-	// Set active sheet index to the first sheet, so Excel opens this as the first sheet
-	$objPHPExcel -> setActiveSheetIndex(0);
-
-	// Redirect output to a client’s web browser (Excel2007)
-	header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-	header('Content-Disposition: attachment;filename="' . $file_name . '"');
-	header('Cache-Control: max-age=0');
-
-	$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-	$objWriter -> save('php://output');
-	exit ;
 }
 
 function mb_unserialize($serial_str) {

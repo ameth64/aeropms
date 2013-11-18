@@ -4,7 +4,7 @@
 		switch(action) {
 			case "del":
 				if (confirm('确定要删除吗?')){
-					sendAjax("{:U('Doc/mark?action=del')}", vars, function(data) {
+					sendAjax("{:U('mark?action=del')}", vars, function(data) {
 						if (data.status) {
 							alert(data.info);
 							location.href=location.href;		

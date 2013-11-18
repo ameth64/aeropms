@@ -1,6 +1,6 @@
 <layout name='Layout/ace_layout' />
 {:W('PageHeader',array('name'=>'日程搜索','search'=>'M'))}
-<form method="post" name="form_adv_serach" id="form_adv_serach">
+<form method="post" name="form_adv_search" id="form_adv_search">
 	<div class="adv_search panel panel-default  display-none"  id="adv_search">
 		<div class="panel-heading">
 			<div class="row">
@@ -47,7 +47,7 @@
 		<li class="thead">
 			<span class="col-9 pull-right">结束时间</span>
 			<span class="col-9 pull-right">开始时间</span>
-			<span class="col-12 right">地点</span>
+			<span class="col-18 pull-right">地点</span>
 			<div class="auto autocut">
 				标题
 			</div>
@@ -63,7 +63,7 @@
 						<li class="tbody" priority="{$vo.priority}">
 							<span class="col-9 pull-right text-center">{$vo.end_date}</span>
 							<span class="col-9 pull-right text-center">{$vo.start_date}</span>
-							<span class="col-12 right text-center">{$vo.location}&nbsp;</span>
+							<span class="col-18 pull-right text-center">{$vo.location}&nbsp;</span>
 							<div class="auto autocut">
 								<a href="{:U('read2?id='.$vo['id'])}"> {$vo.name}
 								<eq name="vo.name|strlen" value="0">

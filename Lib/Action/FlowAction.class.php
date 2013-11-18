@@ -13,15 +13,22 @@
 
 class FlowAction extends CommonAction {
 
-	protected $config = array('app_type' => 'flow', 'action_auth' => array('folder' => 'read', 'approve' => 'admin', 'reject' => 'admin'));
+	protected $config = array('app_type' => 'flow', 'action_auth' => array('folder' => 'read', 'mark' => 'admin'));
 
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
+		if (!empty($_REQUEST['keyword'])) {
+			$keyword = $_POST['keyword'];
+			$where['name'] = array('like', "%" . $keyword . "%");
+			$where['content'] = array('like', "%" . $keyword . "%");			
+			$where['_logic'] = 'or';
+			$map['_complex'] = $where;
+		}		
 	}
 
 	function index() {
 		$this -> _assign_group_list();
-		
+
 		$model = M('FlowType');
 		if (!empty($_POST['group'])) {
 			$where['group'] = $_POST['group'];
@@ -74,7 +81,6 @@ class FlowAction extends CommonAction {
 
 			case 'submit' :
 				$this -> assign("folder_name", '已提交');
-
 				$map['user_id'] = $user_id;
 				$map['step'] = array('gt', 10);
 				break;
@@ -114,6 +120,54 @@ class FlowAction extends CommonAction {
 		$this -> display();
 	}
 
+	function read() {
+		$model = D("Flow");
+		$id = $_REQUEST['id'];
+		$vo = $model -> getById($id);
+		$this -> assign('vo', $vo);
+		$this -> assign("user_id", $vo['user_id']);
+		$this -> assign("user_name", $vo['user_name']);
+		if (in_array('add_file', $model -> getDbFields())) {
+			$this -> _assign_file_list($vo["add_file"]);
+		};
+
+		$model = M("FlowType");
+		$is_lock = $vo['is_lock'];
+		$flow_type = $model -> find($type);
+		$this -> assign("flow_type", $flow_type);
+
+		$model = M("FlowLog");
+		$where['flow_id'] = $id;
+		$where['_string'] = "result is not null";
+		$flow_log = $model -> where($where) -> select();
+		$this -> assign("flow_log", $flow_log);
+
+		$where = array();
+		$where['flow_id'] = $id;
+		$where['emp_no'] = $_SESSION['emp_no'];
+		$where['_string'] = "result is null";
+		$to_confirm = $model -> where($where) -> find();
+		$this -> assign("to_confirm", $to_confirm);
+
+		if (!empty($to_confirm)) {
+			$is_edit = $flow_type['is_edit'];
+			$this -> assign("is_edit", $is_edit);
+			if (!empty($is_edit)) {
+				$widget['uploader'] = true;
+				$widget['editor'] = true;
+				$this -> assign("widget", $widget);
+			}
+		}
+
+		$where = array();
+		$where['flow_id'] = $id;
+		$where['_string'] = "result is not null";
+		$confirmed = $model -> where($where) -> field('emp_no,user_name') -> select();
+		$this -> assign("confirmed", $confirmed);
+
+		$this -> display();
+	}
+
 	function edit() {
 		$widget['uploader'] = true;
 		$widget['editor'] = true;
@@ -131,14 +185,13 @@ class FlowAction extends CommonAction {
 		$type = $vo['type'];
 		$flow_type = $model -> find($type);
 		$this -> assign("flow_type", $flow_type);
-
 		$model = M("FlowLog");
 		$where['flow_id'] = $id;
 		$where['_string'] = "result is not null";
 		$flow_log = $model -> where($where) -> select();
 
 		$this -> assign("flow_log", $flow_log);
-
+		trace($flow_log);
 		$where = array();
 		$where['flow_id'] = $id;
 		$where['emp_no'] = $_SESSION['emp_no'];
@@ -146,6 +199,108 @@ class FlowAction extends CommonAction {
 		$confirm = $model -> where($where) -> select();
 		$this -> assign("confirm", $confirm[0]);
 		$this -> display();
+	}
+
+	public function mark() {
+		$action = $_REQUEST['action'];
+		$user_id = $_REQUEST['user_id'];
+		$emp_no=$_REQUEST['emp_no'];
+
+		switch ($action) {
+			case 'approve' :
+				$model = D("FlowLog");
+				if (false === $model -> create()) {
+					$this -> error($model -> getError());
+				}
+				$model -> result = 1;
+				if (in_array('user_id', $model -> getDbFields())) {
+					$model -> user_id = get_user_id();
+				};
+				if (in_array('user_name', $model -> getDbFields())) {
+					$model -> user_name = $this -> _session("user_name");
+				};
+
+				$flow_id = $model -> flow_id;
+				$step = $model -> step;
+				//保存当前数据对象
+				$list = $model -> save();
+
+				$model = D("FlowLog");
+				$model -> where("step=$step and flow_id=$flow_id and result is null") ->delete();
+
+				if ($list !== false) {//保存成功
+					D("Flow") -> next_step($flow_id,$step);
+					$this -> assign('jumpUrl', get_return_url());
+					$this -> success('操作成功!');
+				} else {
+					//失败提示
+					$this -> error('操作失败!');
+				}
+				break;
+			case 'back' :
+				
+				$model = D("FlowLog");
+				if (false === $model -> create()) {
+					$this -> error($model -> getError());
+				}
+				$model -> result = 2;
+				if (in_array('user_id', $model -> getDbFields())) {
+					$model -> user_id = get_user_id();
+				};
+				if (in_array('user_name', $model -> getDbFields())) {
+					$model -> user_name = $this -> _session("user_name");
+				};
+
+				$flow_id = $model -> flow_id;
+				$step = $model -> step;
+				//保存当前数据对象
+				$list = $model -> save();
+
+				$model = D("FlowLog");
+				$model -> where("step=$step and flow_id=$flow_id and result is null") ->delete();
+
+				if ($list !== false) {//保存成功					
+					D("Flow") -> next_step($flow_id,$step,$emp_no);
+					$this -> assign('jumpUrl', get_return_url());
+					$this -> success('操作成功!');
+				} else {
+					//失败提示
+					$this -> error('操作失败!');
+				}
+				break;				
+			case 'reject' :
+				$model = D("FlowLog");
+				if (false === $model -> create()) {
+					$this -> error($model -> getError());
+				}
+				$model -> result = 0;
+				if (in_array('user_id', $model -> getDbFields())) {
+					$model -> user_id = get_user_id();
+				};
+				if (in_array('user_name', $model -> getDbFields())) {
+					$model -> user_name = $this -> _session("user_name");
+				};
+
+				$flow_id = $model -> flow_id;
+				$step = $model -> step;
+				//保存当前数据对象
+				$list = $model -> save();
+				//可以裁决的人有多个人的时候，一个人评价完以后，禁止其他人重复裁决。
+				$model = D("FlowLog");
+				$model -> where("step=$step and flow_id=$flow_id and result is null") ->delete();
+
+				if ($list !== false) {//保存成功
+					D("Flow") -> where("id=$flow_id") -> setField('step', 0);
+					$this -> assign('jumpUrl', get_return_url());
+					$this -> success('操作成功!');
+				} else {
+					//失败提示
+					$this -> error('操作失败!');
+				}
+				break;
+			default :
+				break;
+		}
 	}
 
 	public function approve() {
@@ -165,6 +320,7 @@ class FlowAction extends CommonAction {
 		$step = $model -> step;
 		//保存当前数据对象
 		$list = $model -> save();
+
 		$model = D("FlowLog");
 		$model -> where("step=$step and flow_id=$flow_id and result is null") -> setField('is_del', 1);
 
@@ -221,7 +377,6 @@ class FlowAction extends CommonAction {
 		$model = M("FlowType");
 		$where['group'] = array("neq", "");
 		$group_list = $model -> where($where) -> distinct("group") -> field("group") -> select();
-
 		$group_list = rotate($group_list);
 		$group_list = array_combine($group_list["group"], $group_list["group"]);
 		$this -> assign("group_list", $group_list);

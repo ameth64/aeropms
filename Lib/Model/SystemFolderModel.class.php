@@ -46,7 +46,7 @@ class SystemFolderModel extends CommonModel {
 		return $list;
 	}
 
-	function get_authed_folder($user_id,$folder){
+	function get_authed_folder($user_id,$folder=null){
 		if(empty($folder)){
 			$folder=MODULE_NAME."Folder";
 		}

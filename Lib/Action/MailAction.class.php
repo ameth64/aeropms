@@ -697,6 +697,7 @@ class MailAction extends CommonAction {
 		$list = $model -> field('mail_name,email,pop3svr,smtpsvr,mail_id,mail_pwd') -> find($user_id);
 		if (empty($list['mail_name']) || empty($list['email']) || empty($list['pop3svr']) || empty($list['smtpsvr']) || empty($list['mail_id']) || empty($list['mail_pwd'])) {
 			$this -> assign('jumpUrl', U('MailAccount/index'));
+			cookie('current_node',null);
 			$this -> error("请设置邮箱帐号");
 			die ;
 		} else {

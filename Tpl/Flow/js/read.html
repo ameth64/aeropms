@@ -1,32 +1,17 @@
 <script type="text/javascript">
 	function approve() {
-		sendForm("form_confirm", "{:U('approve')}", "{:U('read?id='.$vo['id'])}");
+		sendForm("form_confirm", "{:U('mark?action=approve')}", "{:U('read?id='.$vo['id'])}");
 	}
 
 	function reject() {
-		sendForm("form_confirm", "{:U('reject')}", "{:U('read?id='.$vo['id'])}");
+		sendForm("form_confirm", "{:U('mark?action=reject')}", "{:U('read?id='.$vo['id'])}");
 	}
 
-	function save(step) {
-		$("#confirm").val("");
-		$("#confirm_wrap  span").each(function() {
-			$("#confirm").val($("#confirm").val() + $(this).attr("emp_no") + '|');
-		})
+	function back_to(emp_no) {
+		sendForm("form_confirm", "{:U('mark?action=back')}?emp_no=" + emp_no, "{:U('read?id='.$vo['id'])}");
+	}
 
-		$("#consult").val("");
-		$("#consult_wrap  span").each(function() {
-			$("#consult").val($("#consult").val() + $(this).attr("emp_no") + '|');
-		})
-
-		$("#refer").val("");
-		$("#refer_wrap  span").each(function() {
-			$("#refer").val($("#refer").val() + $(this).attr("emp_no") + '|');
-		})
-		if ($("#confirm").val().length < 2) {
-			alert('请选择审批流程');
-			return;
-		}
-		$("#step").val(step);
+	function save() {
 		editor.sync();
 		sendForm("form_data", "{:U('save')}");
 	}
@@ -42,6 +27,8 @@
 		$("#consult span").on("dblclick", function() {
 			$("#consult span").last().find("b").remove();
 		});
-		show_content();
+		<empty
+		name = "is_edit" > show_content();
+		</empty>
 	}); 
 </script>

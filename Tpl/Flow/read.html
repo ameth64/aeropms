@@ -1,26 +1,26 @@
 <layout name='Layout/ace_layout' />
 {:W('PageHeader',array('name'=>array($flow_type['name'],'：',$vo['name']),'search'=>'N'))}
-
 <div class="operate panel panel-default">
 	<div class="panel-body">
 		<div class="pull-left">
 			<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
 			<a href="#flow_status"  class="btn btn-sm btn-primary">裁决情况</a>
-			<notempty name="confirm">
+			<notempty name="to_confirm">
 				<a href="#confirm"  class="btn btn-sm btn-primary">办理意见</a>
 			</notempty>
 		</div>
+		<notempty name="is_edit">
+			<div class="pull-right">
+				<a onclick="save();" class="btn btn-sm btn-primary">保存</a>
+			</div>
+		</notempty>
 	</div>
 </div>
 <form method='post' id="form_data" name="form_data" enctype="multipart/form-data"  class="well form-horizontal">
 	<input type="hidden" id="ajax" name="ajax" value="0">
-	<input type="hidden" id="type" name="type" value="{$flow_type.id}">
-	<input type="hidden" id="opmode" name="opmode" value="add">
-	<input type="hidden" id="confirm" name="confirm" value="">
-	<input type="hidden" id="consult" name="consult" value="">
-	<input type="hidden" id="refer" name="refer" value="">
-	<input type="hidden" id="step" name="step" value="">
-
+	<input type="hidden" id="opmode" name="opmode" value="edit">
+	<input type="hidden" id="name" name="name" value="{$vo.name}">
+	<input type="hidden" id="id" name="id" value="{$vo.id}">
 	<div class="form-group col-sm-6">
 		<label class="col-sm-4 control-label" >文件编号：</label>
 		<div class="col-sm-8">
@@ -86,19 +86,23 @@
 
 	<div class="form-group">
 		<div class="col-xs-12">
-			<div id="content_wrap">
-				<iframe id="content_iframe"></iframe>
-			</div>
-			<textarea id="content_1" name="content" style="width:100%;height:300px;" class="display-none">{$vo.content}</textarea>
+			<empty name = "is_edit">
+				<div id="content_wrap">
+					<iframe id="content_iframe"></iframe>
+				</div>
+			</empty>
+			<textarea id="content" name="content" style="width:100%;height:300px;" class="display-none">{$vo.content}</textarea>
 		</div>
 	</div>
-
 	<div class="form-group">
 		<label class="col-sm-2 control-label" >附件：</label>
 		<div class="col-sm-10">
-			<p id="refer_wrap" class="form-control-static address_list">
+			<empty name="is_edit">
 				<include file="Widget:file_list" />
-			</p>
+			</empty>
+			<notempty name="is_edit">
+				<include file="Widget:uploader" />
+			</notempty>
 		</div>
 	</div>
 </form>
@@ -127,21 +131,34 @@
 		</volist>
 	</ul>
 </div>
-<notempty name="confirm">
+<notempty name="to_confirm">
 	{:W('PageHeader',array('name'=>'办理意见','search'=>'N'))}
-
 	<form method="post" action="" name="form_confirm" id="form_confirm">
-		<input type="hidden" name="id" value="{$confirm.id}">
+		<input type="hidden" name="id" value="{$to_confirm.id}">
 		<input type="hidden" name="flow_id" value="{$vo.id}">
-		<input type="hidden" name="step" value="{$confirm.step}">
+		<input type="hidden" name="step" value="{$to_confirm.step}">
 		<div class="operate panel panel-default">
 			<div class="panel-heading clearfix">
 				<div class="pull-left">
 					<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
 				</div>
 				<div class="pull-right">
+					<div class="btn-group">
+						<a class="btn btn-sm btn-warning dropdown-toggle" data-toggle="dropdown" href="#">退回到<span class="caret"></span> </a>
+						<ul class="dropdown-menu col-5">
+							<volist name="confirmed" id="vo">
+								<li onclick="back_to('{$vo.emp_no}');">
+									<a>{$vo.user_name}</a>
+								</li>
+							</volist>
+							<li onclick="back_to('{$user_id}');">
+								<a>{$user_name}</a>
+							</li>
+						</ul>
+					</div>
+					<a onclick="reject();" class="btn btn-sm btn-danger">否决</a>					
+					|
 					<a onclick="approve();" class="btn btn-sm btn-primary">同意</a>
-					<a onclick="reject();" class="btn btn-sm btn-primary">驳回</a>
 				</div>
 			</div>
 			<div class="form-group panel-body">
@@ -149,5 +166,7 @@
 				<div class="col-sm-10">
 					<textarea name="comment" class="col-xs-12" style="height:120px"></textarea>
 				</div>
+			</div>
+		</div>
 	</form>
 </notempty>

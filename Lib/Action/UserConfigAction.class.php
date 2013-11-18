@@ -11,12 +11,10 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 class UserConfigAction extends CommonAction {
 	protected $config=array('app_type'=>'personal');
 	public function index() {
-		cookie("top_menu", null);
-		cookie("left_menu", null);
+		cookie("current_node", null);		
 		$config = M("UserConfig") -> find(get_user_id());
 		$this -> assign("config", $config);
 		if (count($config)) {
@@ -39,11 +37,10 @@ class UserConfigAction extends CommonAction {
 		if (in_array('user_name', $model -> getDbFields())) {
 			$model -> user_name = $this -> _session("user_name");
 		};
-		$email = $_POST['email'];
+		
 		//保存当前数据对象
 		$list = $model -> add();
-		if ($list !== false) {//保存成功
-			$this -> _set_email($email);
+		if ($list !== false) {//保存成功		
 			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('新增成功!');
 		} else {

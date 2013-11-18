@@ -52,7 +52,7 @@ class LoginAction extends Action {
 		// 支持使用绑定帐号登录
 		$map['emp_no'] = $_POST['emp_no'];
 		$map["is_del"] = array('eq', 0);
-		$model = M(C('USER_AUTH_MODEL'));
+		$model = D("UserView");
 		$authInfo = $model -> where($map) -> find();
 		//die;
 		//使用用户名、密码和状态的方式进行认证
@@ -71,6 +71,7 @@ class LoginAction extends Action {
 			session('last_login_time', $authInfo['last_login_time']);
 			session('login_count', $authInfo['login_count']);
 			session('dept_id', $authInfo['dept_id']);
+			session('dept_name', $authInfo['dept_name']);
 			if ($authInfo['emp_no'] == 'admin') {
 				session(C('ADMIN_AUTH_KEY'), true);
 			}
