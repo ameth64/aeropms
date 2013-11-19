@@ -514,7 +514,9 @@ class CommonAction extends Action {
 			}
 		}
 		$this -> assign("new_notice", $new_notice);
-
+		
+		
+		//获取待办事项
 		$model = M("Todo");
 		$where = array();
 		$where['user_id'] = $user_id;

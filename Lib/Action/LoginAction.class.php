@@ -54,6 +54,8 @@ class LoginAction extends Action {
 		$map["is_del"] = array('eq', 0);
 		$model = D("UserView");
 		$authInfo = $model -> where($map) -> find();
+		//dump($model);
+		//die;
 		//die;
 		//使用用户名、密码和状态的方式进行认证
 		if (false === $authInfo) {

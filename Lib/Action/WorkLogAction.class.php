@@ -33,19 +33,23 @@ class WorkLogAction extends CommonAction {
 			$tree = list_to_tree($menu,$dept_id);
 			$count=count($tree);
 			if(empty($count)){
+				/*获取部门列表*/
 				$dept_name=$_SESSION['dept_name'];				
 				$html = $html . "<option value='{$dept_id}'>{$dept_name}</option>";
 				$this -> assign('dept_list',$html);
-				
+			
+				/*获取人员列表*/
 				$where['dept_id']=array('eq',$dept_id);
 				$emp_list=D("User")->where($where)->getField('id,emp_name');
 				$this->assign('emp_list',$emp_list);					
-			}else{								
+			}else{
+				/*获取部门列表*/								
 				$this -> assign('dept_list', select_tree_menu($tree));
 				$dept_list=tree_to_list($tree);
 				$dept_list=rotate($dept_list);
 				$dept_list=$dept_list['id'];
 				
+				/*获取人员列表*/
 				$where['dept_id']=array('in',$dept_list);
 				$emp_list=D("User")->where($where)->getField('id,emp_name');
 				$this->assign('emp_list',$emp_list);				
@@ -85,20 +89,6 @@ class WorkLogAction extends CommonAction {
 		$this->display();
 	}
 	
-	public function read_emp() {
-		$id = $_REQUEST['id'];
-		$model = M("Dept");
-		$dept = tree_to_list(list_to_tree(M("Dept") ->where('is_del=0')-> select(), $id));
-		$dept = rotate($dept);
-		$dept = implode(",", $dept['id']) . ",$id";
-
-		$model = D("UserView");
-		$where['dept_id'] = array('in', $dept);
-		$data = $model -> where($where) -> select();
-		$this -> ajaxReturn($data, "", 1);
-	}
-
-
 	function upload() {
 		$this -> _upload();
 	}
