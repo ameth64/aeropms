@@ -4,16 +4,74 @@
 .btn-group > .btn-sm, .btn-group + .btn-sm {
 	border-width: 4px;
 }
-.work_log_head div{
-	line-height:36px;
+
+.work_log_box {
+	border: 1px solid #ccc;
+	margin: 0 auto;
+	overflow: hidden;
 }
-.work_log_body .title {
-	line-height:28px;
+.work_log_head div {
+	line-height: 32px;
+	background: #E8E8E8;
+	border-bottom: 1px solid #ccc;
 }
-.work_log_body .content {
-	padding-left: 10px;
-	padding-top:10px;
+.work_log_box .title {
+	line-height: 32px;
+	background: #E8E8E8;
+	border-bottom: 1px solid #ccc;
 }
+.work_log_box .content {
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+.work_log_box .content_box {
+	word-break: break-all;
+	float: left;
+	background: #FFF;
+	text-align: left;
+}
+@media (min-width: 750px) {
+	.work_log_box .content_box {
+		border-right:1px solid #ccc;
+	}
+}
+@media (max-width: 750px) {
+	.work_log_box .plan_box {
+		border-top: 1px solid #ccc;
+	}
+}
+
+border-right:1px solid #ccc;
+.plan_box {
+	word-break: break-all;
+	float: left;
+	background: #FFF;
+	text-align: left;
+}
+.work_log_box:after {
+	content: '[DO NOT LEAVE IT IS NOT REAL]';
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+.work_log_box {
+	display: inline-block;
+}
+.work_log_box {
+	display: block;
+}
+.content_box, .plan_box {
+	padding-bottom: 32767px !important;
+	margin-bottom: -32767px !important;
+}
+
+#footer {
+	background: #E8E8E8;
+	width: 100%;
+	float: left;
+}
+
 .post_right {
 	padding-top: 10px;
 	padding-right: 20px;
@@ -1027,6 +1085,13 @@ ul.tree_menu i {
 	background-clip: border-box;
 	background-color: rgb(255, 255, 255);
 }
+.Schedule .day .st-dtitle {
+	text-align: center;
+	line-height: 28px;
+}
+.Schedule .day .st-dtitle .right {
+	display: none;
+}
 .Schedule .st-dtitle.todayColor {
 	background: #eee;
 }
@@ -1192,7 +1257,10 @@ ul.tree_menu i {
 .WorkLog textarea {
 	height: 350px;
 }
-
+.Flow .dropdown-menu {
+	width: 60px;
+	min-width: 76px;
+}
 @media print {
 	.main-content {
 		margin: 0;

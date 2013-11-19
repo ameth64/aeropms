@@ -63,7 +63,7 @@ function winclose() {
 function show_content() {
 	var iframe = $("#content_iframe").get(0).contentWindow;
 	var div = document.createElement("div");
-	div.innerHTML = $("#content_1").val();
+	div.innerHTML = $("#content").val();
 	div.className = "height";
 	iframe.document.body.appendChild(div);
 	height = $(iframe.document.body).find("div.height").height();

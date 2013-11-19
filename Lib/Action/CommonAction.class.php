@@ -508,13 +508,15 @@ class CommonAction extends Action {
 			$where['create_time'] = array('egt', time() - 3600 * 24 * 30);
 			$new_notice_list = $model -> where($where) -> getField('id,create_time');
 			$readed = get_user_config("readed_notice");			
-			if ($new_notice_list) {
-				foreach ($new_notice_list as $key => $val) {
-					$new_notice++;
+			if ($new_notice_list){
+				foreach ($new_notice_list as $key => $val){		
+					if(strpos($readed,$key."|")===false){
+						$new_notice++;	
+					}						
 				}
 			}
-		}
-		$this -> assign("new_notice", $new_notice);
+		}		
+		$this -> assign("new_notice",$new_notice);
 		
 		
 		//获取待办事项

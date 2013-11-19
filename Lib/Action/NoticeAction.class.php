@@ -26,6 +26,21 @@ class NoticeAction extends CommonAction {
 	public function index() {
 		$widget['date-range'] = true;
 		$this -> assign("widget", $widget);
+		
+		$arr_read = explode("_", get_user_config("readed_notice"));
+		$arr_readed_notice = array();
+		$arr_readed_id = array();
+		foreach ($arr_read as $key => $val) {
+			$tmp = explode("|", $val);
+			$notiec_id = $tmp[0];
+			$create_time = $tmp[1];
+			if ($create_time >= time() - 3600 * 24 * 30) {
+				$arr_readed_notice[] = $val;
+				$arr_readed_id[] = $notiec_id;
+			}
+		}
+
+		$this -> assign("readed_id", $arr_readed_id);
 
 		$user_id = get_user_id();
 		$map = $this -> _search();
@@ -126,14 +141,14 @@ class NoticeAction extends CommonAction {
 			$tmp = explode("|", $val);
 			$notiec_id = $tmp[0];
 			$create_time = $tmp[1];
-			if ($create_time > time() - 3600 * 24 * 30) {
+			if ($create_time >= time() - 3600 * 24 * 30) {
 				$arr_readed_notice[] = $val;
 				$arr_readed_id[] = $notiec_id;
 			}
 		}
 
 		$this -> assign("readed_id", $arr_readed_id);
-		trace($arr_readed_id);
+				
 		$model = D("Notice");
 		$map = $this -> _search();
 		if (method_exists($this, '_search_filter')) {

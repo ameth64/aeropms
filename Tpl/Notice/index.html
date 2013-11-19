@@ -45,7 +45,7 @@
 		<li class="thead">
 			<span class="col-10 text-center">编号</span>
 			<span class="col-10 text-center">文件夹</span>
-			<span class="col-9 pull-right text-center">登录时间</span>
+			<span class="col-10 pull-right text-center">登录时间</span>
 			<span class="col-6 pull-right text-center">登录人</span>
 			<div class="auto autocut">
 				标题
@@ -58,10 +58,10 @@
 			<else/>
 			<form method="post" action="" name="form_data" id="form_data">
 				<foreach name="list" item="vo">
-					<li class="tbody">
+					<li class="tbody <php> if((!in_array($vo['id'],$readed_id))&&($vo['create_time']>time()-3600*8*24)) echo("bold")</php>"">
 						<span class="col-10 text-center">{$vo.notice_no}</span>
 						<span class="col-10 text-center autocut">&nbsp;{$vo.folder_name}&nbsp;</span>
-						<span class="col-9 pull-right text-center">&nbsp;{$vo.create_time|toDate='Y-m-d'}&nbsp;</span>
+						<span class="col-10 pull-right text-center">&nbsp;{$vo.create_time|toDate='Y-m-d'}&nbsp;</span>
 						<span class="col-6 pull-right text-center">{$vo.user_name}</span>
 						<div class="auto autocut">
 							<a href="{:U('read?id='.$vo['id'])}"> {$vo.name}
