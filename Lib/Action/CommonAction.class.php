@@ -103,6 +103,7 @@ class CommonAction extends Action {
 		};
 		/*保存当前数据对象 */
 		$list = $model -> add();
+		
 		if ($list !== false) {//保存成功
 			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('新增成功!');

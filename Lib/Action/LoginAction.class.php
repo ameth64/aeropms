@@ -67,7 +67,7 @@ class LoginAction extends Action {
 			session(C('USER_AUTH_KEY'), $authInfo['id']);
 			session('emp_no', $authInfo['emp_no']);
 			session('email', $authInfo['email']);
-			session('user_name', $authInfo['emp_name']);
+			session('user_name', $authInfo['name']);
 			session('user_pic', $authInfo['pic']);
 
 			session('last_login_time', $authInfo['last_login_time']);

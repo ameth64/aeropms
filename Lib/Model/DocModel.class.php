@@ -26,7 +26,7 @@ class DocModel extends CommonModel {
 		);
         
     function new_doc_no(){
-        $sql = "SELECT CONCAT(year(now()),'-',LPAD(count(*)+1,4,0)) doc_no FROM `".$this->tablePrefix."_doc` WHERE 1 and year(FROM_UNIXTIME(create_time))>=year(now())";       
+        $sql = "SELECT CONCAT(year(now()),'-',LPAD(count(*)+1,4,0)) doc_no FROM `".$this->tablePrefix."doc` WHERE 1 and year(FROM_UNIXTIME(create_time))>=year(now())";       
         $rs = $this->db->query($sql);
         if($rs){
             return $rs[0]['doc_no'];    
