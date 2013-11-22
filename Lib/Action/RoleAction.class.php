@@ -17,25 +17,25 @@ class RoleAction extends CommonAction {
 	
 	public function node() {
 		$node_model = M("Node");
-		if (!empty($_POST['s_pid'])) {
-			$pid = $_POST['s_pid'];
+		if (!empty($_POST['eq_pid'])) {
+			$eq_pid = $_POST['eq_pid'];
 		} else {
-			$pid = $node_model -> where('pid=0') -> order('sort asc') -> getField('id');
+			$eq_pid = $node_model -> where('pid=0') -> order('sort asc') -> getField('id');
 		}
 
 		//dump($node_model -> select());
 		$node_list = $node_model -> order('sort asc') -> select();
 
-		$node_list = tree_to_list(list_to_tree($node_list, $pid));
+		$node_list = tree_to_list(list_to_tree($node_list, $eq_pid));
 
 		$node_list = rotate($node_list);
 		//dump($node_list);
-		$node_list = implode(",", $node_list['id']) . ",$pid";
+		$node_list = implode(",", $node_list['id']) . ",$eq_pid";
 
 		$where['id'] = array('in', $node_list);
 		$menu = $node_model -> field('id,pid,name,url') -> where($where) -> order('sort asc') -> select();
 		$tree = list_to_tree($menu);
-		$this -> assign('pid', $pid);
+		$this -> assign('eq_pid', $eq_pid);
 
 		$list = tree_to_list($tree);
 		$this -> assign('node_list', $list);

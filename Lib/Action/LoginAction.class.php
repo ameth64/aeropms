@@ -31,7 +31,7 @@ class LoginAction extends Action {
 		$auth_id = session(C('USER_AUTH_KEY'));
 		if (isset($auth_id)) {
 			session(C('USER_AUTH_KEY'), null);
-			session('top_menu' . $auth_id, null);
+			session('menu' . $auth_id, null);
 			$this -> assign("jumpUrl", __URL__ . '/');
 			$this -> success('登出成功！');
 		} else {
@@ -78,14 +78,6 @@ class LoginAction extends Action {
 				session(C('ADMIN_AUTH_KEY'), true);
 			}
 
-			//读取数据库模块列表生成菜单项
-			$menu = D("Node") -> access_list();
-			$system_folder_menu = D("SystemFolder") -> get_folder_menu();
-			$user_folder_menu = D("UserFolder") -> get_folder_menu();
-			$menu = array_merge($system_folder_menu, $user_folder_menu, $menu);
-
-			//缓存菜单访问
-			session('menu' . $authInfo['id'], $menu);
 			//保存登录信息
 			$User = M('User');
 			$ip = get_client_ip();

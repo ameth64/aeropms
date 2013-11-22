@@ -169,5 +169,4 @@ class FileAction extends CommonAction {
 		fpassthru($fp);
 		exit ;
 	}
-
 }

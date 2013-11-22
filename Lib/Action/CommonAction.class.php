@@ -103,7 +103,6 @@ class CommonAction extends Action {
 		};
 		/*保存当前数据对象 */
 		$list = $model -> add();
-		
 		if ($list !== false) {//保存成功
 			$this -> assign('jumpUrl', get_return_url());
 			$this -> success('新增成功!');
@@ -393,7 +392,7 @@ class CommonAction extends Action {
 	protected function _assign_menu() {
 		$model = D("Node");
 		$user_id = get_user_id();
-		if (!session('menu' . $user_id)) {
+		if (session('menu' . $user_id)) {
 			//如果已经缓存，直接读取缓存
 			$menu = session('menu' . $user_id);
 		} else {
@@ -406,11 +405,7 @@ class CommonAction extends Action {
 			session('menu' . $user_id, $menu);
 		}
 
-		if (!empty($top_menu)) {
-			$this -> assign("top_menu_name", $model -> where("id=$top_menu") -> getField('name'));
-		}
-		$tree = list_to_tree($menu);
-		$this -> assign('tree', $tree);
+		$this -> assign('tree',list_to_tree($menu));
 	}
 
 	protected function _assign_folder_list() {
@@ -543,6 +538,5 @@ class CommonAction extends Action {
 		$model -> add();
 		exit();
 	}
-
 }
 ?>

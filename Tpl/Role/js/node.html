@@ -28,7 +28,6 @@
 				$(".wrap .tree_menu input[name='read[]'][value=" + result.data[s].node_id + "]").prop("checked", "true");
 				//$(".wrap .tree_menu input[name='read[]'][value=" + result.data[s].node_id + "]").parents("td").addClass("active");
 			}
-
 		};
 		$("#org_node_list").val('');
 		$(".wrap .tree_menu input[name='node_id']:checked").each(function() {;
@@ -39,6 +38,7 @@
 
 	$(document).ready(function() {
 		set_return_url();
+		set_val('eq_pid', '{$eq_pid}');
 		$(".role_list tbody tr").click(function() {
 			$(".role_list  tr").removeClass("active");
 			$(this).attr("class", "active");

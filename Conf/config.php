@@ -12,8 +12,7 @@
 		'DB_FIELDS_CACHE'=>false,
         'SESSION_AUTO_START'=>true,
         'USER_AUTH_KEY' =>'authId',	// 用户认证SESSION标记
-        'ADMIN_AUTH_KEY'			=>'administrator',
-        'USER_AUTH_MODEL'      =>'User',	// 默认验证数据表模型       
+        'ADMIN_AUTH_KEY'			=>'administrator',        
         'USER_AUTH_GATEWAY'=>'login/index',// 默认认证网关
         'DB_LIKE_FIELDS'            =>'title|content|name|remark',
 		'SAVE_PATH'=>'Data/Files/',

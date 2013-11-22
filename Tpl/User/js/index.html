@@ -44,6 +44,9 @@
 	}
 
 	function showdata(result) {
+		$("#form_data select ").each(function() {
+			$(this).find('option:first').attr('selected', 'selected');
+		});
 		for (var s in result.data) {
 			set_val(s, result.data[s]);
 		}
