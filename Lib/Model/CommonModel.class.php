@@ -1,14 +1,14 @@
 <?php
 /*---------------------------------------------------------------------------
-  Ð¡Î¢OAÏµÍ³ - ÈÃ¹¤×÷¸üÇáËÉ¿ìÀÖ 
+ å°å¾®OAç³»ç»Ÿ - è®©å·¥ä½œæ›´è½»æ¾å¿«ä¹
 
-  Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
+ Copyright (c) 2013 http://www.smeoa.com All rights reserved.
 
-  Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )  
+ Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
 
-  Author:  jinzhu.yin<smeoa@qq.com>                         
+ Author:  jinzhu.yin<smeoa@qq.com>
 
-  Support: https://git.oschina.net/smeoa/smeoa               
+ Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
 
 

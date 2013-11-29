@@ -46,6 +46,11 @@ class DocAction extends CommonAction {
 		$widget['uploader'] = true;
 		$widget['editor'] = true;
 		$this -> assign("widget", $widget);
+
+		$id = $_REQUEST['id'];		
+		$model = M("Doc");
+		$folder_id = $model -> where("id=$id") -> getField('folder');
+		$this -> assign("auth", D("SystemFolder") -> get_folder_auth($folder_id));				
 		$this->_edit();
 	}
 
