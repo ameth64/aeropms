@@ -13,18 +13,20 @@
 
 class UserConfigAction extends CommonAction {
 	protected $config=array('app_type'=>'personal');
-	public function index() {
-		cookie("current_node", null);		
-		$config = M("UserConfig") -> find(get_user_id());
-		$this -> assign("config", $config);
-		if (count($config)) {
-			$this -> assign('opmode', 'edit');
-		} else {
-			$this -> assign('opmode', 'add');
-		}
+	public function index(){
+		cookie("current_node", null);
 		$this -> display();
 	}
 
+	function save(){
+		$config = M("UserConfig") -> find(get_user_id());
+		$this -> assign("config", $config);
+		if (count($config)) {
+			$this -> _insert();
+		} else {
+			$this -> _update();
+		}
+	}
 
 	function _insert() {
 		$model = M('UserConfig');
@@ -51,9 +53,7 @@ class UserConfigAction extends CommonAction {
 
 	function _update() {
 		//B('FilterString');
-
 		$model = M('UserConfig');
-
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
 		}

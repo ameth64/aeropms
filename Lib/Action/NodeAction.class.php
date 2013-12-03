@@ -42,7 +42,7 @@ class NodeAction extends CommonAction {
 		$this -> display();
 	}
 
-	protected function _insert() {
+	protected function _insert(){
 		$model = D('Node');
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());

@@ -133,13 +133,14 @@ class CommonAction extends Action {
 	protected function _upload() {
 		if (!empty($_FILES)) {
 			import("@.ORG.Util.UploadFile");
-			$module = strtolower($_REQUEST["module"]);
+			$module = MODULE_NAME;
 			$upload = new UploadFile();
 			$upload -> subFolder = $module;
 			$upload -> savePath = C("SAVE_PATH");
 			$upload -> saveRule = uniqid;
 			$upload -> autoSub = true;
 			$upload -> subType = "date";
+			$upload -> allowExts = explode(get_system_config('UPLOAD_FILE_TYPE'));			
 
 			if (!$upload -> upload()) {
 				$this -> error($upload -> getErrorMsg());

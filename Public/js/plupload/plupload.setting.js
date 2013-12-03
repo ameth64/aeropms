@@ -11,7 +11,7 @@ function uploader_init(){
 			{title : "Office Files", extensions : "doc,dox,xls,xlsx,ppt,pptx,pdf"},
 			{title : "Image Files", extensions : "jpg,gif,png,tif,xps"},
 			{title : "Zip Files", extensions : "zip,rar"},
-			{title : "Video Files", extensions : "mp4,avi"}	
+			{title : "Video Files", extensions : "mp4,avi"}
 		]
 	};
 

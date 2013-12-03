@@ -160,7 +160,7 @@ function get_model_fields($model) {
 		foreach ($model->viewFields as $key => $val) {
 			unset($val['_on']);
 			unset($val['_type']);
-			if ($val[0] == "*") {
+			if(!empty($val[0])&&($val[0] == "*")){
 				$model = M($key);
 				$fields = $model -> getDbFields();
 				$arr_field = array_merge($arr_field, array_values($fields));
@@ -367,9 +367,9 @@ function tree_to_list($tree, $level = 0, $pk = 'id', $pid = 'pid', $child = '_ch
 	$list = array();
 	if (is_array($tree)) {
 		foreach ($tree as $val) {
-			$val['level'] = $level;
-			$child = $val['_child'];
-			if (isset($child)) {
+			$val['level'] = $level;			
+			if (isset($val['_child'])) {
+				$child = $val['_child'];
 				if (is_array($child)) {
 					unset($val['_child']);
 					$list[] = $val;
@@ -734,12 +734,8 @@ function reunit($size) {
 }
 
 function get_module($str) {
-	if (strpos($str, '##') !== false) {
-		return str_replace("##", "", $str);
-	} else {
 		$arr_str = explode("/", $str);
 		return $arr_str[0];
-	}
 }
 
 function filter_module($str) {

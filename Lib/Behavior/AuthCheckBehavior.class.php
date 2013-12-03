@@ -68,7 +68,8 @@ class AuthCheckBehavior extends Behavior {
 				$auth = $this -> get_auth();
 				break;
 		}
-
+ 
+		//die;
 		if ($auth[$action_auth[ACTION_NAME]]) {
 			$this -> config['auth'] = $auth;
 			return true;
@@ -85,7 +86,7 @@ class AuthCheckBehavior extends Behavior {
 	}
 
 	function get_auth() {
-		if (!empty($this -> config['folder_auth'])) {
+		if (!empty($this -> config['folder_auth'])&&!empty($_REQUEST['fid'])) {
 			$folder_id = $_REQUEST['fid'];
 			if (!empty($folder_id)) {
 				return D("SystemFolder") -> get_folder_auth($folder_id);
@@ -99,11 +100,9 @@ class AuthCheckBehavior extends Behavior {
 		$module_list = $access_list['url'];
 		$module_list = array_map("get_module", $module_list);
 		$module_list = str_replace("_", "", $module_list);
-		//dump($module_list);
-		
-		
+				
 		//dump($access_list);
-		$access_list_admin = array_filter(array_combine($module_list, $access_list['admin']));
+		$access_list_admin = array_filter(array_combine($module_list,$access_list['admin']));
 		$access_list_write = array_filter(array_combine($module_list, $access_list['write']));
 		$access_list_read = array_filter(array_combine($module_list, $access_list['read']));
 
@@ -111,6 +110,7 @@ class AuthCheckBehavior extends Behavior {
 		$auth['write'] = array_key_exists(strtolower(MODULE_NAME), $access_list_write);
 		$auth['read'] = array_key_exists(strtolower(MODULE_NAME), $access_list_read);
 
+		
 		if ($auth['admin'] == true) {
 			$auth['write'] = true;
 		}
@@ -119,6 +119,5 @@ class AuthCheckBehavior extends Behavior {
 		}
 		return $auth;
 	}
-
 }
 ?>

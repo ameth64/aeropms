@@ -124,7 +124,7 @@ class NoticeAction extends CommonAction {
 		$this -> _readed($id);
 		$user_id = get_user_id();
 		$model = M("Notice");
-		$folder_id = $model -> where("id=$id") -> getField('folder');
+		$folder_id = $model -> where("id=$id") -> getField('folder');		
 		$this -> assign("auth", $auth = D("SystemFolder") -> get_folder_auth($folder_id));
 		$this -> _edit();
 	}

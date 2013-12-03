@@ -1,7 +1,7 @@
 <div id="uploader">
 	<a id="pickfiles" href="javascript:;" class="btn btn-sm btn-primary">添加附件</a>
-	<ul id="file_list">
-		<notempty name="file_list">
+	<notempty name="file_list">
+		<ul id="file_list">
 			<volist name="file_list" id="file">
 				<li class="tbody" id="{$file.id}" add_file="{$file.id}" size="{$file.size}" filename="{$file.name}">
 					<div class="loading"></div>
@@ -15,6 +15,6 @@
 					</div>
 				</li>
 			</volist>
-		</notempty>
-	</ul>
+		</ul>
+	</notempty>
 </div>

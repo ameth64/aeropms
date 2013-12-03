@@ -2,6 +2,7 @@
     if (!defined('THINK_PATH')) exit();
     $array=array(    	
         'URL_MODEL'=>2, // 如果你的环境不支持PATHINFO 请设置为3
+        'UPLOAD_FILE_TYPE'=>'doc,dox,xls,xlsx,ppt,pptx,pdf,gif,png,tif,zip,rar',
         'LOAD_EXT_CONFIG'=>'db,auth',
 		'VAR_PAGE'=>'p',
 		'TMPL_EXCEPTION_FILE'=>'./Tpl/Public/error.html',
@@ -15,7 +16,7 @@
         'ADMIN_AUTH_KEY'			=>'administrator',        
         'USER_AUTH_GATEWAY'=>'login/index',// 默认认证网关
         'DB_LIKE_FIELDS'            =>'title|content|name|remark',
-		'SAVE_PATH'=>'Data/Files/',
+		'SAVE_PATH'=>__ROOT__.'Data/Files/',
         'SHOW_PAGE_TRACE'=>1, //显示调试信息		
     );
     return $array;

@@ -34,7 +34,8 @@ class WorkLogAction extends CommonAction {
 			$count=count($tree);
 			if(empty($count)){
 				/*获取部门列表*/
-				$dept_name=$_SESSION['dept_name'];				
+				$dept_name=$_SESSION['dept_name'];	
+				$html ='';
 				$html = $html . "<option value='{$dept_id}'>{$dept_name}</option>";
 				$this -> assign('dept_list',$html);
 			

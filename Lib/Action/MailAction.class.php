@@ -526,7 +526,7 @@ class MailAction extends CommonAction {
 				$File -> savename = $dir . '/' . uniqid() . '.' . $File -> extension;
 				$save_name = $File -> savename;
 				if (!is_dir(C("SAVE_PATH") . $dir)) {
-					mkdir(C("SAVE_PATH") . $dir, 0777, true);
+					mkdir(C("SAVE_PATH") . $dir, o777, true);
 				}
 				if (rename($this -> tmpPath . urlencode($value), C("SAVE_PATH") . $File -> savename)) {
 					$file_id = $File -> add();

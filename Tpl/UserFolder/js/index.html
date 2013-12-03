@@ -35,7 +35,6 @@
 		for (var s in result.data) {
 			set_val(s, result.data[s]);
 		}
-		$("#type").val("{$type}");
 		$("#folder_name").val($("#folder_list option[value='" + $("#pid").val() + "']").text());
 		$("#opmode").val("edit");
 	}

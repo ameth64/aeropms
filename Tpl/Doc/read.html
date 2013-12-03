@@ -27,7 +27,6 @@
 			</p>
 		</div>
 	</div>
-
 	<div class="form-group col-sm-6">
 		<label class="col-sm-4 control-label" >文件编号：</label>
 		<div class="col-sm-8">
@@ -36,25 +35,6 @@
 			</p>
 		</div>
 	</div>
-
-	<div class="form-group col-sm-6">
-		<label class="col-sm-4 control-label" >登录日期：</label>
-		<div class="col-sm-8">
-			<p class="form-control-static">
-				{$vo.create_time|toDate='Y年m月d日 H:i'}
-			</p>
-		</div>
-	</div>
-
-	<div class="form-group col-sm-6">
-		<label class="col-sm-4 control-label" >修改日期：</label>
-		<div class="col-sm-8">
-			<p class="form-control-static">
-				{$vo.update_time|toDate='Y年m月d日 H:i'}
-			</p>
-		</div>
-	</div>
-
 	<div class="form-group col-sm-6">
 		<label class="col-sm-4 control-label" >登录人：</label>
 		<div class="col-sm-8">
@@ -63,12 +43,11 @@
 			</p>
 		</div>
 	</div>
-
 	<div class="form-group col-sm-6">
-		<label class="col-sm-4 control-label" >标签：</label>
+		<label class="col-sm-4 control-label" >登录日期：</label>
 		<div class="col-sm-8">
 			<p class="form-control-static">
-				{$vo.tag_name}
+				{$vo.create_time|toDate='Y年m月d日 H:i'}
 			</p>
 		</div>
 	</div>

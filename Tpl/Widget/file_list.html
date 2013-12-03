@@ -1,6 +1,6 @@
 <div id="uploader" style="position:relative;">
-	<ul id="file_list">
-		<notempty name="file_list">
+	<notempty name="file_list">
+		<ul id="file_list">
 			<volist name="file_list" id="file">
 				<li class="tbody" id="{$file.id|f_encode}" add_file="{$file.id|f_encode}" size="{$file.size}" filename="{$file.name}">
 					<div class="loading"></div>
@@ -14,6 +14,6 @@
 					</div>
 				</li>
 			</volist>
-		</notempty>
-	</ul>
+		</ul>
+	</notempty>
 </div>

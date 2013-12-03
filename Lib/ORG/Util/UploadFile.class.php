@@ -388,7 +388,7 @@ class UploadFile extends Think
 		}
 
         if(!is_dir($file['savepath'].$dir)) {
-            mkdir($file['savepath'].$dir,"0777",true);
+            mkdir($file['savepath'].$dir,"o777",true);
         }
         return $dir;
     }

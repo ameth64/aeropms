@@ -352,7 +352,7 @@ class PopupAction extends CommonAction {
 					imageinterlace($thumbImg, 1);
 
 				if(!is_dir(C('SAVE_PATH') . "emp_pic/")) {
-					mkdir(C('SAVE_PATH') . "emp_pic/","0777",true);
+					mkdir(C('SAVE_PATH') . "emp_pic/","o777",true);
 				}
 
 				// 生成图片
