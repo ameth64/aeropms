@@ -4,13 +4,10 @@ function uploader_init(){
 		runtimes : 'html5,flash',
 		browse_button : 'pickfiles',
 		container: 'uploader',
-		max_file_size : '10mb',
-		url :  app_path+upload_url,
-		flash_swf_url : app_path+'/Public/js/plupload/plupload.flash.swf',
+		max_file_size : '1000mb',
+		url : upload_url,
+		flash_swf_url : '/Public/js/plupload/plupload.flash.swf',
 		filters : [
-			{title : "Office Files", extensions : "doc,dox,xls,xlsx,ppt,pptx,pdf"},
-			{title : "Image Files", extensions : "jpg,gif,png,tif,xps"},
-			{title : "Zip Files", extensions : "zip,rar"},
 			{title : "Video Files", extensions : "mp4,avi"}
 		]
 	};
@@ -28,7 +25,7 @@ function uploader_init(){
 			file.status=plupload.DONE;
 			count=uploader.files.length;
 			uploader.files[count]=file;
-		})		
+		})
 	}
 	uploader.bind('FilesAdded', function(up, files) {
 		$("#uploader li.thead").show();
@@ -52,14 +49,14 @@ function uploader_init(){
 	});
 
 	uploader.bind('FileUploaded', function(up,file,data){
-		//alert(data.response);
 		var myObject = eval('(' + data.response + ')');
 		if($("#add_file").length!=0){
 			$("#add_file").val($("#add_file").val()+myObject.id+";")
 		}
 		$("#"+file.id).attr("add_file",myObject.id);
 		if($("#save_name").length!=0){
-			$("#save_name").val($("#save_name").val()+myObject.savename+";")
+			$("#save_name").val($("#save_name").val()+myObject.savename+";");
+			pic_next()
 		}
 		$("#"+file.id).find("a.del").show();
 	});
@@ -69,7 +66,7 @@ function uploader_init(){
 		return false;
 	});
 
-	$("#uploader a.del").on('click',function(){
+	$("#uploader a.del").live('click',function(){
 		if (confirm("确定要删除吗？")){
 			id=$(this).parents("li").attr("id");
 			file=uploader.getFile(id);

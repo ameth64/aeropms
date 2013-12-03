@@ -88,7 +88,7 @@ class AuthCheckBehavior extends Behavior {
 	function get_auth() {
 		if (!empty($this -> config['folder_auth'])&&!empty($_REQUEST['fid'])) {
 			$folder_id = $_REQUEST['fid'];
-			if (!empty($folder_id)) {
+			if (!empty($folder_id)){
 				return D("SystemFolder") -> get_folder_auth($folder_id);
 			}
 		}
