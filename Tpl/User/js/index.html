@@ -51,14 +51,13 @@
 			set_val(s, result.data[s]);
 		}
 		$("#dept_name").val($("#dept_list option[value='" + $("#dept_id").val() + "']").text());
-		img_url = "/{:C('SAVE_PATH')}" + $("#pic").val();
+		img_url = "{:C('SAVE_PATH')}" + $("#pic").val();
 		$("#emp_pic").attr("src", img_url);
 		$("#save_name").val("");
 		$("#opmode").val("edit");
 	}
 
-
-	$(document).ready(function() {
+	$(document).ready(function(){
 		set_return_url();
 		set_val('eq_is_del', "{$eq_is_del}");
 		$(".sub_left_menu tbody tr").click(function() {

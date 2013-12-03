@@ -14,6 +14,8 @@
 
 [ 安装方法 ]
 
+http://my.oschina.net/oaoa/blog/161945
+
 1.ThinkPhp目录剪切到上一级目录
 
 2.运行Install.php 或 用MySQL-Front直接导入 SQL\demo.sql 文件
