@@ -12,6 +12,7 @@ return array(
 		'restore' => 'admin', 
 		'destory' => 'admin', 
 		'import' => 'admin', 
-		'export' => 'read'
+		'export' => 'read',
+		'folder' => 'read'
 		)
 	);

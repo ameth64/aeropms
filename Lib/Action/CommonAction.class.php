@@ -158,7 +158,6 @@ class CommonAction extends Action {
 				$file_info['id'] = $file_id;
 				$file_info['error'] = 0;
 				$file_info['url'] = $file_info['savepath'] . $file_info['savename'];
-
 				//header("Content-Type:text/html; charset=utf-8");
 				exit(json_encode($file_info));
 				//$this->success ('上传成功！');
@@ -400,13 +399,14 @@ class CommonAction extends Action {
 			//读取数据库模块列表生成菜单项
 			$menu = D("Node") -> access_list();
 			$system_folder_menu = D("SystemFolder") -> get_folder_menu();
-			$user_folder_menu = D("UserFolder") -> get_folder_menu();
-			$menu = array_merge($menu, $system_folder_menu, $user_folder_menu);
+			$user_folder_menu = D("UserFolder") -> get_folder_menu();				
+			$menu = array_merge($menu,$system_folder_menu, $user_folder_menu);
 			//缓存菜单访问
-			session('menu' . $user_id, $menu);
+			session('menu' . $user_id, $menu);			
 		}
 
-		$this -> assign('tree',list_to_tree($menu));
+	 	$tree=list_to_tree($menu);		
+		$this -> assign('tree',$tree);
 	}
 
 	protected function _assign_folder_list() {

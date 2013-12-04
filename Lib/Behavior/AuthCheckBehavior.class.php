@@ -63,12 +63,41 @@ class AuthCheckBehavior extends Behavior {
 					return true;
 				}
 				break;
+
+			case 'folder' :
+				$action_auth = C('AUTH');
+				if (!empty($params['action_auth'])) {
+					$action_auth = array_merge(C('AUTH'), $params['action_auth']);
+				}
+								
+				if (!empty($this -> config['folder_auth']) && !empty($_REQUEST['fid'])) {
+					$folder_id = $_REQUEST['fid'];
+					if (!empty($folder_id)) {
+						return D("SystemFolder") -> get_folder_auth($folder_id);
+					}
+				}
+				if ((isset($_REQUEST['fid']))&&(ACTION_NAME=='folder')){
+					$folder_id = $_REQUEST['fid'];
+					$auth = D("SystemFolder") -> get_folder_auth($folder_id);
+					//dump($auth);
+					break;				
+				}				
+				if (isset($_REQUEST['id'])) {					
+					$id = $_REQUEST['id'];
+					$model = M(MODULE_NAME);
+					$folder_id = $model -> where("id=$id") -> getField('folder');					
+					$auth = D("SystemFolder") -> get_folder_auth($folder_id);
+					break;
+				}
+							
+				$auth = $this -> get_auth();
+				break;
 			default :
 				$action_auth = C('AUTH');
 				$auth = $this -> get_auth();
 				break;
 		}
- 
+
 		//die;
 		if ($auth[$action_auth[ACTION_NAME]]) {
 			$this -> config['auth'] = $auth;
@@ -80,19 +109,12 @@ class AuthCheckBehavior extends Behavior {
 				redirect(U(C('USER_AUTH_GATEWAY')));
 			}
 			$e['message'] = "没有权限";
-			include  C('TMPL_NO_HAVE_AUTH');
+			include    C('TMPL_NO_HAVE_AUTH');
 			die ;
 		};
 	}
 
 	function get_auth() {
-		if (!empty($this -> config['folder_auth'])&&!empty($_REQUEST['fid'])) {
-			$folder_id = $_REQUEST['fid'];
-			if (!empty($folder_id)){
-				return D("SystemFolder") -> get_folder_auth($folder_id);
-			}
-		}
-
 		$access_list = D("Node") -> access_list();
 		$access_list = array_filter($access_list, 'filter_module');
 		$access_list = rotate($access_list);
@@ -100,9 +122,9 @@ class AuthCheckBehavior extends Behavior {
 		$module_list = $access_list['url'];
 		$module_list = array_map("get_module", $module_list);
 		$module_list = str_replace("_", "", $module_list);
-				
+
 		//dump($access_list);
-		$access_list_admin = array_filter(array_combine($module_list,$access_list['admin']));
+		$access_list_admin = array_filter(array_combine($module_list, $access_list['admin']));
 		$access_list_write = array_filter(array_combine($module_list, $access_list['write']));
 		$access_list_read = array_filter(array_combine($module_list, $access_list['read']));
 
@@ -110,7 +132,6 @@ class AuthCheckBehavior extends Behavior {
 		$auth['write'] = array_key_exists(strtolower(MODULE_NAME), $access_list_write);
 		$auth['read'] = array_key_exists(strtolower(MODULE_NAME), $access_list_read);
 
-		
 		if ($auth['admin'] == true) {
 			$auth['write'] = true;
 		}
@@ -119,5 +140,6 @@ class AuthCheckBehavior extends Behavior {
 		}
 		return $auth;
 	}
+
 }
 ?>

@@ -25,7 +25,6 @@
 					<input  class="form-control" type="text" id="li_content" name="li_content" >
 				</div>
 			</div>
-
 			<div class="form-group col-sm-6">
 				<label class="col-sm-4 control-label" for="eq_user_name">登录人：</label>
 				<div class="col-sm-8">
@@ -42,27 +41,26 @@
 		</div>
 	</div>
 </form>
-<div class="operate panel panel-default">
-	<div class="panel-body">
-		<div class="pull-right">
-			<if condition="$auth['write']">
+<if condition="$auth['write']">
+	<div class="operate panel panel-default">
+		<div class="panel-body">
+			<div class="pull-right">
 				<a  onclick="add();" class="btn btn-sm btn-primary">发帖</a>
-			</if>
-		</div>
-
-		<div class="pull-left">
-			<if condition="$auth['admin']">
-				<a onclick="mark('del');" class="btn btn-sm btn-danger">删除</a>
-				<div class="btn-group"  id="move_to">
-					<a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" href="#"> 转移到 <span class="caret"></span> </a>
-					<ul class="dropdown-menu">
-						{$folder_list}
-					</ul>
-				</div>
-			</if>
+			</div>
+			<div class="pull-left">
+				<if condition="$auth['admin']">
+					<a onclick="mark('del');" class="btn btn-sm btn-danger">删除</a>
+					<div class="btn-group"  id="move_to">
+						<a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" href="#"> 转移到 <span class="caret"></span> </a>
+						<ul class="dropdown-menu">
+							{$folder_list}
+						</ul>
+					</div>
+				</if>
+			</div>
 		</div>
 	</div>
-</div>
+</if>
 <div class="ul_table">
 	<ul>
 		<li class="thead">

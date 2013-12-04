@@ -2,9 +2,9 @@
 return array(
         'DB_TYPE'=>'mysql',
         'DB_HOST'=>'localhost',
-        'DB_NAME'=>'install',
-        'DB_USER'=>'root',
-        'DB_PWD'=>'test@123.',
+        'DB_NAME'=>'demo',
+        'DB_USER'=>'demo',
+        'DB_PWD'=>'demo@123.',
         'DB_PORT'=>'3306',
-        'DB_PREFIX'=>'smeoa_',
+        'DB_PREFIX'=>'think_',
     );

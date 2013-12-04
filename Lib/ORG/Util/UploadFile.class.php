@@ -194,7 +194,7 @@ class UploadFile extends Think
     {
         //如果不指定保存文件名，则由系统默认
         if(empty($savePath))
-         $savePath = $this->savePath;
+         $savePath = substr($this->savePath,1);
         // 检查上传目录
         if(!is_dir($savePath)) {
             // 检查目录是否编码后的
@@ -202,7 +202,7 @@ class UploadFile extends Think
                 $savePath	=	base64_decode($savePath);
             }else{
                 // 尝试创建目录
-                if(!mkdir($savePath)){
+                if(!mkdir($savePath,"0777",true)){                	 
                     $this->error  =  '上传目录'.$savePath.'不存在';
                     return false;
                 }
@@ -388,7 +388,7 @@ class UploadFile extends Think
 		}
 
         if(!is_dir($file['savepath'].$dir)) {
-            mkdir($file['savepath'].$dir,"o777",true);
+            mkdir($file['savepath'].$dir,"0777",true);
         }
         return $dir;
     }

@@ -12,7 +12,7 @@
  -------------------------------------------------------------------------*/
 
 class ForumAction extends CommonAction {
-	protected $config = array('app_type' => 'common', 'action_auth' => array('folder' => 'read', 'save_post' => 'write', 'edit_post' => 'write', 'del_post' => 'admin', 'mark' => 'admin', 'upload' => 'write'), 'folder_auth' => true);
+	protected $config = array('app_type' => 'folder', 'action_auth' => array('folder' => 'read','save_post' => 'write', 'edit_post' => 'write', 'del_post' => 'admin', 'mark' => 'admin', 'upload' => 'write'));
 	//过滤查询字段
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');

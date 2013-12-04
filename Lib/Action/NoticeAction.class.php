@@ -13,7 +13,7 @@
 
 class NoticeAction extends CommonAction {
 
-	protected $config = array('app_type' => 'common', 'action_auth' => array('folder' => 'read', 'mark' => 'admin', 'upload' => 'write'), 'folder_auth' => true);
+	protected $config = array('app_type' => 'folder', 'action_auth' => array('folder' => 'read', 'mark' => 'admin', 'upload' => 'write'));
 
 	//过滤查询字段
 	function _search_filter(&$map) {

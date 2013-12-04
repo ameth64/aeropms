@@ -11,7 +11,6 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 class PopupAction extends CommonAction {
 	protected $config = array('app_type' => 'asst');
 	//过滤查询字段
@@ -300,7 +299,6 @@ class PopupAction extends CommonAction {
 				$result['result_des'] = $image;
 			} else {
 				$max_width = 440;
-
 				if ($info['type'] == 'jpg' || $info['type'] == 'jpeg') {
 					$im = imagecreatefromjpeg($real_img);
 				}
@@ -330,9 +328,7 @@ class PopupAction extends CommonAction {
 				$height = $srcHeight = $info['height'];
 				$type = empty($type) ? $info['type'] : $type;
 				$type = strtolower($type);
-
 				unset($info);
-
 				//创建缩略图
 				if ($type != 'gif' && function_exists('imagecreatetruecolor'))
 					$thumbImg = imagecreatetruecolor($width, $height);
@@ -351,17 +347,16 @@ class PopupAction extends CommonAction {
 				if ('jpg' == $type || 'jpeg' == $type)
 					imageinterlace($thumbImg, 1);
 
-				if(!is_dir(C('SAVE_PATH') . "emp_pic/")) {
-					mkdir(C('SAVE_PATH') . "emp_pic/","o777",true);
+				if(!is_dir(substr(C('SAVE_PATH'),1) . "emp_pic/")) {
+					mkdir(substr(C('SAVE_PATH'),1) . "emp_pic/","0777",true);
 				}
-
+				
 				// 生成图片
 				$imageFun = 'image' . ($type == 'jpg' ? 'jpeg' : $type);
 				$id=$_REQUEST['id'];
 
-
-				$thumbname = C('SAVE_PATH') . "emp_pic/" .$id.".".$type;
-
+				$thumbname = substr(C('SAVE_PATH'),1) . "emp_pic/" .$id.".".$type;
+				
 				$imageFun($thumbImg, $thumbname, 100);
 
 				$thumbImg_120 = imagecreatetruecolor(120, 120);
@@ -372,7 +367,7 @@ class PopupAction extends CommonAction {
 				imagedestroy($im);
 
 				$result['result_code'] = 1;
-				$result['result_des'] = str_replace(C('SAVE_PATH'), "", $thumbname);
+				$result['result_des'] = str_replace(substr(C('SAVE_PATH'),1), "", $thumbname);
 			}
 		}
 		echo json_encode($result);

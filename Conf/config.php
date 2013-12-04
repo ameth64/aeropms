@@ -16,7 +16,7 @@
         'ADMIN_AUTH_KEY'			=>'administrator',        
         'USER_AUTH_GATEWAY'=>'login/index',// 默认认证网关
         'DB_LIKE_FIELDS'            =>'title|content|name|remark',
-		'SAVE_PATH'=>__ROOT__.'Data/Files/',
+		'SAVE_PATH'=>'/Data/Files/',
         'SHOW_PAGE_TRACE'=>1, //显示调试信息		
     );
     return $array;

@@ -32,7 +32,7 @@ class SystemFolderModel extends CommonModel {
 		$sql="		select concat('sfid',a.id) as id,a.name,a.folder,a.sort,CONCAT('sfid',a.pid) as pid,concat(replace(a.folder,'Folder','/folder/?fid='),a.id) as url";
 		$sql.="		FROM {$this->trueTableName} AS a";
 		$sql.="		WHERE  is_del=0 ";
-		$sql.="		ORDER BY a.folder,a.sort ";
+		$sql.="		ORDER BY a.folder,a.sort asc";
 		$rs = $this->db->query($sql);
 		$list=array();
 		foreach($rs as $val){
