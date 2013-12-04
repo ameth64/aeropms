@@ -330,35 +330,33 @@ function rand_string($len = 6, $type = '', $addChars = '') {
 	}
 	return $str;
 }
-
-function list_to_tree($list, $pk='id',$pid = 'pid',$child = '_child',$root=0) {
-    // 创建Tree
-    $tree = array();	
-    if(is_array($list)) {
-        // 创建基于主键的数组引用
-        $refer = array();
-        foreach ($list as $key => $data) {
-            $refer[$data[$pk]] =& $list[$key];
-			//dump($refer);
-        }
-		
-        foreach ($list as $key =>$data) {
-            // 判断是否存在parent            
-            $parentId = $data[$pid];
-            if ((string)$root == $parentId){
-                $tree[] =& $list[$key];
-				//dump($tree);				
-            }else{            	
-                if (isset($refer[$parentId])){
-                    $parent =& $refer[$parentId];					
-                    $parent[$child][] =& $list[$key];					
-                }
-            }		
-        }
-    }
-    return $tree;
+function list_to_tree($list, $root = 0, $pk = 'id', $pid = 'pid', $child = '_child') {
+	// 创建Tree
+	$tree = array();
+	if (is_array($list)) {
+		// 创建基于主键的数组引用
+		$refer = array();
+		foreach ($list as $key => $data) {
+			$refer[$data[$pk]] = &$list[$key];
+		}
+		foreach ($list as $key => $data) {
+			// 判断是否存在parent
+			$parentId = 0;
+			if (isset($data[$pid])) {
+				$parentId = $data[$pid];
+			}
+			if ((string)$root == $parentId) {
+				$tree[] = &$list[$key];
+			} else {
+				if (isset($refer[$parentId])) {
+					$parent = &$refer[$parentId];
+					$parent[$child][] = &$list[$key];
+				}
+			}
+		}
+	}
+	return $tree;
 }
-
 function tree_to_list($tree, $level = 0, $pk = 'id', $pid = 'pid', $child = '_child') {
 	$list = array();
 	if (is_array($tree)) {
