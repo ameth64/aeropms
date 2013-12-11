@@ -13,7 +13,7 @@
 
 class DocAction extends CommonAction {
 	
-	protected $config = array('app_type' => 'folder', 'action_auth' => array('folder' => 'read', 'tag_manage' => 'admin', 'mark' => 'admin'));
+	protected $config = array('app_type' => 'folder', 'action_auth' => array('mark' => 'admin'));
 	
 	//过滤查询字段
 	function _search_filter(&$map) {

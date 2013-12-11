@@ -131,35 +131,42 @@ class CommonAction extends Action {
 	}
 
 	protected function _upload() {
-		if (!empty($_FILES)) {
+			header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+			header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+			header("Cache-Control: no-store, no-cache, must-revalidate");
+			header("Cache-Control: post-check=0, pre-check=0", false);
+			header("Pragma: no-cache");		
+		if (!empty($_FILES)){
 			import("@.ORG.Util.UploadFile");
-			$module = MODULE_NAME;
 			$upload = new UploadFile();
-			$upload -> subFolder = $module;
+			$upload -> subFolder = strtolower(MODULE_NAME);
 			$upload -> savePath = C("SAVE_PATH");
 			$upload -> saveRule = uniqid;
 			$upload -> autoSub = true;
 			$upload -> subType = "date";
-			$upload -> allowExts = explode(get_system_config('UPLOAD_FILE_TYPE'));			
-
-			if (!$upload -> upload()) {
-				$this -> error($upload -> getErrorMsg());
+			$upload -> allowExts = explode(",",get_system_config('UPLOAD_FILE_TYPE'));
+			if (!$upload -> upload()){
+				$data['error']=1;
+				$data['message']=$upload -> getErrorMsg();
+				$data['status']=0;
+				exit(json_encode($data));
+				//exit($upload -> getErrorMsg());				
 			} else {
 				//取得成功上传的文件信息
 				$upload_list = $upload -> getUploadFileInfo();
 				$file_info = $upload_list[0];
-
 				$model = M("File");
 				$model -> create($upload_list[0]);
 				$model -> create_time = time();
 				$model -> user_id = get_user_id();
 				$file_id = $model -> add();
-
 				$file_info['id'] = $file_id;
 				$file_info['error'] = 0;
-				$file_info['url'] = $file_info['savepath'] . $file_info['savename'];
+				$file_info['url'] = "/".$file_info['savepath'] . $file_info['savename'];
+				$file_info['status'] = 1;				
 				//header("Content-Type:text/html; charset=utf-8");
 				exit(json_encode($file_info));
+				//$this->ajaxReturn(json_encode($file_info),'上传成功',1,$file_info['url']);
 				//$this->success ('上传成功！');
 			}
 		}
@@ -513,8 +520,7 @@ class CommonAction extends Action {
 			}
 		}		
 		$this -> assign("new_notice",$new_notice);
-		
-		
+				
 		//获取待办事项
 		$model = M("Todo");
 		$where = array();

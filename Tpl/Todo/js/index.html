@@ -43,8 +43,6 @@
 		var prev = current.prev();
 		if (current.index() > 1) {
 			current.insertBefore(prev);
-			current.find("input.priority").val(prev.find("input.priority").val());
-			current.css("background-color", schedule_bg(current.find("input.priority").val()));
 		}
 		set_sort();
 	}
@@ -54,8 +52,6 @@
 		var next = current.next();
 		if (next) {
 			current.insertAfter(next);
-			current.find("input.priority").val(next.find("input.priority").val());
-			current.css("background-color", schedule_bg(next.find("input.priority").val()));
 		}
 		set_sort();
 	}

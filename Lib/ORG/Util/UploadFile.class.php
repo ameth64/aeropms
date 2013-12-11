@@ -75,7 +75,8 @@ class UploadFile extends Think
 
     // 上传文件Hash规则函数名
     // 例如可以是 md5_file sha1_file 等
-    public $hashType = 'md5_file';
+
+	public $hashType = 'md5_file';
 
     // 错误信息
     private $error = '';
@@ -194,7 +195,7 @@ class UploadFile extends Think
     {
         //如果不指定保存文件名，则由系统默认
         if(empty($savePath))
-         $savePath = substr($this->savePath,1);
+         $savePath = $this->savePath;
         // 检查上传目录
         if(!is_dir($savePath)) {
             // 检查目录是否编码后的
@@ -469,7 +470,7 @@ class UploadFile extends Think
      */
     private function checkExt($ext)
     {
-        if(!empty($this->allowExts))
+        if(!empty($this->allowExts))        
             return in_array(strtolower($ext),$this->allowExts,true);
         return true;
     }

@@ -15,16 +15,17 @@ class UserConfigAction extends CommonAction {
 	protected $config=array('app_type'=>'personal');
 	public function index(){
 		cookie("current_node", null);
+		$config=M("UserConfig")->find(get_user_id());
+		$this->assign("config",$config);
 		$this -> display();
 	}
 
 	function save(){
-		$config = M("UserConfig") -> find(get_user_id());
-		$this -> assign("config", $config);
+		$config = M("UserConfig") -> find(get_user_id());		
 		if (count($config)) {
-			$this -> _insert();
-		} else {
 			$this -> _update();
+		} else {
+			$this ->_insert();
 		}
 	}
 

@@ -1,87 +1,71 @@
-var uploader
-function uploader_init(){
-	var settings={
-		runtimes : 'html5,flash',
-		browse_button : 'pickfiles',
-		container: 'uploader',
+var uploader = new plupload.Uploader({
+	runtimes : 'html5,flash',
+	browse_button : 'pickfiles', // you can pass in id...
+	container: document.getElementById('uploader'), // ... or DOM Element itself
+	url : upload_url,
+	flash_swf_url : app_path+'/Public/assets/plupload/Moxie.swf',	
+	
+	filters : {
 		max_file_size : '10mb',
-		url :  app_path+upload_url,
-		flash_swf_url : app_path+'/Public/js/plupload/plupload.flash.swf',
-		filters : [
-			{title : "Office Files", extensions : "doc,dox,xls,xlsx,ppt,pptx,pdf"},
-			{title : "Image Files", extensions : "jpg,gif,png,tif,xps"},
-			{title : "Zip Files", extensions : "zip,rar"},
-			{title : "Video Files", extensions : "mp4,avi"}
+		mime_types: [
+			{title : "Image files", extensions : "jpg,gif,png"},
+			{title : "Zip files", extensions : "zip"}
 		]
-	};
+	},
 
-	uploader = new plupload.Uploader(settings);
-	uploader.init();
-	if($("#uploader .tbody").length>0){
-		$("#uploader .tbody .loading").css("width","100%");
-		$("#uploader .thead").show();
-		$("#uploader .tbody").each(function(){
-			id=$(this).attr("filename");
-			filename=$(this).attr("filename");
-			size=$(this).attr("size");
-			file=new plupload.File(id,filename,size);
-			file.status=plupload.DONE;
-			count=uploader.files.length;
-			uploader.files[count]=file;
-		})		
-	}
-	uploader.bind('FilesAdded', function(up, files) {
-		$("#uploader li.thead").show();
-		for(var i in files){
-			html='<li class="tbody" id="'+files[i].id+'">\n';
-			html+='<div class="loading"></div>\n';
-			html+='<div class="data">\n';
-			html+='<span class="del text-center"><a class="link del">删除</a></span>\n';
-			html+='<span class="size text-right">'+plupload.formatSize(files[i].size)+'</span>';
-			html+='<span class="auto autocut">'+files[i].name+'</span>';
-			html+='</li>';
-			html+='</div>\n';
-			$('#file_list').append(html);
-		}
-		uploader.start();
-	});
+	init: {
+		PostInit: function() {
+			if($("#uploader .tbody").length>0){
+				$("#uploader .tbody .loading").css("width","100%");
+				$("#uploader .thead").show();
+				$("#uploader .tbody").each(function(){
+					id=$(this).attr("filename");
+					filename=$(this).attr("filename");
+					size=$(this).attr("size");
+					file=new plupload.File(id,filename,size);
+					file.status=plupload.DONE;
+					count=uploader.files.length;
+					uploader.files[count]=file;
+				})
+			}
+		},
 
-	uploader.bind('UploadProgress', function(up, file){
-		$("#"+file.id).find("a.del").hide();
-		$("#"+file.id).find('.loading').css("width",file.percent+"%");
-	});
+		FilesAdded: function(up, files) {
+			for(var i in files){
+				html='<li class="tbody" id="'+files[i].id+'">\n';
+				html+='<div class="loading"></div>\n';
+				html+='<div class="data">\n';
+				html+='<span class="del text-center"><a class="link del">删除</a></span>\n';
+				html+='<span class="size text-right">'+plupload.formatSize(files[i].size)+'</span>';
+				html+='<span class="auto autocut">'+files[i].name+'</span>';
+				html+='</li>';
+				html+='</div>\n';
+				$('#file_list').append(html);
+			}			
+			up.start();
+		},
 
-	uploader.bind('FileUploaded', function(up,file,data){
-		//alert(data.response);
-		var myObject = eval('(' + data.response + ')');
-		if($("#add_file").length!=0){
-			$("#add_file").val($("#add_file").val()+myObject.id+";")
-		}
-		$("#"+file.id).attr("add_file",myObject.id);
-		if($("#save_name").length!=0){
-			$("#save_name").val($("#save_name").val()+myObject.savename+";")
-		}
-		$("#"+file.id).find("a.del").show();
-	});
+		UploadProgress: function(up, file) {
+			$("#"+file.id).find("a.del").hide();
+			$("#"+file.id).find('.loading').css("width",file.percent+"%");
+		},
 
-	$('#uploadfiles').click(function(){
-		uploader.start();
-		return false;
-	});
-
-	$("#uploader a.del").on('click',function(){
-		if (confirm("确定要删除吗？")){
-			id=$(this).parents("li").attr("id");
-			file=uploader.getFile(id);
-			add_file=$(this).parents("li").attr("id");
-			$("#add_file").val($("#add_file").val().replace(add_file + ";", ""));			
-			if(add_file.length>0){
-				$(this).parents("li").remove();
-				sendAjax(del_url, 'id=' + $(this).attr("id"));
+		FileUploaded: function(up, file,data) {			
+			var myObject = eval('(' + data.response + ')');			
+			if(myObject.status){
+				if($("#add_file").length!=0){
+					$("#add_file").val($("#add_file").val()+myObject.id+";")
+				}
+				$("#"+file.id).attr("add_file",myObject.id);
+				if($("#save_name").length!=0){
+					$("#save_name").val($("#save_name").val()+myObject.savename+";")
+				}
+				$("#"+file.id).find("a.del").show();
 			}else{
-				uploader.removeFile(file);
-				$(this).parents("li").remove();
+				alert(myObject.message);
 			}
 		}
-	});
-}
+	}
+});
+
+uploader.init();

@@ -88,7 +88,9 @@ class UserAction extends CommonAction {
 		} else {
 			// 写入帐号数据
 			$model -> __set('letter', get_letter($model -> __get('emp_name')));
-			if ($result = $model -> add()) {
+			if ($result = $model -> add()){
+				$data['id']=$result;
+				M("UserConfig")->add($data);
 				$this -> assign('jumpUrl', get_return_url());
 				$this -> success('用户添加成功！');
 			} else {

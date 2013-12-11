@@ -347,15 +347,15 @@ class PopupAction extends CommonAction {
 				if ('jpg' == $type || 'jpeg' == $type)
 					imageinterlace($thumbImg, 1);
 
-				if(!is_dir(substr(C('SAVE_PATH'),1) . "emp_pic/")) {
-					mkdir(substr(C('SAVE_PATH'),1) . "emp_pic/","0777",true);
+				if(!is_dir(C('SAVE_PATH') . "emp_pic/")) {
+					mkdir(C('SAVE_PATH') . "emp_pic/","0777",true);
 				}
 				
 				// 生成图片
 				$imageFun = 'image' . ($type == 'jpg' ? 'jpeg' : $type);
 				$id=$_REQUEST['id'];
 
-				$thumbname = substr(C('SAVE_PATH'),1) . "emp_pic/" .$id.".".$type;
+				$thumbname = C('SAVE_PATH') . "emp_pic/" .$id.".".$type;
 				
 				$imageFun($thumbImg, $thumbname, 100);
 
@@ -367,7 +367,7 @@ class PopupAction extends CommonAction {
 				imagedestroy($im);
 
 				$result['result_code'] = 1;
-				$result['result_des'] = str_replace(substr(C('SAVE_PATH'),1), "", $thumbname);
+				$result['result_des'] = str_replace(C('SAVE_PATH'), "", $thumbname);
 			}
 		}
 		echo json_encode($result);
@@ -406,6 +406,5 @@ class PopupAction extends CommonAction {
 		$contact = array_merge_recursive($company, $personal);
 		exit(json_encode($contact));
 	}
-
 }
 ?>

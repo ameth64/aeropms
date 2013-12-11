@@ -4,21 +4,17 @@
 			{
 				settings={
 					resizeType:1,	
-					filterMode : false,
+					filterMode : true,
 					uploadJson:upload_url,
-					afterCreate : function() {
-						editor.width="100%";
-					},
+					width :'100%',
 					items : []
 				}
 			}else{
 				settings={
 					resizeType:1,	
-					filterMode : false,
-					uploadJson:upload_url,
-					afterCreate : function() {
-						editor.width="100%";
-					}
+					filterMode : true,
+					uploadJson:upload_url,					
+					width :'100%',
 				}
 			}
 		editor = new KindEditor.create("#content",settings);

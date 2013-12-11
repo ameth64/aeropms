@@ -56,7 +56,7 @@ class AuthCheckBehavior extends Behavior {
 			case 'master' :
 				$action_auth = C('AUTH');
 				if (!empty($params['action_auth'])) {
-					$action_auth = array_merge(C('AUTH'), $params['action_auth']);
+					$action_auth = array_merge(C('AUTH'),$params['action_auth']);
 				}
 				$auth = $this -> get_auth();
 				if ($auth['admin']) {
@@ -65,18 +65,13 @@ class AuthCheckBehavior extends Behavior {
 				break;
 
 			case 'folder' :
+
 				$action_auth = C('AUTH');
 				if (!empty($params['action_auth'])) {
 					$action_auth = array_merge(C('AUTH'), $params['action_auth']);
 				}
 								
-				if (!empty($this -> config['folder_auth']) && !empty($_REQUEST['fid'])) {
-					$folder_id = $_REQUEST['fid'];
-					if (!empty($folder_id)) {
-						return D("SystemFolder") -> get_folder_auth($folder_id);
-					}
-				}
-				if ((isset($_REQUEST['fid']))&&(ACTION_NAME=='folder')){
+				if (isset($_REQUEST['fid'])){
 					$folder_id = $_REQUEST['fid'];
 					$auth = D("SystemFolder") -> get_folder_auth($folder_id);
 					//dump($auth);
@@ -88,8 +83,7 @@ class AuthCheckBehavior extends Behavior {
 					$folder_id = $model -> where("id=$id") -> getField('folder');					
 					$auth = D("SystemFolder") -> get_folder_auth($folder_id);
 					break;
-				}
-							
+				}							
 				$auth = $this -> get_auth();
 				break;
 			default :
@@ -97,14 +91,14 @@ class AuthCheckBehavior extends Behavior {
 				$auth = $this -> get_auth();
 				break;
 		}
-
+		 
 		//die;
 		if ($auth[$action_auth[ACTION_NAME]]) {
 			$this -> config['auth'] = $auth;
 			return true;
 		} else {
 			$auth_id = session(C('USER_AUTH_KEY'));
-			if (!isset($auth_id)) {
+			if (!isset($auth_id)){
 				//跳转到认证网关
 				redirect(U(C('USER_AUTH_GATEWAY')));
 			}
@@ -115,6 +109,7 @@ class AuthCheckBehavior extends Behavior {
 	}
 
 	function get_auth() {
+		
 		$access_list = D("Node") -> access_list();
 		$access_list = array_filter($access_list, 'filter_module');
 		$access_list = rotate($access_list);

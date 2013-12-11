@@ -11,7 +11,6 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 class UserTagAction extends CommonAction {
 	protected $config=array('app_type'=>'asst');
 		
@@ -22,7 +21,7 @@ class UserTagAction extends CommonAction {
 	}
 
 	public function index() {
-		if ($_POST) {
+		if ($_POST){
 			$opmode = $_POST["opmode"];
 			$model = D("UserTag");
 			if (false === $model -> create()) {

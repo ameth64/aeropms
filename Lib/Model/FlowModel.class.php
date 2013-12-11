@@ -246,7 +246,6 @@ class FlowModel extends CommonModel {
 
 	function is_last_consult($flow_id) {
 		$consult = M("Flow") -> where("id=$flow_id") -> getField("consult");
-
 		if (empty($consult)) {
 			return true;
 		}

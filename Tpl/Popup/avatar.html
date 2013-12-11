@@ -1,7 +1,5 @@
 <layout name='Layout/ace_popup' />
-<script type="text/javascript" src="__PUBLIC__/js/plupload/plupload.js"></script>
-<script type="text/javascript" src="__PUBLIC__/js/plupload/plupload.flash.js"></script>
-<script type="text/javascript" src="__PUBLIC__/js/plupload/plupload.html5.js"></script>
+<script type="text/javascript" src="__PUBLIC__/assets/plupload/plupload.full.min.js"></script>
 <script type="text/javascript" src="__PUBLIC__/js/jcrop/jquery.Jcrop.min.js"></script>
 <link rel="stylesheet" href="__PUBLIC__/js/jcrop/jquery.Jcrop.css" type="text/css" />
 <div id="uploader">
@@ -55,7 +53,7 @@
 			<div class="text-center display-none">
 				当前头像：
 				<br />
-				<div><img class="current"  src="{:C('SAVE_PATH')}{$pic}" />
+				<div><img class="current"  src="{:C('SAVE_URL')}{$pic}" />
 				</div>
 			</div>
 			<div class="text-center">
@@ -68,66 +66,32 @@
 	</div>
 </div>
 <script>
-	$(function() {
-		uploader_init();
-		var uploader
-		var save_path = "{:C('SAVE_PATH')}";
-		function uploader_init() {
-			var settings = {
-				runtimes : 'html5,flash',
-				browse_button : 'pickfiles',
-				container : 'uploader',
-				max_file_size : '1mb',
-				url : upload_url,
-				flash_swf_url : '__PUBLIC__/js/plupload/plupload.flash.swf',
-				filters : [{
-					title : "Image Files",
-					extensions : "jpg,gif,png,tif,xps"
-				}]
-			};
+var SAVE_URL = "{:C('SAVE_URL')}";
+var uploader = new plupload.Uploader({
+	runtimes : 'html5,flash',
+	browse_button : 'pickfiles', // you can pass in id...
+	container: document.getElementById('uploader'), // ... or DOM Element itself
+	url : upload_url,
+	flash_swf_url : app_path+'/Public/assets/plupload/Moxie.swf',	
+	filters : {
+		max_file_size : '10mb',
+		mime_types: [
+			{title : "Image files", extensions : "jpg,gif,png"},			
+		]
+	},
 
-			uploader = new plupload.Uploader(settings);
-			uploader.init();
-			if ($("#uploader .tbody").length > 0) {
-				$("#uploader .tbody .loading").css("width", "100%");
-				$("#uploader .thead").show();
-				$("#uploader .tbody").each(function() {
-					id = $(this).attr("filename");
-					filename = $(this).attr("filename");
-					size = $(this).attr("size");
-					file = new plupload.File(id, filename, size);
-					file.status = plupload.DONE;
-					count = uploader.files.length;
-					uploader.files[count] = file;
-				})
-			}
-			uploader.bind('FilesAdded', function(up, files) {
-				$("#uploader li.thead").show();
-				for (var i in files) {
-					html = '<li class="tbody" id="' + files[i].id + '">\n';
-					html += '<div class="loading"></div>\n';
-					html += '<div class="data">\n';
-					html += '<span class="del text-center"><a class="link del">删除</a></span>\n';
-					html += '<span class="size text-right">' + plupload.formatSize(files[i].size) + '</span>';
-					html += '<span class="auto autocut">' + files[i].name + '</span>';
-					html += '</li>';
-					html += '</div>\n';
-					$('#file_list').append(html);
-				}
-				uploader.start();
-			});
-
-			uploader.bind('UploadProgress', function(up, file) {
-				$("#" + file.id).find("a.del").hide();
-				$("#" + file.id).find('.loading').css("width", file.percent + "%");
-			});
-
-			uploader.bind('FileUploaded', function(up, file, data) {
-				//alert(data.response);
-				var myObject = eval('(' + data.response + ')');
-				$("#img").val(save_path + myObject.savename);
-				$("#target").attr("src", save_path + myObject.savename);
-				$(".preview").attr("src", save_path + myObject.savename);
+	init: {
+		PostInit: function(){
+		},
+		FilesAdded: function(up, files) {		
+			up.start();
+		},				
+		FileUploaded: function(up, file,data) {						
+			var myObject = eval('(' + data.response + ')');			
+			if(myObject.status){
+				$("#img").val(SAVE_URL + myObject.savename);
+				$("#target").attr("src", SAVE_URL + myObject.savename);
+				$(".preview").attr("src", SAVE_URL + myObject.savename);
 				$('#target').Jcrop({
 					minSize : [60, 60],
 					setSelect : [0, 0, 120, 120],
@@ -135,7 +99,7 @@
 					onSelect : updatePreview,
 					onSelect : updateCoords,
 					aspectRatio : 1
-				}, function() {
+				}, function(){
 					// Use the API to get the real image size
 					var bounds = this.getBounds();
 					boundx = bounds[0];
@@ -143,11 +107,19 @@
 					// Store the API in the jcrop_api variable
 					jcrop_api = this;
 				});
-				$(".jcrop-holder img").attr("src", save_path + myObject.savename);
+				$(".jcrop-holder img").attr("src", SAVE_URL + myObject.savename);
 				$(".imgchoose").show(1000);
-			});
-		}
+			}else{
+				alert(myObject.info);
+			}
+		},		
+	}
+});
 
+uploader.init();	
+
+
+	
 		//头像裁剪
 		var jcrop_api, boundx, boundy;
 
@@ -170,7 +142,7 @@
 				});
 			}
 		};
-	})
+
 	function checkCoords() {
 		if (parseInt($('#w').val()))
 			return true;
@@ -199,7 +171,7 @@
 				dataType : "json",
 				success : function(msg) {
 					if (msg.result_code == 1) {
-						$("#emp_pic", parent.document).attr("src", "{:C('SAVE_PATH')}" + msg.result_des + '?t=' + Math.random());
+						$("#emp_pic", parent.document).attr("src", "{:C('SAVE_URL')}" + msg.result_des + '?t=' + Math.random());
 						$("#pic", parent.document).val(msg.result_des);
 					}
 					myclose();
