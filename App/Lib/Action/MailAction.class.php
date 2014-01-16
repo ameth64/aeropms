@@ -222,7 +222,8 @@ class MailAction extends CommonAction {
 		$this -> _set_recent($to . $cc . $bcc);
 
 		//header('Content-type:text/html;charset=utf-8');
-		vendor("Mail.class#send");
+		//vendor("Mail.class#send");
+		import("@.ORG.Util.send");
 		//从PHPMailer目录导入class.send.php类文件
 		$mail = new PHPMailer(true);
 		// the true param means it will throw exceptions on errors, which we need to catch
@@ -454,8 +455,7 @@ class MailAction extends CommonAction {
 		$this -> _get_mail_account();
 		$user_id = get_user_id();
 		session_write_close();
-
-		vendor("Mail.class#receve2");
+		import("@.ORG.Util.receve");
 		$mail_list = array();
 		$mail = new receiveMail();
 		$connect = $mail -> connect($this -> _account['pop3svr'], '110', $this -> _account['mail_id'], $this -> _account['mail_pwd'], 'INBOX', 'pop3');
