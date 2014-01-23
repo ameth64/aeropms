@@ -1,7 +1,6 @@
 <?php
     if (!defined('THINK_PATH')) exit();
     $array=array(    	
-        'URL_MODEL'=>2, // 如果你的环境不支持PATHINFO 请设置为3
         'LOAD_EXT_CONFIG'=>'db,auth',
 		'VAR_PAGE'=>'p',
 		'TMPL_EXCEPTION_FILE'=>APP_PATH.'/Tpl/Public/error.html',

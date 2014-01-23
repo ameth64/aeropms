@@ -1,9 +1,14 @@
 <?php
-	$files = "Conf/db.php";
-
-if (isset($_POST["install"])) {
+	$files = "APP/Conf/db.php";
+	
+if (isset($_POST["install"])){
 	$config_str = "<?php\n";
 	$config_str .= "return array(\n";
+	if($_POST['mod_rewrite']){
+		$config_str .= "        'URL_MODEL'=>2, // 如果你的环境不支持PATHINFO 请设置为3";
+	}else{
+		$config_str .= "        'URL_MODEL'=>0, // 如果你的环境不支持PATHINFO 请设置为3";
+	}
 	$config_str .= "        'DB_TYPE'=>'mysql',\n";
 	$config_str .= "        'DB_HOST'=>'" . $_POST["db_host"] . "',\n";
 	$config_str .= "        'DB_NAME'=>'" . $_POST["db_dbname"] . "',\n";
@@ -47,12 +52,14 @@ if (isset($_POST["install"])) {
 		}
 
 		rename("install.php", "install.lock");
+		echo "<meta charset='utf-8' />";
 		echo "<script>\n
-				window.onload=function(){
+					window.onload=function(){
 					alert('安装成功');
 					location.href='index.php';
 				}
 				</script>";
+		die;
 	}
 }
 ?>
@@ -76,7 +83,7 @@ if (isset($_POST["install"])) {
 					</div>
 					<form   method="POST" class="well form-horizontal">
 						<div class="form-group">
-							<label class="control-label col-md-4" for="name" >检查：</label>
+							<label class="control-label col-md-4" for="name" >配置文件可写：</label>
 							<div class="col-md-8">
 								<?php								
 								if (!is_writable($files)) {
@@ -85,6 +92,31 @@ if (isset($_POST["install"])) {
 									echo "<button type='button' class='btn btn-success form-con'>OK</button>";
 								}
 								?>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-4" for="name" >IMAP扩展：</label>
+							<div class="col-md-8">
+								<?php								
+								if (!function_exists('imap_open')){
+									echo "<button type='button' class='btn btn-danger form-con'>Fail</button><p>无法正常收发邮件</p>";
+								} else {
+									echo "<button type='button' class='btn btn-success form-con'>OK</button>";
+								}
+								?>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-4" for="name" >Mod_rewrite扩展：</label>
+							<input type="hidden" name="mod_rewrite" id="mod_rewrite">
+							<div class="col-md-8">
+								<script src="Public/assets/rewrite/checker"></script>
+								<script>if(modRewriteChecker){
+									document.getElementById("mod_rewrite").value="true";
+									document.write("<button type='button' class='btn btn-success form-con'>OK</button>");
+								}else{									
+									document.write("<button type='button' class='btn btn-warning form-con'>Warning</button><p>URL_MODEL将使用普通模式</p>");
+								}</script>
 							</div>
 						</div>
 						<div class="form-group">
@@ -117,9 +149,13 @@ if (isset($_POST["install"])) {
 								<input type="text" name="db_tag" value="smeoa_" class="form-control"/>
 							</div>
 						</div>
-						<button type="submit" name="install" class="btn btn-default">
-							下一步
-						</button>
+							<?php								
+							if (is_writable($files)) {
+								echo "<button type=\"submit\" name=\"install\" class=\"btn btn-default\">下一步</button>";
+							} else {
+								
+							}
+							?>
 					</form>
 				</div>
 			</div>

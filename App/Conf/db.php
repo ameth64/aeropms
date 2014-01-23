@@ -1,10 +1,10 @@
 <?php
 return array(
-        'DB_TYPE'=>'mysql',
+        'URL_MODEL'=>2, // 如果你的环境不支持PATHINFO 请设置为3        'DB_TYPE'=>'mysql',
         'DB_HOST'=>'localhost',
-        'DB_NAME'=>'demo',
-        'DB_USER'=>'demo',
-        'DB_PWD'=>'demo@123.',
+        'DB_NAME'=>'install',
+        'DB_USER'=>'root',
+        'DB_PWD'=>'test',
         'DB_PORT'=>'3306',
-        'DB_PREFIX'=>'think_',
+        'DB_PREFIX'=>'smeoa_',
     );
