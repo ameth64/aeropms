@@ -51,7 +51,7 @@
 
 			function push_start() {
 				sendPush("{:U('push/server')}", '', function(data) {
-					parent.document.ui_info(data.info);
+					window.parent.ui_info(data.info);
 					if (flag) {
 						push_start();
 					}
@@ -61,6 +61,12 @@
 			function push_stop() {
 				flag = false;
 			}
+			function test(){
+				window.parent.ui_info("abcsdfsdfsfd");
+			}
 		</script>
 	</head>
+	<body>
+		<input type="button" value="abc" onclick="test()">
+	</body>
 </html>
