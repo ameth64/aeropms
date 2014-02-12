@@ -4,16 +4,17 @@
 	}
 
 	function del() {
-		if (confirm('确定要删除吗?')) {
+		ui_confirm('确定要删除吗?',function(){
 			sendAjax("{:U('del')}", 'id=' + $("#forum_id").val(), function(data) {
 				if (data.status) {
-					alert(data.info);
-					$("input[name='forum_id']:checkbox:checked").each(function() {
-						$(this).parent().parent().hide();
-					})
+					ui_alert(data.info,function(){
+						$("input[name='id[]']:checkbox:checked").each(function() {
+							$(this).parents("li").remove();
+						})
+					});	
 				}
 			});
-		}
+		})
 	}
 
 	$(document).ready(function() {

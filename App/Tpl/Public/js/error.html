@@ -27,7 +27,7 @@
 						data : vars,
 						dataType : "json",
 						success : function(data) {
-							alert(data.info);
+							ui_info(data.info);
 							if (return_url) {
 								location.href = return_url;
 							}

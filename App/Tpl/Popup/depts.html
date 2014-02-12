@@ -67,7 +67,7 @@
 		$dept_name = $("#dept a.active span").text();
 
 		if ($dept_id == undefined) {
-			alert("请选择部门");
+			ui_error("请选择部门");
 			return false;
 		}
 		$text = $dept_name;

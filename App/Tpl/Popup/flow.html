@@ -188,14 +188,14 @@
 				$dept_grade_name = $("#dept_grade a.active span").text();
 
 				if ($dept_grade_id == undefined) {
-					alert("请选择部门级别");
+					ui_error("请选择部门级别");
 					return false;
 				}
 				$position_id = $("#position a.active").attr("node");
 				$position_name = $("#position a.active span").text();
 
 				if ($position_id == undefined) {
-					alert("请选择职位");
+					ui_error("请选择职位");
 					return false;
 				}
 				$text = $dept_grade_name + "-" + $position_name;
@@ -208,14 +208,14 @@
 				$dept_name = $("#dept a.active span").text();
 
 				if ($dept_id == undefined) {
-					alert("请选择部门");
+					ui_error("请选择部门");
 					return false;
 				}
 				$position_id = $("#position a.active").attr("node");
 				$position_name = $("#position a.active span").text();
 
 				if ($position_id == undefined) {
-					alert("请选择职位");
+					ui_error("请选择职位");
 					return false;
 				}
 				$text = $dept_name + "-" + $position_name;
@@ -228,7 +228,7 @@
 				$dept_name = $("#dept a.active span").text();
 
 				if ($dept_id == undefined) {
-					alert("请选择部门");
+					ui_error("请选择部门");
 					return false;
 				}
 				$text = $dept_name;

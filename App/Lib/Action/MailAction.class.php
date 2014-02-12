@@ -458,24 +458,25 @@ class MailAction extends CommonAction {
 		import("@.ORG.Util.receve");
 		$mail_list = array();
 		$mail = new receiveMail();
+		
 		$connect = $mail -> connect($this -> _account['pop3svr'], '110', $this -> _account['mail_id'], $this -> _account['mail_pwd'], 'INBOX', 'pop3');
 
 		$mail_count = $mail -> mail_total_count();
-
-		if ($connect) {
+		if ($connect){
 			for ($i = 1; $i < $mail_count; $i++) {
 				$mail_id = $mail_count - $i + 1;
 				$item = $mail -> mail_list($mail_id);
 				$where = array();
-
-				$where['user_id'] = $user_id;
-				$where['mid'] = $item[$mail_id];
+				$where['user_id'] = $user_id;				
+				if(empty($item[$mail_id])){
+					$temp_mail_header=$mail -> mail_header($mail_id);
+					$where['mid'] = $temp_mail_header['mid'];
+				}else{
+					$where['mid'] = $item[$mail_id];
+				}
 				$count = M('Mail') -> where($where) -> count();
 
-				if (empty($item[$mail_id])) {//mid 空时当成新邮件处理
-					$count = 0;
-				}
-				if ($count == 0) {
+				if ($count == 0){
 					$new++;
 					$model = M("Mail");
 					$model -> create($mail -> mail_header($mail_id));

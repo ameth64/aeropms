@@ -12,7 +12,7 @@
  -------------------------------------------------------------------------*/
 
 // 用户模型
-class UserTagModel extends CommonModel {
+class UserTagModel extends CommonModel{
 	public function get_tag_list($field = "id,name", $module = MODULE_NAME) {
 		$where['module'] = $module;
 		$where['user_id'] = array('eq', get_user_id());

@@ -26,32 +26,18 @@
 
 		editor.sync();
 		if (check_form("form_data")) {
-			sendForm("form_data", "{:U('save')}", "{:U('edit?id='.$vo['id'])}");
+			sendForm("form_data", "{:U('save')}","{:U('index')}");
 		}
-	}
+	};
 
 	function popup_flow() {
 		winopen("{:U('popup/flow')}", 730, 574);
-	}
-
+	};
 
 	$(document).ready(function() {
-		set_val('group', '$vo.group');
-		/* select 可以手动输入*/
-		$("select.writeable").keypress(function(e) {
-			if (this.options[0].text == "选择或录入") {
-				this.options[0].text = '';
-			}
-			this.options[0].selected = "selected";
-			this.options[0].text = this.options[0].text + String.fromCharCode(event.keyCode);
-			this.options[0].value = this.options[0].text;
-			e.returnValue = false;
+		/*˫��ɾ����ѡ��ϵ��*/
+		$(document).on("dblclick", ".inputbox .address_list b", function(){
+				$(this).parent().parent().remove();
 		});
-		/* select 可以手动输入*/
-		$("select.writeable").keydown(function(e) {
-			if (e.keyCode == 46) {
-				this.options[0].text = '';
-			}
-		});
-	}); 
+	})
 </script>

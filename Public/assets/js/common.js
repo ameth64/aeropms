@@ -27,12 +27,67 @@ function schedule_bg(j) {
 	return myArray[j - 1];
 }
 
+function ui_info(msg){
+		$.gritter.add({
+			position: 'bottom-right',
+			text: '<h5>'+msg+'</h5>',
+			sticky: false,
+			time: 3000,
+			class_name:'gritter-light gritter-info'
+		});
+}
+
+function ui_alert(msg,callback){
+	bootbox.dialog({
+	  message: "<h5>"+msg+"<h5>",
+	  buttons: {
+		danger: {
+		  label: "确定",
+		  className: "btn-primary",
+		  callback: function() {
+			callback();
+		  }
+		}
+	  }
+	});
+}
+
+function ui_confirm(msg,callback){
+	bootbox.dialog({
+	  message: "<h5>"+msg+"<h5>",
+	  buttons: {
+		main: {
+		  label: "取消",
+		  className: "btn-default",
+		  callback: function() {
+			//
+		  }
+		},
+		danger: {
+		  label: "确定",
+		  className: "btn-primary",
+		  callback: function() {
+			callback();
+		  }
+		}
+	  }
+	});
+}
+
+function ui_error(msg){
+	$.gritter.add({
+		text: '<h5>'+msg+'</h5>',
+		sticky: false,
+		time: 2000,
+		class_name:'gritter-light gritter-error gritter-center'
+	});
+}
 
 /*联系人显示格式转换*/
 function conv_address_item(id, name) {
-	html = '<label>';
+	html = '<nobr><label>';
 	html += '		<input class="ace" type="checkbox" name="addr_id" value="' + id + '"/>';
-	html += '		<span class="lbl">' + name + '</span></label>';
+	html += '		<span class="lbl">' + name + '</span></label></nobr>';
 	return html;
 }
 
@@ -394,7 +449,7 @@ function sendForm(formId, post_url, return_url) {
 			data : vars,
 			dataType : "json",
 			success : function(data) {
-				alert(data.info);
+				ui_info(data.info);
 				if (return_url) {
 					location.href = return_url;
 				}

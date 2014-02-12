@@ -14,7 +14,7 @@
 
 	function initData() {
 		var type = "{$_GET.type}";
-		//alert("{$cknum|default=C2('PX_CK')}");
+		//ui_error("{$cknum|default=C2('PX_CK')}");
 		//alert(t+' : '+_notStuday);
 		if (type == "learn" && _play == "1") {
 			document.getElementById("player").initData($("#vod_url").val(), user_id, '', 3, .80);
@@ -42,7 +42,7 @@
 	}
 
 	function _courseResult(result) {
-		alert("_" + result[0]);
+		ui_error("_" + result[0]);
 	}
 
 	function online(sec) {
@@ -66,13 +66,13 @@
 				};
 				swfobject.embedSWF("__PUBLIC__/js/player/player.swf", "flashContent", "550", "400", "9.0.0", "expressInstall.swf", flashvars, params, attributes);
 			} else {
-				alert("格式不正确");
+				ui_error("格式不正确");
 				setTimeout(function() {
 					myclose();
 				}, 0)
 			}
 		} else {
-			alert("请重新登陆！");
+			ui_error("请重新登陆！");
 		}
 	}); 
 </script>

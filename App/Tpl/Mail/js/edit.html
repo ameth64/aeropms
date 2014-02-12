@@ -20,9 +20,9 @@
 			$("#cc").val($("#cc").val() + $(this).find("b").text() + '|' + $(this).attr("email") + ";")
 		})
 		if ($("#to").val().indexOf("@") < 1) {
-			alert("请选择收件人");
+			ui_error("请选择收件人");
 			$("#recever letter").focus();
-			return
+			return false;
 		}
 		editor.sync();
 		if (check_form("form_send")) {

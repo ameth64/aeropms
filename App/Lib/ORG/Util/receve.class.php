@@ -142,7 +142,6 @@
          $header=imap_header($this->_connect,$msg_count);
          if(strtolower($sender->mailbox)!='mailer-daemon' && strtolower($sender->mailbox)!='postmaster') {
 			$mail_header['name']=$this->mail_decode($header -> subject);
-			$mail_header['mid']=$header -> message_id;
 			$mail_header['to']=$this->contact_conv($header -> to);
 			$mail_header['from']=$this->contact_conv($header -> from);
 			$mail_header['cc']=$this->contact_conv($header -> cc);
@@ -154,6 +153,12 @@
 				$create_time=$create_time[1];	
 			}
 			$mail_header['create_time']=strtotime($create_time); 
+			if(empty($header -> message_id)){
+				$mail_header['mid']=$this->contact_conv($header -> from).strtotime($create_time); 
+			}else{
+				$mail_header['mid']=$header -> message_id;
+			}
+
 			$subject = $header -> subject;
 			$charset = substr($subject, stripos($subject, "=?") + 2, stripos($subject, "?", 3)-2); 
 			$content=$this->get_body($msg_count);

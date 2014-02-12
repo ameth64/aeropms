@@ -9,7 +9,7 @@
 
 	function reset_pwd() {
 		if ($("#id").val().length < 1) {
-			alert("请选择用户");
+			ui_error("请选择用户");
 			return false;
 		}
 		winopen("{:U('password')}?id=" + $("#id").val(), 730, 300);

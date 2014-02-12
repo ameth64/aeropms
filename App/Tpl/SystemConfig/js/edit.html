@@ -7,9 +7,9 @@
 
 	function del() {
 		var vars = $("#form_data").serialize();
-		if (confirm('确定要删除吗?')) {
+		ui_confirm('确定要删除吗?',function(){
 			sendForm("form_data", "{:U('del')}");
-		}
+		})
 	}
 
 	$(function() {

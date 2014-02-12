@@ -2,38 +2,38 @@
 	function save() {
 
 		if ($(":checkbox:checked").length == 0) {
-			alert("请至少选择一项");
+			ui_error("请至少选择一项");
 			$("#sender_check").focus();
-			return;
+			return false;
 		}
 
 		if (($("#sender_check").attr("checked") == "checked") && ($("#sender_key").val() == "")) {
-			alert("内容不能为空");
+			ui_error("内容不能为空");
 			$("#sender_key").focus();
-			return;
+			return false;
 		}
 
 		if (($("#domain_check").attr("checked") == "checked") && ($("#domain_key").val() == "")) {
-			alert("内容不能为空");
+			ui_error("内容不能为空");
 			$("#domain_key").focus();
-			return;
+			return false;
 		}
 
 		if (($("#recever_check").attr("checked") == "checked") && ($("#recever_key").val() == "")) {
-			alert("内容不能为空");
+			ui_error("内容不能为空");
 			$("#recever_key").focus();
-			return;
+			return false;
 		}
 
 		if (($("#title_check").attr("checked") == "checked") && ($("#rtitle_key").val() == "")) {
-			alert("内容不能为空");
+			ui_error("内容不能为空");
 			$("#title_key").focus();
-			return;
+			return false;
 		}
 		if ($("#to").val() == "") {
-			alert("请选择文件夹");
+			ui_error("请选择文件夹");
 			$("#to").focus();
-			return;
+			return false;
 		}
 		sendForm("form_data", "{:U('save')}");
 	}

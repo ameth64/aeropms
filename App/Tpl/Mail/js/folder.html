@@ -30,26 +30,29 @@
 			case "del":
 				sendAjax("{:U('mark?action=del')}", vars, function(data) {
 					if (data.status) {
-						alert(data.info);
-						location.href = location.href;
+						ui_alert(data.info,function(){
+							location.href = location.href;
+						});								
 					}
 				});
 				break;
 			case "del_forever":
-				if (confirm('确定要删除吗?')) {
+				ui_confirm('确定要删除吗?',function(){
 					sendAjax("{:U('mark?action=del_forever')}", vars, function(data) {
 						if (data.status) {
-							alert(data.info);
-							location.href = location.href;
+							ui_alert(data.info,function(){
+								location.href = location.href;
+							});	
 						}
 					});
-				}
+				})
 				break;
 			case "spam":
 				sendAjax("{:U('mark?action=spam')}", vars, function(data) {
 					if (data.status) {
-						alert(data.info);
-						location.href = location.href;
+						ui_alert(data.info,function(){
+							location.href = location.href;
+						});	
 					}
 				});
 				break;
@@ -61,7 +64,8 @@
 		if ($("input[name='id[]']:checkbox:checked").length == 1) {
 			window.open('{:U("reply")}?id="' + $("input[name='id[]']:checkbox:checked:first").val() + "&type=forward", "_self");
 		} else {
-			alert("请选择一封要转发的邮件");
+			ui_error("请选择一封要转发的邮件");
+			return false;
 		};
 	}
 

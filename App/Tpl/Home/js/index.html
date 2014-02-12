@@ -1,9 +1,9 @@
 <script type="text/javascript">
-	jQuery(function($) {
+	jQuery(function($){
 		$('.widget-container-span').sortable({
 			connectWith : '.widget-container-span',
 			cancel : ".widget-body,.nav-tabs",
-			stop : function(event, ui) {
+			stop : function(event, ui){
 				set_sort()
 			},
 			items : '> .widget-box',
@@ -44,8 +44,17 @@
 		}
 	};
 
-	function set_sort() {
+	function set_sort(){
 		var sort_string = "";
+		t1_count=$("#t1 .widget-box").length;
+		t2_count=$("#t2 .widget-box").length;
+
+		if((t1_count==0) || (t2_count==0)){
+			ui_error("至少保留一个");
+			location.href=location.href
+			return false;
+		}
+		if("#t1 .widget-box")
 		$("#t1 .widget-box").each(function() {
 			sort_string = sort_string + $(this).attr("sort") + ",";
 		})

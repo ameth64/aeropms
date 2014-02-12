@@ -133,7 +133,7 @@ class CommonAction extends Action {
 		header("Cache-Control: no-store, no-cache, must-revalidate");
 		header("Cache-Control: post-check=0, pre-check=0", false);
 		header("Pragma: no-cache");
-		if (!empty($_FILES)){
+		if (!empty($_FILES)) {
 			import("@.ORG.Util.UploadFile");
 			$upload = new UploadFile();
 			$upload -> subFolder = strtolower(MODULE_NAME);
@@ -185,8 +185,10 @@ class CommonAction extends Action {
 					$where[$pk] = array("in", array_filter($id));
 				} else {
 					$where[$pk] = array('in', array_filter(explode(',', $id)));
-				}				
+				}
 				$result = $model -> where($where) -> setField("is_del", 1);
+						dump($model->getLastSql());
+		die;
 				if ($return) {
 					return $result;
 				}
@@ -532,6 +534,5 @@ class CommonAction extends Action {
 		$model -> add();
 		exit();
 	}
-
 }
 ?>

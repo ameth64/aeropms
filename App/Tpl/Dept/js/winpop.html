@@ -4,7 +4,8 @@
 			$("#dept_name", parent.document).val($("#name").val());
 			$("#pid", parent.document).val($("#val").val());
 		} else {
-			alert("请选择级部门");
+			ui_error("请选择级部门");
+			return false;
 		}
 		myclose();
 	}

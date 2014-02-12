@@ -7,7 +7,7 @@
 	function edit() {
 		id = $("li.tbody.selected :checkbox").val();
 		if (id == undefined) {
-			alert("请选择要编辑的联系人");
+			ui_error("请选择要编辑的联系人");
 			return false;
 		} else {
 			window.open(fix_url("{:U('edit')}?id=" + id), "_self");
@@ -15,7 +15,12 @@
 	}
 
 	function del() {
-		if (confirm('确定要删除吗?')) {
+		id = $("li.tbody.selected :checkbox").val();
+		if (id == undefined) {
+			ui_error("请选择要删除的数据");
+			return false;
+		}
+		ui_confirm('确定要删除吗?',function(){
 			if ($("#form_data .ul_table input:checked").length == 0) {
 				$("li.tbody.active :checkbox").attr("checked", true);
 			}
@@ -23,12 +28,13 @@
 			$("#form_data input:checked").each(function() {
 				$(this).parents("li").remove();
 			})
-		}
+		})
 	}
 
 	function apply() {
 		if ($("#form_data .ul_table input:checked").length == 0) {
-			alert("请选择数据");
+			ui_error("请选择数据");
+			return false;
 		}
 		sendForm("form_data", "{:U('set_tag')}", "__URL__");
 	}

@@ -1,19 +1,20 @@
 <script type="text/javascript">
 	function del() {
-		if (confirm('确定要删除吗?')) {
+		ui_confirm('确定要删除吗?',function(){
 			sendAjax("{:U('mark?action=del')}", 'id=' + $("#id").val(), function(data) {
 				if (data.status) {
-					alert(data.info);
-					window.open($("#next_link").attr("href"), '_self');
+					ui_alert(data.info,function(){
+						window.open($("#next_link").attr("href"), '_self');
+					});						
 				}
 			});
-		}
+		})
 	}
 
 	function mark_spam() {
 		sendAjax("{:U('mark?action=spam')}", 'mail_id=' + $("#id").val(), function(data) {
 			if (data.status) {
-				alert(data.info);
+				ui_info(data.info);
 			}
 		});
 	}
@@ -21,7 +22,7 @@
 	function del_forever() {
 		sendAjax("{:U('mark?action=del_forever')}", 'mail_id=' + $("#id").val(), function(data) {
 			if (data.status) {
-				alert(data.info);
+				ui_info(data.info);
 			}
 		});
 	}
@@ -30,7 +31,8 @@
 		if ($("input[name='mail_id']:checkbox:checked").length == 1) {
 			window.open(fix_url("{:U('reply')}?id=" + $("input[name='mail_id']:checkbox:checked:first").val()) + "&type=forward", "_self");
 		} else {
-			alert("请选择一封要转发的邮件");
+			ui_error("请选择一封要转发的邮件");
+			return false;
 		};
 	}
 
@@ -44,7 +46,7 @@
 
 	function move_to(val) {
 		sendAjax("{:U('mark?action=move_folder')}", 'val=' + val + '&mail_id=' + $("#id").val(), function(data) {
-			alert(data.info);
+			ui_info(data.info);
 		})
 	}
 

@@ -1,18 +1,19 @@
 <script type="text/javascript">
 	function mark(action) {
 		var vars = $("#form_data").serialize();
-		switch(action) {
+		switch(action){
 			case "del":
-				if (confirm('确定要删除吗?')) {
+				ui_confirm('确定要删除吗?',function(){
 					sendAjax("{:U('mark?action=del')}", vars, function(data) {
 						if (data.status) {
-							alert(data.info);
-							$("input[name='id[]']:checkbox:checked").each(function() {
-								$(this).parents("li").remove();
-							})
+							ui_alert(data.info,function(){
+								$("input[name='id[]']:checkbox:checked").each(function() {
+									$(this).parents("li").remove();
+								})
+							});				
 						}
 					});
-				}
+				})
 				break;
 			default:
 		}

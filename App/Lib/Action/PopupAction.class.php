@@ -64,29 +64,30 @@ class PopupAction extends CommonAction {
 				$where['position_id'] = array('eq', $id);
 				$data = $model -> table($sql . "a") -> where($where) -> select();
 				break;
-
 			case "personal" :
 				$model = D("UserTag");
 				if ($id == "#") {
-					$data = $model -> get_data_list();
+					$data = $model -> get_data_list("Contact");
 					$data = rotate($data);
 					$data = $data['row_id'];
 					$where['id'] = array('not in', implode(",", $data));
 				} else {
-					$data = $model -> get_data_list(MODULE_NAME, $id);
+					$test=$model;
+					$data = $model -> get_data_list("Contact",$id);
 					$data = rotate($data);
+					
 					$data = $data['row_id'];
 					$where['id'] = array('in', implode(",", $data));
 				}
 				$model = M("Contact");
-				$data = $model -> where($where) -> field('id,name,email') -> select();
+				$data = $model -> where($where) -> field('id,name,position as position_name,email') -> select();
 				//echo $model->getLastSql();
 				break;
 			default :
 		}
 		$new = array();
 		if (true) {// 读取成功
-			$this -> ajaxReturn($data, dump($data, false), 1);
+			$this -> ajaxReturn($data,dump($test,false), 1);
 		}
 	}
 
@@ -114,7 +115,7 @@ class PopupAction extends CommonAction {
 
 		$model = D("UserTag");
 
-		$tag_list = $model -> get_tag_list();
+		$tag_list = $model -> get_tag_list("id,name","Contact");
 		$tag_list['#'] = "未分组";
 		$this -> assign("list_personal", $tag_list);
 

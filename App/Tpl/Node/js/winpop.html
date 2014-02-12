@@ -4,7 +4,8 @@
 			$("#node_name", parent.document).val($("#name").val());
 			$("#pid", parent.document).val($("#val").val());
 		} else {
-			alert("请选择节点");
+			ui_error("请选择节点");
+			return false;
 		}
 		myclose();
 	}

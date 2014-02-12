@@ -13,10 +13,10 @@
         'USER_AUTH_KEY' =>'authId',	// 用户认证SESSION标记
         'ADMIN_AUTH_KEY'			=>'administrator',        
         'USER_AUTH_GATEWAY'=>'login/index',// 默认认证网关
-        'DB_LIKE_FIELDS'            =>'title|content|name|remark',
+        'DB_LIKE_FIELDS'            =>'content|remark',
 		'SAVE_PATH'=>'Data/Files/',
 		'SAVE_URL'=>'/Data/Files/',
-        'SHOW_PAGE_TRACE'=>1, //显示调试信息		
+        'SHOW_PAGE_TRACE'=>0, //显示调试信息		
     );
     return $array;
 ?>

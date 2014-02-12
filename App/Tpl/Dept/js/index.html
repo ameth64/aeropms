@@ -16,17 +16,18 @@
 	function del(){
 		var vars = $("#form_data").serialize();		
 		if($(".sub_left_menu a.active").parent().find(".tree_menu").html()!=undefined){
-			alert("有子目录不能删除");
+			ui_error("有子目录不能删除");
 			return false;
-		}	
-		if (confirm('确定要删除吗?')) {
-			sendAjax("{:U('del')}", vars, function(data) {
+		}
+		ui_confirm('确定要删除吗?',function(){
+			sendAjax("{:U('del')}",vars, function(data) {
 				if (data.status) {
-					alert(data.info);
-					location.href = location.href;
+					ui_alert(data.info,function(){
+						location.href = location.href;
+					});
 				}
 			});
-		}
+		})
 	}
 
 	function select_pid() {

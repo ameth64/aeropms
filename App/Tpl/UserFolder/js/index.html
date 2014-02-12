@@ -9,19 +9,21 @@
 
 	function del() {
 		var vars = $("#form_data").serialize();
-		if (confirm('确定要删除吗?')) {
+		ui_confirm('确定要删除吗?',function(){
 			sendAjax("{:U('del')}", vars, function(data) {
 				if (data.status) {
-					alert(data.info);
-					location.href = location.href;
+					ui_alert(data.info,function(){
+						location.href = location.href;
+					});						
 				}
 			});
-		}
+		})
 	}
 
 	function save() {
 		if ($("#opmode").val() == "") {
-			alert("请选择文件夹或新增");
+			ui_error("请选择文件夹或新增");
+			return false;
 		} else {
 			if (check_form("form_data")) {
 				sendForm("form_data", "{:U('save')}", "__SELF__");
@@ -45,7 +47,8 @@
 		} else if ($("#opmode").val() == "add") {
 			winopen("{:U('winpop')}", 730, 400);
 		} else {
-			alert("请选择文件夹");
+			ui_error("请选择文件夹");
+			return false;
 		}
 	}
 

@@ -3,14 +3,15 @@
 		var vars = $("#form_data").serialize();
 		switch(action) {
 			case "del":
-				if (confirm('确定要删除吗?')){
+				ui_confirm('确定要删除吗?',function(){
 					sendAjax("{:U('mark?action=del')}", vars, function(data) {
 						if (data.status) {
-							alert(data.info);
-							location.href=location.href;		
+							ui_alert(data.info,function(){
+								location.href=location.href;	
+							});
 						}
 					});
-				}
+				})
 				break;
 			default:
 		}

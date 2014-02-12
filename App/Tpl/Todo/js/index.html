@@ -4,13 +4,16 @@
 	}
 
 	function del(obj) {
-		if (confirm('确定要删除吗?')) {
+		ui_confirm('确定要删除吗?',function(){
 			id = $(obj).parent().parent().find("input.node").val();
 			sendAjax("{:U('del')}", "id=" + id, function(data) {
-				$(obj).parent().parent().remove();
-				alert(data.info);
+				if (data.status) {
+					ui_alert(data.info,function(){
+						$(obj).parent().parent().remove();
+					});	
+				}
 			});
-		}
+		})
 	}
 
 

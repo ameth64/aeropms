@@ -1,4 +1,13 @@
-.btn-group > .btn-sm.btn > .caret {
+body, h1, h2, h3, h4, h5, h6, p, ul, li, ol, dt, dl, input, textarea {
+	font-family: Microsoft YaHei, Arial, sans-serif, simsun;
+}
+body{
+	background-color:#fff;
+}
+.well {
+	box-shadow: rgba(0, 0, 0, 0) 0px 1px 1px 0px 
+}
+.btn-group > .btn-sm.btn > .icon-caret-down {
 	margin-top: 0;
 }
 .btn-group > .btn-sm, .btn-group + .btn-sm {
@@ -158,10 +167,6 @@ select.form-control {
 	margin-right: 15px;
 }
 
-body, h1, h2, h3, h4, h5, h6, p, ul, li, ol, dt, dl, input, textarea {
-	font-family: Microsoft YaHei, Arial, sans-serif, simsun;
-	font-size: 14px;
-}
 .popup {
 	padding-left: 15px;
 	padding-right: 15px;
@@ -928,6 +933,23 @@ ul.tree_menu i {
 	z-index: 3;
 	width: 100%;
 	background: transparent;
+}
+
+
+.Login input.form-control {
+	padding-left: 12px;
+}
+.Login .img {
+	height: 480px;
+	background-image: url('../img/back.jpg');
+	background-repeat: no-repeat;
+}
+.Login .well{
+	height:462px;
+}
+.Login span.checkbox{
+	padding-left: 0px;
+	margin-left:0px;
 }
 
 .Schedule table th, .Schedule table td {

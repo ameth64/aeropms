@@ -11,25 +11,27 @@
 	}
 
 	function del() {
-		if (confirm('确定要删除吗?')) {
+		ui_confirm('确定要删除吗?',function(){
 			sendAjax("{:U('mark?action=del')}", 'id=' + $("#id").val(), function(data) {
 				if (data.status) {
-					alert(data.info);
-					go_return_url();
+					ui_alert(data.info,function(){
+						go_return_url();
+					});					
 				}
 			});
-		}
+		})
 	}
 
 	function del_post(id) {
-		if (confirm('确定要删除吗?')) {
+		ui_confirm('确定要删除吗?',function(){
 			sendAjax("{:U('post/del')}", 'id=' + id, function(data) {
 				if (data.status) {
-					alert(data.info);
-					location.href = location.href;
+					ui_alert(data.info,function(){
+						location.href = location.href;
+					});							
 				}
 			});
-		}
+		})
 	}
 
 	function edit() {

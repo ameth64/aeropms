@@ -19,8 +19,8 @@
 		$("#refer_name").val($("#refer_wrap").html());
 
 		if ($("#confirm").val().length < 2) {
-			alert('请选择审批流程');
-			return;
+			ui_error('请选择审批流程');
+			return false;
 		}
 		$("#step").val(step);
 		editor.sync();

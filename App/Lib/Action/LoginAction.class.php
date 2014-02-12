@@ -57,6 +57,7 @@ class LoginAction extends Action {
 		//dump($model);
 		//die;
 		//die;
+
 		//使用用户名、密码和状态的方式进行认证
 		if (false === $authInfo) {
 			$this -> error('帐号或密码错误！');

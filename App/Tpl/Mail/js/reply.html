@@ -52,7 +52,8 @@
 							$(this).parents(".inputbox").find("span.address_list").append(html);
 							$(this).val("");
 						} else {
-							alert("邮件格式错误");
+							ui_error("邮件格式错误");
+							return false;
 						}
 					}
 					break
@@ -97,9 +98,9 @@
 			$("#cc").val($("#cc").val() + $(this).find("b").text() + '|' + $(this).attr("data") + ";")
 		})
 		if ($("#to").val().indexOf("@") < 1) {
-			alert("请选择收件人");
+			ui_error("请选择收件人");
 			$("#recever letter").focus();
-			return
+			return false;
 		}
 		editor.sync();
 		if (check_form("form_send")) {

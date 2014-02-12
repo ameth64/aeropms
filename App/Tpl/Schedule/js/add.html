@@ -16,6 +16,10 @@
 
 
 	$(document).ready(function() {
+		$(document).on("click", ".inputbox .address_list a.del", function() {
+			$(this).parent().parent().remove();
+		});
+
 		fill_time("start_time");
 		fill_time("end_time");
 

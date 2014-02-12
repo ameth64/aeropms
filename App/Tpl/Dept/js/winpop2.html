@@ -4,9 +4,9 @@
 			$("#dept_name", parent.document).val($("#name").val());
 			$("#dept_id", parent.document).val($("#val").val());
 		} else {
-			alert("请选择部门");
+			ui_error("请选择部门");
+			return false;
 		}
-		myclose();
 	}
 
 

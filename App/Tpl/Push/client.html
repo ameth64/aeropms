@@ -2,7 +2,16 @@
 <html lang='en'>
 	<head>
 		<meta charset='utf-8' />
-		<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+	<!--[if !IE]>
+	-->
+	<script type="text/javascript">
+			window.jQuery || document.write("<script src='__PUBLIC__/assets/js/jquery-2.1.0.min.js'>" + "<" + "/script>");</script>
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script type="text/javascript">
+		window.jQuery || document.write("<script src='__PUBLIC__/assets/js/jquery-1.11.0.min.js'>"+"<"+"/script>");</script>
+<![endif]-->
 		<script type="text/javascript">
 			var flag = true;
 			var runing = false;
@@ -42,7 +51,7 @@
 
 			function push_start() {
 				sendPush("{:U('push/server')}", '', function(data) {
-					show_msg(data.info);
+					parent.document.ui_info(data.info);
 					if (flag) {
 						push_start();
 					}

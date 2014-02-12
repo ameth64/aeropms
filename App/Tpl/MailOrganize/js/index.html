@@ -4,10 +4,9 @@
 	};
 
 	function del(id) {
-		yes = confirm('确定要删除吗？')
-		if (yes) {
+		ui_confirm('确定要删除吗?',function(){
 			window.open(fix_url("{:U('del')}?id=" + id), "_self");
-		}
+		})
 	};
 
 	$(document).ready(function() {

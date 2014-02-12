@@ -2,7 +2,7 @@
 	function save() {
 		$("#confirm").val("");
 		$("#confirm_wrap  span.address_list span").each(function() {
-			$("#confirm").val($("#confirm").val() + $(this).attr("emp_no") + '|');
+			$("#confirm").val($("#confirm").val() + $(this).attr("data") + '|');
 		})
 
 		$("#confirm_name").val("");
@@ -10,7 +10,7 @@
 
 		$("#consult").val("");
 		$("#consult_wrap span.address_list span").each(function() {
-			$("#consult").val($("#consult").val() + $(this).attr("emp_no") + '|');
+			$("#consult").val($("#consult").val() + $(this).attr("data") + '|');
 		})
 
 		$("#consult_name").val("");
@@ -18,7 +18,7 @@
 
 		$("#refer").val("");
 		$("#refer_wrap span.address_list span").each(function() {
-			$("#refer").val($("#refer").val() + $(this).attr("emp_no") + '|');
+			$("#refer").val($("#refer").val() + $(this).attr("data") + '|');
 		})
 
 		$("#refer_name").val("");
@@ -26,7 +26,7 @@
 
 		editor.sync();
 		if (check_form("form_data")) {
-			sendForm("form_data", "{:U('save')}", "{:U('edit?id='.$vo['id'])}");
+			sendForm("form_data", "{:U('save')}","{:U('index')}");
 		}
 	}
 
@@ -34,26 +34,14 @@
 		winopen("{:U('popup/flow')}", 730, 574);
 	}
 
-	$(document).ready(function() {
+	$(document).ready(function(){
+		$(document).on("dblclick", ".inputbox .address_list b", function(){
+			$(this).parent().parent().remove();
+		});
+
 		set_val("is_del", "{$vo.is_del}");
 		set_val("is_edit", "{$vo.is_edit}");
 		set_val("group", "{$vo.group}");
 		set_val("type", "{$vo.type}");
-		/* select 可以手动输入*/
-		$("select.writeable").keypress(function(e) {
-			if (this.options[0].text == "选择或录入") {
-				this.options[0].text = '';
-			}
-			this.options[0].selected = "selected";
-			this.options[0].text = this.options[0].text + String.fromCharCode(event.keyCode);
-			this.options[0].value = this.options[0].text;
-			e.returnValue = false;
-		});
-		/* select 可以手动输入*/
-		$("select.writeable").keydown(function(e) {
-			if (e.keyCode == 46) {
-				this.options[0].text = '';
-			}
-		});
 	})
 </script>

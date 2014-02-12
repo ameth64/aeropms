@@ -13,11 +13,11 @@
 
 	function save() {
 		if ($("input:checked[name='emp_id[]']").length < 1) {
-			alert("请选择用户");
+			ui_error("请选择用户");
 			return false;
 		};
 		if ($("input:checked[name='role_list[]']").length < 1) {
-			alert("请选择权限");
+			ui_error("请选择权限");
 			return false;
 		};
 		sendForm("form_data", "{:U('set_role')}");

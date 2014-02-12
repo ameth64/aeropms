@@ -34,6 +34,7 @@ class ContactAction extends CommonAction {
 	function index() {
 		$model = M("Contact");
 		$where['user_id'] = array('eq', get_user_id());
+		$where['is_del'] = array('eq', '0');
 		$list = $model -> where($where) -> select();
 		$this -> assign('list', $list);
 

@@ -17,13 +17,11 @@
 				</li>
 
 				<li class="purple">
-					<a  href="{:U('notice/index')}" onclick="del_current_node()"> <i class="icon-bell-alt icon-animated-bell"></i> <span class="badge badge-important">{$new_notice}</span> </a>
+					<a  href="{:U('notice/index')}" onclick="del_current_node()"> <i class="icon-bell-alt"></i> <span class="badge badge-important">{$new_notice}</span> </a>
 				</li>
-
 				<li class="green">
-					<a  href="{:U('mail/index')}" onclick="del_current_node()"><i class="icon-envelope icon-animated-vertical"></i> <span class="badge badge-success">{$new_mail}</span> </a>
+					<a  href="{:U('mail/index')}" onclick="del_current_node()"><i class="icon-envelope"></i> <span class="badge badge-success">{$new_mail}</span> </a>
 				</li>
-
 				<li class="light-blue">
 					<a data-toggle="dropdown" href="#" class="dropdown-toggle"> <img class="nav-user-photo" src="{:C('SAVE_URL')}{$Think.session.user_pic}?{:rand_string()}"> <span class="user-info"> {$Think.session.user_name} </span> <i class="icon-caret-down"></i> </a>
 					<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
