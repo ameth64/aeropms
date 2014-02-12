@@ -141,7 +141,7 @@ class CommonAction extends Action {
 			$upload -> saveRule = uniqid;
 			$upload -> autoSub = true;
 			$upload -> subType = "date";
-			$upload -> allowExts = explode(",", get_system_config('UPLOAD_FILE_TYPE'));
+			$upload -> allowExts = array_filter(explode(",",get_system_config('UPLOAD_FILE_TYPE')),upload_filter);
 			if (!$upload -> upload()) {
 				$data['error'] = 1;
 				$data['message'] = $upload -> getErrorMsg();

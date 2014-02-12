@@ -4,15 +4,9 @@ var uploader = new plupload.Uploader({
 	container: document.getElementById('uploader'), // ... or DOM Element itself
 	url : upload_url,
 	flash_swf_url : app_path+'/Public/assets/plupload/Moxie.swf',	
-	
 	filters : {
-		max_file_size : '10mb',
-		mime_types: [
-			{title : "Image files", extensions : "jpg,gif,png"},
-			{title : "Zip files", extensions : "zip"}
-		]
+		max_file_size : '10mb'
 	},
-
 	init: {
 		PostInit: function() {
 			if($("#uploader .tbody").length>0){
@@ -62,10 +56,28 @@ var uploader = new plupload.Uploader({
 				}
 				$("#"+file.id).find("a.del").show();
 			}else{
-				alert(myObject.message);
+				ui_alert(myObject.message,function(){
+					$("#"+file.id).remove();
+				});
 			}
 		}
 	}
 });
-
 uploader.init();
+
+$(document).on("click", "#uploader a.del", function(){
+	$obj=$(this).parents("li");
+	id=$obj.attr("id");
+	file=uploader.getFile(id);
+	ui_confirm("确定要删除吗？",function(){				
+		add_file=$obj.attr("add_file");
+		$("#add_file").val($("#add_file").val().replace(add_file + ";", ""));			
+		if(add_file.length>0){
+			$obj.remove();
+			sendAjax(del_url, 'id=' + $(this).attr("id"));
+		}else{
+			uploader.removeFile(file);
+			$obj.remove();
+		}
+	})
+});

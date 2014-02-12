@@ -10,6 +10,14 @@
 
  Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
+function upload_filter($val){
+	$allow_type=array('doc','docx','xls','xlsx','ppt','pptx','dwg','rar','zip','7z','pdf','txt','rtf','jpg','jpeg','png','tip','psd');
+	if(in_array($val,$allow_type)){
+		return true;
+	}else{
+		return false;
+	}
+}
 
 function _encode($arr) {
 	$na = array();
@@ -717,6 +725,7 @@ function showFile($add_file, $mode) {
 }
 
 function reunit($size) {
+	$unit=" B";
 	if ($size > 1024) {
 		$size = $size / 1024;
 		$unit = " KB";

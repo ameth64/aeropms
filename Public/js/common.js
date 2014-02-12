@@ -323,19 +323,19 @@ function sendForm(formId, post_url, return_url) {
 
 /*文件大小计量显示*/
 function reunit(filesize) {
-	var unit;
+	var unit=" B";
 	filesize = parseInt(filesize);
 	if (filesize > 1024) {
 		filesize = filesize / 1024;
-		unit = "KB"
+		unit = " KB"
 	}
 	if (filesize > 1024) {
 		filesize = filesize / 1024;
-		unit = "MB"
+		unit = " MB"
 	}
 	if (filesize > 1024) {
 		filesize = filesize / 1024;
-		unit = "GB"
+		unit = " GB"
 	}
 	return Math.round(filesize * 100) / 100 + unit;
 }
