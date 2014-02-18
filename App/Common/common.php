@@ -600,7 +600,7 @@ function show_contact($str, $mode = "show") {
 			$name = htmlspecialchars(rtrim($arr[0]));
 			$email = htmlspecialchars(rtrim($arr[1]));
 			$tmp = "";
-			if ($mode == "edit") {
+			if ($mode == "edit"){
 				$tmp = $tmp . "<span data=\"$email\"><nobr><b  title=\"$email\">$name</b><a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";
 			} else {
 				$tmp = $tmp . "<a email=\"$email\" title=\"$email\" >$name</a>";

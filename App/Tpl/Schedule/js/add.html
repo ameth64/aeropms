@@ -6,11 +6,11 @@
 	function save() {
 		editor.sync();
 		$("#actor").val("");
-		$("#actor_wrap div.address_list span").each(function() {
-			$("#actor").val($("#actor").val() + $(this).text().replace(';', '') + '|' + $(this).attr("title") + ";")
+		$("#actor_wrap span.address_list span").each(function() {
+			$("#actor").val($("#to").val() + $(this).find("b").text() + '|' + $(this).attr("data") + ";")
 		})
 		if (check_form("form_data")) {
-			sendForm("form_data", "{:U('save')}");
+			 sendForm("form_data", "{:U('save')}");
 		}
 	}
 
@@ -19,7 +19,6 @@
 		$(document).on("click", ".inputbox .address_list a.del", function() {
 			$(this).parent().parent().remove();
 		});
-
 		fill_time("start_time");
 		fill_time("end_time");
 

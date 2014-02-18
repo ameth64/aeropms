@@ -1,10 +1,9 @@
 <layout name='Layout/ace_layout' />
 {:W('PageHeader',array('name'=>'编辑日历事项','search'=>'N'))}
-
 <form method='post' id="form_data" name="form_data" enctype="multipart/form-data"  class="well form-horizontal">
 	<input type="hidden" id="id" name="id" value="{$vo.id}">
 	<input type="hidden" id="ajax" name="ajax" value="0">
-	<input type="hidden" id="add_file" name="add_file">
+	<input type="hidden" id="add_file" name="add_file" value="{$vo.add_file}">
 	<input type="hidden" id="opmode" name="opmode" value="edit">
 	<input type="hidden" name="actor" id="actor" >
 	<div class="form-group">
@@ -62,7 +61,7 @@
 			<div id="actor_wrap" class="inputbox">
 			<a class="pull-right btn btn-link text-center" onclick="popup_actor();"> <i class="icon-user"></i> </a>
 			<div class="wrap" >
-			<span class="address_list">{$vo.actor|show_contact}</span>
+			<span class="address_list">{$vo.actor||show_contact="edit"}</span>
 			<span class="text" >
 			<input class="letter" type="text"  >
 			</span>

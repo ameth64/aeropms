@@ -3,7 +3,7 @@
 		winopen("{:U('popup/actor')}", 730, 574);
 	}
 
-	function save() {
+	function save(){
 		editor.sync();
 		$("#actor").val("");
 		$("#actor_wrap span.address_list span").each(function() {
@@ -16,7 +16,9 @@
 
 
 	$(document).ready(function() {
-
+		$(document).on("click", ".inputbox .address_list a.del", function() {
+			$(this).parent().parent().remove();
+		});
 		fill_time("start_time");
 		fill_time("end_time");
 
