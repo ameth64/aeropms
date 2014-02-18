@@ -3,11 +3,11 @@
 		$("#opmode").val("add");
 		$("#id").val("");
 		if (check_form("form_data")){
-			sendForm("form_data", "{:U('save')}", "__URL__");
+			sendForm("form_data","", "__SELF__");
 		}
 	};
 
-	function del() {
+	function del(){
 		ui_confirm('相应的子目录也会自动删除,真的要删除吗?',function(){
 			$("#opmode").val("del");
 			if (check_form("form_data")) {
@@ -17,13 +17,8 @@
 	}
 
 	function save() {
-		if ($("#opmode").val() == "") {
-			ui_error("请选择文件夹或新增");
-			return false;
-		} else {
-			if (check_form("form_data")) {
-				sendForm("form_data", "", "__SELF__");
-			}
+		if (check_form("form_data")) {
+			sendForm("form_data", "", "__SELF__");
 		}
 	};
 
@@ -34,13 +29,8 @@
 		$("#opmode").val("edit");
 	}
 
-	function select_pid() {
-		if ($("div.sub_left_menu a.active").length > 0) {
-			winopen("{:U('user_tag/winpop?module='.MODULE_NAME)}", 730, 400);
-		} else {
-			ui_error("请选择文件夹");
-			return false;
-		};
+	function select_pid() {{
+		winopen("{:U('user_tag/winpop?module='.MODULE_NAME)}", 730, 400);
 	}
 
 

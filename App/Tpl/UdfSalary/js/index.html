@@ -74,20 +74,19 @@
 			case "del_forever":
 				ui_confirm('确定要删除吗?',function(){
 					sendAjax("{:U('mark?action=del_forever')}", vars, function(data) {
-						if (data.status) {
+						if (data.status){
 							ui_alert(data.info,function(){
 								$("input[name='id[]']:checkbox:checked").each(function() {
 									$(this).parents("li").remove();
 								})
-						}
-					});
-				})
+							})
+							$("#id-toggle-all").attr("checked", false);
+						};
+					})					
+				})				
 				break;
-			default:
+			}
 		}
-		$("#id-toggle-all").attr("checked", false);
-	}
-
 
 	$(document).ready(function() {
 		set_return_url();

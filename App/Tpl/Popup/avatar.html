@@ -53,7 +53,7 @@
 			<div class="text-center display-none">
 				当前头像：
 				<br />
-				<div><img class="current"  src="{:C('SAVE_URL')}{$pic}" />
+				<div><img class="current"  src="{:get_save_url()}{$pic}" />
 				</div>
 			</div>
 			<div class="text-center">
@@ -66,7 +66,7 @@
 	</div>
 </div>
 <script>
-var SAVE_URL = "{:C('SAVE_URL')}";
+var SAVE_URL = "{:get_save_url()}";
 var uploader = new plupload.Uploader({
 	runtimes : 'html5,flash',
 	browse_button : 'pickfiles', // you can pass in id...
@@ -171,7 +171,7 @@ uploader.init();
 				dataType : "json",
 				success : function(msg) {
 					if (msg.result_code == 1) {
-						$("#emp_pic", parent.document).attr("src", "{:C('SAVE_URL')}" + msg.result_des + '?t=' + Math.random());
+						$("#emp_pic", parent.document).attr("src", "{:get_save_url()}" + msg.result_des + '?t=' + Math.random());
 						$("#pic", parent.document).val(msg.result_des);
 					}
 					myclose();

@@ -96,7 +96,7 @@ function conv_inputbox_item(id,name,title,data){
 		html = "<span data=\"" + data + "\" id=\"" + id + "\">";
 	}else{
 		html = "<span id=\"" + id + "\">";
-	}	
+	}
 	html+="<nobr><b  title=\"" + title + "\">" + name + "</b>";
 	html+="<a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";
 	return html;
@@ -384,7 +384,7 @@ function check_form(form_id) {
 	$("#" + form_id + " :input").each(function(i) {
 		if ($(this).attr("check")) {
 			if (!validate($(this).val(), $(this).attr("check"))) {
-				alert($(this).attr("msg"));
+				ui_error($(this).attr("msg"));
 				$(this).focus();
 				check_flag = false;
 				return check_flag;
@@ -440,25 +440,30 @@ function sendAjax(url, vars, callback) {
 }
 
 /*提交表单*/
-function sendForm(formId, post_url, return_url) {
-	if ($("#ajax").val() == 1) {
+function sendForm(formId, post_url,return_url) {
+	if ($("#ajax").val() == 1){
 		var vars = $("#" + formId).serialize();
 		$.ajax({
 			type : "POST",
 			url : post_url,
 			data : vars,
 			dataType : "json",
-			success : function(data) {
-				ui_info(data.info);
-				if (return_url) {
-					location.href = return_url;
+			success : function(data){								
+				if(data.status){
+					ui_alert(data.info,function(){
+						if (return_url){
+							location.href = return_url;
+						}
+					});
+				}else{
+					ui_error(data.info);
 				}
 			}
 		});
 	} else {
 		$("#" + formId).attr("action", post_url);
-		if (return_url) {
-			set_cookie('return_url', return_url);			
+		if (return_url){
+			set_cookie('return_url', return_url);
 		}
 		$("#" + formId).submit();
 	}

@@ -3,7 +3,7 @@
 		$("#opmode").val("add");
 		$("#id").val("");
 		if (check_form("form_data")){
-			sendForm("form_data", "{:U('save')}", "__URL__");
+			sendForm("form_data", "{:U('save')}","{:U('index')}");
 		}
 	};
 
@@ -21,26 +21,22 @@
 	}
 
 	function save() {
-		if ($("#opmode").val() == "") {
-			ui_error("请选择文件夹或新增");
-		} else {
-			$("#admin").val("");
-			$("#admin_list span.address_list span").each(function() {
-				$("#admin").val($("#admin").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";")
-			})
+		$("#admin").val("");
+		$("#admin_list span.address_list span").each(function() {
+			$("#admin").val($("#admin").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";")
+		})
 
-			$("#write").val("");
-			$("#write_list span.address_list span").each(function() {
-				$("#write").val($("#write").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";")
-			})
+		$("#write").val("");
+		$("#write_list span.address_list span").each(function() {
+			$("#write").val($("#write").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";")
+		})
 
-			$("#read").val("");
-			$("#read_list span.address_list span").each(function() {
-				$("#read").val($("#read").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";")
-			})
-			if (check_form("form_data")) {
-				sendForm("form_data", "{:U('save')}", "__SELF__");
-			}
+		$("#read").val("");
+		$("#read_list span.address_list span").each(function() {
+			$("#read").val($("#read").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";")
+		})
+		if (check_form("form_data")) {
+			sendForm("form_data","{:U('save')}");
 		}
 	};
 
@@ -60,29 +56,12 @@
 	}
 
 	function select_auth() {
-		if ($("div.sub_left_menu a.active").length > 0) {
-			popup_auth();
-		} else if ($("div.sub_left_menu a").length == 0) {
-			popup_auth();
-		} else if ($("#opmode").val() == "add") {
-			popup_auth();
-		} else {
-			ui_error("请选择文件夹");
-		}
+		winopen("{:U('popup/auth')}", 730, 574);
 	}
 
 	function select_pid() {
-		if ($("div.sub_left_menu a.active").length > 0) {
-			winopen("{:U('winpop')}", 730, 400);
-		} else if ($("div.sub_left_menu a").length == 0) {
-			winopen("{:U('winpop')}", 730, 400);
-		} else if ($("#opmode").val() == "add") {
-			winopen("{:U('winpop')}", 730, 400);
-		} else {
-			ui_error("请选择文件夹");
-		}
+		winopen("{:U('winpop')}", 730, 400);
 	}
-
 
 	$(document).ready(function() {
 		set_return_url();

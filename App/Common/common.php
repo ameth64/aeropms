@@ -19,6 +19,18 @@ function upload_filter($val){
 	}
 }
 
+function get_save_path(){
+	$app_path=__APP__;
+	$save_path=C('SAVE_PATH');
+	return substr($app_path."/".$save_path,1);
+}
+
+function get_save_url(){
+	$app_path=__APP__;
+	$save_path=C('SAVE_PATH');
+	return $app_path."/".$save_path;
+}
+
 function _encode($arr) {
 	$na = array();
 	foreach ($arr as $k => $value) {
@@ -50,6 +62,7 @@ function get_img_info($img) {
 
 function get_return_url() {
 	$return_url = cookie('return_url');
+	return $return_url;
 	if (!empty($return_url)) {
 		return $return_url;
 	} else {
@@ -576,7 +589,7 @@ function show_contact($str, $mode = "show") {
 					$name = htmlspecialchars(rtrim($arr[0]));
 					$email = htmlspecialchars(rtrim($arr[1]));
 					if ($mode == "edit") {
-						$tmp = $tmp . "<span email=\"$email\"><nobr><b  title=\"$email\">$name</b><a class=\"del\" title=\"删除\">&#10005</a></nobr></span>";
+						$tmp = $tmp . "<span data=\"$email\"><nobr><b  title=\"$email\">$name</b><a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";
 					} else {
 						$tmp = $tmp . "<a email=\"$email\" title=\"$email\" >$name;</a>";
 					}
@@ -588,7 +601,7 @@ function show_contact($str, $mode = "show") {
 			$email = htmlspecialchars(rtrim($arr[1]));
 			$tmp = "";
 			if ($mode == "edit") {
-				$tmp = $tmp . "<span email=\"$email\"><nobr><b  title=\"$email\">$name</b><a class=\"del\" title=\"删除\">&#10005</a></nobr></span>";
+				$tmp = $tmp . "<span data=\"$email\"><nobr><b  title=\"$email\">$name</b><a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";
 			} else {
 				$tmp = $tmp . "<a email=\"$email\" title=\"$email\" >$name</a>";
 			}

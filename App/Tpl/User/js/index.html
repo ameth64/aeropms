@@ -49,7 +49,7 @@
 			set_val(s, result.data[s]);
 		}
 		$("#dept_name").val($("#dept_list option[value='" + $("#dept_id").val() + "']").text());
-		img_url = "{:C('SAVE_URL')}" + $("#pic").val()+"?t="+Math.random();
+		img_url = "{:get_save_url()}" + $("#pic").val()+"?t="+Math.random();
 		$("#emp_pic").attr("src", img_url);
 		$("#save_name").val("");
 		$("#opmode").val("edit");

@@ -12,7 +12,6 @@
  -------------------------------------------------------------------------*/
 
 class CommonAction extends Action {
-
 	function _initialize() {
 		$auth_id = session(C('USER_AUTH_KEY'));
 		if (!isset($auth_id)) {
@@ -133,15 +132,15 @@ class CommonAction extends Action {
 		header("Cache-Control: no-store, no-cache, must-revalidate");
 		header("Cache-Control: post-check=0, pre-check=0", false);
 		header("Pragma: no-cache");
-		if (!empty($_FILES)) {
+		if (!empty($_FILES)){
 			import("@.ORG.Util.UploadFile");
 			$upload = new UploadFile();
 			$upload -> subFolder = strtolower(MODULE_NAME);
-			$upload -> savePath = C("SAVE_PATH");
-			$upload -> saveRule = uniqid;
+			$upload -> savePath = get_save_path();
+			$upload -> saveRule = "uniqid";
 			$upload -> autoSub = true;
 			$upload -> subType = "date";
-			$upload -> allowExts = array_filter(explode(",",get_system_config('UPLOAD_FILE_TYPE')),upload_filter);
+			$upload -> allowExts = array_filter(explode(",",get_system_config('UPLOAD_FILE_TYPE')),'upload_filter');
 			if (!$upload -> upload()) {
 				$data['error'] = 1;
 				$data['message'] = $upload -> getErrorMsg();
@@ -178,17 +177,15 @@ class CommonAction extends Action {
 	protected function _del($id, $return = false) {
 		$name = $this -> getActionName();
 		$model = M($name);
-		if (!empty($model)) {
+		if (!empty($model)){
 			$pk = $model -> getPk();
 			if (isset($id)) {
-				if (is_array($id)) {
+				if (is_array($id)){
 					$where[$pk] = array("in", array_filter($id));
 				} else {
 					$where[$pk] = array('in', array_filter(explode(',', $id)));
 				}
 				$result = $model -> where($where) -> setField("is_del", 1);
-						dump($model->getLastSql());
-		die;
 				if ($return) {
 					return $result;
 				}
@@ -250,7 +247,7 @@ class CommonAction extends Action {
 		$where['id'] = array('in', $file_list);
 		$list = $model -> where($where) -> select();
 
-		$save_path = C('SAVE_PATH');
+		$save_path = get_save_path();
 		foreach ($list as $file) {
 			if (file_exists($_SERVER["DOCUMENT_ROOT"] . "/" . $save_path . $file['savename'])) {
 				unlink($_SERVER["DOCUMENT_ROOT"] . "/" . $save_path . $file['savename']);

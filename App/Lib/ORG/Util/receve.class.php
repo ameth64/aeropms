@@ -239,7 +239,7 @@
 			$tmp = str_ireplace('=?gb18030?B?', '', $arr_temp[$i]);
 			$tmp = str_ireplace('=?', '', $tmp);
 			$tmp2 = $tmp2 . auto_charset(base64_decode($tmp), 'gb2312', 'utf-8');
-		} 
+		}
 		return $tmp2 ;
 	}
 	if (stripos($str, 'gb18030?Q')) {
@@ -248,7 +248,7 @@
 			$tmp = str_ireplace('=?gb18030?Q?', '', $arr_temp[$i]);
 			$tmp = str_ireplace('=?', '', $tmp);
 			$tmp = str_ireplace('?', '', $tmp);
-			$tmp2 = $tmp2 . auto_charset(quoted_printable_decode($tmp),'gb18030','utf-8');
+			$tmp2 = $tmp2 . auto_charset(quoted_printable_decode($tmp),'gb2312','utf-8');
 		}
 		return $tmp2 ;
 	}
@@ -256,8 +256,12 @@
 }
 
 function auto_charset($fContents,$from,$to){
+	$gbk=array('GBK','GB2312','GB18030');
     $from   =  strtoupper($from)=='UTF8'? 'utf-8':$from;
     $to       =  strtoupper($to)=='UTF8'? 'utf-8':$to;
+	if(in_array(strtoupper($from),$gbk)){
+		$from="gb2312";
+	}
     if( strtoupper($from) === strtoupper($to) || empty($fContents) || (is_scalar($fContents) && !is_string($fContents)) ){
         //如果编码相同或者非字符串标量则不转换
         return $fContents;
@@ -310,12 +314,13 @@ function auto_charset($fContents,$from,$to){
 			foreach($struckture->parts as $key => $value)
 			{
 				$enc=$struckture->parts[$key]->encoding;
-				if($struckture->parts[$key]->ifdparameters)
+				if($struckture->parts[$key]->ifparameters)
 				{
-					$name=$this->mail_decode($struckture->parts[$key]->dparameters[0]->value);
+					$name=$this->mail_decode($struckture->parts[$key]->parameters[0]->value);
 					$cid=$struckture->parts[$key]->id;
 					$cid=substr($cid,1,strlen($cid)-2);
 					$disposition=$struckture->parts[$key]->disposition;
+					$disposition="INLINE";
 					
 					$name=$cid."_".$disposition."_".$name;
 					$message = imap_fetchbody($this->_connect,$msg_count,$key+1);
@@ -437,7 +442,9 @@ function auto_charset($fContents,$from,$to){
                  } else if($structure->encoding == 4) {
                      $text =  imap_qprint($text);
                  }
-                 $text = mb_convert_encoding($text,'utf-8',$from_encoding);
+				
+                 //$text = mb_convert_encoding($text,'utf-8',$from_encoding);
+				 $text=$this->auto_charset($text,$from_encoding,'utf-8');
                  return $text;
              }
              if($structure->type == 1) {

@@ -60,7 +60,7 @@ class ContactAction extends CommonAction {
 		$inputFileName = C("SAVE_PATH") . "templete/contact.xlsx";
 		$objPHPExcel = PHPExcel_IOFactory::load($inputFileName);
 
-		$objPHPExcel -> getProperties() -> setCreator("小薇") -> setLastModifiedBy("小薇") -> setTitle("Office 2007 XLSX Test Document") -> setSubject("Office 2007 XLSX Test Document") -> setDescription("Test document for Office 2007 XLSX, generated using PHP classes.") -> setKeywords("office 2007 openxml php") -> setCategory("Test result file");
+		$objPHPExcel -> getProperties() -> setCreator("smeoa") -> setLastModifiedBy("smeoa") -> setTitle("Office 2007 XLSX Test Document") -> setSubject("Office 2007 XLSX Test Document") -> setDescription("Test document for Office 2007 XLSX, generated using PHP classes.") -> setKeywords("office 2007 openxml php") -> setCategory("Test result file");
 		// Add some data
 		$i = 1;
 		//dump($list);
@@ -87,7 +87,7 @@ class ContactAction extends CommonAction {
 	}
 
 	public function import() {
-		$save_path = C('SAVE_PATH');
+		$save_path = get_save_path();
 		$opmode = $_POST["opmode"];
 		if ($opmode == "import") {
 			import("@.ORG.Util.UploadFile");

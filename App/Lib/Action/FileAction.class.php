@@ -42,7 +42,7 @@ class FileAction extends CommonAction {
 		$where['id'] = $file_id;
 		$video_path = M("File") -> where($where) -> getField("savename");
 		$video_ext = M("File") -> where($where) -> getField("extension");
-		$this -> assign('video_file', C('SAVE_PATH') . $video_path);
+		$this -> assign('video_file', get_save_path() . $video_path);
 		$this -> assign('video_ext', $video_ext);
 		$this -> display();
 	}

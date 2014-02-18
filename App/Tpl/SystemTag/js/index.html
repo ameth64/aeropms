@@ -3,7 +3,7 @@
 		$("#opmode").val("add");
 		$("#id").val("");
 		if (check_form("form_data")){
-			sendForm("form_data", "{:U('save')}", "__URL__");
+			sendForm("form_data","", "__SELF__");
 		}
 	};
 
@@ -22,25 +22,20 @@
 			return false;
 		} else {
 			if (check_form("form_data")) {
-				sendForm("form_data", "", "__SELF__");
+				sendForm("form_data","", "__SELF__");
 			}
 		}
 	};
 
 	function showdata(result) {
 		for (var s in result.data) {
-			set_val(s, result.data[s]);
+			set_val(s,result.data[s]);
 		}
 		$("#opmode").val("edit");
 	}
 
 	function select_pid() {
-		if ($("div.sub_left_menu a.active").length > 0) {
-			winopen("{:U('system_tag/winpop?module='.MODULE_NAME)}", 730, 400);
-		} else {
-			ui_error("请选择文件夹");
-			return false;
-		};
+		winopen("{:U('system_tag/winpop?module='.MODULE_NAME)}", 730, 400);
 	}
 
 

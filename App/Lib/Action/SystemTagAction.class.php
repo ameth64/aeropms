@@ -1,6 +1,6 @@
 <?php
 /*---------------------------------------------------------------------------
-  С΢OAϵͳ - �ù��������ɿ��� 
+  小微OA系统 - 让工作更轻松快乐 
 
   Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
 
@@ -10,7 +10,6 @@
 
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
-
 
 class SystemTagAction extends CommonAction {
 	protected $config=array('app_type'=>'asst');
@@ -56,8 +55,11 @@ class SystemTagAction extends CommonAction {
 		$module = $_GET['module'];
 		$where['module'] = array('eq', $module);
 		$menu = $model -> where($where) -> field('id,pid,name') -> order('sort asc') -> select();
+		
+		
 		$tree = list_to_tree($menu);
-		$this -> assign('menu', popup_tree_menu($tree));
+
+		$this -> assign('menu',popup_tree_menu($tree));
 		$this -> display();
 	}
 

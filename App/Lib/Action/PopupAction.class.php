@@ -291,8 +291,8 @@ class PopupAction extends CommonAction {
 			$result['result_code'] = 101;
 			$result['result_des'] = "图片不存在";
 		} else {
-			define('ROOT_PATH', realpath(dirname(__ROOT__)) . '/');
-			$real_img = ROOT_PATH . $image;
+			
+			$real_img = $_SERVER['DOCUMENT_ROOT'] . $image;
 			$info = get_img_info($real_img);
 
 			if (!$info) {
@@ -348,16 +348,16 @@ class PopupAction extends CommonAction {
 				if ('jpg' == $type || 'jpeg' == $type)
 					imageinterlace($thumbImg, 1);
 
-				if(!is_dir(C('SAVE_PATH') . "emp_pic/")) {
-					mkdir(C('SAVE_PATH') . "emp_pic/",0777,true);
-					chmod(C('SAVE_PATH') . "emp_pic/",0777);
+				if(!is_dir(C("SAVE_PATH"). "emp_pic/")) {
+					mkdir(C("SAVE_PATH"). "emp_pic/",0777,true);
+					chmod(C("SAVE_PATH"). "emp_pic/",0777);
 				}
 				
 				// 生成图片
 				$imageFun = 'image' . ($type == 'jpg' ? 'jpeg' : $type);
 				$id=$_REQUEST['id'];
 
-				$thumbname = C('SAVE_PATH') . "emp_pic/" .$id.".".$type;
+				$thumbname = C("SAVE_PATH").  "emp_pic/" .$id.".".$type;
 				
 				$imageFun($thumbImg, $thumbname, 100);
 
@@ -369,7 +369,7 @@ class PopupAction extends CommonAction {
 				imagedestroy($im);
 
 				$result['result_code'] = 1;
-				$result['result_des'] = str_replace(C('SAVE_PATH'), "", $thumbname);
+				$result['result_des'] = str_replace(C("SAVE_PATH"), "", $thumbname);
 			}
 		}
 		echo json_encode($result);

@@ -40,7 +40,7 @@ class UdfAction extends CommonAction {
 		}
 	}
 	public function import(){
-		$save_path = C('SAVE_PATH');
+		$save_path = get_save_path();
 		$opmode = $_POST["opmode"];
 		if ($opmode == "import") {
 			import("@.ORG.Util.UploadFile");

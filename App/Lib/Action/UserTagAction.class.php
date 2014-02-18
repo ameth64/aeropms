@@ -1,6 +1,6 @@
 <?php
 /*---------------------------------------------------------------------------
-  С΢OAϵͳ - �ù��������ɿ��� 
+  小微OA系统 - 让工作更轻松快乐 
 
   Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
 
@@ -51,8 +51,7 @@ class UserTagAction extends CommonAction {
 		$tag_list = $model -> get_tag_list();
 		$this -> assign("tag_list", $tag_list);
 		$this -> assign('js_file',"Usertag:js/index");
-		trace("UserTag:js/index");
-		$this -> display('Usertag:tag_manage');
+		$this -> display('Usertag:index');
 	}
 
 	function winpop() {

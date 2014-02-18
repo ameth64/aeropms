@@ -509,40 +509,42 @@ class MailAction extends CommonAction {
 	//--------------------------------------------------------------------
 	//   接收邮件附件
 	//--------------------------------------------------------------------
-	private function _receive_file($str, &$model) {
-		if (!empty($str)) {
+	private function _receive_file($str, &$model){
+		if (!empty($str)){
 			$ar = explode(",", $str);
-			foreach ($ar as $key => $value) {
+			foreach($ar as $key => $value) {
 				$ar2 = explode("_", $value);
 				$cid = $ar2[0];
-				$inline = $ar2[1];
-				$file_name = $ar2[2];
-				$File = M("File");
-				$File -> name = $file_name;
-				$File -> user_id = get_user_id();
-				$File -> size = filesize($this -> tmpPath . urlencode($value));
-				$File -> extension = getExt($value);
-				$File -> create_time = time();
-				$dir = 'mail/' . date("Ym");
-				$File -> savename = $dir . '/' . uniqid() . '.' . $File -> extension;
-				$save_name = $File -> savename;
-				if (!is_dir(C("SAVE_PATH") . $dir)) {
-					mkdir(C("SAVE_PATH") . $dir,0777, true);
-					chmod(C("SAVE_PATH") . $dir,0777);
-				}
-				if (rename($this -> tmpPath . urlencode($value), C("SAVE_PATH") . $File -> savename)) {
-					$file_id = $File -> add();
-					if ($inline == "INLINE") {
-						$model -> content = str_ireplace("cid:$cid", "/" . C("SAVE_PATH") . $save_name, $model -> content);
+				if(strlen($cid)>10){
+					$inline = $ar2[1];
+					$file_name = $ar2[2];
+					$File = M("File");
+					$File -> name = $file_name;
+					$File -> user_id = get_user_id();
+					$File -> size = filesize($this -> tmpPath . urlencode($value));
+					$File -> extension = getExt($value);
+					$File -> create_time = time();
+					$dir = 'mail/' . date("Ym");
+					$File -> savename = $dir . '/' . uniqid() . '.' . $File -> extension;
+					$save_name=$File -> savename;
+					if (!is_dir(C("SAVE_PATH") . $dir)) {
+						mkdir(C("SAVE_PATH") . $dir,0777, true);
+						chmod(C("SAVE_PATH") . $dir,0777);
 					}
-					$add_file = $add_file . ($file_id) . ';';
+					if (rename($this -> tmpPath.urlencode($value), C("SAVE_PATH") .$save_name)) {
+						$file_id = $File -> add();
+						if($inline == "INLINE"){
+							$model -> content = str_replace("cid:".$cid, "/". C("SAVE_PATH") . $save_name, $model -> content);
+						}
+						$add_file = $add_file . ($file_id) . ';';
+					}
 				}
 			}
 		}
 		return $add_file;
 	}
 
-	private function _organize(&$model) {
+	private function _organize(&$model){
 		$where['user_id'] = get_user_id();
 		$where['is_del'] = 0;
 		$list = M("MailOrganize") -> where($where) -> order('sort') -> select();
