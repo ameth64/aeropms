@@ -1,5 +1,5 @@
 <?php
-	$files = "APP/Conf/db.php";
+	$files = "App/Conf/db.php";
 	
 if (isset($_POST["install"])){
 	$config_str = "<?php\n";
@@ -71,8 +71,8 @@ if (isset($_POST["install"])){
 		<meta content='' name='description' />
 		<meta content='' name='author' />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link href="/Public/css/bootstrap.min.css" rel="stylesheet" >
-		<link href="/Public/css/style.css" rel="stylesheet">
+		<link href="Public/assets/css/bootstrap.min.css" rel="stylesheet" >
+		<link href="Public/assets/css/style.css" rel="stylesheet">
 	</head>
 	<body>
 		<div class="container">
@@ -82,6 +82,18 @@ if (isset($_POST["install"])){
 						<h1>小微OA系统 <small>让工作更轻松快乐</small></h1>
 					</div>
 					<form   method="POST" class="well form-horizontal">
+						<div class="form-group">
+							<label class="control-label col-md-4" for="name" >安装文件可写：</label>
+							<div class="col-md-8">
+								<?php								
+								if (!is_writable("install.php")) {
+									echo "<button type='button' class='btn btn-danger form-con'>Fail</button><p>请检查install.php是否有修改权限</p>";
+								} else {
+									echo "<button type='button' class='btn btn-success form-con'>OK</button>";
+								}
+								?>
+							</div>
+						</div>
 						<div class="form-group">
 							<label class="control-label col-md-4" for="name" >配置文件可写：</label>
 							<div class="col-md-8">
