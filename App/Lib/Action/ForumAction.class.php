@@ -80,9 +80,9 @@ class ForumAction extends CommonAction {
 		$this -> assign('auth', $this -> config['auth']);
 		$model = M("Forum");
 		$id = $_REQUEST['id'];
-		$fid = $_REQUEST['fid'];
+		$folder_id = $_REQUEST['fid'];
 		$where['id'] = array('eq', $id);
-		$where['fid'] = array('eq', $fid);
+		$where['folder'] = array('eq', $folder_id);
 
 		$vo = $model -> where($where) -> find();
 		$vo = $this -> _conv_data($vo);

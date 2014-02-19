@@ -11,8 +11,7 @@
  Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
 
-class DocAction extends CommonAction {
-	
+class DocAction extends CommonAction {	
 	protected $config = array('app_type' => 'folder', 'action_auth' => array('mark' => 'admin'));
 	
 	//过滤查询字段
@@ -79,14 +78,14 @@ class DocAction extends CommonAction {
 
 		$folder_name = M("SystemFolder") -> where($where) -> getField("name");
 		$this -> assign("folder_name", $folder_name);
-		$this -> assign("folder_id", $folder_id);
+		$this -> assign("folder", $folder_id);
 
 		$this -> _assign_folder_list();
 		$this -> display();
 		return;
 	}
 
-	public function add() {
+	public function add(){
 		$widget['uploader'] = true;
 		$widget['editor'] = true;
 		$this -> assign("widget", $widget);		
@@ -105,11 +104,11 @@ class DocAction extends CommonAction {
 		$this->_edit();
 	}
 
-	public function mark() {
+	public function mark(){
 		$action = $_REQUEST['action'];
 		$id = $_REQUEST['id'];
 		if (!empty($id)) {
-			switch ($action) {
+			switch ($action){
 				case 'del' :
 					$where['id'] = array('in', $id);
 					$folder = M("Doc") -> distinct(true) -> where($where) -> field("folder") -> select();

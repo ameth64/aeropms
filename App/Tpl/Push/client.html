@@ -51,7 +51,9 @@
 
 			function push_start() {
 				sendPush("{:U('push/server')}", '', function(data) {
-					window.parent.ui_info(data.info);
+					if (info != "no-data") {
+						window.parent.ui_info(data.info);
+					}					
 					if (flag) {
 						push_start();
 					}
