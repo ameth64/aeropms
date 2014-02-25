@@ -10,11 +10,10 @@
 
  Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
-
 class MailAction extends CommonAction {
 	private $_account;
 	protected $config = array('app_type' => 'personal');
-	private $tmpPath = "data";
+	private $tmpPath = "Data/Temp/";
 	// 过滤查询字段
 
 	function _search_filter(&$map) {
@@ -71,7 +70,6 @@ class MailAction extends CommonAction {
 			cookie('current_node', 101);
 		}
 		$this -> assign("folder", $folder);
-
 		switch ($folder) {
 			case 'inbox' :
 				$this -> assign("folder_name", '收件箱');
@@ -326,7 +324,7 @@ class MailAction extends CommonAction {
 			if (strlen($add_file) > 2) {
 				$files = $this -> _real_file($add_file);
 				foreach ($files as $file) {
-					$mail -> AddAttachment(C("SAVE_PATH") . $file['savename'], $file['name']);
+					$mail -> AddAttachment(get_save_path() . $file['savename'], $file['name']);
 				}
 			}
 
@@ -406,7 +404,6 @@ class MailAction extends CommonAction {
 		$vo = $model -> getById($id);
 
 		$this -> assign('vo', $vo);
-
 		$this -> _assign_file_list($vo['add_file']);
 
 		$this -> display();
@@ -463,7 +460,7 @@ class MailAction extends CommonAction {
 
 		$mail_count = $mail -> mail_total_count();
 		if ($connect){
-			for ($i = 1; $i < $mail_count; $i++) {
+			for ($i = 1; $i <= $mail_count; $i++) {
 				$mail_id = $mail_count - $i + 1;
 				$item = $mail -> mail_list($mail_id);
 				$where = array();
@@ -502,7 +499,6 @@ class MailAction extends CommonAction {
 		}
 		$this -> _pushReturn($new, "收到" . $new . "封邮件", 1);
 		$mail -> close_mail();
-
 		//$this -> ajaxReturn($new, "收到" . $new . "封邮件", 1);
 	}
 
@@ -515,7 +511,8 @@ class MailAction extends CommonAction {
 			foreach($ar as $key => $value) {
 				$ar2 = explode("_", $value);
 				$cid = $ar2[0];
-				if(strlen($cid)>10){
+				if(true){
+				//if(strlen($cid)>10){
 					$inline = $ar2[1];
 					$file_name = $ar2[2];
 					$File = M("File");
@@ -524,19 +521,23 @@ class MailAction extends CommonAction {
 					$File -> size = filesize($this -> tmpPath . urlencode($value));
 					$File -> extension = getExt($value);
 					$File -> create_time = time();
-					$dir = 'mail/' . date("Ym");
+					$sid=get_sid();
+					$File -> sid=$sid;
+					$File -> module=MODULE_NAME;
+					$dir = 'mail/'.get_emp_no()."/".date("Ym");
 					$File -> savename = $dir . '/' . uniqid() . '.' . $File -> extension;
 					$save_name=$File -> savename;
-					if (!is_dir(C("SAVE_PATH") . $dir)) {
-						mkdir(C("SAVE_PATH") . $dir,0777, true);
-						chmod(C("SAVE_PATH") . $dir,0777);
+					if (!is_dir(get_save_path() . $dir)) {
+						mkdir(get_save_path() . $dir,0777, true);
+						chmod(get_save_path() . $dir,0777);
 					}
-					if (rename($this -> tmpPath.urlencode($value), C("SAVE_PATH") .$save_name)) {
+					if (rename($this -> tmpPath.urlencode($value), get_save_path() .$save_name)) {
 						$file_id = $File -> add();
 						if($inline == "INLINE"){
-							$model -> content = str_replace("cid:".$cid, "/". C("SAVE_PATH") . $save_name, $model -> content);
+							$model -> content = str_replace("cid:".$cid, "/". get_save_path() . $save_name, $model -> content);
+						}else{
+							$add_file = $add_file . ($sid) . ';';
 						}
-						$add_file = $add_file . ($file_id) . ';';
 					}
 				}
 			}

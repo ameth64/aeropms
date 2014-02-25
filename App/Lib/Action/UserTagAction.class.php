@@ -50,8 +50,8 @@ class UserTagAction extends CommonAction {
 
 		$tag_list = $model -> get_tag_list();
 		$this -> assign("tag_list", $tag_list);
-		$this -> assign('js_file',"Usertag:js/index");
-		$this -> display('Usertag:index');
+		$this -> assign('js_file',"UserTag:js/index");
+		$this -> display('UserTag:index');
 	}
 
 	function winpop() {

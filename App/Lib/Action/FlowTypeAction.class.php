@@ -12,7 +12,7 @@
  -------------------------------------------------------------------------*/
 
 class FlowTypeAction extends CommonAction {
-	protected $config=array('app_type'=>'master');
+    protected $config=array('app_type'=>'master');
 
 	//过滤查询字段
 	function _search_filter(&$map) {
@@ -47,16 +47,30 @@ class FlowTypeAction extends CommonAction {
 	}
 
 	function mark() {
+   		$action = $_REQUEST['action'];
 		$id = $_REQUEST["id"];
 		$val = $_REQUEST["val"];
-		$field = 'group';
-		$result=$this -> _set_field($id, $field, $val);
-		if ($result !== false) {
-			$this -> assign('jumpUrl', get_return_url());
-			$this -> success('操作成功!');
-		} else {
-			//失败提示
-			$this -> error('操作失败!');
+		if (!empty($id)) {
+			switch ($action){
+				case 'del' :					
+						$result=$this->_destory($id,true);
+						if ($result) {
+							$this -> ajaxReturn('', "删除成功", 1);
+						} else {
+							$this -> ajaxReturn('', "删除失败", 0);
+						}
+					break;
+				case 'move_folder' :
+				$field = 'group';
+				$result=$this -> _set_field($id, $field, $val);
+				if ($result !== false) {
+					$this -> assign('jumpUrl', get_return_url());
+					$this -> success('操作成功!');
+				} else {
+					//失败提示
+					$this -> error('操作失败!');
+				}
+			}
 		}
 	}
 	

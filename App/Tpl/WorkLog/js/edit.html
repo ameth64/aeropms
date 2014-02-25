@@ -1,4 +1,4 @@
-<script type="text/javascript" src="__PUBLIC__/assets/editor/kindeditor.js"></script>
+<script type="text/javascript" src="__PUBLIC__/editor/kindeditor.js"></script>
 <script>
 	var id = "{$id}";
 	var eoptions = {
@@ -16,6 +16,7 @@
 	};
 
 	function save() {
+		window.onbeforeunload=null;
 		if (check_form("form_data")) {
 			sendForm("form_data", "{:U('save')}");
 		}

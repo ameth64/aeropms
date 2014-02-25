@@ -63,7 +63,7 @@ class HomeAction extends CommonAction {
 
 	protected function _flow_list(){
 		$user_id = get_user_id();
-		$emp_no = $_SESSION['emp_no'];
+		$emp_no = get_emp_no();
 		$model = D('Flow');
 		//带审批的列表
 		$FlowLog = M("FlowLog");

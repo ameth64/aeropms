@@ -96,8 +96,7 @@ class TodoAction extends CommonAction {
 		$widget['uploader'] = true;
 		$widget['editor'] = true;
 		$this -> assign("widget", $widget);			
-		
-			
+
 		$this -> assign("time_list", $time_list);
 		$id = $_REQUEST['id'];
 		$model = M('Todo');
@@ -107,6 +106,10 @@ class TodoAction extends CommonAction {
 
 		$vo['start_time'] = fix_time($vo['start_time']);
 		$vo['end_time'] = fix_time($vo['end_time']);
+
+		if (isset($vo['add_file'])) {
+			$this -> _assign_file_list($vo["add_file"]);
+		};
 		$this -> assign('vo', $vo);
 		$this -> display();
 	}

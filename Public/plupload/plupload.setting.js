@@ -48,9 +48,11 @@ var uploader = new plupload.Uploader({
 			var myObject = eval('(' + data.response + ')');			
 			if(myObject.status){
 				if($("#add_file").length!=0){
-					$("#add_file").val($("#add_file").val()+myObject.id+";")
+					$("#add_file").val($("#add_file").val()+myObject.sid+";")
 				}
-				$("#"+file.id).attr("add_file",myObject.id);
+				$("#"+file.id).attr("add_file",myObject.sid);
+				$new_upload=$("#file_list").attr("new_upload");
+				$("#file_list").attr("new_upload",$new_upload+myObject.sid+";");
 				if($("#save_name").length!=0){
 					$("#save_name").val($("#save_name").val()+myObject.savename+";")
 				}
@@ -65,16 +67,35 @@ var uploader = new plupload.Uploader({
 });
 uploader.init();
 
+window.onbeforeunload = function (e){ 
+	e = e || window.event; 
+	// For IE and Firefox prior to version 4 
+	$new_upload=$("#file_list").attr("new_upload");
+	if($new_upload.length){
+		if (e) { 
+			e.returnValue = '上传的附件将被删除，确定退出吗？'; 
+		}
+		// For Safari 
+	   window.onunload = function(){
+			sendAjax(del_url, 'sid=' + $(this).attr("id"));
+		}
+		return '上传的附件将被删除，确定退出吗？'; 
+	}
+}; 
+
 $(document).on("click", "#uploader a.del", function(){
 	$obj=$(this).parents("li");
-	id=$obj.attr("id");
+	id=$obj.attr("id");	
 	file=uploader.getFile(id);
 	ui_confirm("确定要删除吗？",function(){				
-		add_file=$obj.attr("add_file");
-		$("#add_file").val($("#add_file").val().replace(add_file + ";", ""));			
+		$add_file=$obj.attr("add_file");
+		$new_upload=$("#file_list").attr("new_upload");
+		$("#add_file").val($("#add_file").val().replace($add_file + ";", ""));
+		$("#file_list").attr("new_upload",$new_upload.replace($add_file + ";", ""));
+
 		if(add_file.length>0){
 			$obj.remove();
-			sendAjax(del_url, 'id=' + $(this).attr("id"));
+			sendAjax(del_url, 'sid=' + $(this).attr("id"));
 		}else{
 			uploader.removeFile(file);
 			$obj.remove();

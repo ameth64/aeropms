@@ -1,6 +1,7 @@
 <script type="text/javascript">
 	// 加载编辑器
 	function save(step) {
+		window.onbeforeunload=null;
 		$("#confirm").val("");
 		$("#confirm_wrap  span").each(function() {
 			$("#confirm").val($("#confirm").val() + $(this).attr("emp_no") + '|');

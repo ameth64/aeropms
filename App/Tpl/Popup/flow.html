@@ -46,7 +46,7 @@
 			var email = result.data[s].email;
 			var name = result.data[s].name;
 			var name = name + "/" + position_name + "&lt;" + email + "&gt;";
-			var html_string = conv_address_item(id, name);
+			var html_string = conv_address_item(emp_no, name);
 			$("#addr_list").append(html_string);
 		}
 	}

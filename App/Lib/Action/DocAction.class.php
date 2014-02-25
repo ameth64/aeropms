@@ -127,6 +127,7 @@ class DocAction extends CommonAction {
 						$this -> ajaxReturn('', "删除失败", 0);
 					}
 					break;
+
 				case 'move_folder' :
 					$target_folder = $_REQUEST['val'];
 					$where['id'] = array('in', $id);

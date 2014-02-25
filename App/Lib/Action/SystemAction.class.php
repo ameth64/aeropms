@@ -11,7 +11,6 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 class SystemAction extends CommonAction {
 	//过滤查询字段
 

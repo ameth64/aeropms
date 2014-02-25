@@ -314,14 +314,56 @@ function auto_charset($fContents,$from,$to){
 			foreach($struckture->parts as $key => $value)
 			{
 				$enc=$struckture->parts[$key]->encoding;
-				if($struckture->parts[$key]->ifparameters)
+				$subtype=$struckture->parts[$key]->subtype;
+				$text_type=array("PLAIN","HTML","ALTERNATIVE");
+				if(in_array($subtype,$text_type)){
+					continue;
+				}
+
+				if($struckture->parts[$key]->ifdparameters)
 				{
-					$name=$this->mail_decode($struckture->parts[$key]->parameters[0]->value);
+					$name=$this->mail_decode($struckture->parts[$key]->dparameters[0]->value);
 					$cid=$struckture->parts[$key]->id;
 					$cid=substr($cid,1,strlen($cid)-2);
 					$disposition=$struckture->parts[$key]->disposition;
-					$disposition="INLINE";
-					
+					if(empty($disposition)){
+						$disposition="INLINE";
+					}
+					$name=$cid."_".$disposition."_".$name;
+					$message = imap_fetchbody($this->_connect,$msg_count,$key+1);
+					if ($enc == 0)
+						$message = imap_8bit($message);
+					if ($enc == 1)
+						$message = imap_8bit ($message);
+					if ($enc == 2)
+						$message = imap_binary ($message);
+					if ($enc == 3)
+						$message = imap_base64 ($message); 
+					if ($enc == 4)
+						$message = quoted_printable_decode($message);
+					if ($enc == 5)
+						$message = $message;
+					$fp=fopen($path.urlencode($name),"w");
+					fwrite($fp,$message);
+					fclose($fp);
+					$ar=$ar.$name.",";
+				}
+
+				if(($struckture->parts[$key]->ifparameters)&&($struckture->parts[$key]->ifdparameters==0))
+				{
+					if($struckture->parts[$key]->parameters[0]->attribute=="NAME"){
+						$name=$this->mail_decode($struckture->parts[$key]->parameters[0]->value);
+					}
+					if($struckture->parts[$key]->parameters[1]->attribute=="NAME"){
+						$name=$this->mail_decode($struckture->parts[$key]->parameters[1]->value);
+					}
+
+					$cid=$struckture->parts[$key]->id;
+					$cid=substr($cid,1,strlen($cid)-2);
+					$disposition=$struckture->parts[$key]->disposition;
+					if(empty($disposition)){
+						$disposition="INLINE";
+					}
 					$name=$cid."_".$disposition."_".$name;
 					$message = imap_fetchbody($this->_connect,$msg_count,$key+1);
 					if ($enc == 0)
@@ -349,11 +391,14 @@ function auto_charset($fContents,$from,$to){
 						if($struckture->parts[$key]->parts[$keyb]->ifdparameters)
 						{
 							$name=$this->mail_decode($struckture->parts[$key]->parts[$keyb]->dparameters[0]->value);
+
 							$id=$struckture->parts[$key]->parts[$keyb]->id;
+
 							$disposition=$struckture->parts[$key]->parts[$keyb]->disposition;							
-							
 							$name=$id."_".$disposition."_".$name;
+
 							$partnro = ($key+1).".".($keyb+1);
+
 							$message = imap_fetchbody($this->_connect,$msg_count,$partnro);
 
 							if ($enc == 0)
@@ -380,25 +425,7 @@ function auto_charset($fContents,$from,$to){
 		$ar=substr($ar,0,(strlen($ar)-1));
 		return $ar;
 	}
-     
-    /**
-      * download the attach of the mail to localhost
-      *
-      * @param string $file_path
-      * @param string $message
-      * @param string $name
-      */
-     public function down_attach($file_path,$name,$message) {
-         if(is_dir($file_path)) {
-             $file_open = fopen($file_path.$name,"w");
-         } else {
-             mkdir($file_path,"0777",true);
-         }
-         fwrite($file_open,$message);
-         fclose($file_open);
-     }
- 
-     
+          
     /**
       * get the body of the message
       *

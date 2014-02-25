@@ -49,7 +49,7 @@ class FlowAction extends CommonAction {
 
 		$folder = $_REQUEST['fid'];
 		$this -> assign("folder", $folder);
-		$emp_no = $_SESSION['emp_no'];
+		$emp_no = get_emp_no;
 		$user_id = get_user_id();
 
 		$map = $this -> _search();
@@ -144,7 +144,7 @@ class FlowAction extends CommonAction {
 
 		$where = array();
 		$where['flow_id'] = $id;
-		$where['emp_no'] = $_SESSION['emp_no'];
+		$where['emp_no'] = get_emp_no();
 		$where['_string'] = "result is null";
 		$to_confirm = $model -> where($where) -> find();
 		$this -> assign("to_confirm", $to_confirm);
@@ -194,7 +194,7 @@ class FlowAction extends CommonAction {
 		trace($flow_log);
 		$where = array();
 		$where['flow_id'] = $id;
-		$where['emp_no'] = $_SESSION['emp_no'];
+		$where['emp_no'] = get_emp_no();
 		$where['_string'] = "result is null";
 		$confirm = $model -> where($where) -> select();
 		$this -> assign("confirm", $confirm[0]);
@@ -217,7 +217,7 @@ class FlowAction extends CommonAction {
 					$model -> user_id = get_user_id();
 				};
 				if (in_array('user_name', $model -> getDbFields())) {
-					$model -> user_name = $this -> _session("user_name");
+					$model -> user_name = get_user_name();
 				};
 
 				$flow_id = $model -> flow_id;
@@ -248,7 +248,7 @@ class FlowAction extends CommonAction {
 					$model -> user_id = get_user_id();
 				};
 				if (in_array('user_name', $model -> getDbFields())) {
-					$model -> user_name = $this -> _session("user_name");
+					$model -> user_name = get_user_name();
 				};
 
 				$flow_id = $model -> flow_id;
@@ -278,7 +278,7 @@ class FlowAction extends CommonAction {
 					$model -> user_id = get_user_id();
 				};
 				if (in_array('user_name', $model -> getDbFields())) {
-					$model -> user_name = $this -> _session("user_name");
+					$model -> user_name = get_user_name();
 				};
 
 				$flow_id = $model -> flow_id;
@@ -313,7 +313,7 @@ class FlowAction extends CommonAction {
 			$model -> user_id = get_user_id();
 		};
 		if (in_array('user_name', $model -> getDbFields())) {
-			$model -> user_name = $this -> _session("user_name");
+			$model -> user_name = get_user_name();
 		};
 
 		$flow_id = $model -> flow_id;
@@ -344,7 +344,7 @@ class FlowAction extends CommonAction {
 			$model -> user_id = get_user_id();
 		};
 		if (in_array('user_name', $model -> getDbFields())) {
-			$model -> user_name = $this -> _session("user_name");
+			$model -> user_name =get_user_name();
 		};
 
 		$flow_id = $model -> flow_id;

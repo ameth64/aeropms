@@ -87,7 +87,8 @@ class UserAction extends CommonAction {
 			$this -> error($model -> getError());
 		} else {
 			// 写入帐号数据
-			$model -> __set('letter', get_letter($model -> __get('emp_name')));
+			$model ->letter=get_letter($model ->emp_name);
+			$model ->password=md5($model ->emp_no.$model->emp_no);
 			if ($result = $model -> add()){
 				$data['id']=$result;
 				M("UserConfig")->add($data);
@@ -132,7 +133,7 @@ class UserAction extends CommonAction {
 		$id = $_POST['user_id'];
 		$password = $_POST['password'];
 		if ('' == trim($password)) {
-			$this -> error('密码不能为空！');
+			$this -> error('密码不能为空!');
 		}
 		$User = M('User');
 		$User -> password = md5($password);
@@ -163,6 +164,5 @@ class UserAction extends CommonAction {
 		$list = $model -> where($map) -> field('id,emp_name as name') -> select();
 		exit(json_encode($list));
 	}
-
 }
 ?>

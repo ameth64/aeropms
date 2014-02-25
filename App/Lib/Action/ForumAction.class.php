@@ -75,27 +75,26 @@ class ForumAction extends CommonAction {
 	public function read() {
 		$widget['uploader'] = true;
 		$widget['editor'] = true;
-		$this -> assign("widget", $widget);
+		$this -> assign("widget",$widget);
 
 		$this -> assign('auth', $this -> config['auth']);
+
 		$model = M("Forum");
 		$id = $_REQUEST['id'];
 		$folder_id = $_REQUEST['fid'];
 		$where['id'] = array('eq', $id);
 		$where['folder'] = array('eq', $folder_id);
 
-		$vo = $model -> where($where) -> find();
-		$vo = $this -> _conv_data($vo);
+		$forum = $model -> where($where) -> find();
 
-		$this -> assign('vo', $vo);
+		$this -> assign('forum',$forum);
 
 		$id = $_REQUEST['id'];
 		$user_id = get_user_id();
 		$user['user_id'] = $user_id;
 
-		$user = $this -> _conv_data($user);
 		$this -> assign('user', $user);
-		$this -> assign('user_id', $user_id);
+		$this -> assign('user_id',$user_id);
 
 		$model = M("Forum");
 		$model -> where("id=$id") -> setInc('views', 1);

@@ -1,5 +1,5 @@
 <script type="text/javascript">
-	function add() {
+	function add(){
 		$("#opmode").val("add");
 		$("#id").val("");
 		if (check_form("form_data")){
@@ -29,7 +29,7 @@
 		$("#opmode").val("edit");
 	}
 
-	function select_pid() {{
+	function select_pid() {
 		winopen("{:U('user_tag/winpop?module='.MODULE_NAME)}", 730, 400);
 	}
 

@@ -12,6 +12,7 @@
 	}
 
 	function save() {
+		window.onbeforeunload=null;
 		editor.sync();
 		sendForm("form_data", "{:U('save')}");
 	}
@@ -28,7 +29,7 @@
 			$("#consult span").last().find("b").remove();
 		});
 		<empty
-		name = "is_edit" > show_content();
+			name = "is_edit" > show_content();
 		</empty>
 	}); 
 </script>

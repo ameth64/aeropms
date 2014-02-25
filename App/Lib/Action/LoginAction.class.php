@@ -32,6 +32,8 @@ class LoginAction extends Action {
 		if (isset($auth_id)) {
 			session(C('USER_AUTH_KEY'), null);
 			session('menu' . $auth_id, null);
+			session('menu' . $auth_id, null);
+			session('user_pic', null);
 			$this -> assign("jumpUrl", __URL__ . '/');
 			$this -> success('登出成功！');
 		} else {
@@ -53,29 +55,26 @@ class LoginAction extends Action {
 		$map['emp_no'] = $_POST['emp_no'];
 		$map["is_del"] = array('eq', 0);
 		$model = D("UserView");
-		$authInfo = $model -> where($map) -> find();
-		//dump($model);
-		//die;
-		//die;
+		$auth_info = $model -> where($map) -> find();
 
 		//使用用户名、密码和状态的方式进行认证
-		if (false === $authInfo) {
+		if (false === $auth_info) {
 			$this -> error('帐号或密码错误！');
 		} else {
-			if ($authInfo['password'] != md5($_POST['password'])) {
+			if ($auth_info['password'] != md5($_POST['password'])) {
 				$this -> error('帐号或密码错误！');
 			}
-			session(C('USER_AUTH_KEY'), $authInfo['id']);
-			session('emp_no', $authInfo['emp_no']);
-			session('email', $authInfo['email']);
-			session('user_name', $authInfo['name']);
-			session('user_pic', $authInfo['pic']);
+			session(C('USER_AUTH_KEY'), $auth_info['id']);
+			session('emp_no', $auth_info['emp_no']);
+			session('email', $auth_info['email']);
+			session('user_name', $auth_info['name']);
+			session('user_pic', $auth_info['pic']);
 
-			session('last_login_time', $authInfo['last_login_time']);
-			session('login_count', $authInfo['login_count']);
-			session('dept_id', $authInfo['dept_id']);
-			session('dept_name', $authInfo['dept_name']);
-			if ($authInfo['emp_no'] == 'admin') {
+			session('last_login_time', $auth_info['last_login_time']);
+			session('login_count', $auth_info['login_count']);
+			session('dept_id', $auth_info['dept_id']);
+			session('dept_name', $auth_info['dept_name']);
+			if ($auth_info['emp_no'] == 'admin') {
 				session(C('ADMIN_AUTH_KEY'), true);
 			}
 
@@ -84,7 +83,7 @@ class LoginAction extends Action {
 			$ip = get_client_ip();
 			$time = time();
 			$data = array();
-			$data['id'] = $authInfo['id'];
+			$data['id'] = $auth_info['id'];
 			$data['last_login_time'] = $time;
 			$data['login_count'] = array('exp', 'login_count+1');
 			$data['last_login_ip'] = $ip;

@@ -7,6 +7,7 @@ return array(
 		'add' => 'write',
 		'edit' => 'write',
 		'upload' => 'write', 
+		'del_file' => 'write',
 		'save' => 'write', 
 		'del' => 'admin', 
 		'restore' => 'admin', 

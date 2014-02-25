@@ -94,11 +94,11 @@ class SystemFolderModel extends CommonModel {
 						
 						$emp_list =$this->get_emp_list_by_dept_id($dept_id);
 						$emp_list=rotate($emp_list);		
-						if (in_array($_SESSION['emp_no'],$emp_list["emp_no"])){
+						if (in_array(get_emp_no(),$emp_list["emp_no"])){
 							return true;
 						}
 					} else {
-						if (stripos($item,$_SESSION['emp_no'])!==false){
+						if (stripos($item,get_emp_no())!==false){
 							return true;
 						}
 					}

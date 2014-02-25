@@ -12,7 +12,6 @@
  -------------------------------------------------------------------------*/
 
 class CustomerAction extends CommonAction {
-
 	protected $config = array('app_type' => 'common', 'action_auth' => array('set_tag' => 'admin', 'tag_manage' => 'admin'));
 
 	//过滤查询字段
@@ -51,12 +50,13 @@ class CustomerAction extends CommonAction {
 
 	function export() {
 		$model = M("Customer");
+		$where['is_del']=0;
 		$list = $model -> where($where) -> select();
 
 		Vendor('Excel.PHPExcel');
 		//导入thinkphp第三方类库
 
-		$inputFileName = C("SAVE_PATH") . "templete/customer.xlsx";
+		$inputFileName = get_save_path() . "/templete/customer.xlsx";
 		$objPHPExcel = PHPExcel_IOFactory::load($inputFileName);
 
 		$objPHPExcel -> getProperties() -> setCreator("smeoa") -> setLastModifiedBy("smeoa") -> setTitle("Office 2007 XLSX Test Document") -> setSubject("Office 2007 XLSX Test Document") -> setDescription("Test document for Office 2007 XLSX, generated using PHP classes.") -> setKeywords("office 2007 openxml php") -> setCategory("Test result file");
@@ -72,10 +72,12 @@ class CustomerAction extends CommonAction {
 
 		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
 		$objPHPExcel -> setActiveSheetIndex(0);
-
+	
+		$file_name="customer.xlsx";
 		// Redirect output to a client’s web browser (Excel2007)
+		header("Content-Type: application/force-download");
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-		header('Content-Disposition: attachment;filename="' . $file_name . '"');
+		header("Content-Disposition:attachment;filename =" . str_ireplace('+', '%20', URLEncode($file_name)));
 		header('Cache-Control: max-age=0');
 
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');

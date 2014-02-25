@@ -41,7 +41,7 @@ class MailaccountAction extends CommonAction {
 			$model -> id = get_user_id();
 		};
 		if (in_array('user_name', $model -> getDbFields())) {
-			$model -> user_name = $this -> _session("user_name");
+			$model -> user_name = get_user_name();
 		};
 		$email = $_POST['email'];
 		//保存当前数据对象

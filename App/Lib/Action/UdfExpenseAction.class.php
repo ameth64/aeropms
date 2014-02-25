@@ -18,7 +18,7 @@ class UdfExpenseAction extends UdfAction {
 	//过滤查询字段
 	function _search_filter(&$map){		
 		if($this->config['auth']['admin']==false){
-			$map['emp_no'] = array('eq',$_SESSION["emp_no"]);
+			$map['emp_no'] = array('eq',get_emp_no());
 		}			
 		if (!empty($_POST['keyword'])){
 			$map['B|C'] = array('like', "%" . $_POST['keyword'] . "%");

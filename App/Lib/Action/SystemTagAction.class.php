@@ -46,8 +46,8 @@ class SystemTagAction extends CommonAction {
 
 		$tag_list = $model -> get_tag_list();
 		$this -> assign("tag_list", $tag_list);
-		$this -> assign('js_file',"Systemtag:js/index");
-		$this -> display('Systemtag:index');
+		$this -> assign('js_file',"SystemTag:js/index");
+		$this -> display('SystemTag:index');
 	}
 
 	function winpop() {

@@ -52,7 +52,7 @@ class MailOrganizeAction extends CommonAction {
 			$model -> user_id = get_user_id();
 		};
 		if (in_array('user_name', $model -> getDbFields())) {
-			$model -> user_name = $this -> _session("user_name");
+			$model -> user_name =get_user_name();
 		};
 		//保存当前数据对象
 		$list = $model -> add();

@@ -13,8 +13,8 @@
 
 class ContactAction extends CommonAction {
 	protected $config = array('app_type' => 'personal');
-	//过滤查询字段
 
+	//过滤查询字段
 	function _search_filter(&$map) {
 		$map['user_id'] = array('eq', get_user_id());
 		$map['is_del'] = array('eq', '0');
@@ -57,7 +57,7 @@ class ContactAction extends CommonAction {
 		//导入thinkphp第三方类库
 		Vendor('Excel.PHPExcel');
 
-		$inputFileName = C("SAVE_PATH") . "templete/contact.xlsx";
+		$inputFileName = get_save_path() . "templete/contact.xlsx";
 		$objPHPExcel = PHPExcel_IOFactory::load($inputFileName);
 
 		$objPHPExcel -> getProperties() -> setCreator("smeoa") -> setLastModifiedBy("smeoa") -> setTitle("Office 2007 XLSX Test Document") -> setSubject("Office 2007 XLSX Test Document") -> setDescription("Test document for Office 2007 XLSX, generated using PHP classes.") -> setKeywords("office 2007 openxml php") -> setCategory("Test result file");
@@ -73,11 +73,11 @@ class ContactAction extends CommonAction {
 
 		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
 		$objPHPExcel -> setActiveSheetIndex(0);
-
+		$file_name="contact.xlsx";
 		// Redirect output to a client’s web browser (Excel2007)
 		header("Content-Type: application/force-download");
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-		header('Content-Disposition: attachment;filename="' . $file_name . '"');
+		header("Content-Disposition:attachment;filename =" . str_ireplace('+', '%20', URLEncode($file_name)));
 		header('Cache-Control: max-age=0');
 
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');

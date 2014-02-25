@@ -19,9 +19,8 @@ class FlowModel extends CommonModel {
 
 	function _before_insert(&$data, $options) {
 		$type = $data["type"];
-		$dept_id = $_SESSION['dept_id'];
-		$data['dept_id'] = $dept_id;
-		$data['emp_no'] = $_SESSION['emp_no'];
+		$data['dept_id'] = get_dept_id();
+		$data['emp_no'] = get_emp_no();
 
 		$doc_no_format = M("FlowType") -> where("id=$type") -> getField("doc_no_format");
 		$short_dept = M("Dept") -> where("id=$dept_id") -> getField('short');

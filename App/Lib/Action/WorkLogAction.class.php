@@ -27,14 +27,14 @@ class WorkLogAction extends CommonAction {
 		$this->assign('auth',$auth);		
 		if($auth['admin']){
 			$node = D("Dept");
-			$dept_id=$_SESSION['dept_id'];					
+			$dept_id=get_dept_id();				
 			$menu = array();
 			$menu = $node -> field('id,pid,name') ->where("is_del=0")-> order('sort asc') -> select();
 			$tree = list_to_tree($menu,$dept_id);
 			$count=count($tree);
 			if(empty($count)){
 				/*获取部门列表*/
-				$dept_name=$_SESSION['dept_name'];	
+				$dept_name=get_dept_name();
 				$html ='';
 				$html = $html . "<option value='{$dept_id}'>{$dept_name}</option>";
 				$this -> assign('dept_list',$html);

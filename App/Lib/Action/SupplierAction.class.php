@@ -13,7 +13,8 @@
 
 class SupplierAction extends CommonAction {
 	//过滤查询字段
-	protected $config = array('app_type' => 'common', 'action_auth' => array('set_tag' => 'admin'));
+	protected $config = array('app_type' => 'common', 'action_auth' => array('set_tag' => 'admin', 'tag_manage' => 'admin'));
+
 	function _search_filter(&$map) {
 		$map['name'] = array('like', "%" . $_POST['name'] . "%");
 		$map['letter'] = array('like', "%" . $_POST['letter'] . "%");
@@ -42,13 +43,13 @@ class SupplierAction extends CommonAction {
 
 	function export() {
 		$model = M("Supplier");
-		$where['user_id'] = array('eq', get_user_id());
+		$where['is_del']=0;
 		$list = $model -> where($where) -> select();
 
 		Vendor('Excel.PHPExcel');
 		//导入thinkphp第三方类库
 
-		$inputFileName = C("SAVE_PATH") . "templete/Supplier.xlsx";
+		$inputFileName =get_save_path() . "/templete/Supplier.xlsx";
 		$objPHPExcel = PHPExcel_IOFactory::load($inputFileName);
 
 		$objPHPExcel -> getProperties() -> setCreator("smeoa") -> setLastModifiedBy("smeoa") -> setTitle("Office 2007 XLSX Test Document") -> setSubject("Office 2007 XLSX Test Document") -> setDescription("Test document for Office 2007 XLSX, generated using PHP classes.") -> setKeywords("office 2007 openxml php") -> setCategory("Test result file");
@@ -64,10 +65,12 @@ class SupplierAction extends CommonAction {
 
 		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
 		$objPHPExcel -> setActiveSheetIndex(0);
-
+	
+		$file_name="customer.xlsx";
 		// Redirect output to a client’s web browser (Excel2007)
+		header("Content-Type: application/force-download");
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-		header('Content-Disposition: attachment;filename="' . $file_name . '"');
+		header("Content-Disposition:attachment;filename =" . str_ireplace('+', '%20', URLEncode($file_name)));
 		header('Cache-Control: max-age=0');
 
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
@@ -166,6 +169,10 @@ class SupplierAction extends CommonAction {
 		$vo = $model -> getById($id);
 		$this -> assign('vo', $vo);
 		$this -> display();
+	}
+
+	function tag_manage() {
+		$this -> _tag_manage("分组管理");
 	}
 
 	function set_tag() {

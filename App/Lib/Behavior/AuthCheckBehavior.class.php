@@ -17,7 +17,6 @@ class AuthCheckBehavior extends Behavior {
 		//个人数据
 		$this -> config = &$params;
 		$app_type = $params['app_type'];
-
 		switch($app_type) {
 			case 'public' :
 				$auth = array('admin' => false, 'write' => false, 'read' => true);
@@ -76,7 +75,7 @@ class AuthCheckBehavior extends Behavior {
 					//dump($auth);
 					break;				
 				}
-				if (isset($_REQUEST['id'])) {					
+				if (isset($_REQUEST['id'])){					
 					$id = $_REQUEST['id'];
 					if (is_array($id)){
 						$where["id"] = array("in", array_filter($id));
@@ -87,7 +86,7 @@ class AuthCheckBehavior extends Behavior {
 					$folder_id = $model -> where($where) -> getField('folder');	
 					$auth = D("SystemFolder") -> get_folder_auth($folder_id);
 					break;
-				}							
+				}
 				$auth = $this -> get_auth();
 				break;
 			default :
@@ -139,6 +138,5 @@ class AuthCheckBehavior extends Behavior {
 		}
 		return $auth;
 	}
-
 }
 ?>
