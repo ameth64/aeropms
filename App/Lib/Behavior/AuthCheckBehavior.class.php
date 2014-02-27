@@ -17,6 +17,7 @@ class AuthCheckBehavior extends Behavior {
 		//个人数据
 		$this -> config = &$params;
 		$app_type = $params['app_type'];
+
 		switch($app_type) {
 			case 'public' :
 				$auth = array('admin' => false, 'write' => false, 'read' => true);
@@ -68,7 +69,7 @@ class AuthCheckBehavior extends Behavior {
 				if (!empty($params['action_auth'])) {
 					$action_auth = array_merge(C('AUTH'), $params['action_auth']);
 				}
-								
+
 				if (isset($_REQUEST['fid'])){
 					$folder_id = $_REQUEST['fid'];
 					$auth = D("SystemFolder") -> get_folder_auth($folder_id);
