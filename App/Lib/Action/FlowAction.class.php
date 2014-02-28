@@ -49,7 +49,7 @@ class FlowAction extends CommonAction {
 
 		$folder = $_REQUEST['fid'];
 		$this -> assign("folder", $folder);
-		$emp_no = get_emp_no;
+		$emp_no = get_emp_no();
 		$user_id = get_user_id();
 
 		$map = $this -> _search();
