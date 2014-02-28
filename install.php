@@ -2,6 +2,12 @@
 	$files = "App/Conf/db.php";
 	
 if (isset($_POST["install"])){
+	$db_host = $_POST["db_host"];
+	$db_user = $_POST["db_user"];
+	$db_pass = $_POST["db_pass"];
+	$db_dbname=$_POST["db_dbname"];
+	$db_tag = $_POST["db_tag"];
+
 	$config_str = "<?php\n";
 	$config_str .= "return array(\n";
 	if($_POST['mod_rewrite']){
@@ -10,56 +16,66 @@ if (isset($_POST["install"])){
 		$config_str .= "        'URL_MODEL'=>0, // 如果你的环境不支持PATHINFO 请设置为3";
 	}
 	$config_str .= "        'DB_TYPE'=>'mysql',\n";
-	$config_str .= "        'DB_HOST'=>'" . $_POST["db_host"] . "',\n";
-	$config_str .= "        'DB_NAME'=>'" . $_POST["db_dbname"] . "',\n";
-	$config_str .= "        'DB_USER'=>'" . $_POST["db_user"] . "',\n";
-	$config_str .= "        'DB_PWD'=>'" . $_POST["db_pass"] . "',\n";
+	$config_str .= "        'DB_HOST'=>'" . $db_host . "',\n";
+	$config_str .= "        'DB_NAME'=>'" . $db_dbname . "',\n";
+	$config_str .= "        'DB_USER'=>'" . $db_user . "',\n";
+	$config_str .= "        'DB_PWD'=>'" . $db_pass . "',\n";
 	$config_str .= "        'DB_PORT'=>'3306',\n";
-	$config_str .= "        'DB_PREFIX'=>'" . $_POST["db_tag"] . "',\n";
+	$config_str .= "        'DB_PREFIX'=>'" . $db_tag . "',\n";
 	$config_str .= "    );\n";
 
 	$ff = fopen($files, "w ");
 	fwrite($ff, $config_str);
-
-	$mysql_host = $_POST["db_host"];
-	$mysql_user = $_POST["db_user"];
-	$mysql_pass = $_POST["db_pass"];
-	$mysql_dbname = strtolower($_POST["db_dbname"]);
-	$mysql_tag = $_POST["db_tag"];
-
-	if (!@$link = mysql_connect($mysql_host, $mysql_user, $mysql_pass)) {//检查数据库连接情况
-		echo "数据库连接失败! 请返回上一页检查连接参数 <a href=install.php>返回修改</a>";
-	} else {
-		mysql_query("CREATE DATABASE `$mysql_dbname` DEFAULT CHARACTER SET utf8 ");
-		mysql_select_db($mysql_dbname);
-		mysql_query("set names 'utf8'");
-		$lines = file("Sql/demo.sql");
-
-		$sqlstr = "";
-		foreach ($lines as $line) {
-			$line = trim($line);
-			if ($line != "") {
-				if (!($line{0} == "#" || $line{0} . $line{1} == "--")) {
-					$sqlstr .= $line;
-				}
-			}
-		}
-		$sqlstr = rtrim($sqlstr, ";");
-		$sqls = explode(";", $sqlstr);
-		foreach ($sqls as $val) {
-			$val = str_replace("`think_", "`" . $mysql_tag, $val);
-			mysql_query($val);
-		}
-
-		rename("install.php", "install.lock");
+	
+	if (!@$link = mysql_connect($db_host, $db_user, $db_pass)) {//检查数据库连接情况
 		echo "<meta charset='utf-8' />";
 		echo "<script>\n
 					window.onload=function(){
-					alert('安装成功');
-					location.href='index.php';
+					alert('数据库连接失败! 请返回上一页检查连接参数');
+					location.href='install.php';
 				}
 				</script>";
 		die;
+	} else {
+		if(!mysql_query("CREATE DATABASE `$db_dbname` DEFAULT CHARACTER SET utf8 ")){
+			echo "<meta charset='utf-8' />";
+			echo "<script>\n
+						window.onload=function(){
+						alert('数据库创建失败! 请返回上一页检查连接参数');
+						location.href='install.php';
+					}
+					</script>";
+			die;
+		}else{
+			mysql_select_db($db_dbname);
+			mysql_query("set names 'utf8'");
+			$lines = file("Data/Sql/demo.sql");
+			$sqlstr = "";
+			foreach ($lines as $line) {
+				$line = trim($line);
+				if ($line != "") {
+					if (!($line{0} == "#" || $line{0} . $line{1} == "--")) {
+						$sqlstr .= $line;
+					}
+				}
+			}
+			$sqlstr = rtrim($sqlstr, ";");
+			$sqls = explode(";", $sqlstr);
+			foreach ($sqls as $val) {
+				$val = str_replace("`think_", "`" . $db_tag, $val);
+				mysql_query($val);
+			}
+
+			rename("install.php", "install.lock");
+			echo "<meta charset='utf-8' />";
+			echo "<script>\n
+						window.onload=function(){
+						alert('安装成功');
+						location.href='index.php';
+					}
+					</script>";
+			die;
+		}
 	}
 }
 ?>
@@ -71,8 +87,8 @@ if (isset($_POST["install"])){
 		<meta content='' name='description' />
 		<meta content='' name='author' />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link href="Public/assets/css/bootstrap.min.css" rel="stylesheet" >
-		<link href="Public/assets/css/style.css" rel="stylesheet">
+		<link href="Public/css/bootstrap.min.css" rel="stylesheet" >
+		<link href="Public/css/style.css" rel="stylesheet">
 	</head>
 	<body>
 		<div class="container">
@@ -86,7 +102,7 @@ if (isset($_POST["install"])){
 							<label class="control-label col-md-4" for="name" >安装文件可写：</label>
 							<div class="col-md-8">
 								<?php								
-								if (!is_writable("install.php")) {
+								if (!is_writable("install.php")){
 									echo "<button type='button' class='btn btn-danger form-con'>Fail</button><p>请检查install.php是否有修改权限</p>";
 								} else {
 									echo "<button type='button' class='btn btn-success form-con'>OK</button>";
@@ -99,7 +115,7 @@ if (isset($_POST["install"])){
 							<div class="col-md-8">
 								<?php								
 								if (!is_writable($files)) {
-									echo "<button type='button' class='btn btn-danger form-con'>Fail</button><p>请检查Conf目录写入权限</p>";
+									echo "<button type='button' class='btn btn-danger form-con'>Fail</button><p>请检查App\Conf目录写入权限</p>";
 								} else {
 									echo "<button type='button' class='btn btn-success form-con'>OK</button>";
 								}
@@ -122,7 +138,7 @@ if (isset($_POST["install"])){
 							<label class="control-label col-md-4" for="name" >Mod_rewrite扩展：</label>
 							<input type="hidden" name="mod_rewrite" id="mod_rewrite">
 							<div class="col-md-8">
-								<script src="Public/assets/rewrite/checker"></script>
+								<script src="Public/rewrite/checker"></script>
 								<script>if(modRewriteChecker){
 									document.getElementById("mod_rewrite").value="true";
 									document.write("<button type='button' class='btn btn-success form-con'>OK</button>");
