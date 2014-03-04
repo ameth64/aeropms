@@ -714,7 +714,7 @@ class MailAction extends CommonAction {
 	//--------------------------------------------------------------------
 	//  显示自定义文件夹
 	//--------------------------------------------------------------------
-	protected function _assign_mail_folder_list() {
+	public function _assign_mail_folder_list() {
 		$model = D("UserFolder");
 		$user_folder = $model -> get_folder_list("MailFolder");
 		$system_folder = array( array("id" => 1, "name" => "收件箱"), array("id" => 2, "name" => "已发送"));

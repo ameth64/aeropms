@@ -16,37 +16,43 @@ class WorkLogAction extends CommonAction {
 	//过滤查询字段
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
+		if(!empty($_POST['content'])){
+			$where['content']=array('like','%'.$_POST['content'].'%');
+			$where['plan']=array('like','%'.$_POST['content'].'%');
+			$where['_logic']='or';
+			$map['_complex'] = $where;
+		}
 	}
 
 	public function index(){
 		$widget['date-range'] = true;		
-		$this -> assign("widget", $widget);
+		$this ->assign("widget", $widget);
 		$this->assign('user_id',get_user_id());				
 		$this->assign("title",'日志查询');		
+
 		$auth=$this->config['auth'];
 		$this->assign('auth',$auth);		
 		if($auth['admin']){
 			$node = D("Dept");
-			$dept_id=get_dept_id();				
+			$dept_id=get_dept_id();	
+			$dept_name=get_dept_name();
 			$menu = array();
-			$menu = $node -> field('id,pid,name') ->where("is_del=0")-> order('sort asc') -> select();
-			$tree = list_to_tree($menu,$dept_id);
-			$count=count($tree);
+			$dept_menu = $node -> field('id,pid,name') ->where("is_del=0")-> order('sort asc') -> select();
+			$dept_tree = list_to_tree($dept_menu,$dept_id);			
+			$count=count($dept_tree);
 			if(empty($count)){
-				/*获取部门列表*/
-				$dept_name=get_dept_name();
+				/*获取部门列表*/				
 				$html ='';
 				$html = $html . "<option value='{$dept_id}'>{$dept_name}</option>";
-				$this -> assign('dept_list',$html);
-			
+				$this -> assign('dept_list',$html);			
 				/*获取人员列表*/
 				$where['dept_id']=array('eq',$dept_id);
 				$emp_list=D("User")->where($where)->getField('id,emp_name');
-				$this->assign('emp_list',$emp_list);					
+				$this->assign('emp_list',$emp_list);			
 			}else{
 				/*获取部门列表*/								
-				$this -> assign('dept_list', select_tree_menu($tree));
-				$dept_list=tree_to_list($tree);
+				$this -> assign('dept_list', select_tree_menu($dept_tree));
+				$dept_list=tree_to_list($dept_tree);
 				$dept_list=rotate($dept_list);
 				$dept_list=$dept_list['id'];
 				
@@ -57,19 +63,24 @@ class WorkLogAction extends CommonAction {
 			}
 		}
 				
-				
 		$map = $this -> _search();
-			
 		if($auth['admin']){
-			$map['dept_id']=$where['dept_id'];
+			if(empty($map['dept_id'])){
+				if(!empty($dept_list)){
+					$map['dept_id']=array('in',array_merge($dept_list,array($dept_id)));
+				}else{
+					$map['dept_id']=array('eq',$dept_id);
+				}				
+			}
 		}else{
 			$map['user_id']=get_user_id();
 		}
+
 		if (method_exists($this, '_search_filter')) {
 			$this -> _search_filter($map);
 		}
-			
-		$model = D("WorkLogView");				
+		
+		$model = D("WorkLog");				
 		if (!empty($model)) {
 			$this -> _list($model,$map);
 		}
@@ -96,5 +107,36 @@ class WorkLogAction extends CommonAction {
 
 	function down() {
 		$this -> _down();
+	}
+
+	/** 插入新新数据  **/
+	protected function _insert() {
+		$name = $this -> getActionName();
+		$model = D($name);
+		if (false === $model -> create()) {
+			$this -> error($model -> getError());
+		}
+		if (in_array('user_id', $model -> getDbFields())) {
+			$model -> user_id = get_user_id();
+		};
+		if (in_array('user_name', $model -> getDbFields())) {
+			$model -> user_name = get_user_name();
+		};
+		if (in_array('dept_id', $model -> getDbFields())) {
+			$model -> dept_id = get_dept_id();
+		};
+		if (in_array('dept_name', $model -> getDbFields())) {
+			$model -> dept_name = get_dept_name();
+		};
+		$model->create_time=time();
+		/*保存当前数据对象 */
+		$list = $model -> add();
+		if ($list !== false) {//保存成功
+			$this -> assign('jumpUrl', get_return_url());
+			$this -> success('新增成功!');
+		} else {
+			$this -> error('新增失败!');
+			//失败提示
+		}
 	}
 }

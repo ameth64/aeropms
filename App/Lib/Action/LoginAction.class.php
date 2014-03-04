@@ -18,6 +18,7 @@ class LoginAction extends Action {
 	public function index(){
 		//如果通过认证跳转到首页
 		$this->assign("js_file","js/index");
+		$this->assign("title",get_system_config("SYSTEM_NAME"));
 		$auth_id = session(C('USER_AUTH_KEY'));
 		if (!isset($auth_id)) {
 			$this -> display();

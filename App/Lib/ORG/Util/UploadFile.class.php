@@ -145,7 +145,7 @@ class UploadFile extends Think
             $this->error = '非法图像文件';
             return false;
         }
-        if(!move_uploaded_file($file['tmp_name'],$_SERVER['DOCUMENT_ROOT']."/".auto_charset($filename,'utf-8','gbk'))) {			 
+        if(!move_uploaded_file($file['tmp_name'],auto_charset($filename,'utf-8','gbk'))) {			 
             $this->error = '文件上传保存错误！';
             return false;
         }

@@ -315,7 +315,7 @@ class ThinkWechat {
 	private function getToken() {
 		$stoken = array ();
 		$stoken = S ( 'S_TOKEN'); // 从缓存获取ACCESS_TOKEN
-		if (is_array ( $stoken )&&!empty($stoken['toke'])) {
+		if (is_array ( $stoken )&&!empty($stoken['token'])) {
 			$nowtime = time ();
 			$difftime = $nowtime - $stoken ['tokentime']; // 判断缓存里面的TOKEN保存了多久；
 			if ($difftime > 7000) { // TOKEN有效时间7200 判断超过7000就重新获取;

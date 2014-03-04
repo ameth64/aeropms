@@ -11,9 +11,9 @@ if (isset($_POST["install"])){
 	$config_str = "<?php\n";
 	$config_str .= "return array(\n";
 	if($_POST['mod_rewrite']){
-		$config_str .= "        'URL_MODEL'=>2, // 如果你的环境不支持PATHINFO 请设置为3";
+		$config_str .= "        'URL_MODEL'=>2, // 如果你的环境不支持PATHINFO 请设置为3,\n";
 	}else{
-		$config_str .= "        'URL_MODEL'=>0, // 如果你的环境不支持PATHINFO 请设置为3";
+		$config_str .= "        'URL_MODEL'=>0, // 如果你的环境不支持PATHINFO 请设置为3,\n";
 	}
 	$config_str .= "        'DB_TYPE'=>'mysql',\n";
 	$config_str .= "        'DB_HOST'=>'" . $db_host . "',\n";
@@ -37,11 +37,11 @@ if (isset($_POST["install"])){
 				</script>";
 		die;
 	} else {
-		if(!mysql_query("CREATE DATABASE `$db_dbname` DEFAULT CHARACTER SET utf8 ")){
+		if(!mysql_select_db($db_dbname)){
 			echo "<meta charset='utf-8' />";
 			echo "<script>\n
 						window.onload=function(){
-						alert('数据库创建失败! 请返回上一页检查连接参数');
+						alert('请确认数据库是否存在? 请返回上一页检查连接参数');
 						location.href='install.php';
 					}
 					</script>";
@@ -177,13 +177,17 @@ if (isset($_POST["install"])){
 								<input type="text" name="db_tag" value="smeoa_" class="form-control"/>
 							</div>
 						</div>
+						<div>
+							<p><h4 class="text-danger">* 执行安装程序之前请手动创建数据库<h4></p>
+						
 							<?php								
-							if (is_writable($files)) {
+							if (is_writable($files)&&(is_writable("install.php"))) {
 								echo "<button type=\"submit\" name=\"install\" class=\"btn btn-default\">下一步</button>";
 							} else {
-								
+									
 							}
 							?>
+							</div>
 					</form>
 				</div>
 			</div>

@@ -11,6 +11,63 @@
  Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
 
+	function get_new_count(){
+		//获取未读邮件
+		$data=array();
+		$user_id = get_user_id();
+		$where['user_id'] = $user_id;
+		$where['is_del'] = array('eq', '0');
+		$where['folder'] = array( array('eq', 1), array('gt', 6), 'or');
+		$where['read'] = array('eq', '0');
+		$model = M("Mail");
+		$new_mail_count = $model -> where($where) -> count();
+		$data['new_mail_count']=$new_mail_count;
+
+		//获取待裁决
+		$where = array();
+		$FlowLog = M("FlowLog");
+		$emp_no = get_emp_no();
+		$where['emp_no'] = $emp_no;
+		$where['_string'] = "result is null";
+		$log_list = $FlowLog -> where($where) -> field('flow_id') -> select();
+		$log_list = rotate($log_list);
+		if (!empty($log_list)) {
+			$map['id'] = array('in', $log_list['flow_id']);
+			$todo_flow_count = $model -> where($map) -> count();
+			$data['todo_flow_count']=$todo_flow_count;
+		}
+
+		//获取最新通知
+		$model = D('Notice');
+		$where = array();
+		$where['is_del'] = array('eq', '0');
+		$folder_list = D("SystemFolder") -> get_authed_folder(get_user_id(), "NoticeFolder");
+		$new_notice_count = 0;
+		if ($folder_list) {
+			$where['folder'] = array("in", $folder_list);
+			$where['create_time'] = array('egt', time() - 3600 * 24 * 30);
+			$new_notice_list = $model -> where($where) -> getField('id,create_time');
+			$readed = get_user_config("readed_notice");
+			if ($new_notice_list) {
+				foreach ($new_notice_list as $key => $val) {
+					if (strpos($readed, $key . "|") === false) {
+						$new_notice_count++;
+					}
+				}
+			}
+		}
+		$data['new_notice_count']=$new_notice_count;
+
+		//获取待办事项
+		$model = M("Todo");
+		$where = array();
+		$where['user_id'] = $user_id;
+		$where['status'] = array("in", "1,2");
+		$new_todo_count = M("Todo") -> where($where) -> count();
+		$data['new_todo_count']=$new_todo_count;
+		return $data;
+	}
+
  function is_mobile($mobile) {
 	return preg_match("/^(?:13\d|14\d|15\d|18[0123456789])-?\d{5}(\d{3}|\*{3})$/", $mobile);
 }
@@ -236,7 +293,8 @@ function get_save_path(){
 	$save_path=C('SAVE_PATH');
 	$app_path=str_replace("/index.php?s=","",$app_path);
 	$app_path=str_replace("/index.php","",$app_path);
-	return substr($app_path."/".$save_path,1);
+	//return substr($app_path."/".$save_path,1);
+	return C('SAVE_PATH');
 }
 
 function get_save_url(){

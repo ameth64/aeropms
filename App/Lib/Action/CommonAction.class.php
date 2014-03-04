@@ -12,6 +12,7 @@
  -------------------------------------------------------------------------*/
 
 class CommonAction extends Action {
+
 	function _initialize() {
 		$auth_id = session(C('USER_AUTH_KEY'));
 		if (!isset($auth_id)) {
@@ -20,7 +21,7 @@ class CommonAction extends Action {
 		}
 		$this -> assign('js_file', 'js/' . ACTION_NAME);
 		$this -> _assign_menu();
-		$this -> _get_new();
+		$this->_assign_new_count();
 	}
 
 	/**列表页面 **/
@@ -427,7 +428,7 @@ class CommonAction extends Action {
 					$map[substr($val, 3)] = array( array('egt', date_to_int($array_date[0]), array('elt', date_to_int($array_date[0]))));
 				}
 				if (strpos($val, "date")) {
-					$map[substr($val, 3)] = array( array('egt', $array_date[0], array('elt', $array_date[0])));
+					$map[substr($val, 3)] = array( array('egt', $array_date[0], array('elt', $array_date[1])));
 				}
 			}
 
@@ -556,6 +557,30 @@ class CommonAction extends Action {
 		$this -> assign('file_list', $list);
 	}
 
+	protected function _assign_new_count() {
+		$new_count_data = array ();
+		$new_count_data = S ( 'S_GET_NEW_COUNT'); // 从缓存获取上次获取数据的时间
+ 
+		if (is_array( $new_count_data )) {
+			$nowtime = time ();
+			$difftime = $nowtime - $new_count_data ['expire_time']; // 判断缓存里面的数据保存了多久；
+			if ($difftime > 300) { // 缓存有效时间时间300 判断超过300就重新获取;
+				$new_count_data ['expire_time'] = time ();
+				$new_count_data ['data'] = get_new_count(); // 获取最新数据
+				S( 'S_GET_NEW_COUNT', $new_count_data,300); // 放进缓存
+			} else {
+				$data = $new_count_data ['data'] ;
+			}
+		} else {
+			$new_count_data ['expire_time'] = time ();
+			$new_count_data ['data'] =  get_new_count(); // 获取最新数据
+			S('S_GET_NEW_COUNT', $new_count_data); // 放进缓存
+		}
+		$this->assign('new_mail_count',$data['new_mail_count']);
+		$this->assign('new_notice_count',$data['new_notice_count']);
+		$this->assign('new_todo_count',$data['new_todo_count']);
+	}
+
 	protected function _set_field($id, $field, $val, $name = '') {
 		if (empty($name)) {
 			$name = $this -> getActionName();
@@ -594,61 +619,6 @@ class CommonAction extends Action {
 			R('SystemTag/index');
 			$this -> assign('js_file', "SystemTag:js/index");
 		}
-	}
-
-	protected function _get_new() {
-		//获取未读邮件
-		$user_id = get_user_id();
-		$where['user_id'] = $user_id;
-		$where['is_del'] = array('eq', '0');
-		$where['folder'] = array( array('eq', 1), array('gt', 6), 'or');
-		$where['read'] = array('eq', '0');
-		$model = M("Mail");
-		$new_mail = $model -> where($where) -> count();
-		$this -> assign("new_mail", $new_mail);
-
-		//获取待裁决
-		$where = array();
-		$FlowLog = M("FlowLog");
-		$emp_no = get_emp_no();
-		$where['emp_no'] = $emp_no;
-		$where['_string'] = "result is null";
-		$log_list = $FlowLog -> where($where) -> field('flow_id') -> select();
-		$log_list = rotate($log_list);
-		if (!empty($log_list)) {
-			$map['id'] = array('in', $log_list['flow_id']);
-			$todo_flow_list = $model -> where($map) -> count();
-			$this -> assign("new_flow_todo", $todo_flow_list);
-		}
-
-		//获取最新通知
-		$model = D('Notice');
-		$where = array();
-		$where['is_del'] = array('eq', '0');
-		$folder_list = D("SystemFolder") -> get_authed_folder(get_user_id(), "NoticeFolder");
-		$new_notice = 0;
-		if ($folder_list) {
-			$where['folder'] = array("in", $folder_list);
-			$where['create_time'] = array('egt', time() - 3600 * 24 * 30);
-			$new_notice_list = $model -> where($where) -> getField('id,create_time');
-			$readed = get_user_config("readed_notice");
-			if ($new_notice_list) {
-				foreach ($new_notice_list as $key => $val) {
-					if (strpos($readed, $key . "|") === false) {
-						$new_notice++;
-					}
-				}
-			}
-		}
-		$this -> assign("new_notice", $new_notice);
-
-		//获取待办事项
-		$model = M("Todo");
-		$where = array();
-		$where['user_id'] = $user_id;
-		$where['status'] = array("in", "1,2");
-		$new_todo = M("Todo") -> where($where) -> count();
-		$this -> assign("new_todo", $new_todo);
 	}
 
 	protected function _pushReturn($data, $info, $status, $time = null) {

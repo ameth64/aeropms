@@ -11,7 +11,6 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 class WorkLogViewModel extends ViewModel {
 	public $viewFields=array(
 		'WorkLog'=>array('*'),
