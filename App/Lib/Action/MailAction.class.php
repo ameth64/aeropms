@@ -215,7 +215,7 @@ class MailAction extends CommonAction {
 		$add_file = $_REQUEST['add_file'];
 
 		$to = $_REQUEST['to'];
-		$cc = $_REQUEST['cc '];
+		$cc = $_REQUEST['cc'];
 		$bcc = $_REQUEST['bcc '];
 		$this -> _set_recent($to . $cc . $bcc);
 
@@ -251,8 +251,8 @@ class MailAction extends CommonAction {
 			$mail -> AddReplyTo($this -> _account['email'], $this -> _account['mail_name']);
 			//回复到这个邮箱
 
-			$arrtmp = explode(';', $to);
-			foreach ($arrtmp as $item) {
+			$arr_to = array_filter(explode(';', $to));
+			foreach ($arr_to as $item) {
 				if (strlen($item) > 6) {
 					if (strpos($item, "dept@group")) {
 						$dept_name = explode('|', $item);
@@ -271,9 +271,9 @@ class MailAction extends CommonAction {
 				}
 			}
 
-			$arrtmp = explode(';', $cc);
-			if (strlen($item) > 6) {
-				foreach ($arrtmp as $item) {
+			$arr_cc = array_filter(explode(';', $cc));
+			foreach ($arr_cc as $item) {
+				if (strlen($item) > 6) {
 					if (strpos($v, "dept@group")) {
 						$dept_name = explode('|', $item);
 						$mail_list = $this -> _get_dept_address_list($dept_name);
@@ -288,8 +288,9 @@ class MailAction extends CommonAction {
 					}
 				}
 			}
-
-			foreach ($arrtmp as $item) {
+			
+			$arr_bcc = array_filter(explode(';', $bcc));
+			foreach ($arr_bcc as $item) {
 				if (strlen($item) > 6) {
 					if (strpos($v, "dept@group")) {
 						$dept_name = explode('|', $item);
