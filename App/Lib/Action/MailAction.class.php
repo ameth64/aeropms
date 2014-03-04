@@ -308,7 +308,7 @@ class MailAction extends CommonAction {
 
 			$mail -> Subject = "=?UTF-8?B?" . base64_encode($title) . "?=";
 			//嵌入式图片处理
-			if (preg_match('/\/data\/files\/\d{6}\/.{14}(jpg|gif|png)/', $body, $images)) {
+			if (preg_match('/\/Data\/files\/\d{6}\/.{14}(jpg|gif|png)/', $body, $images)) {
 				$i = 1;
 				foreach ($images as $image) {
 					if (strlen($image) > 20) {
@@ -612,20 +612,11 @@ class MailAction extends CommonAction {
 	//   下载邮件附件，返回文件ID
 	//--------------------------------------------------------------------
 	private function _real_file($str) {
-		//$str = "47;49;50;";
-		$files = explode(';', $str);
-		if (count($files) > 1) {
-			foreach ($files as $file) {
-				if (strlen($file) > 2) {
-					$fileId = $fileId . ($file) . ",";
-				}
-			}
-			$fileId = substr($fileId, 0, strlen($fileId) - 1);
-			$model = M("File");
-			$File = $model -> field("name,savename") -> select($fileId);
-			return $File;
-		}
-		return array();
+		$files = array_filter(explode(';', $str));
+		$where['sid']=array('in',$files);
+		$model = M("File");
+		$File = $model ->where($where)->field("name,savename") -> select();
+		return $File;
 	}
 
 	//--------------------------------------------------------------------
