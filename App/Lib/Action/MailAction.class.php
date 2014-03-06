@@ -448,10 +448,10 @@ class MailAction extends CommonAction {
 	//--------------------------------------------------------------------
 	//   接收邮件
 	//--------------------------------------------------------------------
-	public function receve() {
-		$new = 0;
+	public function receve() {		
 		$this -> _get_mail_account();
 		$user_id = get_user_id();
+		$new = 0;
 		session_write_close();
 		import("@.ORG.Util.receve");
 		$mail_list = array();
@@ -498,9 +498,8 @@ class MailAction extends CommonAction {
 				}
 			}
 		}
-		$this -> _pushReturn($new, "收到" . $new . "封邮件", 1);
 		$mail -> close_mail();
-		//$this -> ajaxReturn($new, "收到" . $new . "封邮件", 1);
+		$this -> _pushReturn($new, "收到" . $new . "封邮件", 1);	
 	}
 
 	//--------------------------------------------------------------------
@@ -720,6 +719,5 @@ class MailAction extends CommonAction {
 		$temp = tree_to_list($tree);
 		return $temp;
 	}
-
 }
 ?>

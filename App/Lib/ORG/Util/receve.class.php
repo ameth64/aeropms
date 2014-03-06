@@ -137,34 +137,44 @@
       * @param string $msg_count
       * @return array
       */
+
      public function mail_header($msg_count) {
          $mail_header = array();
-         $header=imap_header($this->_connect,$msg_count);
-         if(strtolower($sender->mailbox)!='mailer-daemon' && strtolower($sender->mailbox)!='postmaster') {
-			$mail_header['name']=$this->mail_decode($header -> subject);
-			$mail_header['to']=$this->contact_conv($header -> to);
-			$mail_header['from']=$this->contact_conv($header -> from);
-			$mail_header['cc']=$this->contact_conv($header -> cc);
-			$mail_header['reply_to']=$this->contact_conv($header -> reply_to);
-			$create_time=explode(",",$header -> date);
-			if (strlen($create_time[0])>6){
-				$create_time=$create_time[0];	
-			}else{
-				$create_time=$create_time[1];	
+		 $filter=array("To","From","Cc","Subject","Date","Reply-to","Message-ID");
+         $arr_header=explode("\n",imap_fetchheader($this->_connect,$msg_count));
+		 foreach($arr_header as $val){
+			 $tmp=array_shift(explode(":",$val));
+			if(in_array($tmp,$filter)){
+				if($tmp=="Subject"){
+					$val=substr($val,strlen($tmp)+1);
+					$mail_header['name']=$this->mail_decode($val);
+				}
+				if($tmp=="From"){
+					$val=substr($val,strlen($tmp)+1);
+					$mail_header['from']=$this->contact_conv($val);
+				}
+				if($tmp=="To"){
+					$val=substr($val,strlen($tmp)+1);
+					$mail_header['to']=$this->contact_conv($val);
+				}
+				if($tmp=="Cc"){
+					$val=substr($val,strlen($tmp)+1);
+					$mail_header['cc']=$this->contact_conv($val);
+				}
+				if($tmp=="Date"){
+					$val=substr($val,strlen($tmp)+1);
+					$mail_header['create_time']=strtotime($val);
+				}
+				if($tmp=="Message-ID"){
+					$val=substr($val,strlen($tmp)+1);
+					$mail_header['mid']=trim($val);
+				}
 			}
-			$mail_header['create_time']=strtotime($create_time); 
-			if(empty($header -> message_id)){
-				$mail_header['mid']=$this->contact_conv($header -> from).strtotime($create_time); 
-			}else{
-				$mail_header['mid']=$header -> message_id;
+		 }
+			if(empty($mail_header['mid'])) {
+				$mail_header['mid']=$mail_header['from'].$mail_header['create_time'];
 			}
-
-			$subject = $header -> subject;
-			$charset = substr($subject, stripos($subject, "=?") + 2, stripos($subject, "?", 3)-2); 
-			$content=$this->get_body($msg_count);
-			//$mail_header['content']=$this->auto_charset($content, $charset, 'utf-8'); 
-			$mail_header['content']=$content;
-         }
+			$mail_header['content']=$this->get_body($msg_count);
          return $mail_header;
      }
      
@@ -521,15 +531,15 @@ function auto_charset($fContents,$from,$to){
      }
 
 	 function contact_conv($contact){
-		foreach($contact as $vo) {
-			if (isset($vo -> personal)) {
-				$tmp = $tmp.$this->mail_decode($vo -> personal)."|".$vo -> mailbox . '@' . $vo -> host.';';
-			} else {
-				$tmp = $tmp.$this->mail_decode($vo -> mailbox)."|".$vo -> mailbox . '@' . $vo -> host.';';
-			} 
-			return $tmp;
+		$arr_tmp=explode(",",$contact);
+		$new='';
+		foreach($arr_tmp as $vo) {			
+			$tmp=array_filter(explode(" ",$vo));
+			$filter=array("<",">");
+			$new.=$this->mail_decode($tmp[1])."|".str_replace($filter,'',$tmp[2]).";";	
 		}
-	}     
+		return $new;
+	}
 }
  
 ?>

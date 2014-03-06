@@ -12,6 +12,7 @@
  -------------------------------------------------------------------------*/
 
 	function get_new_count(){
+
 		//获取未读邮件
 		$data=array();
 		$user_id = get_user_id();
@@ -33,15 +34,15 @@
 		$log_list = rotate($log_list);
 		if (!empty($log_list)) {
 			$map['id'] = array('in', $log_list['flow_id']);
-			$todo_flow_count = $model -> where($map) -> count();
-			$data['todo_flow_count']=$todo_flow_count;
+			$new_confirm_count = $model -> where($map) -> count();
+			$data['new_confirm_count']=$new_confirm_count;
 		}
 
 		//获取最新通知
 		$model = D('Notice');
 		$where = array();
 		$where['is_del'] = array('eq', '0');
-		$folder_list = D("SystemFolder") -> get_authed_folder(get_user_id(), "NoticeFolder");
+		$folder_list = D("SystemFolder") -> get_authed_folder(get_user_id(),"NoticeFolder");
 		$new_notice_count = 0;
 		if ($folder_list) {
 			$where['folder'] = array("in", $folder_list);
@@ -156,7 +157,8 @@ function data2file($filename, $arr=''){
  * @return string
  * @author winky
  */
-function encrypt($data, $key = '', $expire = 0) {
+
+function encrypt($data,$key = '', $expire = 0) {
     $key  = md5(empty($key) ? C('DATA_AUTH_KEY') : $key);
     $data = base64_encode($data);
     $x    = 0;
@@ -204,7 +206,7 @@ function decrypt($data, $key = ''){
     $l      = strlen($key);
     $char   = $str = '';
 
-    for ($i = 0; $i < $len; $i++) {
+    for ($i = 0; $i < $len; $i++){
         if ($x == $l) $x = 0;
         $char .= substr($key, $x, 1);
         $x++;
@@ -873,21 +875,20 @@ function u_str_pad($cnt, $str) {
 	return $tmp;
 }
 
-function show_contact($str, $mode = "show") {
+function show_contact($str, $mode = "show"){
 	$tmp = '';
-	if (!empty($str)) {
-		$contacts = explode(';', $str);
-		if (count($contacts) > 2) {
+	
+	if (!empty($str)){
+		$contacts = array_filter(explode(';', $str));
+		if (count($contacts) > 1) {
 			foreach ($contacts as $contact) {
-				if (strlen($contact) > 6) {
-					$arr = explode('|', $contact);
-					$name = htmlspecialchars(rtrim($arr[0]));
-					$email = htmlspecialchars(rtrim($arr[1]));
-					if ($mode == "edit") {
-						$tmp = $tmp . "<span data=\"$email\"><nobr><b  title=\"$email\">$name</b><a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";
-					} else {
-						$tmp = $tmp . "<a email=\"$email\" title=\"$email\" >$name;</a>";
-					}
+				$arr = explode('|', $contact);
+				$name = htmlspecialchars(rtrim($arr[0]));
+				$email = htmlspecialchars(rtrim($arr[1]));
+				if ($mode == "edit") {
+					$tmp = $tmp . "<span data=\"$email\"><nobr><b  title=\"$email\">$name</b><a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";
+				} else {
+					$tmp = $tmp . "<a email=\"$email\" title=\"$email\" >$name;</a>&nbsp;";
 				}
 			}
 		} else {

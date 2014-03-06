@@ -98,7 +98,7 @@
 	
 		$("#bcc").val("");
 		$("#blind_carbon_copy .address_list span").each(function() {
-			$("#cc").val($("#cc").val() + $(this).find("b").text() + '|' + $(this).attr("data") + ";")
+			$("#bcc").val($("#bcc").val() + $(this).find("b").text() + '|' + $(this).attr("data") + ";")
 		})
 
 		if ($("#to").val().indexOf("@") < 1) {

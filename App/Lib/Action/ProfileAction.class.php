@@ -11,7 +11,6 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 class ProfileAction extends CommonAction {
 	protected $config=array('app_type'=>'personal');
 	
@@ -52,6 +51,7 @@ class ProfileAction extends CommonAction {
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
 		}
+		session('user_pic', $model->pic);
 		// 更新数据
 		$list = $model -> save();
 		if (false !== $list) {

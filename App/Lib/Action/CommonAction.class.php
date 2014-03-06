@@ -557,17 +557,17 @@ class CommonAction extends Action {
 		$this -> assign('file_list', $list);
 	}
 
-	protected function _assign_new_count() {
+	protected function _assign_new_count($refresh=false) {
 		$new_count_data = array ();
-		$new_count_data = S ( 'S_GET_NEW_COUNT'); // 从缓存获取上次获取数据的时间
+		$new_count_data = S('S_GET_NEW_COUNT'); // 从缓存获取数据
  
-		if (is_array( $new_count_data )) {
+		if (is_array($new_count_data)&&!$refresh){
 			$nowtime = time ();
 			$difftime = $nowtime - $new_count_data ['expire_time']; // 判断缓存里面的数据保存了多久；
 			if ($difftime > 300) { // 缓存有效时间时间300 判断超过300就重新获取;
 				$new_count_data ['expire_time'] = time ();
 				$new_count_data ['data'] = get_new_count(); // 获取最新数据
-				S( 'S_GET_NEW_COUNT', $new_count_data,300); // 放进缓存
+				S( 'S_GET_NEW_COUNT', $new_count_data); // 放进缓存
 			} else {
 				$data = $new_count_data ['data'] ;
 			}
@@ -579,6 +579,7 @@ class CommonAction extends Action {
 		$this->assign('new_mail_count',$data['new_mail_count']);
 		$this->assign('new_notice_count',$data['new_notice_count']);
 		$this->assign('new_todo_count',$data['new_todo_count']);
+		$this->assign('new_confirm_count',$data['new_confirm_count']);
 	}
 
 	protected function _set_field($id, $field, $val, $name = '') {
