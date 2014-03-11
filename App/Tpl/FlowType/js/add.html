@@ -39,5 +39,10 @@
 		$(document).on("dblclick", ".inputbox .address_list b", function(){
 				$(this).parent().parent().remove();
 		});
+
+		$(document).on("click", ".inputbox .address_list a.del", function() {
+			$(this).parent().parent().remove();
+		});
+
 	})
 </script>

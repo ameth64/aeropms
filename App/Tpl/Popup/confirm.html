@@ -10,6 +10,7 @@
 			html_string = conv_inputbox_item(emp_no, name, name, emp_no);
 			$("#confirm_wrap", parent.document).append(html_string);
 		});
+
 		$("#cc select option").each(function() {
 			emp_no = $(this).val();
 			name = jQuery.trim($(this).text());
@@ -33,8 +34,12 @@
 
 		$("#consult_wrap span", parent.document).append("<b><i class=\"icon-arrow-right\"></i></b>");
 		$("#consult_wrap span b:last", parent.document).remove();
+		
+		$("#refer_wrap span a", parent.document).remove();
+		$("#refer_wrap span", parent.document).append("<b>;&nbsp;</b>");
 
 		$("#confirm_wrap,#consult_wrap,#refer_wrap", parent.document).show();
+
 		myclose();
 	}
 

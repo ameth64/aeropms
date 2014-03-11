@@ -11,65 +11,65 @@
  Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
 
-	function get_new_count(){
+function get_new_count(){
 
-		//获取未读邮件
-		$data=array();
-		$user_id = get_user_id();
-		$where['user_id'] = $user_id;
-		$where['is_del'] = array('eq', '0');
-		$where['folder'] = array( array('eq', 1), array('gt', 6), 'or');
-		$where['read'] = array('eq', '0');
-		$model = M("Mail");
-		$new_mail_count = $model -> where($where) -> count();
-		$data['new_mail_count']=$new_mail_count;
+	//获取未读邮件
+	$data=array();
+	$user_id = get_user_id();
+	$where['user_id'] = $user_id;
+	$where['is_del'] = array('eq', '0');
+	$where['folder'] = array( array('eq', 1), array('gt', 6), 'or');
+	$where['read'] = array('eq', '0');
+	$model = M("Mail");
+	$new_mail_count = $model -> where($where) -> count();
+	$data['new_mail_count']=$new_mail_count;
 
-		//获取待裁决
-		$where = array();
-		$FlowLog = M("FlowLog");
-		$emp_no = get_emp_no();
-		$where['emp_no'] = $emp_no;
-		$where['_string'] = "result is null";
-		$log_list = $FlowLog -> where($where) -> field('flow_id') -> select();
-		$log_list = rotate($log_list);
-		if (!empty($log_list)) {
-			$map['id'] = array('in', $log_list['flow_id']);
-			$new_confirm_count = $model -> where($map) -> count();
-			$data['new_confirm_count']=$new_confirm_count;
-		}
+	//获取待裁决
+	$where = array();
+	$FlowLog = M("FlowLog");
+	$emp_no = get_emp_no();
+	$where['emp_no'] = $emp_no;
+	$where['_string'] = "result is null";
+	$log_list = $FlowLog -> where($where) -> field('flow_id') -> select();
+	$log_list = rotate($log_list);
+	if (!empty($log_list)) {
+		$map['id'] = array('in', $log_list['flow_id']);
+		$new_confirm_count = $model -> where($map) -> count();
+		$data['new_confirm_count']=$new_confirm_count;
+	}
 
-		//获取最新通知
-		$model = D('Notice');
-		$where = array();
-		$where['is_del'] = array('eq', '0');
-		$folder_list = D("SystemFolder") -> get_authed_folder(get_user_id(),"NoticeFolder");
-		$new_notice_count = 0;
-		if ($folder_list) {
-			$where['folder'] = array("in", $folder_list);
-			$where['create_time'] = array('egt', time() - 3600 * 24 * 30);
-			$new_notice_list = $model -> where($where) -> getField('id,create_time');
-			$readed = get_user_config("readed_notice");
-			if ($new_notice_list) {
-				foreach ($new_notice_list as $key => $val) {
-					if (strpos($readed, $key . "|") === false) {
-						$new_notice_count++;
-					}
+	//获取最新通知
+	$model = D('Notice');
+	$where = array();
+	$where['is_del'] = array('eq', '0');
+	$folder_list = D("SystemFolder") -> get_authed_folder(get_user_id(),"NoticeFolder");
+	$new_notice_count = 0;
+	if ($folder_list) {
+		$where['folder'] = array("in", $folder_list);
+		$where['create_time'] = array('egt', time() - 3600 * 24 * 30);
+		$new_notice_list = $model -> where($where) -> getField('id,create_time');
+		$readed = get_user_config("readed_notice");
+		if ($new_notice_list) {
+			foreach ($new_notice_list as $key => $val) {
+				if (strpos($readed, $key . "|") === false) {
+					$new_notice_count++;
 				}
 			}
 		}
-		$data['new_notice_count']=$new_notice_count;
-
-		//获取待办事项
-		$model = M("Todo");
-		$where = array();
-		$where['user_id'] = $user_id;
-		$where['status'] = array("in", "1,2");
-		$new_todo_count = M("Todo") -> where($where) -> count();
-		$data['new_todo_count']=$new_todo_count;
-		return $data;
 	}
+	$data['new_notice_count']=$new_notice_count;
 
- function is_mobile($mobile) {
+	//获取待办事项
+	$model = M("Todo");
+	$where = array();
+	$where['user_id'] = $user_id;
+	$where['status'] = array("in", "1,2");
+	$new_todo_count = M("Todo") -> where($where) -> count();
+	$data['new_todo_count']=$new_todo_count;
+	return $data;
+}
+
+function is_mobile($mobile) {
 	return preg_match("/^(?:13\d|14\d|15\d|18[0123456789])-?\d{5}(\d{3}|\*{3})$/", $mobile);
 }
 
@@ -86,11 +86,11 @@ function is_email($email) {
  */
 function http($url, $params, $method = 'GET', $header = array(), $multi = false){
 	$opts = array(
-			CURLOPT_TIMEOUT        => 30,
-			CURLOPT_RETURNTRANSFER => 1,
-			CURLOPT_SSL_VERIFYPEER => false,
-			CURLOPT_SSL_VERIFYHOST => false,
-			CURLOPT_HTTPHEADER     => $header
+		CURLOPT_TIMEOUT        => 30,
+		CURLOPT_RETURNTRANSFER => 1,
+		CURLOPT_SSL_VERIFYPEER => false,
+		CURLOPT_SSL_VERIFYHOST => false,
+		CURLOPT_HTTPHEADER     => $header
 	);
 
 	/* 根据请求类型设置特定参数 */
@@ -648,6 +648,7 @@ function rand_string($len = 6, $type = '', $addChars = '') {
 	}
 	return $str;
 }
+
 function list_to_tree($list, $root = 0, $pk = 'id', $pid = 'pid', $child = '_child') {
 	// 创建Tree
 	$tree = array();
@@ -675,6 +676,7 @@ function list_to_tree($list, $root = 0, $pk = 'id', $pid = 'pid', $child = '_chi
 	}
 	return $tree;
 }
+
 function tree_to_list($tree, $level = 0, $pk = 'id', $pid = 'pid', $child = '_child') {
 	$list = array();
 	if (is_array($tree)) {
@@ -996,18 +998,19 @@ function getfilecounts($ff) {
 	return $i;
 }
 
-function show_confirm($confirm) {
-	$arr_emp_no = explode('|', $confirm);
-	$arr_emp_no = array_filter($arr_emp_no);
+function show_refer($emp_list) {
+	$arr_emp_no = array_filter(explode('|', $emp_list));
 	if (count($arr_emp_no) > 1) {
-		$model = D("User");
-		foreach ($arr_emp_no as $emp_no) {
-			if (strlen($emp_no) > 1) {
-				$emp = $model -> get_user($emp_no);
-				$str .= $emp['emp_name'] . " / " . $emp['position_name'] . " <b><i class=\"icon-arrow-right\"></i></b> ";
-			}
+		$model = D("UserView");
+		foreach ($arr_emp_no as $emp_no){
+			$where['emp_no']=array('eq',substr($emp_no,4));
+			$emp = $model ->where($where)->find();
+			$emp_no=$emp['emp_no'];
+			$emp_name=$emp['name'];
+			$position_name=$emp['position_name'];
+			$str.="<span data=\"$emp_no\" id=\"$emp_no\"><nobr><b title=\"$emp_name/$position_name\">$emp_name/$position_name</b></nobr><b>;&nbsp;</b></span>";
 		}
-		return substr($str, 0, -7);
+		return $str;
 	} else {
 		return "";
 	}
@@ -1043,23 +1046,6 @@ function reunit($size) {
 	return round($size, 2) . $unit;
 }
 
-function get_module($str) {
-		$arr_str = explode("/", $str);
-		return $arr_str[0];
-}
-
-function filter_module($str) {
-	if (strpos($str['url'], '##') !== false) {
-		return true;
-	}
-	if (empty($str['admin']) && empty($str['write']) && empty($str['read'])) {
-		return false;
-	}
-	if (strpos($str['url'], 'index')) {
-		return true;
-	}
-	return false;
-}
 
 function rotate($a) {
 	$b = array();

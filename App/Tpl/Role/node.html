@@ -50,7 +50,7 @@
 							<td><label>
 								<input class="ace" type="checkbox"  name="node_id"  value="{$data.id}" />
 								<span class="lbl">{$data.name}</span></label></td>
-							<if condition="strpos($data['url'],'/index')">
+							<if condition="strpos($data['url'],'/index')||strpos($data['url'],'##')!==false">
 								<td class="text-center"><label class="inline">
 									<input class="ace" type="checkbox" name="read[]" value="{$data.id}" />
 									<span class="lbl"></span></label></td>

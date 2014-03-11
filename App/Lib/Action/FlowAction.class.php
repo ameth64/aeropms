@@ -12,7 +12,6 @@
  -------------------------------------------------------------------------*/
 
 class FlowAction extends CommonAction {
-
 	protected $config = array('app_type' => 'flow', 'action_auth' => array('folder' => 'read', 'mark' => 'admin'));
 
 	function _search_filter(&$map) {
@@ -28,7 +27,6 @@ class FlowAction extends CommonAction {
 
 	function index() {
 		$this -> _assign_group_list();
-
 		$model = M('FlowType');
 		if (!empty($_POST['group'])) {
 			$where['group'] = $_POST['group'];
@@ -124,16 +122,17 @@ class FlowAction extends CommonAction {
 		$model = D("Flow");
 		$id = $_REQUEST['id'];
 		$vo = $model -> getById($id);
+		$flow_type_id=$vo['type'];
 		$this -> assign('vo', $vo);
-		$this -> assign("user_id", $vo['user_id']);
+		$this -> assign("emp_no", $vo['emp_no']);
 		$this -> assign("user_name", $vo['user_name']);
 		if (in_array('add_file', $model -> getDbFields())) {
 			$this -> _assign_file_list($vo["add_file"]);
 		};
 
 		$model = M("FlowType");
-		$is_lock = $vo['is_lock'];
-		$flow_type = $model -> find($type);
+		
+		$flow_type= $model -> find($flow_type_id);
 		$this -> assign("flow_type", $flow_type);
 
 		$model = M("FlowLog");
@@ -164,7 +163,6 @@ class FlowAction extends CommonAction {
 		$where['_string'] = "result is not null";
 		$confirmed = $model -> where($where) -> field('emp_no,user_name') -> select();
 		$this -> assign("confirmed", $confirmed);
-
 		$this -> display();
 	}
 
@@ -237,7 +235,7 @@ class FlowAction extends CommonAction {
 					$this -> error('操作失败!');
 				}
 				break;
-			case 'back' :
+			case 'back' :		
 				
 				$model = D("FlowLog");
 				if (false === $model -> create()) {

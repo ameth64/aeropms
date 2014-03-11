@@ -19,22 +19,21 @@ class FlowModel extends CommonModel {
 
 	function _before_insert(&$data, $options) {
 		$type = $data["type"];
-		$data['dept_id'] = get_dept_id();
+		$dept_id=get_dept_id();
+		$data['dept_id'] = $dept_id;
+		$data['dept_name'] = get_dept_name();
 		$data['emp_no'] = get_emp_no();
 
 		$doc_no_format = M("FlowType") -> where("id=$type") -> getField("doc_no_format");
 		$short_dept = M("Dept") -> where("id=$dept_id") -> getField('short');
-		$dept_name = M("Dept") -> where("id=$dept_id") -> getField('name');
-		$data['dept_name'] = $dept_name;
 		$short_flow = M("FlowType") -> where("id=$type") -> getField('short');
 
 		$sql = "SELECT count(*) count FROM `" . $this -> tablePrefix . "flow` WHERE type=$type ";
 		$sql .= " and year(FROM_UNIXTIME(create_time))>=year(now())";
 
-		if (strpos($doc_no_format, "{DEPT}") !== false) {
-			$sql .= " and dept_id=" . $_SESSION['dept_id'];
+		if (strpos($doc_no_format, "{DEPT}") !== false){
+			$sql .= " and dept_id=" . get_dept_id();
 		}
-
 		$rs = $this -> db -> query($sql);
 		$count = $rs[0]['count'] + 1;
 
@@ -101,7 +100,7 @@ class FlowModel extends CommonModel {
 		if ($dept['dept_grade_id'] == $dept_grade) {
 			return $dept_id;
 		} else {
-			if ($dept['pid'] !== 0) {
+			if ($dept['pid'] != 0) {
 				return $this -> _get_dept($dept['pid'], $dept_grade);
 			}
 		}
@@ -116,7 +115,7 @@ class FlowModel extends CommonModel {
 				$temp = explode("_", $confirm);
 				$dept_grade = $temp[1];
 				$position = $temp[2];
-				$dept_id = $this -> _get_dept($_SESSION['dept_id'], $dept_grade);
+				$dept_id = $this -> _get_dept(get_dept_id(),$dept_grade);
 
 				$model = M("User");
 				$where = array();
@@ -234,10 +233,9 @@ class FlowModel extends CommonModel {
 	function is_last_confirm($flow_id) {
 		$confirm = M("Flow") -> where("id=$flow_id") -> getField("confirm");
 		$last_confirm = array_filter(explode("|", $confirm));
-
 		$last_confirm_emp_no = end($last_confirm);
  
-		if (strpos($last_confirm_emp_no,$_SESSION["emp_no"]) !== false) {	
+		if (strpos($last_confirm_emp_no,get_emp_no()) !== false) {	
 			return true;
 		}
 		return false;
@@ -252,7 +250,7 @@ class FlowModel extends CommonModel {
 		$last_consult = array_filter(explode("|", $consult));
 		$last_consult_emp_no = end($last_consult);
 
-		if (strpos($last_consult_emp_no, $_SESSION["emp_no"]) !== false) {
+		if (strpos($last_consult_emp_no,get_emp_no()) !== false) {
 			return true;
 		}
 		return false;
@@ -275,6 +273,5 @@ class FlowModel extends CommonModel {
 			//dump($arr_confirm);
 		}
 	}
-
 }
 ?>

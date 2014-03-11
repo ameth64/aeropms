@@ -115,21 +115,23 @@ class AuthCheckBehavior extends Behavior {
 	function get_auth() {
 		
 		$access_list = D("Node") -> access_list();
-		$access_list = array_filter($access_list, 'filter_module');
+		$access_list = array_filter($access_list, array($this,'filter_module'));
 		$access_list = rotate($access_list);
-		//dump($access_list);
-		$module_list = $access_list['url'];
-		$module_list = array_map("get_module", $module_list);
-		$module_list = str_replace("_", "", $module_list);
 
-		//dump($access_list);
+		$module_list = $access_list['url'];
+		$module_list = array_map(array($this,"get_module"),$module_list);
+		$module_list = str_replace("_", "", $module_list);
+		
 		$access_list_admin = array_filter(array_combine($module_list, $access_list['admin']));
 		$access_list_write = array_filter(array_combine($module_list, $access_list['write']));
 		$access_list_read = array_filter(array_combine($module_list, $access_list['read']));
 
-		$auth['admin'] = array_key_exists(strtolower(MODULE_NAME), $access_list_admin);
-		$auth['write'] = array_key_exists(strtolower(MODULE_NAME), $access_list_write);
-		$auth['read'] = array_key_exists(strtolower(MODULE_NAME), $access_list_read);
+		$module_name=strtolower(MODULE_NAME);
+		$auth['admin'] = array_key_exists($module_name,$access_list_admin) ||array_key_exists("##".$module_name,$access_list_admin);
+
+		$auth['write'] = array_key_exists($module_name,$access_list_write) ||array_key_exists("##".$module_name,$access_list_write);
+		
+		$auth['read'] = array_key_exists($module_name,$access_list_read) ||array_key_exists("##".$module_name,$access_list_read);
 
 		if ($auth['admin'] == true) {
 			$auth['write'] = true;
@@ -138,6 +140,24 @@ class AuthCheckBehavior extends Behavior {
 			$auth['read'] = true;
 		}
 		return $auth;
+	}
+
+	function get_module($str) {
+			$arr_str = explode("/", $str);
+			return $arr_str[0];
+	}
+
+	function filter_module($str) {
+		if (strpos($str['url'], '##') !== false) {
+			return true;
+		}
+		if (empty($str['admin']) && empty($str['write']) && empty($str['read'])) {
+			return false;
+		}
+		if (strpos($str['url'], 'index')) {
+			return true;
+		}
+		return false;
 	}
 }
 ?>
