@@ -73,7 +73,6 @@ class AuthCheckBehavior extends Behavior {
 				if (isset($_REQUEST['fid'])){
 					$folder_id = $_REQUEST['fid'];
 					$auth = D("SystemFolder") -> get_folder_auth($folder_id);
-					//dump($auth);
 					break;				
 				}
 				if (isset($_REQUEST['id'])){					

@@ -68,7 +68,7 @@
 <script>
 var SAVE_URL = "{:get_save_url()}";
 var uploader = new plupload.Uploader({
-	runtimes : 'html5,flash',
+	runtimes : 'html5,flash,html4',
 	browse_button : 'pickfiles', // you can pass in id...
 	container: document.getElementById('uploader'), // ... or DOM Element itself
 	url : upload_url,
@@ -85,8 +85,8 @@ var uploader = new plupload.Uploader({
 		},
 		FilesAdded: function(up, files) {		
 			up.start();
-		},				
-		FileUploaded: function(up, file,data) {						
+		},
+		FileUploaded: function(up,file,data) {						
 			var myObject = eval('(' + data.response + ')');			
 			if(myObject.status){
 				$("#img").val(SAVE_URL + myObject.savename);

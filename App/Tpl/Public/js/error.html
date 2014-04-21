@@ -29,7 +29,7 @@
 						success : function(data) {
 							ui_info(data.info);
 							if (return_url) {
-								location.href = return_url;
+								location.href = return_url+"?"+(new Date()).getTime();
 							}
 						}
 					});

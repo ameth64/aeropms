@@ -46,7 +46,6 @@ class MailAction extends CommonAction {
 	//--------------------------------------------------------------------
 
 	public function folder() {
-
 		$widget['date-range'] = true;
 		$this -> assign("widget", $widget);
 
@@ -69,17 +68,17 @@ class MailAction extends CommonAction {
 			$folder = "inbox";
 			cookie('current_node', 101);
 		}
+
 		$this -> assign("folder", $folder);
+
 		switch ($folder) {
 			case 'inbox' :
 				$this -> assign("folder_name", '收件箱');
-
 				$where['folder'] = array("eq", '1');
 
 				break;
 			case 'outbox' :
 				$this -> assign("folder_name", '已发送');
-
 				$where['folder'] = array("eq", '2');
 
 				break;
@@ -91,7 +90,6 @@ class MailAction extends CommonAction {
 				break;
 			case 'delbox' :
 				$this -> assign("folder_name", '已删除');
-
 				$where['folder'] = array("eq", '4');
 
 				break;
@@ -120,7 +118,6 @@ class MailAction extends CommonAction {
 		}
 
 		$model = D('Mail');
-		//dump($where);
 		if (!empty($model)) {
 			$this -> _list($model, $where, "create_time");
 		}
@@ -212,11 +209,11 @@ class MailAction extends CommonAction {
 		$this -> _get_mail_account();
 		$title = $_REQUEST['name'];
 		$body = $_REQUEST['content'];
-		$add_file = $_REQUEST['add_file'];
 
 		$to = $_REQUEST['to'];
 		$cc = $_REQUEST['cc'];
 		$bcc = $_REQUEST['bcc '];
+
 		$this -> _set_recent($to . $cc . $bcc);
 
 		//header('Content-type:text/html;charset=utf-8');
@@ -253,57 +250,52 @@ class MailAction extends CommonAction {
 
 			$arr_to = array_filter(explode(';', $to));
 			foreach ($arr_to as $item) {
-				if (strlen($item) > 6) {
-					if (strpos($item, "dept@group")) {
-						$dept_name = explode('|', $item);
-						$dept_name = rtrim($dept_name[0]);
-						$mail_list = D('Contact') -> get_detp_list_by_name($dept_name);
-						foreach ($mail_list as $val) {
-							$mail -> AddAddress($val["email"], $val["emp_name"]);
-							// 收件人
-						}
-					} else {
-						$tmp = explode('|', $item);
-
-						$mail -> AddAddress($tmp[1], $tmp[0]);
+				if (strpos($item,"dept@group")!==false){
+					$arr_tmp = array_filter(explode('|', $item));
+					$dept_id = str_replace("dept_",'',$arr_tmp[2]);
+					$mail_list =$this-> get_mail_list_by_dept_id($dept_id);
+					foreach ($mail_list as $val) {
+						$mail -> AddAddress($val["email"], $val["emp_name"]);
 						// 收件人
 					}
+				} else {
+					$arr_tmp = explode('|', $item);
+					$mail -> AddAddress($arr_tmp[1], $arr_tmp[0]);
+					// 收件人
 				}
 			}
 
 			$arr_cc = array_filter(explode(';', $cc));
 			foreach ($arr_cc as $item) {
-				if (strlen($item) > 6) {
-					if (strpos($v, "dept@group")) {
-						$dept_name = explode('|', $item);
-						$mail_list = $this -> _get_dept_address_list($dept_name);
-						foreach ($mail_list as $val) {
-							$mail -> AddCC($val["emp_name"], $val["email"]);
-							// 收件人
-						}
-					} else {
-						$tmp = explode('|', $item);
-						$mail -> AddCC($tmp[1], $tmp[0]);
+				if (strpos($item,"dept@group")!==false){
+					$arr_tmp = array_filter(explode('|', $item));
+					$dept_id = str_replace("dept_",'',$arr_tmp[2]);
+					$mail_list =$this-> get_mail_list_by_dept_id($dept_id);
+					foreach ($mail_list as $val) {
+						$mail -> AddCC($val["email"], $val["emp_name"]);
 						// 收件人
 					}
+				} else {
+					$tmp = explode('|', $item);
+					$mail -> AddCC($tmp[1], $tmp[0]);
+					// 收件人
 				}
 			}
 			
 			$arr_bcc = array_filter(explode(';', $bcc));
 			foreach ($arr_bcc as $item) {
-				if (strlen($item) > 6) {
-					if (strpos($v, "dept@group")) {
-						$dept_name = explode('|', $item);
-						$mail_list = $this -> _get_dept_address_list($dept_name);
-						foreach ($mail_list as $val) {
-							$mail -> AddBCC($val["emp_name"], $val["email"]);
-							// 收件人
-						}
-					} else {
-						$tmp = explode('|', $item);
-						$mail -> AddBCC($tmp[1], $tmp[0]);
+				if (strpos($item,"dept@group")!==false){
+					$arr_tmp = array_filter(explode('|', $item));
+					$dept_id = str_replace("dept_",'',$arr_tmp[2]);
+					$mail_list =$this-> get_mail_list_by_dept_id($dept_id);
+					foreach ($mail_list as $val) {
+						$mail -> AddBCC($val["email"], $val["emp_name"]);
 						// 收件人
 					}
+				} else {
+					$tmp = explode('|', $item);
+					$mail -> AddBCC($tmp[1], $tmp[0]);
+					// 收件人
 				}
 			}
 
@@ -321,8 +313,9 @@ class MailAction extends CommonAction {
 			}
 
 			$mail -> MsgHTML($body);
-
-			if (strlen($add_file) > 2) {
+			
+			$add_file = $_REQUEST['add_file'];
+			if (!empty($add_file)) {
 				$files = $this -> _real_file($add_file);
 				foreach ($files as $file) {
 					$mail -> AddAttachment(get_save_path() . $file['savename'], $file['name']);
@@ -333,20 +326,21 @@ class MailAction extends CommonAction {
 			if (false === $model -> create()) {
 				$this -> error($model -> getError());
 			}
-			$model -> __set('user_id', get_user_id());
-			$model -> __set('folder', 2);
-			$model -> __set('read', 1);
-			$model -> __set('from', $this -> _account['mail_name'] . '|' . $this -> _account['email']);
-			$model -> __set('reply_to', $this -> _account['mail_name'] . '|' . $this -> _account['email']);
+			$model ->user_id=get_user_id();
+			$model ->folder=2;
+			$model ->read=1;
+			$model ->from= $this -> _account['mail_name'] . '|' . $this -> _account['email'];
+			$model ->reply_to=$this -> _account['mail_name'] . '|' . $this -> _account['email'];
+
 			if (empty($_POST["id"])) {
 				$list = $model -> add();
 			} else {
-				$model -> __set('create_time', time());
+				$model ->create_time=time();
 				$list = $model -> save();
 			}
 
 			if ($mail -> Send()) {
-				cookie("left_menu", 105);
+				cookie('current_node',105);
 				$this -> assign('jumpUrl', U('mail/folder?fid=outbox'));
 				$this -> success("发送成功");
 			} else {
@@ -364,22 +358,22 @@ class MailAction extends CommonAction {
 	//--------------------------------------------------------------------
 	//   保存草稿箱
 	//--------------------------------------------------------------------
-	public function save_darft() {
+	public function save_darft(){
 		$this -> _get_mail_account();
 		$model = D('Mail');
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
 		}
-		$model -> __set('user_id', get_user_id());
-		$model -> __set('folder', 3);
-		$model -> __set('from', $this -> _account['mail_name'] . '|' . $this -> _account['email']);
-		$model -> __set('reply_to', $this -> _account['mail_name'] . '|' . $this -> _account['email']);
+		$model -> user_id=get_user_id();
+		$model ->folder=3;
+		$model ->from=$this -> _account['mail_name'] . '|' . $this -> _account['email'];
+		$model -> reply_to= $this -> _account['mail_name'] . '|' . $this -> _account['email'];
 		if (empty($_POST["id"])) {
 			$list = $model -> add();
 		} else {
 			$list = $model -> save();
 		}
-		if ($list) {
+		if ($list){
 			$this -> assign('jumpUrl', U('mail/folder?fid=darftbox'));
 			$this -> success("操作成功");
 		} else {
@@ -441,7 +435,9 @@ class MailAction extends CommonAction {
 
 		$vo = $model -> getById($id);
 		$this -> assign('vo', $vo);
-
+		if (isset($vo['add_file'])) {
+			$this -> _assign_file_list($vo["add_file"]);
+		};
 		$this -> display();
 	}
 
@@ -718,6 +714,18 @@ class MailAction extends CommonAction {
 		$this -> assign('folder_list', dropdown_menu($tree));
 		$temp = tree_to_list($tree);
 		return $temp;
+	}
+
+	private function get_mail_list_by_dept_id($id){
+        $dept = tree_to_list(list_to_tree(M("Dept")->where('is_del=0') -> select(),$id));
+        $dept = rotate($dept);
+        $dept = implode(",", $dept['id']) . ",$id";
+        $model = M("User");
+        $where['dept_id'] = array('in', $dept);
+		$where['is_del'] = array('eq',0);
+		$where['email'] = array('neq','');
+        $data = $model -> where($where)-> select();
+        return $data;		
 	}
 }
 ?>

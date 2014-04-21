@@ -66,6 +66,16 @@ function get_new_count(){
 	$where['status'] = array("in", "1,2");
 	$new_todo_count = M("Todo") -> where($where) -> count();
 	$data['new_todo_count']=$new_todo_count;
+
+	//获取最新消息
+	$model = M("Message");
+	$where = array();
+	$where['user_id'] = $user_id;
+	$where['receiver_id']=$user_id;
+	$where['is_read'] = array('eq','0');
+	$new_message_count = M("Message") -> where($where) -> count();
+	$data['new_message_count']=$new_message_count;
+
 	return $data;
 }
 

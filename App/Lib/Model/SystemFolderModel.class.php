@@ -90,8 +90,7 @@ class SystemFolderModel extends CommonModel {
 				if (strlen($item) > 2) {
 					if (stripos($item, "dept_")!==false){
 						$arr_dept = explode('|', $item);
-						$dept_id=substr($arr_dept[1],5);
-						
+						$dept_id=substr($arr_dept[1],5);						
 						$emp_list =$this->get_emp_list_by_dept_id($dept_id);
 						$emp_list=rotate($emp_list);		
 						if (in_array(get_emp_no(),$emp_list["emp_no"])){

@@ -28,11 +28,10 @@ class PopupAction extends CommonAction {
 		$map['user_id'] = array('eq', get_user_id());
 	}
 
-	function read() {
+	function read(){
 		$type = $_REQUEST['type'];
 		$id = $_REQUEST['id'];
-
-		switch ($type) {
+		switch ($type){
 			case "company" :
 				$model = M("Dept");
 				$dept = tree_to_list(list_to_tree( M("Dept")->where('is_del=0') -> select(), $id));
@@ -233,6 +232,10 @@ class PopupAction extends CommonAction {
 		return;
 	}
 
+	function recever(){
+		$this->actor();
+	}
+
 	function flow() {
 		$widget['jquery-ui'] = true;		
 		$this -> assign("widget", $widget);
@@ -375,11 +378,11 @@ class PopupAction extends CommonAction {
 		echo json_encode($result);
 	}
 
-	function json() {
+	function json(){
 		header("Content-Type:text/html; charset=utf-8");
+		$type=$_REQUEST['type'];
 		$key = $_REQUEST['key'];
-		$ajax = $_REQUEST['ajax'];
-	
+		
 		$model = M("User");
 		$where['emp_name'] = array('like', "%" . $key . "%");
 		$where['letter'] = array('like', "%" . $key . "%");
@@ -387,24 +390,24 @@ class PopupAction extends CommonAction {
 		$where['_logic'] = 'or';
 		$company = $model -> where($where) -> field('id,emp_name as name,email') -> select();
 
-		$where = array();
-		$model = M("Contact");
-		$where['name'] = array('like', "%" . $key . "%");
-		$where['letter'] = array('like', "%" . $key . "%");
-		$where['email'] = array('like', "%" . $key . "%");
-		$where['_logic'] = 'or';
-		$map['_complex'] = $where;
-		$map['email'] = array('neq', '');
-		$map['user_id'] = array('eq', get_user_id());
-		$personal = $model -> where($map) -> field('id,name,email') -> select();
-
-		if (empty($company)) {
-			$company = array();
+		if($type=="all"){
+			$where = array();
+			$model = M("Contact");
+			$where['name'] = array('like', "%" . $key . "%");
+			$where['letter'] = array('like', "%" . $key . "%");
+			$where['email'] = array('like', "%" . $key . "%");
+			$where['_logic'] = 'or';
+			$map['_complex'] = $where;
+			$map['email'] = array('neq', '');
+			$map['user_id'] = array('eq', get_user_id());
+			$personal = $model -> where($map) -> field('id,name,email') -> select();
 		}
-
-		if (empty($personal)) {
-			$personal = array();
+		if(empty($company)){
+			$company=array();
 		}
+		if(empty($personal)){
+			$personal=array();
+		}		
 		$contact = array_merge_recursive($company, $personal);
 		exit(json_encode($contact));
 	}

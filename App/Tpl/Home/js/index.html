@@ -17,7 +17,10 @@
 
 		init_sort("{$home_sort}");
 	});
-	function init_sort(sort_string) {
+	function init_sort(sort_string){
+		if(array_sort_string==""){
+			array_sort_string="11,12,13|21,22,23";
+		}
 		array_sort_string = sort_string.split("|");
 		sort_string_1 = array_sort_string[0];
 		sort_string_2 = array_sort_string[1];
@@ -51,7 +54,7 @@
 
 		if((t1_count==0) || (t2_count==0)){
 			ui_error("至少保留一个");
-			location.href=location.href
+			location.reload();
 			return false;
 		}
 		if("#t1 .widget-box")

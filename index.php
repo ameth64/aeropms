@@ -11,7 +11,7 @@
 
     // 定义ThinkPHP框架路径
     //定义项目名称和路径
-	if(!file_exists("install.lock")){
+	if(file_exists("install.php")){
 		Header("Location: /install.php");
 	}
     define('APP_NAME', 'App');

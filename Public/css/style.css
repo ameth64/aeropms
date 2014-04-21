@@ -21,6 +21,9 @@ body{
 	margin: 0 auto;
 	overflow: hidden;
 }
+.itemdiv .tools{
+	display:block;
+}
 .work_log_head div {
 	line-height: 32px;
 	background: #E8E8E8;

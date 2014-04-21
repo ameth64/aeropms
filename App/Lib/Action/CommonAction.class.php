@@ -9,7 +9,7 @@
  Author:  jinzhu.yin<smeoa@qq.com>
 
  Support: https://git.oschina.net/smeoa/smeoa
- -------------------------------------------------------------------------*/
+-------------------------------------------------------------------------*/
 
 class CommonAction extends Action {
 
@@ -66,7 +66,7 @@ class CommonAction extends Action {
 	}
 
 	/**编辑页面 **/
-	protected function _edit() {
+	protected function _edit(){
 		$name = $this -> getActionName();
 		$model = M($name);
 		$id = $_REQUEST[$model -> getPk()];
@@ -365,6 +365,7 @@ class CommonAction extends Action {
 		$file_list=$_REQUEST['sid'];
 		$this->_destory_file($file_list);
 	}
+
 	protected function _destory_file($file_list){
 		if(isset($file_list)){
 			if (is_array($file_list)){
@@ -558,28 +559,12 @@ class CommonAction extends Action {
 	}
 
 	protected function _assign_new_count($refresh=false) {
-		$new_count_data = array ();
-		$new_count_data = S('S_GET_NEW_COUNT'); // 从缓存获取数据
- 
-		if (is_array($new_count_data)&&!$refresh){
-			$nowtime = time ();
-			$difftime = $nowtime - $new_count_data ['expire_time']; // 判断缓存里面的数据保存了多久；
-			if ($difftime > 300) { // 缓存有效时间时间300 判断超过300就重新获取;
-				$new_count_data ['expire_time'] = time ();
-				$new_count_data ['data'] = get_new_count(); // 获取最新数据
-				S( 'S_GET_NEW_COUNT', $new_count_data); // 放进缓存
-			} else {
-				$data = $new_count_data ['data'] ;
-			}
-		} else {
-			$new_count_data ['expire_time'] = time ();
-			$new_count_data ['data'] =  get_new_count(); // 获取最新数据
-			S('S_GET_NEW_COUNT', $new_count_data); // 放进缓存
-		}
-		$this->assign('new_mail_count',$data['new_mail_count']);
+		$data = get_new_count(); 
+ 		$this->assign('new_mail_count',$data['new_mail_count']);
 		$this->assign('new_notice_count',$data['new_notice_count']);
 		$this->assign('new_todo_count',$data['new_todo_count']);
 		$this->assign('new_confirm_count',$data['new_confirm_count']);
+		$this->assign('new_message_count',$data['new_message_count']);
 	}
 
 	protected function _set_field($id, $field, $val, $name = '') {

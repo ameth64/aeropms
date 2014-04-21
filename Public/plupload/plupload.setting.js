@@ -1,5 +1,5 @@
 var uploader = new plupload.Uploader({
-	runtimes : 'html5,flash',
+	runtimes : 'html5,flash,html4',
 	browse_button : 'pickfiles', // you can pass in id...
 	container: document.getElementById('uploader'), // ... or DOM Element itself
 	url : upload_url,
@@ -85,7 +85,7 @@ window.onbeforeunload = function (e){
 
 $(document).on("click", "#uploader a.del", function(){
 	$obj=$(this).parents("li");
-	id=$obj.attr("id");	
+	id=$obj.attr("id");
 	file=uploader.getFile(id);
 	ui_confirm("确定要删除吗？",function(){				
 		$add_file=$obj.attr("add_file");
@@ -93,7 +93,7 @@ $(document).on("click", "#uploader a.del", function(){
 		$("#add_file").val($("#add_file").val().replace($add_file + ";", ""));
 		$("#file_list").attr("new_upload",$new_upload.replace($add_file + ";", ""));
 
-		if(add_file.length>0){
+		if($add_file.length>0){
 			$obj.remove();
 			sendAjax(del_url, 'sid=' + $(this).attr("id"));
 		}else{

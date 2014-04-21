@@ -5,7 +5,7 @@
 			email = $(this).html().split(";")[1].split("&")[0];
 			emp_no = $(this).val();
 			name = jQuery.trim($(this).text()).replace(/<.*>/, '');
-			html = conv_inputbox_item(emp_no, name, email, email);
+			html = conv_inputbox_item(emp_no, name,email, email);
 			$("#recever .address_list", parent.document).append(html);
 		});
 		$("#cc select option").each(function(i) {
@@ -26,7 +26,7 @@
 	}
 
 	// 显示AJAX 读取的数据
-	function showdata(result) {
+	function showdata(result){
 		$("#addr_list").html("");
 		if ( type = $("input[name='type']:checked").val() == "company") {
 			var id = "dept_" + $("#company a.active").attr("node");

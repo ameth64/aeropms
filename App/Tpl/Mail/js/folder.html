@@ -11,7 +11,6 @@
 						});
 						$("input[name='id[]']:checked").prop('checked', false);
 						$("#id-toggle-all").prop('checked', false);
-
 					}
 				});
 				break;
@@ -31,8 +30,8 @@
 				sendAjax("{:U('mark?action=del')}", vars, function(data) {
 					if (data.status) {
 						ui_alert(data.info,function(){
-							location.href = location.href;
-						});								
+							location.reload();
+						});	
 					}
 				});
 				break;
@@ -41,7 +40,7 @@
 					sendAjax("{:U('mark?action=del_forever')}", vars, function(data) {
 						if (data.status) {
 							ui_alert(data.info,function(){
-								location.href = location.href;
+								location.reload();
 							});	
 						}
 					});
@@ -51,7 +50,7 @@
 				sendAjax("{:U('mark?action=spam')}", vars, function(data) {
 					if (data.status) {
 						ui_alert(data.info,function(){
-							location.href = location.href;
+							location.reload();
 						});	
 					}
 				});

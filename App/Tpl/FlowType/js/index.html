@@ -15,7 +15,7 @@
 					sendAjax("{:U('mark?action=del')}", vars, function(data) {
 						if (data.status) {
 							ui_alert(data.info,function(){
-								location.href=location.href;	
+								location.reload();
 							});
 						}
 					});
@@ -30,7 +30,7 @@
 		$("input[name='id[]']:checkbox:checked").each(function() {
 			$(this).parent().next().find("nobr").text(val);
 			$(this).attr("checked", false);
-			location.href = location.href;
+			location.reload();
 		})
 	}
 

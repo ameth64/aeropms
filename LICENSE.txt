@@ -1,5 +1,4 @@
-﻿
-小微OA系统(SMEOA)遵循Apache2开源协议发布，并提供免费使用。
+﻿小微OA系统(SMEOA)遵循Apache2开源协议发布，并提供免费使用。
 版权所有Copyright © 2013 by SMEOA (http://www.smeoa.com) All rights reserved。
 
 

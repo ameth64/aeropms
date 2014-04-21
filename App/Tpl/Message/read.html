@@ -1,104 +1,60 @@
-<layout name='Layout/layout_main' />
-<div class="msg">
-	<form method='post' id="form_data" name="form_data" enctype="multipart/form-data">
+<layout name='Layout/ace_layout' />
+{:W('PageHeader',array('name'=>array('消息->',$reply_name),'search'=>'N'))}
+	<div class="operate panel panel-default">
+		<div class="panel-body">
+			<div class="pull-left">
+				<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
+			</div>
+			<div class="pull-right">
+				<a onclick="save();"  class="btn btn-sm btn-primary">发送</a>				
+			</div>
+		</div>
+	</div>
+	<form class="well form-horizontal" method='post' id="form_data" name="form_data" enctype="multipart/form-data">
 		<input type="hidden" id="ajax" name="ajax" value="0">
 		<input type="hidden" id="add_file" name="add_file">
-		<input type="hidden" id="opmode" name="opmode" value="add">
-		<input type="hidden" id="recever_list" name="recever_list" value="{$sender.sender}|">
-		<h2> 会话：{$sender.sender_name} </h2>
-		<div class="operate">
-			<div class="left">
-				<a onclick="go_return_url()">返回</a>
-			</div>
-			<div class="right">
-				<a id="btn_reply" onclick="reply()">回复</a>
-				<a id="btn_send" style="display:none" onclick="save()">发送</a>
+		<input type="hidden" id="receiver_id" name="receiver_id" value="{$reply_id}"/>
+		<input type="hidden" id="receiver_name" name="receiver_name" value="{$reply_name}"/>
+		<input type="text" style="display:none">
+		<div class="form-group">
+			<div class="col-xs-12">
+				发送消息给 {$reply_name}
 			</div>
 		</div>
-		<table class="reply dis">
-			<tr>
-				<th  style="width:70px"> 内容： </th>
-				<td>				<textarea id="content" name="content" style="width:100%;height:120px;">
-                            </textarea></td>
-			</tr>
-			</tr>
-			<tr>
-				<th> 附件： </th>
-				<td>
-				<div class="hidden-phone">
-					<span id="spanButtonPlaceHolder"></span>
-				</div><div id="fsUploadProgress"></div></td>
-			</tr>
-		</table>
+		<div class="form-group">
+			<div class="col-xs-12">
+				<textarea id="content" name="content" class="col-xs-12" check="require" msg="请输入内容"></textarea>
+			</div>
+		</div>
 	</form>
-	<foreach name="list" item="vo">
-		<div class="span-12  last" style="margin-bottom:24px;">
-			<div class="time text-center">
-				{$vo.create_time|toDate='Y-m-d h:m'}
-			</div>
-			<div class="span-10 btn text-left <eq name='vo.sender' value='$Think.session.emp_no' >right</eq>">
-				<div>
-					{$vo.content}
+	<hr></hr>
+<div class="col-xs-12">
+	<div class="dialogs">
+		<foreach name="list" item="vo">
+			<div class="itemdiv dialogdiv">
+				<div class="user">
+					<img alt="Alexa's Avatar" src="{:get_save_url()}emp_pic/{$vo.sender_id}.jpeg" />
 				</div>
-				<div class="add_file span-10">
-					<include file="Layout:file_list" />
+				<div class="body">
+					<div class="time">
+						<i class="icon-time"></i>
+						<span>{$vo.create_time|toDate='Y-m-d'}</span>
+					</div>
+					<div class="name">
+						{$vo.sender_name}
+					</div>
+					<div class="row">
+						<div class="text-left col-sm-9 col-xs-12">
+							{$vo.content}
+						</div>
+						<div class="text-right pull-right col-sm-3 col-xs-12">
+							<a class="btn-sm btn-primary" href="{:U('forward?id='.$vo['id'])}"><i class="icon-only icon-share-alt"></i>转发</a>
+							<a class="btn-sm btn-danger" href="#" onclick="del_message({$vo.id})">
+								<i class="icon-only icon-remove"></i>删除</a>
+						</div>
+					</div>
 				</div>
-			</div>
+			</div>	
+			</foreach>
 		</div>
-	</foreach>
-</div>
-<script type="text/javascript" src="__PUBLIC__/editor/kindeditor.js"></script>
-<script type="text/javascript">
-	function reply() {
-		$(".reply").show();
-		$("#btn_reply").hide();
-		$("#btn_send").show();
-	}
-
-	// 加载编辑器
-	var editor;
-	$(function() {
-		editor = KindEditor.create("#content", {
-			resizeType : 1,
-			filterMode : true,
-			uploadJson : "/File/upload",
-			afterCreate : function() {
-				editor.width = "100%";
-			}
-		});
-	});
-	function save() {
-		editor.sync();
-		if (check_form("form_data")) {			
-			sendForm("form_data", "{:U('save')}");
-		}
-	}
-
-	function add() {
-		window.open("{:U('')}add/", "_self");
-	}
-
-	function btn_search() {
-		sendForm("form_search", "{:U('')}");
-		return false;
-	}
-
-	function del() {
-		if(confirm('确定要删除吗?')){
-			sendAjax("{:U('del')}", 'id=' + $("#msg_id").val(), function(data) {
-				if (data.status) {
-					alert(data.info);
-					$("input[name='doc_id']:checkbox:checked").each(function() {
-						$(this).parent().parent().hide();
-					})
-				}
-			});
-		}
-	}
-
-
-	$(document).ready(function() {
-		editor_init();
-		uploader_init();
-	}); 
-</script>
+	</div>

@@ -60,7 +60,7 @@
 				default:
 					var search = $(this).parents(".inputbox").find("div.search ul");
 					if ($(this).val().length > 1) {
-						$.getJSON("{:U('popup/json')}", {
+						$.getJSON("{:U('popup/json?type=all')}", {
 							key : $(this).val()
 						}, function(json) {
 							if (json != "") {
@@ -114,12 +114,12 @@
 	}
 
 	function toggle_bcc() {
-		if ($("#bcc").attr("class").indexOf("display-none") < 0) {
-			$("#bcc").addClass("display-none");
+		if ($("#bcc_wrap").attr("class").indexOf("display-none") < 0) {
+			$("#bcc_wrap").addClass("display-none");
 			$("#toggle_bcc_icon").addClass("icon-chevron-down");
 			$("#toggle_bcc_icon").removeClass("icon-chevron-up");
 		} else {
-			$("#bcc").removeClass("display-none");
+			$("#bcc_wrap").removeClass("display-none");
 			$("#toggle_bcc_icon").addClass("icon-chevron-up");
 			$("#toggle_bcc_icon").removeClass("icon-chevron-down");
 		}

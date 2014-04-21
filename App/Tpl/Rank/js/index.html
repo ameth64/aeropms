@@ -13,7 +13,7 @@
 			sendAjax("{:U('del')}", vars, function(data) {
 				if (data.status) {
 					ui_alert(data.info,function(){
-						location.href = location.href;
+						location.href = location.href+"?"+(new Date()).getTime();
 					});								
 				}
 			});

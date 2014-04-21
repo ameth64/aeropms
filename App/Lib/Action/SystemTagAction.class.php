@@ -55,10 +55,8 @@ class SystemTagAction extends CommonAction {
 		$module = $_GET['module'];
 		$where['module'] = array('eq', $module);
 		$menu = $model -> where($where) -> field('id,pid,name') -> order('sort asc') -> select();
-		
-		
+				
 		$tree = list_to_tree($menu);
-
 		$this -> assign('menu',popup_tree_menu($tree));
 		$this -> display();
 	}

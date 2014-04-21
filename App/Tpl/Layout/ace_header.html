@@ -22,6 +22,9 @@
 				<li class="green">
 					<a  href="{:U('mail/index')}" onclick="del_current_node()"><i class="icon-envelope"></i> <span class="badge badge-success">{$new_mail_count}</span> </a>
 				</li>
+				<li class="">
+					<a  href="{:U('message/index')}" onclick="del_current_node()"><i class="icon-inbox"></i> <span class="badge ">{$new_message_count}</span> </a>
+				</li>
 				<li class="light-blue">
 					<a data-toggle="dropdown" href="#" class="dropdown-toggle"> <img class="nav-user-photo" src="{:get_save_url()}{$Think.session.user_pic}?{:rand_string()}"> <span class="user-info"> {$Think.session.user_name} </span> <i class="icon-caret-down"></i> </a>
 					<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">

@@ -81,10 +81,12 @@ class ForumAction extends CommonAction {
 
 		$model = M("Forum");
 		$id = $_REQUEST['id'];
-		$folder_id = $_REQUEST['fid'];
 		$where['id'] = array('eq', $id);
-		$where['folder'] = array('eq', $folder_id);
 
+		$folder_id = $_REQUEST['fid'];
+		if(!empty($folder_id)){
+			$where['folder'] = array('eq', $folder_id);
+		}
 		$forum = $model -> where($where) -> find();
 		$this -> assign('forum',$forum);
 
