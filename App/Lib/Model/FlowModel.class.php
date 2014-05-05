@@ -206,6 +206,7 @@ class FlowModel extends CommonModel {
 
 		if ($step == 40) {
 			$model -> where("id=$flow_id") -> setField('step', 40);
+			$this->send_to_refer($flow_id);
 		} else {
 			$data['flow_id'] = $flow_id;
 			$data['step'] = $step;
@@ -271,6 +272,22 @@ class FlowModel extends CommonModel {
 			//dump($arr_confirm[fmod($step,10)-1]);die;
 			return $arr_consult[fmod($step, 10) - 1];
 			//dump($arr_confirm);
+		}
+	}
+
+	function send_to_refer($flow_id){
+		$model = M("Flow");
+		$list=$model -> where("id=$flow_id") -> getField('refer');
+		$emp_list=array_filter(explode("|",$list));
+		
+		$data['flow_id']=$flow_id;
+		$data['result']=1;
+		foreach($emp_list as $val){
+			$data['emp_no']=$val;
+			$data['step']=100;
+			$data['create_time']=time();
+			$model = D("FlowLog");
+			$model -> add($data);
 		}
 	}
 }

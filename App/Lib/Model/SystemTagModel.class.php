@@ -31,11 +31,11 @@ class SystemTagModel extends CommonModel {
 	}
 
 	function del_data_by_row($row_list, $module = MODULE_NAME) {
-		if (isset($row_id)) {
-			if (is_array($row_id)) {
-				$where['row_id'] = array("in", array_filter($row_id));
+		if (isset($row_list)) {
+			if (is_array($row_list)) {
+				$where['row_id'] = array("in", array_filter($row_list));
 			} else {
-				$where['row_id'] = array('in', array_filter(explode(',', $row_id)));
+				$where['row_id'] = array('in', array_filter(explode(',', $row_list)));
 			}
 			$model = M("SystemTagData");
 			$where['module'] = $module;
@@ -75,10 +75,11 @@ class SystemTagModel extends CommonModel {
 			$tag_list = explode(",", $tag_list);
 			$tag_list = array_filter($tag_list);
 		}
+		$module_table=M($module)->trueTableName;
 		$tag_list = implode(",", $tag_list);
 		$where = 'a.id in (' . $row_list . ') AND b.id in(' . $tag_list . ')';
 		$sql = 'INSERT INTO ' . $this -> tablePrefix . 'system_tag_data (row_id,module,tag_id) SELECT a.id,b.module,b.id ';
-		$sql .= ' FROM ' . $this -> tablePrefix . $module . ' a, ' . $this -> tablePrefix . 'system_tag b WHERE ' . $where;
+		$sql .= ' FROM ' . $module_table  . ' a, ' . $this -> tablePrefix . 'system_tag b WHERE ' . $where;
 
 		$result = $this -> execute($sql);
 		if ($result === false) {
@@ -95,7 +96,7 @@ class SystemTagModel extends CommonModel {
 			} else {
 				$where['tag_id'] = array('in', array_filter(explode(',', $tag_id)));
 			}
-			$$model = M("UserTagData");
+			$$model = M("SystemTagData");
 			$result = $model -> where($where) -> delete();
 		}
 		return $result;

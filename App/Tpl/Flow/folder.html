@@ -66,8 +66,8 @@
 			<ul>
 				<foreach name="list" item="vo">
 					<li class="tbody">
-						<span class="col-16">{$vo.doc_no}</span>
-						<span class="col-8  text-center"> {$vo.type_name} &nbsp;</span>
+						<span class="col-16 text-right">{$vo.doc_no}</span>
+						<span class="col-8  text-center"> {$vo.type_name}</span>
 						<span class="col-6 pull-right  text-center">{$vo.step|show_step}</span>
 						<span class="col-6 pull-right  text-center">{$vo.user_name}</span>
 						<span class="col-9 pull-right  text-center"> {$vo.create_time|toDate='Y-m-d'} </span>

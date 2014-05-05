@@ -1,6 +1,6 @@
 <?php
 /*---------------------------------------------------------------------------
-  С΢OAϵͳ - �ù��������ɿ��� 
+  小微OA系统 - 让工作更轻松快乐 
 
   Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
 
@@ -10,7 +10,6 @@
 
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
-
 
 class DocViewModel extends ViewModel {
 	public $viewFields=array(

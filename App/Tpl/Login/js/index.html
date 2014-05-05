@@ -5,6 +5,12 @@
 		}
 	}
 
+function freshVerify(){ 
+    //жидибщжЄТы
+    var time = new Date().getTime();
+        document.getElementById('verifyImg').src= '__URL__/verify/'+time;
+}
+
 	$(document).ready(function() {
 		$("#password").keydown(function(event) {
 			if (event.keyCode == 13) {

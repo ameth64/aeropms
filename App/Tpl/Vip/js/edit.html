@@ -1,0 +1,15 @@
+<script type="text/javascript">
+	function save() {
+		if (check_form("form_data")) {
+			sendForm("form_data", "{:U('save')}");
+		}
+	}
+	$(document).ready(function() {
+		set_val('dressing_style',"{$vo.dressing_style}");
+		set_val('top_size',"{$vo.top_size}");
+		set_val('bottom_size',"{$vo.bottom_size}");
+		set_val('like_color',"{$vo.like_color}");
+		set_val('vip_type',"{$vo.vip_type}");	
+		set_val('sex',"{$vo.sex}");
+	})
+</script>

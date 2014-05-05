@@ -320,7 +320,7 @@ class Image {
      * @return string
       +----------------------------------------------------------
      */
-    static function buildImageVerify($length=4, $mode=1, $type='png', $width=48, $height=22, $verifyName='verify') {
+    static function buildImageVerify($length=6, $mode=1, $type='png', $width=68, $height=34, $verifyName='verify') {
         import('@.ORG.Util.String');
         $randval = String::randString($length, $mode);
         $_SESSION[$verifyName] = md5($randval);

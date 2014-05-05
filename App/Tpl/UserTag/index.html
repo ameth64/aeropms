@@ -34,18 +34,20 @@
 					<input type="text" id="name" name="name" check="require" msg="请输入名称" class="form-control">
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-sm-4 control-label" for="tag_name">父节点*：</label>
-				<div class="col-sm-8">
-					<div class="input-group">
-						<input name="tag_name" class="form-control" id="tag_name" type="text" msg="请选择上级部门" check="require"  readonly="readonly"/>
-						<span class="input-group-btn">
-							<button class="btn btn-sm btn-primary" onclick="select_pid()" type="button">
-								选择
-							</button> </span>
+			<if condition="$has_pid">
+				<div class="form-group">
+					<label class="col-sm-4 control-label" for="tag_name">父节点*：</label>
+					<div class="col-sm-8">
+						<div class="input-group">
+							<input name="tag_name" class="form-control" id="tag_name" type="text" msg="请选择父节点" check="require"  readonly="readonly"/>
+							<span class="input-group-btn">
+								<button class="btn btn-sm btn-primary" onclick="select_pid()" type="button">
+									选择
+								</button> </span>
+						</div>
 					</div>
 				</div>
-			</div>
+			</if>
 			<div class="form-group">
 				<label class="col-sm-4 control-label" for="sort">排序：</label>
 				<div class="col-sm-8">

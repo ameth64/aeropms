@@ -126,8 +126,9 @@ class ForumAction extends CommonAction {
 			$this -> _search_filter($map);
 		}
 		$model = M("Forum");
+		$sortby="is_top desc,id desc";
 		if (!empty($model)) {
-			$this -> _list($model, $map);
+			$this -> _list($model, $map,$sortby);
 		}
 		$where = array();
 		$folder_id = $map['folder'];
@@ -177,6 +178,29 @@ class ForumAction extends CommonAction {
 						$this -> ajaxReturn('', "操作成功", 1);
 					} else {
 						$this -> ajaxReturn('', "操作成功", 1);
+					}
+					break;
+				case 'is_top':
+					$where['id'] = array('in', $id);
+					$folder = M("Forum") -> distinct(true) -> where($where) -> field("folder,is_top") -> select();
+					if (count($folder) == 1) {
+						$auth = D("SystemFolder") -> get_folder_auth($folder[0]["folder"]);
+						if ($auth['admin'] == true) {
+							$field = 'is_top';
+							if($folder[0]['is_top']==0){
+							$result = $this -> _set_field($id, $field, 1);
+							}else{
+							$result = $this -> _set_field($id, $field, 0);
+							}
+							
+							if ($result) {
+								$this -> ajaxReturn('', "操作成功", 1);
+							} else {
+								$this -> ajaxReturn('', "操作失败", 0);
+							}
+						}
+					} else {
+						$this -> ajaxReturn('', "操作失败", 0);
 					}
 					break;
 				default :

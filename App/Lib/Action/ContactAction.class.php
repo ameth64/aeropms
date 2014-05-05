@@ -153,8 +153,6 @@ class ContactAction extends CommonAction {
 		$this -> _tag_manage("分组管理");
 	}
 
-
-
 	function del(){
 		$id = $_POST['id'];
 		$count = $this ->_del($id,true);

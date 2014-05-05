@@ -37,7 +37,7 @@ class CustomerAction extends CommonAction {
 		$list = $model -> where($where) -> select();
 		$this -> assign('list', $list);
 		$tag_data = D("SystemTag") -> get_data_list();
-
+		
 		$new = array();
 		foreach ($tag_data as $val) {
 			$new[$val['row_id']] = $new[$val['row_id']] . $val['tag_id'] . ",";

@@ -1,0 +1,19 @@
+<script type="text/javascript">
+	function save(){
+		if (check_form("form_data")) {
+			sendForm("form_data", "{:U('reply')}");
+		}
+	}
+
+	function del_message(message_id){
+		ui_confirm('确定要删除吗?',function(){
+			sendAjax("{:U('del?type=message')}",'message_id='+message_id, function(data){
+				if (data.status){
+					ui_alert(data.info,function(){
+						location.reload();
+					});
+				}
+			});
+		})
+	}
+</script>

@@ -18,7 +18,7 @@ class PostAction extends CommonAction {
 		$map['is_del'] = array('eq', '0');
 	}
 
-	public function edit() {
+	public function edit(){
 		$widget['uploader'] = true;
 		$widget['editor'] = true;
 		$this -> assign("widget", $widget);

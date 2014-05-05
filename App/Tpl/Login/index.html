@@ -25,6 +25,17 @@
 						<input class="form-control" id="password" type="password" name="password" />
 					</div>
 				</div>
+				<div class="form-group">
+					<label class="col-sm-3  control-label" for="password">验证码：</label>
+					<div class="col-sm-9 row">
+						<div class="col-xs-8">
+								<input class="form-control" id="verify" name="verify" />
+						</div>
+						<div class="col-xs-4">
+							<img src='__URL__/verify' / style='cursor:pointer' title='刷新验证码' id='verifyImg' onClick='freshVerify()'>
+						</div>							
+					</div>
+				</div>
 				<div class="form-group display-none">	<span class="col-sm-3  control-label"></span>
 					<div class="col-sm-9">
 						<label class="inline pull-left col-3">

@@ -32,11 +32,12 @@ function get_new_count(){
 	$where['_string'] = "result is null";
 	$log_list = $FlowLog -> where($where) -> field('flow_id') -> select();
 	$log_list = rotate($log_list);
+	$new_confirm_count=0;
 	if (!empty($log_list)) {
 		$map['id'] = array('in', $log_list['flow_id']);
 		$new_confirm_count = $model -> where($map) -> count();
-		$data['new_confirm_count']=$new_confirm_count;
 	}
+	$data['new_confirm_count']=$new_confirm_count;
 
 	//获取最新通知
 	$model = D('Notice');
@@ -503,8 +504,8 @@ function get_model_fields($model) {
 }
 
 function show_step_type($step) {
-	if ($step >= 20) {
-		return "裁决";
+	if ($step >= 20 && $step<30) {
+		return "审批";
 	}
 	if ($step >= 30) {
 		return "协商";
@@ -534,10 +535,10 @@ function show_step($step) {
 		return "待协商";
 	}
 	if ($step > 20) {
-		return "裁决中";
+		return "审批中";
 	}
 	if ($step == 20) {
-		return "待裁决";
+		return "待审批";
 	}
 	if ($step == 10) {
 		return "临时保管";

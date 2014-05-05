@@ -26,18 +26,11 @@ class FlowAction extends CommonAction {
 	}
 
 	function index() {
-		$this -> _assign_group_list();
-		$model = M('FlowType');
-		if (!empty($_POST['group'])) {
-			$where['group'] = $_POST['group'];
-			if ($where['group'] == "全部") {
-				$where = array();
-			}
-		}
-
+		$model = D('FlowTypeView');
 		$where['is_del'] = 0;
-		$list = $model -> where($where) -> select();
+		$list = $model -> where($where)->order('sort')-> select();
 		$this -> assign("list", $list);
+		$this -> _assign_tag_list();
 		$this -> display();
 	}
 
@@ -47,6 +40,11 @@ class FlowAction extends CommonAction {
 
 		$folder = $_REQUEST['fid'];
 		$this -> assign("folder", $folder);
+
+		if(empty($folder)){
+			$this ->error("系统错误");
+		}
+
 		$emp_no = get_emp_no();
 		$user_id = get_user_id();
 
@@ -57,12 +55,13 @@ class FlowAction extends CommonAction {
 
 		switch ($folder) {
 			case 'confirm' :
-				$this -> assign("folder_name", '待审批');
+				$this -> assign("folder_name", '待办');
 				$FlowLog = M("FlowLog");
 				$where['emp_no'] = $emp_no;
 				$where['_string'] = "result is null";
 				$log_list = $FlowLog -> where($where) -> field('flow_id') -> select();
 				$log_list = rotate($log_list);
+				
 				if (!empty($log_list)) {
 					$map['id'] = array('in', $log_list['flow_id']);
 				} else {
@@ -72,19 +71,19 @@ class FlowAction extends CommonAction {
 				break;
 
 			case 'darft' :
-				$this -> assign("folder_name", '草稿箱');
+				$this -> assign("folder_name", '草稿');
 				$map['user_id'] = $user_id;
 				$map['step'] = 10;
 				break;
 
 			case 'submit' :
-				$this -> assign("folder_name", '已提交');
+				$this -> assign("folder_name", '提交');
 				$map['user_id'] = $user_id;
 				$map['step'] = array('gt', 10);
 				break;
 
 			case 'finish' :
-				$this -> assign("folder_name", '已办理');
+				$this -> assign("folder_name", '办理');
 				$FlowLog = M("FlowLog");
 				$where['emp_no'] = $emp_no;
 				$where['_string'] = "result is not null";
@@ -98,10 +97,25 @@ class FlowAction extends CommonAction {
 				}
 				break;
 
+			case 'receive' :
+				$this -> assign("folder_name", '收到');
+				$FlowLog = M("FlowLog");
+				$where['emp_no'] = $emp_no;
+				$where['step'] = 100;
+				$log_list = $FlowLog -> where($where) -> field('flow_id') -> select();
+				$log_list = rotate($log_list);
+				if (!empty($log_list)) {
+					$map['id'] = array('in', $log_list['flow_id']);
+				} else {
+					$this -> display();
+					return;
+				}
+				break;
+
 			default :
 				break;
 		}
-		$model = M("Flow");
+		$model = D("FlowView");
 		$this -> _list($model, $map);
 		$this -> display();
 	}
@@ -137,6 +151,7 @@ class FlowAction extends CommonAction {
 
 		$model = M("FlowLog");
 		$where['flow_id'] = $id;
+		$where['step'] = array('lt',100);
 		$where['_string'] = "result is not null";
 		$flow_log = $model -> where($where) -> select();
 		$this -> assign("flow_log", $flow_log);
@@ -189,7 +204,6 @@ class FlowAction extends CommonAction {
 		$flow_log = $model -> where($where) -> select();
 
 		$this -> assign("flow_log", $flow_log);
-		trace($flow_log);
 		$where = array();
 		$where['flow_id'] = $id;
 		$where['emp_no'] = get_emp_no();
@@ -380,4 +394,9 @@ class FlowAction extends CommonAction {
 		$this -> assign("group_list", $group_list);
 	}
 
+	protected function _assign_tag_list() {
+		$model = D("SystemTag");
+		$tag_list = $model -> get_tag_list('id,name','FlowType');
+		$this -> assign("tag_list", $tag_list);
+	}
 }

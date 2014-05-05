@@ -4,7 +4,7 @@
 	<div class="panel-body">
 		<div class="pull-left">
 			<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
-			<a href="#flow_status"  class="btn btn-sm btn-primary">裁决情况</a>
+			<a href="#flow_status"  class="btn btn-sm btn-primary">审批情况</a>
 			<notempty name="to_confirm">
 				<a href="#confirm"  class="btn btn-sm btn-primary">办理意见</a>
 			</notempty>
@@ -58,7 +58,7 @@
 	</div>
 
 	<div class="form-group  col-xs-12">
-		<label class="col-sm-2 control-label" >裁决：</label>
+		<label class="col-sm-2 control-label" >审批：</label>
 		<div class="col-sm-10">
 			<p id="confirm_wrap" class="form-control-static">
 				{$vo.confirm_name}
@@ -107,12 +107,12 @@
 	</div>
 </form>
 <a id="flow_status"></a>
-{:W('PageHeader',array('name'=>'裁决情况','search'=>'N'))}
+{:W('PageHeader',array('name'=>'审批情况','search'=>'N'))}
 <div class="ul_table border-bottom">
 	<ul>
 		<li class="thead">
 			<span class="col-9 text-center">类型</span>
-			<span class="col-9 text-center">裁决人</span>
+			<span class="col-9 text-center">审批人</span>
 			<span class="col-9 text-center">日期</span>
 			<span class="col-9 text-center">结果</span>
 			<span class="auto">意见</span>

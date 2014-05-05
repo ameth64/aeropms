@@ -45,6 +45,10 @@ class LoginAction extends Action {
 
 	// 登录检测
 	public function check_login() {
+		if(session('verify') != md5($_POST['verify'])) {
+			 $this->error('验证码错误！');
+		} 
+
 		if (empty($_POST['emp_no'])) {
 			$this -> error('帐号必须！');
 		} elseif (empty($_POST['password'])) {
@@ -97,7 +101,7 @@ class LoginAction extends Action {
 	public function verify() {
 		$type = isset($_GET['type']) ? $_GET['type'] : 'gif';
 		import("@.ORG.Util.Image");
-		Image::buildImageVerify(4, 1, $type);
+		Image::buildImageVerify(4,1, $type);
 	}
 }
 ?>

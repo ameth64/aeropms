@@ -60,7 +60,7 @@ class CommonAction extends Action {
 		$model = D($name);
 
 		if (!empty($model)) {
-			$this -> _list($model, $map);
+			$this -> _list($model,$map);
 		}
 		$this -> display();
 	}
@@ -449,7 +449,7 @@ class CommonAction extends Action {
 		return $map;
 	}
 
-	protected function _list($model, $map, $sortBy = '', $asc = false) {
+	protected function _list($model, $map,$sortBy = '', $asc = false) {
 		//排序字段 默认为主键名
 		if (isset($_REQUEST['_order'])) {
 			$order = $_REQUEST['_order'];
@@ -465,9 +465,12 @@ class CommonAction extends Action {
 		//接受 sost参数 0 表示倒序 非0都 表示正序
 		if (isset($_REQUEST['_sort'])) {
 			$sort = $_REQUEST['_sort'] ? 'asc' : 'desc';
+		}else if(strpos($sortBy,',')){
+			$sort='';
 		} else {
 			$sort = $asc ? 'asc' : 'desc';
 		}
+
 		//取得满足条件的记录数
 
 		$count_model = clone $model;
@@ -487,7 +490,12 @@ class CommonAction extends Action {
 			}
 			$p = new Page($count, $listRows);
 			//分页查询数据
+			if($sort){
 			$voList = $model -> where($map) -> order("`" . $order . "` " . $sort) -> limit($p -> firstRow . ',' . $p -> listRows) -> select();
+			}else{
+			$voList = $model -> where($map) -> order($order) -> limit($p -> firstRow . ',' . $p -> listRows) -> select();
+			}
+			//echo $model->getlastSql(); 
 			$p -> parameter = $this -> _search();
 			//分页显示
 			$page = $p -> show();
@@ -596,8 +604,10 @@ class CommonAction extends Action {
 		}
 	}
 
-	protected function _tag_manage($tag_name) {
+	protected function _tag_manage($tag_name,$has_pid=true){
+
 		$this -> assign("tag_name", $tag_name);
+		$this->assign("has_pid",$has_pid);
 		if ($this -> config['app_type'] == 'personal') {
 			R('UserTag/index');
 			$this -> assign('js_file', "UserTag:js/index");

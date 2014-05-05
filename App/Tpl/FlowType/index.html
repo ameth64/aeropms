@@ -1,5 +1,5 @@
 <layout name='Layout/ace_layout' />
-{:W('PageHeader',array('name'=>'审批管理','search'=>'S'))}
+{:W('PageHeader',array('name'=>'流程管理','search'=>'S'))}
 <!--  功能操作区域  -->
 <div class="operate panel panel-default">
 	<div class="panel-body">
@@ -7,7 +7,7 @@
 			<div class="btn-group">
 				<a class="btn btn-sm btn-primary  dropdown-toggle" data-toggle="dropdown" href="#"> 移动到 <span class="icon-caret-down"></span> </a>
 				<ul class="dropdown-menu">
-					<foreach name="group_list" item="vo">
+					<foreach name="tag_list" item="vo">
 						<li onclick="move_to('{$key}');">
 							<a>{$vo}</a>
 						</li>
@@ -44,7 +44,7 @@
 						<label class="inline pull-left col-3">
 							<input class="ace" type="checkbox" name="id[]" value="{$vo.id}" />
 							<span class="lbl"></span></label>
-						<span  class="col-14" >{$vo.group}&nbsp;</span>
+						<span  class="col-14" >{$vo.tag_name}&nbsp;</span>
 						<span class="col-6 pull-right text-center"  >{$vo.is_del|status}&nbsp;</span>
 						<span class="col-25 pull-right">{$vo.doc_no_format }&nbsp;</span>
 						<span class="autocut auto"><a href="{:U('edit?id='.$vo['id'])}">{$vo.name}&nbsp;</a></span>

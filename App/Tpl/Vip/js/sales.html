@@ -1,0 +1,16 @@
+<script type="text/javascript">
+	function add_sales() {
+		window.open("{:U('add_sales')}", "_self");
+		return false;
+	}
+
+	function edit() {
+		id = $("li.tbody.selected :checkbox").val();
+		if (id == undefined) {
+			ui_error("请选择要编辑的联系人");
+			return false;
+		} else {
+			window.open(fix_url("{:U('edit')}?id=" + id), "_self");
+		}
+	}
+</script>

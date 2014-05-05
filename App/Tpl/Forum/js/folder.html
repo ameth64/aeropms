@@ -19,6 +19,19 @@
 					});
 				})
 				break;
+				case "is_top":
+				ui_confirm('确认要置顶或取消置顶？',function(){
+					sendAjax("{:u('mark?action=is_top')}",vars, function(data) {
+						if (data.status){
+							ui_alert(data.info,function(){
+								$("input[name='id[]']:checkbox:checked").each(function() {
+									window.open("{:U('folder?fid='.$folder_id)}", "_self");
+								})
+							});	
+						}
+					});
+				})
+					break;
 			default:
 		}
 	}
