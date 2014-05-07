@@ -45,9 +45,83 @@ class VipAction extends CommonAction {
 	function sales(){
 		$model = M("VipSales");
 		$where=array('vip_id',$_REQUEST['vip_id']);
+		$this->assign('vip_id',$_REQUEST['vip_id']);
 		$list=$model->where($where)->select();
 		$this->assign('list',$list);
 		$this -> display();
+	}
+
+	function add_sales(){
+
+		if($this->isPost()){		
+			$model=M("VipSales");
+			if (false === $model -> create()) {
+				$this -> error($model -> getError());
+			}
+			$model->size=implode(",",$model->size);
+
+			$list = $model -> add();
+			if ($list !== false) {//保存成功
+				$this -> assign('jumpUrl', get_return_url());
+				$this -> success('新增成功!');
+			} else {
+				//失败提示
+				$this -> error('新增失败!');
+			}
+		}else{
+			$widget['date'] = true;	
+			$this -> assign("widget", $widget);
+			$this -> assign("vip_id",$_REQUEST['vip_id']);
+			$this -> display();
+		}
+	}
+
+
+	function edit_sales(){
+
+		if($this->isPost()){		
+			$model=M("VipSales");
+			if (false === $model -> create()) {
+				$this -> error($model -> getError());
+			}
+			$model->size=implode(",",$model->size);
+
+			$list = $model -> save();
+			if ($list !== false) {//保存成功
+				$this -> assign('jumpUrl', get_return_url());
+				$this -> success('编辑成功!');
+			} else {
+				//失败提示
+				$this -> error('编辑失败!');
+			}
+		}else{
+			$widget['date'] = true;	
+			$this -> assign("widget", $widget);
+			$model=M("VipSales");
+			$id=$_REQUEST['id'];
+			$list=$model->find($id);
+			$this->assign("vo",$list);
+			$this -> display();
+		}
+	}
+
+	function del_sales(){
+		$model = M("VipSales");
+		$id=$_REQUEST['id'];
+		if (!empty($model)){
+			if (isset($id)){
+				$where['id']=array('eq',$id);
+				$result = $model -> where($where) -> delete();
+				if ($result !== false){
+					$this -> assign('jumpUrl', get_return_url());
+					$this -> success("彻底删除{$result}条!");
+				} else {
+					$this -> error('删除失败!');
+				}
+			} else {
+				$this -> error('没有可删除的数据!');
+			}
+		}
 	}
 
 	function del(){
@@ -65,6 +139,7 @@ class VipAction extends CommonAction {
 
 	protected function _insert(){		
 		$widget['date'] = true;		
+		$this -> assign("widget", $widget);
 
 		$model = D('Vip');
 		if (false === $model -> create()) {
@@ -90,6 +165,7 @@ class VipAction extends CommonAction {
 	protected function _update() {
 
 		$widget['date'] = true;		
+		$this -> assign("widget", $widget);
 
 		$id = $_POST['id'];
 		$model = D("Vip");

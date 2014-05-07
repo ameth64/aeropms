@@ -22,7 +22,7 @@ function get_new_count(){
 	$where['read'] = array('eq', '0');
 	$model = M("Mail");
 	$new_mail_count = $model -> where($where) -> count();
-	$data['new_mail_count']=$new_mail_count;
+	$data['mail']=$new_mail_count;
 
 	//获取待裁决
 	$where = array();
@@ -37,7 +37,7 @@ function get_new_count(){
 		$map['id'] = array('in', $log_list['flow_id']);
 		$new_confirm_count = $model -> where($map) -> count();
 	}
-	$data['new_confirm_count']=$new_confirm_count;
+	$data['flow']=$new_confirm_count;
 
 	//获取最新通知
 	$model = D('Notice');
@@ -58,7 +58,7 @@ function get_new_count(){
 			}
 		}
 	}
-	$data['new_notice_count']=$new_notice_count;
+	$data['notice']=$new_notice_count;
 
 	//获取待办事项
 	$model = M("Todo");
@@ -66,7 +66,7 @@ function get_new_count(){
 	$where['user_id'] = $user_id;
 	$where['status'] = array("in", "1,2");
 	$new_todo_count = M("Todo") -> where($where) -> count();
-	$data['new_todo_count']=$new_todo_count;
+	$data['todo']=$new_todo_count;
 
 	//获取最新消息
 	$model = M("Message");
@@ -75,7 +75,7 @@ function get_new_count(){
 	$where['receiver_id']=$user_id;
 	$where['is_read'] = array('eq','0');
 	$new_message_count = M("Message") -> where($where) -> count();
-	$data['new_message_count']=$new_message_count;
+	$data['message']=$new_message_count;
 
 	return $data;
 }
@@ -452,6 +452,11 @@ function get_dept_name(){
 	return session('dept_name');		
 }
 
+function get_module($str) {
+		$arr_str = explode("/", $str);
+		return $arr_str[0];
+}
+
 function toDate($time, $format = 'Y-m-d H:i:s') {
 	if (empty($time)) {
 		return '';
@@ -688,7 +693,7 @@ function list_to_tree($list, $root = 0, $pk = 'id', $pid = 'pid', $child = '_chi
 	return $tree;
 }
 
-function tree_to_list($tree, $level = 0, $pk = 'id', $pid = 'pid', $child = '_child') {
+function tree_to_list($tree, $level = 0, $pk = 'id', $pid = 'pid', $child = '_child'){
 	$list = array();
 	if (is_array($tree)) {
 		foreach ($tree as $val) {
@@ -706,6 +711,35 @@ function tree_to_list($tree, $level = 0, $pk = 'id', $pid = 'pid', $child = '_ch
 		}
 		return $list;
 	}
+}
+
+function show_top_menu(){
+	$menu = D("Node") -> get_top_menu();
+		$html = "<nav  class=\"navbar navbar-default navbar-fixed-top\" role=\"navigation\">\r\n";
+		foreach ($menu as $val) {
+		
+			if (isset($val["name"])) {
+				$title = $val["name"];
+				if (!empty($val["url"])) {
+					$url = U($val['url']);
+				} else {
+					$url = "#";
+				}
+				$id = $val["id"];
+				if (empty($val["id"])) {
+					$id = $val["name"];
+				}
+				if (isset($val['_child'])) {
+					$html = $html . "<li>\r\n<a node=\"$id\" href=\"" . "$url\"><i class=\"icon-angle-right level$level\"></i><span>$title</span></a>\r\n";
+					$html = $html . tree_nav($val['_child'], $level);
+					$html = $html . "</li>\r\n";
+				} else {
+					$html = $html . "<li>\r\n<a  node=\"$id\" href=\"" . "$url\"><i class=\"icon-angle-right level$level\"></i><span>$title</span></a>\r\n</li>\r\n";
+				}
+			}
+		}
+		$html = $html . "</nav>\r\n";
+		return $html;
 }
 
 function tree_nav($tree, $level = 0) {

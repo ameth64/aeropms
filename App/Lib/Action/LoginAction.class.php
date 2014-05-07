@@ -33,7 +33,7 @@ class LoginAction extends Action {
 		if (isset($auth_id)) {
 			session(C('USER_AUTH_KEY'), null);
 			session('menu' . $auth_id, null);
-			session('menu' . $auth_id, null);
+			session('top_menu' . $auth_id, null);
 			session('user_pic', null);
 			$this -> assign("jumpUrl", __URL__ . '/');
 			$this -> success('登出成功！');

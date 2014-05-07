@@ -12,7 +12,6 @@
 -------------------------------------------------------------------------*/
 
 class CommonAction extends Action {
-
 	function _initialize() {
 		$auth_id = session(C('USER_AUTH_KEY'));
 		if (!isset($auth_id)) {
@@ -20,9 +19,52 @@ class CommonAction extends Action {
 			redirect(U(C('USER_AUTH_GATEWAY')));
 		}
 		$this -> assign('js_file', 'js/' . ACTION_NAME);
-		$this -> _assign_menu();
-		$this->_assign_new_count();
+		$this->_assign_menu();
 	}
+
+	/**显示top menu及 left menu **/
+	protected function _assign_menu(){
+		$this->assign("new_count",get_new_count());
+		$model = D("Node");
+		$user_id = get_user_id();
+
+		$top_menu = cookie('top_menu');
+		$top_menu_list = session('top_menu'.$user_id);
+		if (!empty($top_menu_list)){
+			$list = $top_menu_list;
+		} else {
+			$list = $model -> get_top_menu($user_id);
+			if (empty($list)){
+				$this -> assign('jumpUrl', U("Login/logout"));
+				$this -> error("没有权限");
+			}
+			session('top_menu' . $user_id, $list);
+		}
+
+		$this -> assign('top_menu', $list);
+
+		$model = D("Node");
+		$user_id = get_user_id();
+		if (session('menu' . $user_id)) {
+			//如果已经缓存，直接读取缓存
+			$menu = session('menu' . $user_id);
+		} else {
+			//读取数据库模块列表生成菜单项
+			$menu = D("Node") -> access_list();
+			$system_folder_menu = D("SystemFolder") -> get_folder_menu();
+			$user_folder_menu = D("UserFolder") -> get_folder_menu();
+			$menu = array_merge($menu, $system_folder_menu, $user_folder_menu);
+			//缓存菜单访问
+			session('menu' . $user_id,$menu);
+		}
+		$tree = list_to_tree($menu);
+		if (!empty($top_menu)) {
+			$this -> assign("top_menu_name", $model -> where("id=$top_menu") -> getField('name'));
+		}
+		$left_menu = list_to_tree($menu,$top_menu);
+		$this -> assign('left_menu',$left_menu);
+	}
+
 
 	/**列表页面 **/
 	function index() {
@@ -524,9 +566,9 @@ class CommonAction extends Action {
 		return;
 	}
 
-	/**显示top menu及 left menu **/
 
-	protected function _assign_menu() {
+
+	protected function _assign_menu2() {
 		$model = D("Node");
 		$user_id = get_user_id();
 		if (session('menu' . $user_id)) {
@@ -539,12 +581,27 @@ class CommonAction extends Action {
 			$user_folder_menu = D("UserFolder") -> get_folder_menu();
 			$menu = array_merge($menu, $system_folder_menu, $user_folder_menu);
 			//缓存菜单访问
-			session('menu' . $user_id, $menu);
+			session('menu' . $user_id,$menu);
 		}
-
 		$tree = list_to_tree($menu);
-		$this -> assign('tree', $tree);
+		$this -> assign('tree',$tree);
 	}
+
+	protected function _assign_top_menu() {
+		$model = D("Node");
+		$user_id = get_user_id();
+		if (session('top_menu' . $user_id)) {
+			//如果已经缓存，直接读取缓存
+			$top_menu = session('top_menu' . $user_id);
+		} else {
+			//读取数据库模块列表生成菜单项
+			$top_menu = D("Node") -> get_top_menu();
+			//缓存菜单访问
+			session('top_menu'.$user_id,$top_menu);
+		}
+		$this -> assign('top_menu',$top_menu);
+	}
+
 
 	protected function _assign_folder_list() {
 		if ($this -> config['app_type'] == 'personal') {
@@ -564,15 +621,6 @@ class CommonAction extends Action {
 		$model = M("File");
 		$list = $model -> where($where) -> select();
 		$this -> assign('file_list', $list);
-	}
-
-	protected function _assign_new_count($refresh=false) {
-		$data = get_new_count(); 
- 		$this->assign('new_mail_count',$data['new_mail_count']);
-		$this->assign('new_notice_count',$data['new_notice_count']);
-		$this->assign('new_todo_count',$data['new_todo_count']);
-		$this->assign('new_confirm_count',$data['new_confirm_count']);
-		$this->assign('new_message_count',$data['new_message_count']);
 	}
 
 	protected function _set_field($id, $field, $val, $name = '') {

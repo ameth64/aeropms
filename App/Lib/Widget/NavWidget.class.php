@@ -14,7 +14,7 @@ class NavWidget extends Widget {
 			if ($level >1) {
 				$html = "<ul class='submenu'>\r\n";			
 			} else {				
-				$html = "<ul class='nav nav-list'>\r\n";				
+				$html = "<ul id='left_menu' class='nav nav-list'>\r\n";				
 			}
 			foreach ($tree as $val){
 				if (isset($val["name"])) {

@@ -1,6 +1,38 @@
 function del_current_node(){
 	set_cookie("current_node",null);	
 }
+
+function click_top_menu(node){
+	set_cookie("left_menu","");	
+	url=$(node).attr("url");
+	node=$(node).attr("node")	
+	set_cookie("top_menu",node);
+	
+	form = $("<form></form>");
+	form.attr('action',url);
+	form.attr('method','post');
+	form.appendTo("body");
+	form.css('display','none');
+	form.submit();
+}
+
+function click_home_list(obj_node){
+	node=$(obj_node).attr("node");
+	set_cookie("top_menu",node);
+
+	return_url=$(obj_node).attr("return_url");
+	set_return_url(return_url);
+
+	url=$(obj_node).attr("url");
+
+	form = $("<form></form>");
+	form.attr('action',url);
+	form.attr('method','post');
+	form.appendTo("body");
+	form.css('display','none');
+	form.submit();
+}
+
 /* 填充时间*/
 function fill_time(id) {
 	for (var i = 5; i < 22; i++) {
@@ -131,12 +163,6 @@ function show_content() {
 	$("#content_iframe").height(height + 30);
 }
 
-/*返回到上一页*/
-function go_return_url() {
-	window.open(get_cookie("return_url"), "_self");
-	return false;
-}
-
 function toggle_adv_search() {
 	if ($("#adv_search").attr("class").indexOf("display-none") < 0) {
 		$("#adv_search").addClass("display-none");
@@ -146,6 +172,14 @@ function toggle_adv_search() {
 		$("#adv_search").removeClass("display-none");
 		$("#toggle_adv_search_icon").addClass("icon-chevron-up");
 		$("#toggle_adv_search_icon").removeClass("icon-chevron-down");
+	}
+}
+
+function toggle_left_menu(){
+	if ($("#left_menu").css("display")=="none"){
+		$("#left_menu").show();
+	} else {
+		$("#left_menu").hide();
 	}
 }
 
@@ -309,12 +343,29 @@ function set_val(name,val) {
 }
 
 /*设置要返回的URL*/
-function set_return_url(url) {
-	if (url != undefined) {		
-		set_cookie("return_url", url);
+function set_return_url(url,level){
+	if (url != undefined){
+		if(level!=undefined){
+			set_cookie("return_url_"+level,url);
+		}else{
+			set_cookie("return_url",url);
+		}
 	} else {
-		set_cookie("return_url", document.location);		
+		set_cookie("return_url",document.location);
 	}
+	console.log(get_cookie("return_url"));
+}
+
+/*返回到上一页*/
+function go_return_url(level) {
+	if(level!=undefined){
+		return_url=get_cookie('return_url_'+level);
+		window.open(return_url,"_self");
+	}else{
+		return_url=get_cookie('return_url');
+		window.open(return_url,"_self");
+	}
+	return false;
 }
 
 /*打开弹出窗口*/
@@ -526,7 +577,6 @@ function del_cookie(cookie_name) {
 	cookie_date.setTime(cookie_date.getTime() - 1);
 	document.cookie = cookie_name += "=; expires=" + cookie_date.toGMTString();
 }
-
 
 $(document).ready(function() {
 	$(".sidebar .nav a").click(function() {

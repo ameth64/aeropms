@@ -1613,9 +1613,6 @@ blockquote.pull-right {
   top: 2px;
 }
 @media only screen and (max-width: 991px) {
-  .breadcrumb {
-    margin-left: 90px;
-  }
   .breadcrumbs.fixed,
   .breadcrumbs.breadcrumbs-fixed {
     position: relative !important;
@@ -2563,19 +2560,18 @@ li [class*=" icon-"],
     display: none;
   }
   .sidebar {
-    display: none;
     float: none;
-    position: absolute;
     z-index: 999;
     left: 0;
     bottom: auto;
     top: auto !important;
     /*so that it's applied even if it's .sidebar-fixed */
-  
-    margin-top: 40px;
     border: 1px solid #CCC;
     border-left-width: 0;
-    box-shadow: 2px 1px 2px 0 rgba(0, 0, 0, 0.2);
+	width:100%;
+  }
+  #left_menu{
+	display:none;
   }
   .sidebar.display {
     display: block;
@@ -2666,9 +2662,11 @@ li [class*=" icon-"],
   }
   .nav-list > li.active:after {
     display: none;
+	float:left;
   }
   .nav-list li.active > a:after {
     display: none;
+	float:left;
   }
   .nav-list li.active.open > .submenu > li.active > a:after {
     display: none;

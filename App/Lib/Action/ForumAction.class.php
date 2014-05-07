@@ -80,6 +80,7 @@ class ForumAction extends CommonAction {
 		$this -> assign('auth', $this -> config['auth']);
 
 		$model = M("Forum");
+
 		$id = $_REQUEST['id'];
 		$where['id'] = array('eq', $id);
 
