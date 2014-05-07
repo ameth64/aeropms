@@ -48,7 +48,7 @@ class NodeAction extends CommonAction {
 			$this -> error($model -> getError());
 		}
 		if(strpos($model->url,'##')!==false){			
-			$model->sub_folder=ucfirst(str_replace("##","",$model->url))."Folder";
+			$model->sub_folder=ucfirst(get_module(str_replace("##","",$model->url)))."Folder";
 		}else{
 			$model->sub_folder='';
 		}
@@ -69,8 +69,8 @@ class NodeAction extends CommonAction {
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
 		}
-		if(strpos($model->url,'##')!==false){			
-			$model->sub_folder=ucfirst(str_replace("##","",$model->url))."Folder";
+		if(strpos($model->url,'##')!==false){
+			$model->sub_folder=ucfirst(get_module(str_replace("##","",$model->url)))."Folder";
 		}else{
 			$model->sub_folder='';
 		}
