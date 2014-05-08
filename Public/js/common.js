@@ -592,8 +592,7 @@ $(document).ready(function() {
 			ul_table.display_bar($('.ul_table input[type=checkbox]:checked').length);
 			//determine number of selected messages and display/hide action toolbar accordingly
 		}
-	});
-
+	});	
 	$('#id-toggle-all').removeAttr('checked').on('click', function() {
 		if (this.checked) {
 			ul_table.select_all();
@@ -606,5 +605,7 @@ $(document).ready(function() {
 		$(this).addClass("active open");		
 		breadcrumb='<li>'+$(this).find("a:first").text()+'</li>'+breadcrumb;					
 	})	
-	$(".breadcrumb").append(breadcrumb);		
+	$(".breadcrumb").append(breadcrumb);	
+	top_menu=get_cookie("top_menu");
+	$(".navbar-nav a.nav-app[node="+top_menu+"]").addClass("active");
 }); 
