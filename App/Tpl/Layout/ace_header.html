@@ -14,7 +14,7 @@
         <div class="collapse navbar-collapse" id="navbar-collapse-6">
           <ul class="nav navbar-nav navbar-right">
 				<foreach name="top_menu" item="top_menu_vo">
-				<a class="btn btn-app app-nav btn-xs nav-app"  href="#" url="{:U($top_menu_vo['url'])}" node="{$top_menu_vo.id}" onclick="click_top_menu(this)" style="margin-top:15px;margin-bottom:20px;margin-left:7px;">
+				<a class="btn btn-app app-nav btn-xs nav-app"  href="#" url="{:U($top_menu_vo['url'])}" node="{$top_menu_vo.id}" onclick="click_top_menu(this)" >
 					<i class="{$top_menu_vo.icon} bigger-100"></i>
 						{$top_menu_vo.name}
 					<php>

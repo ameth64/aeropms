@@ -26,6 +26,8 @@ class HomeAction extends CommonAction {
 		$this -> assign("widget", $widget);
 				
 		cookie("current_node", null);
+		cookie("top_menu", null);
+
 		$config = D("UserConfig") -> get_config();
 		$this -> assign("home_sort", $config['home_sort']);
 		$this -> _mail_list();

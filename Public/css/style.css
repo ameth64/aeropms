@@ -23,6 +23,9 @@ select{
 	padding-top:3px;padding-right:12px;
 }
 
+.app-nav{
+	margin-top:15px;margin-bottom:20px;margin-left:6px;
+}
 .btn-app.app-nav,
 .btn-app.app-nav.no-hover:hover,
 .btn-app.app-nav.disabled:hover {

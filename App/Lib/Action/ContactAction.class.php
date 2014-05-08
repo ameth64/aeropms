@@ -56,8 +56,8 @@ class ContactAction extends CommonAction {
 
 		//导入thinkphp第三方类库
 		Vendor('Excel.PHPExcel');
-
-		$inputFileName = get_save_path() . "templete/contact.xlsx";
+		
+		$inputFileName = "Public/templete/contact.xlsx";
 		$objPHPExcel = PHPExcel_IOFactory::load($inputFileName);
 
 		$objPHPExcel -> getProperties() -> setCreator("smeoa") -> setLastModifiedBy("smeoa") -> setTitle("Office 2007 XLSX Test Document") -> setSubject("Office 2007 XLSX Test Document") -> setDescription("Test document for Office 2007 XLSX, generated using PHP classes.") -> setKeywords("office 2007 openxml php") -> setCategory("Test result file");
@@ -96,7 +96,6 @@ class ContactAction extends CommonAction {
 			$upload -> allowExts = array('xlsx');
 			$upload -> saveRule = uniqid;
 			$upload -> autoSub = false;
-
 			if (!$upload -> upload()) {
 				$this -> error($upload -> getErrorMsg());
 			} else {

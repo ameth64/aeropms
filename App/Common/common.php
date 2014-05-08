@@ -306,7 +306,6 @@ function get_save_path(){
 	$save_path=C('SAVE_PATH');
 	$app_path=str_replace("/index.php?s=","",$app_path);
 	$app_path=str_replace("/index.php","",$app_path);
-	//return substr($app_path."/".$save_path,1);
 	return C('SAVE_PATH');
 }
 
