@@ -25,7 +25,9 @@ class FlowAction extends CommonAction {
 		}		
 	}
 
-	function index() {
+	function index(){
+
+		$model=D("Flow");
 		$model = D('FlowTypeView');
 		$where['is_del'] = 0;
 		$list = $model -> where($where)->order('sort')-> select();

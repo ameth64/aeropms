@@ -81,21 +81,44 @@ class FlowModel extends CommonModel {
 	}
 
 	function _after_insert($data, $options) {
-		$this -> _conv_confirm($data['id'],$data['confirm']);
-		$this -> _conv_consult($data['id'],$data['consult']);
+
 		if ($data['step'] == 20) {
+
+			$model = M("Flow");
+			$id=$data['id'];
+			$where['id']=array('eq',$id);
+			$str_confirm=$this -> _conv_auditor($data['confirm']);
+			$str_consult=$this -> _conv_auditor($data['consult']);
+			$str_refer=$this -> _conv_auditor($data['refer']);
+
+			$model -> where($where) -> setField('confirm', $str_confirm);
+			$model -> where($where) -> setField('consult', $str_consult);
+			$model -> where($where) -> setField('refer', $str_refer);
+
 			$this -> next_step($data['id'], 20);
 		}
 	}
 
 	function _after_update($data,$options){
 		if ($data['step'] == 20) {
-			$this -> _conv_confirm($data['id'], $data['confirm']);
+
+			$model = M("Flow");
+			$id=$data['id'];
+			$where['id']=array('eq',$id);
+
+			$str_confirm=$this -> _conv_auditor($data['confirm']);
+			$str_consult=$this -> _conv_auditor($data['consult']);
+			$str_refer=$this -> _conv_auditor($data['refer']);
+
+			$model -> where($where) -> setField('confirm', $str_confirm);
+			$model -> where($where) -> setField('consult', $str_consult);
+			$model -> where($where) -> setField('refer', $str_refer);
+
 			$this -> next_step($data['id'], 20);
 		}
 	}
 
-	function _get_dept($dept_id, $dept_grade) {
+	function _get_dept($dept_id,$dept_grade) {
 		$model = M("Dept");
 		$dept = $model -> find($dept_id);
 		if ($dept['dept_grade_id'] == $dept_grade) {
@@ -176,13 +199,12 @@ class FlowModel extends CommonModel {
 		return $str_confirm;
 	}
 
-
-	function _conv_consult($key,$val){
-		$arr_consult = array_filter(explode("|", $val));
-		$str_consult;
-		foreach ($arr_consult as $consult) {
-			if (strpos($consult, "dgp") !== false) {
-				$temp = explode("_", $consult);
+	function _conv_auditor($val){
+		$arr_auditor = array_filter(explode("|", $val));
+		$str_auditor;
+		foreach ($arr_auditor as $auditor) {
+			if (strpos($auditor, "dgp") !== false) {
+				$temp = explode("_", $auditor);
 				$dept_grade = $temp[1];
 				$position = $temp[2];
 				$dept_id = $this -> _get_dept(get_dept_id(),$dept_grade);
@@ -193,14 +215,15 @@ class FlowModel extends CommonModel {
 				$where['position_id'] = $position;
 				$where['is_del'] = 0;
 				$emp_list = $model -> where($where) -> select();
-				//dump($emp_list);
+			
 				$emp_list = rotate($emp_list);
+
 				if (!empty($emp_list)) {
-					$str_confirm .= implode(",", $emp_list['emp_no']) . "|";
+					$str_auditor .= implode(",", $emp_list['emp_no']) . "|";
 				}
 			}
-			if (strpos($consult, "dp") !== false) {
-				$temp = explode("_", $consult);
+			if (strpos($auditor, "dp") !== false) {
+				$temp = explode("_", $auditor);
 				$dept = $temp[1];
 				$position = $temp[2];
 
@@ -214,11 +237,11 @@ class FlowModel extends CommonModel {
 				$emp_list = rotate($emp_list);
 
 				if (!empty($emp_list)) {
-					$str_consult .= implode(",", $emp_list['emp_no']) . "|";
+					$str_auditor .= implode(",", $emp_list['emp_no']) . "|";
 				}
 			}
-			if (strpos($consult, "dept") !== false) {
-				$temp = explode("_", $consult);
+			if (strpos($auditor, "dept") !== false) {
+				$temp = explode("_", $auditor);
 				$dept = $temp[1];
 
 				$model = M("User");
@@ -228,21 +251,19 @@ class FlowModel extends CommonModel {
 				$emp_list = $model -> where($where) -> select();
 				$emp_list = rotate($emp_list);
 				if (!empty($emp_list)) {
-					$str_consult .= implode(",", $emp_list['emp_no']) . "|";
+					$str_auditor .= implode(",", $emp_list['emp_no']) . "|";
 				}
 			}
-			if (strpos($consult, "emp") !== false) {
-				$temp = explode("_", $consult);
+			if (strpos($auditor, "emp") !== false) {
+				$temp = explode("_", $auditor);
 				$emp = $temp[1];
 				$str_confirm .= $emp . "|";
 			}
-			if (strpos($consult, "_") == false) {
-				$str_consult .= $consult . "|";
+			if (strpos($auditor, "_") == false) {
+				$str_auditor .= $auditor . "|";
 			}
 		}
-		$model = M("Flow");
-		$model -> where("id=$key") -> setField('consult', $str_consult);
-		return $str_consult;
+		return $str_auditor;
 	}
 
 	public function next_step($flow_id, $step,$emp_no) {
@@ -267,7 +288,7 @@ class FlowModel extends CommonModel {
 		}
 
 		if (substr($step, 0, 1) == 3) {
-			if ($this -> is_last_consult($flow_id)) {
+			if ($this -> is_last_auditor($flow_id)) {
 				$step = 40;
 			} else {
 				$step++;
@@ -312,16 +333,16 @@ class FlowModel extends CommonModel {
 		return false;
 	}
 
-	function is_last_consult($flow_id) {
-		$consult = M("Flow") -> where("id=$flow_id") -> getField("consult");
-		if (empty($consult)) {
+	function is_last_auditor($flow_id) {
+		$auditor = M("Flow") -> where("id=$flow_id") -> getField("auditor");
+		if (empty($auditor)) {
 			return true;
 		}
 
-		$last_consult = array_filter(explode("|", $consult));
-		$last_consult_emp_no = end($last_consult);
+		$last_auditor = array_filter(explode("|", $auditor));
+		$last_auditor_emp_no = end($last_auditor);
 
-		if (strpos($last_consult_emp_no,get_emp_no()) !== false) {
+		if (strpos($last_auditor_emp_no,get_emp_no()) !== false) {
 			return true;
 		}
 		return false;
@@ -336,11 +357,11 @@ class FlowModel extends CommonModel {
 			//dump($arr_confirm);
 		}
 		if (substr($step, 0, 1) == 3) {
-			$consult = M("Flow") -> where("id=$flow_id") -> getField("consult");
-			$arr_consult = array_filter(explode("|", $consult));
+			$auditor = M("Flow") -> where("id=$flow_id") -> getField("auditor");
+			$arr_auditor = array_filter(explode("|", $auditor));
 
 			//dump($arr_confirm[fmod($step,10)-1]);die;
-			return $arr_consult[fmod($step,10) - 1];
+			return $arr_auditor[fmod($step,10) - 1];
 			//dump($arr_confirm);
 		}
 	}
@@ -348,7 +369,8 @@ class FlowModel extends CommonModel {
 	function send_to_refer($flow_id){
 		$model = M("Flow");
 		$list=$model -> where("id=$flow_id") -> getField('refer');
-		$emp_list=array_filter(explode("|",$list));
+		$list=str_replace("|",",",$list);
+		$emp_list=array_filter(explode(",",$list));
 		
 		$data['flow_id']=$flow_id;
 		$data['result']=1;

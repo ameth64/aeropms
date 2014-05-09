@@ -206,6 +206,7 @@ class PopupAction extends CommonAction {
 	}
 
 	function confirm() {
+
 		$widget['jquery-ui'] = true;		
 		$this -> assign("widget", $widget);
 		
@@ -227,7 +228,7 @@ class PopupAction extends CommonAction {
 		$list = list_to_tree($list);
 		$this -> assign('list_position', popup_tree_menu($list));
 
-		$this -> assign('type', 'rank');
+		$this -> assign('type', 'company');
 		$this -> display();
 		return;
 	}
@@ -237,6 +238,7 @@ class PopupAction extends CommonAction {
 	}
 
 	function flow() {
+
 		$widget['jquery-ui'] = true;		
 		$this -> assign("widget", $widget);
 				
