@@ -44,7 +44,7 @@ class VipAction extends CommonAction {
 
 	function sales(){
 		$model = M("VipSales");
-		$where=array('vip_id',$_REQUEST['vip_id']);
+		$where['vip_id']=array('eq',$_REQUEST['vip_id']);
 		$this->assign('vip_id',$_REQUEST['vip_id']);
 		$list=$model->where($where)->select();
 		$this->assign('list',$list);
@@ -137,10 +137,32 @@ class VipAction extends CommonAction {
 		}
 	}
 
-	protected function _insert(){		
+	function add(){
 		$widget['date'] = true;		
 		$this -> assign("widget", $widget);
+		$this->display();
+	}
 
+	function edit(){
+		$widget['date'] = true;		
+		$this -> assign("widget", $widget);
+		$model=M("Vip");
+		$id=$_REQUEST['id'];
+		$vo = $model -> getById($id);
+		$this -> assign('vo', $vo);
+
+		$model=M("VipSales");
+		$where=array();
+		$where['vip_id']=$id;
+		$total_amount=$model->where($where)->sum('amount');
+		$total_point=$model->where($where)->sum('point');
+
+		$this->assign("total_amount",$total_amount);
+		$this->assign("total_point",$total_point);
+		$this->display();
+	}
+
+	protected function _insert(){
 		$model = D('Vip');
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());

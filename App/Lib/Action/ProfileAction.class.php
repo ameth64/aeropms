@@ -14,9 +14,7 @@
 class ProfileAction extends CommonAction {
 	protected $config=array('app_type'=>'personal');
 	
-	function index(){
-		cookie("top_menu", null);
-		cookie("left_menu", null);				
+	function index(){	
 		$user=D("UserView")->find(get_user_id());
 		$this->assign("vo",$user);
 		$this->display();
@@ -41,8 +39,7 @@ class ProfileAction extends CommonAction {
 		}
 	}
 
-	public function password(){
-		cookie("top_menu", null);			
+	public function password(){	
 		$this -> display();
 	}
 

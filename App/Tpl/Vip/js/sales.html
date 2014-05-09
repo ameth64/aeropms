@@ -32,7 +32,7 @@
 		return (dec_mul(num1, m) + dec_mul(num2, m)) / m;
 	}
 
-	function formatMoney(numStr, separator) {
+	function formatMoney(numStr) {
 		s = numStr;
 		if (/[^0-9\.\-]/.test(s))
 			return "　";
@@ -46,7 +46,7 @@
 		return s.replace(/^\./, "0.")
 	}
 
-	function formatQty(numStr, separator) {
+	function formatQty(numStr) {
 		s = numStr;
 		if (/[^0-9\.\-]/.test(s))
 			return "　";
