@@ -46,7 +46,7 @@ class SystemTagModel extends CommonModel {
 
 	function del_tag($tag_id) {
 		$model = M("SystemTag");
-		$tag_list = tree_to_list(list_to_tree($this -> get_list("id,pid,name"), $tag_id));
+		$tag_list = tree_to_list(list_to_tree($this -> get_tag_list("id,pid,name"), $tag_id));
 		$tag_list = rotate($tag_list);
 
 		$tag_list = implode(",", $tag_list['id']) . ",$tag_id";
@@ -96,7 +96,7 @@ class SystemTagModel extends CommonModel {
 			} else {
 				$where['tag_id'] = array('in', array_filter(explode(',', $tag_id)));
 			}
-			$$model = M("SystemTagData");
+			$model = M("SystemTagData");
 			$result = $model -> where($where) -> delete();
 		}
 		return $result;
