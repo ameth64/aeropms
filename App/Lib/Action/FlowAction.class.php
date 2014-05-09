@@ -316,6 +316,7 @@ class FlowAction extends CommonAction {
 	}
 
 	public function approve() {
+
 		$model = D("FlowLog");
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
@@ -383,15 +384,6 @@ class FlowAction extends CommonAction {
 
 	public function upload() {
 		$this -> _upload();
-	}
-
-	protected function _assign_group_list() {
-		$model = M("FlowType");
-		$where['group'] = array("neq", "");
-		$group_list = $model -> where($where) -> distinct("group") -> field("group") -> select();
-		$group_list = rotate($group_list);
-		$group_list = array_combine($group_list["group"], $group_list["group"]);
-		$this -> assign("group_list", $group_list);
 	}
 
 	protected function _assign_tag_list() {

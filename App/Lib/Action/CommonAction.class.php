@@ -12,6 +12,7 @@
 -------------------------------------------------------------------------*/
 
 class CommonAction extends Action {
+
 	function _initialize() {
 		$auth_id = session(C('USER_AUTH_KEY'));
 		if (!isset($auth_id)) {

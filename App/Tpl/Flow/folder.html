@@ -46,7 +46,7 @@
 	<ul>
 		<li class="thead" style="padding-left:10px">
 			<span class="col-16 text-center">编号</span>
-			<span class="col-8 text-center">类型</span>
+			<span class="col-16 text-center">类型</span>
 			<span class="col-6 pull-right text-center">状态</span>
 			<span  class="col-6 pull-right text-center"> 登录人</span>
 			<span  class="col-9 pull-right text-center">登录时间</span>
@@ -67,7 +67,7 @@
 				<foreach name="list" item="vo">
 					<li class="tbody">
 						<span class="col-16 text-right">{$vo.doc_no}</span>
-						<span class="col-8  text-center"> {$vo.type_name}</span>
+						<span class="col-16  text-center"> {$vo.type_name}</span>
 						<span class="col-6 pull-right  text-center">{$vo.step|show_step}</span>
 						<span class="col-6 pull-right  text-center">{$vo.user_name}</span>
 						<span class="col-9 pull-right  text-center"> {$vo.create_time|toDate='Y-m-d'} </span>

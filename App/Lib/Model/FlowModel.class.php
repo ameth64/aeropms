@@ -81,13 +81,14 @@ class FlowModel extends CommonModel {
 	}
 
 	function _after_insert($data, $options) {
-		$this -> _conv_confirm($data['id'], $data['confirm']);
+		$this -> _conv_confirm($data['id'],$data['confirm']);
+		$this -> _conv_consult($data['id'],$data['consult']);
 		if ($data['step'] == 20) {
 			$this -> next_step($data['id'], 20);
 		}
 	}
 
-	function _after_update($data, $options) {
+	function _after_update($data,$options){
 		if ($data['step'] == 20) {
 			$this -> _conv_confirm($data['id'], $data['confirm']);
 			$this -> next_step($data['id'], 20);
@@ -175,6 +176,75 @@ class FlowModel extends CommonModel {
 		return $str_confirm;
 	}
 
+
+	function _conv_consult($key,$val){
+		$arr_consult = array_filter(explode("|", $val));
+		$str_consult;
+		foreach ($arr_consult as $consult) {
+			if (strpos($consult, "dgp") !== false) {
+				$temp = explode("_", $consult);
+				$dept_grade = $temp[1];
+				$position = $temp[2];
+				$dept_id = $this -> _get_dept(get_dept_id(),$dept_grade);
+
+				$model = M("User");
+				$where = array();
+				$where['dept_id'] = $dept_id;
+				$where['position_id'] = $position;
+				$where['is_del'] = 0;
+				$emp_list = $model -> where($where) -> select();
+				//dump($emp_list);
+				$emp_list = rotate($emp_list);
+				if (!empty($emp_list)) {
+					$str_confirm .= implode(",", $emp_list['emp_no']) . "|";
+				}
+			}
+			if (strpos($consult, "dp") !== false) {
+				$temp = explode("_", $consult);
+				$dept = $temp[1];
+				$position = $temp[2];
+
+				$model = M("User");
+				$where = array();
+				$where['dept_id'] = $dept;
+				$where['position_id'] = $position;
+				$where['is_del'] = 0;
+				$emp_list = $model -> where($where) -> select();
+				//dump($emp_list);
+				$emp_list = rotate($emp_list);
+
+				if (!empty($emp_list)) {
+					$str_consult .= implode(",", $emp_list['emp_no']) . "|";
+				}
+			}
+			if (strpos($consult, "dept") !== false) {
+				$temp = explode("_", $consult);
+				$dept = $temp[1];
+
+				$model = M("User");
+				$where = array();
+				$where['dept_id'] = $dept;
+				$where['is_del'] = 0;
+				$emp_list = $model -> where($where) -> select();
+				$emp_list = rotate($emp_list);
+				if (!empty($emp_list)) {
+					$str_consult .= implode(",", $emp_list['emp_no']) . "|";
+				}
+			}
+			if (strpos($consult, "emp") !== false) {
+				$temp = explode("_", $consult);
+				$emp = $temp[1];
+				$str_confirm .= $emp . "|";
+			}
+			if (strpos($consult, "_") == false) {
+				$str_consult .= $consult . "|";
+			}
+		}
+		$model = M("Flow");
+		$model -> where("id=$key") -> setField('consult', $str_consult);
+		return $str_consult;
+	}
+
 	public function next_step($flow_id, $step,$emp_no) {
 	
 		if (!empty($emp_no)) {
@@ -213,7 +283,7 @@ class FlowModel extends CommonModel {
 			if (!empty($emp_no)) {
 				$data['emp_no'] = $emp_no;
 			} else {
-				$data['emp_no'] = $this -> duty_emp_no($flow_id, $step);
+				$data['emp_no'] = $this -> duty_emp_no($flow_id,$step);
 			}
 			if (strpos($data['emp_no'], ",") !== false) {
 				$emp_list = explode(",", $data['emp_no']);
@@ -257,7 +327,7 @@ class FlowModel extends CommonModel {
 		return false;
 	}
 
-	function duty_emp_no($flow_id, $step){
+	function duty_emp_no($flow_id,$step){
 		if (substr($step, 0, 1) == 2){
 			$confirm = M("Flow") -> where("id=$flow_id") -> getField("confirm");
 			$arr_confirm = array_filter(explode("|", $confirm));
@@ -270,7 +340,7 @@ class FlowModel extends CommonModel {
 			$arr_consult = array_filter(explode("|", $consult));
 
 			//dump($arr_confirm[fmod($step,10)-1]);die;
-			return $arr_consult[fmod($step, 10) - 1];
+			return $arr_consult[fmod($step,10) - 1];
 			//dump($arr_confirm);
 		}
 	}

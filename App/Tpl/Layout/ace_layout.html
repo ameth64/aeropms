@@ -19,7 +19,6 @@
 	<include file="Widget:css"/>
 
 	<!-- fonts -->
-
 	<!-- ace styles -->
 
 	<link rel="stylesheet" href="__PUBLIC__/css/uncompressed/ace.css" />
@@ -50,7 +49,10 @@
 	<include file="Layout:ace_header" />
 		<div class="main-container" id="main-container">
 			<div class="main-container-inner">
-				<div class="sidebar" id="sidebar">					
+				<div class="sidebar" id="sidebar">	
+					<div id="user_info" class="text-center visible-lg"  >
+						<span >当前用户：{$Think.session.user_name}</span>
+					</div>
 					<div id="nav_head" class="text-center"  onclick="toggle_left_menu()">
 						<span class="menu-text">{$top_menu_name}</span>
 						<b id="left_menu_icon" class="arrow icon-angle-down pull-right"></b>

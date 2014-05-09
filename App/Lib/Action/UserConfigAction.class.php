@@ -14,7 +14,6 @@
 class UserConfigAction extends CommonAction {
 	protected $config=array('app_type'=>'personal');
 	public function index(){
-		cookie("current_node", null);
 		$config=M("UserConfig")->find(get_user_id());
 		$this->assign("config",$config);
 		$this -> display();
