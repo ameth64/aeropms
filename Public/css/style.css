@@ -812,6 +812,9 @@ ul.tree_menu i {
 .Home .widget-main, .Home .tab-content {
 	padding: 0;
 }
+.Home .widget-main, .Home .tab-content a{
+	cursor:pointer;
+}
 .Home .ul_table {
 	padding-top: 6px;
 	margin-right: 8px;

@@ -268,7 +268,6 @@ class FlowModel extends CommonModel {
 				$str_auditor .= $val . "|";
 			}
 		}
-		dump($val);
 		return $str_auditor;
 	}
 

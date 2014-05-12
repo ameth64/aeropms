@@ -155,7 +155,7 @@ class FlowAction extends CommonAction {
 		$where['flow_id'] = $id;
 		$where['step'] = array('lt',100);
 		$where['_string'] = "result is not null";
-		$flow_log = $model -> where($where) -> select();
+		$flow_log = $model -> where($where) ->order("id")-> select();
 		$this -> assign("flow_log", $flow_log);
 
 		$where = array();
