@@ -82,7 +82,7 @@ class FlowModel extends CommonModel {
 
 	function _after_insert($data, $options) {
 
-		if ($data['step'] == 20) {
+		if ($data['step'] == 20){
 
 			$model = M("Flow");
 			$id=$data['id'];
@@ -257,7 +257,8 @@ class FlowModel extends CommonModel {
 			if (strpos($auditor, "emp") !== false) {
 				$temp = explode("_", $auditor);
 				$emp = $temp[1];
-				$str_confirm .= $emp . "|";
+				$str_auditor .= $emp . "|";
+
 			}
 			if (strpos($auditor, "_") == false) {
 				$str_auditor .= $auditor . "|";
