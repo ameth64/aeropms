@@ -268,10 +268,11 @@ class FlowModel extends CommonModel {
 				$str_auditor .= $val . "|";
 			}
 		}
+		dump($val);
 		return $str_auditor;
 	}
 
-	public function next_step($flow_id, $step,$emp_no) {
+	public function next_step($flow_id,$step,$emp_no) {
 	
 		if (!empty($emp_no)) {
 			$data['flow_id'] = $flow_id;
@@ -366,11 +367,11 @@ class FlowModel extends CommonModel {
 			//dump($arr_confirm);
 		}
 		if (substr($step, 0, 1) == 3) {
-			$auditor = M("Flow") -> where("id=$flow_id") -> getField("auditor");
-			$arr_auditor = array_filter(explode("|", $auditor));
+			$consult = M("Flow") -> where("id=$flow_id") -> getField("consult");
+			$arr_consult = array_filter(explode("|", $consult));
 
 			//dump($arr_confirm[fmod($step,10)-1]);die;
-			return $arr_auditor[fmod($step,10) - 1];
+			return $arr_consult[fmod($step,10) - 1];
 			//dump($arr_confirm);
 		}
 	}
