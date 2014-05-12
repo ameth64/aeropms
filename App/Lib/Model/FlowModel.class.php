@@ -222,6 +222,7 @@ class FlowModel extends CommonModel {
 					$str_auditor .= implode(",", $emp_list['emp_no']) . "|";
 				}
 			}
+
 			if (strpos($auditor, "dp") !== false) {
 				$temp = explode("_", $auditor);
 				$dept = $temp[1];
@@ -240,6 +241,7 @@ class FlowModel extends CommonModel {
 					$str_auditor .= implode(",", $emp_list['emp_no']) . "|";
 				}
 			}
+
 			if (strpos($auditor, "dept") !== false) {
 				$temp = explode("_", $auditor);
 				$dept = $temp[1];
@@ -254,14 +256,16 @@ class FlowModel extends CommonModel {
 					$str_auditor .= implode(",", $emp_list['emp_no']) . "|";
 				}
 			}
+
 			if (strpos($auditor, "emp") !== false) {
 				$temp = explode("_", $auditor);
 				$emp = $temp[1];
 				$str_auditor .= $emp . "|";
 
 			}
-			if (strpos($auditor, "_") == false) {
-				$str_auditor .= $auditor . "|";
+
+			if (strpos($val, "_") == false) {
+				$str_auditor .= $val . "|";
 			}
 		}
 		return $str_auditor;
