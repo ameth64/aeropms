@@ -81,7 +81,7 @@ class FlowAction extends CommonAction {
 			case 'submit' :
 				$this -> assign("folder_name", '提交');
 				$map['user_id'] = $user_id;
-				$map['step'] = array('gt', 10);
+				$map['_string'] = 'step=0 or step>10';
 				break;
 
 			case 'finish' :
@@ -134,7 +134,7 @@ class FlowAction extends CommonAction {
 		$this -> display();
 	}
 
-	function read() {
+	function read(){
 		$model = D("Flow");
 		$id = $_REQUEST['id'];
 		$vo = $model -> getById($id);
@@ -178,7 +178,8 @@ class FlowAction extends CommonAction {
 		$where = array();
 		$where['flow_id'] = $id;
 		$where['_string'] = "result is not null";
-		$confirmed = $model -> where($where) -> field('emp_no,user_name') -> select();
+		$where['emp_no']=array('neq',$vo['emp_no']);
+		$confirmed = $model ->Distinct(true)-> where($where) -> field('emp_no,user_name') -> select();
 		$this -> assign("confirmed", $confirmed);
 		$this -> display();
 	}
@@ -219,7 +220,6 @@ class FlowAction extends CommonAction {
 		$action = $_REQUEST['action'];
 		$user_id = $_REQUEST['user_id'];
 		$emp_no=$_REQUEST['emp_no'];
-
 		switch ($action) {
 			case 'approve' :
 				$model = D("FlowLog");
@@ -252,11 +252,11 @@ class FlowAction extends CommonAction {
 				}
 				break;
 			case 'back' :		
-				
 				$model = D("FlowLog");
 				if (false === $model -> create()) {
 					$this -> error($model -> getError());
 				}
+				
 				$model -> result = 2;
 				if (in_array('user_id', $model -> getDbFields())) {
 					$model -> user_id = get_user_id();
@@ -275,7 +275,7 @@ class FlowAction extends CommonAction {
 
 				if ($list !== false) {//保存成功					
 					D("Flow") -> next_step($flow_id,$step,$emp_no);
-					$this -> assign('jumpUrl', get_return_url());
+					$this -> assign('jumpUrl', get_return_url(1));
 					$this -> success('操作成功!');
 				} else {
 					//失败提示

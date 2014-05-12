@@ -273,8 +273,12 @@ class FlowModel extends CommonModel {
 			$data['emp_no'] = $emp_no;	
 			$model = D("FlowLog");		
 			$data['step'] = D("FlowLog")->where("flow_id=$flow_id and emp_no=$emp_no")->getField('step');			
+			if(empty($data['step'])){
+				$data['step']=20;
+			}
 			$model -> create($data);
 			$model -> add();
+			return ;
 		}
 				
 		$model = D("Flow");
@@ -288,7 +292,7 @@ class FlowModel extends CommonModel {
 		}
 
 		if (substr($step, 0, 1) == 3) {
-			if ($this -> is_last_auditor($flow_id)) {
+			if ($this -> is_last_consult($flow_id)) {
 				$step = 40;
 			} else {
 				$step++;
@@ -333,16 +337,16 @@ class FlowModel extends CommonModel {
 		return false;
 	}
 
-	function is_last_auditor($flow_id) {
-		$auditor = M("Flow") -> where("id=$flow_id") -> getField("auditor");
-		if (empty($auditor)) {
+	function is_last_consult($flow_id) {
+		$consult = M("Flow") -> where("id=$flow_id") -> getField("consult");
+		if (empty($consult)) {
 			return true;
 		}
 
-		$last_auditor = array_filter(explode("|", $auditor));
-		$last_auditor_emp_no = end($last_auditor);
+		$last_consult = array_filter(explode("|", $consult));
+		$last_consult_emp_no = end($last_consult);
 
-		if (strpos($last_auditor_emp_no,get_emp_no()) !== false) {
+		if (strpos($last_consult_emp_no,get_emp_no()) !== false) {
 			return true;
 		}
 		return false;

@@ -8,7 +8,7 @@
 	}
 
 	function back_to(emp_no) {
-		sendForm("form_confirm", "{:U('mark?action=back')}&emp_no=" + emp_no, "{:U('read?id='.$vo['id'])}");
+		sendForm("form_confirm", "{:U('mark?action=back')}?emp_no=" + emp_no, "{:U('read?id='.$vo['id'])}");
 	}
 
 	function save() {
@@ -21,7 +21,8 @@
 		winopen("{:U('popup/confirm')}", 730, 750);
 	};
 
-	$(document).ready(function() {
+	$(document).ready(function(){
+		set_return_url(document.location,1);
 		$("#confirm span").on("dblclick", function() {
 			$("#confirm span").last().find("b").remove();
 		});

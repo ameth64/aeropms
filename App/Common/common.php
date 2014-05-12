@@ -346,14 +346,13 @@ function get_img_info($img) {
 	}
 }
 
-function get_return_url() {
-	$return_url = cookie('return_url');
-	return $return_url;
-	if (!empty($return_url)) {
-		return $return_url;
-	} else {
-		return __URL__ . '?' . C('VAR_MODULE') . '=' . MODULE_NAME . '&' . C('VAR_ACTION') . '=' . C('DEFAULT_ACTION');
+function get_return_url($level=null){
+	if(empty($val)){
+		$return_url = cookie('return_url');
+	}else{
+		$return_url = cookie('return_url_'.$level);
 	}
+	return $return_url;
 }
 
 function get_system_config($code) {
