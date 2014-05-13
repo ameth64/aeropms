@@ -353,7 +353,6 @@ function set_return_url(url,level){
 	} else {
 		set_cookie("return_url",document.location);
 	}
-	console.log(get_cookie("return_url"));
 }
 
 /*返回到上一页*/
