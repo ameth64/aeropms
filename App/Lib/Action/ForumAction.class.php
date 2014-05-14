@@ -9,7 +9,7 @@
  Author:  jinzhu.yin<smeoa@qq.com>
 
  Support: https://git.oschina.net/smeoa/smeoa
- -------------------------------------------------------------------------*/
+-------------------------------------------------------------------------*/
 
 class ForumAction extends CommonAction {
 	protected $config = array('app_type' => 'folder', 'action_auth' => array('folder' => 'read','save_post' => 'write', 'edit_post' => 'write', 'del_post' => 'admin', 'mark' => 'admin', 'upload' => 'write'));
@@ -29,29 +29,40 @@ class ForumAction extends CommonAction {
 		}
 	}
 
-	public function _conv_data(&$item) {
-		if (isset($item['folder'])) {
-			$model = D('SystemFolder');
-			$list = $model -> getField('id,name');
-			$item['folder_name'] = $list[$item['folder']];
+	public function index(){
+		$model=D("SystemFolder");
+		$forum_list=$model->get_folder_list("","id,pid,name,admin");
+		$this->assign("forum_list",$forum_list);
+
+		$model=D("Forum");
+		$forum_info=$model->get_info();
+
+		$temp=array();
+		foreach($forum_info as $item){
+			$temp[$item['folder']]=$item;
 		}
-		if (isset($item['user_id'])) {
-			$model = D('User');
-			$list = $model -> get_user_list();
-			$list = fix_array_key($list, "id");
-			$item['user'] = $list[$item['user_id']];
+		$forum_info=$temp;
+		$this->assign("forum_info",$forum_info);
+
+		$today_count=$model->get_today_count();
+		$temp=array();
+		foreach($today_count as $item){
+			$temp[$item['folder']]=$item;
 		}
-		return $item;
+		$today_count=$temp;
+		$this->assign("today_count",$today_count);		
+
+		$this -> display();
 	}
 
-	public function index() {
+	public function newly() {
 		$map = $this -> _search();
 		if (method_exists($this, '_search_filter')) {
 			$this -> _search_filter($map);
 		}
 		$model = D("Forum");
 		if (!empty($model)) {
-			$this -> _list($model, $map);
+			$this -> _list($model,$map);
 		}
 		$this -> display();
 	}
@@ -229,5 +240,4 @@ class ForumAction extends CommonAction {
 	public function down() {
 		$this -> _down();
 	}
-
 }

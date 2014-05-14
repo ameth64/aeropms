@@ -13,13 +13,13 @@
 
 class SystemFolderModel extends CommonModel {
 
-	function get_folder_list($folder=''){
+	function get_folder_list($folder='',$field='id,name,pid'){
 		if(empty($folder)){
 			$folder=MODULE_NAME."Folder";
 		}
 		$where['folder']=$folder;
 		$where['is_del']=0;
-        $list = $this ->where($where) -> order("sort") -> Field('id,name,pid') -> select();
+        $list = $this ->where($where) -> order("sort") -> Field($field) -> select();
 		return $list;
 	}
 	

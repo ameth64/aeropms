@@ -380,6 +380,33 @@ class PopupAction extends CommonAction {
 		echo json_encode($result);
 	}
 
+	function message() {
+		$widget['jquery-ui'] = true;		
+		$this -> assign("widget", $widget);
+		
+		$model = M("Dept");
+		$list = array();
+		$list = $model->where('is_del=0') -> field('id,pid,name') -> order('sort asc') -> select();
+		$list = list_to_tree($list);
+		$this -> assign('list_company', popup_tree_menu($list));
+
+		$model = M("Rank");
+		$list = array();
+		$list = $model -> field('id,name') -> order('sort asc') -> select();
+		$list = list_to_tree($list);
+		$this -> assign('list_rank', popup_tree_menu($list));
+
+		$model = M("Position");
+		$list = array();
+		$list = $model -> field('id,name') -> order('sort asc') -> select();
+		$list = list_to_tree($list);
+		$this -> assign('list_position', popup_tree_menu($list));		
+
+		$this -> assign('type', 'rank');
+		$this -> display();
+		return;
+	}
+
 	function json(){
 		header("Content-Type:text/html; charset=utf-8");
 		$type=$_REQUEST['type'];
