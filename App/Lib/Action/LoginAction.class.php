@@ -19,6 +19,7 @@ class LoginAction extends Action {
 		//如果通过认证跳转到首页
 		$this->assign("js_file","js/index");
 		$this->assign("title",get_system_config("SYSTEM_NAME"));
+		$this->assign("is_verify_code",get_system_config("IS_VERIFY_CODE"));
 		$auth_id = session(C('USER_AUTH_KEY'));
 		if (!isset($auth_id)) {
 			$this -> display();
@@ -44,10 +45,13 @@ class LoginAction extends Action {
 	}
 
 	// 登录检测
-	public function check_login() {
-		if(session('verify') != md5($_POST['verify'])) {
-			 $this->error('验证码错误！');
-		} 
+	public function check_login(){
+		$is_verify_code=get_system_config("IS_VERIFY_CODE");
+		if(!empty($is_verify_code)){
+			if(session('verify') != md5($_POST['verify'])) {
+				 $this->error('验证码错误！');
+			}
+		}
 
 		if (empty($_POST['emp_no'])) {
 			$this -> error('帐号必须！');

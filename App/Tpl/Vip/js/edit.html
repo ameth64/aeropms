@@ -5,6 +5,11 @@
 		}
 	}
 
+	function add_sales($vip_id) {
+		window.open(fix_url("{:U('add_sales')}?vip_id="+$vip_id), "_self");
+		return false;
+	}
+
 	function formatMoney(numStr) {
 		s = numStr;
 		if (/[^0-9\.\-]/.test(s))

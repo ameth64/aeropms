@@ -63,7 +63,7 @@
 	<div class="form-group col-sm-6">
 		<label class="col-sm-4 control-label" for="birthday">出生日期：</label>
 		<div class="col-sm-8">
-			<input class="form-control" type="text" id="birthday" name="birthday"   value="{$vo.birthday}">
+			<input class="form-control input-date" type="text" id="birthday" name="birthday"  data-date-format="yyyy-mm-dd"  value="{$vo.birthday}">
 		</div>
 	</div>
 	<div class="form-group col-sm-6">
@@ -118,29 +118,18 @@
 		</div>
 	</div>
 	<div class="form-group col-sm-6">
-		<label class="col-sm-4 control-label" for="address">邮寄地址：</label>
-		<div class="col-sm-8">
-			<input class="form-control" type="text" id="address" name="address"  value="{$vo.address}">
-		</div>
-	</div>
-	<div class="form-group col-sm-6">
-		<label class="col-sm-4 control-label" for="wechat_no">微信号：</label>
-		<div class="col-sm-8">
-			<input class="form-control" type="text" id="wechat_no" name="wechat_no"  value="{$vo.wechat_no}">
-		</div>
-	</div>
-	<div class="form-group col-sm-6">
 		<label class="col-sm-4 control-label" >消费金额：</label>
 		<div class="col-sm-8">
-			<p class="form-control-static" id="total_amount">
-				{$total_amount}
+			<p class="form-control-static" >
+				<span id="total_amount" class="pull-right">{$total_amount}</span>
+				<a  onclick="add_sales({$vo.id})">填加消费</a>
 			</p>
 		</div>
 	</div>
 	<div class="form-group col-sm-6">
 		<label class="col-sm-4 control-label" >消费积分：</label>
 		<div class="col-sm-8">
-			<p class="form-control-static">
+			<p class="form-control-static text-right">
 				{$total_point}
 			</p>
 		</div>

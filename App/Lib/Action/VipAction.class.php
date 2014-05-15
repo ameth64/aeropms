@@ -148,6 +148,7 @@ class VipAction extends CommonAction {
 		$this -> assign("widget", $widget);
 		$model=M("Vip");
 		$id=$_REQUEST['id'];
+
 		$vo = $model -> getById($id);
 		$this -> assign('vo', $vo);
 

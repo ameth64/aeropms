@@ -31,8 +31,8 @@
 						<span class="col-10 text-center">{$vo.product}</span>
 						<span class="col-10 text-center">{$vo.sales_date}</span>
 						<span class="col-10 text-right data data_1">{$vo.qty}</span>
-						<span class="col-10 text-right data data_2">{$vo.amount}</span>
-						<span class="col-10 text-right data data_3">{$vo.point}</span>
+						<span class="col-10 text-right data data_2">{$vo.amount|default=0}</span>
+						<span class="col-10 text-right data data_3">{$vo.point|default=0}</span>
 						<span class="col-4 text-center data "><a class="link" onclick="edit_sales({$vo.id})">修改</a></span>
 						<span class="col-4 text-center data "><a class="link-danger" onclick="del_sales({$vo.id});">删除</a></span>						
 					</li>
