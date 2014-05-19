@@ -24,7 +24,7 @@ var uploader = new plupload.Uploader({
 			}
 		},
 
-		FilesAdded: function(up, files) {
+		FilesAdded: function(up,files){
 			for(var i in files){
 				html='<li class="tbody" id="'+files[i].id+'">\n';
 				html+='<div class="loading"></div>\n';

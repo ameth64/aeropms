@@ -7,6 +7,19 @@ body{
 .well {
 	box-shadow: rgba(0, 0, 0, 0) 0px 1px 1px 0px 
 }
+
+.Role .level0{
+	padding-left:0px;
+}
+.Role .level1{
+	padding-left:30px;
+}
+.Role .level2{
+	padding-left:60px;
+}
+.Role .level3{
+	padding-left:90px;
+}
 select{
 	height:34px;line-height:34px;
 }
@@ -1353,13 +1366,19 @@ ul.tree_menu i {
 	min-width: 76px;
 }
 @media print {
+	.navbar{
+		display:none;
+	}
 	.main-content {
 		margin: 0;
 	}
-	.operate {
+	#sidebar {
 		display: none;
 	}
 	.btn {
 		border: 0;
+	}
+	#breadcrumbs{
+		display:none;
 	}
 }

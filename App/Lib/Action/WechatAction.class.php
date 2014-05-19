@@ -2,7 +2,7 @@
 class WechatAction extends Action {
 	protected $config = array('app_type' => 'public');
 
-	public function index() {		
+	public function index(){		
 		/* 加载微信SDK */
 		import ( "@.ORG.Util.ThinkWechat" );
 		$weixin = new ThinkWechat ();
@@ -65,7 +65,7 @@ class WechatAction extends Action {
 							$html = $this->getTaskHtml();
 							$reply = array ( $html, 'text' );
 						} else {
-							$reply = array ( '欢迎使用工程师联盟', 'text'  );
+							$reply = array ( '欢迎使用小微OA服务号', 'text'  );
 						}
 						
 						break;
@@ -106,6 +106,46 @@ class WechatAction extends Action {
 		}
 	}
 	
+			/**
+	 * 生成菜单
+	 */	
+	public function setmenu(){
+		
+		$sub =array();
+		$data = array();
+		$subs = array();
+
+		$subs1[] = array('type'=>'view','name'=>'写信','url'=>C("SITE_URL").U('mail/add'));
+		$subs1[] = array('type'=>'view','name'=>'收件箱','url'=>C("SITE_URL").U('mail/index'));
+		$subs1[] = array('type'=>'view','name'=>'发件箱','url'=>C("SITE_URL").U('mail/folder?fid=outbox'));
+		$subs1[] = array('type'=>'click','name'=>'我的文件夹','key'=>'my_mail_folder');
+
+		$subs2[] = array('type'=>'view','name'=>'收到','url'=>C("SITE_URL").U('flow/folder?fid=receive'));
+		$subs2[] = array('type'=>'view','name'=>'待办','url'=>C("SITE_URL").U('flow/folder?fid=confirm'));
+		$subs2[] = array('type'=>'view','name'=>'办理','url'=>C("SITE_URL").U('flow/folder?fid=finish'));
+		$subs2[] = array('type'=>'view','name'=>'提交','url'=>C("SITE_URL").U('flow/folder?fid=submit'));
+
+		$subs3[] = array('type'=>'view','name'=>'文档','url'=>C("SITE_URL").U('doc/index'));
+		$subs3[] = array('type'=>'view','name'=>'消息','url'=>C("SITE_URL").U('message/index'));
+		$subs3[] = array('type'=>'view','name'=>'待办','url'=>C("SITE_URL").U('todo/index'));
+		$subs3[] = array('type'=>'click','name'=>'帮助','key'=>'ites_set');
+			
+		$sub1 =  array('name'=>'邮件','sub_button'=>$subs1);
+		$sub2 =  array('name'=>'流程','sub_button'=>$subs2);
+		$sub3 =  array('name'=>'常用','sub_button'=>$subs3);
+		
+		$data['button'][] = $sub1;	
+		$data['button'][] = $sub2;
+		$data['button'][] = $sub3;
+		$data = jsencode($data);
+						
+		/* 加载微信SDK */
+		import ( "@.ORG.Util.ThinkWechat" );
+		$weixin = new ThinkWechat ();
+		
+		echo $weixin->setMenu($data);				
+	}
+
 	 /**
 	 * 关注成功
 	 * @param string $openid 用户openid
@@ -114,18 +154,10 @@ class WechatAction extends Action {
 	private function getSubscribe($openid = ''){
 		$re = "";
 		$re .= "您好，欢迎关注小微企业OA微信公众号。为了让您能方便快捷的使用小微企业OA";
-		$re .= "请先确认您在XXXXX网站上注册身份为工程师，并进行微信号码绑定，绑定后即可开通以下功能：\n";
-		$re .= "• 任务提醒\n";
-		$re .= "• 查看我申请的任务\n";
-		$re .= "• 查看邀请我的任务\n";
-		$re .= "• 查看待评价的任务\n";
-		$re .= "• 快速浏览适合我的任务\n";
-		$re .= "• 任务检索\n";
-		$re .= "<a href='http://demo.smeoa.com/wechat/oauth/?openid={$openid}'>点击立即进行绑定</a>";
+		$re .= "请先确认您在小微OA系统中有帐号，并进行微信号码绑定，绑定后才能使用如下功能\n";
+		$re .= "<a href='".C("SITE_URL")."/wechat/oauth/?openid={$openid}'>点击立即进行绑定</a>";
 		return array ( $re, 'text' );
 	}
-	
-
 	
 	/**
 	 * 任务事件
@@ -138,20 +170,20 @@ class WechatAction extends Action {
 		if ($openid && $userid > 0) {
 			switch ($taskevent) {
 				case 'apply_task' : // 我申请的任务
-					$reply = array ( "查看我申请的任务信息，<a href='http://www.马赛克.com/wechat/tasklist/?action=apply&openid={$openid}'>请点击这里</a>", 'text' );
+					$reply = array ( "查看我申请的任务信息，<a href='".C("SITE_URL")."/wechat/tasklist/?action=apply&openid={$openid}'>请点击这里</a>", 'text' );
 					break;
 				case 'invite_task' : // 邀请我的任务
-					$reply = array ( "查看邀请我的任务信息，<a href='http://www.马赛克.com/wechat/tasklist/?action=invite&openid={$openid}'>请点击这里</a>", 'text' );
+					$reply = array ( "查看邀请我的任务信息，<a href='".C("SITE_URL")."/wechat/tasklist/?action=invite&openid={$openid}'>请点击这里</a>", 'text' );
 					break;
 				case 'comment_task' : // 待评价的任务
-					$reply = array ( "查看待评价的任务信息，<a href='http://www.马赛克.com/wechat/tasklist/?action=comment&openid={$openid}'>请点击这里</a>", 'text' );
+					$reply = array ( "查看待评价的任务信息，<a href='".C("SITE_URL")."/wechat/tasklist/?action=comment&openid={$openid}'>请点击这里</a>", 'text' );
 					break;
 				case 'fit_task' : // 适合我的任务
-					$reply = array ( "查看适合我的任务信息，<a href='http://www.马赛克.com/wechat/tasklist/?action=fit&openid={$openid}'>请点击这里</a>", 'text' );
+					$reply = array ( "查看适合我的任务信息，<a href='".C("SITE_URL")."/wechat/tasklist/?action=fit&openid={$openid}'>请点击这里</a>", 'text' );
 					break;
 				case 'ites_intro' : // 功能介绍
 					$re = "";
-					$re .= "您好，欢迎关注XXXXX微信公众号。您可以回复以下数字了解您想了解的信息：\n";
+					$re .= "您好，欢迎关注小微OA微信公众服务号。您可以回复以下数字了解您想了解的信息：\n";
 					$re .= "1: 任务提醒\n";
 					$re .= "2: 查看我申请的任务\n";
 					$re .= "3: 查看邀请我的任务\n";
@@ -174,14 +206,14 @@ class WechatAction extends Action {
 					$reply = array ( $re, 'text' );					
 					break;
 				case 'ites_set' : // 信息推送设置
-					$reply = array ( "信息推送设置，<a href='http://www.马赛克.com/wechat/userset/?openid={$openid}'>请点击这里</a>", 'text' );
+					$reply = array ( "信息推送设置，<a href='".C("SITE_URL")."/wechat/userset/?openid={$openid}'>请点击这里</a>", 'text' );
 					break;
 				default :
 					$reply = array ( '没有相关指令', 'text' );
 					break;
 			}
 		} else {
-			$reply = array ( "您还没有绑定帐号。<a href='http://www.马赛克.com/wechat/oauth/?openid={$openid}'>点击立即进行绑定</a>", 'text' );
+			$reply = array ( "您还没有绑定帐号。<a href='".C("SITE_URL")."/wechat/oauth/?openid={$openid}'>点击立即进行绑定</a>", 'text' );
 		}
 		return $reply;
 	}
@@ -201,6 +233,7 @@ class WechatAction extends Action {
 	/**
 	 * 跳出页面-任务列表
 	 */
+
 	public function tasklist() {
 		$openid = I ( 'get.openid' );
 		$action = I ( 'get.action' );
@@ -635,7 +668,7 @@ class WechatAction extends Action {
 			}
 		}
 		else {
-			$re = array ( "您还没有绑定帐号。<a href='http://www.马赛克.com/wechat/oauth/?openid={$openid}'>点击立即进行绑定</a>", 'text' );
+			$re = array ( "您还没有绑定帐号。<a href='".C("SITE_URL")."/wechat/oauth/?openid={$openid}'>点击立即进行绑定</a>", 'text' );
 		}
 		return $re;
 	}
@@ -823,44 +856,7 @@ class WechatAction extends Action {
 		$restr = $weixin->sendMsg ( $content, $openid, $type );
 		return $restr;
 	}
-		
-	/**
-	 * 生成菜单
-	 */	
-	public function setmenu(){
-		
-		$sub =array();
-		$data = array();
-		$subs = array();
 
-		$subs1[] = array('type'=>'click','name'=>'我申请的任务','key'=>'apply_task');
-		$subs1[] = array('type'=>'click','name'=>'邀请我的任务','key'=>'invite_task');
-		$subs1[] = array('type'=>'click','name'=>'待评价的任务','key'=>'comment_task');
-
-		$subs2[] = array('type'=>'click','name'=>'适合我的任务','key'=>'fit_task');
-		$subs2[] = array('type'=>'view','name'=>'任务检索','url'=>'http://www.马赛克.com/wechat/search/');
-
-		$subs3[] = array('type'=>'click','name'=>'功能介绍','key'=>'ites_intro');
-		$subs3[] = array('type'=>'view','name'=>'意见反馈','url'=>'http://www.马赛克.com/wechat/feedback/');
-		$subs3[] = array('type'=>'click','name'=>'工程师联盟认证','key'=>'ites_verify');
-		$subs3[] = array('type'=>'click','name'=>'信息推送设置','key'=>'ites_set');
-			
-		$sub1 =  array('name'=>'任务管理','sub_button'=>$subs1);
-		$sub2 =  array('name'=>'任务查询','sub_button'=>$subs2);
-		$sub3 =  array('name'=>'系统功能','sub_button'=>$subs3);
-		
-		$data['button'][] = $sub1;	
-		$data['button'][] = $sub2;
-		$data['button'][] = $sub3;
-		$data = jsencode($data);
-		
-				
-		/* 加载微信SDK */
-		import ( "@.ORG.Util.ThinkWechat" );
-		$weixin = new ThinkWechat ();
-		
-		echo $weixin->setMenu($data);				
-	}
 		
 	/**
 	 * 生成COOKIE或从COOKIE获得用户ID
@@ -877,7 +873,7 @@ class WechatAction extends Action {
 				$uid = $autharr [1];
 			}
 		} else { // 不存在cookie，则创建cookie
-			$model = D("UserView");
+			$model = D("User");
 			$weuser = $model -> where ( "openid = '{$openid}' AND westatus = 1" )->find (); // 查到userid
 			if (empty ( $weuser )) { // 查到没有绑定返回-1
 				$uid = - 1;

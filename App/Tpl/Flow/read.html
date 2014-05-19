@@ -1,6 +1,6 @@
 <layout name='Layout/ace_layout' />
 {:W('PageHeader',array('name'=>array($flow_type['name'],'：',$vo['name']),'search'=>'N'))}
-<div class="operate panel panel-default">
+<div class="operate panel panel-default hidden-print">
 	<div class="panel-body">
 		<div class="pull-left">
 			<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
@@ -9,11 +9,12 @@
 				<a href="#confirm"  class="btn btn-sm btn-primary">办理意见</a>
 			</notempty>
 		</div>
-		<notempty name="is_edit">
-			<div class="pull-right">
-				<a onclick="save();" class="btn btn-sm btn-primary">保存</a>
-			</div>
-		</notempty>
+		<div class="pull-right">
+				<a onclick="winprint();" class="btn btn-sm btn-primary">打印</a>			
+				<notempty name="is_edit">			
+					<a onclick="save();" class="btn btn-sm btn-primary">保存</a>			
+				</notempty>
+		</div>
 	</div>
 </div>
 <form method='post' id="form_data" name="form_data" enctype="multipart/form-data"  class="well form-horizontal">

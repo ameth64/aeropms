@@ -2,6 +2,10 @@ function del_current_node(){
 	set_cookie("current_node",null);	
 }
 
+function winprint() {
+		window.print();
+}
+
 function click_top_menu(node){
 	set_cookie("left_menu","");	
 	url=$(node).attr("url");

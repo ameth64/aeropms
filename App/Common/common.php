@@ -107,7 +107,7 @@ function http($url, $params, $method = 'GET', $header = array(), $multi = false)
 	/* 根据请求类型设置特定参数 */
 	switch(strtoupper($method)){
 		case 'GET':
-			$opts[CURLOPT_URL] = $url . '?' . http_build_query($params);
+			$opts[CURLOPT_URL] = $url . '?' . str_replace("&amp;","&",http_build_query($params));
 			break;
 		case 'POST':
 			//判断是否传输文件
@@ -1065,8 +1065,8 @@ function show_file($add_file) {
 		if (strlen($file) > 1) {
 			$model = M("File");
 			$where['sid']=array('eq',$file);
-			$File = $model -> where($where) -> field("name,size,extension") -> find();
-			echo '<div class="attach_file" style="background-image:url(__PUBLIC__/ico/ico_' . strtolower($File['extension']) . '.jpg); background-repeat:no-repeat;"><a target="_blank" href="__URL__/down/attach_id/' . f_encode($file) . '">' . $File['name'] . ' (' . reunit($File['size']) . ')' . '</a>';
+			$File = $model -> where($where) -> field("id,name,size,extension") -> find();
+			echo '<div class="attach_file" style="background-image:url(__PUBLIC__/ico/ico_' . strtolower($File['extension']) . '.jpg); background-repeat:no-repeat;"><a target="_blank" href="__URL__/down/attach_id/' . f_encode($File['id']) . '">' . $File['name'] . ' (' . reunit($File['size']) . ')' . '</a>';
 			echo '</div>';
 		}
 	}
