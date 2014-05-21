@@ -13,7 +13,7 @@
 
 class NoticeAction extends CommonAction {
 
-	protected $config = array('app_type' => 'folder', 'action_auth' => array('folder' => 'read', 'mark' => 'admin', 'upload' => 'write'));
+	protected $config = array('app_type' => 'folder', 'action_auth' => array('folder' => 'read','sign'=>'read','mark' => 'admin', 'upload' => 'write'));
 
 	//过滤查询字段
 	function _search_filter(&$map) {
@@ -97,8 +97,31 @@ class NoticeAction extends CommonAction {
 				}
 				break;
 
+			//增加签收
 			default :
 				break;
+		}
+	}
+
+	function sign(){
+		$user_id = get_user_id();
+		$id = $_REQUEST['id'];
+		
+		$model = M("Notice");
+		$folder_id = $model -> where("id=$id") -> getField('folder');
+
+		$Form = D('Notice_sign');
+		$data['notice_id']  =   $id;
+		$data['user_id']    =   $user_id;
+		$data['folder']     =   $folder_id;
+		$data['user_name']  =   get_user_name();
+		$data['is_sign']    =   '1';
+		$data['sign_time']  =   time();
+		$result=$Form->add($data);
+		if($result){
+			$this ->ajaxReturn('', "签收成功",1);
+		}else{
+			$this ->ajaxReturn('', "签收失败",0);
 		}
 	}
 
@@ -126,6 +149,14 @@ class NoticeAction extends CommonAction {
 		$model = M("Notice");
 		$folder_id = $model -> where("id=$id") -> getField('folder');		
 		$this -> assign("auth", $auth = D("SystemFolder") -> get_folder_auth($folder_id));
+			//获得已经签收人员名字
+		$User = M('Notice_sign');
+		$signlist = $User->where("notice_id=$id")->select();
+		$this->assign('signlist',$signlist);
+			
+		$signok = $User->where("notice_id=$id and user_id=$user_id and is_sign=1")->select();
+		$this->assign('is_sign',count($signok));
+
 		$this -> _edit();
 	}
 

@@ -23,4 +23,21 @@
 		window.open(fix_url("{:U('edit')}?id=" + $("#id").val()), "_self");
 	}
 
+	function myprint() {
+
+	}
+
+	//增加签收
+	function sign() 
+	{
+		sendAjax("{:U('sign')}", 'id=' + $("#id").val(), function(data) {
+			if (data.status) {
+				ui_alert(data.info,function(){
+					location.reload();//重载当前页
+					//go_return_url();//返回上一页
+				});								
+			}
+		});
+	}
+	//增加签收
 </script>
