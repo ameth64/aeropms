@@ -63,26 +63,20 @@ class LoginAction extends Action {
 		// 支持使用绑定帐号登录
 		$map['emp_no'] = $_POST['emp_no'];
 		$map["is_del"] = array('eq', 0);
-		$model = D("UserView");
+		$map['password']=array('eq',md5($_POST['password']));
+		$model = M("User");
 		$auth_info = $model -> where($map) -> find();
 
 		//使用用户名、密码和状态的方式进行认证
-		if (false === $auth_info) {
+		if (false === $auth_info){
 			$this -> error('帐号或密码错误！');
 		} else {
-			if ($auth_info['password'] != md5($_POST['password'])) {
-				$this -> error('帐号或密码错误！');
-			}
 			session(C('USER_AUTH_KEY'), $auth_info['id']);
 			session('emp_no', $auth_info['emp_no']);
-			session('email', $auth_info['email']);
 			session('user_name', $auth_info['name']);
 			session('user_pic', $auth_info['pic']);
-
-			session('last_login_time', $auth_info['last_login_time']);
-			session('login_count', $auth_info['login_count']);
 			session('dept_id', $auth_info['dept_id']);
-			session('dept_name', $auth_info['dept_name']);
+
 			if ($auth_info['emp_no'] == 'admin') {
 				session(C('ADMIN_AUTH_KEY'), true);
 			}

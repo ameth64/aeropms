@@ -49,10 +49,10 @@ class WechatAction extends Action {
 						$reply = $this->getTaskEvent ( 'fit_task', $data ['FromUserName'] );
 						break;
 					case '6' : // 任务检索
-						$reply = array ( "任务检索，<a href='http://www.马赛克.com/wechat/search/?openid={$data ['FromUserName']}'>请点击这里</a>", 'text' );
+						$reply = array ( "任务检索，<a href='".C("SITE_URL")."/wechat/search/?openid={$data ['FromUserName']}'>请点击这里</a>", 'text' );
 						break;
 					case '7' : // 绑定帐号
-						$reply = array ( "您还没有绑定帐号。<a href='http://www.马赛克.com/wechat/oauth/?openid={$data ['FromUserName']}'>点击立即进行绑定</a>", 'text' );
+						$reply = array ( "您还没有绑定帐号。<a href='".C("SITE_URL")."/wechat/oauth/?openid={$data ['FromUserName']}'>点击立即进行绑定</a>", 'text' );
 						break;
 					default :
 						
@@ -703,11 +703,7 @@ class WechatAction extends Action {
 				session('email', $authInfo['email']);
 				session('user_name', $authInfo['name']);
 				session('user_pic', $authInfo['pic']);
-
-				session('last_login_time', $authInfo['last_login_time']);
-				session('login_count', $authInfo['login_count']);
 				session('dept_id', $authInfo['dept_id']);
-				session('dept_name', $authInfo['dept_name']);
 				
 				if ($authInfo['emp_no'] == 'admin') {
 					session(C('ADMIN_AUTH_KEY'), true);
@@ -716,10 +712,9 @@ class WechatAction extends Action {
 				//保存登录信息
 				$User = M('User');
 				$ip = get_client_ip();
-				$time = time();
 				$data = array();
 				$data['id'] = $authInfo['id'];
-				$data['last_login_time'] = $time;
+				$data['last_login_time'] = time();
 				$data['login_count'] = array('exp', 'login_count+1');
 				$data['last_login_ip'] = $ip;
 				$data['openid']=I ('post.openid');

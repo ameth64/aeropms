@@ -329,7 +329,6 @@ class ThinkWechat {
 			}
 		} else {
 			$accesstoken = $this->getAcessToken(); // 去微信获取最新ACCESS_TOKEN
-			dump($accesstoken);
 			$stoken ['tokentime'] = time ();
 			$stoken ['token'] = $accesstoken;
 			S ('S_TOKEN', $stoken); // 放进缓存
@@ -352,7 +351,6 @@ class ThinkWechat {
 		$params ['appid'] = $appid;
 		$params ['secret'] = $appsecret;
 		$httpstr = http($url,$params);
-		dump($httpstr);
 		$harr = json_decode ( $httpstr, true );
 		return $harr ['access_token'];
 	}

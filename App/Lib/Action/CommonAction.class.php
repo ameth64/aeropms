@@ -14,6 +14,11 @@
 class CommonAction extends Action {
 
 	function _initialize() {
+		$openid=$_REQUEST["openid"];
+		$auth_id = session(C('USER_AUTH_KEY'));
+		if(!empty($openid)&&!isset($auth_id)){
+			$this->welogin($openid);
+		}
 		$auth_id = session(C('USER_AUTH_KEY'));
 		if (!isset($auth_id)) {
 			//跳转到认证网关
@@ -22,7 +27,27 @@ class CommonAction extends Action {
 		$this -> assign('js_file', 'js/' . ACTION_NAME);
 		$this->_assign_menu();
 	}
+	
+	function welogin($openid){
+			$model = D("User");
+			$authInfo = $model -> where ( "openid = '{$openid}' AND westatus = 1" )->find (); // 查到userid
 
+			//使用用户名、密码和状态的方式进行认证
+			if (false === $authInfo) {
+				$this -> error('帐号或密码错误！');
+			} else {
+				session(C('USER_AUTH_KEY'), $authInfo['id']);
+				session('emp_no', $authInfo['emp_no']);
+				session('email', $authInfo['email']);
+				session('user_name', $authInfo['name']);
+				session('user_pic', $authInfo['pic']);
+				session('dept_id', $authInfo['dept_id']);
+				
+				if ($authInfo['emp_no'] == 'admin') {
+					session(C('ADMIN_AUTH_KEY'), true);
+				}
+		}
+	}
 	/**显示top menu及 left menu **/
 	protected function _assign_menu(){
 		$this->assign("new_count",get_new_count());

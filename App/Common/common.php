@@ -447,7 +447,8 @@ function get_dept_id(){
 }
 
 function get_dept_name(){
-	return session('dept_name');		
+	$result=M("Dept")->find(session("dept_id"));
+	return $result['name'];
 }
 
 function get_module($str) {

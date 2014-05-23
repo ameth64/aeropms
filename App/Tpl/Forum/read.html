@@ -60,7 +60,7 @@
 			</div></td>
 			<td style="width:100%">
 			<div  class="pull-left">
-				 {$forum.create_time|toDate='Y-m-d H:i'}
+				 {$vo.create_time|toDate='Y-m-d H:i'}
 				<if condition="($auth['write']) and ($vo.user_id eq $user_id)">
 					<a onclick="edit_post({$vo.id});return false;" class="btn btn-link">编辑</a>
 				</if>

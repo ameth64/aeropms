@@ -48,6 +48,6 @@ class UserModel extends CommonModel {
 		}
 		$rs = $this->db->query($sql);
 		return $rs;
-	}	
+	}
 }
 ?>
