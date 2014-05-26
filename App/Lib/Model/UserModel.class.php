@@ -42,7 +42,7 @@ class UserModel extends CommonModel {
 		$sql.= " LEFT JOIN ".$this->tablePrefix."position AS position ON user.position_id = position.id";
 		$sql.= " LEFT JOIN ".$this->tablePrefix."rank AS rank ON user.rank_id = rank.id";
 		$sql.= " LEFT JOIN ".$this->tablePrefix."dept dept ON user.dept_id = dept.id";
-		$sql.= " WHERE 1=1 ";
+		$sql.= " WHERE user.is_del=0 ";
 		if(!empty($keyword)){
 			$sql.= " and (user.emp_no like '%$keyword%' or user.name like '%$keyword%') ";
 		}

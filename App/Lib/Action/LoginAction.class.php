@@ -68,7 +68,7 @@ class LoginAction extends Action {
 		$auth_info = $model -> where($map) -> find();
 
 		//使用用户名、密码和状态的方式进行认证
-		if (false === $auth_info){
+		if (false == $auth_info){
 			$this -> error('帐号或密码错误！');
 		} else {
 			session(C('USER_AUTH_KEY'), $auth_info['id']);

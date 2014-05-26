@@ -77,12 +77,12 @@
 				</div>
 				<div class="col-sm-6 col-xs-12">
 					<nobr>
+							时间：{$vo.start_date} - {$vo.end_date}				
+					</nobr>
+					<nobr class="pull-right">
 						<eq name="vo.user_id" value="$user_id">
-							<a href="{:U('edit?id='.$vo['id'])}"> 时间：{$vo.start_date} - {$vo.end_date}</a>	
-						<else/>
-							时间：{$vo.start_date} - {$vo.end_date}
-						</eq>
-						
+							<a href="{:U('edit?id='.$vo['id'])}">修改</a>
+						</eq>						
 					</nobr>
 				</div>
 			</div>
