@@ -350,10 +350,10 @@ jQuery(function() {
 	$.fn.ace_file_input.defaults = {
 		style:false,
 		no_file:'No File ...',
-		no_icon:'icon-upload-alt',
+		no_icon:'fa-upload-o',
 		btn_choose:'Choose',
 		btn_change:'Change',
-		icon_remove:'icon-remove',
+		icon_remove:'fa fa-times',
 		droppable:false,
 		thumbnail:false,//large, fit, small
 		

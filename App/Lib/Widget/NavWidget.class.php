@@ -31,7 +31,7 @@ class NavWidget extends Widget {
 					}
 											
 					if(empty($val['icon'])){
-						$icon="icon-angle-right";
+						$icon="fa fa-angle-right";
 					}else{
 						$icon=$val['icon'];
 					}					

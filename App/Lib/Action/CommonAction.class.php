@@ -469,7 +469,7 @@ class CommonAction extends Action {
 	protected function _search($name = '') {
 		$map = array();
 		//过滤非查询条件
-		$request = array_filter(array_keys(array_filter($_REQUEST)), "filter_search_field");
+		$request = array_filter(array_keys(array_filter($_REQUEST)),"filter_search_field");
 		if (empty($name)) {
 			$name = $this -> getActionName();
 		}

@@ -92,15 +92,86 @@ class FlowTypeAction extends CommonAction {
 	function edit() {
 		$widget['editor']=true;
 		$this->assign("widget",$widget);			
-
 		$this -> assign("user_id",get_user_id());
-
 		$model = D("FlowTypeView");
 		$id = $_REQUEST['id'];
 		$vo = $model -> getById($id);
 		$this -> assign('vo', $vo);
 		$this->_assign_tag_list();
 		$this -> display();
+	}
+	
+	function field(){
+		if ($_POST){
+			$opmode = $_POST["opmode"];
+			$model = D("FlowField");
+			if (false === $model -> create()) {
+				$this -> error($model -> getError());
+			}
+			if ($opmode == "add"){
+				$list = $model -> add();
+				if ($list !== false) {//保存成功
+					$this -> assign('jumpUrl', get_return_url());
+					$this -> success('新增成功!');
+				} else {
+					$this -> error('新增失败!');
+					//失败提示
+				}
+			}
+			if ($opmode == "edit") {
+				$list = $model -> save();
+				if ($list !== false) {//保存成功
+					$this -> assign('jumpUrl', get_return_url());
+					$this -> success('保存成功!');
+				} else {
+					$this -> error('保存失败!');
+					//失败提示
+				}
+			}
+			if ($opmode == "del") {
+				$id = $_REQUEST['id'];
+				$list=$model ->where("id=$id")->delete();
+				if ($list !== false) {//保存成功
+					$this -> assign('jumpUrl', get_return_url());
+					$this -> success('删除成功!');
+				} else {
+					$this -> error('删除失败!');
+					//失败提示
+				}
+			}
+		}
+
+		$widget['date'] = true;					
+
+		$this -> assign("widget", $widget);		
+
+		$model = D("FlowField");
+		$type_id=$_REQUEST['type_id'];
+		$this->assign('type_id',$type_id);
+
+		$where['type_id']=array('eq',$type_id);
+		$where['is_del']=0;
+
+		$field_list = $model ->where($where)->order('sort asc')->select();
+		
+		$tree = list_to_tree($field_list);
+		$this -> assign('menu',sub_tree_menu($tree));
+
+		$this -> assign("field_list", $field_list);
+		$this -> display();
+	}
+
+	function get_field(){
+		$id=$_REQUEST['id'];
+		$model=M("FlowField");
+		$vo = $model -> getById($id);
+		if ($this -> isAjax()) {
+			if ($vo !== false) {// 读取成功
+				$this -> ajaxReturn($vo, "", 0);
+			} else {
+				die ;
+			}
+		}
 	}
 }
 ?>

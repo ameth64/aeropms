@@ -101,6 +101,5 @@ class SystemTagModel extends CommonModel {
 		}
 		return $result;
 	}
-
 }
 ?>

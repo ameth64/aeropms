@@ -134,7 +134,7 @@ function conv_inputbox_item(id,name,title,data){
 		html = "<span id=\"" + id + "\">";
 	}
 	html+="<nobr><b  title=\"" + title + "\">" + name + "</b>";
-	html+="<a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";
+	html+="<a class=\"del\" title=\"删除\"><i class=\"fa fa-times\"></i></a></nobr></span>";
 	return html;
 }
 
@@ -170,12 +170,12 @@ function show_content() {
 function toggle_adv_search() {
 	if ($("#adv_search").attr("class").indexOf("display-none") < 0) {
 		$("#adv_search").addClass("display-none");
-		$("#toggle_adv_search_icon").addClass("icon-chevron-down");
-		$("#toggle_adv_search_icon").removeClass("icon-chevron-up");
+		$("#toggle_adv_search_icon").addClass("fa-chevron-down");
+		$("#toggle_adv_search_icon").removeClass("fa-chevron-up");
 	} else {
 		$("#adv_search").removeClass("display-none");
-		$("#toggle_adv_search_icon").addClass("icon-chevron-up");
-		$("#toggle_adv_search_icon").removeClass("icon-chevron-down");
+		$("#toggle_adv_search_icon").addClass("fa-chevron-up");
+		$("#toggle_adv_search_icon").removeClass("fa-chevron-down");
 	}
 }
 
@@ -196,8 +196,8 @@ function submit_adv_search(){
 
 function close_adv_search() {
 	$("#adv_search").addClass("display-none");
-	$("#toggle_adv_search_icon").addClass("icon-chevron-down");
-	$("#toggle_adv_search_icon").removeClass("icon-chevron-up");
+	$("#toggle_adv_search_icon").addClass("fa-chevron-down");
+	$("#toggle_adv_search_icon").removeClass("fa-chevron-up");
 }
 
 var ul_table = {
@@ -379,7 +379,7 @@ function winopen(url, w, h) {
 	var _body = $("body").eq(0);
 	if ($("#dialog").length == 0) {
 		if (!is_mobile()) {
-			_body.append("<div id=\"dialog\"><iframe src='" + url + "' style='width:" + w + "px;height:100%' scrolling='auto' ></iframe></div>");
+			_body.append("<div id=\"dialog\"><iframe src='" + url + "' style='width:" + w + "px;height:100%' scrolling='no' ></iframe></div>");
 			$("#dialog").css({
 				width : w,
 				height : h,
@@ -418,7 +418,7 @@ function contact_conv(val) {
 			name=arr_temp[key].split("|")[0];
 			title=arr_temp[key].split("|")[0];
 			html +=conv_inputbox_item(id,name,title,data)
-			//html +=  '<span data="' + arr_temp[key].split("|")[1] + '" onmousedown="return false"><nobr>' + arr_temp[key].split("|")[0] + '<a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>';			
+			//html +=  '<span data="' + arr_temp[key].split("|")[1] + '" onmousedown="return false"><nobr>' + arr_temp[key].split("|")[0] + '<a class=\"del\" title=\"删除\"><i class=\"fa fa-times\"></i></a></nobr></span>';			
 		}
 	}
 	return html;

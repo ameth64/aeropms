@@ -454,7 +454,7 @@ class UserInfoAction extends CommonAction {
 				$model -> create();
 				$user = M("User") -> find($user_id);
 				$model -> user_id = $user['id'];
-				$model -> user_name = $user['emp_name'];
+				$model -> user_name = $user['name'];
 				//保存当前数据对象
 				$model -> create_time = time();
 				$list = $model -> add();

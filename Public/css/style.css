@@ -7,7 +7,12 @@ body{
 .well {
 	box-shadow: rgba(0, 0, 0, 0) 0px 1px 1px 0px 
 }
-
+.form-inline{
+	padding-top:3px;padding-bottom:3px;
+}
+.form-inline label{
+	padding-right:20px;
+}
 .Role .level0{
 	padding-left:0px;
 }

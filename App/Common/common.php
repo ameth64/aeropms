@@ -347,7 +347,7 @@ function get_img_info($img) {
 }
 
 function get_return_url($level=null){
-	if(empty($val)){
+	if(empty($level)){
 		$return_url = cookie('return_url');
 	}else{
 		$return_url = cookie('return_url_'.$level);
@@ -487,6 +487,14 @@ function filter_search_field($v1) {
 	}
 }
 
+function filter_flow_field($val) {	
+	if (strpos($val,"flow_field_") !== false){
+		return true;
+	}else{
+		return false;
+	}
+}
+
 function get_model_fields($model) {
 	$arr_field = array();
 	if (isset($model -> viewFields)) {
@@ -602,15 +610,25 @@ function fix_array_key($list, $key) {
 	return $arr;
 }
 
-function fill_option($list) {
+function fill_option($list,$data) {
 	$html = "";
 	foreach ($list as $key => $val){
-		if (is_array($val)) {
+		if(is_array($val)) {
 			$id = $val['id'];
 			$name = $val['name'];
-			$html = $html . "<option value='{$id}'>{$name}</option>";
+			if($id==$data){
+				$selected="selected";
+			}else{
+				$selected="";
+			}
+			$html = $html . "<option value='{$id}' $selected>{$name}</option>";
 		} else {
-			$html = $html . "<option value='{$key}'>{$val}</option>";
+			if($key==$data){
+				$selected="selected";
+			}else{
+				$selected="";
+			}
+			$html = $html . "<option value='{$key}' $selected>{$val}</option>";
 		}
 	}
 	echo $html;
@@ -729,11 +747,11 @@ function show_top_menu(){
 					$id = $val["name"];
 				}
 				if (isset($val['_child'])) {
-					$html = $html . "<li>\r\n<a node=\"$id\" href=\"" . "$url\"><i class=\"icon-angle-right level$level\"></i><span>$title</span></a>\r\n";
+					$html = $html . "<li>\r\n<a node=\"$id\" href=\"" . "$url\"><i class=\"fa fa-angle-right level$level\"></i><span>$title</span></a>\r\n";
 					$html = $html . tree_nav($val['_child'], $level);
 					$html = $html . "</li>\r\n";
 				} else {
-					$html = $html . "<li>\r\n<a  node=\"$id\" href=\"" . "$url\"><i class=\"icon-angle-right level$level\"></i><span>$title</span></a>\r\n</li>\r\n";
+					$html = $html . "<li>\r\n<a  node=\"$id\" href=\"" . "$url\"><i class=\"fa fa-angle-right level$level\"></i><span>$title</span></a>\r\n</li>\r\n";
 				}
 			}
 		}
@@ -759,11 +777,11 @@ function tree_nav($tree, $level = 0) {
 					$id = $val["name"];
 				}
 				if (isset($val['_child'])) {
-					$html = $html . "<li>\r\n<a node=\"$id\" href=\"" . "$url\"><i class=\"icon-angle-right level$level\"></i><span>$title</span></a>\r\n";
+					$html = $html . "<li>\r\n<a node=\"$id\" href=\"" . "$url\"><i class=\"fa fa-angle-right level$level\"></i><span>$title</span></a>\r\n";
 					$html = $html . tree_nav($val['_child'], $level);
 					$html = $html . "</li>\r\n";
 				} else {
-					$html = $html . "<li>\r\n<a  node=\"$id\" href=\"" . "$url\"><i class=\"icon-angle-right level$level\"></i><span>$title</span></a>\r\n</li>\r\n";
+					$html = $html . "<li>\r\n<a  node=\"$id\" href=\"" . "$url\"><i class=\"fa fa-angle-right level$level\"></i><span>$title</span></a>\r\n</li>\r\n";
 				}
 			}
 		}
@@ -790,11 +808,11 @@ function left_menu($tree, $level = 0) {
 					$id = $val["name"];
 				}
 				if (isset($val['_child'])) {
-					$html = $html . "<li>\r\n<a node=\"$id\" href=\"" . "$url\"><i class=\"icon-angle-right level$level\"></i><span>$title</span></a>\r\n";
+					$html = $html . "<li>\r\n<a node=\"$id\" href=\"" . "$url\"><i class=\"fa fa-angle-right level$level\"></i><span>$title</span></a>\r\n";
 					$html = $html . left_menu($val['_child'], $level);
 					$html = $html . "</li>\r\n";
 				} else {
-					$html = $html . "<li>\r\n<a  node=\"$id\" href=\"" . "$url\"><i class=\"icon-angle-right level$level\"></i><span>$title</span></a>\r\n</li>\r\n";
+					$html = $html . "<li>\r\n<a  node=\"$id\" href=\"" . "$url\"><i class=\"fa fa-angle-right level$level\"></i><span>$title</span></a>\r\n</li>\r\n";
 				}
 			}
 		}
@@ -832,11 +850,11 @@ function popup_tree_menu($tree, $level = 0){
 					$del_class = "";
 				}
 				if (isset($val['_child'])) {
-					$html = $html . "<li>\r\n<a class=\"$del_class\" node=\"$id\" ><i class=\"icon-angle-right level$level\"></i><span>$title</span></a>\r\n";
+					$html = $html . "<li>\r\n<a class=\"$del_class\" node=\"$id\" ><i class=\"fa fa-angle-right level$level\"></i><span>$title</span></a>\r\n";
 					$html = $html . popup_tree_menu($val['_child'], $level);
 					$html = $html . "</li>\r\n";
 				} else {
-					$html = $html . "<li>\r\n<a class=\"$del_class\" node=\"$id\" ><i class=\"icon-angle-right level$level\"></i><span>$title</span></a>\r\n</li>\r\n";
+					$html = $html . "<li>\r\n<a class=\"$del_class\" node=\"$id\" ><i class=\"fa fa-angle-right level$level\"></i><span>$title</span></a>\r\n</li>\r\n";
 				}
 			}
 		}
@@ -858,11 +876,11 @@ function sub_tree_menu($tree, $level = 0) {
 					$id = $val["name"];
 				}
 				if (isset($val['_child'])) {
-					$html = $html . "<li>\r\n<a node=\"$id\"><i class=\"icon-angle-right level$level\"></i><span>$title</span></a>\r\n";
+					$html = $html . "<li>\r\n<a node=\"$id\"><i class=\"fa fa-angle-right level$level\"></i><span>$title</span></a>\r\n";
 					$html = $html . sub_tree_menu($val['_child'], $level);
 					$html = $html . "</li>\r\n";
 				} else {
-					$html = $html . "<li>\r\n<a  node=\"$id\" ><i class=\"icon-angle-right level$level\"></i><span>$title</span></a>\r\n</li>\r\n";
+					$html = $html . "<li>\r\n<a  node=\"$id\" ><i class=\"fa fa-angle-right level$level\"></i><span>$title</span></a>\r\n</li>\r\n";
 				}
 			}
 		}
@@ -1050,9 +1068,9 @@ function show_refer($emp_list) {
 			$where['emp_no']=array('eq',substr($emp_no,4));
 			$emp = $model ->where($where)->find();
 			$emp_no=$emp['emp_no'];
-			$emp_name=$emp['name'];
+			$user_name=$emp['name'];
 			$position_name=$emp['position_name'];
-			$str.="<span data=\"$emp_no\" id=\"$emp_no\"><nobr><b title=\"$emp_name/$position_name\">$emp_name/$position_name</b></nobr><b>;&nbsp;</b></span>";
+			$str.="<span data=\"$emp_no\" id=\"$emp_no\"><nobr><b title=\"$user_name/$position_name\">$user_name/$position_name</b></nobr><b>;&nbsp;</b></span>";
 		}
 		return $str;
 	} else {

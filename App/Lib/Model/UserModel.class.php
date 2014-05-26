@@ -44,7 +44,7 @@ class UserModel extends CommonModel {
 		$sql.= " LEFT JOIN ".$this->tablePrefix."dept dept ON user.dept_id = dept.id";
 		$sql.= " WHERE 1=1 ";
 		if(!empty($keyword)){
-			$sql.= " and (user.emp_no like '%$keyword%' or user.emp_name like '%$keyword%') ";
+			$sql.= " and (user.emp_no like '%$keyword%' or user.name like '%$keyword%') ";
 		}
 		$rs = $this->db->query($sql);
 		return $rs;

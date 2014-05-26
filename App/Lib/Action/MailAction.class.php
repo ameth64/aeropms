@@ -255,7 +255,7 @@ class MailAction extends CommonAction {
 					$dept_id = str_replace("dept_",'',$arr_tmp[2]);
 					$mail_list =$this-> get_mail_list_by_dept_id($dept_id);
 					foreach ($mail_list as $val) {
-						$mail -> AddAddress($val["email"], $val["emp_name"]);
+						$mail -> AddAddress($val["email"], $val["name"]);
 						// 收件人
 					}
 				} else {
@@ -272,7 +272,7 @@ class MailAction extends CommonAction {
 					$dept_id = str_replace("dept_",'',$arr_tmp[2]);
 					$mail_list =$this-> get_mail_list_by_dept_id($dept_id);
 					foreach ($mail_list as $val) {
-						$mail -> AddCC($val["email"], $val["emp_name"]);
+						$mail -> AddCC($val["email"], $val["name"]);
 						// 收件人
 					}
 				} else {
@@ -289,7 +289,7 @@ class MailAction extends CommonAction {
 					$dept_id = str_replace("dept_",'',$arr_tmp[2]);
 					$mail_list =$this-> get_mail_list_by_dept_id($dept_id);
 					foreach ($mail_list as $val) {
-						$mail -> AddBCC($val["email"], $val["emp_name"]);
+						$mail -> AddBCC($val["email"], $val["name"]);
 						// 收件人
 					}
 				} else {

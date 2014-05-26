@@ -24,7 +24,7 @@
 			if ($("#form_data .ul_table input:checked").length == 0) {
 				$("li.tbody.active :checkbox").attr("checked", true);
 			}
-			sendForm("form_data", "{:U('del')}");
+			sendForm("form_data","{:U('del')}");
 			$("#form_data input:checked").each(function() {
 				$(this).parents("li").remove();
 			})

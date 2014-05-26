@@ -59,7 +59,7 @@
 			<a onclick="forword();" class="btn btn-sm btn-primary">转发</a>
 			<a onclick="mark('spam');" class="btn btn-sm btn-primary">举报</a>
 			<div class="btn-group">
-				<a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" href="#"> 标记为 <span class="icon-caret-down"></span> </a>
+				<a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" href="#"> 标记为 <span class="fa fa-caret-down"></span> </a>
 				<ul class="dropdown-menu">
 					<li onclick="mark('readed');">
 						<a>已读</a>
@@ -70,7 +70,7 @@
 				</ul>
 			</div>
 			<div class="btn-group" id="move_to">
-				<a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" href="#"> 转移到 <span class="icon-caret-down"></span> </a>
+				<a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" href="#"> 转移到 <span class="fa fa-caret-down"></span> </a>
 				<ul class="dropdown-menu">
 					{$folder_list}
 				</ul>
@@ -114,9 +114,9 @@
 						<span  class="col-9 pull-right text-center" >{$vo.create_time|toDate='Y-m-d'}</span>
 						<span class="autocut auto">
 							<notempty name = "vo['add_file']" >
-								<i class="icon-paper-clip"></i>
+								<i class="fa fa-paper-clip"></i>
 								<else/>
-								<i class="icon-paper-clip" style="text-indent:-9999px;"></i>
+								<i class="fa fa-paper-clip" style="text-indent:-9999px;"></i>
 							</notempty>
 							<in name="folder" value="darftbox">
 								<a  title="{$vo.name|htmlspecialchars}" href="{:U('edit?id='.$vo['id'])}"> {$vo.name}&nbsp;&nbsp;&nbsp;

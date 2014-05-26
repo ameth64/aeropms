@@ -36,7 +36,7 @@
 				<volist name="list" id="data">
 					<tr id="{$data.id}">
 						<td>{$data.emp_no}</td>
-						<td>{$data.emp_name}</td>
+						<td>{$data.name}</td>
 						<td>{$data.is_del|status}</td>
 					</tr>
 				</volist>
@@ -63,7 +63,7 @@
 				<tr>
 					<th>姓名*</th>
 					<td colspan="2">
-					<input  class="form-control" type="text" id="emp_name" name="emp_name" class="input-sm" check="require" msg="请输入姓名">
+					<input  class="form-control" type="text" id="name" name="name" class="input-sm" check="require" msg="请输入姓名">
 					</td>
 				</tr>
 				<tr>
@@ -87,7 +87,7 @@
 						<input class="form-control" name="dept_name"  id="dept_name" type="text" msg="请选择部门" check="require" readonly="readonly" />
 						<input name="dept_id" id="dept_id" type="hidden" msg="请选择部门" check="require" />
 						<div class="input-group-btn">
-							<a class="btn btn-sm btn-primary" onclick="select_dept();" > <i class="icon-search" ></i> </a>
+							<a class="btn btn-sm btn-primary" onclick="select_dept();" > <i class="fa fa-search" ></i> </a>
 						</div>
 					</div></td>
 					<td colspan="2"><a onclick="select_avatar();" class="btn btn-sm btn-primary">上传头像</a></td>

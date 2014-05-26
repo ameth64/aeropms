@@ -97,8 +97,6 @@ ace.handle_side_menu = function($) {
 	 })
 }
 
-
-
 ace.general_things = function($) {
  $('.ace-nav [class*="icon-animated-"]').closest('a').on('click', function(){
 	var icon = $(this).find('[class*="icon-animated-"]').eq(0);

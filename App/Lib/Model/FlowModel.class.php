@@ -17,7 +17,7 @@ class FlowModel extends CommonModel {
 	// 自动填充设置
 	protected $_auto = array( array('is_del', '0', self::MODEL_INSERT), array('create_time', 'time', self::MODEL_INSERT, 'function'), array('update_time', 'time', self::MODEL_UPDATE, 'function'));
 
-	function _before_insert(&$data, $options) {
+	function _before_insert(&$data,$options) {
 		$type = $data["type"];
 		$dept_id=get_dept_id();
 		$data['dept_id'] = $dept_id;
@@ -80,7 +80,7 @@ class FlowModel extends CommonModel {
 		$data['doc_no'] = $doc_no_format;
 	}
 
-	function _after_insert($data, $options) {
+	function _after_insert($data,$options) {
 
 		if ($data['step'] == 20){
 

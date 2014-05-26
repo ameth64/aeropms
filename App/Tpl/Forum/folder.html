@@ -52,7 +52,7 @@
 					<a onclick="mark('del');" class="btn btn-sm btn-danger">删除</a>
                     <a onClick="mark('is_top');" class="btn btn-sm btn-danger">置顶或取消</a>
 					<div class="btn-group"  id="move_to">
-						<a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" href="#"> 转移到 <span class="icon-caret-down"></span> </a>
+						<a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" href="#"> 转移到 <span class="fa fa-caret-down"></span> </a>
                      
 						<ul class="dropdown-menu">
 							{$folder_list}
@@ -69,7 +69,7 @@
 			<label class="inline pull-left col-3">
 				<input class="ace" type="checkbox" name="id-toggle-all" id="id-toggle-all" />
 				<span class="lbl"></span></label>
-			<span class="col-2 pull-left text-center"><i class="icon-star"></i></span>
+			<span class="col-2 pull-left text-center"><i class="fa fa-star"></i></span>
 			<span class="col-8 pull-right text-center"> 回复/查看</span>
 			<span class="col-9 pull-right text-center"> 登录时间 </span>
 			<span class="col-6 pull-right text-center"> 登录人 </span>
@@ -89,7 +89,7 @@
 							<input class="ace" type="checkbox" name="id[]" value="{$vo.id}" />
 							<span class="lbl"></span></label>
 						<span class="col-2 pull-left text-center">
-							<eq name="vo.is_top" value="1"><i class="icon-star"></i><else/>&nbsp;</eq>
+							<eq name="vo.is_top" value="1"><i class="fa fa-star"></i><else/>&nbsp;</eq>
 						</span>
 						<span class="col-8 pull-right text-center"> {$vo.reply}/{$vo.views} </span>
 						<span class="col-9 pull-right text-center"> {$vo.create_time|toDate='Y-m-d'} </span>

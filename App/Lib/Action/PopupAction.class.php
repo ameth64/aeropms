@@ -413,11 +413,11 @@ class PopupAction extends CommonAction {
 		$key = $_REQUEST['key'];
 		
 		$model = M("User");
-		$where['emp_name'] = array('like', "%" . $key . "%");
+		$where['name'] = array('like', "%" . $key . "%");
 		$where['letter'] = array('like', "%" . $key . "%");
 		$where['email'] = array('like', "%" . $key . "%");
 		$where['_logic'] = 'or';
-		$company = $model -> where($where) -> field('id,emp_name as name,email') -> select();
+		$company = $model -> where($where) -> field('id,name,email') -> select();
 
 		if($type=="all"){
 			$where = array();

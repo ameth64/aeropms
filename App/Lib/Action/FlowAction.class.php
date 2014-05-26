@@ -22,11 +22,10 @@ class FlowAction extends CommonAction {
 			$where['content'] = array('like', "%" . $keyword . "%");			
 			$where['_logic'] = 'or';
 			$map['_complex'] = $where;
-		}		
+		}
 	}
 
 	function index(){
-
 		$model=D("Flow");
 		$model = D('FlowTypeView');
 		$where['is_del'] = 0;
@@ -123,15 +122,47 @@ class FlowAction extends CommonAction {
 	}
 
 	function add() {
+		$widget['date'] = true;
 		$widget['uploader'] = true;
 		$widget['editor'] = true;
 		$this -> assign("widget", $widget);
 
-		$type = $_REQUEST['type'];
+		$type_id = $_REQUEST['type'];
 		$model = M("FlowType");
-		$flow_type = $model -> find($type);
+		$flow_type = $model -> find($type_id);
 		$this -> assign("flow_type", $flow_type);
+
+		$model_flow_field=D("FlowField");
+		$field_list = $model_flow_field ->get_field_list($type_id);
+		$this -> assign("field_list", $field_list);
+		
 		$this -> display();
+	}
+
+	/** 插入新新数据  **/
+	protected function _insert(){
+		$model = D("Flow");
+		if (false === $model -> create()) {
+			$this -> error($model -> getError());
+		}
+		if (in_array('user_id', $model -> getDbFields())) {
+			$model -> user_id = get_user_id();
+		};
+		if (in_array('user_name', $model -> getDbFields())) {
+			$model -> user_name = get_user_name();
+		};
+		/*保存当前数据对象 */
+		$list = $model -> add();
+
+		$model_flow_filed=D("FlowField")->set_field($list);
+
+		if ($list !== false){//保存成功
+			$this -> assign('jumpUrl', get_return_url());
+			$this -> success('新增成功!');
+		} else {
+			$this -> error('新增失败!');
+			//失败提示
+		}
 	}
 
 	function read(){
@@ -145,9 +176,12 @@ class FlowAction extends CommonAction {
 		if (in_array('add_file', $model -> getDbFields())) {
 			$this -> _assign_file_list($vo["add_file"]);
 		};
+	
+		$model_flow_field=D("FlowField");
+		$field_list = $model_flow_field ->get_data_list($id);
+		$this -> assign("field_list", $field_list);
 
 		$model = M("FlowType");
-		
 		$flow_type= $model -> find($flow_type_id);
 		$this -> assign("flow_type", $flow_type);
 
@@ -185,6 +219,7 @@ class FlowAction extends CommonAction {
 	}
 
 	function edit() {
+		$widget['date'] = true;
 		$widget['uploader'] = true;
 		$widget['editor'] = true;
 		$this -> assign("widget", $widget);
@@ -196,6 +231,10 @@ class FlowAction extends CommonAction {
 		if (in_array('add_file', $model -> getDbFields())) {
 			$this -> _assign_file_list($vo["add_file"]);
 		};
+
+		$model_flow_field=D("FlowField");
+		$field_list = $model_flow_field ->get_data_list($id);
+		$this -> assign("field_list", $field_list);
 
 		$model = M("FlowType");
 		$type = $vo['type'];
@@ -214,6 +253,27 @@ class FlowAction extends CommonAction {
 		$confirm = $model -> where($where) -> select();
 		$this -> assign("confirm", $confirm[0]);
 		$this -> display();
+	}
+
+	/* 更新数据  */
+	protected function _update() {
+		$name = $this -> getActionName();
+		$model = D($name);
+		if (false === $model -> create()) {
+			$this -> error($model -> getError());
+		}
+		$flow_id=$model->id;
+		$list = $model -> save();
+
+		$model_flow_filed=D("FlowField")->set_field($flow_id);
+		if (false !== $list) {
+			$this -> assign('jumpUrl', get_return_url());
+			$this -> success('编辑成功!');
+			//成功提示
+		} else {
+			$this -> error('编辑失败!');
+			//错误提示
+		}
 	}
 
 	public function mark() {
@@ -244,7 +304,7 @@ class FlowAction extends CommonAction {
 
 				if ($list !== false) {//保存成功
 					D("Flow") -> next_step($flow_id,$step);
-					$this -> assign('jumpUrl', get_return_url());
+					$this -> assign('jumpUrl', get_return_url(1));
 					$this -> success('操作成功!');
 				} else {
 					//失败提示
@@ -342,6 +402,7 @@ class FlowAction extends CommonAction {
 		if ($list !== false) {//保存成功
 			D("Flow") -> next_step($flow_id, $step);
 			$this -> assign('jumpUrl', get_return_url());
+
 			$this -> success('操作成功!');
 		} else {
 			//失败提示

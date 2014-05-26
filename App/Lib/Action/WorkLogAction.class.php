@@ -47,7 +47,7 @@ class WorkLogAction extends CommonAction {
 				$this -> assign('dept_list',$html);			
 				/*获取人员列表*/
 				$where['dept_id']=array('eq',$dept_id);
-				$emp_list=D("User")->where($where)->getField('id,emp_name');
+				$emp_list=D("User")->where($where)->getField('id,name');
 				$this->assign('emp_list',$emp_list);			
 			}else{
 				/*获取部门列表*/								
@@ -58,7 +58,7 @@ class WorkLogAction extends CommonAction {
 				
 				/*获取人员列表*/
 				$where['dept_id']=array('in',$dept_list);
-				$emp_list=D("User")->where($where)->getField('id,emp_name');
+				$emp_list=D("User")->where($where)->getField('id,name');
 				$this->assign('emp_list',$emp_list);				
 			}
 		}

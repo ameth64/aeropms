@@ -17,7 +17,7 @@ class UserAction extends CommonAction {
 	
 	function _search_filter(&$map) {
 		if (!empty($_POST['keyword'])) {
-			$map['emp_name|emp_no'] = array('like', "%" . $_POST['keyword'] . "%");
+			$map['name|emp_no'] = array('like', "%" . $_POST['keyword'] . "%");
 		}
 	}
 
@@ -87,7 +87,7 @@ class UserAction extends CommonAction {
 			$this -> error($model -> getError());
 		} else {
 			// 写入帐号数据
-			$model ->letter=get_letter($model ->emp_name);
+			$model ->letter=get_letter($model ->name);
 			$model ->password=md5($model ->emp_no.$model->emp_no);
 			if ($result = $model -> add()){
 				$data['id']=$result;
@@ -107,7 +107,7 @@ class UserAction extends CommonAction {
 			$this -> error($model -> getError());
 		}
 		// 更新数据
-		$model -> __set('letter', get_letter($model -> __get('emp_name')));
+		$model -> __set('letter', get_letter($model -> __get('name')));
 		$list = $model -> save();
 		if (false !== $list) {
 			//成功提示
@@ -157,11 +157,11 @@ class UserAction extends CommonAction {
 		$key = $_REQUEST['key'];
 
 		$model = M("User");
-		$where['emp_name'] = array('like', "%" . $key . "%");
+		$where['name'] = array('like', "%" . $key . "%");
 		$where['emp_no'] = array('like', "%" . $key . "%");
 		$where['_logic'] = 'or';
 		$map['_complex'] = $where;
-		$list = $model -> where($map) -> field('id,emp_name as name') -> select();
+		$list = $model -> where($map) -> field('id,name') -> select();
 		exit(json_encode($list));
 	}
 }

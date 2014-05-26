@@ -5,7 +5,7 @@
 	<div class="panel-body">
 		<div class="pull-left" >
 			<div class="btn-group">
-				<a class="btn btn-sm btn-primary  dropdown-toggle" data-toggle="dropdown" href="#"> 移动到 <span class="icon-caret-down"></span> </a>
+				<a class="btn btn-sm btn-primary  dropdown-toggle" data-toggle="dropdown" href="#"> 移动到 <span class="fa fa-caret-down"></span> </a>
 				<ul class="dropdown-menu">
 					<foreach name="tag_list" item="vo">
 						<li onclick="move_to('{$key}');">
@@ -28,9 +28,13 @@
 			<label class="inline pull-left col-3">
 				<input class="ace" type="checkbox" name="id-toggle-all" id="id-toggle-all" />
 				<span class="lbl"></span></label>
-			<span class="col-14">分组 </span>
-			<span class="col-6 pull-right text-center">状态</span>
-			<span  class="col-25 pull-right">文档编码格式</span>
+				<span class="col-14">分组 </span>
+			<div class="pull-right">		
+				<span  class="col-25">文档编码格式</span>
+				<span class="col-6 text-center">状态</span>
+				<span class="col-6 text-center">字段管理</span>	
+			</div>
+
 			<span class="autocut auto">名称</span>
 		</li>
 		<empty name="list">
@@ -45,8 +49,11 @@
 							<input class="ace" type="checkbox" name="id[]" value="{$vo.id}" />
 							<span class="lbl"></span></label>
 						<span  class="col-14" >{$vo.tag_name}&nbsp;</span>
-						<span class="col-6 pull-right text-center"  >{$vo.is_del|status}&nbsp;</span>
-						<span class="col-25 pull-right">{$vo.doc_no_format }&nbsp;</span>
+						<div class="pull-right">
+							<span class="col-25">{$vo.doc_no_format }&nbsp;</span>
+							<span class="col-6 text-center"  >{$vo.is_del|status}&nbsp;</span>						
+							<a class="col-6 text-center" href="{:U('field','type_id='.$vo['id'])}">字段管理</a></span>	
+						</div >
 						<span class="autocut auto"><a href="{:U('edit?id='.$vo['id'])}">{$vo.name}&nbsp;</a></span>
 					</li>
 				</foreach>
