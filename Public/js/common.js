@@ -151,7 +151,7 @@ function winclose() {
 }
 
 /* 在iframe里显示textarea的内容*/
-function show_content() {
+function show_content(){
 	var iframe = $("#content_iframe").get(0).contentWindow;
 	var div = document.createElement("div");
 	div.innerHTML = $("#content").val();
@@ -165,6 +165,23 @@ function show_content() {
 	$("#content_wrap").height(height + 30);
 	$("#content_wrap").parent().height(height + 40);
 	$("#content_iframe").height(height + 30);
+}
+
+/* 在iframe里显示textarea的内容*/
+function show_progress(){
+	var iframe = $("#progress_iframe").get(0).contentWindow;
+	var div = document.createElement("div");
+	div.innerHTML = $("#progress").val();
+	div.className = "height";
+	iframe.document.body.appendChild(div);
+	height = $(iframe.document.body).find("div.height").height();
+	if (height < 300) {
+		height = 300;
+	}
+	iframe.height = height;
+	$("#progress_wrap").height(height + 30);
+	$("#progress_wrap").parent().height(height + 40);
+	$("#progress_iframe").height(height + 30);
 }
 
 function toggle_adv_search() {
@@ -377,9 +394,9 @@ function winopen(url, w, h) {
 	$("html,body").css("overflow", "hidden");
 	$("div.shade").show();
 	var _body = $("body").eq(0);
-	if ($("#dialog").length == 0) {
-		if (!is_mobile()) {
-			_body.append("<div id=\"dialog\"><iframe src='" + url + "' style='width:" + w + "px;height:100%' scrolling='no' ></iframe></div>");
+	if ($("#dialog").length == 0){
+		if (!is_mobile()){
+			_body.append("<div id=\"dialog\"><iframe src='" + url + "' style='width:" + w + "px;height:100%' scrolling='auto' ></iframe></div>");
 			$("#dialog").css({
 				width : w,
 				height : h,

@@ -39,7 +39,7 @@ class ViewModel extends Model {
             foreach ($this->viewFields as $key=>$view){
                 // 获取数据表名称
                 if(isset($view['_table'])) { // 2011/10/17 添加实际表名定义支持 可以实现同一个表的视图
-                    $tableName .= $view['_table'];
+                    $tableName .= $this->tablePrefix.$view['_table'];
                 }else{
                     $class  =   $key.'Model';
                     $Model  =  class_exists($class)?new $class():M($key);

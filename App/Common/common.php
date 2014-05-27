@@ -358,7 +358,12 @@ function get_return_url($level=null){
 function get_system_config($code) {
 	$model = M("SystemConfig");
 	$where['code'] = array('eq', $code);
-	return $model -> where($where) -> getfield("val");
+	$count=$model -> where($where)->count();
+	if($count>1){
+		return $model -> where($where) -> getfield("val,name");
+	}else{
+		return $model -> where($where) -> getfield("val");
+	}
 }
 
 function get_user_info($id,$field) {

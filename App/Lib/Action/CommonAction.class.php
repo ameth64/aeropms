@@ -580,7 +580,6 @@ class CommonAction extends Action {
 			//排序方式
 
 			//模板赋值显示
-
 			$name = $this -> getActionName();
 			$this -> assign('list', $voList);
 			$this -> assign('sort', $sort);
