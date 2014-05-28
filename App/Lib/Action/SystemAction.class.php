@@ -13,7 +13,7 @@
 
 class SystemAction extends CommonAction {
 	//过滤查询字段
-
+	protected $config=array('app_type'=>'asst');
 	function _search_filter(&$map) {
 		if (!empty($_POST['keyword'])) {
 			$map['type|name|code'] = array('like', "%" . $_POST['keyword'] . "%");
@@ -24,31 +24,13 @@ class SystemAction extends CommonAction {
 
 	}
 
-	function get_feature_code() {
-		@exec("systeminfo", $array);
-		for ($i = 1; $i <= 10; $i++) {
-			$new[$i] = auto_charset($array[$i], 'gb2312', 'utf-8');
-		}
-		$new1 = explode(":", $new[1]);
-		$new9 = explode(":", $new[9]);
-		$new10 = explode(":", $new[10]);
-		$str = $new1[1] . "|" . $new9[1] . "|" . $new10[1];
-		$str = str_replace(" ", "", $str);
-
-		$v1 = f_encode($str);
-		$T_k1 = "cdrGDaNiVKRAwoOQgPEWsejkLnHxzShFuJCBXpltfImTUYMbqvyZ";
-		$T_k2 = "EekCZmLfJblTtiMyDVFRSHnBzXwrKdNgGvcpqhUaosYQAOWjuIPx";
-		$c = strtr($v1, $T_k1, $T_k2);
-		return $c;
-	}
-
 	function save() {
 
 	}
 
-	function index() {
-		$feature_code = $this -> get_feature_code();
-		$this -> assign('feature_code', $feature_code);
+	function index(){
+		$this->get_auth();
+		$this->assign("SERVER_NAME",$this->_SERVER('SERVER_NAME'));
 		$this -> display();
 	}
 
@@ -56,6 +38,17 @@ class SystemAction extends CommonAction {
 		$str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 		return str_shuffle($str);
 	}
+
+	function get_auth(){
+		 $server_info = $this->_SERVER('SERVER_NAME').'|'.$this->_SERVER('REMOTE_ADDR');
+		 $server_info .= '|'.$this->_SERVER('DOCUMENT_ROOT');
+
+		$result = @file_get_contents('http://www.smeoa.com/get_auth.php?'.base64_encode($server_info);
+		return $result;
+	}
+
+	function _GET($n) {return isset($_GET[$n]) ? $_GET[$n] : NULL; }
+	function _SERVER($n) { return isset($_SERVER[$n]) ? $_SERVER[$n] : '[undefine]'; }
 
 }
 ?>

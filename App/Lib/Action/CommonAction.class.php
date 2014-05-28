@@ -29,6 +29,8 @@ class CommonAction extends Action {
 	}
 	
 	function welogin($openid){
+			dump($openid);
+			die;
 			$model = D("User");
 			$authInfo = $model -> where ( "openid = '{$openid}' AND westatus = 1" )->find (); // 查到userid
 

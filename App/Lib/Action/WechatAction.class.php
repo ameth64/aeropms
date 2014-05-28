@@ -115,15 +115,15 @@ class WechatAction extends Action {
 		$data = array();
 		$subs = array();
 
-		$subs1[] = array('type'=>'view','name'=>'写信','url'=>C("SITE_URL").U('mail/add'));
+		$subs1[] = array('type'=>'view','name'=>'写信','url'=>C("SITE_URL").U('mail/add',array('openid'=>$openid));
 		$subs1[] = array('type'=>'view','name'=>'收件箱','url'=>C("SITE_URL").U('mail/index'));
-		$subs1[] = array('type'=>'view','name'=>'发件箱','url'=>C("SITE_URL").U('mail/folder?fid=outbox'));
+		$subs1[] = array('type'=>'view','name'=>'发件箱','url'=>C("SITE_URL").U('mail/folder',array('fid'='outbox'));
 		$subs1[] = array('type'=>'click','name'=>'我的文件夹','key'=>'my_mail_folder');
 
-		$subs2[] = array('type'=>'view','name'=>'收到','url'=>C("SITE_URL").U('flow/folder?fid=receive'));
-		$subs2[] = array('type'=>'view','name'=>'待办','url'=>C("SITE_URL").U('flow/folder?fid=confirm'));
-		$subs2[] = array('type'=>'view','name'=>'办理','url'=>C("SITE_URL").U('flow/folder?fid=finish'));
-		$subs2[] = array('type'=>'view','name'=>'提交','url'=>C("SITE_URL").U('flow/folder?fid=submit'));
+		$subs2[] = array('type'=>'view','name'=>'收到','url'=>C("SITE_URL").U('flow/folder',array('fid'='receive')); 
+		$subs2[] = array('type'=>'view','name'=>'待办','url'=>C("SITE_URL").U('flow/folder',array('fid'='confirm'));
+		$subs2[] = array('type'=>'view','name'=>'办理','url'=>C("SITE_URL").U('flow/folder',array('fid'='finish'));
+		$subs2[] = array('type'=>'view','name'=>'提交','url'=>C("SITE_URL").U('flow/folder',array('fid'='submit'));
 
 		$subs3[] = array('type'=>'view','name'=>'文档','url'=>C("SITE_URL").U('doc/index'));
 		$subs3[] = array('type'=>'view','name'=>'消息','url'=>C("SITE_URL").U('message/index'));

@@ -40,7 +40,7 @@ class NavWidget extends Widget {
 						$html .= "<a class=\"dropdown-toggle\" node=\"$id\" href=\"" . "$url\">";
 						$html .= "<i class=\"$icon\"></i>";
 						$html .= "<span class=\"menu-text\">$title</span>";
-						$html .= "<b class=\"arrow icon-angle-down\"></b>";
+						$html .= "<b class=\"arrow fa fa-angle-down\"></b>";
 						$html .= "</a>\r\n";
 						$html .= $this->tree_nav($val['_child'], $level);
 						$html = $html . "</li>\r\n";
