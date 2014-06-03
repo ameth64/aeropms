@@ -106,10 +106,6 @@ class TodoAction extends CommonAction {
 
 		$vo['start_time'] = fix_time($vo['start_time']);
 		$vo['end_time'] = fix_time($vo['end_time']);
-
-		if (isset($vo['add_file'])) {
-			$this -> _assign_file_list($vo["add_file"]);
-		};
 		$this -> assign('vo', $vo);
 		$this -> display();
 	}

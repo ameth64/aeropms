@@ -7,6 +7,19 @@
 		}
 	};
 
+	function del() {
+		var vars = $("#form_data").serialize();
+		ui_confirm('确定要删除吗?',function(){
+			sendAjax("{:U('del')}", vars, function(data) {
+				if (data.status) {
+					ui_alert(data.info,function(){
+						location.reload();
+					});									
+				}
+			});
+		})
+	}
+
 	function reset_pwd() {
 		if ($("#id").val().length < 1) {
 			ui_error("请选择用户");

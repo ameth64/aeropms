@@ -1,18 +1,4 @@
-<script type="text/javascript" src="__PUBLIC__/editor/kindeditor.js"></script>
 <script>
-	var eoptions = {
-		width : '100%',
-		resizeType : 1,
-		allowPreviewEmoticons : true,
-		uploadJson : upload_url,
-		allowImageUpload : true,
-		syncType : 'form',
-		height : 350,
-		items : ['fontsize', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'removeformat', '|', 'image', '|', 'fullscreen'],
-		afterBlur : function() {
-			this.sync();
-		}
-	};
 
 	function save() {
 		window.onbeforeunload=null;
@@ -20,12 +6,8 @@
 			sendForm("form_data", "{:U('save')}");
 		}
 	}
-
-	$(document).ready(function(){
+	$(document).ready(function() {
 		set_val("level",{$vo.level});
 		set_val("status",{$vo.status});
-		$("#content,#progress").each(function(index, obj) {
-			KindEditor.create(obj, eoptions);
-		})
 	}); 
 </script>

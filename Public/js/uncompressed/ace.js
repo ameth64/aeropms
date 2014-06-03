@@ -98,9 +98,9 @@ ace.handle_side_menu = function($) {
 }
 
 ace.general_things = function($) {
- $('.ace-nav [class*="icon-animated-"]').closest('a').on('click', function(){
-	var icon = $(this).find('[class*="icon-animated-"]').eq(0);
-	var $match = icon.attr('class').match(/icon\-animated\-([\d\w]+)/);
+ $('.ace-nav [class*="fa-animated-"]').closest('a').on('click', function(){
+	var icon = $(this).find('[class*="fa-animated-"]').eq(0);
+	var $match = icon.attr('class').match(/fa\-animated\-([\d\w]+)/);
 	icon.removeClass($match[0]);
 	$(this).off('click');
  });
@@ -167,11 +167,11 @@ ace.general_things = function($) {
 
 	if(skin_class == 'skin-2') {
 		$('.ace-nav > li').addClass('no-border margin-1');
-		$('.ace-nav > li:not(:last-child)').addClass('light-pink').find('> a > [class*="icon-"]').addClass('pink').end().eq(0).find('.badge').addClass('badge-warning');
+		$('.ace-nav > li:not(:last-child)').addClass('light-pink').find('> a > [class*="fa-"]').addClass('pink').end().eq(0).find('.badge').addClass('badge-warning');
 	}
 	else {
 		$('.ace-nav > li').removeClass('no-border margin-1');
-		$('.ace-nav > li:not(:last-child)').removeClass('light-pink').find('> a > [class*="icon-"]').removeClass('pink').end().eq(0).find('.badge').removeClass('badge-warning');
+		$('.ace-nav > li:not(:last-child)').removeClass('light-pink').find('> a > [class*="fa-"]').removeClass('pink').end().eq(0).find('.badge').removeClass('badge-warning');
 	}
 
 	if(skin_class == 'skin-3') {
@@ -179,16 +179,13 @@ ace.general_things = function($) {
 	} else {
 		$('.ace-nav > li.grey').removeClass('red').find('.badge').removeClass('badge-yellow');
 	}
- });
- 
+ }); 
 }
-
-
 
 ace.widget_boxes = function($) {
 	$(document).on('hide.bs.collapse show.bs.collapse', function (ev) {
 		var hidden_id = ev.target.getAttribute('id')
-		$('[href*="#'+ hidden_id+'"]').find('[class*="icon-"]').each(function(){
+		$('[href*="#'+ hidden_id+'"]').find('[class*="fa-"]').each(function(){
 			var $icon = $(this)
 
 			var $match
@@ -198,8 +195,8 @@ ace.widget_boxes = function($) {
 				$icon_up = $icon.attr('data-icon-hide')
 			}
 			else if( $match = $icon.attr('class').match(/icon\-(.*)\-(up|down)/) ) {
-				$icon_down = 'icon-'+$match[1]+'-down'
-				$icon_up = 'icon-'+$match[1]+'-up'
+				$icon_down = 'fa-'+$match[1]+'-down'
+				$icon_up = 'fa-'+$match[1]+'-up'
 			}
 
 			if($icon_down) {
@@ -232,10 +229,10 @@ ace.widget_boxes = function($) {
 			if (event.isDefaultPrevented()) return
 		
 			var $body = $box.find('.widget-body');
-			var $icon = $this.find('[class*=icon-]').eq(0);
-			var $match = $icon.attr('class').match(/icon\-(.*)\-(up|down)/);
-			var $icon_down = 'icon-'+$match[1]+'-down';
-			var $icon_up = 'icon-'+$match[1]+'-up';
+			var $icon = $this.find('[class*=fa-]').eq(0);
+			var $match = $icon.attr('class').match(/fa\-(.*)\-(up|down)/);
+			var $icon_down = 'fa-'+$match[1]+'-down';
+			var $icon_up = 'fa-'+$match[1]+'-up';
 			
 			var $body_inner = $body.find('.widget-body-inner')
 			if($body_inner.length == 0) {
@@ -275,7 +272,7 @@ ace.widget_boxes = function($) {
 
 			var $remove = false;
 			if($box.css('position') == 'static') {$remove = true; $box.addClass('position-relative');}
-			$box.append('<div class="widget-box-overlay"><i class="icon-spinner icon-spin icon-2x white"></i></div>');
+			$box.append('<div class="widget-box-overlay"><i class="fa-spinner fa-spin fa-2x white"></i></div>');
 			
 			$box.one('reloaded.ace.widget', function() {
 				$box.find('.widget-box-overlay').remove();

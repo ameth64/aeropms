@@ -66,17 +66,18 @@
 	<div class="form-group">
 		<label class="col-xs-2 control-label" for="name">附件:</label>
 		<div class="col-xs-10">
-			<include file="Widget:file_list" />
+			{:W('File',array('add_file'=>$vo['add_file'],'mode'=>'show'))}
 		</div>
 	</div>
 	<div class="clearfix"></div>
 	<div class="form-group">
 		<div class="col-xs-12">
-			<div id="content_wrap" >
-				<iframe id="content_iframe"></iframe>
+			<div class="content_wrap" >
+				<iframe class="content_iframe"></iframe>
+				<textarea  class="editor content"  name="content" style="display:none;">{$vo.content}</textarea>
 			</div>
 		</div>
-		<textarea id="content" name="content" style="width:100%;height:180px;display:none;">{$vo.content}</textarea>
+		
 	</div>
 </form>
 

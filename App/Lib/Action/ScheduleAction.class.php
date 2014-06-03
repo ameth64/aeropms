@@ -55,9 +55,6 @@ class ScheduleAction extends CommonAction {
 		$where['user_id'] = get_user_id();
 
 		$vo = $model -> where($where) -> find();
-		if (isset($vo['add_file'])) {
-			$this -> _assign_file_list($vo["add_file"]);
-		};
 		$this -> assign('vo', $vo);
 		$this -> display();
 	}

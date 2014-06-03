@@ -15,9 +15,8 @@ class FlowModel extends CommonModel {
 	// 自动验证设置
 	protected $_validate = array( array('name', 'require', '标题必须', 1), array('content', 'require', '内容必须'), );
 	// 自动填充设置
-	protected $_auto = array( array('is_del', '0', self::MODEL_INSERT), array('create_time', 'time', self::MODEL_INSERT, 'function'), array('update_time', 'time', self::MODEL_UPDATE, 'function'));
 
-	function _before_insert(&$data,$options) {
+	function _before_insert(&$data,$options){
 		$type = $data["type"];
 		$dept_id=get_dept_id();
 		$data['dept_id'] = $dept_id;
@@ -131,77 +130,10 @@ class FlowModel extends CommonModel {
 		return false;
 	}
 
-	function _conv_confirm($key, $val) {
-		$arr_confirm = array_filter(explode("|", $val));
-		$str_confirm;
-		foreach ($arr_confirm as $confirm) {
-			if (strpos($confirm, "dgp") !== false) {
-				$temp = explode("_", $confirm);
-				$dept_grade = $temp[1];
-				$position = $temp[2];
-				$dept_id = $this -> _get_dept(get_dept_id(),$dept_grade);
-
-				$model = M("User");
-				$where = array();
-				$where['dept_id'] = $dept_id;
-				$where['position_id'] = $position;
-				$where['is_del'] = 0;
-				$emp_list = $model -> where($where) -> select();
-				//dump($emp_list);
-				$emp_list = rotate($emp_list);
-				if (!empty($emp_list)) {
-					$str_confirm .= implode(",", $emp_list['emp_no']) . "|";
-				}
-			}
-			if (strpos($confirm, "dp") !== false) {
-				$temp = explode("_", $confirm);
-				$dept = $temp[1];
-				$position = $temp[2];
-
-				$model = M("User");
-				$where = array();
-				$where['dept_id'] = $dept;
-				$where['position_id'] = $position;
-				$where['is_del'] = 0;
-				$emp_list = $model -> where($where) -> select();
-				//dump($emp_list);
-				$emp_list = rotate($emp_list);
-
-				if (!empty($emp_list)) {
-					$str_confirm .= implode(",", $emp_list['emp_no']) . "|";
-				}
-			}
-			if (strpos($confirm, "dept") !== false) {
-				$temp = explode("_", $confirm);
-				$dept = $temp[1];
-
-				$model = M("User");
-				$where = array();
-				$where['dept_id'] = $dept;
-				$where['is_del'] = 0;
-				$emp_list = $model -> where($where) -> select();
-				$emp_list = rotate($emp_list);
-				if (!empty($emp_list)) {
-					$str_confirm .= implode(",", $emp_list['emp_no']) . "|";
-				}
-			}
-			if (strpos($confirm, "emp") !== false) {
-				$temp = explode("_", $confirm);
-				$emp = $temp[1];
-				$str_confirm .= $emp . "|";
-			}
-			if (strpos($confirm, "_") == false) {
-				$str_confirm .= $confirm . "|";
-			}
-		}
-		$model = M("Flow");
-		$model -> where("id=$key") -> setField('confirm', $str_confirm);
-		return $str_confirm;
-	}
-
 	function _conv_auditor($val){
 		$arr_auditor = array_filter(explode("|", $val));
 		$str_auditor;
+
 		foreach ($arr_auditor as $auditor) {
 			if (strpos($auditor, "dgp") !== false) {
 				$temp = explode("_", $auditor);
@@ -214,8 +146,7 @@ class FlowModel extends CommonModel {
 				$where['dept_id'] = $dept_id;
 				$where['position_id'] = $position;
 				$where['is_del'] = 0;
-				$emp_list = $model -> where($where) -> select();
-			
+				$emp_list = $model -> where($where) -> select();	
 				$emp_list = rotate($emp_list);
 
 				if (!empty($emp_list)) {
@@ -234,7 +165,7 @@ class FlowModel extends CommonModel {
 				$where['position_id'] = $position;
 				$where['is_del'] = 0;
 				$emp_list = $model -> where($where) -> select();
-				//dump($emp_list);
+
 				$emp_list = rotate($emp_list);
 
 				if (!empty($emp_list)) {
@@ -361,17 +292,14 @@ class FlowModel extends CommonModel {
 		if (substr($step, 0, 1) == 2){
 			$confirm = M("Flow") -> where("id=$flow_id") -> getField("confirm");
 			$arr_confirm = array_filter(explode("|", $confirm));
-			//dump($arr_confirm[fmod($step,10)-1]);die;
+
 			return $arr_confirm[fmod($step, 10) - 1];
-			//dump($arr_confirm);
+
 		}
 		if (substr($step, 0, 1) == 3) {
 			$consult = M("Flow") -> where("id=$flow_id") -> getField("consult");
 			$arr_consult = array_filter(explode("|", $consult));
-
-			//dump($arr_confirm[fmod($step,10)-1]);die;
 			return $arr_consult[fmod($step,10) - 1];
-			//dump($arr_confirm);
 		}
 	}
 

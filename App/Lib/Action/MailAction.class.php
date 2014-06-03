@@ -399,7 +399,6 @@ class MailAction extends CommonAction {
 		$vo = $model -> getById($id);
 
 		$this -> assign('vo', $vo);
-		$this -> _assign_file_list($vo['add_file']);
 
 		$this -> display();
 	}
@@ -435,9 +434,6 @@ class MailAction extends CommonAction {
 
 		$vo = $model -> getById($id);
 		$this -> assign('vo', $vo);
-		if (isset($vo['add_file'])) {
-			$this -> _assign_file_list($vo["add_file"]);
-		};
 		$this -> display();
 	}
 

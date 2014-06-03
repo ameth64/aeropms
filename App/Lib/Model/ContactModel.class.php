@@ -18,10 +18,5 @@ class ContactModel extends CommonModel {
 		array('name','require','姓名必须！',1),
 		array('email','email','邮箱格式错误！',2),
 		);
-	// 自动填充设置
-	protected $_auto	 =	 array(
-		array('is_del','0',self::MODEL_INSERT),
-		array('create_time','time',self::MODEL_INSERT,'function'),
-		);
 }
 ?>

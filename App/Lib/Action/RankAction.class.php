@@ -22,7 +22,6 @@ class RankAction extends CommonAction {
 	function del(){
 		$id=$_POST['id'];
 		$this->_destory($id);		
-	}	
-
+	}
 }
 ?>

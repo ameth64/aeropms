@@ -152,36 +152,20 @@ function winclose() {
 
 /* 在iframe里显示textarea的内容*/
 function show_content(){
-	var iframe = $("#content_iframe").get(0).contentWindow;
-	var div = document.createElement("div");
-	div.innerHTML = $("#content").val();
-	div.className = "height";
-	iframe.document.body.appendChild(div);
-	height = $(iframe.document.body).find("div.height").height();
-	if (height < 300) {
-		height = 300;
-	}
-	iframe.height = height;
-	$("#content_wrap").height(height + 30);
-	$("#content_wrap").parent().height(height + 40);
-	$("#content_iframe").height(height + 30);
-}
-
-/* 在iframe里显示textarea的内容*/
-function show_progress(){
-	var iframe = $("#progress_iframe").get(0).contentWindow;
-	var div = document.createElement("div");
-	div.innerHTML = $("#progress").val();
-	div.className = "height";
-	iframe.document.body.appendChild(div);
-	height = $(iframe.document.body).find("div.height").height();
-	if (height < 300) {
-		height = 300;
-	}
-	iframe.height = height;
-	$("#progress_wrap").height(height + 30);
-	$("#progress_wrap").parent().height(height + 40);
-	$("#progress_iframe").height(height + 30);
+	$(".content_wrap").each(function(){
+		iframe = $(this).find(".content_iframe").get(0).contentWindow;
+		var div = document.createElement("div");
+		div.className = "height";
+		div.innerHTML = $(this).find(".content").val();
+		iframe.document.body.appendChild(div);
+		height = $(iframe.document.body).find("div.height").height();
+		if (height < 100) {
+			height = 100;
+		}
+		iframe.height = height;
+		$(this).height(height + 35);
+		$(iframe).height(height + 35);
+	})
 }
 
 function toggle_adv_search() {

@@ -14,7 +14,6 @@
 class CommonAction extends Action {
 
 	function _initialize() {
-		$openid=$_REQUEST["openid"];
 		$auth_id = session(C('USER_AUTH_KEY'));
 		if(!empty($openid)&&!isset($auth_id)){
 			$this->welogin($openid);
@@ -29,9 +28,7 @@ class CommonAction extends Action {
 	}
 	
 	function welogin($openid){
-			dump($openid);
-			die;
-			$model = D("User");
+			$model = M("User");
 			$authInfo = $model -> where ( "openid = '{$openid}' AND westatus = 1" )->find (); // 查到userid
 
 			//使用用户名、密码和状态的方式进行认证
@@ -93,7 +90,6 @@ class CommonAction extends Action {
 		$this -> assign('left_menu',$left_menu);
 	}
 
-
 	/**列表页面 **/
 	function index() {
 		$this -> _index();
@@ -121,14 +117,15 @@ class CommonAction extends Action {
 	}
 
 	/**列表页面 **/
-	protected function _index() {
+	protected function _index($name=null){
 		$map = $this -> _search();
 		if (method_exists($this, '_search_filter')) {
 			$this -> _search_filter($map);
 		}
-		$name = $this -> getActionName();
+		if(empty($name)){
+			$name = $this -> getActionName();			
+		}
 		$model = D($name);
-
 		if (!empty($model)) {
 			$this -> _list($model,$map);
 		}
@@ -136,10 +133,14 @@ class CommonAction extends Action {
 	}
 
 	/**编辑页面 **/
-	protected function _edit(){
-		$name = $this -> getActionName();
+	protected function _edit($name=null,$id=null){
+		if(empty($name)){
+			$name = $this -> getActionName();
+		}
 		$model = M($name);
-		$id = $_REQUEST[$model -> getPk()];
+		if(empty($id)){
+			$id = $_REQUEST[$model -> getPk()];
+		}
 		$vo = $model -> getById($id);
 		if ($this -> isAjax()) {
 			if ($vo !== false) {// 读取成功
@@ -148,26 +149,28 @@ class CommonAction extends Action {
 				die ;
 			}
 		}
-		if (isset($vo['add_file'])) {
-			$this -> _assign_file_list($vo["add_file"]);
-		};
 		$this -> assign('vo', $vo);
 		$this -> display();
 	}
-
+	
+	protected function _save($name=null){
+		$opmode = $_POST["opmode"];
+		if ($opmode == "add") {
+			$this -> _insert($name);
+		}
+		if ($opmode == "edit") {
+			$this -> _update($name);
+		}
+	}
 	/** 插入新新数据  **/
-	protected function _insert() {
-		$name = $this -> getActionName();
+	protected function _insert($name=null) {
+		if(empty($name)){
+			$name = $this -> getActionName();
+		}
 		$model = D($name);
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
 		}
-		if (in_array('user_id', $model -> getDbFields())) {
-			$model -> user_id = get_user_id();
-		};
-		if (in_array('user_name', $model -> getDbFields())) {
-			$model -> user_name = get_user_name();
-		};
 		/*保存当前数据对象 */
 		$list = $model -> add();
 		if ($list !== false) {//保存成功
@@ -180,8 +183,10 @@ class CommonAction extends Action {
 	}
 
 	/* 更新数据  */
-	protected function _update() {
-		$name = $this -> getActionName();
+	protected function _update($name=null) {
+		if(empty($name)){
+			$name = $this -> getActionName();
+		}
 		$model = D($name);
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
@@ -249,107 +254,11 @@ class CommonAction extends Action {
 		$filepath = get_save_path(). $File['savename'];
 		$filePath = realpath($filepath);
 		$fp = fopen($filePath, 'rb');
-		$ext = $File['ext'];
-
-		//$filePath = realpath($filepath);
-		$query = file_get_contents($filepath);
-		//$query = file_get_contents($filepath);
-
-		$filetype['chm'] = 'application/octet-stream';
-		$filetype['ppt'] = 'application/vnd.ms-powerpoint';
-		$filetype['xls'] = 'application/vnd.ms-excel';
-		$filetype['doc'] = 'application/msword';
-		$filetype['pptx'] = 'application/vnd.ms-powerpoint';
-		$filetype['xlsx'] = 'application/vnd.ms-excel';
-		$filetype['docx'] = 'application/msword';
-		$filetype['exe'] = 'application/octet-stream';
-		$filetype['rar'] = 'application/octet-stream';
-		$filetype['js'] = "javascript/js";
-		$filetype['css'] = "text/css";
-		$filetype['hqx'] = "application/mac-binhex40";
-		$filetype['bin'] = "application/octet-stream";
-		$filetype['oda'] = "application/oda";
-		$filetype['pdf'] = "application/pdf";
-		$filetype['ai'] = "application/postsrcipt";
-		$filetype['eps'] = "application/postsrcipt";
-		$filetype['es'] = "application/postsrcipt";
-		$filetype['rtf'] = "application/rtf";
-		$filetype['mif'] = "application/x-mif";
-		$filetype['csh'] = "application/x-csh";
-		$filetype['dvi'] = "application/x-dvi";
-		$filetype['hdf'] = "application/x-hdf";
-		$filetype['nc'] = "application/x-netcdf";
-		$filetype['cdf'] = "application/x-netcdf";
-		$filetype['latex'] = "application/x-latex";
-		$filetype['ts'] = "application/x-troll-ts";
-		$filetype['src'] = "application/x-wais-source";
-		$filetype['zip'] = "application/zip";
-		$filetype['bcpio'] = "application/x-bcpio";
-		$filetype['cpio'] = "application/x-cpio";
-		$filetype['gtar'] = "application/x-gtar";
-		$filetype['shar'] = "application/x-shar";
-		$filetype['sv4cpio'] = "application/x-sv4cpio";
-		$filetype['sv4crc'] = "application/x-sv4crc";
-		$filetype['tar'] = "application/x-tar";
-		$filetype['ustar'] = "application/x-ustar";
-		$filetype['man'] = "application/x-troff-man";
-		$filetype['sh'] = "application/x-sh";
-		$filetype['tcl'] = "application/x-tcl";
-		$filetype['tex'] = "application/x-tex";
-		$filetype['texi'] = "application/x-texinfo";
-		$filetype['texinfo'] = "application/x-texinfo";
-		$filetype['t'] = "application/x-troff";
-		$filetype['tr'] = "application/x-troff";
-		$filetype['roff'] = "application/x-troff";
-		$filetype['shar'] = "application/x-shar";
-		$filetype['me'] = "application/x-troll-me";
-		$filetype['ts'] = "application/x-troll-ts";
-		$filetype['gif'] = "image/gif";
-		$filetype['jpeg'] = "image/pjpeg";
-		$filetype['jpg'] = "image/pjpeg";
-		$filetype['jpe'] = "image/pjpeg";
-		$filetype['ras'] = "image/x-cmu-raster";
-		$filetype['pbm'] = "image/x-portable-bitmap";
-		$filetype['ppm'] = "image/x-portable-pixmap";
-		$filetype['xbm'] = "image/x-xbitmap";
-		$filetype['xwd'] = "image/x-xwindowdump";
-		$filetype['ief'] = "image/ief";
-		$filetype['tif'] = "image/tiff";
-		$filetype['tiff'] = "image/tiff";
-		$filetype['pnm'] = "image/x-portable-anymap";
-		$filetype['pgm'] = "image/x-portable-graymap";
-		$filetype['rgb'] = "image/x-rgb";
-		$filetype['xpm'] = "image/x-xpixmap";
-		$filetype['txt'] = "text/plain";
-		$filetype['c'] = "text/plain";
-		$filetype['cc'] = "text/plain";
-		$filetype['h'] = "text/plain";
-		$filetype['html'] = "text/html";
-		$filetype['htm'] = "text/html";
-		$filetype['htl'] = "text/html";
-		$filetype['rtx'] = "text/richtext";
-		$filetype['etx'] = "text/x-setext";
-		$filetype['tsv'] = "text/tab-separated-values";
-		$filetype['mpeg'] = "video/mpeg";
-		$filetype['mpg'] = "video/mpeg";
-		$filetype['mpe'] = "video/mpeg";
-		$filetype['avi'] = "video/x-msvideo";
-		$filetype['qt'] = "video/quicktime";
-		$filetype['mov'] = "video/quicktime";
-		$filetype['moov'] = "video/quicktime";
-		$filetype['movie'] = "video/x-sgi-movie";
-		$filetype['au'] = "audio/basic";
-		$filetype['snd'] = "audio/basic";
-		$filetype['wav'] = "audio/x-wav";
-		$filetype['aif'] = "audio/x-aiff";
-		$filetype['aiff'] = "audio/x-aiff";
-		$filetype['aifc'] = "audio/x-aiff";
-		$filetype['swf'] = "application/x-shockwave-flash";
 
 		$ua = $_SERVER["HTTP_USER_AGENT"];
 		if (!preg_match("/MSIE/", $ua)) {
 			header("Content-Length: " . filesize($filePath));
-			header("Content-type:" . $filetype[$ext]);
+			Header("Content-type: application/octet-stream");
 			header("Content-Length: " . filesize($filePath));
 			header("Accept-Ranges: bytes");
 			header("Accept-Length: " . filesize($filePath));
@@ -365,18 +274,22 @@ class CommonAction extends Action {
 	}
 
 	/** 删除数据  **/
-	protected function _del($id, $return = false){
-		$name = $this -> getActionName();
+	protected function _del($id=null,$name=null,$return = false){
+		if(empty($name)){
+			$name = $this -> getActionName();
+		}
 		$model = M($name);
-		if (!empty($model)){
+		
+		if(!empty($model)){
 			$pk = $model -> getPk();
-			if (isset($id)) {
+			if (isset($id)){
 				if (is_array($id)){
 					$where[$pk] = array("in", array_filter($id));
 				} else {
 					$where[$pk] = array('in', array_filter(explode(',', $id)));
 				}
 				$result = $model -> where($where) -> setField("is_del", 1);
+				
 				if ($return) {
 					return $result;
 				}
@@ -393,8 +306,10 @@ class CommonAction extends Action {
 	}
 
 	/** 删除数据  **/
-	protected function _destory($id) {
-		$name = $this -> getActionName();
+	protected function _destory($id,$name=null) {
+		if(empty($name)){
+			$name = $this -> getActionName();
+		}
 		$model = M($name);
 		if (!empty($model)) {
 			$pk = $model -> getPk();
@@ -593,43 +508,6 @@ class CommonAction extends Action {
 		return;
 	}
 
-
-
-	protected function _assign_menu2() {
-		$model = D("Node");
-		$user_id = get_user_id();
-		if (session('menu' . $user_id)) {
-			//如果已经缓存，直接读取缓存
-			$menu = session('menu' . $user_id);
-		} else {
-			//读取数据库模块列表生成菜单项
-			$menu = D("Node") -> access_list();
-			$system_folder_menu = D("SystemFolder") -> get_folder_menu();
-			$user_folder_menu = D("UserFolder") -> get_folder_menu();
-			$menu = array_merge($menu, $system_folder_menu, $user_folder_menu);
-			//缓存菜单访问
-			session('menu' . $user_id,$menu);
-		}
-		$tree = list_to_tree($menu);
-		$this -> assign('tree',$tree);
-	}
-
-	protected function _assign_top_menu() {
-		$model = D("Node");
-		$user_id = get_user_id();
-		if (session('top_menu' . $user_id)) {
-			//如果已经缓存，直接读取缓存
-			$top_menu = session('top_menu' . $user_id);
-		} else {
-			//读取数据库模块列表生成菜单项
-			$top_menu = D("Node") -> get_top_menu();
-			//缓存菜单访问
-			session('top_menu'.$user_id,$top_menu);
-		}
-		$this -> assign('top_menu',$top_menu);
-	}
-
-
 	protected function _assign_folder_list() {
 		if ($this -> config['app_type'] == 'personal') {
 			$model = D("UserFolder");
@@ -638,16 +516,7 @@ class CommonAction extends Action {
 		}
 		$list = $model -> get_folder_list();
 		$tree = list_to_tree($list);
-		$this -> assign('folder_list', dropdown_menu($tree));
-	}
-
-	protected function _assign_file_list($add_file) {
-		$files = array_filter(explode(';', $add_file));
-		$where['sid'] = array('in', $files);
-		$where['module']=MODULE_NAME;
-		$model = M("File");
-		$list = $model -> where($where) -> select();
-		$this -> assign('file_list', $list);
+		$this -> assign('folder_list',dropdown_menu($tree));
 	}
 
 	protected function _set_field($id, $field, $val, $name = '') {

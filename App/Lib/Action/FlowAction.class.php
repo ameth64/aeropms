@@ -173,10 +173,7 @@ class FlowAction extends CommonAction {
 		$this -> assign('vo', $vo);
 		$this -> assign("emp_no", $vo['emp_no']);
 		$this -> assign("user_name", $vo['user_name']);
-		if (in_array('add_file', $model -> getDbFields())) {
-			$this -> _assign_file_list($vo["add_file"]);
-		};
-	
+
 		$model_flow_field=D("FlowField");
 		$field_list = $model_flow_field ->get_data_list($id);
 		$this -> assign("field_list", $field_list);

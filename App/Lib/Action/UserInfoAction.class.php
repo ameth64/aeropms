@@ -399,9 +399,6 @@ class UserInfoAction extends CommonAction {
 		$this -> assign('opmode', 'edit');
 		$vo = M("UserInfo" . $model) -> where($where) -> find();
 		$this -> assign('vo', $vo);
-		if (isset($vo['add_file'])) {
-			$this -> _assign_file_list($vo["add_file"]);
-		};
 		$this -> display(strtolower($model));
 	}
 

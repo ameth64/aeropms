@@ -164,5 +164,10 @@ class UserAction extends CommonAction {
 		$list = $model -> where($map) -> field('id,name') -> select();
 		exit(json_encode($list));
 	}
+
+	function del(){
+		$id=$_POST['id'];
+		$this->_destory($id);		
+	}
 }
 ?>

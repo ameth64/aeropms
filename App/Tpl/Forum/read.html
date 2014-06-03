@@ -110,13 +110,13 @@
 			</div></td>
 			<td style="width:100%;vertical-align:top;">
 			<div >
-				<textarea name="content" id="content" style="width:100%;height:220px;"></textarea>
+				<textarea  class="editor" name="content" id="content" style="width:100%;height:220px;"></textarea>
 			</div></td>
 			</tr>
 			<tr>
 				<td class="text-right">附件：</td>
 				<td>
-				<include file="Widget:uploader" />
+				{:W('File',array('add_file'=>$vo['add_file'],'mode'=>'add'))}
 				</td>
 			</tr>
 		</table>

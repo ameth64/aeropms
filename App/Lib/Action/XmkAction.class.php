@@ -12,7 +12,7 @@
  -------------------------------------------------------------------------*/
 
 class XmkAction extends CommonAction {	
-	protected $config = array('app_type' => 'folder', 'action_auth' => array('mark' => 'admin'));
+	protected $config = array('app_type' => 'folder', 'action_auth' => array('mark' => 'admin','save_report'=>'write','edit_report'=>'write','reply_report'=>'write','del_report'=>'admin'));
 	
 	//过滤查询字段
 	function _search_filter(&$map) {
@@ -71,6 +71,7 @@ class XmkAction extends CommonAction {
 	}
 
 	public function add(){
+		$widget['editor'] = true;
 		$widget['date'] = true;
 		$widget['uploader'] = true;
 		$this -> assign("widget", $widget);		
@@ -82,14 +83,40 @@ class XmkAction extends CommonAction {
 	}
 
 	public function read() {
+		$widget['editor'] = true;
+		$widget['uploader'] = true;
+		$this -> assign("widget", $widget);
+
 		$id = $_REQUEST['id'];		
 		$model = M("Xmk");
 		$folder_id = $model -> where("id=$id") -> getField('folder');
 		$this -> assign("auth", D("SystemFolder") -> get_folder_auth($folder_id));
-		$this->_edit();
+
+
+
+		$model=M("XmkReport");
+		$where['xid']=array('eq',$id);
+		$where['is_del']=array('eq','0');
+		$xmk_report=$model->where($where)->select();
+		$this->assign("xmk_report",$xmk_report);
+		
+		$model = D("XmkView");
+		$id=$_REQUEST['id'];
+		$vo = $model -> getById($id);
+
+		if ($this -> isAjax()) {
+			if ($vo !== false) {// 读取成功
+				$this -> ajaxReturn($vo, "", 0);
+			} else {
+				die ;
+			}
+		}
+		$this -> assign('vo', $vo);
+		$this -> display();
 	}
 
 	public function edit() {
+		$widget['editor'] = true;
 		$widget['date'] = true;
 		$widget['uploader'] = true;
 		$this -> assign("widget", $widget);
@@ -98,13 +125,11 @@ class XmkAction extends CommonAction {
 		$model = M("Xmk");
 		$folder_id = $model -> where("id=$id") -> getField('folder');
 		$this -> assign("auth", D("SystemFolder") -> get_folder_auth($folder_id));				
-		$this->_edit();
-	}
 
-	protected function _edit() {
 		$model = D("XmkView");
 		$id=$_REQUEST['id'];
 		$vo = $model -> getById($id);
+
 		if ($this -> isAjax()) {
 			if ($vo !== false) {// 读取成功
 				$this -> ajaxReturn($vo, "", 0);
@@ -112,11 +137,9 @@ class XmkAction extends CommonAction {
 				die ;
 			}
 		}
-		if (isset($vo['add_file'])) {
-			$this -> _assign_file_list($vo["add_file"]);
-		};
 		$this -> assign('vo', $vo);
 		$this -> display();
+
 	}
 
 	public function mark(){
@@ -162,6 +185,35 @@ class XmkAction extends CommonAction {
 					break;
 			}
 		}
+	}
+
+	function add_report(){
+		$this->display();
+	}
+
+	function edit_report(){		
+		$widget['editor'] = true;
+		$widget['uploader'] = true;
+		$this -> assign("widget", $widget);		
+
+		$report_id=$_REQUEST['report_id'];
+		$xid=M("XmkReport")->where("id=$report_id")->getField("xid");
+		$fid=M("Xmk")->where("id=$xid")->getField("folder");
+		$this->assign("fid",$fid);
+		$this->_edit("XmkReport",$report_id);
+	}
+
+	function reply_report(){
+		$this->edit_report();
+	}
+
+	function save_report(){
+		$this->_save("XmkReport");
+	}
+
+	function del_report(){
+		$report_id=$_REQUEST['report_id'];
+		$this->_del($report_id,"XmkReport");
 	}
 
 	function tag_manage() {

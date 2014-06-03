@@ -18,12 +18,6 @@ class ForumModel extends CommonModel {
 		array('name','require','标题必须',1),
 		array('content','require','内容必须'),
 		);
-	// 自动填充设置
-	protected $_auto	 =	 array(
-		array('is_del','0',self::MODEL_INSERT),
-		array('create_time','time',self::MODEL_INSERT,'function'),
-		array('update_time','time',self::MODEL_UPDATE,'function'),
-		);        
 
 	function get_info(){
 		$sql="select folder,count(folder) forum,sum(reply) post from ".$this->tablePrefix."forum where is_del=0 group by folder";

@@ -1,8 +1,10 @@
 <script type="text/javascript">
-	$(function() {
-		show_content();
-		show_progress();
-	});
+	function save_report() {
+		window.onbeforeunload=null;
+		if (check_form("form_data")) {
+			sendForm("form_data", "{:U('save_report')}", "__SELF__");
+		}
+	}
 	function del() {
 		ui_confirm('确定要删除吗?',function(){
 			sendAjax("{:U('mark?action=del')}", 'id=' + $("#id").val(), function(data) {
@@ -17,4 +19,21 @@
 	function edit() {
 		window.open(fix_url("{:U('edit')}?id=" + $("#id").val()), "_self");
 	}
+
+	function edit_report(report_id){
+		window.open(fix_url("{:U('edit_report')}?report_id=" + report_id),"_self");
+	}
+
+	function replay_report(report_id){
+		window.open(fix_url("{:U('reply_report')}?report_id=" + report_id),"_self");
+	}
+
+	function del_report(report_id){
+		window.open(fix_url("{:U('del_report')}?report_id=" + report_id+"&id="+ $("#id").val()), "_self");
+	}
+
+	$(document).ready(function() {
+		show_content();
+		set_return_url(document.location,1);
+	})
 </script>

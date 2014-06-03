@@ -7,7 +7,10 @@
 					filterMode : true,
 					uploadJson:upload_url,
 					width :'100%',
-					items : []
+					items : [],
+					afterBlur : function() {
+						this.sync();
+					}
 				}
 			}else{
 				settings={
@@ -15,7 +18,10 @@
 					filterMode : true,
 					uploadJson:upload_url,					
 					width :'100%',
+					afterBlur : function() {
+						this.sync();
+					}
 				}
 			}
-		editor = new KindEditor.create("#content",settings);
+		editor = new KindEditor.create(".editor",settings);
 		}

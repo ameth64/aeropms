@@ -3,7 +3,7 @@
 		$("#opmode").val("add");
 		$("#id").val("");
 		if (check_form("form_data")){
-			sendForm("form_data", "{:U('save')}");
+			sendForm("form_data", "{:U('save')}", "__URL__");
 		}
 	};
 
@@ -22,7 +22,7 @@
 
 	function save() {
 		if (check_form("form_data")) {
-			sendForm("form_data", "{:U('save')}");
+			sendForm("form_data", "{:U('save')}", "__URL__");
 		}
 	}
 

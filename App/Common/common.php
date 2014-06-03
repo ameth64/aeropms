@@ -28,19 +28,22 @@ function get_new_count(){
 	$where = array();
 	$FlowLog = M("FlowLog");
 	$emp_no = get_emp_no();
+	 
 	$where['emp_no'] = $emp_no;
 	$where['_string'] = "result is null";
 	$log_list = $FlowLog -> where($where) -> field('flow_id') -> select();
+	
 	$log_list = rotate($log_list);
 	$new_confirm_count=0;
 	if (!empty($log_list)) {
 		$map['id'] = array('in', $log_list['flow_id']);
-		$new_confirm_count = $model -> where($map) -> count();
+		$model = M("Flow");
+		$new_confirm_count =$model -> where($map) -> count();
 	}
 	$data['flow']=$new_confirm_count;
 
 	//获取最新通知
-	$model = D('Notice');
+	$model = M('Notice');
 	$where = array();
 	$where['is_del'] = array('eq', '0');
 	$folder_list = D("SystemFolder") -> get_authed_folder(get_user_id(),"NoticeFolder");
@@ -50,7 +53,7 @@ function get_new_count(){
 		$where['create_time'] = array('egt', time() - 3600 * 24 * 30);
 		$new_notice_list = $model -> where($where) -> getField('id,create_time');
 		$readed = get_user_config("readed_notice");
-		if ($new_notice_list) {
+		if ($new_notice_list){
 			foreach ($new_notice_list as $key => $val) {
 				if (strpos($readed, $key . "|") === false) {
 					$new_notice_count++;
@@ -76,7 +79,6 @@ function get_new_count(){
 	$where['is_read'] = array('eq','0');
 	$new_message_count = M("Message") -> where($where) -> count();
 	$data['message']=$new_message_count;
-
 	return $data;
 }
 
