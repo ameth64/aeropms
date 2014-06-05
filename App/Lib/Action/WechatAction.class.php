@@ -67,7 +67,6 @@ class WechatAction extends Action {
 						} else {
 							$reply = array ( '欢迎使用小微OA服务号', 'text'  );
 						}
-						
 						break;
 				}
 
@@ -868,7 +867,7 @@ class WechatAction extends Action {
 				$uid = $autharr [1];
 			}
 		} else { // 不存在cookie，则创建cookie
-			$model = D("User");
+			$model = M("User");
 			$weuser = $model -> where ( "openid = '{$openid}' AND westatus = 1" )->find (); // 查到userid
 			if (empty ( $weuser )) { // 查到没有绑定返回-1
 				$uid = - 1;

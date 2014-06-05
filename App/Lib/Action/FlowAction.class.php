@@ -195,7 +195,7 @@ class FlowAction extends CommonAction {
 		$where['_string'] = "result is null";
 		$to_confirm = $model -> where($where) -> find();
 		$this -> assign("to_confirm", $to_confirm);
-
+		
 		if (!empty($to_confirm)) {
 			$is_edit = $flow_type['is_edit'];
 			$this -> assign("is_edit", $is_edit);
