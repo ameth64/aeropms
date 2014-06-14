@@ -1,12 +1,12 @@
 <?php
 class NavWidget extends Widget {
 	public function render($data) {		
-		$tree = $data['tree'];		
-		//dump($tree);
-		return $this -> tree_nav($tree);
+		$tree = $data['tree'];
+		$new_count=$data['new_count'];
+		return $this -> tree_nav($tree,$new_count);
 	}
 
-	function tree_nav($tree, $level = 0) {		
+	function tree_nav($tree,$new_count,$level = 0) {		
 		$level++;
 		$html = "";
 		//dump($tree);
@@ -29,26 +29,44 @@ class NavWidget extends Widget {
 					}else{
 						$id = $val["id"];
 					}
-											
-					if(empty($val['icon'])){
-						$icon="fa fa-angle-right";
-					}else{
-						$icon=$val['icon'];
-					}					
+					$icon_class="";	
+					$bc_count="";
+
+					$icon="fa fa-angle-right";
+					$icon_class=$val["icon"];	
+					 
+					if(strpos($icon_class,"bc-")!==false){
+						$bc_class=get_bc_class($icon_class);
+						
+						$arr_temp=explode("-",$bc_class);
+						$temp="bc-".$arr_temp[1];
+						//dump($temp);
+						$bc_count=$new_count[$temp][$bc_class];
+						//dump($new_count);
+						if($bc_count>99){
+							$bc_count="99+";
+						}
+						if($bc_count==0){
+							$bc_count=null;
+						}
+					}
+			
 					if (isset($val['_child'])) {
 						$html .= "<li>\r\n";
 						$html .= "<a class=\"dropdown-toggle\" node=\"$id\" href=\"" . "$url\">";
 						$html .= "<i class=\"$icon\"></i>";
 						$html .= "<span class=\"menu-text\">$title</span>";
 						$html .= "<b class=\"arrow fa fa-angle-down\"></b>";
+						$html.="<span class=\"badge badge-primary \">$bc_count</span>";
 						$html .= "</a>\r\n";
-						$html .= $this->tree_nav($val['_child'], $level);
+						$html .= $this->tree_nav($val['_child'],$new_count,$level);
 						$html = $html . "</li>\r\n";
 					} else {
 						$html .="<li>\r\n";
 						$html .="<a  node=\"$id\" href=\"" . "$url\">\r\n";
 						$html .= "<i class=\"$icon\"></i>";
 						$html .= "<span class=\"menu-text\">$title</span>";
+						$html.="<span class=\"badge badge-primary \">$bc_count</span>";
 						$html .="</a>\r\n</li>\r\n";
 					}
 				}

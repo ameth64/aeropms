@@ -32,8 +32,8 @@ class MailAction extends CommonAction {
 	//--------------------------------------------------------------------
 	//   邮件首页
 	//--------------------------------------------------------------------
-	public function index() {
-		$this -> redirect('/mail/folder?fid=inbox');
+	public function index(){
+		U('mail/folder',array('fid'=>'inbox'),true,true);
 	}
 
 	//--------------------------------------------------------------------

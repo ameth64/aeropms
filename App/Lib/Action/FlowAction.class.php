@@ -106,7 +106,7 @@ class FlowAction extends CommonAction {
 				$log_list = $FlowLog -> where($where) -> field('flow_id') -> select();
 				$log_list = rotate($log_list);
 				if (!empty($log_list)) {
-					$map['id'] = array('in', $log_list['flow_id']);
+					$map['id'] = array('in',$log_list['flow_id']);
 				} else {
 					$this -> display();
 					return;

@@ -319,7 +319,6 @@ class CommonAction extends Action {
 				} else {
 					$where[$pk] = array('in', array_filter(explode(',', $id)));
 				}
-
 				$app_type = $this -> config['app_type'];
 
 				switch ($app_type) {

@@ -1,7 +1,7 @@
 <?php
     if (!defined('THINK_PATH')) exit();
     $array=array(    	
-        'LOAD_EXT_CONFIG'	=>'db,auth,webchat',
+        'LOAD_EXT_CONFIG'	=>'db,auth,webchat,ldap',
 		'VAR_PAGE'	=>'p',
 		'TMPL_EXCEPTION_FILE'=>APP_PATH.'/Tpl/Public/error.html',
 		'TMPL_NO_HAVE_AUTH'=>APP_PATH.'/Tpl/Public/no_have_auth.html',	

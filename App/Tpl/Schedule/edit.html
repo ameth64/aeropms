@@ -79,12 +79,10 @@
 			{:W('File',array('add_file'=>$vo['add_file'],'mode'=>'edit'))}
 		</div>
 	</div>
-
 	<div class="form-group">
 		<div class="col-xs-12">
-			<textarea  class="editor" id="content" name="content" style="width:100%;height:300px;"></textarea>
+			<textarea  class="editor" id="content" name="content" style="width:100%;height:300px;">{$vo.content}</textarea>
 		</div>
-
 	</div>
 	<div class="action">
 		<input class="btn btn-sm btn-primary" type="button" value="保存" onclick="save();">

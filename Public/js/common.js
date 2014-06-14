@@ -527,7 +527,7 @@ function sendForm(formId, post_url,return_url) {
 	} else {
 		$("#" + formId).attr("action", post_url);
 		if (return_url){
-			set_cookie('return_url', return_url);
+			set_cookie('return_url',return_url);
 		}
 		$("#" + formId).submit();
 	}

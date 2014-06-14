@@ -16,7 +16,7 @@
 			var flag = true;
 			var runing = false;
 			push_start();
-			function sendPush(url, vars, callback) {
+			function sendPush(url,vars,callback){
 				return $.ajax({
 					type : "POST",
 					url : url,
@@ -53,7 +53,7 @@
 				sendPush("{:U('push/server')}", '', function(data) {
 					if (data.info != "no-data") {
 						window.parent.ui_info(data.info);
-					}					
+					}
 					if (flag) {
 						push_start();
 					}

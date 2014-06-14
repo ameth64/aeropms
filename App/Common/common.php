@@ -12,23 +12,35 @@
  -------------------------------------------------------------------------*/
 
 function get_new_count(){
+	
+	$emp_no = get_emp_no();
 
 	//获取未读邮件
 	$data=array();
+
 	$user_id = get_user_id();
 	$where['user_id'] = $user_id;
 	$where['is_del'] = array('eq', '0');
-	$where['folder'] = array( array('eq', 1), array('gt', 6), 'or');
+	$where['folder'] = array('eq', 1);
 	$where['read'] = array('eq', '0');
 	$model = M("Mail");
-	$new_mail_count = $model -> where($where) -> count();
-	$data['mail']=$new_mail_count;
+	$new_mail_inbox = $model -> where($where) -> count();
+	$data['bc-mail']['bc-mail-inbox']=$new_mail_inbox;
+
+	//获取未读邮件
+	$user_id = get_user_id();
+	$where['user_id'] = $user_id;
+	$where['is_del'] = array('eq', '0');
+	$where['folder'] = array('gt', 6);
+	$where['read'] = array('eq', '0');
+	$model = M("Mail");
+	$new_mail_myfolder = $model -> where($where) -> count();
+	$data['bc-mail']['bc-mail-myfolder']=$new_mail_myfolder;
 
 	//获取待裁决
 	$where = array();
 	$FlowLog = M("FlowLog");
-	$emp_no = get_emp_no();
-	 
+		 
 	$where['emp_no'] = $emp_no;
 	$where['_string'] = "result is null";
 	$log_list = $FlowLog -> where($where) -> field('flow_id') -> select();
@@ -37,10 +49,25 @@ function get_new_count(){
 	$new_confirm_count=0;
 	if (!empty($log_list)) {
 		$map['id'] = array('in', $log_list['flow_id']);
-		$model = M("Flow");
-		$new_confirm_count =$model -> where($map) -> count();
+		$new_confirm_count = M("Flow") -> where($map) -> count();
 	}
-	$data['flow']=$new_confirm_count;
+	$data['bc-flow']['bc-flow-confirm']=$new_confirm_count;
+
+	//获取收到的流程
+	$where = array();
+	$FlowLog = M("FlowLog");
+	$where['emp_no'] = $emp_no;
+	$where['step'] = 100;
+	$where['is_read']=1;
+
+	$log_list = $FlowLog -> where($where) -> field('flow_id') -> select();
+	$log_list = rotate($log_list);
+	$new_receive_count=0;
+	if (!empty($log_list)) {
+		$map['id'] = array('in',$log_list['flow_id']);
+		$new_receive_count = M("Flow") -> where($map) -> count();
+	}
+	$data['bc-flow']['bc-flow-receive']=$new_receive_count;
 
 	//获取最新通知
 	$model = M('Notice');
@@ -61,15 +88,22 @@ function get_new_count(){
 			}
 		}
 	}
-	$data['notice']=$new_notice_count;
+	$data['bc-notice']['bc-notice-new']=$new_notice_count;
 
 	//获取待办事项
-	$model = M("Todo");
 	$where = array();
 	$where['user_id'] = $user_id;
 	$where['status'] = array("in", "1,2");
 	$new_todo_count = M("Todo") -> where($where) -> count();
-	$data['todo']=$new_todo_count;
+	$data['bc-personal']['bc-personal-todo']=$new_todo_count;
+
+	//获取日程事项
+	$where = array();
+	$where['user_id'] = $user_id;
+	$where['start_date'] = array("elt",date("Y-m-d"));
+	$where['end_date'] = array("egt",date("Y-m-d"));	
+	$new_schedule_count = M("Schedule") -> where($where) -> count();
+	$data['bc-personal']['bc-personal-schedule']=$new_todo_count;
 
 	//获取最新消息
 	$model = M("Message");
@@ -78,7 +112,8 @@ function get_new_count(){
 	$where['receiver_id']=$user_id;
 	$where['is_read'] = array('eq','0');
 	$new_message_count = M("Message") -> where($where) -> count();
-	$data['message']=$new_message_count;
+	$data['bc-message']['bc-message-new']=$new_message_count;
+
 	return $data;
 }
 
@@ -461,6 +496,15 @@ function get_dept_name(){
 function get_module($str) {
 		$arr_str = explode("/", $str);
 		return $arr_str[0];
+}
+
+function get_bc_class($str){
+	$arr_str=explode(" ",$str);
+	foreach($arr_str as $val){		
+		if(strpos($val,"bc-")!==false){
+			return $val;
+		}
+	}
 }
 
 function toDate($time, $format = 'Y-m-d H:i:s') {

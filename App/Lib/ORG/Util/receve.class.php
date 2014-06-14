@@ -319,6 +319,8 @@ function auto_charset($fContents,$from,$to){
 			return false;
 		$struckture = imap_fetchstructure($this->_connect,$msg_count);
 		$ar="";
+		dump($struckture);
+		die;
 		if($struckture->parts)
         {
 			foreach($struckture->parts as $key => $value)

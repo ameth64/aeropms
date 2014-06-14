@@ -717,7 +717,7 @@
                 html += '<th></th>';
 
             if (!minDate || minDate.isBefore(calendar[1][1])) {
-                html += '<th class="prev available"><i class="icon-arrow-left"></i></th>';
+                html += '<th class="prev available"><i class="fa-arrow-left"></i></th>';
             } else {
                 html += '<th></th>';
             }

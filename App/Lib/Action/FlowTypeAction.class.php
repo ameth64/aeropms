@@ -51,7 +51,7 @@ class FlowTypeAction extends CommonAction {
 		if (!empty($id)) {
 			switch ($action){
 				case 'del' :					
-						$result=$this->_destory($id,true);
+						$result=$this->_destory($id);
 						if ($result) {
 							$this -> ajaxReturn('', "删除成功", 1);
 						} else {

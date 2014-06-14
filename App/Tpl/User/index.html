@@ -5,6 +5,7 @@
 </select>
 {:W('PageHeader',array('name'=>'用户管理','search'=>'S'))}
 <form method="post" id="form_adv_search" name="form_adv_search" method="post">
+<input type="hidden" name="ajax" id="ajax" value="1">
 	<div class="operate panel panel-default">
 		<div class="panel-body">
 			<div class="pull-left">
@@ -12,6 +13,7 @@
 				<select id="eq_is_del" name="eq_is_del" class="col-10" onchange="submit_adv_search();">
 					<option value="0">启用</option>
 					<option value="1">禁用</option>
+					<option value="2">其他</option>
 				</select>
 			</div>
 			<div class="pull-right">

@@ -5,7 +5,6 @@
 			<span class="sr-only">Toggle navigation</span>
 			<i class="fa fa-bars fa-lg"></i>
       </button>
-
 		  <div class="visible-lg">&nbsp;</div>
           <a href="{:U('home/index')}" class="navbar-brand"><i class="fa fa-leaf"></i>{:get_system_config("SYSTEM_NAME")}</a>
         </div>
@@ -14,14 +13,20 @@
           <ul class="nav navbar-nav navbar-right">
 				<foreach name="top_menu" item="top_menu_vo">
 				<a class="btn btn-app app-nav btn-xs nav-app"  href="#" url="{:U($top_menu_vo['url'])}" node="{$top_menu_vo.id}" onclick="click_top_menu(this)" >
-					<i class="{$top_menu_vo.icon} bigger-100"></i>{$top_menu_vo.name}<php>
-						$new_count_module=get_module($top_menu_vo['url']);
-						$module_count=$new_count[$new_count_module];
-						if($module_count>99){
-							$module_count="+99";
-						}
-						if($module_count==0){
-							$module_count=null;
+					<i class="{$top_menu_vo.icon} bigger-100"></i>{$top_menu_vo.name}
+					<php>
+						$bc_class="";
+						$module_count=0;
+						$icon_class=$top_menu_vo['icon'];
+						if(strpos($icon_class,"bc-")!==false){
+							$bc_class=get_bc_class($icon_class);
+							$module_count=array_sum($new_count[$bc_class]);
+							if($module_count>99){
+								$module_count="99+";
+							}
+							if($module_count==0){
+								$module_count=null;
+							}
 						}</php>
 						<notempty name="module_count">
 							<span class="badge badge-pink">{$module_count}</span>

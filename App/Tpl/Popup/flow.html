@@ -1,8 +1,8 @@
 <layout name='Layout/ace_popup' />
 <script type="text/javascript">
 	function save() {
-		$("#confirm_wrap,#confirm_wrap ,#refer_wrap", parent.document).hide();
-		$("#confirm_wrap .address_list,#confirm_wrap .address_list,#refer_wrap .address_list", parent.document).html("");
+		$("#confirm_wrap,#consult_wrap,#refer_wrap", parent.document).hide();
+		$("#confirm_wrap .address_list,#consult_wrap .address_list,#refer_wrap .address_list", parent.document).html("");
 
 		$("#rc select option").each(function(i) {
 			emp_no = $(this).val();
@@ -31,7 +31,7 @@
 		$("#consult_wrap .address_list span", parent.document).append("<b><i class=\"fa fa-arrow-right\"></i></b>");
 		$("#consult_wrap .address_list span b:last", parent.document).remove();
 
-		$("#confirm_wrap,#confirm_wrap,#refer_wrap", parent.document).show();
+		$("#confirm_wrap,#consult_wrap,#refer_wrap", parent.document).show();
 		myclose();
 	}
 

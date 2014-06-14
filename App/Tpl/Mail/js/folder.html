@@ -67,6 +67,10 @@
 			return false;
 		};
 	}
+	
+	function receve(){
+		sendAjax("{:U('receve')}");
+	}
 
 	function move_to(val) {
 		var vars = $("#form_data").serialize();

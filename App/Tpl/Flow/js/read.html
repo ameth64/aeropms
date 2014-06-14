@@ -22,7 +22,6 @@
 	};
 
 	$(document).ready(function(){
-		show_content();
 		set_return_url(document.location,1);
 		$("#confirm span").on("dblclick", function() {
 			$("#confirm span").last().find("b").remove();
@@ -30,7 +29,8 @@
 		$("#consult span").on("dblclick", function() {
 			$("#consult span").last().find("b").remove();
 		});
-		<empty name = "is_edit" >show_content();
+		<empty name = "is_edit" >
+			show_content();
 		</empty>
 	}); 
 </script>

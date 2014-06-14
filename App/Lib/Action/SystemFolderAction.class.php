@@ -21,10 +21,6 @@ class SystemFolderAction extends CommonAction {
 	}
 
 	function index(){
-		$this->_index();
-	}
-	
-	protected function _index() {
 		$node = M("SystemFolder");
 		$menu = array();
 		$where['folder'] = MODULE_NAME;
@@ -38,7 +34,7 @@ class SystemFolderAction extends CommonAction {
 		$this -> assign('js_file',"SystemFolder:js/index");
 		$this -> display("SystemFolder:index");
 	}
-
+	
 	protected function _insert() {
 		$model = D("SystemFolder");
 		if (false === $model -> create()) {

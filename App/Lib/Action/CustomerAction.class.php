@@ -155,7 +155,7 @@ class CustomerAction extends CommonAction {
 
 	function del(){
 		$id = $_POST['id'];
-		$count = $this ->_del($id,true);
+		$count = $this ->_del($id,null,true);
 
 		if ($count) {
 			$model = D("SystemTag");
