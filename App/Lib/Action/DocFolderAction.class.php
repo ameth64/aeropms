@@ -19,8 +19,8 @@ class DocFolderAction extends SystemFolderAction {
 		$map['is_del'] = array('eq', '0');
 	}
 
-	public function index() {
-		$this -> assign("folder_name", "文档库设置");
-		$this->_index();				
+	function index() {
+		$this -> assign("folder_name", "公告栏管理");
+		$this ->_index();
 	}
 }

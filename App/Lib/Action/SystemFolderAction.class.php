@@ -20,7 +20,11 @@ class SystemFolderAction extends CommonAction {
 		$map['is_del'] = array('eq', '0');
 	}
 
-	function index(){
+	function index() {
+		$this->_index();
+	}
+
+	protected function _index(){
 		$node = M("SystemFolder");
 		$menu = array();
 		$where['folder'] = MODULE_NAME;

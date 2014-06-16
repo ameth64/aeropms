@@ -20,8 +20,7 @@ class MailFolderAction extends UserFolderAction {
 		$map['is_del'] = array('eq', '0');
 	}
 
-	public function index() {
+	function _before_index() {
 		$this -> assign("folder_name", "邮件文件夹设置");
-		$this->_index();
 	}
 }

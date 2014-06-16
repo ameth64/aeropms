@@ -19,8 +19,8 @@ class XmkFolderAction extends SystemFolderAction {
 		$map['is_del'] = array('eq', '0');
 	}
 
-	public function index() {
-		$this -> assign("folder_name", "项目库设置");
-		$this->_index();				
+	function index() {
+		$this -> assign("folder_name", "项目库设置");			
+		$this -> _index();
 	}
 }

@@ -38,6 +38,7 @@ class UserFolderAction extends CommonAction {
 		$this -> assign('menu', sub_tree_menu($tree));
 		$this -> display("UserFolder:index");
 	}
+
 	protected function _insert() {
 		$model = D("UserFolder");
 		if (false === $model -> create()) {

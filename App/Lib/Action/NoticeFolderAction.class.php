@@ -19,7 +19,8 @@ class NoticeFolderAction extends SystemFolderAction {
 		$map['is_del'] = array('eq', '0');
 	}
 
-	function _before_index() {
+	function index() {
 		$this -> assign("folder_name", "公告栏管理");
+		$this ->_index();
 	}
 }

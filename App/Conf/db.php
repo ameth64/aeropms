@@ -8,5 +8,5 @@ return array(
         'DB_PWD'=>'test',
         'DB_PORT'=>'3306',
         'DB_PREFIX'=>'think_',
-        'VERSION'=>'2014-06-01',
+        'VERSION'=>'',
     );
