@@ -103,7 +103,7 @@ function get_new_count(){
 	$where['start_date'] = array("elt",date("Y-m-d"));
 	$where['end_date'] = array("egt",date("Y-m-d"));	
 	$new_schedule_count = M("Schedule") -> where($where) -> count();
-	$data['bc-personal']['bc-personal-schedule']=$new_todo_count;
+	$data['bc-personal']['bc-personal-schedule']=$new_schedule_count;
 
 	//获取最新消息
 	$model = M("Message");

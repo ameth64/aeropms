@@ -225,9 +225,6 @@ class FlowAction extends CommonAction {
 		$id = $_REQUEST['id'];
 		$vo = $model -> getById($id);
 		$this -> assign('vo', $vo);
-		if (in_array('add_file', $model -> getDbFields())) {
-			$this -> _assign_file_list($vo["add_file"]);
-		};
 
 		$model_flow_field=D("FlowField");
 		$field_list = $model_flow_field ->get_data_list($id);

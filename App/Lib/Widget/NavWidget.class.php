@@ -42,7 +42,7 @@ class NavWidget extends Widget {
 						$temp="bc-".$arr_temp[1];
 						//dump($temp);
 						$bc_count=$new_count[$temp][$bc_class];
-						//dump($new_count);
+ 
 						if($bc_count>99){
 							$bc_count="99+";
 						}
