@@ -213,7 +213,7 @@ class CustomerAction extends CommonAction {
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
 		}
-		$model ->letter=get_letter($model ->'name');
+		$model ->letter=get_letter($model ->name);
 		//保存当前数据对象
 		$list = $model -> add();
 		if ($list !== false) {//保存成功
@@ -231,7 +231,7 @@ class CustomerAction extends CommonAction {
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
 		}
-		$model ->letter=get_letter($model ->'name');
+		$model ->letter=get_letter($model ->name);
 
 		// 更新数据
 		$list = $model -> save();
