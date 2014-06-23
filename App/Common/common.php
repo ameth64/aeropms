@@ -23,18 +23,15 @@ function get_new_count(){
 	$where['is_del'] = array('eq', '0');
 	$where['folder'] = array('eq', 1);
 	$where['read'] = array('eq', '0');
-	$model = M("Mail");
-	$new_mail_inbox = $model -> where($where) -> count();
+	$new_mail_inbox = M("Mail") -> where($where) -> count();
 	$data['bc-mail']['bc-mail-inbox']=$new_mail_inbox;
 
 	//获取未读邮件
-	$user_id = get_user_id();
 	$where['user_id'] = $user_id;
 	$where['is_del'] = array('eq', '0');
 	$where['folder'] = array('gt', 6);
 	$where['read'] = array('eq', '0');
-	$model = M("Mail");
-	$new_mail_myfolder = $model -> where($where) -> count();
+	$new_mail_myfolder = M("Mail") -> where($where) -> count();
 	$data['bc-mail']['bc-mail-myfolder']=$new_mail_myfolder;
 
 	//获取待裁决
@@ -55,12 +52,11 @@ function get_new_count(){
 
 	//获取收到的流程
 	$where = array();
-	$FlowLog = M("FlowLog");
 	$where['emp_no'] = $emp_no;
 	$where['step'] = 100;
 	$where['is_read']=1;
 
-	$log_list = $FlowLog -> where($where) -> field('flow_id') -> select();
+	$log_list =  M("FlowLog") -> where($where) -> field('flow_id') -> select();
 	$log_list = rotate($log_list);
 	$new_receive_count=0;
 	if (!empty($log_list)) {
@@ -70,7 +66,6 @@ function get_new_count(){
 	$data['bc-flow']['bc-flow-receive']=$new_receive_count;
 
 	//获取最新通知
-	$model = M('Notice');
 	$where = array();
 	$where['is_del'] = array('eq', '0');
 	$folder_list = D("SystemFolder") -> get_authed_folder(get_user_id(),"NoticeFolder");
@@ -78,7 +73,7 @@ function get_new_count(){
 	if ($folder_list) {
 		$where['folder'] = array("in", $folder_list);
 		$where['create_time'] = array('egt', time() - 3600 * 24 * 30);
-		$new_notice_list = $model -> where($where) -> getField('id,create_time');
+		$new_notice_list = M('Notice') -> where($where) -> getField('id,create_time');
 		$readed = get_user_config("readed_notice");
 		if ($new_notice_list){
 			foreach ($new_notice_list as $key => $val) {
@@ -270,65 +265,6 @@ function decrypt($data, $key = ''){
     return base64_decode($str);
 }
 
-function getTaskStatusStr($status = 0,$type = 'apply' , $company = ''){
-	if ($type == 'comment') return '尚未作出评价';
-	switch ($status) {
-		case 0:
-			return $type == 'apply' ? '已发出任务申请' : $company.'对你发出了任务邀请';
-		break;
-		case 1:
-			return $type == 'apply' ? '企业已通过申请' : '已同意企业的邀请';
-		break;		
-		case 2:
-			return $type == 'apply' ? '企业已忽略你的申请' : '你已经忽略企业的邀请';
-		break;
-		case 3:
-			return $type == 'apply' ? '你已完成该任务' : '该任务已经完成';
-		break;		
-		default:
-			return '未知的状态';
-		break;
-	}
-}
-
-
-function getArea($cache = true){
-	$area = S ( 'S_Area' );
-	if (empty ( $area ) || ! $cache) {
-		// 缓存不存在，或者参数读取缓存。
-		$areaModel = D('Area');
-		$area = $areaModel -> where ('status = 3')->order ( 'sort,itemid' )->getField('itemid,title,pid,arrparentid,child');
-		//把市的省拚出来
-		foreach ($area as $k=>$v){
-			//如果是顶级
-			if ($v['pid']==0){
-				$areaArr[$v['itemid']]['itemid'] = $v['itemid'];
-				$areaArr[$v['itemid']]['title'] = $v['title'];
-				$areaArr[$v['itemid']]['pid'] = $v['pid'];
-				$areaArr[$v['itemid']]['arrparentid'] = $v['arrparentid'];
-				$areaArr[$v['itemid']]['child'] = $v['child'];
-				//上级
-				$areaArr[$v['itemid']]['upitemid'] = $v['itemid'];
-				$areaArr[$v['itemid']]['uptitle'] = $v['title'];
-			}
-			//查出上级的名称和ID
-			else {
-				$areaArr[$v['itemid']]['itemid'] = $v['itemid'];
-				$areaArr[$v['itemid']]['title'] = $v['title'];
-				$areaArr[$v['itemid']]['pid'] = $v['pid'];
-				$areaArr[$v['itemid']]['arrparentid'] = $v['arrparentid'];
-				$areaArr[$v['itemid']]['child'] = $v['child'];
-				//上级
-				$areaArr[$v['itemid']]['upitemid'] = $area[$v['pid']]['itemid'];
-				$areaArr[$v['itemid']]['uptitle'] = $area[$v['pid']]['title'];
-			}
-		}
-		$area = $areaArr;
-		S ( 'S_Area' , $area );
-	}
-	return $area;
-}
-
 function upload_filter($val){
 	$allow_type=array('doc','docx','xls','xlsx','ppt','pptx','dwg','rar','zip','7z','pdf','txt','rtf','jpg','jpeg','png','tip','psd');
 	if(in_array($val,$allow_type)){
@@ -403,14 +339,6 @@ function get_system_config($code) {
 	}
 }
 
-function get_user_info($id,$field) {
-	$model = D("UserView");
-	$where['id'] = array('eq', $id);
-	$result = $model -> where($where) ->getfield($field);
-	//dump($field);
-	return $result;
-}
-
 function get_user_config($field) {
 	$model = M("UserConfig");
 	$user_id = get_user_id();
@@ -423,19 +351,12 @@ function get_user_config($field) {
 	}
 }
 
-function conv_tag_list($tag) {
-	$tag_list = explode("|", $tag);
-	$tag_list = array_filter($tag_list);
-
-	if (count($tag_list) > 0) {
-		$string = $tag_list[0];
-		$pattern = '/_\d+/';
-		$replacement = "_";
-		$str = preg_replace($pattern, $replacement, $string);
-		$tag_list = str_replace($str, "", $tag);
-		$tag_list = array_filter(explode("|", $tag_list));
-		return $tag_list;
-	}
+function get_user_info($id,$field) {
+	$model = D("UserView");
+	$where['id'] = array('eq', $id);
+	$result = $model -> where($where) ->getfield($field);
+	//dump($field);
+	return $result;
 }
 
 function get_user_id() {
@@ -545,6 +466,7 @@ function filter_flow_field($val) {
 		return false;
 	}
 }
+
 
 function get_model_fields($model) {
 	$arr_field = array();
@@ -781,66 +703,6 @@ function tree_to_list($tree, $level = 0, $pk = 'id', $pid = 'pid', $child = '_ch
 	}
 }
 
-function show_top_menu(){
-	$menu = D("Node") -> get_top_menu();
-		$html = "<nav  class=\"navbar navbar-default navbar-fixed-top\" role=\"navigation\">\r\n";
-		foreach ($menu as $val) {
-		
-			if (isset($val["name"])) {
-				$title = $val["name"];
-				if (!empty($val["url"])) {
-					$url = U($val['url']);
-				} else {
-					$url = "#";
-				}
-				$id = $val["id"];
-				if (empty($val["id"])) {
-					$id = $val["name"];
-				}
-				if (isset($val['_child'])) {
-					$html = $html . "<li>\r\n<a node=\"$id\" href=\"" . "$url\"><i class=\"fa fa-angle-right level$level\"></i><span>$title</span></a>\r\n";
-					$html = $html . tree_nav($val['_child'], $level);
-					$html = $html . "</li>\r\n";
-				} else {
-					$html = $html . "<li>\r\n<a  node=\"$id\" href=\"" . "$url\"><i class=\"fa fa-angle-right level$level\"></i><span>$title</span></a>\r\n</li>\r\n";
-				}
-			}
-		}
-		$html = $html . "</nav>\r\n";
-		return $html;
-}
-
-function tree_nav($tree, $level = 0) {
-	$level++;
-	$html = "";
-	if (is_array($tree)) {
-		$html = "<ul class=\"nav \">\r\n";
-		foreach ($tree as $val) {
-			if (isset($val["name"])) {
-				$title = $val["name"];
-				if (!empty($val["url"])) {
-					$url = U($val['url']);
-				} else {
-					$url = "#";
-				}
-				$id = $val["id"];
-				if (empty($val["id"])) {
-					$id = $val["name"];
-				}
-				if (isset($val['_child'])) {
-					$html = $html . "<li>\r\n<a node=\"$id\" href=\"" . "$url\"><i class=\"fa fa-angle-right level$level\"></i><span>$title</span></a>\r\n";
-					$html = $html . tree_nav($val['_child'], $level);
-					$html = $html . "</li>\r\n";
-				} else {
-					$html = $html . "<li>\r\n<a  node=\"$id\" href=\"" . "$url\"><i class=\"fa fa-angle-right level$level\"></i><span>$title</span></a>\r\n</li>\r\n";
-				}
-			}
-		}
-		$html = $html . "</ul>\r\n";
-	}
-	return $html;
-}
-
 function left_menu($tree, $level = 0) {
 	$level++;
 	$html = "";
@@ -953,7 +815,7 @@ function dropdown_menu($tree, $level = 0) {
 				}
 				if (isset($val['_child'])) {
 					$html = $html . "<li id=\"$id\" class=\"level$level\"><a>$title</a>\r\n";
-					$html = $html . dropdown_menu($val['_child'], $level);
+					$html = $html . dropdown_menu($val['_child'],$level);
 					$html = $html . "</li>\r\n";
 				} else {
 					$html = $html . "<li  id=\"$id\"  class=\"level$level\">\r\n<a>$title</a>\r\n</li>\r\n";

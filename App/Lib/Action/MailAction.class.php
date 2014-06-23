@@ -522,7 +522,7 @@ class MailAction extends CommonAction {
 					if (!is_dir(get_save_path() . $dir)) {
 						mkdir(get_save_path() . $dir,0777, true);
 						chmod(get_save_path() . $dir,0777);
-					}
+					}					
 					if (rename($this -> tmpPath.urlencode($value), get_save_path() .$save_name)) {
 						$file_id = $File -> add();
 						if($inline == "INLINE"){
@@ -534,7 +534,6 @@ class MailAction extends CommonAction {
 				}
 			}
 		}
-		return $add_file;
 	}
 
 	private function _organize(&$model){

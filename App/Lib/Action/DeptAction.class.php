@@ -37,6 +37,7 @@ class DeptAction extends CommonAction {
 	public function del() {
 		$id = $_POST['id'];
 		$this -> _destory($id);
+
 	}
 
 	public function winpop() {

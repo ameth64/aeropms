@@ -117,9 +117,9 @@
 						<span  class="col-9 pull-right text-center" >{$vo.create_time|toDate='Y-m-d'}</span>
 						<span class="autocut auto">
 							<notempty name = "vo['add_file']" >
-								<i class="fa fa-paper-clip"></i>
+								<i class="fa fa-paperclip"></i>
 								<else/>
-								<i class="fa fa-paper-clip" style="text-indent:-9999px;"></i>
+								<i class="fa fa-paperclip" style="text-indent:-9999px;"></i>
 							</notempty>
 							<in name="folder" value="darftbox">
 								<a  title="{$vo.name|htmlspecialchars}" href="{:U('edit?id='.$vo['id'])}"> {$vo.name}&nbsp;&nbsp;&nbsp;

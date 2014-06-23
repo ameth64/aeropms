@@ -25,7 +25,7 @@ class RoleAction extends CommonAction {
 
 		//dump($node_model -> select());
 		$node_list = $node_model -> order('sort asc') -> select();
-
+		
 		$node_list = tree_to_list(list_to_tree($node_list, $eq_pid));
 
 		$node_list = rotate($node_list);
@@ -34,6 +34,7 @@ class RoleAction extends CommonAction {
 
 		$where['id'] = array('in', $node_list);
 		$menu = $node_model -> field('id,pid,name,url') -> where($where) -> order('sort asc') -> select();
+
 		$tree = list_to_tree($menu);
 		$this -> assign('eq_pid', $eq_pid);
 
@@ -41,7 +42,7 @@ class RoleAction extends CommonAction {
 		$this -> assign('node_list', $list);
 		//$this->assign('menu',sub_tree_menu($list));
 
-		$role = M("Role") -> select();
+		$role = M("Role")-> order('sort asc') -> select();
 		$this -> assign('list', $role);
 
 		$list = $node_model -> where('pid=0') -> order('sort asc') -> getField('id,name');
@@ -59,8 +60,9 @@ class RoleAction extends CommonAction {
 		
 		$model = M("RoleUser");
 		$model->where($where)->delete();	
-		$this->_destory($role_id);				
+		$this->_destory($role_id);
 	}
+
 	public function get_node_list() {
 		$role_id = $_POST["role_id"];
 		$model = D("Role");
@@ -138,7 +140,7 @@ class RoleAction extends CommonAction {
 		$this -> assign("user_list", $user_list);
 
 		$role = M("Role");
-		$role_list = $role -> select();
+		$role_list = $role-> order('sort asc') -> select();
 		$this -> assign("role_list", $role_list);
 		$this -> display();
 	}

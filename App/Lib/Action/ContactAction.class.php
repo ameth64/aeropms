@@ -25,7 +25,7 @@ class ContactAction extends CommonAction {
 			$keyword = $_POST['keyword'];
 			$where['name'] = array('like', "%" . $keyword . "%");
 			$where['office_tel'] = array('like', "%" . $keyword . "%");			
-			$where['office_tel'] = array('like', "%" . $keyword . "%");
+			$where['mobile_tel'] = array('like', "%" . $keyword . "%");
 			$where['_logic'] = 'or';
 			$map['_complex'] = $where;
 		}
@@ -138,16 +138,6 @@ class ContactAction extends CommonAction {
 		}
 	}
 
-	function mark() {
-		$id = $_REQUEST["id"];
-		$val = $_REQUEST["val"];
-		$field = 'group';
-		$result = $this -> _set_field($id, $field,$val);
-		if ($result == true) {
-			$this -> success("操作成功");
-		}
-	}
-
 	function tag_manage() {
 		$this -> _tag_manage("分组管理");
 	}
@@ -216,8 +206,7 @@ class ContactAction extends CommonAction {
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
 		}
-		$model -> __set('letter', get_letter($model -> __get('name')));
-		$model -> __set('user_id', get_user_id());
+		$model ->letter=get_letter($model ->'name');
 		//保存当前数据对象
 		$list = $model -> add();
 		if ($list !== false) {//保存成功
@@ -236,7 +225,7 @@ class ContactAction extends CommonAction {
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
 		}
-		$model -> __set('letter', get_letter($model -> __get('name')));
+		$model ->letter=get_letter($model ->'name');
 		// 更新数据
 		$list = $model -> save();
 		if (false !== $list) {
@@ -248,6 +237,7 @@ class ContactAction extends CommonAction {
 			$this -> error('编辑失败!');
 		}
 	}
+
 	protected function _assign_tag_list() {
 		$model = D("UserTag");
 		$tag_list = $model -> get_tag_list('id,name');

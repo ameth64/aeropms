@@ -15,19 +15,16 @@ class CommonAction extends Action {
 
 	function _initialize() {
 		$auth_id = session(C('USER_AUTH_KEY'));
-		if(!empty($openid)&&!isset($auth_id)){
-			$this->welogin($openid);
-		}
-		$auth_id = session(C('USER_AUTH_KEY'));
 		if (!isset($auth_id)) {
 			//跳转到认证网关
 			redirect(U(C('USER_AUTH_GATEWAY')));
 		}
 		$this -> assign('js_file', 'js/' . ACTION_NAME);
 		$this->_assign_menu();
+		$this->_assign_new_count();
 	}
 	
-	function welogin($openid){
+	protected function _welogin($openid){
 			$model = M("User");
 			$authInfo = $model -> where ( "openid = '{$openid}' AND westatus = 1" )->find (); // 查到userid
 
@@ -47,12 +44,12 @@ class CommonAction extends Action {
 				}
 		}
 	}
+
 	/**显示top menu及 left menu **/
 	protected function _assign_menu(){
-		$this->assign("new_count",get_new_count());
-		$model = D("Node");
 		$user_id = get_user_id();
-
+	
+		$model = D("Node");
 		$top_menu = cookie('top_menu');
 		$top_menu_list = session('top_menu'.$user_id);
 		if (!empty($top_menu_list)){
@@ -68,7 +65,6 @@ class CommonAction extends Action {
 
 		$this -> assign('top_menu', $list);
 
-		$model = D("Node");
 		$user_id = get_user_id();
 		if (session('menu' . $user_id)) {
 			//如果已经缓存，直接读取缓存
@@ -82,12 +78,17 @@ class CommonAction extends Action {
 			//缓存菜单访问
 			session('menu' . $user_id,$menu);
 		}
+
 		$tree = list_to_tree($menu);
 		if (!empty($top_menu)) {
 			$this -> assign("top_menu_name", $model -> where("id=$top_menu") -> getField('name'));
+			$left_menu = list_to_tree($menu,$top_menu);
+			$this -> assign('left_menu',$left_menu);
 		}
-		$left_menu = list_to_tree($menu,$top_menu);
-		$this -> assign('left_menu',$left_menu);
+	}
+
+	protected function _assign_new_count(){
+		$this->assign("new_count",get_new_count());
 	}
 
 	/**列表页面 **/
@@ -107,13 +108,7 @@ class CommonAction extends Action {
 
 	/** 保存操作  **/
 	function save() {
-		$opmode = $_POST["opmode"];
-		if ($opmode == "add") {
-			$this -> _insert();
-		}
-		if ($opmode == "edit") {
-			$this -> _update();
-		}
+		$this->_save();
 	}
 
 	/**列表页面 **/
@@ -138,14 +133,13 @@ class CommonAction extends Action {
 			$name = $this -> getActionName();
 		}
 		$model = M($name);
-		if(empty($id)){
-			$id = $_REQUEST[$model -> getPk()];
-		}
-		$vo = $model -> getById($id);
-		if ($this -> isAjax()) {
+		$id = $_REQUEST['id'];
+		$vo = $model ->find($id);
+		if ($this -> isAjax()){
 			if ($vo !== false) {// 读取成功
-				$this -> ajaxReturn($vo, "", 0);
+				$this -> ajaxReturn($vo,"读取成功",1);
 			} else {
+				$this -> ajaxReturn(0,"读取失败", 0);
 				die ;
 			}
 		}
@@ -155,13 +149,21 @@ class CommonAction extends Action {
 	
 	protected function _save($name=null){
 		$opmode = $_POST["opmode"];
-		if ($opmode == "add") {
-			$this -> _insert($name);
-		}
-		if ($opmode == "edit") {
-			$this -> _update($name);
+		switch($opmode){
+			case "add":
+				$this -> _insert($name);
+				break;
+			case "edit":
+				$this->_update($name);
+				break;
+			case "del":
+				$this->_del($name);
+				break;
+			default:
+				$this->error("非法操作");
 		}
 	}
+
 	/** 插入新新数据  **/
 	protected function _insert($name=null) {
 		if(empty($name)){
@@ -202,6 +204,128 @@ class CommonAction extends Action {
 		}
 	}
 
+	/** 删除标记  **/
+	protected function _del($id=null,$name=null,$return_flag = false){
+		if(empty($id)){
+			$id=$_REQUEST['id'];
+			if(empty($id)){
+				$this -> error('没有可删除的数据!');
+			}
+		}
+		if(empty($name)){
+			$name = $this -> getActionName();
+		}
+		$model = M($name);
+		
+		if(!empty($model)){			
+			if (isset($id)){
+				if (is_array($id)){
+					$where['id'] = array("in", array_filter($id));
+				} else {
+					$where['id'] = array('in', array_filter(explode(',', $id)));
+				}
+				$result = $model -> where($where) -> setField("is_del", 1);				
+				if ($return_flag) {
+					return $result;
+				}
+				if ($result !== false) {
+					$this -> assign('jumpUrl', get_return_url());
+					$this -> success("成功删除{$result}条!");
+				} else {
+					$this -> error('删除失败!');
+				}
+			} else {
+				$this -> error('没有可删除的数据!');
+			}
+		}
+	}
+
+	/** 永久删除数据  **/
+	protected function _destory($id=null,$name=null,$return_flag = false) {
+		if(empty($id)){
+			$id=$_REQUEST['id'];
+			if(empty($id)){
+				$this -> error('没有可删除的数据!');
+			}
+		}
+		if(empty($name)){
+			$name = $this -> getActionName();
+		}
+		$model = M($name);
+		if (!empty($model)) {
+			if (isset($id)) {
+				if (is_array($id)) {
+					$where['id'] = array("in", array_filter($id));
+				} else {
+					$where['id'] = array('in', array_filter(explode(',', $id)));
+				}
+				$app_type = $this -> config['app_type'];
+				
+				if($app_type=="personal"){
+					$where['user_id'] = get_user_id();
+				}
+
+				$file_list = $model -> where($where) -> getField("id,add_file");
+				$file_list = array_filter(explode(";", implode($file_list)));
+				$this -> _destory_file($file_list);
+
+				$result = $model -> where($where) -> delete();
+				if ($return_flag) {
+					return $result;
+				}
+				if ($result !== false) {
+					$this -> assign('jumpUrl', get_return_url());
+					$this -> success("彻底删除{$result}条!");
+				} else {
+					$this -> error('删除失败!');
+				}
+			} else {
+				$this -> error('没有可删除的数据!');
+			}
+		}
+	}
+
+	public function del_file(){
+		$file_list=$_REQUEST['sid'];
+		$this->_destory_file($file_list);
+	}
+
+	protected function _destory_file($file_list){
+		if(isset($file_list)){
+			if (is_array($file_list)){
+				$where["sid"] = array("in", $file_list);
+			} else {
+				$where["sid"] = array('in',array_filter(explode(',', $file_list)));
+			}
+		}else{
+			exit();
+		}
+
+		$model = M("File");
+		$where['module']=MODULE_NAME;
+		$admin = $this -> config['auth']['admin'];
+
+		if ($admin) {
+			$where['user_id'] = array('eq', get_user_id());
+		};
+
+		$list = $model -> where($where) -> select();
+		$save_path = get_save_path();
+
+		foreach ($list as $file){
+			if (file_exists($_SERVER["DOCUMENT_ROOT"] . "/" . $save_path . $file['savename'])) {
+				unlink($_SERVER["DOCUMENT_ROOT"] . "/" . $save_path . $file['savename']);
+			}
+		}
+
+		$result = $model -> where($where) -> delete();
+		if ($result !== false) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	protected function _upload() {
 		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -239,10 +363,7 @@ class CommonAction extends Action {
 				$file_info['error'] = 0;
 				$file_info['url'] = "/" . $file_info['savepath'] . $file_info['savename'];
 				$file_info['status'] = 1;
-				//header("Content-Type:text/html; charset=utf-8");
 				exit(json_encode($file_info));
-				//$this->ajaxReturn(json_encode($file_info),'上传成功',1,$file_info['url']);
-				//$this->success ('上传成功！');
 			}
 		}
 	}
@@ -273,116 +394,9 @@ class CommonAction extends Action {
 		exit ;
 	}
 
-	/** 删除数据  **/
-	protected function _del($id=null,$name=null,$return = false){
-		if(empty($name)){
-			$name = $this -> getActionName();
-		}
-		$model = M($name);
-		
-		if(!empty($model)){
-			$pk = $model -> getPk();
-			if (isset($id)){
-				if (is_array($id)){
-					$where[$pk] = array("in", array_filter($id));
-				} else {
-					$where[$pk] = array('in', array_filter(explode(',', $id)));
-				}
-				$result = $model -> where($where) -> setField("is_del", 1);
-				
-				if ($return) {
-					return $result;
-				}
-				if ($result !== false) {
-					$this -> assign('jumpUrl', get_return_url());
-					$this -> success("成功删除{$result}条!");
-				} else {
-					$this -> error('删除失败!');
-				}
-			} else {
-				$this -> error('没有可删除的数据!');
-			}
-		}
-	}
-
-	/** 删除数据  **/
-	protected function _destory($id,$name=null) {
-		if(empty($name)){
-			$name = $this -> getActionName();
-		}
-		$model = M($name);
-		if (!empty($model)) {
-			$pk = $model -> getPk();
-			if (isset($id)) {
-				if (is_array($id)) {
-					$where[$pk] = array("in", array_filter($id));
-				} else {
-					$where[$pk] = array('in', array_filter(explode(',', $id)));
-				}
-				$app_type = $this -> config['app_type'];
-
-				switch ($app_type) {
-					case 'personal' :
-						$where['user_id'] = get_user_id();
-						break;
-					default :
-						break;
-				}
-				$file_list = $model -> where($where) -> getField("id,add_file");
-				$file_list = array_filter(explode(";", implode($file_list)));
-				$this -> _destory_file($file_list);
-
-				$result = $model -> where($where) -> delete();
-				if ($result !== false) {
-					$this -> assign('jumpUrl', get_return_url());
-					$this -> success("彻底删除{$result}条!");
-				} else {
-					$this -> error('删除失败!');
-				}
-			} else {
-				$this -> error('没有可删除的数据!');
-			}
-		}
-	}
-
-	public function del_file(){
-		$file_list=$_REQUEST['sid'];
-		$this->_destory_file($file_list);
-	}
-
-	protected function _destory_file($file_list){
-		if(isset($file_list)){
-			if (is_array($file_list)){
-				$where["sid"] = array("in", $file_list);
-			} else {
-				$where["sid"] = array('in',array_filter(explode(',', $file_list)));
-			}
-		}
-
-		$model = M("File");
-		$where['module']=MODULE_NAME;
-		$admin = $this -> config['auth']['admin'];
-		if ($admin) {
-			$where['user_id'] = array('eq', get_user_id());
-		};
-		$list = $model -> where($where) -> select();
-		$save_path = get_save_path();
-
-		foreach ($list as $file){
-			if (file_exists($_SERVER["DOCUMENT_ROOT"] . "/" . $save_path . $file['savename'])) {
-				unlink($_SERVER["DOCUMENT_ROOT"] . "/" . $save_path . $file['savename']);
-			}
-		}
-		$result = $model -> where($where) -> delete();
-		if ($result !== false) {
-			return true;
-		} else {
-			return false;
-		}
-	}
 
 	//生成查询条件
-	protected function _search($name = '') {
+	protected function _search($name = null) {
 		$map = array();
 		//过滤非查询条件
 		$request = array_filter(array_keys(array_filter($_REQUEST)),"filter_search_field");
@@ -518,18 +532,17 @@ class CommonAction extends Action {
 		$this -> assign('folder_list',dropdown_menu($tree));
 	}
 
-	protected function _set_field($id, $field, $val, $name = '') {
+	protected function _set_field($id,$field,$val,$name = '') {
 		if (empty($name)) {
 			$name = $this -> getActionName();
 		}
 		$model = M($name);
-		if (!empty($model)) {
-			$pk = $model -> getPk();
+		if (!empty($model)){
 			if (isset($id)) {
 				if (is_array($id)) {
-					$where[$pk] = array("in", $id);
+					$where['id'] = array("in", array_filter($id));
 				} else {
-					$where[$pk] = array('in',array_filter(explode(',', $id)));
+					$where['id'] = array('in', array_filter(explode(',', $id)));
 				}
 				$admin = $this -> config['auth']['admin'];
 				if (in_array('user_id', $model -> getDbFields()) && !$admin) {
@@ -561,9 +574,8 @@ class CommonAction extends Action {
 	}
 
 	protected function _pushReturn($data, $info, $status, $time = null) {
-		$user_id = get_user_id();
 		$model = M("Push");
-		$model -> user_id = $user_id;
+		$model -> user_id = get_user_id();
 		$model -> data = $data;
 		$model -> status = $status;
 		$model -> info = $info;

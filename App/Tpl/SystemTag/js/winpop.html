@@ -10,10 +10,9 @@
 		myclose();
 	}
 
-
 	$(document).ready(function() {
 		parent_node = $(".sub_left_menu ul.tree_menu a.active", parent.document).attr("node");
-		$("ul.tree_menu a[node='" + parent_node + "']").parent().hide();
+		$("ul.tree_menu a[node='" + parent_node + "']").addClass("disabled");
 		$(".popup_tree_menu a:not('.disabled')").click(function() {
 			$("#val").val($(this).attr("node"));
 			$("#name").val($(this).children("span").text());

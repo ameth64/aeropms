@@ -124,7 +124,7 @@ class CustomerAction extends CommonAction {
 					$data['fax'] = $sheetData[$i]["K"];
 					$data['im'] = $sheetData[$i]["L"];
 					$data['remark'] = $sheetData[$i]["M"];
-					$data['statu'] = 1;
+					$data['is_del'] = 0;
 					$model -> add($data);
 				}
 				//dump($sheetData);
@@ -213,8 +213,7 @@ class CustomerAction extends CommonAction {
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
 		}
-		$model -> __set('letter', get_letter($model -> __get('name')));
-		$model -> __set('user_id',get_user_id());
+		$model ->letter=get_letter($model ->'name');
 		//保存当前数据对象
 		$list = $model -> add();
 		if ($list !== false) {//保存成功
@@ -232,7 +231,8 @@ class CustomerAction extends CommonAction {
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
 		}
-		$model -> __set('letter', get_letter($model -> __get('name')));
+		$model ->letter=get_letter($model ->'name');
+
 		// 更新数据
 		$list = $model -> save();
 		if (false !== $list) {
