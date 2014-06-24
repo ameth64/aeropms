@@ -64,32 +64,32 @@
 				<div class="dialogs">
 					<div class="itemdiv dialogdiv">
 						<div class="user">
-						<eq name="vo.sender_id" value="$user_id">
+						<eq name="vo.sender_id" value="$owner_id">
 							<img  src="{:get_save_url()}emp_pic/{$vo.receiver_id}.jpeg" />
 						</eq>
-						<eq name="vo.receiver_id" value="$user_id">
+						<eq name="vo.receiver_id" value="$owner_id">
 							<img  src="{:get_save_url()}emp_pic/{$vo.sender_id}.jpeg" />
 						</eq>
 						</div>
 						<div class="body">
 							<div class="time">
 								<i class="fa fa-time"></i>
-								<span>{$vo.create_time|toDate='Y-m-d'}</span>
+								<span>{$vo.create_time|toDate='Y-m-d h:m:d'}</span>
 							</div>
 							<div class="name">
-								<eq name="vo.sender_id" value="$user_id">
+								<eq name="vo.sender_id" value="$owner_id">
 									发给 {$vo.receiver_name}
 								</eq>
-								<eq name="vo.receiver_id" value="$user_id">
+								<eq name="vo.receiver_id" value="$owner_id">
 									 {$vo.sender_name}
 								</eq>
 							</div>
 							<div class="row">
 								<div class="text-left col-sm-9 col-xs-12">
-									<eq name="vo.sender_id" value="$user_id">
+									<eq name="vo.sender_id" value="$owner_id">
 										<a href="{:U('read?reply_id='.$vo['receiver_id'])}">{$vo.content}</a>
 									</eq>
-									<eq name="vo.receiver_id" value="$user_id">
+									<eq name="vo.receiver_id" value="$owner_id">
 										<eq name="vo.is_read" value="0"><b></eq>
 										<a href="{:U('read?reply_id='.$vo['sender_id'])}">{$vo.content}</a>
 										<eq name="vo.is_read" value="0"></b></eq>

@@ -17,7 +17,7 @@ class MessageModel extends CommonModel {
 		$sql.= "                               create_time ";
 		$sql.= "                        from ".$this->tablePrefix."message ";
 		$sql.= "                       where       is_del = '0' ";
-		$sql.= "                               and user_id = '$user_id' ";
+		$sql.= "                               and owner_id = '$user_id' ";
 		$sql.= "                               and receiver_id = '$user_id' ";
 		$sql.= "                      union ";
 		$sql.= "                      select   id, ";
@@ -25,7 +25,7 @@ class MessageModel extends CommonModel {
 		$sql.= "                               a.sender_id, ";
 		$sql.= "                               create_time ";
 		$sql.= "                        from ".$this->tablePrefix."message a ";
-		$sql.= "                       where   a.is_del = 0 and user_id =  '$user_id' and sender_id =  '$user_id') ";
+		$sql.= "                       where   a.is_del = 0 and owner_id =  '$user_id' and sender_id =  '$user_id') ";
 		$sql.= "                     t1 ";
 		$sql.= "             where   t1.receiver_id = '$user_id' ";
 		$sql.= "          group by   t1.sender_id) t3 ";

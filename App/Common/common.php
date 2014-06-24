@@ -103,7 +103,7 @@ function get_new_count(){
 	//获取最新消息
 	$model = M("Message");
 	$where = array();
-	$where['user_id'] = $user_id;
+	$where['owner_id'] = $user_id;
 	$where['receiver_id']=$user_id;
 	$where['is_read'] = array('eq','0');
 	$new_message_count = M("Message") -> where($where) -> count();

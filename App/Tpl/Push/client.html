@@ -16,7 +16,8 @@
 			var flag = true;
 			var runing = false;
 			push_start();
-			function sendPush(url,vars,callback){
+
+			function sendPush(url, vars, callback) {
 				return $.ajax({
 					type : "POST",
 					url : url,
@@ -58,14 +59,36 @@
 						push_start();
 					}
 				});
+
+				sendPush("{:U('push/status')}", '', function(data) {
+					//console.log(data);
+					var name;
+					for(name in data){
+						if(data[name]>99){
+							data[name]=+99;
+						}
+						//console.log(name+":"+data[name]);
+						if(data[name]>0){
+							var objElem=$('a[url="/smeoa/'+name+'/index"] > span',parent.document);
+							if(objElem.length>0){
+								objElem.text(data[name]);
+							}
+							else{
+								$('a[url="/smeoa/'+name+'/index"]',parent.document).append('<span class="badge badge-pink">'+data[name]+'</span');
+							}
+						}
+					}
+				});
 			}
 
 			function push_stop() {
 				flag = false;
 			}
+
 			function test(){
 				window.parent.ui_info("abcsdfsdfsfd");
 			}
+
 		</script>
 	</head>
 	<body>

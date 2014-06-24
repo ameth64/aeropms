@@ -3,8 +3,8 @@ class MessageAction extends CommonAction {
 	protected $config = array('app_type' => 'personal');
 	//过滤查询字段
 	function _filter(&$map){
-		$map['status'] = array('eq', '1');
-		$map['owner'] = $_SESSION['emp_no'];
+		$map['is_del'] = array('eq', '0');
+		$map['owner_id'] = get_user_id();
 		if (!empty($_REQUEST['keyword'])) {
 			$map['content'] = array('like', "%" . $_POST['keyword'] . "%");
 		}
@@ -28,7 +28,7 @@ class MessageAction extends CommonAction {
 				$this -> _list($model, $map);
 			}
 		}
-		$this->assign('user_id',get_user_id());
+		$this->assign('owner_id',get_user_id());
 		$this->assign('auth',$this->config['auth']);
 		$this -> display();
 	}
@@ -48,12 +48,13 @@ class MessageAction extends CommonAction {
 			$tmp=explode("|",$val);
 			$data['receiver_id']=$tmp[1];
 			$data['receiver_name']=$tmp[0];			
-			$data['user_id']=get_user_id();
+			$data['owner_id']=get_user_id();
 
 			$list = $model -> add($data);
 
-			$data['user_id']=$tmp[1];			
+			$data['owner_id']=$tmp[1];
 			$list = $model -> add($data);
+			$this -> _pushReturn("", "您有新的消息, 请注意查收", 1,$tmp[1]);	
 		}
 		//保存当前数据对象
 		if ($list !== false) {//保存成功
@@ -70,7 +71,7 @@ class MessageAction extends CommonAction {
 		$receiver_id = $_REQUEST['reply_id'];
 		$sender_id = get_user_id();
 		$model = M("Message");
-		$where['user_id'] = get_user_id();
+		$where['owner_id'] = get_user_id();
 		$where['_string'] = "(sender_id='$sender_id' and receiver_id='$receiver_id') or (receiver_id='$sender_id' and sender_id='$receiver_id')";
 		$model -> where($where) -> setField('is_read', '1');
 		$list = $model -> where($where) -> order('create_time desc') -> select();
@@ -101,13 +102,14 @@ class MessageAction extends CommonAction {
 		$data['create_time']=time();
 		$data['receiver_id']=$_POST['receiver_id'];
 		$data['receiver_name']=$_POST['receiver_name'];
-		$data['user_id']=get_user_id();
+		$data['owner_id']=get_user_id();
 
 		$model = D('Message');		
 		$list = $model -> add($data);
 
-		$data['user_id']=$_POST['receiver_id'];
+		$data['owner_id']=$_POST['receiver_id'];
 		$list = $model -> add($data);
+		$this -> _pushReturn("", "您有新的消息, 请注意查收", 1,$_POST['receiver_id']);	
 
 		//保存当前数据对象
 		if ($list !== false) {//保存成功
@@ -122,7 +124,7 @@ class MessageAction extends CommonAction {
 	function forward(){
 		$id = $_REQUEST['id'];
 		$model = M("Message");
-		$where['user_id']=array('eq',get_user_id());
+		$where['owner_id']=array('eq',get_user_id());
 		$where['id']=array('eq',$id);
 		
 		$list=$model ->where($where)->find();
@@ -137,7 +139,7 @@ class MessageAction extends CommonAction {
 
 	public function del() {
 		$type=$_REQUEST['type'];
-		$where['user_id'] = array("eq",get_user_id());
+		$where['owner_id'] = array("eq",get_user_id());
 		switch($type){
 			case 'all' :
 				break;

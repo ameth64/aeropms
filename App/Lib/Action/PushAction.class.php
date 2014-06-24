@@ -14,8 +14,8 @@
 class PushAction extends CommonAction {
 	protected $config=array('app_type'=>'asst');
 	//过滤查询字段
-	function server(){
-		for ($i = 0, $timeout = 10; $i < $timeout; $i++) {
+	function server() {
+		for ($i = 0, $timeout = 5; $i < $timeout; $i++) {
 			if (connection_status() != 0) {
 				exit();
 			}
@@ -27,6 +27,7 @@ class PushAction extends CommonAction {
 			$model = M("Push");
 			$data = $model -> where($where) -> find();
 			$where['id'] = $data['id'];
+			//dump($model);
 			if ($data){
 				sleep(1);
 				$model -> where("id=" . $data['id']) -> delete();
@@ -36,6 +37,12 @@ class PushAction extends CommonAction {
 			}
 		}
 		$this -> ajaxReturn(null, "no-data", 0);
+	}
+
+	//获取当前状态
+	function status(){
+		$data=get_new_count();
+		$this -> ajaxReturn($data);
 	}
 
 	function add($status, $info, $data) {

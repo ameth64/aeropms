@@ -473,6 +473,7 @@ class MailAction extends CommonAction {
 					if ($model -> create_time < strtotime(date('y-m-d h:i:s')) - 86400 * 30) {
 						$mail -> close_mail();
 						$this -> _pushReturn($new, "收到" . $new . "封邮件", 1);
+						exit();
 					}
 					$model -> user_id = $user_id;
 					$model -> read = 0;
@@ -486,12 +487,14 @@ class MailAction extends CommonAction {
 					$mail -> close_mail();
 					if ($new == 0) {
 						$this -> _pushReturn($new, "没有新邮件", 1);
+						exit();
 					}
 				}
 			}
 		}
 		$mail -> close_mail();
-		$this -> _pushReturn($new, "收到" . $new . "封邮件", 1);	
+		$this -> _pushReturn($new, "收到" . $new . "封邮件", 1);
+		exit();
 	}
 
 	//--------------------------------------------------------------------

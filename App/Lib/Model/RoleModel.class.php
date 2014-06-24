@@ -8,101 +8,182 @@
 
   Author:  jinzhu.yin<smeoa@qq.com>                         
 
-  Support: https://git.oschina.net/smeoa/smeoa        
-  
+  Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
-class LdapAction extends Action {
-	protected $config=array('app_type'=>'public');
-	// 检查用户是否登录
 
-	public function index(){
-		if ($_POST){
-			$opmode = $_POST["opmode"];
-			$this->assign('opmode',$opmode);
-			if($opmode=="sync"){
-				$this->sync();
-			}
-		}
-		$ldap_host = C("LDAP_SERVER");//LDAP 服务器地址
-		$ldap_port = C("LDAP_PORT");//LDAP 服务器端口号
-		$ldap_user = C("LDAP_USER"); //设定服务器用户名
-		$ldap_pwd = C("LDAP_PWD"); //设定服务器密码
-		$this->assign("ldap_host",$ldap_host);
-		$this->assign("ldap_port",$ldap_port);		
-		$this->assign("ldap_user",$ldap_user);
-		$this->assign("ldap_pwd",$ldap_pwd);
 
-		$this->display();
+// 角色模型
+class RoleModel extends CommonModel {
+	public $_validate = array(
+		array('name','require','名称必须'),
+	);
+
+	function get_node_list($role_id)
+	{
+		$rs = $this->db->query('select * from '.$this->tablePrefix.'role_node as a  where a.role_id='.$role_id.' ');
+		return $rs;
 	}
 
-	private function sync(){
-
-		$ldap_host = C("LDAP_SERVER");//LDAP 服务器地址
-		$ldap_port = C("LDAP_PORT");//LDAP 服务器端口号
-		$ldap_user = C("LDAP_USER"); //设定服务器用户名
-		$ldap_pwd = C("LDAP_PWD"); //设定服务器密码
-
-		$ldap_conn = ldap_connect($ldap_host, $ldap_port) //建立与 LDAP 服务器的连接
-		or die("Can't connect to LDAP server");
-		ldap_set_option($ldap_conn, LDAP_OPT_PROTOCOL_VERSION,3);
-		$r=ldap_bind($ldap_conn, $ldap_user, $ldap_pwd) or die(ldap_error($ldap_conn));//与服务器绑定
-		$base_dn = "cn=users,dc=laxdn,dc=com,dc=cn";//定义要进行查询的目录主键
-		$filter_col = "mail";//定义用于查询的列
-		$filter_val = "phptester@163.com";//定义用于匹配的值		
-		//$result= ldap_search($ldap_conn, $base_dn, "($filter_col=$filter_val)");//执行查询
-
-		$filter_val="(ObjectClass=person)";
-		$attr=array("uid","gecos","mail","uidNumber","gidNumber","departmentNumber","apple-birthday","mobile","telephoneNumber","employeeType","title","postalAddress","shadowExpire");
-		$result= ldap_search($ldap_conn, $base_dn,$filter_val,$attr);//执行查询
-		$entry= ldap_get_entries($ldap_conn,$result);//获得查询结果
-		$emp_info=array();
+	function del_node($role_id,$node_list)
+	{
+		if(empty($node_list)){
+			return true;
+		}
+		if (is_array($node_list)){
+			$node_list=array_filter($node_list);
+		}else{
+			$node_list=explode(",",$node_list);
+			$node_list=array_filter($node_list);
+		}
+		$node_list=implode(",",$node_list);
+		$table = $this->tablePrefix.'role_node';
+		//dump('delete from '.$table.' where role_id='.$role_id.' and node_id in ('.$node_list.')');
 		
-		$dept_list=M("Dept")->getField("name,id");
-		$rank_list=M("Rank")->getField("name,id");
-		$position_list=M("Position")->getField("name,id");
-		$role_list=M("Role")->getField("name,id");
-	//	dump($entry);
-		foreach($entry as $item){	
-			if(is_array($item)){
-				$data['id']=$item['uidnumber'][0];
-				$data['emp_no']=$item['uid'][0];
-				$data['name']=$item['gecos'][0];
-				$data['letter']=get_letter($item['gecos'][0]);
-				$data['email']=$item['mail'][0];
-				$data['is_del']=$item['shadowexpire'][0];	
+		$result = $this->db->execute('delete from '.$table.' where role_id='.$role_id.' and node_id in ('.$node_list.')');
+	
+		if($result===false) {
+			return false;
+		}else {
+			return true;
+		}
+	}
 
-				$dept_name=$item['departmentnumber'][0];
-				$data['dept_id']=$dept_list[$dept_name];	
-				$birthday=$item['apple-birthday'][0];
-				$data['birthday']=date("Y-m-d",strtotime($birthday));
-				$data['mobile_tel']=$item['mobile'][0];	
-				$data['office_tel']=$item['telephonenumber'][0];	
-				$data['rank_id']=$rank_list[$item['employeetype'][0]];	
-				$data['position_id']=$position_list[$item['title'][0]];	
-				D("Role")->del_role($data['id']);	//删除用户权限
-				D("Role")->set_role($data['id'],$role_list[$item["postaladdress"][0]]);	//用户权限初始化
-
-				$rs=M("User")->add($data);				
-				if($rs){
-					$new++;
-					$data['mail_name']=$item['gecos'][0];
-					$data['pop3svr']="pop.laxdn.com.cn";
-					$data['smtpsvr']="s.laxdn.com";
-					$data['mail_id']=$item['uid'][0];									
-					$rs_account=M("MailAccount")->add($data);
-					M("UserConfig")->add($data); //用户配置信息初始化
-				}else{
-					$data['is_del']=null;
-					$data=array_filter($data);
-					$rs_save=M("User")->save($data);
-					if($rs_save){
-						$update++;
-					}
-				}
+	function set_node($role_id,$node_list)
+	{			
+		if(empty($node_list)){
+			return true;
+		}
+		if (is_array($node_list)){
+			$node_list=array_filter($node_list);
+		}else{
+			$node_list=explode(",",$node_list);
+			$node_list=array_filter($node_list);
+		}
+		
+		foreach($node_list as $node){
+			$result = $this->db->execute('INSERT INTO '.$this->tablePrefix.'role_node (role_id,node_id) values('.$role_id.','.$node.')');
+			if($result===false){
+				return false;
 			}
 		}
-		$this->assign("new",$new);
-		$this->assign("update",$update);
+			return true;
 	}
+
+	function get_role_list($user_Id)
+	{
+		$table = $this->tablePrefix.'role_user';
+		$rs = $this->db->query('select a.role_id from '.$table.' as a where a.user_id='.$user_Id.' ');
+		return $rs;
+	}
+
+	function del_role($user_list)
+	{
+		if(empty($user_list)){
+			return true;
+		}
+		if (is_array($user_list)){
+			$user_list=array_filter($user_list);
+		}else{
+			$user_list=explode(",",$user_list);
+			$user_list=array_filter($user_list);
+		}
+		$user_list=implode(",",$user_list);
+
+		$table = $this->tablePrefix.'role_user';
+
+		$result = $this->db->execute('delete from '.$table.' where user_id in ('.$user_list.')');
+		if($result===false) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+
+	function set_role($user_list,$role_list){
+
+		if(empty($user_list)){
+			return true;
+		}
+		if(empty($role_list)){
+			return true;
+		}
+		if (is_array($user_list)){
+			$user_list=array_filter($user_list);
+		}else{
+			$user_list=explode(",",$user_list);
+			$user_list=array_filter($user_list);
+		}
+		$user_list=implode(",",$user_list);
+
+		if (is_array($role_list)){
+			$role_list=array_filter($role_list);
+		}else{
+			$role_list=explode(",",$role_list);
+			$role_list=array_filter($role_list);
+		}
+		$role_list=implode(",",$role_list);
+
+		$where = 'a.id in ('.$user_list.') AND b.id in('.$role_list.')';
+		$sql='INSERT INTO '.$this->tablePrefix.'role_user (user_id,role_id) ';
+		$sql.=' SELECT a.id, b.id FROM '.$this->tablePrefix.'user a, '.$this->tablePrefix.'role b WHERE '.$where;
+		$result = $this->execute($sql);
+		if($result===false){
+			return false;
+		}else{
+			return true;
+		}
+	}
+
+
+	function get_duty_list($role_id)
+	{
+		$rs = $this->db->query('select duty_id from '.$this->tablePrefix.'role_duty as a  where a.role_id='.$role_id.' ');
+		return $rs;
+	}
+
+	function del_duty($role_list)
+	{
+		if(empty($role_list)){
+			return true;
+		}
+		if (is_array($role_list)){
+			$role_list=array_filter($role_list);
+		}else{
+			$role_list=explode(",",$role_list);
+			$role_list=array_filter($role_list);
+		}
+		$role_list=implode(",",$role_list);
+
+		$table = $this->tablePrefix.'role_duty';
+
+		$result = $this->db->execute('delete from '.$table.' where role_id in ('.$role_list.')');
+		if($result===false) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+
+	function set_duty($role_id,$duty_list)
+	{			
+		if(empty($duty_list)){
+			return true;
+		}
+		if (is_array($duty_list)){
+			$duty_list=array_filter($duty_list);
+		}else{
+			$duty_list=explode(",",$duty_list);
+			$duty_list=array_filter($duty_list);
+		}
+		$duty_list=implode(",",$duty_list);
+
+		$where = 'a.id ='.$role_id.' AND b.id in('.$duty_list.')';
+		$sql='INSERT INTO '.$this->tablePrefix.'role_duty (role_id,duty_id)';
+		$sql.=' SELECT a.id, b.id FROM '.$this->tablePrefix.'role a, '.$this->tablePrefix.'duty b WHERE '.$where;
+		$result = $this->execute($sql);
+
+		return result;
+	}
+
 }
 ?>
