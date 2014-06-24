@@ -4,6 +4,11 @@
 		myclose();
 	}
 
+	function del() {
+		parent.window.location.href = '{:U("del?id=".$vo["id"])}';
+		myclose();
+	}
+
 	function next() {
 		<empty name = "next" > alert('没有下一个');
 		<else/>

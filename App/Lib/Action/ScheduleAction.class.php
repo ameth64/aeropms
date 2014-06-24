@@ -133,6 +133,10 @@ class ScheduleAction extends CommonAction {
 	public function read2(){
 		$this -> read();
 	}
+	
+	public function del(){
+		$this->_del();
+	}
 
 	function json() {
 		header("Cache-Control: no-cache, must-revalidate");
@@ -142,6 +146,7 @@ class ScheduleAction extends CommonAction {
 		$end_date = $_REQUEST["end_date"];
 
 		$where['user_id'] = $user_id;
+		$where['is_del']=array('eq',0);
 		$where['start_date'] = array( array('egt', $start_date), array('elt', $end_date));
 		$list = M("Schedule") -> where($where) -> order('start_date,priority desc') -> select();
 		exit(json_encode($list));
