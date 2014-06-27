@@ -105,39 +105,37 @@ class WechatAction extends Action {
 		}
 	}
 	
-			/**
+	 /**
 	 * 生成菜单
 	 */	
+
 	public function setmenu(){
 		
 		$sub =array();
 		$data = array();
 		$subs = array();
 
-		$subs1[] = array('type'=>'view','name'=>'写信','url'=>C("SITE_URL").U('mail/add',array('openid'=>$openid));
-		$subs1[] = array('type'=>'view','name'=>'收件箱','url'=>C("SITE_URL").U('mail/index'));
-		$subs1[] = array('type'=>'view','name'=>'发件箱','url'=>C("SITE_URL").U('mail/folder',array('fid'='outbox'));
-		$subs1[] = array('type'=>'click','name'=>'我的文件夹','key'=>'my_mail_folder');
+		$app_id=C("WECHAT_APPID");
+		$redirect_uri=U('home/index');
+		$site_url=C("SITE_URL");
 
-		$subs2[] = array('type'=>'view','name'=>'收到','url'=>C("SITE_URL").U('flow/folder',array('fid'='receive')); 
-		$subs2[] = array('type'=>'view','name'=>'待办','url'=>C("SITE_URL").U('flow/folder',array('fid'='confirm'));
-		$subs2[] = array('type'=>'view','name'=>'办理','url'=>C("SITE_URL").U('flow/folder',array('fid'='finish'));
-		$subs2[] = array('type'=>'view','name'=>'提交','url'=>C("SITE_URL").U('flow/folder',array('fid'='submit'));
+	
+		$subs3[] = array('type'=>'view','name'=>'绑定','url'=>$site_url.U('wechat/oauth'));
+		$subs3[]= array('type'=>'click','name'=>'解除绑定','key'=>'unauth');
+		$subs3[]= array('type'=>'click','name'=>'推送设置','key'=>'ites_set');
 
-		$subs3[] = array('type'=>'view','name'=>'文档','url'=>C("SITE_URL").U('doc/index'));
-		$subs3[] = array('type'=>'view','name'=>'消息','url'=>C("SITE_URL").U('message/index'));
-		$subs3[] = array('type'=>'view','name'=>'待办','url'=>C("SITE_URL").U('todo/index'));
-		$subs3[] = array('type'=>'click','name'=>'帮助','key'=>'ites_set');
+		$oauth_url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=$app_id&redirect_uri={$site_url}{$redirect_uri}&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
 			
-		$sub1 =  array('name'=>'邮件','sub_button'=>$subs1);
-		$sub2 =  array('name'=>'流程','sub_button'=>$subs2);
-		$sub3 =  array('name'=>'常用','sub_button'=>$subs3);
-		
+		$sub1 = array('type'=>'view','name'=>'小微OA','url'=>$oauth_url);
+		$sub2 = array('type'=>'click','name'=>'签到','key'=>'sign_up');
+		$sub3 =  array('name'=>'帮助','sub_button'=>$subs3);
+
 		$data['button'][] = $sub1;	
 		$data['button'][] = $sub2;
 		$data['button'][] = $sub3;
+
 		$data = jsencode($data);
-						
+ 
 		/* 加载微信SDK */
 		import ( "@.ORG.Util.ThinkWechat" );
 		$weixin = new ThinkWechat ();
@@ -153,7 +151,7 @@ class WechatAction extends Action {
 	private function getSubscribe($openid = ''){
 		$re = "";
 		$re .= "您好，欢迎关注小微企业OA微信公众号。为了让您能方便快捷的使用小微企业OA";
-		$re .= "请先确认您在小微OA系统中有帐号，并进行微信号码绑定，绑定后才能使用如下功能\n";
+		$re .= "请先确认您在小微OA系统中有帐号，并进行微信号码绑定，绑定后后可以直接进入小微OA";
 		$re .= "<a href='".C("SITE_URL")."/wechat/oauth/?openid={$openid}'>点击立即进行绑定</a>";
 		return array ( $re, 'text' );
 	}
@@ -168,6 +166,12 @@ class WechatAction extends Action {
 		$userid = $this->getCookieUserId ( $openid );// 绑定的用户ID
 		if ($openid && $userid > 0) {
 			switch ($taskevent) {
+				case 'sign_up' : // 签到
+					$reply = array ( "签到成功", 'text' );
+					break;
+				case 'unauth' : // 解除绑定
+					$reply=$this->getUnOauth($openid);
+					break;
 				case 'apply_task' : // 我申请的任务
 					$reply = array ( "查看我申请的任务信息，<a href='".C("SITE_URL")."/wechat/tasklist/?action=apply&openid={$openid}'>请点击这里</a>", 'text' );
 					break;
@@ -444,8 +448,7 @@ class WechatAction extends Action {
 			$this->display ( 'taskli_fit' );
 		} else {
 			$this->display ( 'taskli' );
-		}
-		
+		}		
 	}
 	
 	/**
@@ -605,11 +608,10 @@ class WechatAction extends Action {
 		$itemid = I ( 'get.id', 0 );
 	
 		if (empty ( $itemid ))	$this->message ( '错误，没有找到相关信息' );
-			
-	
+				
 		//用户资料
 		$user = M('Member')->where("itemid = {$itemid}")->find();
-		if (empty ( $user )) $this->message ( '错误，没有找到相关信息' );	
+		if (empty ( $user )) $this->message ('错误，没有找到相关信息');	
 		
 		// 绑定的用户ID 查看用户是否绑定
 		$userid = $this->getCookieUserId ( $openid );		
@@ -656,10 +658,10 @@ class WechatAction extends Action {
 	 * @return array; 响应的数据
 	 */
 	private function getUnOauth($openid = ''){
-		$weModel = M('Wechat_user');
-		$user = $weModel->where("openid = '{$openid}' AND oauth = 3")->find();
+		$weModel = M('User');
+		$user = $weModel->where("openid = '{$openid}' AND westatus = 1")->find();
 		if ($openid && $user) {
-			$we = $weModel->where("openid = '{$openid}'")->save(array('oauth'=>0));
+			$we = $weModel->where("openid = '{$openid}'")->save(array('westatus'=>0));
 			if ($we) {
 				$re = array ( "解除绑定成功", 'text' );
 			}else {
@@ -675,7 +677,7 @@ class WechatAction extends Action {
 	/**
 	 * 跳出页面-绑定帐号
 	 */
-	public function oauth() {
+	public function oauth(){
 		if (IS_POST) {
 			if (empty($_POST['emp_no'])) {
 				$this -> error('帐号必须！');
@@ -687,7 +689,7 @@ class WechatAction extends Action {
 			// 支持使用绑定帐号登录
 			$map['emp_no'] = $_POST['emp_no'];
 			$map["is_del"] = array('eq', 0);
-			$model = D("UserView");
+			$model = D("User");
 			$authInfo = $model -> where($map) -> find();
 
 			//使用用户名、密码和状态的方式进行认证
@@ -727,8 +729,8 @@ class WechatAction extends Action {
 					$username = substr ( $tmp [0], 0, strlen ( $tmp [0] ) - 4 ) . '****@' . $tmp [1];
 					$msg = '';
 					$msg .= '恭喜，绑定成功！你可以直接在微信回复“解除绑定”解除微信绑定。';
-					$msg .= '当前绑定的账户邮箱为“' . $username . '”您的任务提醒将通过微信进行提醒，';
-					$msg .= '如果您不希望收到任务提醒信息，可在系统功能》信息推送设置中进行设置。';
+					$msg .= '当前绑定的账户为“' . $authInfo['emp_no'] . '”';
+					$msg .= '如果您不希望收到微信提醒信息，可在帮助》信息推送设置中进行设置。';
 					$this->message ( $msg );
 				} else {
 					$this->message ( '绑定失败' );
@@ -782,6 +784,7 @@ class WechatAction extends Action {
 	/**
 	 * 跳出页面-推送设置
 	 */
+
 	public function userset() {
 		if (IS_POST) {
 			$setpush = I ( 'setpush', 0 );
@@ -831,6 +834,10 @@ class WechatAction extends Action {
 		// dump($weuser);
 		return $weuser;
 	}
+
+	public function test(){
+		$this->send("test","oPq8Btwkfs8zMvAHxjmruSiaiIr0");
+	}
 	
 	/**
 	 * 主动发送消息
@@ -847,7 +854,7 @@ class WechatAction extends Action {
 		import ( "@.ORG.Util.ThinkWechat" );
 		$weixin = new ThinkWechat ();
 		// $openid = 'o0ehLt1pOAIEFZtPD4ghluvjamf0';
-		$restr = $weixin->sendMsg ( $content, $openid, $type );
+		$restr = $weixin->sendMsg ($content, $openid, $type );
 		return $restr;
 	}
 

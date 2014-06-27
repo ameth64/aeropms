@@ -13,35 +13,43 @@
 
 class CommonAction extends Action {
 
-	function _initialize() {
+	function _initialize() {		
+		$code=$_REQUEST["code"];
+		if(!empty($code)){
+			$this->_welogin($code);
+		}
 		$auth_id = session(C('USER_AUTH_KEY'));
 		if (!isset($auth_id)) {
 			//跳转到认证网关
 			redirect(U(C('USER_AUTH_GATEWAY')));
 		}
+		
 		$this -> assign('js_file', 'js/' . ACTION_NAME);
 		$this->_assign_menu();
 		$this->_assign_new_count();
 	}
 	
-	protected function _welogin($openid){
-			$model = M("User");
-			$authInfo = $model -> where ( "openid = '{$openid}' AND westatus = 1" )->find (); // 查到userid
+	protected function _welogin($code){
+		import ( "@.ORG.Util.ThinkWechat" );
+		$weixin = new ThinkWechat ();
+		$openid=$weixin->openid($code);
 
-			//使用用户名、密码和状态的方式进行认证
-			if (false === $authInfo) {
-				$this -> error('帐号或密码错误！');
-			} else {
-				session(C('USER_AUTH_KEY'), $authInfo['id']);
-				session('emp_no', $authInfo['emp_no']);
-				session('email', $authInfo['email']);
-				session('user_name', $authInfo['name']);
-				session('user_pic', $authInfo['pic']);
-				session('dept_id', $authInfo['dept_id']);
-				
-				if ($authInfo['emp_no'] == 'admin') {
-					session(C('ADMIN_AUTH_KEY'), true);
-				}
+		$model = M("User");
+		$auth_info = $model -> where ( "openid = '{$openid}' AND westatus = 1" )->find (); // 查到userid
+
+		if($auth_info){
+			session(C('USER_AUTH_KEY'), $auth_info['id']);
+			session('emp_no', $auth_info['emp_no']);
+			session('email', $auth_info['email']);
+			session('user_name', $auth_info['name']);
+			session('user_pic', $auth_info['pic']);
+			session('dept_id', $auth_info['dept_id']);
+			
+			if ($auth_info['emp_no'] == 'admin') {
+				session(C('ADMIN_AUTH_KEY'), true);
+			}
+		}else{
+			redirect(U('wechat/oauth',array('openid'=>$openid)));
 		}
 	}
 
@@ -563,7 +571,7 @@ class CommonAction extends Action {
 	protected function _tag_manage($tag_name,$has_pid=true){
 
 		$this -> assign("tag_name", $tag_name);
-		$this->assign("has_pid",$has_pid);
+		$this-> assign("has_pid",$has_pid);
 		if ($this -> config['app_type'] == 'personal') {
 			R('UserTag/index');
 			$this -> assign('js_file', "UserTag:js/index");

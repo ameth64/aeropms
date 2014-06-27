@@ -449,8 +449,8 @@ class MailAction extends CommonAction {
 		$mail_list = array();
 		$mail = new receiveMail();
 		
-		$connect = $mail -> connect($this -> _account['pop3svr'], '110', $this -> _account['mail_id'], $this -> _account['mail_pwd'], 'INBOX', 'pop3');
-
+		$connect = $mail -> connect($this -> _account['pop3svr'], '110', $this -> _account['mail_id'], $this -> _account['mail_pwd'], 'INBOX','pop3/novalidate-cert');
+		dump($connect);
 		$mail_count = $mail -> mail_total_count();
 		if ($connect){
 			for ($i = 1; $i <= $mail_count; $i++) {

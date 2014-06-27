@@ -78,8 +78,9 @@
              $ssl = $pop.'/'.$ssl.'/novalidate-cert/notls';
          }
          $this->_connect = imap_open("{"."$host:$port/$ssl"."}$folder",$user,$pass);
+		 
          if(!$this->_connect) {
-             //Evebit_Application::getSession()->addError('cannot connect: ' . imap_last_error());
+            dump(imap_last_error());
              return false;   
         }
          return $this->_connect;

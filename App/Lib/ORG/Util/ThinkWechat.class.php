@@ -174,14 +174,14 @@ class ThinkWechat {
 		}
 		$this->send['articles'] = $articles;
 	}
-	
-	
+		
 	/**
 	 * * 获取微信用户的基本资料
 	 * 
 	 * @param string $openid   	发送者用户名
 	 * @return array 用户资料
 	 */
+
 	public function user($openid = '') {
 		if ($openid) {
 			header ( "Content-type: text/html; charset=utf-8" );
@@ -189,14 +189,32 @@ class ThinkWechat {
 			$params = array ();
 			$params ['access_token'] = $this->getToken ();
 			$params ['openid'] = $openid;
-			$httpstr = http ( $url, $params );
-			$harr = json_decode ( $httpstr, true );
+			$httpstr = http ( $url,$params,"POST");
+			$harr = json_decode ($httpstr, true );
 			return $harr;
 		} else {
 			return false;
 		}
 	}
 	
+	public function openid($code = '') {
+		if ($code) {
+			header ( "Content-type: text/html; charset=utf-8" );
+			$url = 'https://api.weixin.qq.com/sns/oauth2/access_token';
+			$params = array ();
+			$params['appid'] = C ('WECHAT_APPID');
+			$params['secret']  = C ('WECHAT_APPSECRET');
+			$params ['code'] = $code;
+			$params ['grant_type'] = "authorization_code";
+			 
+			$httpstr = http ( $url, $params,'POST' );
+			$harr = json_decode ( $httpstr, true );
+			return $harr['openid'];
+		} else {
+			return false;
+		}
+	}
+
 	/**
 	 * 生成菜单
 	 * @param  string $data 菜单的str
@@ -312,7 +330,7 @@ class ThinkWechat {
 	/**
 	 * 获取保存的accesstoken
 	 */
-	private function getToken() {
+	private function getToken(){
 		$stoken = array ();
 		$stoken = S ( 'S_TOKEN'); // 从缓存获取ACCESS_TOKEN
 
@@ -340,6 +358,7 @@ class ThinkWechat {
 	/**
 	 * 重新从微信获取accesstoken
 	 */
+
 	private function getAcessToken() {
 		$token = C ( 'WECHAT_TOKEN' );
 		$appid = C ( 'WECHAT_APPID' );

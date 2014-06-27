@@ -49,6 +49,7 @@
 			$(".user_info .name").text($(this).attr("name"));
 			$(".user_info .office_tel").text($(this).attr("office_tel"));
 			$(".user_info .mobile_tel").text($(this).attr("mobile_tel"));
+			$(".user_info .email").text($(this).attr("email"));
 			$(".user_info .duty").text($(this).attr("duty"));
 			$("#emp_pic").prop("src", "{:get_save_url()}" + $(this).attr("pic"));
 		})

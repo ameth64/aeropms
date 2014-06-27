@@ -36,10 +36,10 @@ class LoginAction extends Action {
 			session('menu' . $auth_id, null);
 			session('top_menu' . $auth_id, null);
 			session('user_pic', null);
-			$this -> assign("jumpUrl", __URL__ . '/');
+			$this -> assign("jumpUrl", __URL__ );
 			$this -> success('登出成功！');
 		} else {
-			$this -> assign("jumpUrl", __URL__ . '/');
+			$this -> assign("jumpUrl", __URL__);
 			$this -> error('已经登出！');
 		}
 	}
