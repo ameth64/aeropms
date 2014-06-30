@@ -23,7 +23,7 @@ class XmkAction extends CommonAction {
 	}
 
 	public function index(){
-		$widget['date-range'] = true;		
+		$widget['date'] = true;		
 		$this -> assign("widget", $widget);
 									
 		$map = $this -> _search();
@@ -42,7 +42,7 @@ class XmkAction extends CommonAction {
 	}
 
 	public function folder(){
-		$widget['date-range'] = true;		
+		$widget['date'] = true;		
 		$this -> assign("widget", $widget);
 		$this -> assign('auth', $this -> config['auth']);
 		

@@ -36,7 +36,11 @@
 			<div class="form-group col-sm-6">
 				<label class="col-sm-4 control-label" for="bt_create_time">登录时间：</label>
 				<div class="col-sm-8">
-					<input data-date-format="yyyy-mm-dd" class="form-control input-date-range" type="text" name="bt_create_time" id="bt_create_time"    readonly="readonly">
+					<div class="input-daterange input-group" >
+					    <input type="text" class="input-sm form-control text-center" name="be_create_time" />
+						<span class="input-group-addon">-</span>
+						<input type="text" class="input-sm form-control text-center" name="en_create_time" />
+					</div>
 				</div>
 			</div>
 		</div>
@@ -65,12 +69,16 @@
 <div class="ul_table">
 	<ul>
 		<li class="thead">
-			<label class="inline pull-left col-3">
-				<input class="ace" type="checkbox" name="id-toggle-all" id="id-toggle-all" />
-				<span class="lbl"></span></label>
-			<span class="col-10"> 编号 </span>
-			<span class="col-10 pull-right text-center"> 登录时间 </span>
-			<span class="col-6 pull-right text-center"> 登录人 </span>
+			<div class="pull-left">
+				<label class="inline pull-left col-3">
+					<input class="ace" type="checkbox" name="id-toggle-all" id="id-toggle-all" />
+					<span class="lbl"></span></label>
+				<span class="col-10"> 编号 </span>
+			</div>
+			<div class="pull-right">
+				<span class="col-10  "> 登录时间 </span>
+				<span class="col-6  "> 登录人 </span>				
+			</div>
 			<div class="auto">
 				标题
 			</div>
@@ -84,12 +92,16 @@
 				<form method="post" action="" name="form_data" id="form_data">
 					<foreach name="list" item="vo">
 						<li class="tbody  <php> if((!in_array($vo['id'],$readed_id))&&($vo['create_time']<=time()-3600*8*24)) echo("bold")</php>" >
-							<label class="inline pull-left col-3">
-								<input class="ace" type="checkbox" name="id[]" value="{$vo.id}" />
-								<span class="lbl"></span></label>
-							<span class="col-10"> {$vo.notice_no} </span>
-							<span class="col-10 pull-right text-center"> {$vo.create_time|toDate='Y-m-d'} </span>
-							<span class="col-6 pull-right text-center"> {$vo.user_name} </span>
+							<div class="pull-left">
+								<label class="inline pull-left col-3">
+									<input class="ace" type="checkbox" name="id[]" value="{$vo.id}" />
+									<span class="lbl"></span></label>
+								<span class="col-10"> {$vo.notice_no} </span>
+							</div>
+							<div class="pull-right">
+								<span class="col-10 "> {$vo.create_time|toDate='Y-m-d'} </span>
+								<span class="col-6 "> {$vo.user_name} </span>
+							</div>
 							<div class="auto">
 								<a href="{:U('read?id='.$vo['id'])}" >{$vo.name}
 								<eq name="vo.name|strlen" value="0">

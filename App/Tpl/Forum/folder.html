@@ -35,7 +35,11 @@
 			<div class="form-group col-sm-6">
 				<label class="col-sm-4 control-label" for="bt_create_time">登录时间：</label>
 				<div class="col-sm-8">
-					<input data-date-format="yyyy-mm-dd" class="form-control input-date-range" type="text" name="bt_create_time" id="bt_create_time"    readonly="readonly">
+					<div class="input-daterange input-group" >
+					    <input type="text" class="input-sm form-control text-center" name="be_create_time" />
+						<span class="input-group-addon">-</span>
+						<input type="text" class="input-sm form-control text-center" name="en_create_time" />
+					</div>
 				</div>
 			</div>
 		</div>

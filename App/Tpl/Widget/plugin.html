@@ -5,12 +5,8 @@
 </notempty>
 
 <notempty name="widget.date">
-	<script src="__PUBLIC__/js/date-time/bootstrap-datepicker.min.js"></script>
-</notempty>
-
-<notempty name="widget.date-range">
-	<script src="__PUBLIC__/js/date-time/daterangepicker.min.js"></script>
-	<script src="__PUBLIC__/js/date-time/moment.min.js"></script>
+	<script src="__PUBLIC__/js/date-time/bootstrap-datepicker.js"></script>
+	<script src="__PUBLIC__/js/date-time/locales/bootstrap-datepicker.zh-CN.js"></script>
 </notempty>
 
 <notempty name="widget.uploader">
@@ -28,22 +24,22 @@
 
 <script type="text/javascript">
 		$(document).ready(function() {
-	<notempty name="widget.date">
-	$('.input-date').datepicker({
-	autoclose : true
-	})
-	</notempty>
+			<notempty name="widget.date">
+				$('.input-date').datepicker({
+					language:"zh-CN",
+					autoclose : true
+				});
+				$(".input-daterange").datepicker({
+					 format: "yyyy-mm-dd",
+					 language:"zh-CN",
+					 keyboardNavigation: false,
+					 forceParse: false,
+					 autoclose: true,
+				});
+			</notempty>
 
-	<notempty name="widget.date-range">
-	$(".input-date-range").daterangepicker({
-	format : 'YYYY-MM-DD',
+			<notempty name="widget.editor">
+				editor_init();
+			</notempty>
 	});
-	</notempty>
-
-	<notempty name="widget.uploader">	
-	</notempty>
-
-	<notempty name="widget.editor">
-	editor_init();
-	</notempty>
-	})</script>
+</script>

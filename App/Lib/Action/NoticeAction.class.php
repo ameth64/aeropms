@@ -24,7 +24,7 @@ class NoticeAction extends CommonAction {
 	}
 
 	public function index() {
-		$widget['date-range'] = true;
+		$widget['date'] = true;
 		$this -> assign("widget", $widget);
 		
 		$arr_read = explode("_", get_user_config("readed_notice"));
@@ -162,7 +162,7 @@ class NoticeAction extends CommonAction {
 
 
 	public function folder() {
-		$widget['date-range'] = true;
+		$widget['date'] = true;
 		$this -> assign("widget", $widget);
 
 		$arr_read = array_filter(explode("_", get_user_config("readed_notice")));

@@ -46,7 +46,7 @@ class MailAction extends CommonAction {
 	//--------------------------------------------------------------------
 
 	public function folder() {
-		$widget['date-range'] = true;
+		$widget['date'] = true;
 		$this -> assign("widget", $widget);
 
 		$this -> _assign_mail_folder_list();

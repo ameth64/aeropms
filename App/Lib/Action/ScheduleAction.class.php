@@ -60,7 +60,7 @@ class ScheduleAction extends CommonAction {
 	}
 
 	function search() {
-		$widget['date-range'] = true;
+		$widget['date'] = true;
 		$this -> assign("widget", $widget);
 
 		$map = $this -> _search();

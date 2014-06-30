@@ -36,7 +36,7 @@ class FlowAction extends CommonAction {
 	}
 
 	function folder() {
-		$widget['date-range'] = true;
+		$widget['date'] = true;
 		$this -> assign("widget", $widget);
 
 		$folder = $_REQUEST['fid'];

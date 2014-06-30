@@ -25,7 +25,7 @@ class WorkLogAction extends CommonAction {
 	}
 
 	public function index(){
-		$widget['date-range'] = true;		
+		$widget['date'] = true;		
 		$this ->assign("widget", $widget);
 		$this->assign('user_id',get_user_id());				
 		$this->assign("title",'日志查询');		

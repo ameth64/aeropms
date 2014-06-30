@@ -36,7 +36,11 @@
 			<div class="form-group col-sm-6">
 				<label class="col-sm-4 control-label" for="bt_create_time">登录时间：</label>
 				<div class="col-sm-8">
-					<input data-date-format="yyyy-mm-dd" class="form-control input-date-range" type="text" name="bt_create_time" id="bt_create_time"    readonly="readonly">
+					<div class="input-daterange input-group" >
+					    <input type="text" class="input-sm form-control text-center" name="be_create_time" />
+						<span class="input-group-addon">-</span>
+						<input type="text" class="input-sm form-control text-center" name="en_create_time" />
+					</div>
 				</div>
 			</div>
 		</div>
@@ -45,11 +49,15 @@
 <div class="ul_table">
 	<ul>
 		<li class="thead" style="padding-left:10px">
-			<span class="col-16 text-center">编号</span>
-			<span class="col-16 text-center">类型</span>
-			<span class="col-6 pull-right text-center">状态</span>
-			<span  class="col-6 pull-right text-center"> 登录人</span>
-			<span  class="col-9 pull-right text-center">登录时间</span>
+			<div class="pull-left">
+				<span class="col-16 ">编号</span>
+				<span class="col-16 ">类型</span>				
+			</div>
+			<div class="pull-right">
+				<span  class="col-9  ">登录时间</span>				
+				<span  class="col-6  "> 登录人</span>
+				<span class="col-6  ">状态</span>
+			</div>
 			<div class="autocut auto">
 				标题
 			</div>
@@ -66,12 +74,16 @@
 			<ul>
 				<foreach name="list" item="vo">
 					<li class="tbody">
-						<span class="col-16 text-right">{$vo.doc_no}</span>
-						<span class="col-16  text-center"> {$vo.type_name}</span>
-						<span class="col-6 pull-right  text-center">{$vo.step|show_step}</span>
-						<span class="col-6 pull-right  text-center">{$vo.user_name}</span>
-						<span class="col-9 pull-right  text-center"> {$vo.create_time|toDate='Y-m-d'} </span>
-						<span class="autocut auto">
+						<div class="pull-left">
+							<span class="col-16 ">{$vo.doc_no}</span>
+							<span class="col-16  "> {$vo.type_name}</span>
+						</div>
+						<div class="pull-right">
+							<span class="col-9   "> {$vo.create_time|toDate='Y-m-d'} </span>
+							<span class="col-6   ">{$vo.user_name}</span>
+							<span class="col-6   ">{$vo.step|show_step}</span>
+						</div>
+						<div class="autocut auto">
 							<in name="folder" value="darft">
 								<a href="{:U('edit?id='.$vo['id'])}">{$vo.name}
 								<else/>
@@ -79,7 +91,7 @@
 							</in>
 							<eq name="vo.name|strlen" value="0">
 								无标题
-							</eq></a> </span>
+							</eq></a> </div>
 					</li>
 				</foreach>
 			</ul>

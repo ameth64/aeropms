@@ -1,4 +1,13 @@
 <script type="text/javascript">
+	$(document).ready(function() {
+		$("#confirm span").on("dblclick", function() {
+			$("#confirm span").last().find("b").remove();
+		});
+		$("#consult span").on("dblclick", function() {
+			$("#consult span").last().find("b").remove();
+		});
+	}); 
+
 	function save(step){
 		window.onbeforeunload=null;
 		$("#confirm").val("");
@@ -35,12 +44,5 @@
 		winopen("{:U('popup/confirm')}", 730, 574);
 	}
 
-	$(document).ready(function() {
-		$("#confirm span").on("dblclick", function() {
-			$("#confirm span").last().find("b").remove();
-		});
-		$("#consult span").on("dblclick", function() {
-			$("#consult span").last().find("b").remove();
-		});
-	}); 
+
 </script>
