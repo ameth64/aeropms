@@ -45,7 +45,6 @@ class UserFolderAction extends CommonAction {
 			$this -> error($model -> getError());
 		}
 
-		$model -> user_id = get_user_id();
 		$model -> folder = MODULE_NAME;
 
 		//保存当前数据对象

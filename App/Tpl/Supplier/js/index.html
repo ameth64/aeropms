@@ -107,6 +107,18 @@
 			event.stopPropagation();
 		})
 
+		$("li.tbody").click(function(){
+			$(".table input:checkbox").attr("checked", false);
+			$(".tag_list input[name='tag[]']").attr("checked", false);
+			str=trim($(this).find(".tag").text());
+			
+			strs=str.split(","); 
+			for (i=0;i<strs.length;i++)    
+			 {  
+				 $(".tag_list input[name='tag[]'][value='"+strs[i]+"']").prop("checked",true);
+			}
+		})
+
 		$('.tag_list input').on('change', function(event) {
 			if (($('.tag_list input:checked').length == 0) && ($(".tag_list input[name='new_tag']").val() == "")) {
 				$(".cmd").show();

@@ -7,6 +7,16 @@
 	}
 </script>
 {:W('PageHeader',array('name'=>array('供应商：',$vo['name']),'search'=>'N'))}
+<div class="operate panel panel-default">
+	<div class="panel-body">
+		<div class="pull-left">
+			<a onclick="go_return_url();" class="btn btn-sm btn-primary">返回</a>
+		</div>
+		<div class="pull-right">
+			<a onclick="edit();"  class="btn btn-sm btn-primary">修改</a>
+		</div>
+	</div>
+</div>
 <form method='post' id="form_data" class="form-horizontal well">
 	<input type="hidden" name="opmode" value="edit">
 	<input type="hidden" name="ajax" id="ajax" value="1">
@@ -128,8 +138,5 @@
 			</div>
 		</div>
 	</div>
-	<div class="action">
-		<input class="btn btn-sm btn-primary" type="button" value="保存" onclick="save();">
-		<input  class="btn btn-sm btn-default" type="button" value="取消" onclick="go_return_url();">
-	</div>
+	<div class="clearfix"></div>
 </form>

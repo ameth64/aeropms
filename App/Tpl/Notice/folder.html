@@ -91,7 +91,7 @@
 				<else/>
 				<form method="post" action="" name="form_data" id="form_data">
 					<foreach name="list" item="vo">
-						<li class="tbody  <php> if((!in_array($vo['id'],$readed_id))&&($vo['create_time']<=time()-3600*8*24)) echo("bold")</php>" >
+						<li class="tbody  <php> if((!in_array($vo['id'],$readed_id))&&($vo['create_time']>=time()-3600*8*24)) echo("bold")</php>" >
 							<div class="pull-left">
 								<label class="inline pull-left col-3">
 									<input class="ace" type="checkbox" name="id[]" value="{$vo.id}" />
