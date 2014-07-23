@@ -33,8 +33,8 @@
 	<div class="form-group col-sm-6">
 		<label class="col-sm-4 control-label" for="tag">分组：</label>
 		<div class="col-sm-8">
-			<select class="form-control" name="tag" id="tag" check="require">
-				<option>请选择分组</option>
+			<select class="form-control" name="tag" id="tag" check="require" msg="请选择分组">
+				<option value="">请选择分组</option>
 				{:fill_option($tag_list)}
 			</select>
 		</div>

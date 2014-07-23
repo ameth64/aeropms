@@ -1,21 +1,7 @@
 <layout name='Layout/ace_layout' />
-{:W('PageHeader',array('name'=>'用户设置','search'=>'N'))}
-
-<div class="operate panel panel-default">
-	<div class="panel-body">
-		<div class="pull-right">
-			<a onclick="save()"  class="btn btn-sm btn-primary">保存</a>
-		</div>
-	</div>
-</div>
+{:W('PageHeader',array('name'=>'推送设置','search'=>'N'))}
 <form method='post' id="form_data" class="well form-horizontal">	
 	<input type="hidden" name="ajax" id="ajax" value="0">
-	<div class="form-group">
-		<label class="col-sm-2 control-label" for="list_rows">列表数量：</label>
-		<div class="col-sm-10">
-			<input class="form-control col-20" text" id="list_rows" name="list_rows" value="{$config.list_rows}" check="number" msg="必须是数字">
-		</div>
-	</div>
 	<div class="form-group">
 		<label class="col-sm-2 control-label" for="list_rows">网页推送：</label>
 		<div class="col-sm-10">
@@ -58,4 +44,24 @@
 			</label>
 		</div>
 	</div>
+	<div class="action">
+		<label class="col-sm-2 control-label" for="list_rows" ></label>
+		<a onclick="save()"  class="btn btn-sm btn-primary">保存</a>
+	</div>
 </form>
+<form method='post' id="form_data" class="well form-horizontal">
+	<div class="form-group">
+		<label class="col-sm-2 control-label" for="list_rows">邮件后台接受：</label>
+		<div class="col-sm-10">
+			<input id="list_rows" name="list_rows" checked="checked" type="checkbox" class="ace ace-switch ace-switch-5">
+			<span class="lbl"></span>											
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label" for="list_rows">微信推送：</label>
+		<div class="col-sm-10">
+			<input id="list_rows" name="list_rows" checked="checked" type="checkbox" class="ace ace-switch ace-switch-5">
+			<span class="lbl"></span>											
+		</div>
+	</div>
+</div>

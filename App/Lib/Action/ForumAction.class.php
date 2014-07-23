@@ -12,11 +12,18 @@
 -------------------------------------------------------------------------*/
 
 class ForumAction extends CommonAction {
-	protected $config = array('app_type' => 'folder', 'action_auth' => array('folder' => 'read','save_post' => 'write', 'edit_post' => 'write', 'del_post' => 'admin', 'mark' => 'admin', 'upload' => 'write'));
+	protected $config = array(
+		'app_type' => 'folder',
+		'pid'=>'forum_id',
+		'sub_model'=>'ForumPost',
+		'action_auth' => array('folder' => 'read','mark' => 'admin', 'upload' => 'write'),
+		'sub_action_auth'=>array('save_post' => 'write', 'edit_post' => 'write', 'del_post' => 'admin')
+	);
 	//过滤查询字段
+
 	function _search_filter(&$map) {
 		$map['is_del'] = array('eq', '0');
-		if (!empty($_REQUEST['fid'])) {
+		if (!empty($_REQUEST['fid'])){
 			$map['folder'] = $_REQUEST['fid'];
 		}
 		if (!empty($_REQUEST['keyword']) && empty($map['name'])) {
@@ -87,7 +94,6 @@ class ForumAction extends CommonAction {
 		$widget['uploader'] = true;
 		$widget['editor'] = true;
 		$this -> assign("widget",$widget);
-
 		$this -> assign('auth', $this -> config['auth']);
 
 		$model = M("Forum");
@@ -115,16 +121,16 @@ class ForumAction extends CommonAction {
 		$model = M("Forum");
 
 		$where = array();
-		$where['tid'] = $id;
+		$where['forum_id'] = $id;
 		$where['is_del'] = 0;
 
-		$model = M("Post");
+		$model = M("ForumPost");
 
 		if (!empty($model)) {
 			$this -> _list($model, $where, "id", true);
 		}
 
-		$this -> assign("tid", $id);
+		$this -> assign("forum_id", $id);
 		$this -> display();
 	}
 
@@ -222,15 +228,20 @@ class ForumAction extends CommonAction {
 	}
 
 	public function save_post() {
-		R("post/save");
+		$this->_save("ForumPost");
 	}
 
-	public function edit_post() {
-		R("post/edit");
+	public function edit_post(){
+		$widget['uploader'] = true;
+		$widget['editor'] = true;
+		$this -> assign("widget", $widget);
+
+		$this->_edit("ForumPost");
 	}
 
-	public function del_post() {
-		R("post/del");
+	public function del_post(){
+		$id=$_REQUEST['id'];
+		$this->_del($id,"ForumPost");
 	}
 
 	public function upload() {

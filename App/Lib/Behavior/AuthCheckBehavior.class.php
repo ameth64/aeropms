@@ -67,16 +67,29 @@ class AuthCheckBehavior extends Behavior {
 			case 'folder' :
 				$action_auth = C('AUTH');
 				if (!empty($params['action_auth'])) {
-					$action_auth = array_merge(C('AUTH'), $params['action_auth']);
+					$action_auth = array_merge($action_auth,$params['action_auth']);
+				}
+				if (!empty($params['sub_action_auth'])) {
+					$action_auth = array_merge($action_auth,$params['sub_action_auth']);
 				}
 
-				if (isset($_REQUEST['fid'])){
-					$folder_id = $_REQUEST['fid'];
+				$fid=$_REQUEST['fid'];
+				$id=$_REQUEST['id'];
+				$sub_action_auth=$params['sub_action_auth'];
+				if(array_key_exists(ACTION_NAME,$sub_action_auth)){
+					$id=$_REQUEST[$params['pid']];					
+					if(empty($id)){
+						$where['id']=$_REQUEST['id'];
+						$id=M($params['sub_model'])->where($where)->getfield($params['pid']);
+					}
+				};
+			
+				if (isset($fid)){
+					$folder_id = $fid;
 					$auth = D("SystemFolder") -> get_folder_auth($folder_id);
 					break;				
 				}
-				if (isset($_REQUEST['id'])){					
-					$id = $_REQUEST['id'];
+				if (isset($id)){					
 					if (is_array($id)){
 						$where["id"] = array("in", array_filter($id));
 					} else {
@@ -86,6 +99,7 @@ class AuthCheckBehavior extends Behavior {
 				
 					$folder_id = $model -> where($where) -> getField('folder');	
 					$auth = D("SystemFolder") -> get_folder_auth($folder_id);
+
 					break;
 				}
 				$auth = $this -> get_auth();

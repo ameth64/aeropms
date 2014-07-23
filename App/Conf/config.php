@@ -1,7 +1,7 @@
 <?php
     if (!defined('THINK_PATH')) exit();
     $array=array(    	
-        'LOAD_EXT_CONFIG'	=>'db,auth,webchat,ldap',
+        'LOAD_EXT_CONFIG'	=>'db,auth,wechat,ldap',
 		'VAR_PAGE'	=>'p',
 		'TMPL_EXCEPTION_FILE'=>APP_PATH.'/Tpl/Public/error.html',
 		'TMPL_NO_HAVE_AUTH'=>APP_PATH.'/Tpl/Public/no_have_auth.html',	
@@ -16,7 +16,7 @@
         'USER_AUTH_GATEWAY'=>'login/index',// 默认认证网关
         'DB_LIKE_FIELDS'            =>'content|remark',
 		'SAVE_PATH'=>"Data/Files/",
-        'SHOW_PAGE_TRACE'=>1, //显示调试信息
+        'SHOW_PAGE_TRACE'=>0, //显示调试信息
     );
     return $array;
 ?>

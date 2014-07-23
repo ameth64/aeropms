@@ -11,12 +11,11 @@
  Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
 class MailAction extends CommonAction {
-	private $_account;
 	protected $config = array('app_type' => 'personal');
 	private $tmpPath = "Data/Temp/";
 	// 过滤查询字段
 
-	function _search_filter(&$map) {
+	function _search_filter(&$map){
 		$map['is_del'] = array('eq', '0');
 		$map['user_id'] = array('eq', get_user_id());
 		if (!empty($_REQUEST['keyword'])) {
@@ -48,9 +47,10 @@ class MailAction extends CommonAction {
 	public function folder() {
 		$widget['date'] = true;
 		$this -> assign("widget", $widget);
-
-		$this -> _assign_mail_folder_list();
+		
 		$this -> _get_mail_account();
+		$this -> _assign_mail_folder_list();
+		
 		$folder_id = $_GET['fid'];
 		$mail_system_folder = array('receve', 'inbox', 'outbox', 'darftbox', 'delbox', 'spambox', 'unread', 'all');
 		if (in_array($folder_id, $mail_system_folder)) {
@@ -193,10 +193,11 @@ class MailAction extends CommonAction {
 	//  写邮件
 	//--------------------------------------------------------------------
 	function add() {
+		$this -> _get_mail_account();
+
 		$widget['uploader'] = true;
 		$widget['editor'] = true;
-		$this -> assign("widget", $widget);
-		$this -> _get_mail_account();
+		$this -> assign("widget", $widget);		
 		$this -> assign("recent", $this -> _get_recent());
 		//添加最近联系人
 		$this -> display();
@@ -206,7 +207,7 @@ class MailAction extends CommonAction {
 	//  发送邮件
 	//--------------------------------------------------------------------
 	public function send() {
-		$this -> _get_mail_account();
+		$mail_account=$this ->_get_mail_account();
 		$title = $_REQUEST['name'];
 		$body = $_REQUEST['content'];
 
@@ -225,7 +226,7 @@ class MailAction extends CommonAction {
 		$mail -> IsSMTP();
 		// telling the class to use SMTP
 		try {
-			$mail -> Host = $this -> _account['smtpsvr'];
+			$mail -> Host = $mail_account['smtpsvr'];
 			//"smtp.qq.com"; // SMTP server 部分邮箱不支持SMTP，QQ邮箱里要设置开启的
 			$mail -> SMTPDebug = false;
 			// 改为2可以开启调试
@@ -236,16 +237,16 @@ class MailAction extends CommonAction {
 			$mail -> CharSet = "UTF-8";
 			// 这里指定字符集！解决中文乱码问题
 			$mail -> Encoding = "base64";
-			$mail -> Username = $this -> _account['mail_id'];
+			$mail -> Username = $mail_account['mail_id'];
 			// SMTP account username
-			$mail -> Password = $this -> _account['mail_pwd'];
+			$mail -> Password = $mail_account['mail_pwd'];
 			// SMTP account password
 
-			$mail -> SetFrom($this -> _account['email'], $this -> _account['mail_name']);
+			$mail -> SetFrom($mail_account['email'],$mail_account['mail_name']);
 
 			//发送者邮箱
 
-			$mail -> AddReplyTo($this -> _account['email'], $this -> _account['mail_name']);
+			$mail -> AddReplyTo($mail_account['email'],$mail_account['mail_name']);
 			//回复到这个邮箱
 
 			$arr_to = array_filter(explode(';', $to));
@@ -329,8 +330,8 @@ class MailAction extends CommonAction {
 			$model ->user_id=get_user_id();
 			$model ->folder=2;
 			$model ->read=1;
-			$model ->from= $this -> _account['mail_name'] . '|' . $this -> _account['email'];
-			$model ->reply_to=$this -> _account['mail_name'] . '|' . $this -> _account['email'];
+			$model ->from= $mail_account['mail_name'] . '|' . $mail_account['email'];
+			$model ->reply_to=$mail_account['mail_name'] . '|' . $mail_account['email'];
 
 			if (empty($_POST["id"])) {
 				$list = $model -> add();
@@ -359,15 +360,15 @@ class MailAction extends CommonAction {
 	//   保存草稿箱
 	//--------------------------------------------------------------------
 	public function save_darft(){
-		$this -> _get_mail_account();
+		$mail_account=$this -> _get_mail_account();
 		$model = D('Mail');
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
 		}
 		$model -> user_id=get_user_id();
 		$model ->folder=3;
-		$model ->from=$this -> _account['mail_name'] . '|' . $this -> _account['email'];
-		$model -> reply_to= $this -> _account['mail_name'] . '|' . $this -> _account['email'];
+		$model ->from=$mail_account['mail_name'] . '|' . $mail_account['email'];
+		$model -> reply_to= $mail_account['mail_name'] . '|' . $mail_account['email'];
 		if (empty($_POST["id"])) {
 			$list = $model -> add();
 		} else {
@@ -440,20 +441,22 @@ class MailAction extends CommonAction {
 	//--------------------------------------------------------------------
 	//   接收邮件
 	//--------------------------------------------------------------------
-	public function receve() {		
-		$this -> _get_mail_account();
-		$user_id = get_user_id();
+	public function receve($user_id=null,$background=false){
+		if(empty($user_id)){
+			$user_id = get_user_id();
+		}
+		$mail_account=$this -> _get_mail_account($user_id);
+
 		$new = 0;
 		session_write_close();
 		import("@.ORG.Util.receve");
 		$mail_list = array();
 		$mail = new receiveMail();
-		
-		$connect = $mail -> connect($this -> _account['pop3svr'], '110', $this -> _account['mail_id'], $this -> _account['mail_pwd'], 'INBOX','pop3/novalidate-cert');
-		dump($connect);
+		$connect = $mail -> connect($mail_account['pop3svr'], '110',$mail_account['mail_id'],$mail_account['mail_pwd'], 'INBOX','pop3/novalidate-cert');
 		$mail_count = $mail -> mail_total_count();
+
 		if ($connect){
-			for ($i = 1; $i <= $mail_count; $i++) {
+			for ($i = 1; $i <= $mail_count; $i++){
 				$mail_id = $mail_count - $i + 1;
 				$item = $mail -> mail_list($mail_id);
 				$where = array();
@@ -466,15 +469,17 @@ class MailAction extends CommonAction {
 				}
 				$count = M('Mail') -> where($where) -> count();
 
-				if ($count == 0){
-					$new++;
+				if ($count == 0){					
 					$model = M("Mail");
 					$model -> create($mail -> mail_header($mail_id));
 					if ($model -> create_time < strtotime(date('y-m-d h:i:s')) - 86400 * 30) {
 						$mail -> close_mail();
-						$this -> _pushReturn($new, "收到" . $new . "封邮件", 1);
-						exit();
+						if($new>0){
+							$this -> _pushReturn($new, "收到" . $new . "封邮件", 1);
+						}						
+						return ;
 					}
+					$new++;
 					$model -> user_id = $user_id;
 					$model -> read = 0;
 					$model -> folder = 1;
@@ -483,18 +488,20 @@ class MailAction extends CommonAction {
 					$model -> add_file = $this -> _receive_file($str, $model);
 					$this -> _organize($model);
 					$model -> add();
-				} else {
-					$mail -> close_mail();
-					if ($new == 0) {
-						$this -> _pushReturn($new, "没有新邮件", 1);
-						exit();
+				} else {		
+					if(!$background){						
+						if ($new == 0) {
+							$this -> _pushReturn($new, "没有新邮件", 1);
+							return ;
+						}
 					}
+					$mail -> close_mail();
 				}
 			}
 		}
 		$mail -> close_mail();
 		$this -> _pushReturn($new, "收到" . $new . "封邮件", 1);
-		exit();
+		return ;
 	}
 
 	//--------------------------------------------------------------------
@@ -512,7 +519,7 @@ class MailAction extends CommonAction {
 					$file_name = $ar2[2];
 					$File = M("File");
 					$File -> name = $file_name;
-					$File -> user_id = get_user_id();
+					$File -> user_id = $model->user_id;
 					$File -> size = filesize($this -> tmpPath . urlencode($value));
 					$File -> extension = getExt($value);
 					$File -> create_time = time();
@@ -536,6 +543,7 @@ class MailAction extends CommonAction {
 					}
 				}
 			}
+			return $add_file;
 		}
 	}
 
@@ -681,8 +689,10 @@ class MailAction extends CommonAction {
 	//--------------------------------------------------------------------
 	//  读取邮箱用户数据
 	//--------------------------------------------------------------------
-	private function _get_mail_account() {
-		$user_id = get_user_id();
+	private function _get_mail_account($user_id){
+		if(empty($user_id)){
+			$user_id=get_user_id();
+		}
 		$model = M('MailAccount');
 		$list = $model -> field('mail_name,email,pop3svr,smtpsvr,mail_id,mail_pwd') -> find($user_id);
 		if (empty($list['mail_name']) || empty($list['email']) || empty($list['pop3svr']) || empty($list['smtpsvr']) || empty($list['mail_id']) || empty($list['mail_pwd'])) {
@@ -691,8 +701,7 @@ class MailAction extends CommonAction {
 			$this -> error("请设置邮箱帐号");
 			die ;
 		} else {
-			$this -> _account = $list;
-			return true;
+			return $list;
 		}
 	}
 

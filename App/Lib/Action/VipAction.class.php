@@ -77,7 +77,6 @@ class VipAction extends CommonAction {
 
 
 	function edit_sales(){
-
 		if($this->isPost()){		
 			$model=M("VipSales");
 			if (false === $model -> create()) {

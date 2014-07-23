@@ -7,7 +7,7 @@
 		window.onbeforeunload=null;
 		editor.sync();
 		if (check_form("form_data")) {
-			sendForm("form_data", "{:U('post/save')}", "__SELF__");
+			sendForm("form_data", "{:U('save_post')}", "__SELF__");
 		}
 	}
 
@@ -25,7 +25,7 @@
 
 	function del_post(id) {
 		ui_confirm('确定要删除吗?',function(){
-			sendAjax("{:U('post/del')}", 'id=' + id, function(data) {
+			sendAjax("{:U('del_post')}", 'id=' + id, function(data) {
 				if (data.status) {
 					ui_alert(data.info,function(){
 						location.reload();
@@ -40,7 +40,7 @@
 	}
 
 	function edit_post(id) {
-		window.open(fix_url("{:U('post/edit')}?id=" + id), "_self");
+		window.open(fix_url("{:U('edit_post')}?id=" + id), "_self");
 	}
 
 

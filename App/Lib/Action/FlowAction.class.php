@@ -305,7 +305,8 @@ class FlowAction extends CommonAction {
 					$this -> error('操作失败!');
 				}
 				break;
-			case 'back' :		
+			case 'back' :	
+	
 				$model = D("FlowLog");
 				if (false === $model -> create()) {
 					$this -> error($model -> getError());
@@ -324,10 +325,7 @@ class FlowAction extends CommonAction {
 				//保存当前数据对象
 				$list = $model -> save();
 
-				$model = D("FlowLog");
-				$model -> where("step=$step and flow_id=$flow_id and result is null") ->delete();
-
-				if ($list !== false) {//保存成功					
+				if ($list!== false) {//保存成功	
 					D("Flow") -> next_step($flow_id,$step,$emp_no);
 					$this -> assign('jumpUrl', get_return_url(1));
 					$this -> success('操作成功!');

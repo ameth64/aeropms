@@ -204,11 +204,13 @@ class FlowModel extends CommonModel {
 
 	public function next_step($flow_id,$step,$emp_no) {
 	
-		if (!empty($emp_no)) {
+		if (!empty($emp_no)){
 			$data['flow_id'] = $flow_id;
 			$data['emp_no'] = $emp_no;	
-			$model = D("FlowLog");		
-			$data['step'] = D("FlowLog")->where("flow_id=$flow_id and emp_no=$emp_no")->getField('step');			
+			$model = D("FlowLog");	
+			$where['flow_id']=$flow_id;
+			$where['emp_no']=$emp_no;
+			$data['step'] = D("FlowLog")->where($where)->getField('step');
 			if(empty($data['step'])){
 				$data['step']=20;
 			}

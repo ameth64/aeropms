@@ -191,7 +191,7 @@
 		for ($i = 0;$i <= count($arr_temp);$i++) {
 			$tmp = str_ireplace('=?GBK?B?', '', $arr_temp[$i]);
 			$tmp = str_ireplace('=?', '', $tmp);
-			$tmp2 = $tmp2 . auto_charset(base64_decode($tmp), 'gb2312', 'utf-8');
+			$tmp2 = $tmp2 . $this->auto_charset(base64_decode($tmp), 'gb2312', 'utf-8');
 		} 
 		return $tmp2 ;
 	}
@@ -200,7 +200,7 @@
 		for ($i = 0;$i <= count($arr_temp);$i++) {
 			$tmp = str_ireplace('=?GBK?B?', '', $arr_temp[$i]);
 			$tmp = str_ireplace('=?', '', $tmp);
-			$tmp2 = $tmp2 . auto_charset(base64_decode($tmp), 'gb2312', 'utf-8');
+			$tmp2 = $tmp2 . $this->auto_charset(base64_decode($tmp), 'gb2312', 'utf-8');
 		} 
 		return $tmp2 ;
 	}
@@ -229,7 +229,7 @@
 		for ($i = 0;$i <= count($arr_temp);$i++) {
 			$tmp = str_ireplace('=?gb2312?B?', '', $arr_temp[$i]);
 			$tmp = str_ireplace('=?', '', $tmp);
-			$tmp2 = $tmp2 . auto_charset(base64_decode($tmp), 'gb2312', 'utf-8');
+			$tmp2 = $tmp2 . $this->auto_charset(base64_decode($tmp), 'gb2312', 'utf-8');
 		}
 		return $tmp2 ;
 	}
@@ -239,7 +239,7 @@
 			$tmp = str_ireplace('=?gb2312?Q?', '', $arr_temp[$i]);
 			$tmp = str_ireplace('=?', '', $tmp);
 			$tmp = str_ireplace('?', '', $tmp);
-			$tmp2 = $tmp2 . auto_charset(quoted_printable_decode($tmp),'gb2312','utf-8');
+			$tmp2 = $tmp2 . $this->auto_charset(quoted_printable_decode($tmp),'gb2312','utf-8');
 		}
 		return $tmp2 ;
 	}
@@ -259,7 +259,7 @@
 			$tmp = str_ireplace('=?gb18030?Q?', '', $arr_temp[$i]);
 			$tmp = str_ireplace('=?', '', $tmp);
 			$tmp = str_ireplace('?', '', $tmp);
-			$tmp2 = $tmp2 . auto_charset(quoted_printable_decode($tmp),'gb2312','utf-8');
+			$tmp2 = $tmp2 . $this->auto_charset(quoted_printable_decode($tmp),'gb2312','utf-8');
 		}
 		return $tmp2 ;
 	}
@@ -288,8 +288,8 @@ function auto_charset($fContents,$from,$to){
     }
     elseif(is_array($fContents)){
         foreach ( $fContents as $key => $val ) {
-            $_key =     auto_charset($key,$from,$to);
-            $fContents[$_key] = auto_charset($val,$from,$to);
+            $_key =     $this->auto_charset($key,$from,$to);
+            $fContents[$_key] = $this->auto_charset($val,$from,$to);
             if($key != $_key )
                 unset($fContents[$key]);
         }

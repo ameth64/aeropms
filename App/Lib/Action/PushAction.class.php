@@ -13,30 +13,29 @@
 
 class PushAction extends CommonAction {
 	protected $config=array('app_type'=>'asst');
-	//过滤查询字段
-	function server() {
-		for ($i = 0, $timeout = 5; $i < $timeout; $i++) {
-			if (connection_status() != 0) {
-				exit();
-			}
+
+	function server(){
+		while (true) {
 			$where = array();
 			$user_id = $user_id = get_user_id();
 			session_write_close();
 			$where['user_id'] = $user_id;
 			$where['time'] = array('elt', time() - 1);
+
 			$model = M("Push");
 			$data = $model -> where($where) -> find();
 			$where['id'] = $data['id'];
-			//dump($model);
+
 			if ($data){
-				sleep(1);
-				$model -> where("id=" . $data['id']) -> delete();
-				$this -> ajaxReturn($data['data'], $data['info'], $data['status']);
+				$model -> delete($data['id']);
+				echo json_encode($data);
+				flush();
+				die;
 			} else {
-				sleep(5);
+				usleep(500000); // sleep 10ms to unload the CPU
+				clearstatcache();
 			}
 		}
-		$this -> ajaxReturn(null, "no-data", 0);
 	}
 
 	//获取当前状态

@@ -33,13 +33,10 @@ class UserConfigAction extends CommonAction {
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
 		}
-		if (in_array('id', $model -> getDbFields())) {
-			$model -> id = get_user_id();
-		};
-		if (in_array('user_name', $model -> getDbFields())) {
-			$model -> user_name = get_user_name();
-		};
-		
+
+		$model->push_web=implode(",",$model->push_web);
+		$model->push_wechat=implode(",",$model->push_wechat);
+
 		//保存当前数据对象
 		$list = $model -> add();
 		if ($list !== false) {//保存成功		
@@ -57,9 +54,10 @@ class UserConfigAction extends CommonAction {
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
 		}
-		if (in_array('id', $model -> getDbFields())) {
-			$model -> id = get_user_id();
-		};
+		$model->push_web=implode(",",$model->push_web);
+		$model->push_wechat=implode(",",$model->push_wechat);
+
+		$model -> id = get_user_id();
 		// 更新数据
 		$list = $model -> save();
 		if (false !== $list) {
