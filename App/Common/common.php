@@ -11,6 +11,13 @@
  Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
 
+function is_weixin(){
+	if ( strpos($_SERVER['HTTP_USER_AGENT'], ‘MicroMessenger’) !== false ) {
+		return true;
+	}
+	return false;
+}
+
 function get_new_count(){
 	
 	$emp_no = get_emp_no();

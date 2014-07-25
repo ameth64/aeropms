@@ -41,7 +41,7 @@
 							<span class="col-6 text-center"  >{$vo.is_del|status}&nbsp;</span>						
 							<span class="col-6 text-center"><a class=" " href="{:U('field','type_id='.$vo['id'])}">字段管理</a></span>	
 						</div >
-						<span class="autocut auto"><a href="{:U('edit?id='.$vo['id'])}">{$vo.name}&nbsp;</a></span>
+						<span class="autocut auto"><a href="{:U('edit','id='.$vo['id'])}">{$vo.name}&nbsp;</a></span>
 					</li>
 				</foreach>
 			</form>

@@ -3,7 +3,7 @@
 		var vars = $("#form_data").serialize();
 		switch (action) {
 			case "readed":
-				sendAjax("{:U('mark?action=readed')}", vars, function(data) {
+				sendAjax("{:U('mark','action=readed')}", vars, function(data) {
 					if (data.status){
 						$("input[name='id[]']:checked").each(function() {
 							$(this).parents("li").removeClass("bold");
@@ -15,7 +15,7 @@
 				});
 				break;
 			case "unread":
-				sendAjax("{:U('mark?action=unread')}", vars, function(data) {
+				sendAjax("{:U('mark','action=unread')}", vars, function(data) {
 					if (data.status) {
 						$("input[name='id[]']:checked").each(function() {
 							$(this).parents("li").removeClass("normal");
@@ -27,7 +27,7 @@
 				});
 				break;
 			case "del":
-				sendAjax("{:U('mark?action=del')}", vars, function(data) {
+				sendAjax("{:U('mark','action=del')}", vars, function(data) {
 					if (data.status) {
 						ui_alert(data.info,function(){
 							location.reload();
@@ -37,7 +37,7 @@
 				break;
 			case "del_forever":
 				ui_confirm('确定要删除吗?',function(){
-					sendAjax("{:U('mark?action=del_forever')}", vars, function(data) {
+					sendAjax("{:U('mark','action=del_forever')}", vars, function(data) {
 						if (data.status) {
 							ui_alert(data.info,function(){
 								location.reload();
@@ -47,7 +47,7 @@
 				})
 				break;
 			case "spam":
-				sendAjax("{:U('mark?action=spam')}", vars, function(data) {
+				sendAjax("{:U('mark','action=spam')}", vars, function(data) {
 					if (data.status) {
 						ui_alert(data.info,function(){
 							location.reload();
@@ -74,7 +74,7 @@
 
 	function move_to(val) {
 		var vars = $("#form_data").serialize();
-		sendAjax("{:U('mark?action=move_folder')}", 'val=' + val + '&' + vars);
+		sendAjax("{:U('mark','action=move_folder')}", 'val=' + val + '&' + vars);
 		$("input[name='id[]']:checkbox:checked").each(function() {
 			$(this).parents("li").hide();
 		})

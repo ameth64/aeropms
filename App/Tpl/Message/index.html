@@ -91,23 +91,23 @@
 							<div class="row">
 								<div class="text-left col-sm-9 col-xs-12">
 									<eq name="vo.sender_id" value="$owner_id">
-										<a href="{:U('read?reply_id='.$vo['receiver_id'])}">{$vo.content}</a>
+										<a href="{:U('read','reply_id='.$vo['receiver_id'])}">{$vo.content}</a>
 									</eq>
 									<eq name="vo.receiver_id" value="$owner_id">
 										<eq name="vo.is_read" value="0"><b></eq>
-										<a href="{:U('read?reply_id='.$vo['sender_id'])}">{$vo.content}</a>
+										<a href="{:U('read','reply_id='.$vo['sender_id'])}">{$vo.content}</a>
 										<eq name="vo.is_read" value="0"></b></eq>
 									</eq>
 									<span class="badge">{$vo.count}</span>
 								</div>
 								<div class="text-right pull-right col-sm-3 col-xs-12">
 									<eq name="vo.sender_id" value="$user_id">
-										<a class="btn-sm btn-primary" href="{:U('read?reply_id='.$vo['receiver_id'])}"><i class="fa fa-only fa-share-alt"></i>回复</a>
+										<a class="btn-sm btn-primary" href="{:U('read','reply_id='.$vo['receiver_id'])}"><i class="fa fa-only fa-share-alt"></i>回复</a>
 										<a class="btn-sm btn-danger" href="#" onclick="del_dialogue({$vo.receiver_id})">
 										<i class="fa fa-only fa-remove" ></i>删除</a>
 									</eq>
 									<eq name="vo.receiver_id" value="$user_id">
-										<a class="btn-sm btn-primary" href="{:U('read?reply_id='.$vo['sender_id'])}"><i class="fa fa-only fa-share-alt"></i>回复</a>
+										<a class="btn-sm btn-primary" href="{:U('read','reply_id='.$vo['sender_id'])}"><i class="fa fa-only fa-share-alt"></i>回复</a>
 										<a class="btn-sm btn-danger" href="#" onclick="del_dialogue({$vo.sender_id})">
 										<i class="fa fa-only fa-remove" ></i>删除</a>
 									</eq>									

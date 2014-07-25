@@ -69,7 +69,7 @@
 					<span class="col-9 pull-right text-center"> {$vo.create_time|toDate='Y-m-d'} </span>
 					<span class="col-6 right text-center"> {$vo.user_name} </span>
 					<div class="auto">
-						<a href="{:U('read?id='.$vo['id'])}" >{$vo.name}
+						<a href="{:U('read','id='.$vo['id'])}" >{$vo.name}
 						<eq name="vo.name|strlen" value="0">
 							无标题
 						</eq></a>

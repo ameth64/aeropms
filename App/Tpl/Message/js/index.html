@@ -1,7 +1,7 @@
 <script type="text/javascript">
 	function del_all(){
 		ui_confirm('确定要删除全部消息吗?',function(){
-			sendAjax("{:U('del?type=all')}",'', function(data) {
+			sendAjax("{:U('del','type=all')}",'', function(data) {
 				if (data.status) {
 					ui_alert(data.info,function(){
 						location.reload();
@@ -13,7 +13,7 @@
 
 	function del_dialogue($reply_id){
 		ui_confirm('确定要删除吗?',function(){
-			sendAjax("{:U('del?type=dialogue')}",'reply_id='+$reply_id, function(data) {
+			sendAjax("{:U('del','type=dialogue')}",'reply_id='+$reply_id, function(data) {
 				if (data.status){
 					ui_alert(data.info,function(){
 						location.reload();
@@ -24,12 +24,12 @@
 	}	
 
 	function add() {
-		window.open("{:U('add?fid='.$folder)}", "_self");
+		window.open("{:U('add','fid='.$folder)}", "_self");
 	}
 
 	function move_to(val) {
 		var vars = $("#form_data").serialize();
-		sendAjax("{:U('mark?action=move_folder')}", "val=" + val + "&" + vars);
+		sendAjax("{:U('mark','action=move_folder')}", "val=" + val + "&" + vars);
 		location.reload();
 	}
 

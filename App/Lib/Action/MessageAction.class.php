@@ -137,6 +137,10 @@ class MessageAction extends CommonAction {
 		}
 	}
 
+	function upload(){
+		$this->_upload();
+	}
+
 	public function del() {
 		$type=$_REQUEST['type'];
 		$where['owner_id'] = array("eq",get_user_id());

@@ -101,7 +101,7 @@
 								<label class="inline pull-left col-3">
 									<input class="ace" type="checkbox" name="id[]" value="{$vo.id}"/>
 									<span class="lbl"></span></label>
-								<a href="{:U('edit?id='.$vo['id'])}" class="data wrap"> {$vo.name}&nbsp;
+								<a href="{:U('edit','id='.$vo['id'])}" class="data wrap"> {$vo.name}&nbsp;
 								<notempty name="vo.dept">
 									/ {$vo.dept}&nbsp;
 								</notempty>

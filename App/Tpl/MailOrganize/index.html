@@ -25,7 +25,7 @@
 				<foreach name="list" item="vo">
 					<li class="tbody">
 						<span class="pull-right col-12 text-center">
-							<a  href="{:U('edit?id='.$vo['id'])}">修改</a>&nbsp;
+							<a  href="{:U('edit','id='.$vo['id'])}">修改</a>&nbsp;
 							<a  onclick="del({$vo.id});return false;">删除</a></span>
 						<span class="pull-right col-3 text-center">{$vo.is_del|status} </span>
 						<span class="auto"> 如果：

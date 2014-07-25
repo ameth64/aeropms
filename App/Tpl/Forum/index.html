@@ -29,7 +29,7 @@
 						<span class="col-9  text-center"> {$today_count[$vo['id']]['today_count']|default=0}</span>
 					</div>
 					<div class="auto">
-						<a href="{:U('folder?fid='.$vo['id'])}" >{$vo.name}
+						<a href="{:U('folder','fid='.$vo['id'])}" >{$vo.name}
 						<eq name="vo.name|strlen" value="0">
 							无标题
 						</eq></a>

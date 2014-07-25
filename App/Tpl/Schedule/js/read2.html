@@ -1,7 +1,7 @@
 <script type="text/javascript">
 	// 加载编辑器
 	function edit() {
-		parent.window.location.href = "{:U('edit?id='.$vo['id'])}";
+		parent.window.location.href = "{:U('edit','id='.$vo['id'])}";
 		myclose();
 	}
 
@@ -9,7 +9,7 @@
 		<empty	name = "next" >
 			 alert('没有下一个');
 		<else/>
-			window.location.href = "{:U('read?id='.$next.'&list='.$list)}";
+			window.location.href = "{:U('read','id='.$next.'&list='.$list)}";
 		</empty>
 	}
 
@@ -17,7 +17,7 @@
 		<empty name = "prev" >
 			alert('没有上一个');
 		<else />
-		window.location.href = "{:U('read?id='.$prev.'&list='.$list)}";
+		window.location.href = "{:U('read','id='.$prev.'&list='.$list)}";
 		</empty>
 	}
 

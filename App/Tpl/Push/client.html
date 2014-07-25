@@ -70,8 +70,19 @@ Comet.prototype = {
     });
   }
 }
+function is_weixn(){
+	var ua = navigator.userAgent.toLowerCase();
+	if(ua.match(/MicroMessenger/i)=="micromessenger") {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 var comet = new Comet();
-comet.connect();
+	if(!is_weixn()){
+		comet.connect();
+	}
 </script>
 
 </body>

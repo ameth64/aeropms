@@ -8,7 +8,7 @@
 						<div class="data">
 							<span class="del text-center"><a class="link del">删除</a> </span>
 							<span class="size" >{$file.size|reunit}</span>
-							<span class="auto autocut" title="{$file.name}"> <a target="_blank" href="{:U('down?attach_id='.f_encode($file['id']))}">{$file.name}</a>
+							<span class="auto autocut" title="{$file.name}"> <a target="_blank" href="{:U('down','attach_id='.f_encode($file['id']))}">{$file.name}</a>
 								</span>
 						</div>
 					</li>

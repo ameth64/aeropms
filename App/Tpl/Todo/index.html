@@ -31,7 +31,7 @@
 						<span class="col-3 pull-right text-center"> <a title="调高优先级" class="up"><i class="fa fa-arrow-up"></i></a> </span>
 						<span class="col-10 pull-right text-center"> <a class="status">{$vo.status|todo_status}</a> </span>
 						<span class="col-9 pull-right text-center">{$vo.end_date}</span>
-						<span class="auto"> <a href="{:U('edit?id='.$vo['id'])}">{$vo.name}</a> </span>
+						<span class="auto"> <a href="{:U('edit','id='.$vo['id'])}">{$vo.name}</a> </span>
 					</li>
 				</foreach>
 			</ul>
@@ -55,7 +55,7 @@
 						<span class="col-3 pull-right text-center"> <a title="高" class="up"><i class="fa fa-arrow-up"></i></a> </span>
 						<span class="col-10 pull-right text-center"><a class="status">{$vo.status|todo_status}</a> </span>
 						<span class="col-9 pull-right text-center">{$vo.end_date}</span>
-						<span class="auto"> <a href="{:U('edit?id='.$vo['id'])}">{$vo.name}</a> </span>
+						<span class="auto"> <a href="{:U('edit','id='.$vo['id'])}">{$vo.name}</a> </span>
 					</li>
 				</foreach>
 			</ul>

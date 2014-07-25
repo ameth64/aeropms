@@ -38,7 +38,7 @@
 		$(".sub_left_menu .tree_menu  a").click(function() {
 			$(".sub_left_menu .tree_menu  a").removeClass("active");
 			$(this).addClass("active");
-				sendAjax("{:U('flow_type/get_field')}", "id=" + $(this).attr("node"), function(data) {
+				sendAjax("{:U('flow_type/get_field')}","id=" + $(this).attr("node"), function(data) {
 				showdata(data);
 			});
 			return false;

@@ -12,7 +12,7 @@
 		switch(action) {
 			case "del":
 				ui_confirm('确定要删除吗?',function(){
-					sendAjax("{:U('mark?action=del')}", vars, function(data) {
+					sendAjax("{:U('mark','action=del')}", vars, function(data) {
 						if (data.status) {
 							ui_alert(data.info,function(){
 								location.reload();

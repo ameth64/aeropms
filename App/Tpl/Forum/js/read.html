@@ -1,6 +1,6 @@
 <script type="text/javascript">
 	function add() {
-		window.open("{:U('add?tid='.$vo['id'])}", "_self");
+		window.open("{:U('add','tid='.$vo['id'])}", "_self");
 	}
 
 	function reply() {
@@ -13,7 +13,7 @@
 
 	function del() {
 		ui_confirm('确定要删除吗?',function(){
-			sendAjax("{:U('mark?action=del')}", 'id=' + $("#tid").val(), function(data) {
+			sendAjax("{:U('mark','action=del')}", 'id=' + $("#tid").val(), function(data) {
 				if (data.status) {
 					ui_alert(data.info,function(){
 						go_return_url();

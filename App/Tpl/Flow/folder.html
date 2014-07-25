@@ -85,9 +85,9 @@
 						</div>
 						<div class="autocut auto">
 							<in name="folder" value="darft">
-								<a href="{:U('edit?id='.$vo['id'])}">{$vo.name}
+								<a href="{:U('edit','id='.$vo['id'])}">{$vo.name}
 								<else/>
-								<a href="{:U('read?id='.$vo['id'])}">{$vo.name}
+								<a href="{:U('read','id='.$vo['id'])}">{$vo.name}
 							</in>
 							<eq name="vo.name|strlen" value="0">
 								无标题

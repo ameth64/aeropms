@@ -71,7 +71,7 @@
 								<span class="col-9  text-center">{$vo.status_name}</span>
 								<span class="col-9  text-center">{$vo.update_time|toDate='Y-m-d'}</span>
 							</div>
-						<span class="auto autocut"> <a href="{:U('read?id='.$vo['id'])}">{$vo.name}
+						<span class="auto autocut"> <a href="{:U('read','id='.$vo['id'])}">{$vo.name}
 							<eq name="vo.name|strlen" value="0">
 								无标题
 							</eq> </a> </span>

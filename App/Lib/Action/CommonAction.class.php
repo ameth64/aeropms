@@ -13,10 +13,13 @@
 
 class CommonAction extends Action {
 
-	function _initialize() {		
-		$code=$_REQUEST["code"];
-		if(!empty($code)){
-			$this->_welogin($code);
+	function _initialize(){	
+		$is_weixin=is_weixin();
+		if($is_weixin){
+			$code=$_REQUEST["code"];
+			if(!empty($code)){
+				$this->_welogin($code);
+			}
 		}
 		$auth_id = session(C('USER_AUTH_KEY'));
 		if (!isset($auth_id)) {

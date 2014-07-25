@@ -1,18 +1,18 @@
 <script type="text/javascript">
 	function edit() {
-		parent.window.location.href = '{:U("edit?id=".$vo["id"])}';
+		parent.window.location.href = '{:U("edit','id=".$vo["id"])}';
 		myclose();
 	}
 
 	function del() {
-		parent.window.location.href = '{:U("del?id=".$vo["id"])}';
+		parent.window.location.href = '{:U("del','id=".$vo["id"])}';
 		myclose();
 	}
 
 	function next() {
 		<empty name = "next" > alert('没有下一个');
 		<else/>
-		window.location.href = "{:U('read?id='.$next.'&list='.$list)}";
+		window.location.href = "{:U('read','id='.$next.'&list='.$list)}";
 		</empty>
 	}
 

@@ -60,7 +60,7 @@
 				default:
 					var search = $(this).parents(".inputbox").find("div.search ul");
 					if ($(this).val().length > 1) {
-						$.getJSON("{:U('popup/json?type=all')}", {
+						$.getJSON("{:U('popup/json','type=all')}", {
 							key : $(this).val()
 						}, function(json) {
 							if (json != "") {

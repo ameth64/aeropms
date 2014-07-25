@@ -126,12 +126,12 @@
 								<i class="fa fa-paperclip" style="text-indent:-9999px;"></i>
 							</notempty>
 							<in name="folder" value="darftbox">
-								<a  title="{$vo.name|htmlspecialchars}" href="{:U('edit?id='.$vo['id'])}"> {$vo.name}&nbsp;&nbsp;&nbsp;
+								<a  title="{$vo.name|htmlspecialchars}" href="{:U('edit','id='.$vo['id'])}"> {$vo.name}&nbsp;&nbsp;&nbsp;
 								<eq name="vo.name|strlen" value="0">
 									无标题
 								</eq></a>
 								<else/>
-								<a title="{$vo.name|htmlspecialchars}" href="{:U('read?id='.$vo['id'])}"> {$vo.name}&nbsp;&nbsp;&nbsp;
+								<a title="{$vo.name|htmlspecialchars}" href="{:U('read','id='.$vo['id'])}"> {$vo.name}&nbsp;&nbsp;&nbsp;
 								<eq name="vo.name|strlen" value="0">
 									无标题
 								</eq> </a>

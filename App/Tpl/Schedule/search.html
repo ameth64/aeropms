@@ -69,7 +69,7 @@
 							<span class="col-9 pull-right text-center">{$vo.start_date}</span>
 							<span class="col-18 pull-right text-center">{$vo.location}&nbsp;</span>
 							<div class="auto autocut">
-								<a href="{:U('read2?id='.$vo['id'])}"> {$vo.name}
+								<a href="{:U('read','?id='.$vo['id'])}"> {$vo.name}
 								<eq name="vo.name|strlen" value="0">
 									无标题
 								</eq> </a>

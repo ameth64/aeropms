@@ -85,7 +85,7 @@
 					</nobr>
 					<nobr class="pull-right">
 						<eq name="vo.user_id" value="$user_id">
-							<a href="{:U('edit?id='.$vo['id'])}">修改</a>
+							<a href="{:U('edit','id='.$vo['id'])}">修改</a>
 						</eq>						
 					</nobr>
 				</div>
@@ -107,6 +107,7 @@
 				</div>
 			</div>
 		</div>
+		{:W('File',array('add_file'=>$vo['add_file'],'mode'=>'show'))}
 		<div class="space-12"></div>
 	</foreach>
 </empty>
