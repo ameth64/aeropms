@@ -15,16 +15,14 @@ class PushAction extends CommonAction {
 	protected $config=array('app_type'=>'asst');
 
 	function server(){
-		while (true) {
+		session_write_close();
+		while (true){
 			$where = array();
-			$user_id = $user_id = get_user_id();
-			session_write_close();
+			$user_id = $user_id = get_user_id();			
 			$where['user_id'] = $user_id;
 			$where['time'] = array('elt', time() - 1);
-
 			$model = M("Push");
 			$data = $model -> where($where) -> find();
-			$where['id'] = $data['id'];
 
 			if ($data){
 				$model -> delete($data['id']);
@@ -32,7 +30,7 @@ class PushAction extends CommonAction {
 				flush();
 				die;
 			} else {
-				usleep(500000); // sleep 10ms to unload the CPU
+				usleep(500); // sleep 10ms to unload the CPU
 				clearstatcache();
 			}
 		}

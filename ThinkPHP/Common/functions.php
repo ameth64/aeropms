@@ -245,9 +245,10 @@ function U($url='',$vars='',$suffix=true,$redirect=false,$domain=false) {
 
     if(C('URL_MODEL') == 0) { // 普通模式URL转换
         $url        =   __APP__.'?'.http_build_query(array_reverse($var));
-        if(!empty($vars)) {
+        if(!empty($vars)){
             $vars   =   urldecode(http_build_query($vars));
             $url   .=   '&'.$vars;
+			$url=str_replace("&amp;","&",$url);
         }
     }else{ // PATHINFO模式或者兼容URL模式
         if(isset($route)) {
@@ -279,6 +280,7 @@ function U($url='',$vars='',$suffix=true,$redirect=false,$domain=false) {
     if($redirect) // 直接跳转URL
         redirect($url);
     else
+		$url=str_replace("&amp;","&",$url);
         return $url;
 }
 
@@ -290,6 +292,7 @@ function U($url='',$vars='',$suffix=true,$redirect=false,$domain=false) {
  * @param string $path Widget所在路径
  * @return void
  */
+
 function W($name, $data=array(), $return=false,$path='') {
     $class      =   $name . 'Widget';
     $path       =   empty($path) ? BASE_LIB_PATH : $path;

@@ -8,7 +8,7 @@
 	}
 
 	function back_to(emp_no) {
-		sendForm("form_confirm", "fix_url({:U('mark','action=back')}?emp_no=" + emp_no), "{:U('read','id='.$vo['id'])}");
+		sendForm("form_confirm", fix_url("{:U('mark','action=back')}?emp_no=" + emp_no), "{:U('read','id='.$vo['id'])}");
 	}
 
 	function save() {

@@ -70,7 +70,7 @@ class PushManagerAction extends CommonAction {
 					if(empty($flag)){
 						$this->_global("TEST","2");
 						exit();
-					}					
+					}
 					R("Mail/receve",array($account['id'],true));	
 					$this->_global("receve_mail_timemap",time());
 					sleep(1);	
@@ -94,13 +94,13 @@ class PushManagerAction extends CommonAction {
 		$timemap=$this->_global("send_wechat_timemap");
 		$diff=time()-$timemap;	
 
-		if($diff>2){
+		if($diff>3){
 			while(true){
 				$flag=$this->_global("send_wechat_running");
 				if(empty($flag)){
 					exit();
 				}
-				usleep(500);	
+				sleep(1);	
 				$this->_global("send_wechat_timemap",time());
 				
 				$where=array();
@@ -120,6 +120,36 @@ class PushManagerAction extends CommonAction {
 			dump("Y1");
 		}
 	}
+
+	function receve_mail(){
+		session_write_close();
+		ignore_user_abort(true);
+		set_time_limit(0);
+		$where['is_del']=array('eq',0);
+		$mail_account_list=D("MailAccountView")->where($where)->select();
+		foreach($mail_account_list as $account){
+			R("Mail/receve",array($account['id'],true));	
+			usleep(500);	
+		}
+		$this -> ajaxReturn(null, "finish",1);
+	}
+
+	function send_wechat(){
+		session_write_close();
+		ignore_user_abort(true);
+		set_time_limit(0);
+
+		$where['westatus']=array('eq',1);
+		$push_list = D("PushView") -> where($where) ->select();
+
+		$where['id'] = $data['id'];	
+		if ($data){
+			M("Push")-> delete($data['id']);
+			//$this->wechat_test($test);		
+			$this->send_wechat($data['info'],$data['openid']);						
+		}
+	}
+
 
 	private function send_wechat($content, $openid = '', $type = 'text') {
 		import ( "@.ORG.Util.ThinkWechat" );
