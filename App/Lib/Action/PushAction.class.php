@@ -28,9 +28,10 @@ class PushAction extends CommonAction {
 				$model -> delete($data['id']);
 				echo json_encode($data);
 				flush();
+				sleep(1)
 				die;
 			} else {
-				usleep(500); // sleep 10ms to unload the CPU
+				sleep(1); // sleep 10ms to unload the CPU
 				clearstatcache();
 			}
 		}
