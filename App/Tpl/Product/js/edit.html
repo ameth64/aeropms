@@ -13,11 +13,6 @@
 
 
 	$(document).ready(function() {
-		$("#confirm span").on("dblclick", function() {
-			$("#confirm span").last().find("b").remove();
-		});
-		$("#consult span").on("dblclick", function() {
-			$("#consult span").last().find("b").remove();
-		});
+		set_val('size',"{$vo.size}");
 	}); 
 </script>

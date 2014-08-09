@@ -32,6 +32,65 @@
 			<input class="form-control" type="text" id="name" name="name" check="require" msg="请输入标题">
 		</div>
 	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label" for="size">产品尺寸：</label>
+		<div class="col-sm-10">
+		<div class="checkbox col-sm-2">
+				<label>
+					<input name="size[]" class="ace size" type="checkbox" value="XXL">
+					<span class="lbl"> XXL</span>
+				</label>
+			</div>
+			<div class="checkbox col-sm-2">
+				<label>
+					<input name="size[]" class="ace size" type="checkbox"  value="XL">
+					<span class="lbl"> XL</span>
+				</label>
+			</div>
+			<div class="checkbox col-sm-2">
+				<label>
+					<input name="size[]" class="ace size" type="checkbox"  value="L">
+					<span class="lbl"> L</span>
+				</label>
+			</div>
+			<div class="checkbox col-sm-2">
+				<label>
+					<input name="size[]" class="ace size" type="checkbox"  value="M">
+					<span class="lbl"> M</span>
+				</label>
+			</div>
+			<div class="checkbox col-sm-2">
+				<label>
+					<input name="size[]" class="ace size" type="checkbox" value="XS">
+					<span class="lbl"> XS</span>
+				</label>
+			</div>
+			<div class="checkbox col-sm-2">
+				<label>
+					<input name="size[]" class="ace size" type="checkbox"  value="S">
+					<span class="lbl"> S</span>
+				</label>
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label" for="color">产品颜色：</label>
+		<div class="col-sm-10">
+			<input class="form-control" type="text" id="color" name="color" >
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label" for="material">产品面料：</label>
+		<div class="col-sm-10">
+			<input class="form-control" type="text" id="material" name="material" >
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label" for="price">产品价格：</label>
+		<div class="col-sm-10">
+			<input class="form-control" type="text" id="price" name="price" check="require" msg="请输入标题">
+		</div>
+	</div>
 
 	<volist name="field_list" id="vo">
 		{:W('FlowField',$vo)}

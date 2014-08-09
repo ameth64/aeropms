@@ -94,7 +94,7 @@ class ProductAction extends CommonAction {
 		if (false === $model -> create()) {
 			$this -> error($model -> getError());
 		}
- 
+		 $model->size=implode(",",$model->size);
 		/*保存当前数据对象 */
 		$list = $model -> add();
 	
@@ -150,6 +150,7 @@ class ProductAction extends CommonAction {
 			$this -> error($model -> getError());
 		}
 		$product_id=$model->id;
+		 $model->size=implode(",",$model->size);
 		$list = $model -> save();
 
 		$model_product_filed=D("ProductField")->set_field($product_id);

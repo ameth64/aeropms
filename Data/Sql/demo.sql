@@ -1,13 +1,11 @@
-﻿# Host: localhost  (Version: 5.1.41)
-# Date: 2014-07-17 19:04:23
+﻿# Host: localhost  (Version: 5.5.16)
+# Date: 2014-08-09 15:50:27
 # Generator: MySQL-Front 5.3  (Build 1.27)
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='UTC' */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE */;
 /*!40101 SET SQL_MODE='' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES */;
@@ -80,7 +78,7 @@ CREATE TABLE `think_customer` (
 #
 
 /*!40000 ALTER TABLE `think_customer` DISABLE KEYS */;
-INSERT INTO `think_customer` VALUES (29,'名称','MC','之间','教程','路线','已经','不敢','手机','重装','因为','聊天','定制',1,'杀杀杀杀杀杀杀杀杀',0,'是'),(30,'名称','MC','是','搜索','是','是','是','','','','','',0,'',0,'是');
+INSERT INTO `think_customer` VALUES (29,'名称','MC','之间','教程','路线','已经','不敢','手机','重装','因为','聊天','定制',1,'杀杀杀杀杀杀杀杀杀',1,'是'),(30,'名称','MC','是','搜索','是','是','是','','','','','',0,'',0,'是');
 /*!40000 ALTER TABLE `think_customer` ENABLE KEYS */;
 
 #
@@ -200,7 +198,7 @@ CREATE TABLE `think_file` (
   `is_del` tinyint(3) NOT NULL DEFAULT '0' COMMENT '删除标记',
   PRIMARY KEY (`id`),
   KEY `sid` (`sid`,`module`)
-) ENGINE=MyISAM AUTO_INCREMENT=1598 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1658 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_file"
@@ -313,14 +311,14 @@ CREATE TABLE `think_flow_log` (
   `comment` text COMMENT '意见',
   `is_read` tinyint(3) NOT NULL DEFAULT '0' COMMENT '已读',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=296 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=297 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_flow_log"
 #
 
 /*!40000 ALTER TABLE `think_flow_log` DISABLE KEYS */;
-INSERT INTO `think_flow_log` VALUES (264,190,'dgp_16_2',NULL,'',21,NULL,1401639033,0,NULL,0),(265,191,'3002',NULL,'',21,NULL,1401639204,0,NULL,0),(266,192,'dgp_16_2',1,'管理员',21,NULL,1401760167,0,NULL,0),(267,193,'dgp_16_2',1,'管理员',21,NULL,1401761206,0,NULL,0),(268,194,'3001',1,'管理员',21,NULL,1401775094,0,NULL,0),(269,195,'dgp_16_2',1,'管理员',21,NULL,1401777440,0,NULL,0),(270,197,'1003',1,'管理员',21,NULL,1401795852,0,NULL,0),(271,198,'1003',48,'副总1003',21,1,1401795937,1401797607,'',0),(272,199,'dgp_16_2',1,'管理员',21,NULL,1401800059,0,NULL,0),(273,200,'2001',1,'管理员',21,NULL,1401800157,0,NULL,0),(274,201,'dept_21',1,'管理员',21,NULL,1401800493,0,NULL,0),(275,202,'dept_5',1,'管理员',21,NULL,1401800888,0,NULL,0),(276,203,'dgp_16_2',1,'管理员',21,NULL,1401806158,0,NULL,0),(277,204,'admin',NULL,'',100,1,1401847174,0,NULL,0),(278,206,'dgp_16_2',1,'管理员',21,NULL,1401854011,0,NULL,0),(279,208,'dgp_16_2',1,'管理员',21,NULL,1401855082,0,NULL,0),(280,209,'3001',1,'管理员',21,NULL,1401896456,0,NULL,0),(281,210,'dgp_16_2',1,'管理员',21,NULL,1401898302,0,NULL,0),(282,211,'dgp_9_2',1,'管理员',21,NULL,1401922421,0,NULL,0),(283,212,'dgp_16_2',1,'管理员',21,NULL,1401938666,0,NULL,0),(284,213,'dgp_16_2',1,'管理员',21,NULL,1401950879,0,NULL,0),(286,216,'1003',48,'副总1003',21,NULL,1401957957,1401958109,'不行，需要修改。。。',0),(289,217,'dgp_16_2',1,'管理员',21,NULL,1402444975,0,NULL,0),(290,218,'dgp_16_2',1,'管理员',21,NULL,1403944685,0,NULL,0),(291,220,'admin',41,'总监2002',21,NULL,1404047171,0,NULL,0),(292,221,'3002',41,'总监2002',31,NULL,1404220132,0,NULL,0),(293,221,'5003',41,'总监2002',31,NULL,1404220132,0,NULL,0),(294,221,'5004',41,'总监2002',31,NULL,1404220132,0,NULL,0),(295,222,'3003',60,'员工5005',21,NULL,1404220193,0,NULL,0);
+INSERT INTO `think_flow_log` VALUES (264,190,'dgp_16_2',NULL,'',21,NULL,1401639033,0,NULL,0),(265,191,'3002',NULL,'',21,NULL,1401639204,0,NULL,0),(266,192,'dgp_16_2',1,'管理员',21,NULL,1401760167,0,NULL,0),(267,193,'dgp_16_2',1,'管理员',21,NULL,1401761206,0,NULL,0),(268,194,'3001',1,'管理员',21,NULL,1401775094,0,NULL,0),(269,195,'dgp_16_2',1,'管理员',21,NULL,1401777440,0,NULL,0),(270,197,'1003',1,'管理员',21,NULL,1401795852,0,NULL,0),(271,198,'1003',48,'副总1003',21,1,1401795937,1401797607,'',0),(272,199,'dgp_16_2',1,'管理员',21,NULL,1401800059,0,NULL,0),(273,200,'2001',1,'管理员',21,NULL,1401800157,0,NULL,0),(274,201,'dept_21',1,'管理员',21,NULL,1401800493,0,NULL,0),(275,202,'dept_5',1,'管理员',21,NULL,1401800888,0,NULL,0),(276,203,'dgp_16_2',1,'管理员',21,NULL,1401806158,0,NULL,0),(277,204,'admin',NULL,'',100,1,1401847174,0,NULL,0),(278,206,'dgp_16_2',1,'管理员',21,NULL,1401854011,0,NULL,0),(279,208,'dgp_16_2',1,'管理员',21,NULL,1401855082,0,NULL,0),(280,209,'3001',1,'管理员',21,NULL,1401896456,0,NULL,0),(281,210,'dgp_16_2',1,'管理员',21,NULL,1401898302,0,NULL,0),(282,211,'dgp_9_2',1,'管理员',21,NULL,1401922421,0,NULL,0),(283,212,'dgp_16_2',1,'管理员',21,NULL,1401938666,0,NULL,0),(284,213,'dgp_16_2',1,'管理员',21,NULL,1401950879,0,NULL,0),(286,216,'1003',48,'副总1003',21,NULL,1401957957,1401958109,'不行，需要修改。。。',0),(289,217,'dgp_16_2',1,'管理员',21,NULL,1402444975,0,NULL,0),(290,218,'dgp_16_2',1,'管理员',21,NULL,1403944685,0,NULL,0),(291,220,'admin',1,'管理员',21,2,1404047171,1407565929,'',0),(292,221,'3002',41,'总监2002',31,NULL,1404220132,0,NULL,0),(293,221,'5003',41,'总监2002',31,NULL,1404220132,0,NULL,0),(294,221,'5004',41,'总监2002',31,NULL,1404220132,0,NULL,0),(295,222,'3003',60,'员工5005',21,NULL,1404220193,0,NULL,0),(296,220,'2002',1,'管理员',20,NULL,1407565929,0,NULL,0);
 /*!40000 ALTER TABLE `think_flow_log` ENABLE KEYS */;
 
 #
@@ -441,7 +439,7 @@ CREATE TABLE `think_mail` (
   `is_del` tinyint(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `mid` (`mid`)
-) ENGINE=MyISAM AUTO_INCREMENT=1971 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2004 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_mail"
@@ -682,6 +680,10 @@ CREATE TABLE `think_product` (
   `update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `is_del` tinyint(3) NOT NULL DEFAULT '0' COMMENT '删除标记',
   `folder` int(11) DEFAULT NULL,
+  `size` varchar(200) DEFAULT NULL,
+  `color` varchar(255) DEFAULT NULL,
+  `material` varchar(255) DEFAULT NULL,
+  `price` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=231 DEFAULT CHARSET=utf8;
 
@@ -690,7 +692,7 @@ CREATE TABLE `think_product` (
 #
 
 /*!40000 ALTER TABLE `think_product` DISABLE KEYS */;
-INSERT INTO `think_product` VALUES (218,'','SSSSSSSSS','SSSSSSSSSSSSSSSSSSSSSS','','',1,'管理员',1403186815,0,0,59),(219,'','1','1','36','',1,'管理员',1403340387,0,0,59),(220,'','2','2','35','',1,'管理员',1403340396,0,0,59),(221,'','3','3','36','',1,'管理员',1403340405,0,0,59),(222,'','22','22','36','',1,'管理员',1403340415,0,0,59),(223,'','d','ddd','36','',1,'管理员',1403340426,0,0,59),(224,'','s','sss','36','',1,'管理员',1403340435,0,0,59),(225,'','ss','sss','36','',1,'管理员',1403340447,0,0,59),(226,'','fasd','asdfasdf','36','',1,'管理员',1403340457,0,0,59),(227,'QWEQWEQWE','产品编号*：','<span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：<span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span></span>','36','bf89a18b5955160b8f62cf38381212b4;eb00d6a11f085151d886fba7ad9eb402;c6c42d9492b9674aa69f08dc9d9ee199;',1,'管理员',1403348213,1404047614,0,59),(228,'123123123123','产品编号*','<span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*</span>','36','ffaae993a750f4aa45d198019f5ef66f;282c71ce150bab45683bb8b718ab370c;2b0241987e0d9c07d55c9ae102a7d8a5;1866cde2785e6eb34c6456efe3eee813;',1,'管理员',1403348296,1404047591,0,59),(229,'ad','asd','asdfasdfASDFASDF','36','3ad0d8533a1f194c925737b7feca7355;523923d6b3876d22923c62710c74c136;',1,'管理员',1403350005,1404047570,0,59),(230,'产品编号','产品名称','asdfasdfasdfasdf','36','5ffa4e733a6a8144a7e1897e0c37a809;f3456c53d8f0ce2b5c81a2a7b3c058a4;',1,'管理员',1403350672,1404047547,0,59);
+INSERT INTO `think_product` VALUES (218,'','SSSSSSSSS','SSSSSSSSSSSSSSSSSSSSSS','','',1,'管理员',1403186815,0,0,59,NULL,NULL,NULL,NULL),(219,'','1','1','36','',1,'管理员',1403340387,0,0,59,NULL,NULL,NULL,NULL),(220,'','2','2','35','',1,'管理员',1403340396,0,0,59,NULL,NULL,NULL,NULL),(221,'','3','3','36','',1,'管理员',1403340405,0,0,59,NULL,NULL,NULL,NULL),(222,'','22','22','36','',1,'管理员',1403340415,0,0,59,NULL,NULL,NULL,NULL),(223,'','d','ddd','36','',1,'管理员',1403340426,0,0,59,NULL,NULL,NULL,NULL),(224,'1111111111','s','sss','36','',1,'管理员',1403340435,1407570478,0,59,NULL,'','',''),(225,'bbbbbbbbbb','ss','sss','36','',1,'管理员',1403340447,1407570500,0,59,NULL,'','',''),(226,'aaaaaaaaaaa','fasd','asdfasdf','36','',1,'管理员',1403340457,1407570491,0,59,NULL,'','',''),(227,'QWEQWEQWE','产品编号*：','<span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：<span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span><span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*：</span></span>','36','bf89a18b5955160b8f62cf38381212b4;eb00d6a11f085151d886fba7ad9eb402;c6c42d9492b9674aa69f08dc9d9ee199;',1,'管理员',1403348213,1404047614,0,59,NULL,NULL,NULL,NULL),(228,'123123123123','产品编号*','<span style=\"color:#393939;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:21px;background-color:#F5F5F5;\">产品编号*</span>','36','ffaae993a750f4aa45d198019f5ef66f;282c71ce150bab45683bb8b718ab370c;2b0241987e0d9c07d55c9ae102a7d8a5;1866cde2785e6eb34c6456efe3eee813;',1,'管理员',1403348296,1404047591,0,59,NULL,NULL,NULL,NULL),(229,'ad','asd','asdfasdfASDFASDF','36','3ad0d8533a1f194c925737b7feca7355;523923d6b3876d22923c62710c74c136;',1,'管理员',1403350005,1404047570,0,59,NULL,NULL,NULL,NULL),(230,'产品编号','产品名称','asdfasdfasdfasdf','36','5ffa4e733a6a8144a7e1897e0c37a809;f3456c53d8f0ce2b5c81a2a7b3c058a4;',1,'管理员',1403350672,1404047547,0,59,NULL,NULL,NULL,NULL),(231,'111111111111111','11111111111111111','111111111111111111111111111','35','',1,'管理员',1407569307,1407569832,0,59,'XXL,XL','1111111','11111111111111111','price'),(232,'22222222222222','22222222222222222222222222','22222222222222222222','35','4b7a0a7899d63f4d178e2aca1919daca;f90ecfe0c2f227a0c3ed406d5a54b8f4;',1,'管理员',1407570156,0,0,59,'XXL,XL','2222222','222222222','222222222222222222222222222');
 /*!40000 ALTER TABLE `think_product` ENABLE KEYS */;
 
 #
@@ -716,7 +718,6 @@ CREATE TABLE `think_product_field` (
 #
 
 /*!40000 ALTER TABLE `think_product_field` DISABLE KEYS */;
-INSERT INTO `think_product_field` VALUES (25,'A',36,'','','text','2','',''),(26,'B',36,'','','text','2','',''),(27,'C',36,'','','text','2','',''),(28,'D',35,'','','text','2','',''),(29,'E',35,'','','text','2','',''),(30,'F',35,'','','text','2','','');
 /*!40000 ALTER TABLE `think_product_field` ENABLE KEYS */;
 
 #
@@ -775,13 +776,14 @@ CREATE TABLE `think_push` (
   `time` int(11) NOT NULL,
   `info` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1406 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2621 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_push"
 #
 
 /*!40000 ALTER TABLE `think_push` DISABLE KEYS */;
+INSERT INTO `think_push` VALUES (2620,1,'1',1,1407553921,'收到1封邮件');
 /*!40000 ALTER TABLE `think_push` ENABLE KEYS */;
 
 #
@@ -993,7 +995,7 @@ CREATE TABLE `think_supplier` (
 #
 
 /*!40000 ALTER TABLE `think_supplier` DISABLE KEYS */;
-INSERT INTO `think_supplier` VALUES (21,'11111111','','111111111111','1111111111','11111111111','1111111111111111','1111111',NULL,'1111111111111','11111111111','','111111111',1,0,'11111111111111','11111111111',NULL),(22,'1','','2','3','4','5','7','1231231','10','9','12','6',1,1,'13','11',NULL);
+INSERT INTO `think_supplier` VALUES (21,'11111111','','111111111111','1111111111','11111111111','1111111111111111','1111111',NULL,'1111111111111','11111111111','','111111111',1,1,'11111111111111','11111111111',NULL),(22,'1','','2','3','4','5','7','1231231','10','9','12','6',1,1,'13','11',NULL);
 /*!40000 ALTER TABLE `think_supplier` ENABLE KEYS */;
 
 #
@@ -1017,7 +1019,7 @@ CREATE TABLE `think_system_config` (
 #
 
 /*!40000 ALTER TABLE `think_system_config` DISABLE KEYS */;
-INSERT INTO `think_system_config` VALUES (1,'SYSTEM_NAME','系统名称','小微企业信息化',1,NULL),(7,'UPLOAD_FILE_TYPE','上传文件类型','doc,docx,xls,xlsx,ppt,pptx,pdf,gif,png,tif,zip,rar,jpg,jpeg,txt',0,NULL),(8,'IS_VERIFY_CODE','验证码','0',0,NULL),(9,'XMK_LEVEL','项目级别1','1',0,'1'),(10,'XMK_LEVEL','项目级别2','2',0,'2'),(11,'XMK_LEVEL','项目级别3','3',0,'3'),(12,'XMK_STATUS','项目状态1','1',0,'1'),(13,'XMK_STATUS','2','2',0,'2'),(14,'XMK_STATUS','3','3',0,'3');
+INSERT INTO `think_system_config` VALUES (1,'SYSTEM_NAME','系统名称','小微企业信息化',1,''),(7,'UPLOAD_FILE_TYPE','上传文件类型','doc,docx,xls,xlsx,ppt,pptx,pdf,gif,png,tif,zip,rar,jpg,jpeg,txt',0,NULL),(8,'IS_VERIFY_CODE','验证码','0',0,NULL),(9,'XMK_LEVEL','项目级别1','1',0,'1'),(10,'XMK_LEVEL','项目级别2','2',0,'2'),(11,'XMK_LEVEL','项目级别3','3',0,'3'),(12,'XMK_STATUS','项目状态1','1',0,'1'),(13,'XMK_STATUS','2','2',0,'2'),(14,'XMK_STATUS','3','3',0,'3');
 /*!40000 ALTER TABLE `think_system_config` ENABLE KEYS */;
 
 #
@@ -1087,7 +1089,7 @@ CREATE TABLE `think_system_tag_data` (
 #
 
 /*!40000 ALTER TABLE `think_system_tag_data` DISABLE KEYS */;
-INSERT INTO `think_system_tag_data` VALUES (18,58,'Supplier'),(29,14,'Video'),(18,57,'Customer'),(29,46,'Video'),(30,46,'Video'),(30,47,'Video'),(30,56,'Video'),(64,59,'Doc'),(64,60,'Doc'),(64,61,'Doc'),(65,61,'Doc'),(33,14,'Video'),(18,62,'Customer'),(17,66,'Flow'),(18,66,'Flow'),(19,66,'Flow'),(20,66,'Flow'),(21,66,'Flow'),(22,66,'Flow'),(23,66,'Flow'),(17,66,'Flow'),(18,66,'Flow'),(19,66,'Flow'),(20,66,'Flow'),(21,66,'Flow'),(22,66,'Flow'),(23,66,'Flow'),(17,70,'FlowType'),(23,72,'FlowType'),(22,72,'FlowType'),(21,72,'FlowType'),(20,72,'FlowType'),(19,71,'FlowType'),(18,71,'FlowType'),(24,70,'FlowType'),(21,58,'Supplier'),(29,57,'Customer'),(29,65,'Customer');
+INSERT INTO `think_system_tag_data` VALUES (18,58,'Supplier'),(29,14,'Video'),(18,57,'Customer'),(29,46,'Video'),(30,46,'Video'),(30,47,'Video'),(30,56,'Video'),(64,59,'Doc'),(64,60,'Doc'),(64,61,'Doc'),(65,61,'Doc'),(33,14,'Video'),(18,62,'Customer'),(17,66,'Flow'),(18,66,'Flow'),(19,66,'Flow'),(20,66,'Flow'),(21,66,'Flow'),(22,66,'Flow'),(23,66,'Flow'),(17,66,'Flow'),(18,66,'Flow'),(19,66,'Flow'),(20,66,'Flow'),(21,66,'Flow'),(22,66,'Flow'),(23,66,'Flow'),(17,70,'FlowType'),(23,72,'FlowType'),(22,72,'FlowType'),(21,72,'FlowType'),(20,72,'FlowType'),(19,71,'FlowType'),(18,71,'FlowType'),(24,70,'FlowType');
 /*!40000 ALTER TABLE `think_system_tag_data` ENABLE KEYS */;
 
 #
@@ -1106,14 +1108,14 @@ CREATE TABLE `think_todo` (
   `status` tinyint(3) NOT NULL DEFAULT '0',
   `sort` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_todo"
 #
 
 /*!40000 ALTER TABLE `think_todo` DISABLE KEYS */;
-INSERT INTO `think_todo` VALUES (11,'邮件整理时显示名称错误','',1,'2014-05-08',2,'',3,3),(12,'日历今天样式颜色','日历今天样式颜色',1,'2014-05-08',3,'',2,1),(13,'12312','123123',2,'3123123',3,'',1,1),(14,'12312','123123123123123123',2,'3123123',3,'',0,NULL),(15,'待办事项确认','待办事项确认',2,'',3,'',0,NULL),(16,'新建待办事项','123',2,'',3,'',2,3),(17,'新建待办事项1','新建待办事项',2,'2013-09-19',3,'',1,2),(18,'新建待办事项','123',2,'2013-09-19',3,'',1,NULL),(21,'事项优先级低','',1,'2014-05-08',5,'',2,1),(22,'查看服务器是否正常','查看服务器是否正常',1,'2014-05-10',3,'',3,2);
+INSERT INTO `think_todo` VALUES (11,'邮件整理时显示名称错误','',1,'2014-05-08',2,'',3,3),(12,'日历今天样式颜色','日历今天样式颜色',1,'2014-05-08',3,'',2,1),(13,'12312','123123',2,'3123123',3,'',1,1),(14,'12312','123123123123123123',2,'3123123',3,'',0,NULL),(15,'待办事项确认','待办事项确认',2,'',3,'',0,NULL),(16,'新建待办事项','123',2,'',3,'',2,3),(17,'新建待办事项1','新建待办事项',2,'2013-09-19',3,'',1,2),(18,'新建待办事项','123',2,'2013-09-19',3,'',1,NULL),(21,'事项优先级低','',1,'2014-05-08',5,'',2,1),(22,'查看服务器是否正常','查看服务器是否正常',1,'2014-05-10',3,'',3,2),(23,'22222222','ssssssss',1,'2014-08-20',3,'8d1f3251d40bc4132d9bd4646eec4ee7;',1,NULL);
 /*!40000 ALTER TABLE `think_todo` ENABLE KEYS */;
 
 #
@@ -1217,7 +1219,7 @@ CREATE TABLE `think_user` (
 #
 
 /*!40000 ALTER TABLE `think_user` DISABLE KEYS */;
-INSERT INTO `think_user` VALUES (1,'admin','管理员','GLY','21232f297a57a5a743894a0e4a801fc3',1,1,2,'male','2013-09-18','0.0.0.0',2722,'emp_pic/1.jpeg','smeoa@qq.com','1231254123123','5086-2222-2222','12123123',1222907803,1404047349,0,'1231512315123',1),(41,'2002','总监2002','ZJ','4ba29b9f9e5732ed33761840f4ba6c53',6,3,1,'male','2013-10-30','0.0.0.0',NULL,'','','行政，财务','','',1376896154,1392969462,0,NULL,1),(42,'2001','总监2001','ZJ','d0fb963ff976f9c37fc81fe03c21ea7b',8,3,1,'male','2013-10-10','0.0.0.0',NULL,'emp_pic/42.jpeg','','开发','123','12312312',1380970837,1401287019,0,'12312541231251243123',1),(43,'2003','总监2003','ZJ','a591024321c5e2bdbd23ed35f0574dde',7,3,1,'male','0000-00-00','127.0.0.1',NULL,'emp_pic/43.jpeg','','销售','','',1381035116,1401287063,0,NULL,1),(44,'1001','总经理1001','ZJL','b8c37e33defde51cf91e1e03e51657da',1,5,5,'male','0000-00-00','0.0.0.0',NULL,'','','全面管理','','',1381502796,1401288611,0,NULL,1),(48,'1003','副总1003','FZ','aa68c75c4a77c87f97fb686b2f068676',6,4,1,'female','0000-00-00','0.0.0.0',NULL,'','','销售，运营','','',1381503490,1401286413,0,NULL,1),(49,'3001','经理3001','JL','908c9a564a86426585b29f5335b619bc',24,2,2,'male','2013-10-10','14.104.59.86',NULL,'','','财务','123','12312312',1391694170,1401287097,0,NULL,1),(50,'3002','经理3002','JL','d806ca13ca3449af72a1ea5aedbed26a',23,2,2,'male','2013-10-10','124.127.209.138',NULL,'','','人事','123','12312312',1391694193,1401287121,0,NULL,NULL),(51,'3003','经理3003','JL','a4380923dd651c195b1631af7c829187',25,2,2,'male','2013-10-10','0.0.0.0',NULL,'','','销售-南方区域','123','12312312',1391694198,1401287147,0,NULL,NULL),(52,'3004','经理3004','JL','20479c788fb27378c2c99eadcf207e7f',26,2,2,'male','2013-10-10',NULL,NULL,'','','新产品研发','123','12312312',1391694202,1401287170,0,NULL,NULL),(55,'5001','员工5001','YG','03b264c595403666634ac75d828439bc',24,1,3,'male','2013-10-10','121.10.236.201',NULL,'','','会计','123','12312312',1391694320,1401287296,0,NULL,NULL),(56,'5007','员工5007','YG','351869bde8b9d6ad1e3090bd173f600d',26,1,3,'male','2013-10-10',NULL,NULL,'','','程序员3','123','12312312',1391694335,1401287430,0,NULL,NULL),(57,'5002','员工5002','YG','415585bd389b69659223807d77a96791',24,1,3,'male','2013-10-10',NULL,NULL,'','','出纳','123','12312312',1391694413,1401287322,0,NULL,NULL),(58,'5003','员工5003','YG','240ac9371ec2671ae99847c3ae2e6384',23,1,3,'male','2013-10-10',NULL,NULL,'','','招聘，薪资管理','123','12312312',1391694420,1401287339,0,NULL,NULL),(59,'5004','员工5004','YG','3202111cf90e7c816a472aaceb72b0df',23,1,3,'male','2013-10-10','0.0.0.0',NULL,'','','负责公司日常采购','123','12312312',1391694427,1401287371,0,NULL,NULL),(60,'5005','员工5005','YG','1d6408264d31d453d556c60fe7d0459e',25,1,3,'male','2013-10-10','0.0.0.0',NULL,'','','程序员1','123','12312312',1391694435,1401287390,0,NULL,NULL),(61,'5006','员工5006','YG','2c27a260f16ad3098393cc529f391f4a',25,1,3,'male','2013-10-10',NULL,NULL,'','','程序员2','123','12312312',1391694478,1401287410,0,NULL,NULL),(62,'5008','员工5008','YG','b3848d61bbbc6207c6668a8a9e2730ed',26,1,3,'male','2013-10-10',NULL,NULL,'','','网站编辑，SEO','123','12312312',1391694489,1401287450,0,NULL,NULL),(65,'test1','test1','TEST','db03fa33c1e2ca35794adbb14aebb153',7,5,1,'male','2014-05-07','0.0.0.0',NULL,'','','','','',1399618939,0,0,NULL,0),(66,'test2','test2','TEST','261d684f6b7d9af996a5691e7106075e',2,2,2,'male','2014-05-09','0.0.0.0',NULL,'','','','','',1399618964,0,0,NULL,0),(67,'1002','李白','LB','fba9d88164f3e2d9109ee770223212a0',5,4,1,'male','0000-00-00','0.0.0.0',NULL,'','','','','',1399712207,1401286925,0,NULL,0);
+INSERT INTO `think_user` VALUES (1,'admin','管理员','GLY','21232f297a57a5a743894a0e4a801fc3',1,1,2,'male','2013-09-18','127.0.0.1',2733,'emp_pic/1.jpeg','smeoa@qq.com','1231254123123','5086-2222-2222','12123123',1222907803,1404047349,0,'1231512315123',1),(41,'2002','总监2002','ZJ','4ba29b9f9e5732ed33761840f4ba6c53',6,3,1,'male','2013-10-30','0.0.0.0',NULL,'','','行政，财务','','',1376896154,1407565312,1,NULL,1),(42,'2001','总监2001','ZJ','d0fb963ff976f9c37fc81fe03c21ea7b',8,3,1,'male','2013-10-10','0.0.0.0',NULL,'emp_pic/42.jpeg','','开发','123','12312312',1380970837,1401287019,0,'12312541231251243123',1),(43,'2003','总监2003','ZJ','a591024321c5e2bdbd23ed35f0574dde',7,3,1,'male','0000-00-00','127.0.0.1',NULL,'emp_pic/43.jpeg','','销售','','',1381035116,1401287063,0,NULL,1),(44,'1001','总经理1001','ZJL','b8c37e33defde51cf91e1e03e51657da',1,5,5,'male','0000-00-00','0.0.0.0',NULL,'','','全面管理','','',1381502796,1401288611,0,NULL,1),(48,'1003','副总1003','FZ','aa68c75c4a77c87f97fb686b2f068676',6,4,1,'female','0000-00-00','0.0.0.0',NULL,'','','销售，运营','','',1381503490,1401286413,0,NULL,1),(49,'3001','经理3001','JL','908c9a564a86426585b29f5335b619bc',24,2,2,'male','2013-10-10','14.104.59.86',NULL,'','','财务','123','12312312',1391694170,1401287097,0,NULL,1),(50,'3002','经理3002','JL','d806ca13ca3449af72a1ea5aedbed26a',23,2,2,'male','2013-10-10','124.127.209.138',NULL,'','','人事','123','12312312',1391694193,1401287121,0,NULL,NULL),(51,'3003','经理3003','JL','a4380923dd651c195b1631af7c829187',25,2,2,'male','2013-10-10','0.0.0.0',NULL,'','','销售-南方区域','123','12312312',1391694198,1401287147,0,NULL,NULL),(52,'3004','经理3004','JL','20479c788fb27378c2c99eadcf207e7f',26,2,2,'male','2013-10-10',NULL,NULL,'','','新产品研发','123','12312312',1391694202,1401287170,0,NULL,NULL),(55,'5001','员工5001','YG','03b264c595403666634ac75d828439bc',24,1,3,'male','2013-10-10','121.10.236.201',NULL,'','','会计','123','12312312',1391694320,1401287296,0,NULL,NULL),(56,'5007','员工5007','YG','351869bde8b9d6ad1e3090bd173f600d',26,1,3,'male','2013-10-10',NULL,NULL,'','','程序员3','123','12312312',1391694335,1401287430,0,NULL,NULL),(57,'5002','员工5002','YG','415585bd389b69659223807d77a96791',24,1,3,'male','2013-10-10',NULL,NULL,'','','出纳','123','12312312',1391694413,1401287322,0,NULL,NULL),(58,'5003','员工5003','YG','240ac9371ec2671ae99847c3ae2e6384',23,1,3,'male','2013-10-10',NULL,NULL,'','','招聘，薪资管理','123','12312312',1391694420,1401287339,0,NULL,NULL),(59,'5004','员工5004','YG','3202111cf90e7c816a472aaceb72b0df',23,1,3,'male','2013-10-10','0.0.0.0',NULL,'','','负责公司日常采购','123','12312312',1391694427,1401287371,0,NULL,NULL),(60,'5005','员工5005','YG','1d6408264d31d453d556c60fe7d0459e',25,1,3,'male','2013-10-10','0.0.0.0',NULL,'','','程序员1','123','12312312',1391694435,1401287390,0,NULL,NULL),(61,'5006','员工5006','YG','2c27a260f16ad3098393cc529f391f4a',25,1,3,'male','2013-10-10',NULL,NULL,'','','程序员2','123','12312312',1391694478,1401287410,0,NULL,NULL),(62,'5008','员工5008','YG','b3848d61bbbc6207c6668a8a9e2730ed',26,1,3,'male','2013-10-10',NULL,NULL,'','','网站编辑，SEO','123','12312312',1391694489,1401287450,0,NULL,NULL),(65,'test1','test1','TEST','db03fa33c1e2ca35794adbb14aebb153',7,5,1,'male','2014-05-07','0.0.0.0',NULL,'','','','','',1399618939,0,0,NULL,0),(66,'test2','test2','TEST','261d684f6b7d9af996a5691e7106075e',2,2,2,'male','2014-05-09','0.0.0.0',NULL,'','','','','',1399618964,0,0,NULL,0),(67,'1002','李白','LB','fba9d88164f3e2d9109ee770223212a0',5,4,1,'male','0000-00-00','0.0.0.0',NULL,'','','','','',1399712207,1401286925,0,NULL,0);
 /*!40000 ALTER TABLE `think_user` ENABLE KEYS */;
 
 #
@@ -1528,14 +1530,15 @@ CREATE TABLE `think_work_log` (
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
   `is_del` tinyint(3) NOT NULL DEFAULT '0',
+  `add_file` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "think_work_log"
 #
 
-INSERT INTO `think_work_log` VALUES (13,42,'总监2001',8,'财务部',1401288260,'小微，加油','小微，加油','2014-05-28','2014-05-28',0),(14,60,'员工5005',25,'会计科',1401288467,'小微，加油','小微，加油','2014-05-28','2014-05-28',0);
+INSERT INTO `think_work_log` VALUES (13,42,'总监2001',8,'财务部',1401288260,'小微，加油','小微，加油','2014-05-28','2014-05-28',0,NULL),(14,60,'员工5005',25,'会计科',1401288467,'小微，加油','小微，加油','2014-05-28','2014-05-28',0,NULL),(15,1,'管理员',1,'小微企业',1406248659,'1','1111111111111111','2014-07-10','2014-07-05',0,'a871f007f8ba395c27fc065c19c62454;');
 
 #
 # Source for table "think_xmk"
@@ -1604,7 +1607,6 @@ INSERT INTO `think_xmk_report` VALUES (53,6,'','sssssssssss',1,'管理员','',0,
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

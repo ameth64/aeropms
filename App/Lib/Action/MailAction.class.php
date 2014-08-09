@@ -407,7 +407,7 @@ class MailAction extends CommonAction {
 	//--------------------------------------------------------------------
 	//   回复，转发邮件内容
 	//--------------------------------------------------------------------
-	public function reply() {
+	public function reply(){
 		$widget['uploader'] = true;
 		$widget['editor'] = true;
 		$this -> assign("widget", $widget);
@@ -416,14 +416,15 @@ class MailAction extends CommonAction {
 		$this -> assign('type', $type);
 
 		if ($type == "reply") {
-			$prefix = "回复";
+			$prefix = "回复:";
 		}
 		if ($type == "all") {
-			$prefix = "回复";
+			$prefix = "回复:";
 		}
 		if ($type == "forward") {
-			$prefix = "转发";
+			$prefix = "转发:";
 		}
+
 		$this -> assign('prefix', $prefix);
 
 		$id = $_REQUEST['id'];
@@ -434,6 +435,7 @@ class MailAction extends CommonAction {
 		$model -> where($where) -> setField('read', '1');
 
 		$vo = $model -> getById($id);
+
 		$this -> assign('vo', $vo);
 		$this -> display();
 	}

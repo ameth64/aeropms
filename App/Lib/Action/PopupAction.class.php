@@ -47,6 +47,7 @@ class PopupAction extends CommonAction {
 				$sql = D("UserView") -> buildSql();
 				$model = new Model();
 				$where['dept_id'] = array('in', $dept);
+				$where['is_del']=array('eq',0);
 				$data = $model -> table($sql . "a") -> where($where) -> select();
 				break;
 
@@ -54,6 +55,7 @@ class PopupAction extends CommonAction {
 				$sql = D("UserView") -> buildSql();
 				$model = new Model();
 				$where['rank_id'] = array('eq', $id);
+				$where['is_del']=array('eq',0);
 				$data = $model -> table($sql . "a") -> where($where) -> select();
 				break;
 
@@ -61,6 +63,7 @@ class PopupAction extends CommonAction {
 				$sql = D("UserView") -> buildSql();
 				$model = new Model();
 				$where['position_id'] = array('eq', $id);
+				$where['is_del']=array('eq',0);
 				$data = $model -> table($sql . "a") -> where($where) -> select();
 				break;
 			case "personal" :
@@ -79,6 +82,7 @@ class PopupAction extends CommonAction {
 					$where['id'] = array('in', implode(",", $data));
 				}
 				$model = M("Contact");
+				$where['is_del']=array('eq',0);
 				$data = $model -> where($where) -> field('id,name,position as position_name,email') -> select();
 				//echo $model->getLastSql();
 				break;
@@ -417,10 +421,13 @@ class PopupAction extends CommonAction {
 		$where['letter'] = array('like', "%" . $key . "%");
 		$where['email'] = array('like', "%" . $key . "%");
 		$where['_logic'] = 'or';
-		$company = $model -> where($where) -> field('id,name,email') -> select();
+		$map['_complex'] = $where;
+		$map['is_del']=array('eq',0);
+		$company = $model -> where($map) -> field('id,name,email') -> select();
 
 		if($type=="all"){
 			$where = array();
+			$map=array();
 			$model = M("Contact");
 			$where['name'] = array('like', "%" . $key . "%");
 			$where['letter'] = array('like', "%" . $key . "%");

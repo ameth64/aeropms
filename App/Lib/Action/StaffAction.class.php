@@ -46,6 +46,7 @@ class StaffAction extends CommonAction {
 		$dept = implode(",", $dept['id']) . ",$id";
 
 		$model = D("UserView");
+		$where['is_del'] = array('eq', '0');
 		$where['dept_id'] = array('in', $dept);
 		$data = $model -> where($where) -> select();
 		$this -> ajaxReturn($data, "", 1);
