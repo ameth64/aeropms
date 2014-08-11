@@ -168,7 +168,7 @@ if (isset($_POST["install"])){
 						<div class="form-group">
 							<label class="control-label col-md-4" for="name">数据库名：</label>
 							<div class="col-md-8">
-								<input type="text" name="db_dbname" value="install" class="form-control"/>
+								<input type="text" name="db_dbname" value="demo" class="form-control"/>
 							</div>
 						</div>
 						<div class="form-group">
@@ -178,8 +178,7 @@ if (isset($_POST["install"])){
 							</div>
 						</div>
 						<div>
-							<p><h4 class="text-danger">* 执行安装程序之前请手动创建数据库<h4></p>
-						
+							<p><h4 class="text-danger">* 执行安装程序之前请手动创建数据库<h4></p>				
 							<?php								
 							if (is_writable($db_config_files)&&(is_writable("install.php"))) {
 								echo "<button type=\"submit\" name=\"install\" class=\"btn btn-default\">下一步</button>";
