@@ -11,14 +11,23 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-class PushAction extends CommonAction {
+class PushAction extends Action {
+
 	protected $config=array('app_type'=>'asst');
 
+	function _initialize(){	
+		$auth_id = session(C('USER_AUTH_KEY'));
+		if (!isset($auth_id)) {
+			//跳转到认证网关
+			die;
+		}
+	}
+
 	function server(){
+		$user_id = $user_id = get_user_id();
 		session_write_close();
 		while (true){
-			$where = array();
-			$user_id = $user_id = get_user_id();			
+			$where = array();		
 			$where['user_id'] = $user_id;
 			$where['time'] = array('elt', time() - 1);
 			$model = M("Push");
@@ -28,13 +37,38 @@ class PushAction extends CommonAction {
 				$model -> delete($data['id']);
 				echo json_encode($data);
 				flush();
-				sleep(1)
+				sleep(1);
 				die;
 			} else {
 				sleep(1); // sleep 10ms to unload the CPU
 				clearstatcache();
 			}
 		}
+	}
+
+	function server2() {
+		$user_id = $user_id = get_user_id();
+		session_write_close();
+		for ($i = 0, $timeout = 10; $i < $timeout; $i++) {
+			if (connection_status() != 0) {
+				exit();
+			}
+			$where = array();
+			$where['user_id'] = $user_id;
+			$where['time'] = array('elt', time() - 1);
+			$model = M("Push");
+			$data = $model -> where($where) -> find();
+			$where['id'] = $data['id'];
+			//dump($model);
+			if ($data){
+				sleep(1);
+				$model -> where("id=" . $data['id']) -> delete();
+				$this -> ajaxReturn($data['data'], $data['info'], $data['status']);
+			} else {
+				sleep(5);
+			}
+		}
+		$this -> ajaxReturn(null, "no-data", 0);
 	}
 
 	//获取当前状态

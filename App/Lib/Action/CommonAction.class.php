@@ -62,37 +62,27 @@ class CommonAction extends Action {
 	
 		$model = D("Node");
 		$top_menu = cookie('top_menu');
-		$top_menu_list = session('top_menu'.$user_id);
-		if (!empty($top_menu_list)){
-			$list = $top_menu_list;
-		} else {
-			$list = $model -> get_top_menu($user_id);
-			if (empty($list)){
-				$this -> assign('jumpUrl', U("Login/logout"));
-				$this -> error("没有权限");
-			}
-			session('top_menu' . $user_id, $list);
+
+		$top_menu_list = $model -> get_top_menu($user_id);
+		if (empty($top_menu_list)){
+			$this -> assign('jumpUrl', U("Login/logout"));
+			$this -> error("没有权限");
 		}
 
-		$this -> assign('top_menu', $list);
+		$this -> assign('top_menu', $top_menu_list);
 
-		$user_id = get_user_id();
-		if (session('menu' . $user_id)) {
-			//如果已经缓存，直接读取缓存
-			$menu = session('menu' . $user_id);
-		} else {
-			//读取数据库模块列表生成菜单项
-			$menu = D("Node") -> access_list();
-			$system_folder_menu = D("SystemFolder") -> get_folder_menu();
-			$user_folder_menu = D("UserFolder") -> get_folder_menu();
-			$menu = array_merge($menu, $system_folder_menu, $user_folder_menu);
-			//缓存菜单访问
-			session('menu' . $user_id,$menu);
-		}
-
+		//读取数据库模块列表生成菜单项
+		$menu = D("Node") -> access_list();
+		$system_folder_menu = D("SystemFolder") -> get_folder_menu();
+		$user_folder_menu = D("UserFolder") -> get_folder_menu();
+		$menu = array_merge($menu, $system_folder_menu, $user_folder_menu);
+		
+		//缓存菜单访问
 		$tree = list_to_tree($menu);
 		if (!empty($top_menu)) {
-			$this -> assign("top_menu_name", $model -> where("id=$top_menu") -> getField('name'));
+			$top_menu_name= $model -> where("id=$top_menu") -> getField('name');
+			$this -> assign("top_menu_name",$top_menu_name);
+			$this -> assign("title",get_system_config("SYSTEM_NAME")."-".$top_menu_name);
 			$left_menu = list_to_tree($menu,$top_menu);
 			$this -> assign('left_menu',$left_menu);
 		}

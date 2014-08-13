@@ -44,7 +44,7 @@ class ProductAction extends CommonAction {
 		$this -> display();
 	}
 
-	function folder() {
+	function folder(){
 		$widget['date'] = true;
 		$this -> assign("widget", $widget);
 
@@ -65,6 +65,14 @@ class ProductAction extends CommonAction {
 
 		$model = D("ProductView");
 		$this->assign("auth",$this->config['auth']);
+
+
+		$where = array();
+		$where['id'] = array('eq', $folder);
+
+		$folder_name = M("SystemFolder") -> where($where) -> getField("name");
+		$this -> assign("folder_name", $folder_name);
+
 		$this -> _list($model, $map);
 		$this -> _assign_folder_list();
 		$this -> display();

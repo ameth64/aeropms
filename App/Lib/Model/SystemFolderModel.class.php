@@ -77,10 +77,18 @@ class SystemFolderModel extends CommonModel {
 	private function get_emp_list_by_dept_id($id){
         $dept = tree_to_list(list_to_tree(M("Dept")->where('is_del=0') -> select(), $id));
         $dept = rotate($dept);
-        $dept = implode(",", $dept['id']) . ",$id";
-        $model = M("User");
-        $where['dept_id'] = array('in', $dept);
-        $data = $model -> where($where) -> select();
+		$dept=$dept['id'];
+		if(!empty($dept)){
+			$dept = implode(",", $dept) . ",$id";
+			$where['dept_id'] = array('in', $dept);
+		}else{
+			$where['dept_id'] = array('eq', $dept);
+		}
+        
+		if(!empty($dept)){
+			$model = M("User");			
+			$data = $model -> where($where) -> select();
+		}
         return $data;		
 	}
 	

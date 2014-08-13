@@ -24,7 +24,7 @@ class LoginAction extends Action {
 		if (!isset($auth_id)) {
 			$this -> display();
 		} else {
-			redirect(__APP__);
+			header('Location: ' .__APP__);
 		}
 	}
 
@@ -33,8 +33,6 @@ class LoginAction extends Action {
 		$auth_id = session(C('USER_AUTH_KEY'));
 		if (isset($auth_id)) {
 			session(C('USER_AUTH_KEY'), null);
-			session('menu' . $auth_id, null);
-			session('top_menu' . $auth_id, null);
 			session('user_pic', null);
 			$this -> assign("jumpUrl", __URL__ );
 			$this -> success('登出成功！');
@@ -90,11 +88,12 @@ class LoginAction extends Action {
 			$model = M("User");
 			$auth_info = $model -> where($map) -> find();
 		}
+
 		//使用用户名、密码和状态的方式进行认证
 		if (false == $auth_info){
 			$this -> error('帐号或密码错误！');
 		} else {
-			session(C('USER_AUTH_KEY'), $auth_info['id']);
+			session(C('USER_AUTH_KEY'),$auth_info['id']);
 			session('emp_no', $auth_info['emp_no']);
 			session('user_name', $auth_info['name']);
 			session('user_pic', $auth_info['pic']);
@@ -111,7 +110,7 @@ class LoginAction extends Action {
 			$data['last_login_ip'] = $ip;
 			$User -> save($data);
 			$this -> assign('jumpUrl', U("index/index"));
-			$this -> success('登录成功！');
+			header('Location: ' .U("index/index"));
 		}
 	}
 

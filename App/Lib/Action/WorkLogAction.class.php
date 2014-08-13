@@ -27,8 +27,7 @@ class WorkLogAction extends CommonAction {
 	public function index(){
 		$widget['date'] = true;		
 		$this ->assign("widget", $widget);
-		$this->assign('user_id',get_user_id());				
-		$this->assign("title",'日志查询');		
+		$this->assign('user_id',get_user_id());	
 
 		$auth=$this->config['auth'];
 		$this->assign('auth',$auth);		
