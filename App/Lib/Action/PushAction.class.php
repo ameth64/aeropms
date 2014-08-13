@@ -65,7 +65,7 @@ class PushAction extends Action {
 				$model -> where("id=" . $data['id']) -> delete();
 				$this -> ajaxReturn($data['data'], $data['info'], $data['status']);
 			} else {
-				sleep(5);
+				sleep(2);
 			}
 		}
 		$this -> ajaxReturn(null, "no-data", 0);
