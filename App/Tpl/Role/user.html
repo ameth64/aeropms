@@ -14,7 +14,7 @@
 			<table class="table table-bordered">
 				<thead>
 					<tr>
-						<th class="text-center"><label class="inline pull-left col-3">
+						<th class="text-center col-3"><label class="inline pull-left">
 							<input class="ace" type="checkbox" name="id-toggle-all" id="id-toggle-all" />
 							<span class="lbl"></span></label></th>
 						<th>
@@ -46,7 +46,7 @@
 				<tbody>
 					<volist name="user_list" id="data">
 						<tr id="{$data.id}">
-							<td class="text-center"><label class="inline pull-left col-3">
+							<td class="text-center col-3"><label class="inline pull-left">
 								<input class="ace" type="checkbox" name="emp_id[]" value="{$data.id}" />
 								<span class="lbl"></span></label></td>
 							<td>
@@ -93,7 +93,7 @@
 				<tbody>
 					<volist name="role_list" id="data">
 						<tr id="{$data.id}">
-							<td><label class="inline pull-left col-3">
+							<td class="col-3"><label class="inline pull-left ">
 								<input class="ace" type="checkbox" id="role_{$data.id}" name="role_list[]" value="{$data.id}"/>
 								<span class="lbl"></span></label></td>
 							<td>{$data.name}</td>
@@ -101,6 +101,7 @@
 					</volist>
 				</tbody>
 			</table>
+		</div>
 	</form>
 </div>
 

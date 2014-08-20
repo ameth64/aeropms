@@ -27,7 +27,8 @@ class FlowTypeAction extends CommonAction {
 		$this->assign("widget",$widget);
 		
 		$this -> assign("user_id",get_user_id());
-		$this ->_assign_tag_list();			
+		$this ->_assign_tag_list();
+		$this ->_assign_duty_list();				
 		$this->display();
 	}
 	
@@ -37,6 +38,7 @@ class FlowTypeAction extends CommonAction {
 		if (method_exists($this, '_search_filter')) {
 			$this -> _search_filter($map);
 		}
+
 		$list = $model -> where($map) ->order('tag,sort')-> select();
 		$this -> assign('list', $list);
 		$this ->_assign_tag_list();
@@ -84,6 +86,14 @@ class FlowTypeAction extends CommonAction {
 		$tag_list = $model -> get_tag_list('id,name');
 		$this -> assign("tag_list", $tag_list);
 	}
+	
+	protected function _assign_duty_list() {
+		$model = D("Duty");
+		$where['is_del']=array('eq',0);
+		$duty_list = $model ->where($where)->getField("id,name");
+		$this -> assign("duty_list",$duty_list);
+	}
+	
 
 	function tag_manage() {
 		$this -> _tag_manage("分组管理",false);
@@ -98,6 +108,7 @@ class FlowTypeAction extends CommonAction {
 		$vo = $model -> getById($id);
 		$this -> assign('vo', $vo);
 		$this->_assign_tag_list();
+		$this->_assign_duty_list();
 		$this -> display();
 	}
 	

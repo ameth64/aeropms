@@ -79,8 +79,7 @@
          }
          $this->_connect = imap_open("{"."$host:$port/$ssl"."}$folder",$user,$pass);
 		 
-         if(!$this->_connect) {
-            dump(imap_last_error());
+         if(!$this->_connect){
              return false;   
         }
          return $this->_connect;

@@ -54,7 +54,7 @@ class RoleAction extends CommonAction {
 	{
 		$role_id=$_POST['id'];
 		
-		$model = M("RoleNode");
+$model = M("RoleNode");
 		$where['role_id'] = $role_id;
 		$model->where($where)->delete();
 		
@@ -171,7 +171,7 @@ class RoleAction extends CommonAction {
 		$model = D("Role");
 		$model -> del_duty($role_id);
 
-		$result = $model -> set_duty($role_id, $duty_list);
+		$result = $model -> set_duty($role_id,$duty_list);
 		if ($result === false) {
 			$this -> error('操作失败！');
 		} else {

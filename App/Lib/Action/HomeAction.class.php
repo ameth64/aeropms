@@ -92,8 +92,8 @@ class HomeAction extends CommonAction {
 		//获取最新邮件
 
 		$where['is_del'] = array('eq', '0');
-		$common_list = $model -> where($where) -> field("id,name,create_time") -> order("create_time desc") -> limit(6) -> select();
-		$this -> assign("doc_list", $common_list);
+		$doc_list = $model -> where($where) -> field("id,name,create_time") -> order("create_time desc") -> limit(6) -> select();
+		$this -> assign("doc_list", $doc_list);
 	}
 
 	protected function _schedule_list() {

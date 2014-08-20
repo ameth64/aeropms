@@ -42,7 +42,7 @@ class Page {
     protected $coolPages   ;
 
     // 分页显示定制
-    protected $config  = array('header'=>'条记录','prev'=>'上一页','next'=>'下一页','first'=>'第一页','last'=>'最后一页','all'=>'全部','page'=>'分页','theme'=>' %totalRow% %header% %nowPage%/%totalPage% 页 %upPage% %downPage% %first%  %prePage%  %linkPage%  %nextPage% %end% %allPage%');
+    protected $config  = array('header'=>'条记录','prev'=>'上一页','next'=>'下一页','first'=>'第一页','last'=>'最后一页','all'=>'全部','page'=>'分页','export'=>'导出','theme'=>' %totalRow% %header% %nowPage%/%totalPage% 页 %upPage% %downPage% %first%  %prePage%  %linkPage%  %nextPage% %end% %allPage% %exportPage%');
 
     // 默认分页变量名
     protected $varPage;
@@ -103,6 +103,7 @@ class Page {
 			$html=" <form id=\"page_search\" method=\"post\">%input%%pageStr%</form>";
 			$input="<input type=\"hidden\" name=\"$p\" >";
 			$input.="<input type=\"hidden\" name=\"list_rows\" value=\"\">";
+			$input.="<input type=\"hidden\" name=\"mode\" value=\"\">";
 			if(!empty($request)){
 				foreach($parameter as $key=>$val){
 					if(is_string($val)){
@@ -172,10 +173,13 @@ class Page {
 			$allPage="<input type=\"button\" value=\"".$this->config['page']."\" onclick=\"this.form.$p.value=1;this.form.list_rows.value='';this.form.submit();\">";
 		}else{
 			$allPage="<input type=\"button\" value=\"".$this->config['all']."\" onclick=\"this.form.$p.value=1;this.form.list_rows.value=".$this->totalRows.";this.form.submit();\">";	
-		}
+		}	
+		if(method_exists(A(MODULE_NAME),ACTION_NAME.'_export')){			
+			$exportPage="<input type=\"button\" value=\"".$this->config['export']."\" onclick=\"this.form.mode.value='export';this.form.list_rows.value=".$this->totalRows.";this.form.submit();\">";			
+		}		
 		 		
-        $pageStr     =   str_replace(         array('%header%','%nowPage%','%totalRow%','%totalPage%','%upPage%','%downPage%','%first%','%prePage%','%linkPage%','%nextPage%','%end%','%allPage%'),
-            array($this->config['header'],$this->nowPage,$this->totalRows,$this->totalPages,$upPage,$downPage,$theFirst,$prePage,$linkPage,$nextPage,$theEnd,$allPage),$this->config['theme']);
+        $pageStr     =   str_replace(array('%header%','%nowPage%','%totalRow%','%totalPage%','%upPage%','%downPage%','%first%','%prePage%','%linkPage%','%nextPage%','%end%','%allPage%','%exportPage%'),
+            array($this->config['header'],$this->nowPage,$this->totalRows,$this->totalPages,$upPage,$downPage,$theFirst,$prePage,$linkPage,$nextPage,$theEnd,$allPage,$exportPage),$this->config['theme']);
 		$pageStr=str_replace("%pageStr%",$pageStr,$html);
         return $pageStr;
     }

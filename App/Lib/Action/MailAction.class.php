@@ -455,6 +455,9 @@ class MailAction extends CommonAction {
 		$mail_list = array();
 		$mail = new receiveMail();
 		$connect = $mail -> connect($mail_account['pop3svr'], '110',$mail_account['mail_id'],$mail_account['mail_pwd'], 'INBOX','pop3/novalidate-cert');
+		if(!$connect){
+			$connect = $mail -> connect($mail_account['pop3svr'], '995',$mail_account['mail_id'],$mail_account['mail_pwd'], 'INBOX','pop3/ssl/novalidate-cert');
+		}
 		$mail_count = $mail -> mail_total_count();
 
 		if ($connect){
@@ -511,7 +514,7 @@ class MailAction extends CommonAction {
 	//--------------------------------------------------------------------
 	private function _receive_file($str, &$model){
 		if (!empty($str)){
-			$ar = explode(",", $str);
+			$ar = array_filter(explode(",", $str));			
 			foreach($ar as $key => $value) {
 				$ar2 = explode("_", $value);
 				$cid = $ar2[0];
@@ -534,7 +537,11 @@ class MailAction extends CommonAction {
 					if (!is_dir(get_save_path() . $dir)) {
 						mkdir(get_save_path() . $dir,0777, true);
 						chmod(get_save_path() . $dir,0777);
-					}					
+					}
+					if (!is_dir($this -> tmpPath . $dir)) {
+						mkdir($this -> tmpPath . $dir,0777, true);
+						chmod($this -> tmpPath . $dir,0777);
+					}
 					if (rename($this -> tmpPath.urlencode($value), get_save_path() .$save_name)) {
 						$file_id = $File -> add();
 						if($inline == "INLINE"){

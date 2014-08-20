@@ -8,16 +8,16 @@
 	};
 
 	function showdata(result) {
-		$("input[name='duty_list[]']").attr("checked", false);
+		$("input[name='duty_list[]']").each(function() {
+			$(this).prop('checked', false);
+		});
 		for (var s in result.data) {
-			$("#duty_" + result.data[s].duty_id).attr("checked", "checked");
+			$("#duty_" + result.data[s].duty_id).prop('checked', true);
 		}
 	}
 
-
 	$(document).ready(function() {
 		set_return_url();
-
 		$(".sub_left_menu  tr").click(function() {
 			$(".sub_left_menu  tr").attr("class", "");
 			$(this).attr("class", "active");
@@ -25,7 +25,6 @@
 			sendAjax("{:U('get_duty_list')}", "role_id=" + $(this).attr("id"), function(data) {
 				showdata(data);
 			});
-			return false;
 		})
 	}); 
 </script>
