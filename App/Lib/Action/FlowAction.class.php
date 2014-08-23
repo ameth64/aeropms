@@ -147,40 +147,72 @@ class FlowAction extends CommonAction {
 			$this ->error("系统错误");
 		}
 		$this->_flow_auth_filter($folder,$map);
-		if($_REQUEST['mode']=='export'){
-			$this->folder_export();
-		}
 		$model = D("FlowView");
-		$this -> _list($model, $map);
+
+		if($_REQUEST['mode']=='export'){
+			$this->_folder_export($model,$map);
+		}else{
+			$this -> _list($model, $map);
+		}
 		$this -> display();
 	}
 	
-	function folder_export(){
-		$model = M("Contact");
-		$where['user_id'] = array('eq', get_user_id());
-		$list = $model -> where($where) -> select();
+	private function _folder_export($model,$map){
+		$list = $model -> where($map) -> select();
 
 		//导入thinkphp第三方类库
 		Vendor('Excel.PHPExcel');
 		
-		$inputFileName = "Public/templete/contact.xlsx";
+		//$inputFileName = "Public/templete/contact.xlsx";
 		//$objPHPExcel = PHPExcel_IOFactory::load($inputFileName);
 		$objPHPExcel=new PHPExcel();
  
-		$objPHPExcel -> getProperties() -> setCreator("smeoa") -> setLastModifiedBy("smeoa") -> setTitle("Office 2007 XLSX Test Document") -> setSubject("Office 2007 XLSX Test Document") -> setDescription("Test document for Office 2007 XLSX, generated using PHP classes.") -> setKeywords("office 2007 openxml php") -> setCategory("Test result file");
+		$objPHPExcel -> getProperties() -> setCreator("小微OA") -> setLastModifiedBy("小微OA") -> setTitle("Office 2007 XLSX Test Document") -> setSubject("Office 2007 XLSX Test Document") -> setDescription("Test document for Office 2007 XLSX, generated using PHP classes.") -> setKeywords("office 2007 openxml php") -> setCategory("Test result file");
 		// Add some data
 		$i = 1;
 		//dump($list);
-		foreach ($list as $val) {
+
+			//编号，类型，标题，登录时间，部门，登录人，状态，审批，协商，抄送，审批情况，自定义字段
+			$objPHPExcel -> setActiveSheetIndex(0) -> setCellValue("A$i","编号") -> setCellValue("B$i","类型") -> setCellValue("C$i","标题") -> setCellValue("D$i","登录时间") -> setCellValue("E$i","部门") -> setCellValue("F$i","登录人") -> setCellValue("G$i","状态") -> setCellValue("H$i","审批") -> setCellValue("I$i","协商") -> setCellValue("J$i","抄送") -> setCellValue("J$i","审批情况");
+		foreach ($list as $val){
 			$i++;
-			$objPHPExcel -> setActiveSheetIndex(0) -> setCellValue("A$i", $val["name"]) -> setCellValue("B$i", $val["company"]) -> setCellValue("C$i", $val["dept"]) -> setCellValue("D$i", $val["position"]) -> setCellValue("E$i", $val["office_tel"]) -> setCellValue("F$i", $val["mobile_tel"]) -> setCellValue("G$i", $val["email"]) -> setCellValue("H$i", $val["im"]) -> setCellValue("I$i", $val["website"]) -> setCellValue("J$i", $val["address"]) -> setCellValue("J$i", $val["remark"]);
+			//dump($val);
+			$id=$val['id'];
+			$doc_no=$val["doc_no"]; //编号
+			$name=$val["name"]; //标题
+			$confirm_name=strip_tags($val["confirm_name"]); //审批
+			$consult_name=strip_tags($val["consult_name"]); //协商
+			$refer_name=strip_tags($val["refer_name"]); //协商
+			$type_name=$val["type_name"]; //流程类型
+			$user_name=$val["user_name"]; //登记人
+			$dept_name=$val["dept_name"]; //不美分
+			$create_time=$val["create_time"];
+			$create_time=toDate($val["create_time"],'Y-m-d H:i:s');//创建时间
+			$step=show_step_type($val["step"]); //
+
+			
+			//编号，类型，标题，登录时间，部门，登录人，状态，审批，协商，抄送，审批情况，自定义字段
+			$objPHPExcel -> setActiveSheetIndex(0) -> setCellValue("A$i",$doc_no) -> setCellValue("B$i", $type_name) -> setCellValue("C$i",$name) -> setCellValue("D$i",$create_time) -> setCellValue("E$i",$dept_name) -> setCellValue("F$i",$user_name) -> setCellValue("G$i",$step) -> setCellValue("H$i",$confirm_name) -> setCellValue("I$i",$consult_name);
+
+			$model_flow_field=D("FlowField");
+			$field_list = $model_flow_field ->get_data_list($id);
+		//	dump($field_list);
+			$k=0;
+			if(!empty($field_list)){
+				foreach($field_list as $field){
+					$k++;
+					$field_data=$field['name'].":".$field['val'];
+					$location=get_cell_location("J",$i,$k);
+					$objPHPExcel -> setActiveSheetIndex(0) ->setCellValue($location,$field_data);
+				}
+			}
 		}
 		// Rename worksheet
-		$objPHPExcel -> getActiveSheet() -> setTitle('Contact');
+		$objPHPExcel -> getActiveSheet() -> setTitle('流程统计');
 
 		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
 		$objPHPExcel -> setActiveSheetIndex(0);
-		$file_name="contact.xlsx";
+		$file_name="流程统计.xlsx";
 		// Redirect output to a client’s web browser (Excel2007)
 		header("Content-Type: application/force-download");
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -206,8 +238,7 @@ class FlowAction extends CommonAction {
 
 		$model_flow_field=D("FlowField");
 		$field_list = $model_flow_field ->get_field_list($type_id);
-		$this -> assign("field_list", $field_list);
-		
+		$this -> assign("field_list", $field_list);		
 		$this -> display();
 	}
 
@@ -268,6 +299,7 @@ class FlowAction extends CommonAction {
 		$this -> assign("flow_type", $flow_type);
 
 		$model = M("FlowLog");
+		$where=array();
 		$where['flow_id'] = $id;
 		$where['step'] = array('lt',100);
 		$where['_string'] = "result is not null";

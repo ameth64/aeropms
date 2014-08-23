@@ -11,7 +11,6 @@
   Support: https://git.oschina.net/smeoa/smeoa               
  -------------------------------------------------------------------------*/
 
-
 class Page {
     
     // 分页栏每页显示的页数
@@ -99,7 +98,7 @@ class Page {
 				$request=array_combine($request,$request);
 				$parameter=array_intersect_key($_REQUEST,$request);
 			}
-
+			
 			$html=" <form id=\"page_search\" method=\"post\">%input%%pageStr%</form>";
 			$input="<input type=\"hidden\" name=\"$p\" >";
 			$input.="<input type=\"hidden\" name=\"list_rows\" value=\"\">";
@@ -117,7 +116,6 @@ class Page {
 					}
 				}
 			}
-
 			$html=str_replace("%input%",$input,$html);  
         }
 
@@ -125,13 +123,13 @@ class Page {
         $upRow          =   $this->nowPage-1;
         $downRow        =   $this->nowPage+1;
         if ($upRow>0){
-			$upPage="<input type=\"button\" value=\"".$this->config['prev']."\" onclick=\"this.form.$p.value=$upRow;this.form.submit();\">";
+			$upPage="<input type=\"button\" value=\"".$this->config['prev']."\" onclick=\"this.form.mode.value='';this.form.$p.value=$upRow;this.form.submit();\">";
         }else{
             $upPage     =   '';
         }
 
         if ($downRow <= $this->totalPages){
-			$downPage="<input type=\"button\" value=\"".$this->config['next']."\" onclick=\"this.form.$p.value=$downRow;this.form.submit();\">";           
+			$downPage="<input type=\"button\" value=\"".$this->config['next']."\" onclick=\"this.form.mode.value='';this.form.$p.value=$downRow;this.form.submit();\">";           
         }else{
             $downPage   =   '';
         }
@@ -142,7 +140,7 @@ class Page {
         }else{
             $preRow     =   $this->nowPage-$this->rollPage;
 			$prePage="<input type=\"button\" value=\"上".$this->rollPage."页\" onclick=\"this.form.$p.value=$preRow;this.form.submit();\">"; 
-			$theFirst="<input type=\"button\" value=\"".$this->config['first']."\" onclick=\"this.form.$p.value=1;this.form.submit();\">";	
+			$theFirst="<input type=\"button\" value=\"".$this->config['first']."\" onclick=\"this.form.mode.value='';this.form.$p.value=1;this.form.submit();\">";	
         }
         if($nowCoolPage == $this->coolPages){
             $nextPage   =   '';
@@ -151,7 +149,7 @@ class Page {
             $nextRow    =   $this->nowPage+$this->rollPage;
             $theEndRow  =   $this->totalPages;
 			$nextPage="<input type=\"button\" value=\"下".$this->rollPage."页\" onclick=\"this.form.$p.value=$nextRow;this.form.submit();\">"; 
-			$theEnd="<input type=\"button\" value=\"".$this->config['last']."\" onclick=\"this.form.$p.value=$theEndRow;this.form.submit();\">"; 
+			$theEnd="<input type=\"button\" value=\"".$this->config['last']."\" onclick=\"this.form.mode.value='';this.form.$p.value=$theEndRow;this.form.submit();\">"; 
         }
         // 1 2 3 4 5
         $linkPage = "";
@@ -159,7 +157,7 @@ class Page {
             $page       =   ($nowCoolPage-1)*$this->rollPage+$i;
             if($page!=$this->nowPage){
                 if($page<=$this->totalPages){
-				$linkPage.="<input type=\"button\" value=\"$page\" onclick=\"this.form.$p.value=$page;this.form.submit();\">";                     
+				$linkPage.="<input type=\"button\" value=\"$page\" onclick=\"this.form.mode.value='';this.form.$p.value=$page;this.form.submit();\">";                     
                 }else{
                     break;
                 }
@@ -170,13 +168,13 @@ class Page {
             }
         }
 		if($this->totalRows==$this->listRows){
-			$allPage="<input type=\"button\" value=\"".$this->config['page']."\" onclick=\"this.form.$p.value=1;this.form.list_rows.value='';this.form.submit();\">";
+			$allPage="<input type=\"button\" value=\"".$this->config['page']."\" onclick=\"this.form.mode.value='';this.form.$p.value=1;this.form.list_rows.value='';this.form.submit();\">";
 		}else{
-			$allPage="<input type=\"button\" value=\"".$this->config['all']."\" onclick=\"this.form.$p.value=1;this.form.list_rows.value=".$this->totalRows.";this.form.submit();\">";	
+			$allPage="<input type=\"button\" value=\"".$this->config['all']."\" onclick=\"this.form.mode.value='';this.form.$p.value=1;this.form.list_rows.value=".$this->totalRows.";this.form.submit();\">";	
 		}	
-		if(method_exists(A(MODULE_NAME),ACTION_NAME.'_export')){			
+		if(method_exists(A(MODULE_NAME),'_'.ACTION_NAME.'_export')){			
 			$exportPage="<input type=\"button\" value=\"".$this->config['export']."\" onclick=\"this.form.mode.value='export';this.form.list_rows.value=".$this->totalRows.";this.form.submit();\">";			
-		}		
+		}
 		 		
         $pageStr     =   str_replace(array('%header%','%nowPage%','%totalRow%','%totalPage%','%upPage%','%downPage%','%first%','%prePage%','%linkPage%','%nextPage%','%end%','%allPage%','%exportPage%'),
             array($this->config['header'],$this->nowPage,$this->totalRows,$this->totalPages,$upPage,$downPage,$theFirst,$prePage,$linkPage,$nextPage,$theEnd,$allPage,$exportPage),$this->config['theme']);

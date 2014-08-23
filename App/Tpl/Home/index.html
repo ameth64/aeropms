@@ -1,64 +1,4 @@
 <layout name='Layout/ace_home' />
-  <style>
-.device {
-  width: 100%;
-  height: 100%;
-  padding: 0px 0px;
-  position: relative;
-}
-.device .arrow-left {
-  background: url(__PUBLIC__/img/arrows.png) no-repeat left top;
-  position: absolute;
-  left: 0px;
-  top: 50%;
-  margin-top: -15px;
-  width: 17px;
-  height: 30px;
-  z-index:2001;
-}
-.device .arrow-right {
-  background: url(__PUBLIC__/img/arrows.png) no-repeat left bottom;
-  position: absolute;
-  right: 5px;
-  top: 50%;
-  margin-top: -15px;
-  width: 17px;
-  height: 30px;
-   z-index:2001;
-}
-.swiper-container {
-  height: 100%;
-  width: 100%;
-}
-.content-slide {
-  padding: 20px;
-}
-.title {
-  font-size: 25px;
-  margin-bottom: 10px;
-}
-.pagination {
-  position: absolute;
-  left: 0;
-  text-align: center;
-  bottom:0px;
-  width: 100%;
-   z-index:2001;
-}
-.swiper-pagination-switch {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 10px;
-  background: #999;
-  box-shadow: 0px 1px 2px #555 inset;
-  margin: 0 3px;
-  cursor: pointer;
-}
-.swiper-active-switch {
-  background: #fff;
-}
-  </style>
 <div class="row">
 	<div class="col-xs-12">
 		<!-- PAGE CONTENT BEGINS -->
@@ -255,51 +195,6 @@
 					</div>
 				</div>
 				<!-- 论坛结束 -->
-				<!-- 幻灯片开始 -->
-				<div class="widget-box" sort="14">
-					<div class="widget-header">
-						<h5 class="smaller">新闻图片</h5>
-					</div>
-					<div class="widget-body">
-					  <div class="device">
-						<a class="arrow-left" href="#"></a> 
-						<a class="arrow-right" href="#"></a>
-						<div class="swiper-container">
-						  <div class="swiper-wrapper">
-							<div class="swiper-slide"><img class="img-thumbnail" src="__PUBLIC__/img/slider1-1.png"> </div>
-							<div class="swiper-slide"><img class="img-thumbnail" src="__PUBLIC__/img/slider1-2.png"> </div>
-							<div class="swiper-slide">
-							  <div class="content-slide">
-								<p class="title">Slide with HTML</p>
-								<p><img class="img-thumbnail" src="__PUBLIC__/img/slider1-2.png"></p>
-							  </div>
-							</div>
-						  </div>
-						</div>
-						<div class="pagination"></div>
-					  </div>
-					</div>
-				</div>
-				<!-- 幻灯片开始 -->
-				<!-- 幻灯片开始 -->
-				<div class="widget-box" sort="24">
-					<div class="widget-header">
-						<h5 class="smaller">新闻列表</h5>
-					</div>
-					<div class="widget-body">
-						<div class="widget-main ul_table">
-							<ul>
-								<volist name="new_forum_list" id="vo">
-									<li>
-										<span class="pull-right hidden-phone">{$vo.create_time|toDate='m-d'}</span>
-										<span  class="auto autocut"><a url="{:U('forum/read','id='.$vo['id'])}"  node="137" return_url="{:U('forum/index')}" onclick="click_home_list(this)">{$vo.name}</a> </span>
-									</li>
-								</volist>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<!-- 幻灯片开始 -->
 			</div>
 		</div>
 	</div>

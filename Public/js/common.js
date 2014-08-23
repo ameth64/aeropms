@@ -426,7 +426,7 @@ function contact_conv(val) {
 }
 
 /* 判断是否是移动设备 */
-function is_mobile() {
+function is_mobile(){
 	return navigator.userAgent.match(/mobile/i);
 }
 

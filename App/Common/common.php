@@ -474,6 +474,15 @@ function filter_flow_field($val) {
 	}
 }
 
+function get_cell_location($col,$row,$col_offset=0,$row_offset=0){
+	if(!is_numeric($col)){
+		$col=ord($col)-65;
+	}
+	$location=array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
+	$col=$col+$col_offset;
+	$row=$row+$row_offset;
+	return $location[$col].$row;
+}
 
 function get_model_fields($model) {
 	$arr_field = array();

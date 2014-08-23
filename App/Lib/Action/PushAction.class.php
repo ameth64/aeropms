@@ -49,7 +49,7 @@ class PushAction extends Action {
 	function server2() {
 		$user_id = $user_id = get_user_id();
 		session_write_close();
-		for ($i = 0, $timeout = 10; $i < $timeout; $i++) {
+		for ($i = 0, $timeout = 10; $i < $timeout; $i++){
 			if (connection_status() != 0) {
 				exit();
 			}
