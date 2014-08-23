@@ -4,7 +4,7 @@
 		<!-- PAGE CONTENT BEGINS -->
 		<div class="row">
 			<div class="col-xs-12 col-sm-6 widget-container-span" id="t1">
-				 <div class="widget-box display-none" ></div>
+				<div class="widget-box display-none" ></div>
 				<!-- 邮件开始 -->
 				<div class="widget-box" sort="11">
 					<div class="widget-header">
@@ -28,9 +28,7 @@
 										<volist name="new_mail_list" id="vo">
 											<li>
 												<span class="pull-right hidden-phone">{$vo.create_time|toDate='m-d'}</span>
-												<span  class="auto autocut">
-													<a url="{:U('mail/read','id='.$vo['id'])}" node="85" return_url="{:U('mail/folder/','fid=inbox')}" onclick="click_home_list(this)">{$vo.name}</a>
-												</span>
+												<span  class="auto autocut"> <a url="{:U('mail/read','id='.$vo['id'])}" node="85" return_url="{:U('mail/folder/','fid=inbox')}" onclick="click_home_list(this)">{$vo.name}</a> </span>
 											</li>
 										</volist>
 									</ul>
@@ -195,6 +193,67 @@
 					</div>
 				</div>
 				<!-- 论坛结束 -->
+				<!-- 幻灯片开始 -->
+				<div class="widget-box" sort="14">
+					<div class="widget-header">
+						<h5 class="smaller">新闻图片</h5>
+					</div>
+					<div class="widget-body">
+						<div class="flicker-example" data-block-text="false">
+							<ul>
+								<li data-background="__PUBLIC__/img/field.jpg">
+									<div class="flick-title">
+										<a href="aasdsfs">Is Working</a> 
+									</div>
+									<div class="flick-sub-text">
+										Heaven forbid this package you downloaded is broken. That wouldn't be embarrassing at all.
+									</div>
+								</li>
+
+								<li data-background="__PUBLIC__/img/forest.jpg">
+									<div class="flick-title">
+										Editable via Javascript or CSS
+									</div>
+									<div class="flick-sub-text">
+										Take a look at the extensive documentation to see how you can change the settings in multiple ways.
+									</div>
+								</li>
+
+								<li data-background="__PUBLIC__/img/frozen-water.jpg">
+									<div class="flick-title">
+										Touch Enabled Through the jQuery Finger Library
+									</div>
+									<div class="flick-sub-text">
+										jQuery Finger is a great touch library that has been included as part of the Flickerplate package.
+									</div>
+								</li>
+
+							</ul>
+
+						</div>
+
+					</div>
+				</div>
+				<!-- 幻灯片开始 -->
+				<!-- 幻灯片开始 -->
+				<div class="widget-box" sort="24">
+					<div class="widget-header">
+						<h5 class="smaller">新闻列表</h5>
+					</div>
+					<div class="widget-body">
+						<div class="widget-main ul_table">
+							<ul>
+								<volist name="new_forum_list" id="vo">
+									<li>
+										<span class="pull-right hidden-phone">{$vo.create_time|toDate='m-d'}</span>
+										<span  class="auto autocut"><a url="{:U('forum/read','id='.$vo['id'])}"  node="137" return_url="{:U('forum/index')}" onclick="click_home_list(this)">{$vo.name}</a> </span>
+									</li>
+								</volist>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- 幻灯片开始 -->
 			</div>
 		</div>
 	</div>

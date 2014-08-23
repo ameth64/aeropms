@@ -62,15 +62,15 @@ class SystemFolderModel extends CommonModel {
 	}
 	
 	function get_folder_auth($folder_id){				 
-		$auth_list=M("SystemFolder")->where("id=$folder_id")->Field('admin,write,read')->find();	
+		$auth_list=M("SystemFolder")->where("id=$folder_id")->Field('admin,write,read')->find();
 		$result= array_map(array("SystemFolderModel","_check_auth"),$auth_list);
-
 		if ($result['admin']==true){
 			$result['write']=true;				
 		}
 		if ($result['write']==true){
 			$result['read']=true;			
 		}
+		//dump($result);
 		return $result;			
 	}
 
@@ -78,36 +78,35 @@ class SystemFolderModel extends CommonModel {
         $dept = tree_to_list(list_to_tree(M("Dept")->where('is_del=0') -> select(), $id));
         $dept = rotate($dept);
 		$dept=$dept['id'];
+		
 		if(!empty($dept)){
 			$dept = implode(",", $dept) . ",$id";
 			$where['dept_id'] = array('in', $dept);
 		}else{
-			$where['dept_id'] = array('eq', $dept);
-		}
-        
-		if(!empty($dept)){
-			$model = M("User");			
-			$data = $model -> where($where) -> select();
-		}
+			$where['dept_id'] = array('eq',$id);
+		}       
+		$model = M("User");			
+		$data = $model -> where($where) -> select();
         return $data;		
 	}
 	
 	private function _check_auth($auth_list){
-			$arrtmp = explode(';', $auth_list);					
+			$arrtmp = array_filter(explode(';', $auth_list));
 			foreach ($arrtmp as $item) {
-				if (strlen($item) > 2) {
-					if (stripos($item, "dept_")!==false){
-						$arr_dept = explode('|', $item);
-						$dept_id=substr($arr_dept[1],5);						
-						$emp_list =$this->get_emp_list_by_dept_id($dept_id);
-						$emp_list=rotate($emp_list);		
-						if (in_array(get_emp_no(),$emp_list["emp_no"])){
-							return true;
-						}
-					} else {
-						if (stripos($item,get_emp_no())!==false){
-							return true;
-						}
+				if (stripos($item, "dept_")!==false){
+					$arr_dept = explode('|', $item);
+					$dept_id=substr($arr_dept[1],5);
+					$emp_list =$this->get_emp_list_by_dept_id($dept_id);
+					$emp_list=rotate($emp_list);	
+					$emp_list=$emp_list['emp_no'];
+					
+					//dump($emp_list);
+					if (in_array(get_emp_no(),$emp_list)){
+						return true;
+					}
+				} else {
+					if (stripos($item,get_emp_no())!==false){
+						return true;
 					}
 				}
 			}
