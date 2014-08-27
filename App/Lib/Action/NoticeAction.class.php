@@ -165,7 +165,7 @@ class NoticeAction extends CommonAction {
 		$widget['date'] = true;
 		$this -> assign("widget", $widget);
 
-		$arr_read = array_filter(explode("_", get_user_config("readed_notice")));
+		$arr_read = array_filter(explode(",", get_user_config("readed_notice")));
 		$arr_readed_notice = array();
 		$arr_readed_id = array();
 		foreach ($arr_read as $key => $val) {
@@ -176,8 +176,8 @@ class NoticeAction extends CommonAction {
 				$arr_readed_notice[] = $val;
 				$arr_readed_id[] = $notiec_id;
 			}
-		}
-		$this -> assign("readed_id", $arr_readed_id);
+		}		
+		$this -> assign("readed_id", $arr_read);
 				
 		$model = D("Notice");
 		$map = $this -> _search();
@@ -208,7 +208,7 @@ class NoticeAction extends CommonAction {
 		$this -> _down();
 	}
 
-	private function _readed($id) {
+	private function _readed2($id) {
 		$arr_read = array_filter(explode(",", get_user_config("readed_notice")));
 		$arr_readed_notice = array();
 		foreach ($arr_read as $key => $val) {
@@ -229,6 +229,23 @@ class NoticeAction extends CommonAction {
 			trace($readed_notice);
 			M("UserConfig") -> where(array('eq', get_user_id())) -> setField('readed_notice', $readed_notice);
 		}
-	}	
-
+	}
+	
+	private function _readed($id) {
+		
+		$folder_list=D("SystemFolder")->get_authed_folder(get_user_id());
+		$map['folder']=array("in",$folder_list);
+		$map['create_time']=array("egt",time() - 3600 * 24 * 30);
+						
+		$arr_read = array_filter(explode(",", get_user_config("readed_notice").",".$id));
+		$map['id']=array('in',$arr_read);
+		
+		
+		$readed_notice=M("Notice")->where($map)->getField("id,name");
+		$readed_notice=implode(",",array_keys($readed_notice));
+		
+		dump($readed_notice);
+		
+		M("UserConfig") -> where(array('eq', get_user_id())) -> setField('readed_notice', $readed_notice);
+	}		
 }

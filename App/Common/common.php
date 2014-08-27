@@ -10,6 +10,16 @@
 
  Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
+ 
+function get_file_path($sid){
+	if (is_array($sid)) {
+		$where['sid'] = array("in", array_filter($sid));
+	} else {
+		$where['sid'] = array('in', array_filter(explode(';', $sid)));
+	}	
+	$list=M("File")->where($where)->getField('savename');
+	return $list;
+}	
 
 function is_weixin(){
 	if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
@@ -76,20 +86,12 @@ function get_new_count(){
 	$where = array();
 	$where['is_del'] = array('eq', '0');
 	$folder_list = D("SystemFolder") -> get_authed_folder(get_user_id(),"NoticeFolder");
-	$new_notice_count = 0;
-	if ($folder_list) {
-		$where['folder'] = array("in", $folder_list);
-		$where['create_time'] = array('egt', time() - 3600 * 24 * 30);
-		$new_notice_list = M('Notice') -> where($where) -> getField('id,create_time');
-		$readed = get_user_config("readed_notice");
-		if ($new_notice_list){
-			foreach ($new_notice_list as $key => $val) {
-				if (strpos($readed, $key . "|") === false) {
-					$new_notice_count++;
-				}
-			}
-		}
-	}
+	$where['create_time']=array("egt",time() - 3600 * 24 * 30);
+	$readed = array_filter(explode(",",get_user_config("readed_notice")));
+	$where['id']=array("not in",$readed);
+	
+	
+	$new_notice_count =  M('Notice') -> where($where) -> count();	
 	$data['bc-notice']['bc-notice-new']=$new_notice_count;
 
 	//获取待办事项

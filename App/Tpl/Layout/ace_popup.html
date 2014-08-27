@@ -62,7 +62,9 @@
 		</script>
 		<script src="__PUBLIC__/js/bootstrap.min.js"></script>
 		<script src="__PUBLIC__/js/typeahead-bs2.min.js"></script>
-
+		<script src="__PUBLIC__/js/jquery-ui-1.10.3.custom.min.js"></script>
+		<script src="__PUBLIC__/js/jquery.ui.touch-punch.min.js"></script>
+		<script src="__PUBLIC__/js/jquery.slimscroll.min.js"></script>
 		<include file="Widget:plugin"/>
 
 		<!-- ace scripts -->
@@ -73,7 +75,7 @@
 		<include file="Public:script" />
 		<include file="$js_file" />
 	</head>
-	<body>
+	<body onload="toScrollFrame('.myFrame','.myMask');">
 		<div class="container popup">
 			{__CONTENT__}
 		</div>

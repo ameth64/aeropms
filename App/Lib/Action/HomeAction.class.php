@@ -36,6 +36,7 @@ class HomeAction extends CommonAction {
 		$this -> _notice_list();
 		$this -> _doc_list();
 		$this -> _forum_list();
+		$this->_news_list();
 		$this -> display();
 	}
 
@@ -92,9 +93,22 @@ class HomeAction extends CommonAction {
 		//获取最新邮件
 
 		$where['is_del'] = array('eq', '0');
+		$folder_list=D("SystemFolder")->get_authed_folder(get_user_id(),"DocFolder");
+		$where['folder']=array("in",$folder_list);		
 		$doc_list = $model -> where($where) -> field("id,name,create_time") -> order("create_time desc") -> limit(6) -> select();
 		$this -> assign("doc_list", $doc_list);
 	}
+	
+	protected function _news_list() {
+		$user_id = get_user_id();
+		$model = D('News');
+
+		$where['is_del'] = array('eq', '0');
+		$folder_list=D("SystemFolder")->get_authed_folder(get_user_id(),"NewsFolder");
+		$where['folder']=array("in",$folder_list);		
+		$news_list = $model -> where($where) -> field("id,name,create_time") -> order("create_time desc") -> limit(6) -> select();
+		$this -> assign("news_list",$news_list);
+	}	
 
 	protected function _schedule_list() {
 		$user_id = get_user_id();

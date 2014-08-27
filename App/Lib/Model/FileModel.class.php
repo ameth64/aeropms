@@ -1,6 +1,6 @@
 <?php
 /*---------------------------------------------------------------------------
-  Ð¡Î¢OAÏµÍ³ - ÈÃ¹¤×÷¸üÇáËÉ¿ìÀÖ 
+  Ð¡Î¢OAÏµÍ³ - ï¿½Ã¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¿ï¿½ï¿½ï¿½ 
 
   Copyright (c) 2013 http://www.smeoa.com All rights reserved.                                             
 
@@ -13,6 +13,14 @@
 
 class FileModel extends CommonModel {
 
-
+	function get_list($sid){
+		if (is_array($sid)) {
+			$where['sid'] = array("in", array_filter($sid));
+		} else {
+			$where['sid'] = array('in', array_filter(explode(';', $sid)));
+		}
+		$list=M("File")->where($where)->getFiled('id','save_name');
+		return $list;
+	}
 }
 ?>

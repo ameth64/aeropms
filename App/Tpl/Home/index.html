@@ -243,10 +243,10 @@
 					<div class="widget-body">
 						<div class="widget-main ul_table">
 							<ul>
-								<volist name="new_forum_list" id="vo">
+								<volist name="news_list" id="vo">
 									<li>
 										<span class="pull-right hidden-phone">{$vo.create_time|toDate='m-d'}</span>
-										<span  class="auto autocut"><a url="{:U('forum/read','id='.$vo['id'])}"  node="137" return_url="{:U('forum/index')}" onclick="click_home_list(this)">{$vo.name}</a> </span>
+										<span  class="auto autocut"><a url="{:U('news/read','id='.$vo['id'])}"  node="207" return_url="{:U('news/index')}" onclick="click_home_list(this)">{$vo.name}</a> </span>
 									</li>
 								</volist>
 							</ul>

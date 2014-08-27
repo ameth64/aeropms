@@ -19,7 +19,7 @@
 	function prev() {
 		<empty name = "prev" > alert('没有上一个');
 		<else />
-		window.location.href = "{:U('read?id='.$prev.'&list='.$list)}";
+		window.location.href = "{:U('read','id='.$prev.'&list='.$list)}";
 		</empty>
 	}
 
