@@ -28,17 +28,17 @@
 						<input class="node" type="hidden" name="node[]" value="{$vo.id}">
 						<input class="priority" type="hidden" name="priority[]" value="{$vo.priority}">
 						<input class="sort" type="hidden" name="sort[]">
-						<div>
-							<img src="{:get_save_url()}{:get_file_path($vo['add_file'])}">
+						<div class="col-sm-6 profile-picture">
+							<img class="img-responsive" src="{:get_save_url()}{:get_file_path($vo['add_file'])}">
 						</div>
-						<div class="pull-right">
-							<span class="col-30 ">{$vo.link}</span>	
-							<span class="col-10 text-center">{$vo.color}  </span>													
-							<span class="col-3  text-center"> <a title="删除" class="del" onclick="del(this);"><i class="fa fa fa-times"></i></a> </span>
+						<div class="col-sm-6">
+							<span class="col-sm-12"> <a href="{:U('edit','id='.$vo['id'])}">{$vo.name}</a> </span>
+							<span class="col-sm-12">{$vo.link}</span>	
+							<span class="col-sm-12 ">{$vo.color}  </span>
+							<span class="col-3  text-center"> <a title="调高优先级" class="up"><i class="fa fa-arrow-up"></i></a> </span>							
 							<span class="col-3  text-center"> <a title="调低优先级" class="down"><i class="fa fa-arrow-down"></i></a> </span>
-							<span class="col-3  text-center"> <a title="调高优先级" class="up"><i class="fa fa-arrow-up"></i></a> </span>												
-						</div>
-						<span class="auto"> <a href="{:U('edit','id='.$vo['id'])}">{$vo.name}</a> </span>
+							<span class="col-3  text-center"> <a title="删除" class="del" onclick="del(this);"><i class="fa fa fa-times"></i></a> </span>
+						</div>						
 					</li>
 				</foreach>
 			</ul>

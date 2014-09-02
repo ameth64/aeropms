@@ -231,21 +231,17 @@ class NoticeAction extends CommonAction {
 		}
 	}
 	
-	private function _readed($id) {
-		
+	private function _readed($id) {		
 		$folder_list=D("SystemFolder")->get_authed_folder(get_user_id());
 		$map['folder']=array("in",$folder_list);
 		$map['create_time']=array("egt",time() - 3600 * 24 * 30);
 						
 		$arr_read = array_filter(explode(",", get_user_config("readed_notice").",".$id));
 		$map['id']=array('in',$arr_read);
-		
-		
+				
 		$readed_notice=M("Notice")->where($map)->getField("id,name");
 		$readed_notice=implode(",",array_keys($readed_notice));
-		
-		dump($readed_notice);
-		
-		M("UserConfig") -> where(array('eq', get_user_id())) -> setField('readed_notice', $readed_notice);
-	}		
+		$where['id']=array('eq',get_user_id());
+		M("UserConfig") -> where($where) -> setField('readed_notice', $readed_notice);
+	}
 }

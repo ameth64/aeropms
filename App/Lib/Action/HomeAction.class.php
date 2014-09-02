@@ -36,7 +36,8 @@ class HomeAction extends CommonAction {
 		$this -> _notice_list();
 		$this -> _doc_list();
 		$this -> _forum_list();
-		$this->_news_list();
+		$this -> _news_list();
+		$this -> _slide_list();
 		$this -> display();
 	}
 
@@ -109,7 +110,13 @@ class HomeAction extends CommonAction {
 		$news_list = $model -> where($where) -> field("id,name,create_time") -> order("create_time desc") -> limit(6) -> select();
 		$this -> assign("news_list",$news_list);
 	}	
-
+	
+	
+	protected function _slide_list() {
+		$slide_list = M("Slide") -> where($where) -> order('sort asc') -> select();		
+		$this -> assign("slide_list",$slide_list);
+	}
+	
 	protected function _schedule_list() {
 		$user_id = get_user_id();
 		$model = M('Schedule');

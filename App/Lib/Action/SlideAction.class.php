@@ -24,8 +24,7 @@ class SlideAction extends CommonAction {
 		$list = M("Slide") -> where($where) -> order('sort asc') -> select();
 		$this -> assign("list",$list);
 
-		$this -> display();
-		return;
+		$this -> display();	
 	}
 
 	public function upload() {

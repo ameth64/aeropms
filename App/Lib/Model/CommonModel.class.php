@@ -30,5 +30,26 @@ class CommonModel extends Model {
 		$user_name = session('user_name');
 		return isset($user_name) ? $user_name : 0;
 	}
+	
+	protected function _pushReturn($data,$info,$status,$user_id,$time = null){
+		$model = M("Push");
+
+		$model -> data = $data;
+		$model -> info = $info;
+		$model -> status = $status;
+		
+		if(empty($user_id)){
+			$model -> user_id = get_user_id();
+		}else{
+			$model -> user_id=$user_id;
+		}
+
+		if (empty($time)) {
+			$model -> time = time();
+		} else {
+			$model -> time = $time;
+		}
+		$model -> add();
+	}	
 }
 ?>
