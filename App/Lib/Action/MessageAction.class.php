@@ -11,6 +11,8 @@ class MessageAction extends CommonAction {
 	}
 
 	function add() {
+		$widget['uploader'] = true;
+		$this -> assign("widget", $widget);	
 		$this -> display();
 	}
 
@@ -67,6 +69,8 @@ class MessageAction extends CommonAction {
 	}
 
 	public function read(){
+		$widget['uploader'] = true;
+		$this -> assign("widget", $widget);	
 
 		$receiver_id = $_REQUEST['reply_id'];
 		$sender_id = get_user_id();
