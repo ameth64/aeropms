@@ -43,7 +43,7 @@ class SystemAction extends CommonAction {
 		 $server_info = $this->_SERVER('SERVER_NAME').'|'.$this->_SERVER('REMOTE_ADDR');
 		 $server_info .= '|'.$this->_SERVER('DOCUMENT_ROOT');
 
-		$result = @file_get_contents('http://www.smeoa.com/get_auth.php?'.base64_encode($server_info);
+		$result = @file_get_contents('http://www.smeoa.com/get_auth.php?'.base64_encode($server_info));
 		return $result;
 	}
 

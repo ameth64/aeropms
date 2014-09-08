@@ -26,8 +26,11 @@ class FlowControlWidget extends Widget {
 			case 'textarea':
 				$content = $this->renderFile('textarea',$data);
 				break;
-			case 'editer':
-				$content = $this->renderFile('editer',$data);
+			case 'editor':
+				$content = $this->renderFile('editor',$data);
+				break;
+			case 'simple':
+				$content = $this->renderFile('simple',$data);
 				break;
 			case 'help':
 				$content = $this->renderFile('help',$data);

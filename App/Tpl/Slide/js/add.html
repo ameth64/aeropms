@@ -1,7 +1,6 @@
 <script type="text/javascript">
 	function save() {
-		window.onbeforeunload=null;
-		editor.sync();
+		window.onbeforeunload=null;		
 		if (check_form("form_data")) {
 			sendForm("form_data", "{:U('save')}");
 		}

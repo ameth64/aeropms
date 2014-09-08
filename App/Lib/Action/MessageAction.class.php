@@ -11,6 +11,7 @@ class MessageAction extends CommonAction {
 	}
 
 	function add() {
+		$widget['editor'] = true;
 		$widget['uploader'] = true;
 		$this -> assign("widget", $widget);	
 		$this -> display();
@@ -174,5 +175,8 @@ class MessageAction extends CommonAction {
 			$this -> error('删除失败!');
 			//失败提示
 		}
+	}
+	function down() {
+		$this -> _down();
 	}
 }

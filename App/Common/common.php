@@ -1229,6 +1229,18 @@ function status($status) {
 	}
 }
 
+function crm_status($status) {
+	if ($status == 0) {
+		return "未审核";
+	}
+	if ($status == 1) {
+		return "通过";
+	}
+	if ($status == 2) {
+		return "拒绝";
+	}
+}
+
 function todo_status($status) {
 	if ($status == 1) {
 		return "尚未进行";

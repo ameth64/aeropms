@@ -5,7 +5,7 @@
 			email = $(this).html().split(";")[1].split("&")[0];
 			emp_no = $(this).val();
 			name = jQuery.trim($(this).text()).replace(/<.*>/, '');
-			html = conv_inputbox_item(emp_no, name,email, email);
+			html = conv_inputbox_item(emp_no, name, email, email);
 			$("#recever .address_list", parent.document).append(html);
 		});
 		$("#cc select option").each(function(i) {
@@ -26,7 +26,7 @@
 	}
 
 	// 显示AJAX 读取的数据
-	function showdata(result){
+	function showdata(result) {
 		$("#addr_list").html("");
 		if ( type = $("input[name='type']:checked").val() == "company") {
 			var id = "dept_" + $("#company a.active").attr("node");
@@ -58,8 +58,8 @@
 			$("input[name='type']").each(function() {
 				$("#" + $(this).val()).addClass("display-none");
 			});
-			$("#" + $(this).val()).removeClass("display-none")
-		})
+			$("#" + $(this).val()).removeClass("display-none");
+		});
 
 		$(".tree_menu  a").click(function() {
 			$(".tree_menu a").removeClass("active");
@@ -67,7 +67,7 @@
 			$(this).addClass("active");
 			sendAjax("{:U('read')}", "type=" + type + "&id=" + $(this).attr("node"), function(data) {
 				showdata(data);
-			})
+			});
 			return false;
 			//禁止连接生效
 		});
@@ -96,8 +96,8 @@
 			$("#bcc_count").text("(" + $("#bcc select option").length + ")");
 		});
 
-		$("#addr_list").on("mouseover", function(){
-			if(!is_mobile()){
+		$("#addr_list").on("mouseover", function() {
+			if (!is_mobile()) {
 				$("#addr_list label").draggable({
 					appendTo : "body",
 					helper : "clone"
@@ -159,7 +159,7 @@
 				$(this).removeClass("ui-state-default");
 			}
 		});
-	})
+	});
 	//最终确认
 
 	function add_address(name) {
@@ -170,8 +170,8 @@
 				$("<option></option>").val($val).text($text).appendTo("#" + name + " select");
 				$("#" + name + "_count").text("(" + $("#" + name + " select option").length + ")");
 			};
-		})
-	}
+		});
+	};
 
 	//-->
 </script>

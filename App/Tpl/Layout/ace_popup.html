@@ -11,20 +11,17 @@
 		<link href="__PUBLIC__/css/bootstrap.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="__PUBLIC__/css/font-awesome.min.css" />
 
-		<!--[if IE 7]>
-		<link rel="stylesheet" href="__PUBLIC__/css/font-awesome-ie7.min.css" />
-		<![endif]-->
-
 		<!-- page specific plugin styles -->
 		<include file="Widget:css"/>
 
 		<!-- fonts -->
 
 		<!-- ace styles -->
-
 		<link rel="stylesheet" href="__PUBLIC__/css/ace.min.css" />
 		<link rel="stylesheet" href="__PUBLIC__/css/ace-rtl.min.css" />
 		<link rel="stylesheet" href="__PUBLIC__/css/ace-skins.min.css" />
+		<link rel="stylesheet" href="__PUBLIC__/css/idangerous.swiper.css">
+		<link rel="stylesheet" href="__PUBLIC__/css/idangerous.swiper.scrollbar.css">
 
 		<!--[if lte IE 8]>
 		<link rel="stylesheet" href="__PUBLIC__/css/ace-ie.min.css" />
@@ -33,7 +30,35 @@
 		<!-- inline styles related to this page -->
 		<link rel="stylesheet" href="__PUBLIC__/css/style.css" />
 		<!-- ace settings handler -->
-
+		<style>
+			.swiper-slide {
+				padding: 0px;
+				background: #fff;
+			}
+			.red-slide {
+				background: #ca4040;
+			}
+			.blue-slide {
+				background: #4390ee;
+			}
+			.orange-slide {
+				background: #ff8604;
+			}
+			.green-slide {
+				background: #49a430;
+			}
+			.pink-slide {
+				background: #973e76;
+			}
+			.swiper-scrollbar {
+				width: 100%;
+				height: 4px;
+				position: absolute;
+				left: 0;
+				bottom: 5px;
+				z-index: 1;
+			}
+		</style>
 		<script src="__PUBLIC__/js/ace-extra.min.js"></script>
 
 		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -56,15 +81,11 @@
 		window.jQuery || document.write("<script src='__PUBLIC__/js/jquery-1.11.0.min.js'>"+"<"+"/script>");
 		</script>
 		<![endif]-->
-		<script type="text/javascript">
-			if ("ontouchend" in document)
-				document.write("<script src='__PUBLIC__/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
-		</script>
+
 		<script src="__PUBLIC__/js/bootstrap.min.js"></script>
-		<script src="__PUBLIC__/js/typeahead-bs2.min.js"></script>
-		<script src="__PUBLIC__/js/jquery-ui-1.10.3.custom.min.js"></script>
-		<script src="__PUBLIC__/js/jquery.ui.touch-punch.min.js"></script>
-		<script src="__PUBLIC__/js/jquery.slimscroll.min.js"></script>
+
+		<script src="__PUBLIC__/js/idangerous.swiper-2.1.min.js"></script>
+		<script src="__PUBLIC__/js/idangerous.swiper.scrollbar-2.1.js"></script>
 		<include file="Widget:plugin"/>
 
 		<!-- ace scripts -->
@@ -75,9 +96,34 @@
 		<include file="Public:script" />
 		<include file="$js_file" />
 	</head>
-	<body onload="toScrollFrame('.myFrame','.myMask');">
-		<div class="container popup">
-			{__CONTENT__}
+	<body>
+		<div class="swiper-container">
+			<div class="swiper-scrollbar"></div>
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<div class="container popup">
+						{__CONTENT__}
+					</div>
+				</div>
+			</div>
 		</div>
+		<script>
+			if(is_mobile()){
+				var mySwiper = new Swiper('.swiper-container', {
+					scrollContainer : true,
+					scrollbar : {
+						container : '.swiper-scrollbar'
+					}
+				});
+			}
+			$(document).ready(function(){
+				if(is_mobile()){
+					$(".swiper-container").width($(window).width());	
+				}else{
+					$(".swiper-container").width(700);
+				}
+				
+			});
+		</script>
 	</body>
 </html>

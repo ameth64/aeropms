@@ -414,7 +414,7 @@ class CommonAction extends Action {
 			if (substr($val,0,3) == "be_") {
 				if (isset($_REQUEST["en_" . substr($val, 3)])) {
 					if (strpos($val, "time")) {
-						$map[substr($val, 3)] = array( array('egt',date_to_int(trim($_REQUEST[$val]))), array('elt',date_to_int(trim($_REQUEST["en_" . substr($val, 3)]))));
+						$map[substr($val, 3)] = array( array('egt',date_to_int(trim($_REQUEST[$val]))), array('elt',date_to_int(trim($_REQUEST["en_".substr($val, 3)]))+86400));
 					}
 					if (strpos($val, "date")) {
 						$map[substr($val, 3)] = array( array('egt', trim($_REQUEST[$val])), array('elt', trim($_REQUEST["en_" . substr($val, 3)])));

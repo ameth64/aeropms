@@ -88,14 +88,16 @@ class WorkLogAction extends CommonAction {
 
 	public function edit() {
 		$widget['date'] = true;	
-		$widget['uploader'] = true;		
+		$widget['uploader'] = true;	
+		$widget['editor'] = true;
 		$this -> assign("widget", $widget);
 		$this->_edit();
 	}
 
 	public function add() {
 		$widget['date'] = true;	
-		$widget['uploader'] = true;		
+		$widget['uploader'] = true;
+		$widget['editor'] = true;	
 		$this -> assign("widget", $widget);		
 		$this->display();
 	}

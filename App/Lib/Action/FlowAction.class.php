@@ -274,7 +274,8 @@ class FlowAction extends CommonAction {
 		if(empty($folder)){
 			$this ->error("系统错误");
 		}
-		$this->_flow_auth_filter($folder,$map);			
+		$this->_flow_auth_filter($folder,$map);		
+			
 		$model = D("Flow");
 		$id = $_REQUEST['id'];
 		$where['id']=array('eq',$id);

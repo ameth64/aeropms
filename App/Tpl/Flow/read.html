@@ -10,10 +10,10 @@
 			</notempty>
 		</div>
 		<div class="pull-right">
-				<a onclick="winprint();" class="btn btn-sm btn-primary">打印</a>			
-				<notempty name="is_edit">			
-					<a onclick="save();" class="btn btn-sm btn-primary">保存</a>			
-				</notempty>
+			<a onclick="winprint();" class="btn btn-sm btn-primary">打印</a>
+			<notempty name="is_edit">
+				<a onclick="save();" class="btn btn-sm btn-primary">保存</a>
+			</notempty>
 		</div>
 	</div>
 </div>
@@ -83,24 +83,10 @@
 			</p>
 		</div>
 	</div>
+	
 	<volist name="field_list" id="field_vo">
 		{:W('FlowField',$field_vo)}
 	</volist>
-	
-	<div class="form-group">
-		<div class="col-xs-12">
-			<empty name = "is_edit">
-				<div class="content_wrap">
-					<iframe class="content_iframe"></iframe>
-					<textarea class="content display-none"  name="content" style="width:100%;height:300px;" >{$vo.content}</textarea>
-				</div>
-			</empty>
-			<notempty name="is_edit">
-					<textarea class="editor content display-none"  name="content" style="width:100%;height:300px;" >{$vo.content}</textarea>				
-			<notempty>
-		</div>
-	</div>
-
 	<notempty name="vo.add_file">
 		<div class="form-group">
 			<label class="col-sm-2 control-label" >附件：</label>
@@ -113,8 +99,10 @@
 				</notempty>
 			</div>
 		</div>
-	</notempty>
+	</notempty>	
+	<div class="clearfix"></div>	
 </form>
+
 <a id="flow_status"></a>
 {:W('PageHeader',array('name'=>'审批情况','search'=>'N'))}
 <div class="ul_table border-bottom">
@@ -143,9 +131,8 @@
 <notempty name="to_confirm">
 	<a id="confirm"></a>
 	{:W('PageHeader',array('name'=>'办理意见','search'=>'N'))}
-	<form method="post" action="" name="form_confirm" id="form_confirm">
-		<input type="hidden" name="id" value="{$to_confirm.id}">
-		<input type="hidden" name="flow_id" value="{$vo.id}">
+	<form method="post" action="" name="form_confirm" id="form_confirm">		
+		<input type="hidden" name="crm_id" value="{$vo.id}">
 		<input type="hidden" name="step" value="{$to_confirm.step}">
 		<div class="operate panel panel-default">
 			<div class="panel-heading clearfix">
@@ -168,7 +155,7 @@
 							</ul>
 						</div>
 					</notempty>
-					<a onclick="reject();" class="btn btn-sm btn-danger">否决</a>					
+					<a onclick="reject();" class="btn btn-sm btn-danger">否决</a>
 					|
 					<a onclick="approve();" class="btn btn-sm btn-primary">同意</a>
 				</div>

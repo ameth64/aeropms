@@ -1,33 +1,34 @@
-        <script src="__PUBLIC__/js/min/modernizr-custom-v2.7.1.min.js" type="text/javascript"></script>
-    <script src="__PUBLIC__/js/min/jquery-finger-v0.1.0.min.js" type="text/javascript"></script>
+<script src="__PUBLIC__/js/min/modernizr-custom-v2.7.1.min.js" type="text/javascript"></script>
+<script src="__PUBLIC__/js/min/jquery-finger-v0.1.0.min.js" type="text/javascript"></script>
 
-    <!--Include flickerplate-->
-	<link href="__PUBLIC__/css/flickerplate.css"  type="text/css" rel="stylesheet">
-    <script src="__PUBLIC__/js/min/flickerplate.min.js" type="text/javascript"></script>
-
+<!--Include flickerplate-->
+<link href="__PUBLIC__/css/flickerplate.css"  type="text/css" rel="stylesheet">
+<script src="__PUBLIC__/js/min/flickerplate.min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
-	jQuery(function($){
-		$('.widget-container-span').sortable({
-			connectWith : '.widget-container-span',
-			cancel : ".widget-body,.nav-tabs",
-			stop : function(event, ui){
-				set_sort()
-			},
-			items : '> .widget-box',
-			opacity : 0.8,
-			revert : true,
-			forceHelperSize : true,
-			placeholder : 'widget-placeholder',
-			forcePlaceholderSize : true,
-			tolerance : 'pointer'
-		});
-
+	$(function() {
+		if (!is_mobile()){
+			$('.widget-container-span').sortable({
+				connectWith : '.widget-container-span',
+				cancel : ".widget-body,.nav-tabs",
+				stop : function(event, ui) {
+					set_sort();
+				},
+				items : '> .widget-box',
+				opacity : 0.8,
+				revert : true,
+				forceHelperSize : true,
+				placeholder : 'widget-placeholder',
+				forcePlaceholderSize : true,
+				tolerance : 'pointer'
+			});
+		}
 		init_sort("{$home_sort}");
 	});
-	function init_sort(sort_string){
-		if(sort_string==""){
-			sort_string="11,12,13|21,22,23";
+
+	function init_sort(sort_string) {
+		if (sort_string == "") {
+			sort_string = "11,12,13|21,22,23";
 		}
 		array_sort_string = sort_string.split("|");
 		sort_string_1 = array_sort_string[0];
@@ -55,12 +56,12 @@
 		}
 	};
 
-	function set_sort(){
+	function set_sort() {
 		var sort_string = "";
-		t1_count=$("#t1 .widget-box:not(.display-none)").length;
-		t2_count=$("#t2 .widget-box:not(.display-none)").length;
+		t1_count = $("#t1 .widget-box:not(.display-none)").length;
+		t2_count = $("#t2 .widget-box:not(.display-none)").length;
 
-		if((t1_count==0) || (t2_count==0)){
+		if ((t1_count == 0) || (t2_count == 0)) {
 			ui_error("至少保留一个");
 			location.reload();
 			return false;
@@ -74,17 +75,15 @@
 		})
 		sendAjax("{:U('set_sort')}", "val=" + sort_string);
 	}
-	
-	$(function(){
-		$('.flicker-example').flicker(
-		{
-            auto_flick: true,
-            dot_alignment:"right",
-            auto_flick_delay: 5,
-            flick_animation: "transform-slide",
-            theme:"dark"
-        });
+
+	$(function() {
+		$('.flicker-example').flicker({
+			auto_flick : true,
+			dot_alignment : "right",
+			auto_flick_delay : 5,
+			flick_animation : "transform-slide",
+			theme : "dark"
+		});
 	});
-	
 
 </script>
