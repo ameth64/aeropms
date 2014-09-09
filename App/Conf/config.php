@@ -8,6 +8,7 @@
 		'TMPL_CACHE_ON' => false,
 		'TOKEN_ON'=>false, 
 		'URL_CASE_INSENSITIVE' =>   true,
+		'TMPL_STRIP_SPACE'=>false,
 		'URL_HTML_SUFFIX' => '',
 		'DB_FIELDS_CACHE'=>false,
         'SESSION_AUTO_START'=>true,

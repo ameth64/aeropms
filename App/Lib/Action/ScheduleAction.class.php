@@ -53,13 +53,13 @@ class ScheduleAction extends CommonAction {
 
 		$where['id'] = $id;
 		$where['user_id'] = get_user_id();
-
 		$vo = $model -> where($where) -> find();
 		$this -> assign('vo', $vo);
 		$this -> display();
 	}
 
 	function search() {
+		
 		$widget['date'] = true;
 		$this -> assign("widget", $widget);
 
@@ -67,15 +67,16 @@ class ScheduleAction extends CommonAction {
 		if (method_exists($this, '_search_filter')) {
 			$this -> _search_filter($map);
 		}
-		if (empty($_POST["start_date"])) {
+		
+		if (empty($_POST["gt_start_date"])) {
 			$start_date = toDate(mktime(0, 0, 0, date("m"), 1, date("Y")), 'Y-m-d');
 			$map['start_date'] = array("egt", $start_date);
 		} else {
 			$start_date = $_POST["start_date"];
 		}
-		if (empty($_POST["end_date"])) {
+		if (empty($_POST["lt_end_date"])) {
 			$end_date = toDate(mktime(0, 0, 0, date("m") + 1, 0, date("Y")), 'Y-m-d');
-			$map['end_date'] = array("elt", toDate(time(), 'Y-m-d'));
+			$map['end_date'] = array("elt",$end_date);
 		} else {
 			$end_date = $_POST["end_date"];
 		}
@@ -83,7 +84,6 @@ class ScheduleAction extends CommonAction {
 		$this -> assign('end_date', $end_date);
 
 		$model = D("Schedule");
-
 		if (!empty($model)) {
 			$this -> _list($model, $map);
 		}
