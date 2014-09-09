@@ -9,8 +9,9 @@ body{
 	-webkit-overflow:auto;
 }
 input[type=checkbox].ace,input[type=radio].ace{
+	height:0px;
 	position: relative;
-	margin-left:-30px;
+	margin-left:-20px;
 }
 .operate .btn,.operate .btn-group{
 	margin-left:4px;margin-right:4px;
