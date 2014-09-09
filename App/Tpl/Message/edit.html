@@ -57,7 +57,7 @@
 	});
 
 	function save() {
-		editor.sync();
+		window.onbeforeunload=null;
 		if (check_form("form_data")) {			
 			sendForm("form_data", "{:U('save')}");
 		}

@@ -24,7 +24,6 @@
 		$("#refer_name").val("");
 		$("#refer_name").val($("#refer_wrap span.address_list").html());
 
-		editor.sync();
 		if (check_form("form_data")) {
 			sendForm("form_data", "{:U('save')}","{:U('index')}");
 		}

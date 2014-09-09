@@ -5,7 +5,6 @@
 
 	function save() {
 		window.onbeforeunload=null;
-		editor.sync();
 		$("#actor").val("");
 		$("#actor_wrap span.address_list span").each(function() {
 			$("#actor").val($("#actor").val() + $(this).find("b").text() + '|' + $(this).attr("data") + ";")
