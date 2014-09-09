@@ -85,6 +85,8 @@ class CommonAction extends Action {
 			$this -> assign("title",get_system_config("SYSTEM_NAME")."-".$top_menu_name);
 			$left_menu = list_to_tree($menu,$top_menu);
 			$this -> assign('left_menu',$left_menu);
+		}else{
+			$this -> assign("title",get_system_config("SYSTEM_NAME"));
 		}
 	}
 

@@ -27,7 +27,7 @@ class NoticeAction extends CommonAction {
 		$widget['date'] = true;
 		$this -> assign("widget", $widget);
 		
-		$arr_read = explode("_", get_user_config("readed_notice"));
+		$arr_read = array_filter(explode(",", get_user_config("readed_notice")));
 		$arr_readed_notice = array();
 		$arr_readed_id = array();
 		foreach ($arr_read as $key => $val) {
@@ -38,9 +38,8 @@ class NoticeAction extends CommonAction {
 				$arr_readed_notice[] = $val;
 				$arr_readed_id[] = $notiec_id;
 			}
-		}
-
-		$this -> assign("readed_id", $arr_readed_id);
+		}		
+		$this -> assign("readed_id", $arr_read);
 
 		$user_id = get_user_id();
 		$map = $this -> _search();

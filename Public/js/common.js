@@ -9,7 +9,7 @@ function winprint() {
 function click_top_menu(node) {
 	set_cookie("left_menu", "");
 	url = $(node).attr("url");
-	node = $(node).attr("node")
+	node = $(node).attr("node");
 	set_cookie("top_menu", node);
 
 	form = $("<form></form>");
@@ -376,31 +376,31 @@ function go_return_url(level) {
 /*打开弹出窗口*/
 function winopen(url, w, h) {
 	url = fix_url(url);
-	$("html,body").css("overflow", "hidden");
+	$("html,body").css("overflow","hidden");
 	$("div.shade").show();
 	var _body = $("body").eq(0);
-	if ($("#dialog").length == 0) {
+	if ($("#dialog").length == 0){
 		if (!is_mobile()) {
-			_body.append("<div id=\"dialog\"><iframe src='" + url + "' style='width:" + w + "px;height:100%' scrolling='auto' ></iframe></div>");
+			_body.append("<div id=\"dialog\" ><iframe class=\"myFrame\" src='" + url + "' style='width:" + w + "px;height:100%' scrolling='auto' ></iframe></div>");
 			$("#dialog").css({
-				width : w,
-				height : h,
-				position : "fixed",
+				"width" : w,
+				"height" : h,				
+				"position" : "fixed",
 				"z-index" : "2000",
-				top : ($(window).height() / 2 - h / 2),
-				left : (_body.width() / 2 - w / 2),
+				"top" : ($(window).height() / 2 - h / 2),
+				"left" : (_body.width() / 2 - w / 2),
 				"background-color" : "#ffffff"
 			});
 		} else {
 			$("div.shade").css("width", _body.width());
-			_body.append("<div class=\"myMask\" id=\"dialog\"><iframe src='" + url + "' style='width:100%;height:100%' scrolling='auto' ></iframe></div>");
-			$("#dialog").css({
-				width : _body.width(),
-				height : h,
-				position : "fixed",
+			_body.append("<div id=\"dialog\" ><iframe class=\"myFrame\" src='" + url + "' style='width:100%;height:100%' scrolling='auto' ></iframe></div>");
+			$("#dialog").css({				
+				"width" : _body.width(),
+				"height" : h,
+				"position" : "fixed",
 				"z-index" : "2000",
-				top : 0,
-				left : 0,
+				"top":0,
+				"left":0,
 				"background-color" : "#ffffff"
 			});
 		}
@@ -635,7 +635,7 @@ $(document).ready(function() {
 	$(".sidebar .nav a[node='" + current_node + "']").parents("li").each(function() {
 		$(this).addClass("active open");
 		breadcrumb = '<li>' + $(this).find("a:first").text() + '</li>' + breadcrumb;
-	})
+	});
 	$(".breadcrumb").append(breadcrumb);
 	top_menu = get_cookie("top_menu");
 	$(".navbar-nav a.nav-app[node=" + top_menu + "]").addClass("active");

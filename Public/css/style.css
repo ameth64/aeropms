@@ -4,6 +4,14 @@ body, h1, h2, h3, h4, h5, h6, p, ul, li, ol, dt, dl, input, textarea {
 body{
 	background-color:#fff;
 }
+#dialog{
+	-webkit-overflow-scrolling:touch;
+	-webkit-overflow:auto;
+}
+input[type=checkbox].ace,input[type=radio].ace{
+	position: relative;
+	margin-left:-30px;
+}
 .operate .btn,.operate .btn-group{
 	margin-left:4px;margin-right:4px;
 }

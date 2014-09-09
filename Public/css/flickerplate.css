@@ -5,6 +5,9 @@
 	background-color: #e6e6e6;
 	overflow: hidden
 }
+.flickerplate a{
+	color:#111;
+}
 .flickerplate ul.flicks {
 	width: 10000%;
 	height: 100%;
@@ -26,7 +29,7 @@
 	padding: 10px;
 	color: #fff;
 	display: table-cell;
-	vertical-align: middle
+	vertical-align: bottom;
 }
 .flickerplate ul.flicks > li .flick-inner .flick-content {
 	max-width: 68.75em;
