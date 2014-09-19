@@ -9,7 +9,7 @@
 		var vars = $("#form_data").serialize();
 		ui_confirm('确定要删除吗?',function(){
 			sendForm("form_data", "{:U('del')}");
-		})
+		});
 	}
 
 	$(function() {

@@ -17,6 +17,7 @@ class FlowLogModel extends CommonModel {
 	protected $_validate	 =	 array(
 
 	);
+	
 	function _before_insert(&$data,$options){
 		$emp_no = $data["emp_no"];
 		$where['emp_no']=array('eq',$emp_no);

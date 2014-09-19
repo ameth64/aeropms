@@ -11,7 +11,7 @@
 							});
 						}
 					});
-				})
+				});
 				break;
 			default:
 		}
@@ -30,7 +30,7 @@
 					});	
 				}
 			});
-		})
+		});
 	}
 
 	function approve(id){
@@ -42,13 +42,13 @@
 					});	
 				}
 			});
-		})
+		});
 	}
 
 	$(document).ready(function() {
 		set_return_url();
 		$("#move_to li").click(function() {
 			move_to($(this).attr("id"));
-		})
+		});
 	}); 
 </script>

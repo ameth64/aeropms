@@ -11,11 +11,12 @@
 
 		$("#tag_wrap span b", parent.document).each(function() {
 			$(this).remove();
-		})
+		});
 
 		$("#tag_wrap span", parent.document).each(function() {
 			$(this).append("<b>;</b>   ");
-		})
+		});
+		
 		$("#tag_wrap span", parent.document).last().find("b").remove();
 
 		$("#tag_wrap", parent.document).show();
@@ -26,7 +27,7 @@
 
 	$(document).ready(function() {
 		$("#tag .tree_menu  a").click(function() {//点击节点时读取相应的数据
-			$("#tag .tree_menu a").each(function() {
+			$("#tag .tree_menu a").each(function(){
 				$(this).attr("class", "");
 			});
 			$(this).attr("class", "active");
@@ -69,7 +70,7 @@
 				$(this).removeClass("ui-state-default");
 			}
 		});
-	})
+	});
 	//最终确认
 
 	function add_address(name) {

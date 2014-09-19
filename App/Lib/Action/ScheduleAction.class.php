@@ -19,14 +19,7 @@ class ScheduleAction extends CommonAction {
 			$map['name'] = array('like', "%" . $_POST['name'] . "%");
 		}
 		$map['user_id'] = array('eq', get_user_id());
-		$map['is_del'] = array('eq', '0');
-		if (!empty($_POST["start_date"])) {
-			$map['start_date'] = array("egt", $_POST["start_date"]);
-		}
-		if (!empty($_POST["end_date"])) {
-			$map['end_date'] = array("elt", $_POST["end_date"]);
-		}
-		$map['is_del'] = array('eq', '0');
+		$map['is_del'] = array('eq', '0');		
 	}
 
 	public function upload() {
@@ -68,18 +61,15 @@ class ScheduleAction extends CommonAction {
 			$this -> _search_filter($map);
 		}
 		
-		if (empty($_POST["gt_start_date"])) {
+		if (empty($_POST["be_start_date"])&&empty($_POST["en_start_date"])) {
 			$start_date = toDate(mktime(0, 0, 0, date("m"), 1, date("Y")), 'Y-m-d');
-			$map['start_date'] = array("egt", $start_date);
+			$end_date = toDate(mktime(0, 0, 0, date("m") + 1, 0, date("Y")), 'Y-m-d');			
+			$map['start_date'] = array(array("egt", $start_date),array("elt",$end_date));					
 		} else {
-			$start_date = $_POST["start_date"];
+			$start_date = $_POST["be_start_date"];
+			$end_date = $_POST["en_start_date"];
 		}
-		if (empty($_POST["lt_end_date"])) {
-			$end_date = toDate(mktime(0, 0, 0, date("m") + 1, 0, date("Y")), 'Y-m-d');
-			$map['end_date'] = array("elt",$end_date);
-		} else {
-			$end_date = $_POST["end_date"];
-		}
+		
 		$this -> assign('start_date', $start_date);
 		$this -> assign('end_date', $end_date);
 

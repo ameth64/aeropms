@@ -42,18 +42,18 @@
 	$(document).ready(function() {
 		$("div.combo input").focus(function() {
 			$(this).parent().find("label").hide();
-		})
+		});
 
 		$("div.combo input").blur(function() {
 			if ($(this).val().length == 0) {
 				$(this).parent().find("label").show();
 			}
-		})
+		});
 		set_val("to", "{$vo.to}");
 		$("div.combo input").each(function() {
 			if ($(this).val().length > 1) {
 				$(this).parent().find("label").hide();
 			}
-		})
+		});
 	}); 
 </script>

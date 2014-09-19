@@ -20,7 +20,7 @@
 						$("input[name='id[]']:checked").each(function() {
 							$(this).parents("li").removeClass("normal");
 							$(this).parents("li").addClass("bold");
-						})
+						});
 						$("input[name='id[]']:checked").prop('checked', false);
 						$("#id-toggle-all").prop('checked', false);
 					}
@@ -44,7 +44,7 @@
 							});	
 						}
 					});
-				})
+				});
 				break;
 			case "spam":
 				sendAjax("{:U('mark','action=spam')}", vars, function(data) {
@@ -77,17 +77,14 @@
 		sendAjax("{:U('mark','action=move_folder')}", 'val=' + val + '&' + vars);
 		$("input[name='id[]']:checkbox:checked").each(function() {
 			$(this).parents("li").hide();
-		})
+		});
 	}
 
 
 	$(document).ready(function() {
 		$("#move_to li").click(function() {
 			move_to($(this).attr("id"));
-		})
+		});
 		set_return_url();
-		<notempty
-		name = "receve" > sendAjax("{:U('receve')}");
-		</notempty>
 	}); 
 </script>

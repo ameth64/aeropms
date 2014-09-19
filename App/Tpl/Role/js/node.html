@@ -3,7 +3,7 @@
 		$("#node_list").val('');
 		$(".wrap .tree_menu input[name='node_id']:checked").each(function() {
 			$("#node_list").val($("#node_list").val() + $(this).val() + ",");
-		})
+		});
 		sendForm("form_data", "{:U('set_node')}");
 	};
 
@@ -32,7 +32,7 @@
 		$("#org_node_list").val('');
 		$(".wrap .tree_menu input[name='node_id']:checked").each(function() {;
 			$("#org_node_list").val($("#org_node_list").val() + $(this).val() + ",");
-		})
+		});
 		$("#opmode").val("edit");
 	};
 
@@ -47,6 +47,6 @@
 				showdata(data);
 			});
 			return false;
-		})
+		});
 	}); 
 </script>

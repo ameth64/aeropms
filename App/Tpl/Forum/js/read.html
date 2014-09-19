@@ -19,7 +19,7 @@
 					});					
 				}
 			});
-		})
+		});
 	}
 
 	function del_post(id) {
@@ -31,7 +31,7 @@
 					});							
 				}
 			});
-		})
+		});
 	}
 
 	function edit() {
@@ -46,11 +46,11 @@
 	$(document).ready(function() {
 		$("div.face").mouseover(function() {
 			$(this).parent().parent().find("div.read_info").show();
-		})
+		});
 
 		$("div.read_info").mouseout(function() {
 			$(this).hide();
-		})
+		});
 
 		$('.post img').each(function() {
 			var maxWidth = $("div.operate").width() - 170;

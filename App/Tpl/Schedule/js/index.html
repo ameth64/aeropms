@@ -28,7 +28,7 @@
 					}
 					prev_date = data[i].start_date;
 					$("ul.div_" + data[i].start_date).append(html);
-				})
+				});
 			}
 		});
 	}
@@ -45,7 +45,7 @@
 				msg_list += $(this).attr("id") + "|";
 			});
 			winopen("{:U('read')}?id=" + $(this).attr('id') + "&list=" + msg_list, 730, 490);
-		}))
+		}));
 		$("#dialog2").mouseleave(function() {
 			$("#dialog2").hide();
 		});
@@ -60,8 +60,8 @@
 
 			$("#dialog2").css("left", $(this).parents("ul").offset().left - $(".Schedule").offset().left - 8);
 			$("#dialog2").css("top", $(this).parents("ul").offset().top - $(".Schedule").offset().top - 8);
-		})
-	})
+		});
+	});
 	function add() {
 		window.open("{:U('add')}", "_self");
 	}

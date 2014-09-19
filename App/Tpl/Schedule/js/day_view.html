@@ -24,7 +24,7 @@
 					html += "</li>";
 					prev_date = data[i].start_date;
 					$("ul.event_list").append(html);
-				})
+				});
 			}
 		});
 	}
@@ -57,6 +57,6 @@
 			});
 			winopen("{:U('read')}?id=" + $(this).attr('id') + "&list=" + msg_list, 730, 490);
 		});
-	})
+	});
 	//-->
 </script>

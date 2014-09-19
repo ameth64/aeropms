@@ -27,8 +27,8 @@
 			sendForm("form_data","{:U('del')}");
 			$("#form_data input:checked").each(function() {
 				$(this).parents("li").remove();
-			})
-		})
+			});
+		});
 	}
 
 	function apply() {
@@ -58,7 +58,7 @@
 				if ($(this).text().indexOf(val) >= 0) {
 					$(this).parents("li").show();
 				};
-			})
+			});
 		}			
 	}
 
@@ -74,7 +74,7 @@
 			if ($(this).text().indexOf(val) >= 0) {
 				$(this).parents("li").show();
 			};
-		})
+		});
 		return false;		
 	}
 
@@ -105,12 +105,12 @@
 				if ($(this).text().indexOf(gid) >= 0) {
 					$(this).parents("li").show();
 				};
-			})
-		})
+			});
+		});
 
 		$('.tag_list li').click(function(event) {
 			event.stopPropagation();
-		})
+		});
 
 		$('.tag_list input').on('change', function(event) {
 			if (($('.tag_list input:checked').length == 0)&&($(".tag_list input[name='new_tag']").val()=="")){				

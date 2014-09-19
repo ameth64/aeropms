@@ -113,7 +113,10 @@ class FlowTypeAction extends CommonAction {
 	}
 	
 	function field(){
-		if ($_POST){
+		$widget['editor'] = true;
+		$this -> assign("widget", $widget);
+				
+		if($_POST){
 			$opmode = $_POST["opmode"];
 			$model = D("FlowField");
 			if (false === $model -> create()) {

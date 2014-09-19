@@ -204,7 +204,7 @@
 								<volist name="slide_list" id="vo">
 									<li data-background="{:get_save_url()}{:get_file_path($vo['add_file'])}">
 										<div class="flick-sub-text">
-											<a href="{:U($vo['link'])}" node="207" return_url="{:U('news/index')}" onclick="click_home_list(this)" >
+											<a href="{$vo.link}" node="207" return_url="{:U('news/index')}" onclick="click_home_list(this)" >
 												<span class="flick-block-text">{$vo.name}</span></a> 
 										</div>
 									</li>

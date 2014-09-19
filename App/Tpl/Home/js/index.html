@@ -68,11 +68,11 @@
 		}
 		$("#t1 .widget-box").each(function() {
 			sort_string = sort_string + $(this).attr("sort") + ",";
-		})
+		});
 		sort_string = sort_string + "|";
 		$("#t2 .widget-box").each(function() {
 			sort_string = sort_string + $(this).attr("sort") + ",";
-		})
+		});
 		sendAjax("{:U('set_sort')}", "val=" + sort_string);
 	}
 

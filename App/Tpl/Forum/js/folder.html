@@ -13,11 +13,11 @@
 							ui_alert(data.info,function(){
 								$("input[name='id[]']:checkbox:checked").each(function() {
 									$(this).parents("li").remove();
-								})
+								});
 							});	
 						}
 					});
-				})
+				});
 				break;
 				case "is_top":
 				ui_confirm('确认要置顶或取消置顶？',function(){
@@ -26,11 +26,11 @@
 							ui_alert(data.info,function(){
 								$("input[name='id[]']:checkbox:checked").each(function() {
 									window.open("{:U('folder','fid='.$folder_id)}", "_self");
-								})
+								});
 							});	
 						}
 					});
-				})
+				});
 					break;
 			default:
 		}
@@ -41,7 +41,7 @@
 		sendAjax("{:U('mark','action=move_folder')}", 'val=' + val + '&' + vars);
 		$("input[name='id[]']:checkbox:checked").each(function() {
 			$(this).parent().parent().hide();
-		})
+		});
 	}
 
 
@@ -49,6 +49,6 @@
 		set_return_url();
 		$("#move_to li").click(function() {
 			move_to($(this).attr("id"));
-		})
+		});
 	}); 
 </script>

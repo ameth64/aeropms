@@ -31,6 +31,10 @@
 		<link rel="stylesheet" href="__PUBLIC__/css/style.css" />
 		<!-- ace settings handler -->
 		<style>
+			.swiper-container{
+				height:300px;			
+				overflow-y: scroll;				
+			}
 			.swiper-slide {
 				padding: 0px;
 				background: #fff;
@@ -53,7 +57,7 @@
 			.swiper-scrollbar {
 				width: 100%;
 				height: 4px;
-				position: absolute;
+				position: relative;
 				left: 0;
 				bottom: 5px;
 				z-index: 1;
@@ -108,17 +112,16 @@
 			</div>
 		</div>
 		<script>
-			if(is_mobile()){
-				var mySwiper = new Swiper('.swiper-container', {
-					scrollContainer : true,
-					scrollbar : {
-						container : '.swiper-scrollbar'
-					}
-				});
-			}
 			$(document).ready(function(){
-				if(is_mobile()){
-					$(".swiper-container").width($(window).width());	
+				if(is_mobile()){													
+					$(".swiper-container").width($("#dialog",parent.document).width());
+					$(".swiper-container").height(window.screen.height-40);													
+					var mySwiper = new Swiper('.swiper-container', {
+						scrollContainer : true,
+						scrollbar : {
+							container : '.swiper-scrollbar'
+						}
+					});						
 				}else{
 					$(".swiper-container").width(700);
 				}

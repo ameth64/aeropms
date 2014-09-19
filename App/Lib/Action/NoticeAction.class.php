@@ -27,18 +27,10 @@ class NoticeAction extends CommonAction {
 		$widget['date'] = true;
 		$this -> assign("widget", $widget);
 		
-		$arr_read = array_filter(explode(",", get_user_config("readed_notice")));
-		$arr_readed_notice = array();
-		$arr_readed_id = array();
-		foreach ($arr_read as $key => $val) {
-			$tmp = explode("|", $val);
-			$notiec_id = $tmp[0];
-			$create_time = $tmp[1];
-			if ($create_time >= time() - 3600 * 24 * 30) {
-				$arr_readed_notice[] = $val;
-				$arr_readed_id[] = $notiec_id;
-			}
-		}		
+		$arr_read = array_filter(explode(",", get_user_config("readed_notice").",".$id));
+		
+		$map['id']=array('in',$arr_read);
+			
 		$this -> assign("readed_id", $arr_read);
 
 		$user_id = get_user_id();
@@ -165,19 +157,9 @@ class NoticeAction extends CommonAction {
 		$this -> assign("widget", $widget);
 
 		$arr_read = array_filter(explode(",", get_user_config("readed_notice")));
-		$arr_readed_notice = array();
-		$arr_readed_id = array();
-		foreach ($arr_read as $key => $val) {
-			$tmp = explode("|", $val);
-			$notiec_id = $tmp[0];
-			$create_time = $tmp[1];
-			if ($create_time >= time() - 3600 * 24 * 30) {
-				$arr_readed_notice[] = $val;
-				$arr_readed_id[] = $notiec_id;
-			}
-		}		
-		$this -> assign("readed_id", $arr_read);
-				
+
+		$this -> assign("readed_id",$arr_read);
+						
 		$model = D("Notice");
 		$map = $this -> _search();
 		if (method_exists($this, '_search_filter')) {

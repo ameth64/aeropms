@@ -10,11 +10,11 @@
 					ui_alert(data.info,function(){
 						$("input[name='id[]']:checkbox:checked").each(function() {
 							$(this).parents("li").remove();
-						})
+						});
 					});	
 				}
 			});
-		})
+		});
 	}
 
 	$(document).ready(function() {

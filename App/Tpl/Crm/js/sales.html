@@ -1,18 +1,18 @@
 <script type="text/javascript">
 	function add_sales($vip_id) {
-		window.open(fix_url("{:U('add_sales')}?vip_id="+$vip_id), "_self");
+		window.open(fix_url("{:U('add_sales')}?vip_id=" + $vip_id), "_self");
 		return false;
 	}
 
-	function edit_sales($id){
-		window.open(fix_url("{:U('edit_sales')}?id="+$id), "_self");
+	function edit_sales($id) {
+		window.open(fix_url("{:U('edit_sales')}?id=" + $id), "_self");
 		return false;
 	}
 
-	function del_sales($id){
-		ui_confirm('确定要删除吗?',function(){
-			window.open(fix_url("{:U('del_sales')}?id="+$id), "_self");
-		})
+	function del_sales($id) {
+		ui_confirm('确定要删除吗?', function() {
+			window.open(fix_url("{:U('del_sales')}?id=" + $id), "_self");
+		});
 	}
 
 	function dec_add(num1, num2) {
@@ -43,7 +43,7 @@
 		while (re.test(s))
 		s = s.replace(re, "$1,$2");
 		s = s.replace(/,(\d\d)$/, ".$1");
-		return s.replace(/^\./, "0.")
+		return s.replace(/^\./, "0.");
 	}
 
 	function formatQty(numStr) {
@@ -60,7 +60,7 @@
 		s = s.replace(/^\./, "0.");
 		if (s.split(".")[1] == "00")
 			s = s.split(".")[0];
-		return s
+		return s;
 	}
 
 	function total_init() {
@@ -70,17 +70,18 @@
 
 			$(item_selecter).each(function() {
 				total = dec_add(total, $(this).text());
-			})
+			});
 			total_selecter = ".data_total .data_" + i;
 			$(total_selecter).text(total);
 		}
 		$(".ul_table .data_2").each(function() {
 			$(this).text(formatMoney($(this).text()));
-		})
+		});
 	}
 
+
 	$(document).ready(function() {
-		set_return_url(document.location,1);
+		set_return_url(document.location, 1);
 		total_init();
-	})
+	}); 
 </script>

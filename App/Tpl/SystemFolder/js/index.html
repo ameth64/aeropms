@@ -4,21 +4,21 @@
 		$("#id").val("");
 		$("#admin").val("");
 		$("#admin_list span.address_list span").each(function(){			
-			$("#admin").val($("#admin").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";")
-		})
+			$("#admin").val($("#admin").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";");
+		});
 
 		$("#write").val("");
 		$("#write_list span.address_list span").each(function() {
-			$("#write").val($("#write").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";")
-		})
+			$("#write").val($("#write").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";");
+		});
 
 		$("#read").val("");
 		$("#read_list span.address_list span").each(function() {
-			$("#read").val($("#read").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";")
-		})
+			$("#read").val($("#read").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";");
+		});
 		if (check_form("form_data")){
 			sendForm("form_data", "{:U('save')}","{:U('index')}");
-		}
+		};
 	};
 
 	function del() {
@@ -31,7 +31,7 @@
 					});	
 				}
 			});
-		})
+		});
 	}
 
 	function save(){
@@ -41,18 +41,19 @@
 		}
 		$("#admin").val("");
 		$("#admin_list span.address_list span").each(function() {
-			$("#admin").val($("#admin").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";")
-		})
+			$("#admin").val($("#admin").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";");
+		});
 
 		$("#write").val("");
 		$("#write_list span.address_list span").each(function() {
-			$("#write").val($("#write").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";")
-		})
+			$("#write").val($("#write").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";");
+		});
 
 		$("#read").val("");
 		$("#read_list span.address_list span").each(function() {
-			$("#read").val($("#read").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";")
-		})
+			$("#read").val($("#read").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";");
+		});
+		
 		if (check_form("form_data")) {
 			sendForm("form_data","{:U('save')}");
 		}
@@ -95,7 +96,7 @@
 				showdata(data);
 			});
 			return false;
-		})
+		});
 		// 双击添加到收件人 因后添加的数据 所以需要用live函数
 		$(".address_list span").on("dblclick", function() {
 			$(this).remove();

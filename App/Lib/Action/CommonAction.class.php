@@ -9,16 +9,16 @@
  Author:  jinzhu.yin<smeoa@qq.com>
 
  Support: https://git.oschina.net/smeoa/smeoa
--------------------------------------------------------------------------*/
+ -------------------------------------------------------------------------*/
 
 class CommonAction extends Action {
 
-	function _initialize(){	
-		$is_weixin=is_weixin();
-		if($is_weixin){
-			$code=$_REQUEST["code"];
-			if(!empty($code)){
-				$this->_welogin($code);
+	function _initialize() {
+		$is_weixin = is_weixin();
+		if ($is_weixin) {
+			$code = $_REQUEST["code"];
+			if (!empty($code)) {
+				$this -> _welogin($code);
 			}
 		}
 		$auth_id = session(C('USER_AUTH_KEY'));
@@ -26,45 +26,46 @@ class CommonAction extends Action {
 			//跳转到认证网关
 			redirect(U(C('USER_AUTH_GATEWAY')));
 		}
-		
+
 		$this -> assign('js_file', 'js/' . ACTION_NAME);
-		$this->_assign_menu();
-		$this->_assign_new_count();
+		$this -> _assign_menu();
+		$this -> _assign_new_count();
 	}
-	
-	protected function _welogin($code){
-		import ( "@.ORG.Util.ThinkWechat" );
-		$weixin = new ThinkWechat ();
-		$openid=$weixin->openid($code);
+
+	protected function _welogin($code) {
+		import("@.ORG.Util.ThinkWechat");
+		$weixin = new ThinkWechat();
+		$openid = $weixin -> openid($code);
 
 		$model = M("User");
-		$auth_info = $model -> where ( "openid = '{$openid}' AND westatus = 1" )->find (); // 查到userid
+		$auth_info = $model -> where("openid = '{$openid}' AND westatus = 1") -> find();
+		// 查到userid
 
-		if($auth_info){
+		if ($auth_info) {
 			session(C('USER_AUTH_KEY'), $auth_info['id']);
 			session('emp_no', $auth_info['emp_no']);
 			session('email', $auth_info['email']);
 			session('user_name', $auth_info['name']);
 			session('user_pic', $auth_info['pic']);
 			session('dept_id', $auth_info['dept_id']);
-			
+
 			if ($auth_info['emp_no'] == 'admin') {
 				session(C('ADMIN_AUTH_KEY'), true);
 			}
-		}else{
-			redirect(U('wechat/oauth',array('openid'=>$openid)));
+		} else {
+			redirect(U('wechat/oauth', array('openid' => $openid)));
 		}
 	}
 
 	/**显示top menu及 left menu **/
-	protected function _assign_menu(){
+	protected function _assign_menu() {
 		$user_id = get_user_id();
-	
+
 		$model = D("Node");
 		$top_menu = cookie('top_menu');
 
 		$top_menu_list = $model -> get_top_menu($user_id);
-		if (empty($top_menu_list)){
+		if (empty($top_menu_list)) {
 			$this -> assign('jumpUrl', U("Login/logout"));
 			$this -> error("没有权限");
 		}
@@ -76,22 +77,22 @@ class CommonAction extends Action {
 		$system_folder_menu = D("SystemFolder") -> get_folder_menu();
 		$user_folder_menu = D("UserFolder") -> get_folder_menu();
 		$menu = array_merge($menu, $system_folder_menu, $user_folder_menu);
-		
+
 		//缓存菜单访问
 		$tree = list_to_tree($menu);
 		if (!empty($top_menu)) {
-			$top_menu_name= $model -> where("id=$top_menu") -> getField('name');
-			$this -> assign("top_menu_name",$top_menu_name);
-			$this -> assign("title",get_system_config("SYSTEM_NAME")."-".$top_menu_name);
-			$left_menu = list_to_tree($menu,$top_menu);
-			$this -> assign('left_menu',$left_menu);
-		}else{
-			$this -> assign("title",get_system_config("SYSTEM_NAME"));
+			$top_menu_name = $model -> where("id=$top_menu") -> getField('name');
+			$this -> assign("top_menu_name", $top_menu_name);
+			$this -> assign("title", get_system_config("SYSTEM_NAME") . "-" . $top_menu_name);
+			$left_menu = list_to_tree($menu, $top_menu);
+			$this -> assign('left_menu', $left_menu);
+		} else {
+			$this -> assign("title", get_system_config("SYSTEM_NAME"));
 		}
 	}
 
-	protected function _assign_new_count(){
-		$this->assign("new_count",get_new_count());
+	protected function _assign_new_count() {
+		$this -> assign("new_count", get_new_count());
 	}
 
 	/**列表页面 **/
@@ -111,65 +112,65 @@ class CommonAction extends Action {
 
 	/** 保存操作  **/
 	function save() {
-		$this->_save();
+		$this -> _save();
 	}
 
 	/**列表页面 **/
-	protected function _index($name=null){
+	protected function _index($name = null) {
 		$map = $this -> _search();
 		if (method_exists($this, '_search_filter')) {
 			$this -> _search_filter($map);
 		}
-		if(empty($name)){
-			$name = $this -> getActionName();			
+		if (empty($name)) {
+			$name = $this -> getActionName();
 		}
 		$model = D($name);
 		if (!empty($model)) {
-			$this -> _list($model,$map);
+			$this -> _list($model, $map);
 		}
 		$this -> display();
 	}
 
 	/**编辑页面 **/
-	protected function _edit($name=null,$id=null){
-		if(empty($name)){
+	protected function _edit($name = null, $id = null) {
+		if (empty($name)) {
 			$name = $this -> getActionName();
 		}
 		$model = M($name);
 		$id = $_REQUEST['id'];
-		$vo = $model ->find($id);
-		if ($this -> isAjax()){
+		$vo = $model -> find($id);
+		if ($this -> isAjax()) {
 			if ($vo !== false) {// 读取成功
-				$this -> ajaxReturn($vo,"读取成功",1);
+				$this -> ajaxReturn($vo, "读取成功", 1);
 			} else {
-				$this -> ajaxReturn(0,"读取失败", 0);
+				$this -> ajaxReturn(0, "读取失败", 0);
 				die ;
 			}
 		}
 		$this -> assign('vo', $vo);
 		$this -> display();
 	}
-	
-	protected function _save($name=null){
+
+	protected function _save($name = null) {
 		$opmode = $_POST["opmode"];
-		switch($opmode){
-			case "add":
+		switch($opmode) {
+			case "add" :
 				$this -> _insert($name);
 				break;
-			case "edit":
-				$this->_update($name);
+			case "edit" :
+				$this -> _update($name);
 				break;
-			case "del":
-				$this->_del($name);
+			case "del" :
+				$this -> _del($name);
 				break;
-			default:
-				$this->error("非法操作");
+			default :
+				$this -> error("非法操作");
 		}
 	}
 
 	/** 插入新新数据  **/
-	protected function _insert($name=null) {
-		if(empty($name)){
+	protected function _insert($name = null) {
+		if (empty($name)) {
 			$name = $this -> getActionName();
 		}
 		$model = D($name);
@@ -188,8 +189,8 @@ class CommonAction extends Action {
 	}
 
 	/* 更新数据  */
-	protected function _update($name=null) {
-		if(empty($name)){
+	protected function _update($name = null) {
+		if (empty($name)) {
 			$name = $this -> getActionName();
 		}
 		$model = D($name);
@@ -208,26 +209,26 @@ class CommonAction extends Action {
 	}
 
 	/** 删除标记  **/
-	protected function _del($id=null,$name=null,$return_flag = false){
-		if(empty($id)){
-			$id=$_REQUEST['id'];
-			if(empty($id)){
+	protected function _del($id = null, $name = null, $return_flag = false) {
+		if (empty($id)) {
+			$id = $_REQUEST['id'];
+			if (empty($id)) {
 				$this -> error('没有可删除的数据!');
 			}
 		}
-		if(empty($name)){
+		if (empty($name)) {
 			$name = $this -> getActionName();
 		}
 		$model = M($name);
-		
-		if(!empty($model)){			
-			if (isset($id)){
-				if (is_array($id)){
+
+		if (!empty($model)) {
+			if (isset($id)) {
+				if (is_array($id)) {
 					$where['id'] = array("in", array_filter($id));
 				} else {
 					$where['id'] = array('in', array_filter(explode(',', $id)));
 				}
-				$result = $model -> where($where) -> setField("is_del", 1);				
+				$result = $model -> where($where) -> setField("is_del", 1);
 				if ($return_flag) {
 					return $result;
 				}
@@ -244,14 +245,14 @@ class CommonAction extends Action {
 	}
 
 	/** 永久删除数据  **/
-	protected function _destory($id=null,$name=null,$return_flag = false) {
-		if(empty($id)){
-			$id=$_REQUEST['id'];
-			if(empty($id)){
+	protected function _destory($id = null, $name = null, $return_flag = false) {
+		if (empty($id)) {
+			$id = $_REQUEST['id'];
+			if (empty($id)) {
 				$this -> error('没有可删除的数据!');
 			}
 		}
-		if(empty($name)){
+		if (empty($name)) {
 			$name = $this -> getActionName();
 		}
 		$model = M($name);
@@ -263,8 +264,8 @@ class CommonAction extends Action {
 					$where['id'] = array('in', array_filter(explode(',', $id)));
 				}
 				$app_type = $this -> config['app_type'];
-				
-				if($app_type=="personal"){
+
+				if ($app_type == "personal") {
 					$where['user_id'] = get_user_id();
 				}
 
@@ -288,24 +289,24 @@ class CommonAction extends Action {
 		}
 	}
 
-	public function del_file(){
-		$file_list=$_REQUEST['sid'];
-		$this->_destory_file($file_list);
+	public function del_file() {
+		$file_list = $_REQUEST['sid'];
+		$this -> _destory_file($file_list);
 	}
 
-	protected function _destory_file($file_list){
-		if(isset($file_list)){
-			if (is_array($file_list)){
+	protected function _destory_file($file_list) {
+		if (isset($file_list)) {
+			if (is_array($file_list)) {
 				$where["sid"] = array("in", $file_list);
 			} else {
-				$where["sid"] = array('in',array_filter(explode(',', $file_list)));
+				$where["sid"] = array('in', array_filter(explode(',', $file_list)));
 			}
-		}else{
+		} else {
 			exit();
 		}
 
 		$model = M("File");
-		$where['module']=MODULE_NAME;
+		$where['module'] = MODULE_NAME;
 		$admin = $this -> config['auth']['admin'];
 
 		if ($admin) {
@@ -315,7 +316,7 @@ class CommonAction extends Action {
 		$list = $model -> where($where) -> select();
 		$save_path = get_save_path();
 
-		foreach ($list as $file){
+		foreach ($list as $file) {
 			if (file_exists($_SERVER["DOCUMENT_ROOT"] . "/" . $save_path . $file['savename'])) {
 				unlink($_SERVER["DOCUMENT_ROOT"] . "/" . $save_path . $file['savename']);
 			}
@@ -335,7 +336,7 @@ class CommonAction extends Action {
 		header("Cache-Control: no-store, no-cache, must-revalidate");
 		header("Cache-Control: post-check=0, pre-check=0", false);
 		header("Pragma: no-cache");
-		if (!empty($_FILES)){
+		if (!empty($_FILES)) {
 			import("@.ORG.Util.UploadFile");
 			$upload = new UploadFile();
 			$upload -> subFolder = strtolower(MODULE_NAME);
@@ -343,7 +344,7 @@ class CommonAction extends Action {
 			$upload -> saveRule = "uniqid";
 			$upload -> autoSub = true;
 			$upload -> subType = "date";
-			$upload -> allowExts = array_filter(explode(",",get_system_config('UPLOAD_FILE_TYPE')),'upload_filter');
+			$upload -> allowExts = array_filter(explode(",", get_system_config('UPLOAD_FILE_TYPE')), 'upload_filter');
 			if (!$upload -> upload()) {
 				$data['error'] = 1;
 				$data['message'] = $upload -> getErrorMsg();
@@ -353,14 +354,14 @@ class CommonAction extends Action {
 			} else {
 				//取得成功上传的文件信息
 				$upload_list = $upload -> getUploadFileInfo();
-				$sid=get_sid();
+				$sid = get_sid();
 				$file_info = $upload_list[0];
 				$model = M("File");
 				$model -> create($upload_list[0]);
 				$model -> create_time = time();
 				$model -> user_id = get_user_id();
-				$model -> sid=$sid;
-				$model -> module=MODULE_NAME;
+				$model -> sid = $sid;
+				$model -> module = MODULE_NAME;
 				$file_id = $model -> add();
 				$file_info['sid'] = $sid;
 				$file_info['error'] = 0;
@@ -375,7 +376,7 @@ class CommonAction extends Action {
 		$attach_id = $_REQUEST["attach_id"];
 		$file_id = f_decode($attach_id);
 		$File = M("File") -> find($file_id);
-		$filepath = get_save_path(). $File['savename'];
+		$filepath = get_save_path() . $File['savename'];
 		$filePath = realpath($filepath);
 		$fp = fopen($filePath, 'rb');
 
@@ -397,12 +398,11 @@ class CommonAction extends Action {
 		exit ;
 	}
 
-
 	//生成查询条件
 	protected function _search($name = null) {
 		$map = array();
 		//过滤非查询条件
-		$request = array_filter(array_keys(array_filter($_REQUEST)),"filter_search_field");
+		$request = array_filter(array_keys(array_filter($_REQUEST)), "filter_search_field");
 		if (empty($name)) {
 			$name = $this -> getActionName();
 		}
@@ -410,47 +410,38 @@ class CommonAction extends Action {
 		$fields = get_model_fields($model);
 
 		foreach ($request as $val) {
-			if (!in_array(substr($val, 3), $fields)) {
-				continue;
-			}
-			if (substr($val,0,3) == "be_") {
-				if (isset($_REQUEST["en_" . substr($val, 3)])) {
-					if (strpos($val, "time")) {
-						$map[substr($val, 3)] = array( array('egt',date_to_int(trim($_REQUEST[$val]))), array('elt',date_to_int(trim($_REQUEST["en_".substr($val, 3)]))+86400));
+			$field = substr($val, 3);
+			$prefix=substr($val, 0, 3);
+			if(in_array($field,$fields)){				
+				if ($prefix == "be_"){
+					if (isset($_REQUEST["en_" .$field])) {
+						if (strpos($field,"time")) {
+							$map[$field] = array(array('egt',date_to_int(trim($_REQUEST[$val]))),array('elt', date_to_int(trim($_REQUEST["en_" .$field])) + 86400));
+						}
+						if (strpos($field,"date")) {
+							$map[$field] = array( array('egt', trim($_REQUEST[$val])), array('elt', trim($_REQUEST["en_" . substr($val, 3)])));
+						}
 					}
-					if (strpos($val, "date")) {
-						$map[substr($val, 3)] = array( array('egt', trim($_REQUEST[$val])), array('elt', trim($_REQUEST["en_" . substr($val, 3)])));
-					}
 				}
-			}
 
-			if (substr($val, 0, 3) == "bt_") {
-				$array_date = explode("|", str_replace(" - ", '|', $_REQUEST[$val]));
-				if (strpos($val, "time")) {
-					$map[substr($val, 3)] = array( array('egt', date_to_int($array_date[0]), array('elt', date_to_int($array_date[0]))));
+				if ($prefix == "li_") {
+					$map[$field] = array('like', '%' . trim($_REQUEST[$val]) . '%');
 				}
-				if (strpos($val, "date")) {
-					$map[substr($val, 3)] = array( array('egt', $array_date[0], array('elt', $array_date[1])));
+				if ($prefix == "eq_") {
+					$map[$field] = array('eq', trim($_REQUEST[$val]));
 				}
-			}
-
-			if (substr($val, 0, 3) == "li_") {
-				$map[substr($val, 3)] = array('like', '%' . trim($_REQUEST[$val]) . '%');
-			}
-			if (substr($val, 0, 3) == "eq_") {
-				$map[substr($val, 3)] = array('eq', trim($_REQUEST[$val]));
-			}
-			if (substr($val, 0, 3) == "gt_") {
-				$map[substr($val, 3)] = array('egt', trim($_REQUEST[$val]));
-			}
-			if (substr($val, 0, 3) == "lt_") {
-				$map[substr($val, 3)] = array('elt', trim($_REQUEST[$val]));
+				if ($prefix == "gt_") {
+					$map[$field] = array('egt', trim($_REQUEST[$val]));
+				}
+				if ($prefix == "lt_") {
+					$map[$field] = array('elt', trim($_REQUEST[$val]));
+				}
 			}
 		}
 		return $map;
 	}
 
-	protected function _list($model, $map,$sortBy = '', $asc = false) {
+	protected function _list($model, $map, $sortBy = '', $asc = false) {
 		//排序字段 默认为主键名
 		if (isset($_REQUEST['_order'])) {
 			$order = $_REQUEST['_order'];
@@ -466,8 +457,8 @@ class CommonAction extends Action {
 		//接受 sost参数 0 表示倒序 非0都 表示正序
 		if (isset($_REQUEST['_sort'])) {
 			$sort = $_REQUEST['_sort'] ? 'asc' : 'desc';
-		}else if(strpos($sortBy,',')){
-			$sort='';
+		} else if (strpos($sortBy, ',')) {
+			$sort = '';
 		} else {
 			$sort = $asc ? 'asc' : 'desc';
 		}
@@ -491,12 +482,12 @@ class CommonAction extends Action {
 			}
 			$p = new Page($count, $listRows);
 			//分页查询数据
-			if($sort){
-			$voList = $model -> where($map) -> order("`" . $order . "` " . $sort) -> limit($p -> firstRow . ',' . $p -> listRows) -> select();
-			}else{
-			$voList = $model -> where($map) -> order($order) -> limit($p -> firstRow . ',' . $p -> listRows) -> select();
+			if ($sort) {
+				$voList = $model -> where($map) -> order("`" . $order . "` " . $sort) -> limit($p -> firstRow . ',' . $p -> listRows) -> select();
+			} else {
+				$voList = $model -> where($map) -> order($order) -> limit($p -> firstRow . ',' . $p -> listRows) -> select();
 			}
-			//echo $model->getlastSql(); 
+			//echo $model->getlastSql();
 			$p -> parameter = $this -> _search();
 			//分页显示
 			$page = $p -> show();
@@ -532,15 +523,15 @@ class CommonAction extends Action {
 		}
 		$list = $model -> get_folder_list();
 		$tree = list_to_tree($list);
-		$this -> assign('folder_list',dropdown_menu($tree));
+		$this -> assign('folder_list', dropdown_menu($tree));
 	}
 
-	protected function _set_field($id,$field,$val,$name = '') {
+	protected function _set_field($id, $field, $val, $name = '') {
 		if (empty($name)) {
 			$name = $this -> getActionName();
 		}
 		$model = M($name);
-		if (!empty($model)){
+		if (!empty($model)) {
 			if (isset($id)) {
 				if (is_array($id)) {
 					$where['id'] = array("in", array_filter($id));
@@ -563,10 +554,10 @@ class CommonAction extends Action {
 		}
 	}
 
-	protected function _tag_manage($tag_name,$has_pid=true){
+	protected function _tag_manage($tag_name, $has_pid = true) {
 
 		$this -> assign("tag_name", $tag_name);
-		$this-> assign("has_pid",$has_pid);
+		$this -> assign("has_pid", $has_pid);
 		if ($this -> config['app_type'] == 'personal') {
 			R('UserTag/index');
 			$this -> assign('js_file', "UserTag:js/index");
@@ -576,17 +567,17 @@ class CommonAction extends Action {
 		}
 	}
 
-	protected function _pushReturn($data,$info,$status,$user_id,$time = null){
+	protected function _pushReturn($data, $info, $status, $user_id, $time = null) {
 		$model = M("Push");
 
 		$model -> data = $data;
 		$model -> info = $info;
 		$model -> status = $status;
-		
-		if(empty($user_id)){
+
+		if (empty($user_id)) {
 			$model -> user_id = get_user_id();
-		}else{
-			$model -> user_id=$user_id;
+		} else {
+			$model -> user_id = $user_id;
 		}
 
 		if (empty($time)) {
@@ -596,5 +587,6 @@ class CommonAction extends Action {
 		}
 		$model -> add();
 	}
+
 }
 ?>

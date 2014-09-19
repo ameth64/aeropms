@@ -17,6 +17,7 @@ class SlideAction extends CommonAction {
 	//过滤查询字段
 	function _search_filter(&$map) {
 		$map['name'] = array('like', "%" . $_POST['keyword'] . "%");
+		$map['is_del']=0;
 	}
 
 	public function index() {
@@ -60,7 +61,6 @@ class SlideAction extends CommonAction {
 	function del() {
 		$id = $_REQUEST['id'];
 		$where['id'] = $id;
-		$where['user_id'] = get_user_id();
 		$result = M("Slide") -> where($where) -> delete();
 		if ($result !== false) {//保存成功
 			$this -> assign('jumpUrl', get_return_url());

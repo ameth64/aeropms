@@ -6,10 +6,10 @@
 	function del(id) {
 		ui_confirm('确定要删除吗?',function(){
 			window.open(fix_url("{:U('del')}?id=" + id), "_self");
-		})
+		});
 	};
 
 	$(document).ready(function() {
 		set_return_url();
-	})
+	});
 </script>

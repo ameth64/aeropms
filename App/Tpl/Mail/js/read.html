@@ -8,7 +8,7 @@
 					});						
 				}
 			});
-		})
+		});
 	}
 
 	function mark_spam() {
@@ -47,7 +47,7 @@
 	function move_to(val) {
 		sendAjax("{:U('mark','action=move_folder')}", 'val=' + val + '&mail_id=' + $("#id").val(), function(data) {
 			ui_info(data.info);
-		})
+		});
 	}
 
 	function reply(type) {
@@ -63,7 +63,7 @@
 	$(document).ready(function() {
 		$("#move_to li").click(function() {
 			move_to($(this).attr("id"));
-		})
+		});
 		show_content();
-	})
+	});
 </script>

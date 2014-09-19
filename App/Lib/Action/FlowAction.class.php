@@ -55,8 +55,9 @@ class FlowAction extends CommonAction {
 				$where['emp_no'] = $emp_no;
 				$where['_string'] = "result is null";
 				$log_list = $FlowLog -> where($where) -> field('flow_id') -> select();
-				$log_list = rotate($log_list);
 				
+				$log_list = rotate($log_list);	
+											
 				if (!empty($log_list)) {
 					$map['id'] = array('in', $log_list['flow_id']);
 				} else {
@@ -111,7 +112,8 @@ class FlowAction extends CommonAction {
 				
 				$duty_list=D("Role")->get_duty_list($role_list);
 				$duty_list=rotate($duty_list);
-				$duty_list=$duty_list['duty_id'];			
+				$duty_list=$duty_list['duty_id'];	
+						
 				if (!empty($duty_list)) {
 					$map['report_duty'] = array('in',$duty_list);
 					$map['step']=array('gt',10);
@@ -141,11 +143,13 @@ class FlowAction extends CommonAction {
 		}
 		
 		$folder = $_REQUEST['fid'];
+		
 		$this -> assign("folder", $folder);
 		
 		if(empty($folder)){
 			$this ->error("系统错误");
 		}
+		
 		$this->_flow_auth_filter($folder,$map);
 		$model = D("FlowView");
 
@@ -403,27 +407,19 @@ class FlowAction extends CommonAction {
 
 	public function mark() {
 		$action = $_REQUEST['action'];
-		$user_id = $_REQUEST['user_id'];
-		$emp_no=$_REQUEST['emp_no'];
 		switch ($action) {
 			case 'approve' :
 				$model = D("FlowLog");
 				if (false === $model -> create()) {
 					$this -> error($model -> getError());
 				}
+			
 				$model -> result = 1;
-				if (in_array('user_id', $model -> getDbFields())) {
-					$model -> user_id = get_user_id();
-				};
-				if (in_array('user_name', $model -> getDbFields())) {
-					$model -> user_name = get_user_name();
-				};
 
 				$flow_id = $model -> flow_id;
 				$step = $model -> step;
 				//保存当前数据对象
 				$list = $model -> save();
-
 				$model = D("FlowLog");
 				$model -> where("step=$step and flow_id=$flow_id and result is null") ->delete();
 
@@ -507,12 +503,6 @@ class FlowAction extends CommonAction {
 			$this -> error($model -> getError());
 		}
 		$model -> result = 1;
-		if (in_array('user_id', $model -> getDbFields())) {
-			$model -> user_id = get_user_id();
-		};
-		if (in_array('user_name', $model -> getDbFields())) {
-			$model -> user_name = get_user_name();
-		};
 
 		$flow_id = $model -> flow_id;
 		$step = $model -> step;
