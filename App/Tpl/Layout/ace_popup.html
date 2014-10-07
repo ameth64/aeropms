@@ -32,8 +32,7 @@
 		<!-- ace settings handler -->
 		<style>
 			.swiper-container{
-				height:300px;			
-				overflow-y: scroll;				
+				overflow-y: auto;				
 			}
 			.swiper-slide {
 				padding: 0px;
@@ -113,7 +112,7 @@
 		</div>
 		<script>
 			$(document).ready(function(){
-				if(is_mobile()){													
+				if(is_mobile()){
 					$(".swiper-container").width($("#dialog",parent.document).width());
 					$(".swiper-container").height(window.screen.height-40);													
 					var mySwiper = new Swiper('.swiper-container', {
@@ -124,8 +123,7 @@
 					});						
 				}else{
 					$(".swiper-container").width(700);
-				}
-				
+				}				
 			});
 		</script>
 	</body>

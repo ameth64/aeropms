@@ -16,9 +16,9 @@ class FlowModel extends CommonModel {
 	protected $_validate = array( array('name', 'require', '标题必须', 1), array('content', 'require', '内容必须'), );
 	// 自动填充设置
 
-	function _before_insert(&$data,$options){
+	function _before_insert(&$data, $options) {
 		$type = $data["type"];
-		$dept_id=get_dept_id();
+		$dept_id = get_dept_id();
 		$data['dept_id'] = $dept_id;
 		$data['dept_name'] = get_dept_name();
 		$data['emp_no'] = get_emp_no();
@@ -30,7 +30,7 @@ class FlowModel extends CommonModel {
 		$sql = "SELECT count(*) count FROM `" . $this -> tablePrefix . "flow` WHERE type=$type ";
 		$sql .= " and year(FROM_UNIXTIME(create_time))>=year(now())";
 
-		if (strpos($doc_no_format, "{DEPT}") !== false){
+		if (strpos($doc_no_format, "{DEPT}") !== false) {
 			$sql .= " and dept_id=" . get_dept_id();
 		}
 		$rs = $this -> db -> query($sql);
@@ -79,35 +79,16 @@ class FlowModel extends CommonModel {
 		$data['doc_no'] = $doc_no_format;
 	}
 
-	function _after_insert($data,$options) {
+	function _after_insert($data, $options) {
 
-		if ($data['step'] == 20){
-
-			$model = M("Flow");
-			$id=$data['id'];
-			$where['id']=array('eq',$id);
-			$str_confirm=$this -> _conv_auditor($data['confirm']);
-			$str_consult=$this -> _conv_auditor($data['consult']);
-			$str_refer=$this -> _conv_auditor($data['refer']);
-
-			$model -> where($where) -> setField('confirm', $str_confirm);
-			$model -> where($where) -> setField('consult', $str_consult);
-			$model -> where($where) -> setField('refer', $str_refer);
-
-			$this -> next_step($data['id'], 20);
-		}
-	}
-
-	function _after_update($data,$options){
 		if ($data['step'] == 20) {
 
 			$model = M("Flow");
-			$id=$data['id'];
-			$where['id']=array('eq',$id);
-
-			$str_confirm=$this -> _conv_auditor($data['confirm']);
-			$str_consult=$this -> _conv_auditor($data['consult']);
-			$str_refer=$this -> _conv_auditor($data['refer']);
+			$id = $data['id'];
+			$where['id'] = array('eq', $id);
+			$str_confirm = $this -> _conv_auditor($data['confirm']);
+			$str_consult = $this -> _conv_auditor($data['consult']);
+			$str_refer = $this -> _conv_auditor($data['refer']);
 
 			$model -> where($where) -> setField('confirm', $str_confirm);
 			$model -> where($where) -> setField('consult', $str_consult);
@@ -117,7 +98,26 @@ class FlowModel extends CommonModel {
 		}
 	}
 
-	function _get_dept($dept_id,$dept_grade) {
+	function _after_update($data, $options) {
+		if ($data['step'] == 20) {
+
+			$model = M("Flow");
+			$id = $data['id'];
+			$where['id'] = array('eq', $id);
+
+			$str_confirm = $this -> _conv_auditor($data['confirm']);
+			$str_consult = $this -> _conv_auditor($data['consult']);
+			$str_refer = $this -> _conv_auditor($data['refer']);
+
+			$model -> where($where) -> setField('confirm', $str_confirm);
+			$model -> where($where) -> setField('consult', $str_consult);
+			$model -> where($where) -> setField('refer', $str_refer);
+
+			$this -> next_step($data['id'], 20);
+		}
+	}
+
+	function _get_dept($dept_id, $dept_grade) {
 		$model = M("Dept");
 		$dept = $model -> find($dept_id);
 		if ($dept['dept_grade_id'] == $dept_grade) {
@@ -130,7 +130,7 @@ class FlowModel extends CommonModel {
 		return false;
 	}
 
-	function _conv_auditor($val){
+	function _conv_auditor($val) {
 		$arr_auditor = array_filter(explode("|", $val));
 		$str_auditor;
 
@@ -139,14 +139,14 @@ class FlowModel extends CommonModel {
 				$temp = explode("_", $auditor);
 				$dept_grade = $temp[1];
 				$position = $temp[2];
-				$dept_id = $this -> _get_dept(get_dept_id(),$dept_grade);
+				$dept_id = $this -> _get_dept(get_dept_id(), $dept_grade);
 
 				$model = M("User");
 				$where = array();
 				$where['dept_id'] = $dept_id;
 				$where['position_id'] = $position;
 				$where['is_del'] = 0;
-				$emp_list = $model -> where($where) -> select();	
+				$emp_list = $model -> where($where) -> select();
 				$emp_list = rotate($emp_list);
 
 				if (!empty($emp_list)) {
@@ -202,26 +202,30 @@ class FlowModel extends CommonModel {
 		return $str_auditor;
 	}
 
-	public function next_step($flow_id,$step,$emp_no) {
-	
-		if (!empty($emp_no)){
+	public function next_step($flow_id, $step, $emp_no) {
+
+		if (!empty($emp_no)) {
 			$data['flow_id'] = $flow_id;
-			$data['emp_no'] = $emp_no;	
-			$model = D("FlowLog");	
-			$where['flow_id']=$flow_id;
-			$where['emp_no']=$emp_no;
-			$data['step'] = D("FlowLog")->where($where)->getField('step');
-			if(empty($data['step'])){
-				$data['step']=20;
+			$data['emp_no'] = $emp_no;
+			$model = D("FlowLog");
+			$where['flow_id'] = $flow_id;
+			$where['emp_no'] = $emp_no;
+			$data['step'] = D("FlowLog") -> where($where) -> getField('step');
+			if (empty($data['step'])) {
+				$data['step'] = 20;
 			}
+
+			$user_id = M("User") -> where("emp_no=$emp_no") -> getField("id");
+			$this -> _pushReturn($new, "您有一个流程被退回", 1, $user_id);
+
 			$model -> create($data);
 			$model -> add();
-			return ;
+			return;
 		}
-				
+
 		$model = D("Flow");
 		if (substr($step, 0, 1) == 2) {
-			if ($this -> is_last_confirm($flow_id)) {		
+			if ($this -> is_last_confirm($flow_id)) {
 				$model -> where("id=$flow_id") -> setField('step', 30);
 				$step = 30;
 			} else {
@@ -239,15 +243,23 @@ class FlowModel extends CommonModel {
 
 		if ($step == 40) {
 			$model -> where("id=$flow_id") -> setField('step', 40);
-			$this->send_to_refer($flow_id);
+
+			$user_id = $model -> where("id=$flow_id") -> getField('user_id');
+			$this -> _pushReturn($new, "您有一个流程通过审核", 1, $user_id);
+
+			$this -> send_to_refer($flow_id);
+			
 		} else {
+			
 			$data['flow_id'] = $flow_id;
 			$data['step'] = $step;
+			
 			if (!empty($emp_no)) {
 				$data['emp_no'] = $emp_no;
 			} else {
-				$data['emp_no'] = $this -> duty_emp_no($flow_id,$step);
+				$data['emp_no'] = $this -> duty_emp_no($flow_id, $step);
 			}
+
 			if (strpos($data['emp_no'], ",") !== false) {
 				$emp_list = explode(",", $data['emp_no']);
 				foreach ($emp_list as $emp) {
@@ -265,11 +277,12 @@ class FlowModel extends CommonModel {
 	}
 
 	function is_last_confirm($flow_id) {
+		
 		$confirm = M("Flow") -> where("id=$flow_id") -> getField("confirm");
 		$last_confirm = array_filter(explode("|", $confirm));
 		$last_confirm_emp_no = end($last_confirm);
- 
-		if (strpos($last_confirm_emp_no,get_emp_no()) !== false) {	
+
+		if (strpos($last_confirm_emp_no, get_emp_no()) !== false) {
 			return true;
 		}
 		return false;
@@ -284,14 +297,14 @@ class FlowModel extends CommonModel {
 		$last_consult = array_filter(explode("|", $consult));
 		$last_consult_emp_no = end($last_consult);
 
-		if (strpos($last_consult_emp_no,get_emp_no()) !== false) {
+		if (strpos($last_consult_emp_no, get_emp_no()) !== false) {
 			return true;
 		}
 		return false;
 	}
 
-	function duty_emp_no($flow_id,$step){
-		if (substr($step, 0, 1) == 2){
+	function duty_emp_no($flow_id, $step) {
+		if (substr($step, 0, 1) == 2) {
 			$confirm = M("Flow") -> where("id=$flow_id") -> getField("confirm");
 			$arr_confirm = array_filter(explode("|", $confirm));
 
@@ -301,25 +314,30 @@ class FlowModel extends CommonModel {
 		if (substr($step, 0, 1) == 3) {
 			$consult = M("Flow") -> where("id=$flow_id") -> getField("consult");
 			$arr_consult = array_filter(explode("|", $consult));
-			return $arr_consult[fmod($step,10) - 1];
+			return $arr_consult[fmod($step, 10) - 1];
 		}
 	}
 
-	function send_to_refer($flow_id){
+	function send_to_refer($flow_id) {
 		$model = M("Flow");
-		$list=$model -> where("id=$flow_id") -> getField('refer');
-		$list=str_replace("|",",",$list);
-		$emp_list=array_filter(explode(",",$list));
+
+		$list = $model -> where("id=$flow_id") -> getField('refer');
+		$list = str_replace("|", ",", $list);
+		$emp_list = array_filter(explode(",", $list));
+
+		$data['flow_id'] = $flow_id;
+		$data['result'] = 1;
 		
-		$data['flow_id']=$flow_id;
-		$data['result']=1;
-		foreach($emp_list as $val){
-			$data['emp_no']=$val;
-			$data['step']=100;
-			$data['create_time']=time();
-			$model = D("FlowLog");
-			$model -> add($data);
+		foreach ($emp_list as $val) {
+			$data['emp_no'] = $val;
+			$data['step'] = 100;
+			$data['create_time'] = time();			
+			D("FlowLog") -> add($data);
+			
+			$user_id = M("User")->where("emp_no=$val")-> getField("id");
+			$this -> _pushReturn($new,"收到新的流程",1,$user_id);
 		}
 	}
+
 }
 ?>

@@ -82,11 +82,9 @@ class CrmAction extends CommonAction {
 		if (method_exists($this, '_search_filter')) {
 			$this -> _search_filter($map);
 		}
-
 		if (!empty($model)) {
 			$this -> _list($model,$map,'area,active_shop,vip_type,name');
 		}
-
 		$this -> display();
 	}
 

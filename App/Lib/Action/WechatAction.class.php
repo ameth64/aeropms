@@ -118,7 +118,6 @@ class WechatAction extends Action {
 		$app_id=C("WECHAT_APPID");
 		$redirect_uri=U('home/index');
 		$site_url=C("SITE_URL");
-
 	
 		$subs3[] = array('type'=>'view','name'=>'绑定','url'=>$site_url.U('wechat/oauth'));
 		$subs3[]= array('type'=>'click','name'=>'解除绑定','key'=>'unauth');

@@ -567,7 +567,7 @@ class CommonAction extends Action {
 		}
 	}
 
-	protected function _pushReturn($data, $info, $status, $user_id, $time = null) {
+	protected function _pushReturn($data, $info, $status,$user_id, $time = null) {
 		$model = M("Push");
 
 		$model -> data = $data;

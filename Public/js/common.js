@@ -6,6 +6,11 @@ function winprint() {
 	window.print();
 }
 
+function freshVerify()
+{
+    $('#verifyImg').attr("src",$('#verifyImg').attr("src").split("?")[0]+"?"+Math.random());
+}
+
 function click_top_menu(node) {
 	set_cookie("left_menu", "");
 	url = $(node).attr("url");

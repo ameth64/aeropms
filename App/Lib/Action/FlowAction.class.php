@@ -74,7 +74,8 @@ class FlowAction extends CommonAction {
 			case 'submit' :
 				$this -> assign("folder_name", '提交');
 				$map['user_id'] = array('eq',$user_id);
-				$map['step'] = array('gt',10);
+				$map['step'] = array(array('gt',10),array('eq',0), 'or');
+				
 				break;
 
 			case 'finish' :
@@ -484,6 +485,11 @@ class FlowAction extends CommonAction {
 
 				if ($list !== false) {//保存成功
 					D("Flow") -> where("id=$flow_id") -> setField('step', 0);
+					
+					
+					$user_id=M("Flow") -> where("id=$flow_id") -> getField('user_id');
+					$this -> _pushReturn($new, "您有一个流程被否决",1,$user_id);				
+					
 					$this -> assign('jumpUrl',U('flow/folder?fid=confirm'));
 					$this -> success('操作成功!');
 				} else {
@@ -541,10 +547,15 @@ class FlowAction extends CommonAction {
 		$list = $model -> save();
 		//可以裁决的人有多个人的时候，一个人评价完以后，禁止其他人重复裁决。
 		$model = D("FlowLog");
-		$model -> where("step=$step and flow_id=$flow_id and result is null") -> setField('is_del', 1);
+		$model -> where("step=$step and flow_id=$flow_id and result is null") -> setField('is_del',1);
 
 		if ($list !== false) {//保存成功
-			D("Flow") -> where("id=$flow_id") -> setField('step', 0);
+			D("Flow") -> where("id=$flow_id") -> setField('step',0);
+			
+			$user_id=M("Flow") -> where("id=$flow_id") -> getField('user_id');
+			dum
+			$this -> _pushReturn($new, "您有一个流程被否决",1,$user_id);
+			
 			$this -> assign('jumpUrl',U('flow/confirm'));
 			$this -> success('操作成功!');
 		} else {

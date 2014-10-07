@@ -15,8 +15,6 @@ class CrmModel extends CommonModel {
 	// 自动验证设置
 	function _before_update(&$data,$options){
 		$old_data=M("Crm")->find($data['id']);
-		dump($old_data);
-		dump($data);
 		$diff=array_diff_assoc($data,$old_data);
 		$diff=array_keys($diff);
 		

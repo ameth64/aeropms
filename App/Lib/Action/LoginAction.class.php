@@ -13,7 +13,6 @@
  -------------------------------------------------------------------------*/
 class LoginAction extends Action {
 	protected $config=array('app_type'=>'public');
-	// 检查用户是否登录
 
 	public function index(){
 		//如果通过认证跳转到首页
