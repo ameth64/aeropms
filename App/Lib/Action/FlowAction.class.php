@@ -553,7 +553,7 @@ class FlowAction extends CommonAction {
 			D("Flow") -> where("id=$flow_id") -> setField('step',0);
 			
 			$user_id=M("Flow") -> where("id=$flow_id") -> getField('user_id');
-			dum
+			 
 			$this -> _pushReturn($new, "您有一个流程被否决",1,$user_id);
 			
 			$this -> assign('jumpUrl',U('flow/confirm'));
