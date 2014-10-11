@@ -70,6 +70,7 @@ class MessageAction extends CommonAction {
 	}
 
 	public function read(){
+		$widget['editor'] = true;
 		$widget['uploader'] = true;
 		$this -> assign("widget", $widget);	
 

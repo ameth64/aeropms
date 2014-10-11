@@ -90,11 +90,10 @@ class FlowTypeAction extends CommonAction {
 	protected function _assign_duty_list() {
 		$model = D("Duty");
 		$where['is_del']=array('eq',0);
-		$duty_list = $model ->where($where)->getField("id,name");
+		$duty_list = $model ->where($where)->order('sort')->getField("id,name");
 		$this -> assign("duty_list",$duty_list);
 	}
 	
-
 	function tag_manage() {
 		$this -> _tag_manage("分组管理",false);
 	}

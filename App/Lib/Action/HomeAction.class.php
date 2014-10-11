@@ -78,7 +78,7 @@ class HomeAction extends CommonAction {
 		if (!empty($log_list)) {
 			$map['id'] = array('in', $log_list['flow_id']);
 			$todo_flow_list = $model -> where($map) -> field("id,name,create_time") -> limit(6)-> order("create_time desc")->select();
-			$this -> assign("todo_flow_list", $todo_flow_list);
+			$this -> assign("todo_flow_list", $todo_flow_list);		
 		}
 		//已提交
 		$map = array();
