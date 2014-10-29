@@ -40,9 +40,9 @@ class AuthCheckBehavior extends Behavior {
 			case 'common' :
 				$action_auth = C('AUTH');
 				if (!empty($params['action_auth'])) {
-					$action_auth = array_merge(C('AUTH'), $params['action_auth']);
+					$action_auth = array_merge(C('AUTH'),$params['action_auth']);
 				}
-				$auth = $this -> get_auth();
+				$auth = $this -> get_auth();				
 				break;
 
 			case 'flow' :
@@ -131,11 +131,13 @@ class AuthCheckBehavior extends Behavior {
 		$access_list = D("Node") -> access_list();
 		$access_list = array_filter($access_list, array($this,'filter_module'));
 		$access_list = rotate($access_list);
-
+		
+		
 		$module_list = $access_list['url'];
 		$module_list = array_map(array($this,"get_module"),$module_list);
 		$module_list = str_replace("_", "", $module_list);
 		
+		 
 		$access_list_admin = array_filter(array_combine($module_list, $access_list['admin']));
 		$access_list_write = array_filter(array_combine($module_list, $access_list['write']));
 		$access_list_read = array_filter(array_combine($module_list, $access_list['read']));

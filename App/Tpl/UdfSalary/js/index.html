@@ -63,35 +63,35 @@
 			total_selecter = ".data_total .data_" + i;
 			$(total_selecter).text(total);
 		}
-		$(".ul_table .data"
-			).each(function() {
-				$(this).text(formatMoney($(this).text()));
-			});
-			}
+		$(".ul_table .data").each(function() {
+			$(this).text(formatMoney($(this).text()));
+		});
+	}
 
-			function mark(action) {
-				var vars = $("#form_data").serialize();
-				switch (action) {
-					case "del_forever":
-						ui_confirm('确定要删除吗?', function() {
-							sendAjax("{:U('mark?action=del_forever')}", vars, function(data) {
-								if (data.status) {
-									ui_alert(data.info, function() {
-										$("input[name='id[]']:checkbox:checked").each(function() {
-											$(this).parents("li").remove();
-										});
-										$("#id-toggle-all").attr("checked", false);
-									});
-								};
-							});
-							break;
+	function mark(action) {
+		var vars = $("#form_data").serialize();
+		switch (action) {
+		case "del_forever":
+			ui_confirm('确定要删除吗?', function() {
+				sendAjax("{:U('mark?action=del_forever')}", vars, function(data) {
+					if (data.status) {
+						ui_alert(data.info, function() {
+							$("input[name='id[]']:checkbox:checked").each(function() {
+								$(this).parents("li").remove();
+							})
 						});
-				}
-			}
+					}
+				});
+			})
+			break;
+		default:
+		}
+		$("#id-toggle-all").attr("checked", false);
+	}
 
 
-			$(document).ready(function() {
-				set_return_url();
-				total_init();
-			}); 
+	$(document).ready(function() {
+		set_return_url();
+		total_init();
+	}); 
 </script>

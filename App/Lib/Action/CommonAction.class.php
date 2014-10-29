@@ -11,6 +11,7 @@
  Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
 
+
 class CommonAction extends Action {
 
 	function _initialize() {
@@ -32,7 +33,7 @@ class CommonAction extends Action {
 		$this -> _assign_new_count();
 	}
 
-	protected function _welogin($code) {
+	protected function _welogin($code){
 		import("@.ORG.Util.ThinkWechat");
 		$weixin = new ThinkWechat();
 		$openid = $weixin -> openid($code);
@@ -58,7 +59,7 @@ class CommonAction extends Action {
 	}
 
 	/**显示top menu及 left menu **/
-	protected function _assign_menu() {
+	protected function _assign_menu(){
 		$user_id = get_user_id();
 
 		$model = D("Node");
@@ -137,16 +138,22 @@ class CommonAction extends Action {
 			$name = $this -> getActionName();
 		}
 		$model = M($name);
-		$id = $_REQUEST['id'];
-		$vo = $model -> find($id);
-		if ($this -> isAjax()) {
-			if ($vo !== false) {// 读取成功
-				$this -> ajaxReturn($vo, "读取成功", 1);
-			} else {
-				$this -> ajaxReturn(0, "读取失败", 0);
-				die ;
-			}
+		if (empty($id)) {
+			$id = $_REQUEST['id'];
 		}
+		if (empty($id)) {
+			$this -> error(0, "读取失败", 0);
+		}			
+			$vo = $model -> find($id);
+			if ($this -> isAjax()) {
+				if ($vo !== false) {// 读取成功
+					$this -> ajaxReturn($vo, "读取成功", 1);
+				} else {
+					$this -> ajaxReturn(0, "读取失败", 0);
+					die ;
+				}
+			}
+
 		$this -> assign('vo', $vo);
 		$this -> display();
 	}
@@ -411,14 +418,14 @@ class CommonAction extends Action {
 
 		foreach ($request as $val) {
 			$field = substr($val, 3);
-			$prefix=substr($val, 0, 3);
-			if(in_array($field,$fields)){				
-				if ($prefix == "be_"){
-					if (isset($_REQUEST["en_" .$field])) {
-						if (strpos($field,"time")) {
-							$map[$field] = array(array('egt',date_to_int(trim($_REQUEST[$val]))),array('elt', date_to_int(trim($_REQUEST["en_" .$field])) + 86400));
+			$prefix = substr($val, 0, 3);
+			if (in_array($field, $fields)) {
+				if ($prefix == "be_") {
+					if (isset($_REQUEST["en_" . $field])) {
+						if (strpos($field, "time")) {
+							$map[$field] = array( array('egt', date_to_int(trim($_REQUEST[$val]))), array('elt', date_to_int(trim($_REQUEST["en_" . $field])) + 86400));
 						}
-						if (strpos($field,"date")) {
+						if (strpos($field, "date")) {
 							$map[$field] = array( array('egt', trim($_REQUEST[$val])), array('elt', trim($_REQUEST["en_" . substr($val, 3)])));
 						}
 					}
@@ -567,7 +574,7 @@ class CommonAction extends Action {
 		}
 	}
 
-	protected function _pushReturn($data, $info, $status,$user_id, $time = null) {
+	protected function _pushReturn($data, $info, $status, $user_id, $time = null) {
 		$model = M("Push");
 
 		$model -> data = $data;

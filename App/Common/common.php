@@ -1261,4 +1261,10 @@ function mb_unserialize($serial_str) {
 function get_sid(){
 	return md5(bin2hex(time()).rand_string());
 }
+
+function get_position_name($id){
+	$data=D('UserView')->find($id);
+	//dump($data);
+	return $data['position_name'];
+}
 ?>

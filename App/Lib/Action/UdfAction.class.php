@@ -39,6 +39,7 @@ class UdfAction extends CommonAction {
 			$this -> error('操作失败!');
 		}
 	}
+
 	public function import(){
 		$save_path = get_save_path();
 		$opmode = $_POST["opmode"];
