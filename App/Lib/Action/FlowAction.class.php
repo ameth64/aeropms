@@ -57,7 +57,6 @@ class FlowAction extends CommonAction {
 				$log_list = $FlowLog -> where($where) -> field('flow_id') -> select();
 
 				$log_list = rotate($log_list);
-
 				if (!empty($log_list)) {
 					$map['id'] = array('in', $log_list['flow_id']);
 				} else {
@@ -464,9 +463,9 @@ class FlowAction extends CommonAction {
 				$step = $model -> step;
 				//保存当前数据对象
 				$list = $model -> save();
-
+				$emp_no=$_REQUEST['emp_no'];
 				if ($list !== false) {//保存成功
-					D("Flow") -> next_step($flow_id, $step, $emp_no);
+					D("Flow") -> next_step($flow_id,$step,$emp_no);
 					$this -> assign('jumpUrl', U('flow/folder?fid=confirm'));
 					$this -> success('操作成功!');
 				} else {

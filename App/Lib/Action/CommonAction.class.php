@@ -22,6 +22,7 @@ class CommonAction extends Action {
 				$this -> _welogin($code);
 			}
 		}
+		
 		$auth_id = session(C('USER_AUTH_KEY'));
 		if (!isset($auth_id)) {
 			//跳转到认证网关

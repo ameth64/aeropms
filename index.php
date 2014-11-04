@@ -16,7 +16,7 @@
 	}
     define('APP_NAME', 'App');
     define('APP_PATH', './App/');
-    define('APP_DEBUG',false);
+    define('APP_DEBUG',true);
 
     // 加载框架入口文件
     require( "./ThinkPHP/ThinkPHP.php");
