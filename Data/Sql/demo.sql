@@ -661,8 +661,7 @@ CREATE TABLE `think_mail_account` (
 #
 
 /*!40000 ALTER TABLE `think_mail_account` DISABLE KEYS */;
-INSERT INTO `think_mail_account` VALUES (1,'smeoa@qq.com','小微OA','pop.qq.com','smtp.qq.com','smeoa@qq.com','YIN@1898');
-/*!40000 ALTER TABLE `think_mail_account` ENABLE KEYS */;
+
 
 #
 # Structure for table "think_mail_organize"
