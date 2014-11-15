@@ -471,7 +471,7 @@ function filter_search_field($v1) {
 }
 
 function filter_flow_field($val) {	
-	if (strpos($val,"flow_field_") !== false){
+	if (strpos($val,"doc_field_") !== false){
 		return true;
 	}else{
 		return false;
