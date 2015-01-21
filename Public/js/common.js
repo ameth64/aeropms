@@ -260,7 +260,7 @@ var ul_table = {
 
 		ul_table.display_bar(count);
 	}
-}
+};
 
 var Inputbox = {
 	//displays a toolbar according to the number of selected messages
@@ -314,7 +314,7 @@ var Inputbox = {
 		});
 		ul_table.display_bar(count);
 	}
-}
+};
 
 /*赋值*/
 
@@ -339,6 +339,10 @@ function set_val(name, val) {
 		}
 	}
 
+	if ($(":radio[name='" + name+"'][value='"+val+"']").length>0){
+		$(":radio[name=" + name+"][value="+val+"]").attr("checked",true);
+	}
+	
 	if (($("#" + name).attr("type")) === "text") {
 		$("#" + name).val(val);
 		return;
@@ -480,12 +484,12 @@ function check_form(form_id) {
 		if ($(this).attr("check")) {
 			if (!validate($(this).val(), $(this).attr("check"))) {
 				ui_error($(this).attr("msg"));
-				$(this).focus();
-				check_flag = false;
-				return check_flag;
+				$(this).focus();				
+				check_flag=false;
+				return false;
 			}
 		}
-	})
+	});
 	return check_flag;
 }
 
@@ -535,7 +539,7 @@ function sendAjax(url, vars, callback) {
 }
 
 /*提交表单*/
-function sendForm(formId, post_url, return_url) {
+function sendForm(formId, post_url,return_url) {
 	if ($("#ajax").val() == 1) {
 		var vars = $("#" + formId).serialize();
 		$.ajax({
@@ -548,6 +552,8 @@ function sendForm(formId, post_url, return_url) {
 					ui_alert(data.info, function() {
 						if (return_url) {
 							location.href = return_url;
+						}else{
+							return data.status;
 						}
 					});
 				} else {

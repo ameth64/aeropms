@@ -28,14 +28,6 @@
 	// 显示AJAX 读取的数据
 	function showdata(result){
 		$("#addr_list").html("");
-		if ( type = $("input[name='type']:checked").val() == "company") {
-			var id = "dept_" + $("#company a.active").attr("node");
-			var dept_name = $("#company a.active span").text();
-			var email = "dept@group";
-			var name = dept_name + "&lt;" + email + "&gt;";
-			var html_string = conv_address_item(id, name);
-			$("#addr_list").html(html_string);
-		}
 		for (s in result.data) {
 			var id = result.data[s].id;
 			var position_name = result.data[s].position_name;
@@ -58,8 +50,8 @@
 			$("input[name='type']").each(function() {
 				$("#" + $(this).val()).addClass("display-none");
 			});
-			$("#" + $(this).val()).removeClass("display-none")
-		})
+			$("#" + $(this).val()).removeClass("display-none");
+		});
 
 		$(".tree_menu  a").click(function() {
 			$(".tree_menu a").removeClass("active");
@@ -67,7 +59,7 @@
 			$(this).addClass("active");
 			sendAjax("{:U('read')}", "type=" + type + "&id=" + $(this).attr("node"), function(data) {
 				showdata(data);
-			})
+			});
 			return false;
 			//禁止连接生效
 		});
@@ -157,7 +149,7 @@
 				$(this).removeClass("ui-state-default");
 			}
 		});
-	})
+	});
 	//最终确认
 
 	function add_address(name) {
@@ -168,7 +160,7 @@
 				$("<option></option>").val($val).text($text).appendTo("#" + name + " select");
 				$("#" + name + "_count").text("(" + $("#" + name + " select option").length + ")");
 			};
-		})
+		});
 	}
 
 	//-->

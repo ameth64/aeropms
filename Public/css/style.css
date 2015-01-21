@@ -195,6 +195,19 @@ border-right:1px solid #ccc;
 	margin-left: 0px;
 	word-break: break-all;
 }
+
+.task_content {
+	line-height: 1.8em;
+	padding-top: 0px;
+	padding-right: 2px;
+	padding-bottom: 20px;
+	padding-left: 2px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	word-break: break-all;
+}
 .slider_box {
 	height: 17px;
 	width: 250px;
@@ -539,6 +552,10 @@ ul.tree_menu i {
 }
 .input-date {
 	width: 100px;
+	display: inline-block;
+}
+.input-date-time{
+	width: 130px;
 	display: inline-block;
 }
 .ul_table {
@@ -1146,13 +1163,6 @@ ul.tree_menu i {
 	overflow: hidden;
 }
 
-.Schedule #start_date, .Schedule #end_date {
-	margin-right: 0px;
-}
-.Schedule #start_time, .Schedule #end_time {
-	display: inline-block;
-	width: 90px;
-}
 .Schedule .rb-n {
 	padding-top: 3px;
 	padding-right: 10px;

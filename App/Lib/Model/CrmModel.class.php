@@ -22,9 +22,6 @@ class CrmModel extends CommonModel {
 		
 		if(!empty($diff)){
 			foreach ($diff as $val) {
-				dump($val);
-				dump($data);
-				dump($desc[$val]);
 			 $model->need=implode(",",$model->need);
 			 	if(is_array($data[$val])){
 			 		$new=implode(",",$data[$val]);

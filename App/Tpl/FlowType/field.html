@@ -1,5 +1,5 @@
 <layout name='Layout/ace_layout' />
-{:W('PageHeader',array('name'=>字段管理,'search'=>'N'))}
+{:W('PageHeader',array('name'=>'字段管理','search'=>'N'))}
 <div class="operate panel panel-default">
 	<div class="panel-body">
 		<div class="pull-left">
@@ -16,7 +16,7 @@
 <div class="row">
 	<div class="col-sm-4 sub_left_menu ">
 		<div class="well">
-			<?php echo $menu ?>
+			{$menu}
 		</div>
 	</div>
 	<div class="col-sm-8 ">
@@ -38,6 +38,7 @@
 						<option value="">请选择
 						<option value="text">单行文本
 						<option value="date">日期
+						<option value="datetime">日期+时间
 						<option value="select">列表
 						<option value="radio">单选
 						<option value="checkbox">多选				

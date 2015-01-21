@@ -9,6 +9,9 @@ class FlowControlWidget extends Widget {
 			case 'date':
 				$content = $this->renderFile('date',$data);	
 				break;
+			case 'datetime':
+				$content = $this->renderFile('datetime',$data);	
+				break;				
 			case 'select':
 				$data['control_data']=$this->conv_control_data($data['control_data']);
 				$content = $this->renderFile('select',$data);

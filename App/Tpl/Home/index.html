@@ -108,6 +108,49 @@
 						</div>
 					</div>
 				</div>
+				<!-- 任务开始 -->
+				<div class="widget-box" sort="14">
+					<div class="widget-header">
+						<h5 class="smaller">任务</h5>
+						<div class="widget-toolbar no-border">
+							<ul class="nav nav-tabs" id="myTab">
+								<li class="active">
+									<a data-toggle="tab" href="#task-all">所有任务</a>
+								</li>
+								<li>
+									<a data-toggle="tab" href="#task-dept">我部门的任务</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="widget-body">
+						<div class="widget-main">
+							<div class="tab-content">
+								<div id="task-all" class=" ul_table tab-pane in active">
+									<ul>
+										<volist name="task_todo_list" id="vo">
+											<li>
+												<span class="pull-right hidden-phone">{$vo.start_date}</span>
+												<span  class="auto autocut"> <a url="{:U('Task/read','id='.$vo['id'])}" return_url="{:U('Task/index')}" onclick="click_home_list(this)">{$vo.name}</a></span>
+											</li>
+										</volist>
+									</ul>
+								</div>
+								<div id="task-dept" class=" ul_table tab-pane">
+									<ul>
+										<volist name="task_dept_list" id="vo">
+											<li>
+												<span class="pull-right hidden-phone">{$vo.start_date}</span>
+												<span  class="auto autocut"> <a url="{:U('Task/read','id='.$vo['id'])}" return_url="{:U('Task/index')}" onclick="click_home_list(this)">{$vo.name}</a> </span>
+											</li>
+										</volist>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
 			</div>
 			<div class="col-xs-12 col-sm-6 widget-container-span" id="t2">
 				<div class="widget-box display-none" ></div>

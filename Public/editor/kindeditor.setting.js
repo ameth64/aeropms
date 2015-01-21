@@ -44,7 +44,7 @@ function editor_init() {
 			allowImageUpload : true,
 			syncType : 'form',
 			height : 200,
-			items : ['fontsize', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'removeformat', '|', 'image', '|', 'fullscreen'],
+			items : ['fontsize', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'removeformat', '|', 'image','link','|', 'fullscreen'],
 			afterBlur : function() {
 				this.sync();
 			}

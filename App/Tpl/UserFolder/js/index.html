@@ -1,5 +1,5 @@
 <script type="text/javascript">
-	function add() {
+	function add(){
 		$("#opmode").val("add");
 		$("#id").val("");
 		if (check_form("form_data")){
@@ -7,7 +7,7 @@
 		}
 	};
 
-	function del() {
+	function del(){
 		var vars = $("#form_data").serialize();
 		ui_confirm('确定要删除吗?',function(){
 			sendAjax("{:U('del')}", vars, function(data) {

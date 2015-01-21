@@ -245,7 +245,7 @@ class FlowModel extends CommonModel {
 			$model -> where("id=$flow_id") -> setField('step', 40);
 
 			$user_id = $model -> where("id=$flow_id") -> getField('user_id');
-			$this -> _pushReturn($new, "您有一个流程通过审核", 1, $user_id);
+			$this -> _pushReturn($new, "您有一个流程通过审核",1,$user_id);
 
 			$this -> send_to_refer($flow_id);
 			
@@ -309,8 +309,8 @@ class FlowModel extends CommonModel {
 			$arr_confirm = array_filter(explode("|", $confirm));
 
 			return $arr_confirm[fmod($step, 10) - 1];
-
 		}
+		
 		if (substr($step, 0, 1) == 3) {
 			$consult = M("Flow") -> where("id=$flow_id") -> getField("consult");
 			$arr_consult = array_filter(explode("|", $consult));

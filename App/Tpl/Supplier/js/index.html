@@ -14,7 +14,7 @@
 		}
 	}
 
-	function del() {
+	function del(){
 		ui_confirm('确定要删除吗?',function(){
 			if ($("#form_data .ul_table input:checked").length == 0) {
 				$("li.tbody.active :checkbox").attr("checked", true);

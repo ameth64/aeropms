@@ -137,8 +137,8 @@ class ScheduleAction extends CommonAction {
 
 		$where['user_id'] = $user_id;
 		$where['is_del']=array('eq',0);
-		$where['start_date'] = array( array('egt', $start_date), array('elt', $end_date));
-		$list = M("Schedule") -> where($where) -> order('start_date,priority desc') -> select();
+		$where['start_time'] = array( array('egt', $start_date), array('elt', $end_date));
+		$list = M("Schedule") -> where($where) -> order('start_time,priority desc') -> select();
 		exit(json_encode($list));
 	}
 

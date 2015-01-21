@@ -94,7 +94,11 @@ class CommonAction extends Action {
 	}
 
 	protected function _assign_new_count() {
-		$this -> assign("new_count", get_new_count());
+		$new_count=get_new_count();		
+		$this -> assign("new_count",$new_count);
+		
+		$task_count=$new_count['bc-task'];
+		$this->assign("task_count",$task_count);
 	}
 
 	/**列表页面 **/

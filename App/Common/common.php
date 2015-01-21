@@ -10,30 +10,35 @@
 
  Support: https://git.oschina.net/smeoa/smeoa
  -------------------------------------------------------------------------*/
- 
-function get_file_path($sid){
+
+function get_file_path($sid) {
 	if (is_array($sid)) {
 		$where['sid'] = array("in", array_filter($sid));
 	} else {
 		$where['sid'] = array('in', array_filter(explode(';', $sid)));
-	}	
-	$list=M("File")->where($where)->getField('savename');
+	}
+	$list = M("File") -> where($where) -> getField('savename');
 	return $list;
-}	
+}
 
-function is_weixin(){
-	if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
+function get_task_log($task_id) {
+	$list = M("TaskLog") -> where("task_id=$task_id") -> select();
+	return $list;
+}
+
+function is_weixin() {
+	if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
 		return true;
 	}
 	return false;
 }
 
-function get_new_count(){
-	
+function get_new_count() {
+
 	$emp_no = get_emp_no();
 
 	//获取未读邮件
-	$data=array();
+	$data = array();
 
 	$user_id = get_user_id();
 	$where['user_id'] = $user_id;
@@ -41,7 +46,7 @@ function get_new_count(){
 	$where['folder'] = array('eq', 1);
 	$where['read'] = array('eq', '0');
 	$new_mail_inbox = M("Mail") -> where($where) -> count();
-	$data['bc-mail']['bc-mail-inbox']=$new_mail_inbox;
+	$data['bc-mail']['bc-mail-inbox'] = $new_mail_inbox;
 
 	//获取未读邮件
 	$where['user_id'] = $user_id;
@@ -49,85 +54,112 @@ function get_new_count(){
 	$where['folder'] = array('gt', 6);
 	$where['read'] = array('eq', '0');
 	$new_mail_myfolder = M("Mail") -> where($where) -> count();
-	$data['bc-mail']['bc-mail-myfolder']=$new_mail_myfolder;
+	$data['bc-mail']['bc-mail-myfolder'] = $new_mail_myfolder;
 
 	//获取待裁决
 	$where = array();
 	$FlowLog = M("FlowLog");
-		 
+
 	$where['emp_no'] = $emp_no;
 	$where['_string'] = "result is null";
 	$log_list = $FlowLog -> where($where) -> field('flow_id') -> select();
-	
+
 	$log_list = rotate($log_list);
-	$new_confirm_count=0;
+	$new_confirm_count = 0;
 	if (!empty($log_list)) {
 		$map['id'] = array('in', $log_list['flow_id']);
 		$new_confirm_count = M("Flow") -> where($map) -> count();
 	}
-	$data['bc-flow']['bc-flow-confirm']=$new_confirm_count;
+	$data['bc-flow']['bc-flow-confirm'] = $new_confirm_count;
 
 	//获取收到的流程
 	$where = array();
 	$where['emp_no'] = $emp_no;
 	$where['step'] = 100;
-	$where['is_read']=1;
+	$where['is_read'] = 1;
 
-	$log_list =  M("FlowLog") -> where($where) -> field('flow_id') -> select();
+	$log_list = M("FlowLog") -> where($where) -> field('flow_id') -> select();
 	$log_list = rotate($log_list);
-	$new_receive_count=0;
+	$new_receive_count = 0;
 	if (!empty($log_list)) {
-		$map['id'] = array('in',$log_list['flow_id']);
+		$map['id'] = array('in', $log_list['flow_id']);
 		$new_receive_count = M("Flow") -> where($map) -> count();
 	}
-	$data['bc-flow']['bc-flow-receive']=$new_receive_count;
+	$data['bc-flow']['bc-flow-receive'] = $new_receive_count;
 
 	//获取最新通知
 	$where = array();
 	$where['is_del'] = array('eq', '0');
-	$folder_list = D("SystemFolder") -> get_authed_folder(get_user_id(),"NoticeFolder");
-	$where['folder']=array('in',$folder_list);
-	$where['create_time']=array("egt",time() - 3600 * 24 * 30);
-	$readed = array_filter(explode(",",get_user_config("readed_notice")));
+	$folder_list = D("SystemFolder") -> get_authed_folder(get_user_id(), "NoticeFolder");
+	$where['folder'] = array('in', $folder_list);
+	$where['create_time'] = array("egt", time() - 3600 * 24 * 30);
+	$readed = array_filter(explode(",", get_user_config("readed_notice")));
 
-	$where['id']=array("not in",$readed);
-		
-	$new_notice_count =  M('Notice') -> where($where) -> count();
-	
-	$data['bc-notice']['bc-notice-new']=$new_notice_count;
+	$where['id'] = array("not in", $readed);
+
+	$new_notice_count = M('Notice') -> where($where) -> count();
+
+	$data['bc-notice']['bc-notice-new'] = $new_notice_count;
 
 	//获取待办事项
 	$where = array();
 	$where['user_id'] = $user_id;
 	$where['status'] = array("in", "1,2");
 	$new_todo_count = M("Todo") -> where($where) -> count();
-	$data['bc-personal']['bc-personal-todo']=$new_todo_count;
+	$data['bc-personal']['bc-personal-todo'] = $new_todo_count;
 
 	//获取日程事项
 	$where = array();
 	$where['user_id'] = $user_id;
-	$where['start_date'] = array("elt",date("Y-m-d"));
-	$where['end_date'] = array("egt",date("Y-m-d"));	
+	$where['start_date'] = array("elt", date("Y-m-d"));
+	$where['end_date'] = array("egt", date("Y-m-d"));
 	$new_schedule_count = M("Schedule") -> where($where) -> count();
-	$data['bc-personal']['bc-personal-schedule']=$new_schedule_count;
+	$data['bc-personal']['bc-personal-schedule'] = $new_schedule_count;
 
 	//获取最新消息
 	$model = M("Message");
 	$where = array();
 	$where['owner_id'] = $user_id;
-	$where['receiver_id']=$user_id;
-	$where['is_read'] = array('eq','0');
+	$where['receiver_id'] = $user_id;
+	$where['is_read'] = array('eq', '0');
 	$new_message_count = M("Message") -> where($where) -> count();
-	$data['bc-message']['bc-message-new']=$new_message_count;
+	$data['bc-message']['bc-message-new'] = $new_message_count;
+
+	//等我接受的任务
+	$where = array();
+	$where_log['type'] = 1;
+	$where_log['status'] = 0;
+	$where_log['executor'] = get_user_id();
+	$task_list = M("TaskLog") -> where($where_log) -> getField('task_id id,task_id');
+
+	$where['id'] = array('in', $task_list);
+
+	$task_todo_count = M("Task") -> where($where) -> count();
+	$data['bc-task']['task_todo_count'] = $task_todo_count;
+
+	//我部门任务
+	$where = array();
+	$auth = D("Role") -> get_auth("Task");
+	if ($auth['admin']) {
+		$where_log['type'] = 2;
+		$where_log['executor'] = get_dept_id();
+		$task_list = M("TaskLog") -> where($where_log) -> getField('task_id id,task_id');
+		$where['id'] = array('in', $task_list);
+	} else {
+		$where['_string'] = '1=2';
+	}
+
+	$task_dept_count = M("Task") -> where($where) -> count();
+	$data['bc-task']['task_dept_count'] = $task_dept_count;
 
 	return $data;
 }
 
-function is_mobile($mobile){
+function is_mobile($mobile) {
 	return preg_match("/^(?:13\d|14\d|15\d|18[0123456789])-?\d{5}(\d{3}|\*{3})$/", $mobile);
 }
 
-function is_email($email){
+function is_email($email) {
 	return strlen($email) > 6 && preg_match("/^[\w\-\.]+@[\w\-\.]+(\.\w+)+$/", $email);
 }
 
@@ -138,39 +170,34 @@ function is_email($email){
  * @param  string $method 请求方法GET/POST
  * @return array  $data   响应数据
  */
-function http($url, $params, $method = 'GET', $header = array(), $multi = false){
-	$opts = array(
-		CURLOPT_TIMEOUT        => 30,
-		CURLOPT_RETURNTRANSFER => 1,
-		CURLOPT_SSL_VERIFYPEER => false,
-		CURLOPT_SSL_VERIFYHOST => false,
-		CURLOPT_HTTPHEADER     => $header
-	);
+function http($url, $params, $method = 'GET', $header = array(), $multi = false) {
+	$opts = array(CURLOPT_TIMEOUT => 30, CURLOPT_RETURNTRANSFER => 1, CURLOPT_SSL_VERIFYPEER => false, CURLOPT_SSL_VERIFYHOST => false, CURLOPT_HTTPHEADER => $header);
 
 	/* 根据请求类型设置特定参数 */
-	switch(strtoupper($method)){
-		case 'GET':
-			$opts[CURLOPT_URL] = $url . '?' . str_replace("&amp;","&",http_build_query($params));
+	switch(strtoupper($method)) {
+		case 'GET' :
+			$opts[CURLOPT_URL] = $url . '?' . str_replace("&amp;", "&", http_build_query($params));
 			break;
-		case 'POST':
+		case 'POST' :
 			//判断是否传输文件
 			//$params = $multi ? $params : http_build_query($params);
 			$opts[CURLOPT_URL] = $url;
 			$opts[CURLOPT_POST] = 1;
 			$opts[CURLOPT_POSTFIELDS] = $params;
 			break;
-		default:
+		default :
 			throw new Exception('不支持的请求方式！');
 	}
 
 	/* 初始化并执行curl请求 */
 	$ch = curl_init();
 	curl_setopt_array($ch, $opts);
-	$data  = curl_exec($ch);
+	$data = curl_exec($ch);
 	$error = curl_error($ch);
 	curl_close($ch);
-	if($error) throw new Exception('请求发生错误：' . $error);
-	return  $data;
+	if ($error)
+		throw new Exception('请求发生错误：' . $error);
+	return $data;
 }
 
 /**
@@ -179,24 +206,26 @@ function http($url, $params, $method = 'GET', $header = array(), $multi = false)
  * @return string
  */
 function jsencode($arr) {
-	$str = str_replace ( "\\/", "/", json_encode ( $arr ) );
+	$str = str_replace("\\/", "/", json_encode($arr));
 	$search = "#\\\u([0-9a-f]+)#ie";
-	
-	if (strpos ( strtoupper(PHP_OS), 'WIN' ) === false) {
-		$replace = "iconv('UCS-2BE', 'UTF-8', pack('H4', '\\1'))";//LINUX
+
+	if (strpos(strtoupper(PHP_OS), 'WIN') === false) {
+		$replace = "iconv('UCS-2BE', 'UTF-8', pack('H4', '\\1'))";
+		//LINUX
 	} else {
-		$replace = "iconv('UCS-2', 'UTF-8', pack('H4', '\\1'))";//WINDOWS
+		$replace = "iconv('UCS-2', 'UTF-8', pack('H4', '\\1'))";
+		//WINDOWS
 	}
-	
-	return preg_replace ( $search, $replace, $str );
+
+	return preg_replace($search, $replace, $str);
 }
 
 // 数据保存到文件
-function data2file($filename, $arr=''){
-	if(is_array($arr)){
-		$con = var_export($arr,true);
+function data2file($filename, $arr = '') {
+	if (is_array($arr)) {
+		$con = var_export($arr, true);
 		$con = "<?php\nreturn $con;\n?>";
-	} else{
+	} else {
 		$con = $arr;
 		$con = "<?php\n $con;\n?>";
 	}
@@ -212,26 +241,27 @@ function data2file($filename, $arr=''){
  * @author winky
  */
 
-function encrypt($data,$key = '', $expire = 0) {
-    $key  = md5(empty($key) ? C('DATA_AUTH_KEY') : $key);
-    $data = base64_encode($data);
-    $x    = 0;
-    $len  = strlen($data);
-    $l    = strlen($key);
-    $char = '';
+function encrypt($data, $key = '', $expire = 0) {
+	$key = md5(empty($key) ? C('DATA_AUTH_KEY') : $key);
+	$data = base64_encode($data);
+	$x = 0;
+	$len = strlen($data);
+	$l = strlen($key);
+	$char = '';
 
-    for ($i = 0; $i < $len; $i++) {
-        if ($x == $l) $x = 0;
-        $char .= substr($key, $x, 1);
-        $x++;
-    }
+	for ($i = 0; $i < $len; $i++) {
+		if ($x == $l)
+			$x = 0;
+		$char .= substr($key, $x, 1);
+		$x++;
+	}
 
-    $str = sprintf('%010d', $expire ? $expire + time():0);
+	$str = sprintf('%010d', $expire ? $expire + time() : 0);
 
-    for ($i = 0; $i < $len; $i++) {
-        $str .= chr(ord(substr($data, $i, 1)) + (ord(substr($char, $i, 1)))%256);
-    }
-    return str_replace(array('+','/','='),array('-','_',''),base64_encode($str));
+	for ($i = 0; $i < $len; $i++) {
+		$str .= chr(ord(substr($data, $i, 1)) + (ord(substr($char, $i, 1))) % 256);
+	}
+	return str_replace(array('+', '/', '='), array('-', '_', ''), base64_encode($str));
 }
 
 /**
@@ -241,64 +271,65 @@ function encrypt($data,$key = '', $expire = 0) {
  * @return string
  * @author winky
  */
-function decrypt($data, $key = ''){
-    $key    = md5(empty($key) ? C('DATA_AUTH_KEY') : $key);
-    $data   = str_replace(array('-','_'),array('+','/'),$data);
-    $mod4   = strlen($data) % 4;
-    if ($mod4) {
-       $data .= substr('====', $mod4);
-    }
-    $data   = base64_decode($data);
-    $expire = substr($data,0,10);
-    $data   = substr($data,10);
+function decrypt($data, $key = '') {
+	$key = md5(empty($key) ? C('DATA_AUTH_KEY') : $key);
+	$data = str_replace(array('-', '_'), array('+', '/'), $data);
+	$mod4 = strlen($data) % 4;
+	if ($mod4) {
+		$data .= substr('====', $mod4);
+	}
+	$data = base64_decode($data);
+	$expire = substr($data, 0, 10);
+	$data = substr($data, 10);
 
-    if($expire > 0 && $expire < time()) {
-        return '';
-    }
-    $x      = 0;
-    $len    = strlen($data);
-    $l      = strlen($key);
-    $char   = $str = '';
+	if ($expire > 0 && $expire < time()) {
+		return '';
+	}
+	$x = 0;
+	$len = strlen($data);
+	$l = strlen($key);
+	$char = $str = '';
 
-    for ($i = 0; $i < $len; $i++){
-        if ($x == $l) $x = 0;
-        $char .= substr($key, $x, 1);
-        $x++;
-    }
+	for ($i = 0; $i < $len; $i++) {
+		if ($x == $l)
+			$x = 0;
+		$char .= substr($key, $x, 1);
+		$x++;
+	}
 
-    for ($i = 0; $i < $len; $i++) {
-        if (ord(substr($data, $i, 1))<ord(substr($char, $i, 1))) {
-            $str .= chr((ord(substr($data, $i, 1)) + 256) - ord(substr($char, $i, 1)));
-        }else{
-            $str .= chr(ord(substr($data, $i, 1)) - ord(substr($char, $i, 1)));
-        }
-    }
-    return base64_decode($str);
+	for ($i = 0; $i < $len; $i++) {
+		if (ord(substr($data, $i, 1)) < ord(substr($char, $i, 1))) {
+			$str .= chr((ord(substr($data, $i, 1)) + 256) - ord(substr($char, $i, 1)));
+		} else {
+			$str .= chr(ord(substr($data, $i, 1)) - ord(substr($char, $i, 1)));
+		}
+	}
+	return base64_decode($str);
 }
 
-function upload_filter($val){
-	$allow_type=array('doc','docx','xls','xlsx','ppt','pptx','dwg','rar','zip','7z','pdf','txt','rtf','jpg','jpeg','png','tip','psd');
-	if(in_array($val,$allow_type)){
+function upload_filter($val) {
+	$allow_type = array('doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'dwg', 'rar', 'zip', '7z', 'pdf', 'txt', 'rtf', 'jpg', 'jpeg', 'png', 'tip', 'psd');
+	if (in_array($val, $allow_type)) {
 		return true;
-	}else{
+	} else {
 		return false;
 	}
 }
 
-function get_save_path(){
-	$app_path=__APP__;
-	$save_path=C('SAVE_PATH');
-	$app_path=str_replace("/index.php?s=","",$app_path);
-	$app_path=str_replace("/index.php","",$app_path);
+function get_save_path() {
+	$app_path = __APP__;
+	$save_path = C('SAVE_PATH');
+	$app_path = str_replace("/index.php?s=", "", $app_path);
+	$app_path = str_replace("/index.php", "", $app_path);
 	return C('SAVE_PATH');
 }
 
-function get_save_url(){
-	$app_path=__APP__;
-	$save_path=C('SAVE_PATH');
-	$app_path=str_replace("/index.php?s=","",$app_path);
-	$app_path=str_replace("/index.php","",$app_path);
-	return $app_path."/".$save_path;
+function get_save_url() {
+	$app_path = __APP__;
+	$save_path = C('SAVE_PATH');
+	$app_path = str_replace("/index.php?s=", "", $app_path);
+	$app_path = str_replace("/index.php", "", $app_path);
+	return $app_path . "/" . $save_path;
 }
 
 function _encode($arr) {
@@ -330,11 +361,11 @@ function get_img_info($img) {
 	}
 }
 
-function get_return_url($level=null){
-	if(empty($level)){
+function get_return_url($level = null) {
+	if (empty($level)) {
 		$return_url = cookie('return_url');
-	}else{
-		$return_url = cookie('return_url_'.$level);
+	} else {
+		$return_url = cookie('return_url_' . $level);
 	}
 	return $return_url;
 }
@@ -342,10 +373,10 @@ function get_return_url($level=null){
 function get_system_config($code) {
 	$model = M("SystemConfig");
 	$where['code'] = array('eq', $code);
-	$count=$model -> where($where)->count();
-	if($count>1){
+	$count = $model -> where($where) -> count();
+	if ($count > 1) {
 		return $model -> where($where) -> getfield("val,name");
-	}else{
+	} else {
 		return $model -> where($where) -> getfield("val");
 	}
 }
@@ -362,10 +393,10 @@ function get_user_config($field) {
 	}
 }
 
-function get_user_info($id,$field) {
+function get_user_info($id, $field) {
 	$model = D("UserView");
 	$where['id'] = array('eq', $id);
-	$result = $model -> where($where) ->getfield($field);
+	$result = $model -> where($where) -> getfield($field);
 	//dump($field);
 	return $result;
 }
@@ -416,24 +447,24 @@ function get_user_name() {
 	return isset($user_name) ? $user_name : 0;
 }
 
-function get_dept_id(){
-	return session('dept_id');		
+function get_dept_id() {
+	return session('dept_id');
 }
 
-function get_dept_name(){
-	$result=M("Dept")->find(session("dept_id"));
+function get_dept_name() {
+	$result = M("Dept") -> find(session("dept_id"));
 	return $result['name'];
 }
 
 function get_module($str) {
-		$arr_str = explode("/", $str);
-		return $arr_str[0];
+	$arr_str = explode("/", $str);
+	return $arr_str[0];
 }
 
-function get_bc_class($str){
-	$arr_str=explode(" ",$str);
-	foreach($arr_str as $val){		
-		if(strpos($val,"bc-")!==false){
+function get_bc_class($str) {
+	$arr_str = explode(" ", $str);
+	foreach ($arr_str as $val) {
+		if (strpos($val, "bc-") !== false) {
 			return $val;
 		}
 	}
@@ -470,22 +501,22 @@ function filter_search_field($v1) {
 	}
 }
 
-function filter_flow_field($val) {	
-	if (strpos($val,"doc_field_") !== false){
+function filter_flow_field($val) {
+	if (strpos($val, "flow_field_") !== false) {
 		return true;
-	}else{
+	} else {
 		return false;
 	}
 }
 
-function get_cell_location($col,$row,$col_offset=0,$row_offset=0){
-	if(!is_numeric($col)){
-		$col=ord($col)-65;
+function get_cell_location($col, $row, $col_offset = 0, $row_offset = 0) {
+	if (!is_numeric($col)) {
+		$col = ord($col) - 65;
 	}
-	$location=array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
-	$col=$col+$col_offset;
-	$row=$row+$row_offset;
-	return $location[$col].$row;
+	$location = array("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
+	$col = $col + $col_offset;
+	$row = $row + $row_offset;
+	return $location[$col] . $row;
 }
 
 function get_model_fields($model) {
@@ -494,7 +525,7 @@ function get_model_fields($model) {
 		foreach ($model->viewFields as $key => $val) {
 			unset($val['_on']);
 			unset($val['_type']);
-			if(!empty($val[0])&&($val[0] == "*")){
+			if (!empty($val[0]) && ($val[0] == "*")) {
 				$model = M($key);
 				$fields = $model -> getDbFields();
 				$arr_field = array_merge($arr_field, array_values($fields));
@@ -509,7 +540,7 @@ function get_model_fields($model) {
 }
 
 function show_step_type($step) {
-	if ($step >= 20 && $step<30) {
+	if ($step >= 20 && $step < 30) {
 		return "审批";
 	}
 	if ($step >= 30) {
@@ -526,7 +557,7 @@ function show_result($result) {
 	}
 	if ($result == 2) {
 		return "退回";
-	}	
+	}
 }
 
 function show_step($step) {
@@ -603,23 +634,23 @@ function fix_array_key($list, $key) {
 	return $arr;
 }
 
-function fill_option($list,$data) {
+function fill_option($list, $data) {
 	$html = "";
-	foreach ($list as $key => $val){
-		if(is_array($val)) {
+	foreach ($list as $key => $val) {
+		if (is_array($val)) {
 			$id = $val['id'];
 			$name = $val['name'];
-			if($id==$data){
-				$selected="selected";
-			}else{
-				$selected="";
+			if ($id == $data) {
+				$selected = "selected";
+			} else {
+				$selected = "";
 			}
 			$html = $html . "<option value='{$id}' $selected>{$name}</option>";
 		} else {
-			if($key==$data){
-				$selected="selected";
-			}else{
-				$selected="";
+			if ($key == $data) {
+				$selected = "selected";
+			} else {
+				$selected = "";
 			}
 			$html = $html . "<option value='{$key}' $selected>{$val}</option>";
 		}
@@ -703,11 +734,11 @@ function list_to_tree($list, $root = 0, $pk = 'id', $pid = 'pid', $child = '_chi
 	return $tree;
 }
 
-function tree_to_list($tree, $level = 0, $pk = 'id', $pid = 'pid', $child = '_child'){
+function tree_to_list($tree, $level = 0, $pk = 'id', $pid = 'pid', $child = '_child') {
 	$list = array();
 	if (is_array($tree)) {
 		foreach ($tree as $val) {
-			$val['level'] = $level;			
+			$val['level'] = $level;
 			if (isset($val['_child'])) {
 				$child = $val['_child'];
 				if (is_array($child)) {
@@ -754,18 +785,18 @@ function left_menu($tree, $level = 0) {
 	return $html;
 }
 
-function select_tree_menu($tree){	
+function select_tree_menu($tree) {
 	$html = "";
-	if (is_array($tree)){
-		$list=tree_to_list($tree);			
-		foreach ($list as $val){
-			$html = $html . "<option value='{$val['id']}'>".str_pad("",$val['level']*3,"│")."├─" ."{$val['name']}</option>";			
-		}	
+	if (is_array($tree)) {
+		$list = tree_to_list($tree);
+		foreach ($list as $val) {
+			$html = $html . "<option value='{$val['id']}'>" . str_pad("", $val['level'] * 3, "│") . "├─" . "{$val['name']}</option>";
+		}
 	}
 	return $html;
 }
 
-function popup_tree_menu($tree, $level = 0){
+function popup_tree_menu($tree, $level = 0) {
 	$level++;
 	$html = "";
 	if (is_array($tree)) {
@@ -779,7 +810,7 @@ function popup_tree_menu($tree, $level = 0){
 				}
 				if (!empty($val["is_del"])) {
 					$del_class = "is_del";
-				}else{
+				} else {
 					$del_class = "";
 				}
 				if (isset($val['_child'])) {
@@ -835,7 +866,7 @@ function dropdown_menu($tree, $level = 0) {
 				}
 				if (isset($val['_child'])) {
 					$html = $html . "<li id=\"$id\" class=\"level$level\"><a>$title</a>\r\n";
-					$html = $html . dropdown_menu($val['_child'],$level);
+					$html = $html . dropdown_menu($val['_child'], $level);
 					$html = $html . "</li>\r\n";
 				} else {
 					$html = $html . "<li  id=\"$id\"  class=\"level$level\">\r\n<a>$title</a>\r\n</li>\r\n";
@@ -872,10 +903,10 @@ function u_str_pad($cnt, $str) {
 	return $tmp;
 }
 
-function show_contact($str, $mode = "show"){
+function show_contact($str, $mode = "show") {
 	$tmp = '';
-	
-	if (!empty($str)){
+
+	if (!empty($str)) {
 		$contacts = array_filter(explode(';', $str));
 		if (count($contacts) > 1) {
 			foreach ($contacts as $contact) {
@@ -883,7 +914,7 @@ function show_contact($str, $mode = "show"){
 				$name = htmlspecialchars(rtrim($arr[0]));
 				$email = htmlspecialchars(rtrim($arr[1]));
 				if ($mode == "edit") {
-					$tmp = $tmp . "<span data=\"$email\"><nobr><b  title=\"$email\">$name</b><a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";
+					$tmp = $tmp . "<span data=\"$email\"><nobr><b  title=\"$email\">$name</b><a class=\"del\" title=\"删除\"><i class=\"fa fa-times\"></i></a></nobr></span>";
 				} else {
 					$tmp = $tmp . "<a email=\"$email\" title=\"$email\" >$name;</a>&nbsp;";
 				}
@@ -893,8 +924,8 @@ function show_contact($str, $mode = "show"){
 			$name = htmlspecialchars(rtrim($arr[0]));
 			$email = htmlspecialchars(rtrim($arr[1]));
 			$tmp = "";
-			if ($mode == "edit"){
-				$tmp = $tmp . "<span data=\"$email\"><nobr><b  title=\"$email\">$name</b><a class=\"del\" title=\"删除\"><i class=\"icon-remove\"></i></a></nobr></span>";
+			if ($mode == "edit") {
+				$tmp = $tmp . "<span data=\"$email\"><nobr><b  title=\"$email\">$name</b><a class=\"del\" title=\"删除\"><i class=\"fa fa-times\"></i></a></nobr></span>";
 			} else {
 				$tmp = $tmp . "<a email=\"$email\" title=\"$email\" >$name</a>";
 			}
@@ -997,13 +1028,13 @@ function show_refer($emp_list) {
 	$arr_emp_no = array_filter(explode('|', $emp_list));
 	if (count($arr_emp_no) > 1) {
 		$model = D("UserView");
-		foreach ($arr_emp_no as $emp_no){
-			$where['emp_no']=array('eq',substr($emp_no,4));
-			$emp = $model ->where($where)->find();
-			$emp_no=$emp['emp_no'];
-			$user_name=$emp['name'];
-			$position_name=$emp['position_name'];
-			$str.="<span data=\"$emp_no\" id=\"$emp_no\"><nobr><b title=\"$user_name/$position_name\">$user_name/$position_name</b></nobr><b>;&nbsp;</b></span>";
+		foreach ($arr_emp_no as $emp_no) {
+			$where['emp_no'] = array('eq', substr($emp_no, 4));
+			$emp = $model -> where($where) -> find();
+			$emp_no = $emp['emp_no'];
+			$user_name = $emp['name'];
+			$position_name = $emp['position_name'];
+			$str .= "<span data=\"$emp_no\" id=\"$emp_no\"><nobr><b title=\"$user_name/$position_name\">$user_name/$position_name</b></nobr><b>;&nbsp;</b></span>";
 		}
 		return $str;
 	} else {
@@ -1013,10 +1044,10 @@ function show_refer($emp_list) {
 
 function show_file($add_file) {
 	$files = array_filter(explode(';', $add_file));
-	foreach ($files as $file){
+	foreach ($files as $file) {
 		if (strlen($file) > 1) {
 			$model = M("File");
-			$where['sid']=array('eq',$file);
+			$where['sid'] = array('eq', $file);
 			$File = $model -> where($where) -> field("id,name,size,extension") -> find();
 			echo '<div class="attach_file" style="background-image:url(__PUBLIC__/ico/ico_' . strtolower($File['extension']) . '.jpg); background-repeat:no-repeat;"><a target="_blank" href="__URL__/down/attach_id/' . f_encode($File['id']) . '">' . $File['name'] . ' (' . reunit($File['size']) . ')' . '</a>';
 			echo '</div>';
@@ -1025,7 +1056,7 @@ function show_file($add_file) {
 }
 
 function reunit($size) {
-	$unit=" B";
+	$unit = " B";
 	if ($size > 1024) {
 		$size = $size / 1024;
 		$unit = " KB";
@@ -1040,7 +1071,6 @@ function reunit($size) {
 	}
 	return round($size, 2) . $unit;
 }
-
 
 function rotate($a) {
 	$b = array();
@@ -1258,13 +1288,145 @@ function mb_unserialize($serial_str) {
 	return unserialize($out);
 }
 
-function get_sid(){
-	return md5(bin2hex(time()).rand_string());
+function get_sid() {
+	return md5(bin2hex(time()) . rand_string());
 }
 
-function get_position_name($id){
-	$data=D('UserView')->find($id);
+function get_position_name($id) {
+	$data = D('UserView') -> find($id);
 	//dump($data);
 	return $data['position_name'];
 }
+
+function get_emp_pic($id) {
+	$data = M("User") -> where("id=$id") -> getField("pic");
+	if (empty($data)) {
+		$data = get_save_path() . "emp_pic/no_avatar.jpg";
+	}
+	return $data;
+}
+
+function task_status($status) {
+	if ($status == 0) {
+		return "等待接受";
+	}
+	if ($status == 1) {
+		return "已接受";
+	}
+	if ($status == 2) {
+		return "进行中";
+	}
+	if ($status == 3) {
+		return "已完成";
+	}
+	if ($status == 4) {
+		return "已转交";
+	}
+	if ($status == 5) {
+		return "不接受";
+	}
+}
+
+function task_log_status($status) {
+	if ($status == 0) {
+		return "等待接受";
+	}
+	if ($status == 1) {
+		return "已接受";
+	}
+	if ($status == 2) {
+		return "进行中";
+	}
+	if ($status == 3) {
+		return "已完成";
+	}
+	if ($status == 4) {
+		return "已转交";
+	}
+	if ($status == 5) {
+		return "不接受";
+	}
+}
+
+function finish_rate($rate) {
+	if ($rate == 0) {
+		return "任务未开始执行";
+	}
+	if ($rate > 0 and $rate < 100) {
+		return "任务已完成$rate%";
+	}
+	if ($rate == 100) {
+		return "任务已完成";
+	}
+}
+
+function is_submit($val) {
+	if ($val == 0) {
+		return "临时保管";
+	}
+	if ($val == 1) {
+		return "已提交";
+	}
+}
+
+//--------------------------------------------------------------------
+//  发送邮件
+//--------------------------------------------------------------------
+function send_mail($email, $name, $title, $body) {
+
+	$mail_account = C('ADMIN_MAIL_ACCOUNT');
+
+	//header('Content-type:text/html;charset=utf-8');
+	//vendor("Mail.class#send");
+	import("@.ORG.Util.send");
+	//从PHPMailer目录导入class.send.php类文件
+	$mail = new PHPMailer(true);
+	// the true param means it will throw exceptions on errors, which we need to catch
+	$mail -> IsSMTP();
+	// telling the class to use SMTP
+	try {
+		$mail -> Host = $mail_account['smtpsvr'];
+		//"smtp.qq.com"; // SMTP server 部分邮箱不支持SMTP，QQ邮箱里要设置开启的
+		$mail -> SMTPDebug = false;
+		// 改为2可以开启调试
+		$mail -> SMTPAuth = true;
+		// enable SMTP authentication
+		$mail -> Port = 25;
+		// set the SMTP port for the GMAIL server
+		$mail -> CharSet = "UTF-8";
+		// 这里指定字符集！解决中文乱码问题
+		$mail -> Encoding = "base64";
+		$mail -> Username = $mail_account['mail_id'];
+		// SMTP account username
+		$mail -> Password = $mail_account['mail_pwd'];
+		// SMTP account password
+		$mail -> SetFrom($mail_account['email'], $mail_account['mail_name']);
+
+		//发送者邮箱
+
+		$mail -> AddReplyTo($mail_account['email'], $mail_account['mail_name']);
+		//回复到这个邮箱
+		$mail -> AddAddress($email, $name);
+		$mail -> Subject = "=?UTF-8?B?" . base64_encode($title) . "?=";
+		//嵌入式图片处理
+		$mail -> MsgHTML($body);
+
+		if ($mail -> Send()) {
+
+		} else {
+			$this -> error($name . '该用户未设置邮箱,暂时不能收到邮件,请通过其他方式告知,以免耽误任务进度');
+		};
+	} catch (phpmailerException $e) {
+		//echo $e -> errorMessage();
+		//Pretty error messages from PHPMailer
+	} catch (Exception $e) {
+		//echo $e -> getMessage();
+		//Boring error messages from anything else!
+	}
+}
+
+function get_leader_id() {
+	return 1;
+}
+
 ?>

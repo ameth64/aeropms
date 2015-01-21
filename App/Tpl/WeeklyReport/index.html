@@ -65,10 +65,11 @@
 				<span class="col-10">部门</span>
 				<span class="col-10">登录人</span>
 				<span class="col-10">职责</span>
-				<span class="col-10">登录时间</span>
+				<span class="col-10">日期</span>
 			</div>
 			<div class="pull-right">
-				<span class="col-6">操作</span>
+				<span class="col-10">状态</span>
+				<span class="col-8">操作</span>
 			</div>
 		</li>
 		<empty name="list">
@@ -83,16 +84,16 @@
 							<span class="col-10">{$vo.dept_name}</span>
 							<span class="col-10">{$vo.user_name}</span>
 							<span class="col-10">{$vo.user_id|get_position_name}</span>
-							<span class="col-10">{$vo.create_time|toDate='Y-m-d'}</span>
+							<span class="col-10"><a href="{:U('read','id='.$vo['id'])}">{$vo.work_date}</a></span>
 						</div>
 						<div class="pull-right">
-							<eq name="vo.user_id" value="$user_id">
-								<span class="col-6"><a href="{:U('edit','id='.$vo['id'])}">修改</a></span>
+							<span class="col-10">{$vo.is_submit|is_submit}</span>
+							<if condition="($vo['is_submit'] eq 0) and ($vo.user_id eq $user_id)">
+								<span class="col-4"><a href="{:U('edit','id='.$vo['id'])}">修改</a></span>
+								<span class="col-4"><a href="{:U('del','id='.$vo['id'])}">删除</a></span>
 								<else/>
-								<eq name="auth.admin" value="true">
-									<span class="col-6"><a href="{:U('read','id='.$vo['id'])}">查看</a></span>
-								</eq>
-							</eq>
+								<span class="col-8"></span>
+							</if>
 						</div>
 					</li>
 				</foreach>

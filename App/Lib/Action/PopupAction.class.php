@@ -209,6 +209,10 @@ class PopupAction extends CommonAction {
 		return;
 	}
 
+	function task(){
+		$this->actor();
+	}
+
 	function confirm() {
 
 		$widget['jquery-ui'] = true;		
@@ -349,6 +353,8 @@ class PopupAction extends CommonAction {
 					imagecopyresampled($thumbImg, $im, 0, 0, 0, 0, $width, $height, $srcWidth, $srcHeight);
 				else
 					imagecopyresized($thumbImg, $im, 0, 0, 0, 0, $width, $height, $srcWidth, $srcHeight);
+				
+				
 				if ('gif' == $type || 'png' == $type) {
 					$background_color = imagecolorallocate($thumbImg, 0, 255, 0);
 					imagecolortransparent($thumbImg, $background_color);
@@ -410,6 +416,18 @@ class PopupAction extends CommonAction {
 		$this -> display();
 		return;
 	}
+	
+	function share(){
+		$this->message();
+	}
+	
+	function help(){
+		$subject=I('subject');
+		$item=I('item');
+		$this->assign('name',$subject);
+		$this->assign('content',$item);
+		$this->message();
+	}	
 
 	function json(){
 		header("Content-Type:text/html; charset=utf-8");

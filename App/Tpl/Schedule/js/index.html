@@ -20,14 +20,14 @@
 					html += data[i].name;
 					html += ' </a>';
 					html += "</li>";
-					if (prev_date == data[i].start_date) {
+					if (prev_date == data[i].start_time.substr(0,10)) {
 						count++;
 						if (count == 4) {
-							$("ul.div_" + data[i].start_date).append('<li class=\"all\">显示全部...</li>');
+							$("ul.div_" + data[i].start_time.substr(0,10)).append('<li class=\"all\">显示全部...</li>');
 						}
 					}
-					prev_date = data[i].start_date;
-					$("ul.div_" + data[i].start_date).append(html);
+					prev_date = data[i].start_time;
+					$("ul.div_" + data[i].start_time.substr(0,10)).append(html);
 				});
 			}
 		});
