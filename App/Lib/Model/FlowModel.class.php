@@ -245,15 +245,15 @@ class FlowModel extends CommonModel {
 			$model -> where("id=$flow_id") -> setField('step', 40);
 
 			$user_id = $model -> where("id=$flow_id") -> getField('user_id');
-			$this -> _pushReturn($new, "您有一个流程通过审核",1,$user_id);
+			$this -> _pushReturn($new, "您有一个流程通过审核", 1, $user_id);
 
 			$this -> send_to_refer($flow_id);
-			
+
 		} else {
-			
+
 			$data['flow_id'] = $flow_id;
 			$data['step'] = $step;
-			
+
 			if (!empty($emp_no)) {
 				$data['emp_no'] = $emp_no;
 			} else {
@@ -277,7 +277,7 @@ class FlowModel extends CommonModel {
 	}
 
 	function is_last_confirm($flow_id) {
-		
+
 		$confirm = M("Flow") -> where("id=$flow_id") -> getField("confirm");
 		$last_confirm = array_filter(explode("|", $confirm));
 		$last_confirm_emp_no = end($last_confirm);
@@ -310,7 +310,7 @@ class FlowModel extends CommonModel {
 
 			return $arr_confirm[fmod($step, 10) - 1];
 		}
-		
+
 		if (substr($step, 0, 1) == 3) {
 			$consult = M("Flow") -> where("id=$flow_id") -> getField("consult");
 			$arr_consult = array_filter(explode("|", $consult));
@@ -325,19 +325,20 @@ class FlowModel extends CommonModel {
 		$list = str_replace("|", ",", $list);
 		$emp_list = array_filter(explode(",", $list));
 
-		$data['flow_id'] = $flow_id;
-		$data['result'] = 1;
-		
-		foreach ($emp_list as $val) {
-			$data['emp_no'] = $val;
-			$data['step'] = 100;
-			$data['create_time'] = time();			
-			D("FlowLog") -> add($data);
-			
-			$user_id = M("User")->where("emp_no=$val")-> getField("id");
-			$this -> _pushReturn($new,"收到新的流程",1,$user_id);
+		if (!empty($emp_list)) {
+			$data['flow_id'] = $flow_id;
+			$data['result'] = 1;
+
+			foreach ($emp_list as $val) {
+				$data['emp_no'] = $val;
+				$data['step'] = 100;
+				$data['create_time'] = time();
+				D("FlowLog") -> add($data);
+
+				$user_id = M("User") -> where("emp_no=$val") -> getField("id");
+				$this -> _pushReturn($new, "收到新的流程", 1, $user_id);
+			}
 		}
 	}
-
 }
 ?>

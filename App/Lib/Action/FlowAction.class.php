@@ -73,7 +73,7 @@ class FlowAction extends CommonAction {
 			case 'submit' :
 				$this -> assign("folder_name", '提交');
 				$map['user_id'] = array('eq', $user_id);
-				$map['step'] = array( array('gt', 10),array('eq', 0), 'or');
+				$map['step'] = array( array('gt', 10), array('eq', 0), 'or');
 
 				break;
 
@@ -239,7 +239,7 @@ class FlowAction extends CommonAction {
 	}
 
 	function add() {
-		
+
 		$widget['date'] = true;
 		$widget['uploader'] = true;
 		$widget['editor'] = true;
@@ -268,6 +268,14 @@ class FlowAction extends CommonAction {
 		if (in_array('user_name', $model -> getDbFields())) {
 			$model -> user_name = get_user_name();
 		};
+
+		$str_confirm = D("Flow") -> _conv_auditor($model -> confirm);
+		$str_consult = D("Flow") -> _conv_auditor($model -> consult);
+		$str_auditor = $str_confirm . $str_consult;
+		if (empty($str_auditor)) {
+			$this -> error('没有找到任何审核人');
+		}
+
 		/*保存当前数据对象 */
 		$list = $model -> add();
 
@@ -463,9 +471,9 @@ class FlowAction extends CommonAction {
 				$step = $model -> step;
 				//保存当前数据对象
 				$list = $model -> save();
-				$emp_no=$_REQUEST['emp_no'];
+				$emp_no = $_REQUEST['emp_no'];
 				if ($list !== false) {//保存成功
-					D("Flow") -> next_step($flow_id,$step,$emp_no);
+					D("Flow") -> next_step($flow_id, $step, $emp_no);
 					$this -> assign('jumpUrl', U('flow/folder?fid=confirm'));
 					$this -> success('操作成功!');
 				} else {
@@ -498,7 +506,7 @@ class FlowAction extends CommonAction {
 					D("Flow") -> where("id=$flow_id") -> setField('step', 0);
 
 					$user_id = M("Flow") -> where("id=$flow_id") -> getField('user_id');
-					$this -> _pushReturn($new,"您有一个流程被否决",1, $user_id);
+					$this -> _pushReturn($new, "您有一个流程被否决", 1, $user_id);
 
 					$this -> assign('jumpUrl', U('flow/folder?fid=confirm'));
 					$this -> success('操作成功!');
@@ -587,4 +595,5 @@ class FlowAction extends CommonAction {
 		$tag_list = $model -> get_tag_list('id,name', 'FlowType');
 		$this -> assign("tag_list", $tag_list);
 	}
+
 }

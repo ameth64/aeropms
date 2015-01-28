@@ -247,10 +247,6 @@ class MonthlyReportAction extends CommonAction {
 	function del($id){
 		$this->_del($id);
 	}
-
-	function del($id){
-		$this->_del($id);
-	}
 		
 	/** 插入新新数据  **/
 	protected function _insert() {
