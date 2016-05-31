@@ -124,6 +124,7 @@ class AuthCheckBehavior extends Behavior {
 			include     C('TMPL_NO_HAVE_AUTH');
 			die ;
 		};
+
 	}
 
 	function get_auth() {

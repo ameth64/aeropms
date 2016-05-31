@@ -17,7 +17,8 @@ class IndexAction extends CommonAction {
 
 	public function index() {
 		//$this->display();
-		$this -> redirect("Home/index");
+		//$this -> redirect("Home/index");
+        $this -> redirect("Project/select");
 	}
 }
 ?>
