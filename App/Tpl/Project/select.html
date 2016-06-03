@@ -1,3 +1,51 @@
+<layout name='Layout/ace_home' />
 <div class="row">
-项目选择页面
+<div class="col-xs-12">
+<!-- PAGE CONTENT BEGINS -->
+<div class="row">
+<div class="col-xs-12 col-sm-6 widget-container-span" id="t1">
+    <div class="widget-box display-none" ></div>
+    <!-- 邮件开始 -->
+    <div class="widget-box" sort="11">
+        <div class="widget-header">
+            <h5 class="smaller">项目列表</h5>
+<!--            <div class="widget-toolbar no-border">
+                <ul class="nav nav-tabs" id="myTab">
+                    <li class="active">
+                        <a data-toggle="tab" href="#mail-new">最新</a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#mail-unread">未读</a>
+                    </li>
+                </ul>
+            </div>-->
+        </div>
+        <div class="widget-body">
+            <div class="widget-main">
+                <div class="tab-content">
+
+                    <div id="mail-new" class="tab-pane in active ul_table">
+                        <ul>
+                            <volist name="proj_list" id="vo">
+                                <li>
+                                    <span class="pull-right hidden-phone">由 {$vo.creator} 创建于 {$vo.create_time}</span>
+                                    <span  class="auto autocut">
+                                        <a url="{:U('project/select','id='.$vo['id'])}" node="85" return_url="{:U('project/select/')}" onclick="click_project_list(this)">
+                                            {$vo.name} - {$vo.desc}
+                                        </a>
+                                    </span>
+                                </li>
+                            </volist>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</div>
+</div>
 </div>
