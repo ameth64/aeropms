@@ -3,3 +3,4 @@ Cache
 Logs
 /App/Tpl/Post
 .idea/
+db.php
