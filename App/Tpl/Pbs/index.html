@@ -1,0 +1,33 @@
+<layout name='Layout/aeropms_home' />
+<script type="text/javascript">
+    var setting = {	};
+    var nodes = {$node_json};
+    $(document).ready(function(){
+        $.fn.zTree.init($("#pbs_tree"), setting, nodes);
+    });
+</script>
+<div class="row">
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 widget-container-span" id="t1">
+                <!-- 邮件开始 -->
+                <div class="widget-box" sort="11">
+                    <div class="widget-header">
+                        <h5 class="smaller">PBS节点树</h5>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main">
+
+                            <present name="node_json">
+                                <ul id="pbs_tree" class="ztree"></ul>
+                            </present>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

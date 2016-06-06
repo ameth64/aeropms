@@ -1,0 +1,32 @@
+<layout name='Layout/ace_home' />
+<div class="row">
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 widget-container-span" id="t1">
+                <!-- 邮件开始 -->
+                <div class="widget-box" sort="11">
+                    <div class="widget-header">
+                        <h5 class="smaller">导入节点</h5>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main">
+                            <form action="{:U('pbs/import','proj_id='.$proj_id)}" method="post">
+                                <input type="text" name="content" multiple="true" />
+                                <input type="submit"/>
+                            </form>
+                            <present name="content_out">
+                                <div>记录总计: {$content_count}</div>
+                                <volist name="content_out" id="vo">
+                                    <div>{$vo.node_index}=={$vo.node_name}: {$vo.res}</div>
+                                </volist>
+                            </present>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

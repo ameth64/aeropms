@@ -2153,6 +2153,30 @@ INSERT INTO `aeropms_project_list` VALUES (1,'AG50','轻型运动飞机',0,'AG50
 (2,'LH150', '轻型高速公务机', 0, '领航项目部', '无', 2, now(), now(), '无');
 /*!40000 ALTER TABLE `aeropms_project_list` ENABLE KEYS */;
 
+/*PBS节点表*/
+DROP TABLE IF EXISTS aeropms_pbs_node;
+CREATE TABLE aeropms_pbs_node (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) NOT NULL,
+  `node_level` int(11) NOT NULL,
+  `inner_index` int(11) NOT NULL,
+  `project_id` int(11) NOT NULL,
+  `name` varchar(512) NOT NULL DEFAULT '暂无名称', /*节点名称*/
+  `agent_id` int(11) NULL DEFAULT '0', /*节点的代理类的ID*/
+  `wbs_id` int(11) NULL DEFAULT '0', /*节点对应WBS的ID*/
+  `creator` varchar(256)  NULL, /*项目创建者*/
+  `create_time` datetime NOT NULL,
+  `update_time` datetime NOT NULL,
+  `remark` text null,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+#
+# Data for table "aeropms_pbs_node"
+#
+/*!40000 ALTER TABLE `aeropms_pbs_node` DISABLE KEYS */;
+/*!40000 ALTER TABLE `aeropms_pbs_node` ENABLE KEYS */;
+
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;

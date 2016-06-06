@@ -9,16 +9,6 @@
     <div class="widget-box" sort="11">
         <div class="widget-header">
             <h5 class="smaller">项目列表</h5>
-<!--            <div class="widget-toolbar no-border">
-                <ul class="nav nav-tabs" id="myTab">
-                    <li class="active">
-                        <a data-toggle="tab" href="#mail-new">最新</a>
-                    </li>
-                    <li>
-                        <a data-toggle="tab" href="#mail-unread">未读</a>
-                    </li>
-                </ul>
-            </div>-->
         </div>
         <div class="widget-body">
             <div class="widget-main">
@@ -32,6 +22,9 @@
                                     <span  class="auto autocut">
                                         <a url="{:U('project/select','id='.$vo['id'])}" node="85" return_url="{:U('project/select/')}" onclick="click_project_list(this)">
                                             {$vo.name} - {$vo.desc}
+                                        </a>
+                                        <a url="{:U('pbs/import', 'proj_id='.$vo['id'])}" class="pull-right" onclick="click_project_list(this)">
+                                            导入节点数据
                                         </a>
                                     </span>
                                 </li>
