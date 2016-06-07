@@ -20,11 +20,8 @@
                                 <li>
                                     <span class="pull-right hidden-phone">由 {$vo.creator} 创建于 {$vo.create_time}</span>
                                     <span  class="auto autocut">
-                                        <a url="{:U('project/select','id='.$vo['id'])}" node="85" return_url="{:U('project/select/')}" onclick="click_project_list(this)">
+                                        <a url="{:U('pbs/index','proj_id='.$vo['id'])}" node="85" return_url="{:U('project/select/')}" onclick="click_project_list(this)">
                                             {$vo.name} - {$vo.desc}
-                                        </a>
-                                        <a url="{:U('pbs/import', 'proj_id='.$vo['id'])}" class="pull-right" onclick="click_project_list(this)">
-                                            导入节点数据
                                         </a>
                                     </span>
                                 </li>

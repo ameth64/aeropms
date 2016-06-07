@@ -2171,11 +2171,31 @@ CREATE TABLE aeropms_pbs_node (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
+
+/*PBS节点明细表*/
+DROP TABLE IF EXISTS aeropms_pbs_node_agent;
+CREATE TABLE aeropms_pbs_node_agent (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `node_id` int(11) NOT NULL,  /*归属节点id*/
+  `project_id` int(11) NOT NULL,  /*项目id*/
+  `desc` varchar(512) NOT NULL DEFAULT '暂无描述', /*节点描述*/
+  `prototype` int(10) NULL default '0', /*构型, 值取自构型管理表*/
+  `weight` float default '0.0'  /*单件重量*/
+  `amount` int(11) NULL DEFAULT '0', /*装机数量*/
+  `total_weight` float NULL DEFAULT '0', /*总装机重量*/
+  `manufacturer` varchar(256)  NULL, /*制造商*/
+  `material_type` varchar(256) NULL,  /*材料类型*/
+  `material_usage` float NULL,  /*材料利用率*/
+  `attach_id` int(11) null,  /*附件资源表ID*/
+  `remark` text null,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
 #
-# Data for table "aeropms_pbs_node"
+# Data for table "aeropms_pbs_node_agent"
 #
-/*!40000 ALTER TABLE `aeropms_pbs_node` DISABLE KEYS */;
-/*!40000 ALTER TABLE `aeropms_pbs_node` ENABLE KEYS */;
+/*!40000 ALTER TABLE `aeropms_pbs_node_agent` DISABLE KEYS */;
+/*!40000 ALTER TABLE `aeropms_pbs_node_agent` ENABLE KEYS */;
 
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;

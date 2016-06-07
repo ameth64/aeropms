@@ -1,7 +1,8 @@
 <layout name='Layout/aeropms_home' />
 <script type="text/javascript">
+    var proj_id = {$proj_id};
     var setting = {	};
-    var nodes = {$node_json};
+    var nodes = {$node_json|default="[{ name:'空节点' }]"} ;
     $(document).ready(function(){
         $.fn.zTree.init($("#pbs_tree"), setting, nodes);
     });
@@ -11,10 +12,20 @@
         <!-- PAGE CONTENT BEGINS -->
         <div class="row">
             <div class="col-xs-12 col-sm-6 widget-container-span" id="t1">
-                <!-- 邮件开始 -->
+                <!-- PBS节点开始 -->
                 <div class="widget-box" sort="11">
                     <div class="widget-header">
                         <h5 class="smaller">PBS节点树</h5>
+                        <div class="widget-toolbar no-border">
+                            <ul class="nav nav-tabs" id="myTab">
+                                <li>
+                                    <a href="{:U('pbs/import','proj_id='.$proj_id)}">导入节点</a>
+                                </li>
+                                <li>
+                                    <a data-toggle="tab" href="#mail-unread">添加WBS</a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="widget-body">
                         <div class="widget-main">
