@@ -1,0 +1,103 @@
+<layout name='Layout/aeropms_home' />
+<script type="text/javascript">
+    var proj_id = {$proj_id};
+    var setting = {	};
+    var nodes = {$node_json|default="[空节点]"};
+    $(document).ready(function(){
+        $.fn.zTree.init($("#wbs_tree"), setting, nodes);
+    });
+</script>
+<input type="hidden" name="ajax" id="ajax" value="0">
+<!--
+{:W('PageHeader',array('name'=>$folder_name,'search'=>'N'))}
+-->
+<!--
+<div class="operate panel panel-default">
+    <div class="panel-body">
+        <div class="pull-right">
+            <a onclick="add()" class="btn btn-sm btn-primary">新增</a>
+            <a onclick="save()" class="btn btn-sm btn-primary">保存</a>
+            |
+            <a onclick="del()" class="btn btn-sm btn-danger">删除</a>
+        </div>
+    </div>
+</div>
+-->
+<div class="row">
+    <div class="col-xs-12 col-sm-5 widget-container-span">
+        <!-- WBS节点开始 -->
+        <div class="widget-box" sort="11">
+            <div class="widget-header">
+                <h5 class="smaller">wBS节点树</h5>
+                <div class="widget-toolbar no-border">
+                    <ul class="nav nav-tabs" id="myTab">
+                        <li>
+                            <a href="#">导入节点</a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#">添加WBS</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main">
+
+                    <present name="node_json">
+                        <ul id="wbs_tree" class="ztree"></ul>
+                    </present>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-7">
+        <form id="form_data" name="form_data" method="post" class="well form-horizontal clearfix">
+            <input type="hidden" name="id" id="id" >
+            <input type="hidden" name="project_id" id="project_id" value="">
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="name">名称*：</label>
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" id="name" name="name" check="require" msg="请输入WBS名称">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="desc">描述：</label>
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" id="desc" name="desc" check="require" msg="请输入WBS内容描述">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="type">WBS类型*：</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <select id="type">
+                            <volist name="type_list" id="vo">
+                                <option value="{$vo.id}">{$vo.name}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="remark" >备注：</label>
+                <div class="col-sm-9" >
+                    <textarea class="form-control" name="remark" id="remark" rows="5" class="col-xs-12" ></textarea>
+                </div>
+            </div>
+        </form>
+
+        <div class="operate panel panel-default">
+            <div class="panel-body">
+                <div class="pull-right">
+                    <!--<a onclick="add()" class="btn btn-sm btn-primary">新增</a>-->
+                    <a onclick="add()" class="btn btn-sm btn-primary">保存</a>
+                    |
+                    <a onclick="del()" class="btn btn-sm btn-danger">删除</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

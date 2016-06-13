@@ -2,7 +2,7 @@
 <script type="text/javascript">
     var proj_id = {$proj_id};
     var setting = {	};
-    var nodes = {$node_json|default="[{ name:'空节点' }]"} ;
+    var nodes = {$node_json|default="[空节点]"};
     $(document).ready(function(){
         $.fn.zTree.init($("#pbs_tree"), setting, nodes);
     });

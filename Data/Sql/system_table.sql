@@ -2164,9 +2164,9 @@ CREATE TABLE aeropms_pbs_node (
   `name` varchar(512) NOT NULL DEFAULT '暂无名称', /*节点名称*/
   `agent_id` int(11) NULL DEFAULT '0', /*节点的代理类的ID*/
   `wbs_id` int(11) NULL DEFAULT '0', /*节点对应WBS的ID*/
-  `creator` varchar(256)  NULL, /*项目创建者*/
-  `create_time` datetime NOT NULL,
-  `update_time` datetime NOT NULL,
+  `creator` int(11)  NULL, /*项目创建者*/
+  `create_time` int NOT NULL,
+  `update_time` int NOT NULL,
   `remark` text null,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
@@ -2196,6 +2196,57 @@ CREATE TABLE aeropms_pbs_node_agent (
 #
 /*!40000 ALTER TABLE `aeropms_pbs_node_agent` DISABLE KEYS */;
 /*!40000 ALTER TABLE `aeropms_pbs_node_agent` ENABLE KEYS */;
+
+
+/*WBS单元类型表*/
+DROP TABLE IF EXISTS aeropms_wbs_type;
+CREATE TABLE aeropms_wbs_type (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `specific_proj_id` int(11) NOT NULL DEFAULT -1, /*是否为特定于项目的类型*/
+  `name` varchar(512) not null,
+  `desc` varchar(512) NOT NULL DEFAULT '暂无描述', /*节点描述*/
+  `attach_id` int(11) NULL DEFAULT '0', /*类型定义文件的资源ID*/
+  `remark` text null,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+#
+# Data for table "aeropms_wbs_type"
+#
+/*!40000 ALTER TABLE `aeropms_wbs_type` DISABLE KEYS */;
+insert into `aeropms_wbs_type` values
+  (1, -1, '工作单元', '顶层WBS类型, 可包含任意数量的类型为工作包或工作任务的子单元', 0, null),
+  (2, -1, '工作包', '仅次于顶层工作单元的WBS类型, 可包含任意数量的类型为工作任务的子单元', 0, null),
+  (3, -1, '工作任务', '不可再细分的WBS类型, 描述某一具体任务', 0, null);
+/*!40000 ALTER TABLE `aeropms_wbs_type` ENABLE KEYS */;
+
+/*WBS节点表*/
+DROP TABLE IF EXISTS aeropms_wbs_node;
+CREATE TABLE aeropms_wbs_node (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `project_id` int(11) NOT NULL,  /*项目id*/
+  `node_level` int(11) NOT NULL,
+  `inner_index` int(11) NOT NULL,
+  `parent_id` int(11) NOT NULL,  /*父级WBS单元id*/
+  `pbs_id` int(11) NOT NULL,  /*归属PBS单元id*/
+  `name` varchar(512) not null,
+  `desc` varchar(512) NOT NULL DEFAULT '暂无描述', /*节点描述*/
+  `type` int(10) NULL default '0', /*WBS类型, 值取自WBS类型列表*/
+  `agent_id` int(11) NULL DEFAULT '0', /*节点的代理类的ID*/
+  `creator_id` int(11)  NULL, /*项目创建者*/
+  `create_time` INT NOT NULL,
+  `update_time` INT NOT NULL,
+  `remark` text null,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+#
+# Data for table "aeropms_wbs_node"
+#
+/*!40000 ALTER TABLE `aeropms_wbs_node` DISABLE KEYS */;
+/*!40000 ALTER TABLE `aeropms_wbs_node` ENABLE KEYS */;
+
+
 
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
