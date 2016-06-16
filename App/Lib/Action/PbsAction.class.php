@@ -90,6 +90,7 @@ class PbsAction extends CommonAction {
         {
             array_push($res,
                 array("id"=>$item["id"],
+                    "pbs_level"=>$item["node_level"],
                     "name"=>$item["name"],
                     "open"=>true,
                     "icon"=>($item["wbs_id"]==0? $this->ztree_img["no_wbs"]: $this->ztree_img["in_proc"]),

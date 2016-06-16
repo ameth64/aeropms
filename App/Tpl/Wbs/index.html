@@ -26,16 +26,13 @@
 <div class="row">
     <div class="col-xs-12 col-sm-5 widget-container-span">
         <!-- WBS节点开始 -->
-        <div class="widget-box" sort="11">
+        <div class="widget-box">
             <div class="widget-header">
                 <h5 class="smaller">wBS节点树</h5>
                 <div class="widget-toolbar no-border">
                     <ul class="nav nav-tabs" id="myTab">
                         <li>
                             <a href="#">导入节点</a>
-                        </li>
-                        <li>
-                            <a data-toggle="tab" href="#">添加WBS</a>
                         </li>
                     </ul>
                 </div>
@@ -50,8 +47,12 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-7">
+    <div class="col-xs-12 col-sm-7">
         <form id="form_data" name="form_data" method="post" class="well form-horizontal clearfix">
+            <div>
+                <h5>PBS节点路径: {$pbs_node_path}</h5>
+            </div>
+
             <input type="hidden" name="id" id="id" >
             <input type="hidden" name="project_id" id="project_id" value="">
 

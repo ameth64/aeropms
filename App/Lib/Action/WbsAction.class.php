@@ -11,11 +11,15 @@ class WbsAction extends CommonAction
 
     public function index()
     {
-        $proj_id = $this->_get("proj_id");
+        $proj_id = $this->_post("proj_id");
+        $pbs_node_id = $this->_post("pbs_node_id");
+        $pbs_node_path = $this->_post("pbs_node_path");
         $count = $this->_initWbsTree($proj_id);
         $json = $this->_convertJson($proj_id); //根据项目id读取节点表数据并组装JSON
         $this->assign("node_json", $json);
         $this->assign("proj_id", $proj_id);
+        $this->assign("pbs_node_id", $pbs_node_id);
+        $this->assign("pbs_node_path", $pbs_node_path);
 
         $WbsType = M("WbsType");
         $type_list = $WbsType->select();
