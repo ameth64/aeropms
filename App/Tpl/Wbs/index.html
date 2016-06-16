@@ -24,9 +24,9 @@
 </div>
 -->
 <div class="row">
-    <div class="col-xs-12 col-sm-5 widget-container-span">
-        <!-- WBS节点开始 -->
-        <div class="widget-box">
+    <div class="col-xs-12 col-sm-5">
+        <!-- WBS节点树开始 -->
+        <div>
             <div class="widget-header">
                 <h5 class="smaller">wBS节点树</h5>
                 <div class="widget-toolbar no-border">
@@ -47,30 +47,35 @@
             </div>
         </div>
     </div>
+
+    <!--WBS信息框-->
     <div class="col-xs-12 col-sm-7">
         <form id="form_data" name="form_data" method="post" class="well form-horizontal clearfix">
             <div>
-                <h5>PBS节点路径: {$pbs_node_path}</h5>
+                <p class="lead">
+                    PBS节点: {$pbs_node_path}
+                </p>
             </div>
 
-            <input type="hidden" name="id" id="id" >
-            <input type="hidden" name="project_id" id="project_id" value="">
+            <input type="hidden" name="project_id" id="project_id" value="{$Think.post.proj_id}">
+            <input type="hidden" name="pbs_node_id" id="pbs_node_id" value="{$Think.post.pbs_node_id}">
+            <input type="hidden" name="pbs_node_path" id="pbs_node_path" value="{$Think.post.pbs_node_path}">
 
             <div class="form-group">
-                <label class="col-sm-3 control-label" for="name">名称*：</label>
+                <label class="col-sm-3 control-label" for="name">名称* </label>
                 <div class="col-sm-9">
                     <input class="form-control" type="text" id="name" name="name" check="require" msg="请输入WBS名称">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label" for="desc">描述：</label>
+                <label class="col-sm-3 control-label" for="desc">描述 </label>
                 <div class="col-sm-9">
                     <input class="form-control" type="text" id="desc" name="desc" check="require" msg="请输入WBS内容描述">
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label" for="type">WBS类型*：</label>
+                <label class="col-sm-3 control-label" for="type">WBS类型*</label>
                 <div class="col-sm-9">
                     <div class="input-group">
                         <select id="type">
@@ -83,7 +88,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label" for="remark" >备注：</label>
+                <label class="col-sm-3 control-label" for="remark" >备注</label>
                 <div class="col-sm-9" >
                     <textarea class="form-control" name="remark" id="remark" rows="5" class="col-xs-12" ></textarea>
                 </div>
@@ -94,9 +99,9 @@
             <div class="panel-body">
                 <div class="pull-right">
                     <!--<a onclick="add()" class="btn btn-sm btn-primary">新增</a>-->
-                    <a onclick="add()" class="btn btn-sm btn-primary">保存</a>
+                    <a onclick="add()" class="btn btn-sm btn-primary">添加</a>
                     |
-                    <a onclick="del()" class="btn btn-sm btn-danger">删除</a>
+                    <a onclick="clear()" class="btn btn-sm btn-danger">清空</a>
                 </div>
             </div>
         </div>

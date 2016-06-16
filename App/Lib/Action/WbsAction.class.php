@@ -17,9 +17,6 @@ class WbsAction extends CommonAction
         $count = $this->_initWbsTree($proj_id);
         $json = $this->_convertJson($proj_id); //根据项目id读取节点表数据并组装JSON
         $this->assign("node_json", $json);
-        $this->assign("proj_id", $proj_id);
-        $this->assign("pbs_node_id", $pbs_node_id);
-        $this->assign("pbs_node_path", $pbs_node_path);
 
         $WbsType = M("WbsType");
         $type_list = $WbsType->select();

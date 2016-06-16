@@ -1,0 +1,27 @@
+<script type="text/javascript">
+    function add()
+    {
+        if(!$("#wbs_node_id").val())
+        {
+            alert("未选择任何PBS节点, 请重新选择.");
+            return;
+        }
+        var pnid = $("#pbs_node_id").val();
+        // 构造节点路径
+        var tree = $.fn.zTree.getZTreeObj("pbs_tree");
+        var sn = tree.getSelectedNodes()[0];
+        var pids = sn.getPath(), path_str = "";
+        for(var i = 0, len = pids.length; i < len; i++)
+        {
+            path_str += pids[i]["name"];
+            if(i < len - 1){
+                path_str += " -> ";
+            }
+        }
+
+        $("#pbs_node_path").val(path_str);
+        url = $("#form_data").attr("post_url");
+        sendForm("form_data", url);
+    };
+
+</script>
