@@ -2247,6 +2247,55 @@ CREATE TABLE aeropms_wbs_node (
 /*!40000 ALTER TABLE `aeropms_wbs_node` ENABLE KEYS */;
 
 
+/*工程阶段类型表*/
+DROP TABLE IF EXISTS aeropms_engineering_phase;
+CREATE TABLE aeropms_engineering_phase (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `specific_proj_id` int(11) NOT NULL DEFAULT -1, /*是否为特定于项目的类型*/
+  `name` varchar(512) not null,
+  `desc` varchar(512) NOT NULL DEFAULT '暂无描述', /*节点描述*/
+  `attach_id` int(11) NULL DEFAULT '0', /*类型定义文件的资源ID*/
+  `remark` text null,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+#
+# Data for table "aeropms_engineering_phase"
+#
+/*!40000 ALTER TABLE `aeropms_engineering_phase` DISABLE KEYS */;
+insert into `aeropms_engineering_phase` values
+  (1, -1, '项目前期论证', '暂无描述', 0, null),
+  (2, -1, '预发展阶段', '暂无描述', 0, null),
+  (3, -1, '初步设计阶段', '暂无描述', 0, null),
+  (4, -1, '详细设计阶段', '暂无描述', 0, null),
+  (5, -1, '全面试制阶段', '暂无描述', 0, null),
+  (6, -1, '试飞取证阶段', '暂无描述', 0, null);
+/*!40000 ALTER TABLE `aeropms_engineering_phase` ENABLE KEYS */;
+
+
+/*飞机构型列表*/
+DROP TABLE IF EXISTS aeropms_configuration_list;
+CREATE TABLE aeropms_configuration_list (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `specific_proj_id` int(11) NOT NULL DEFAULT -1, /*是否为特定于项目的类型*/
+  `type` int(11) NOT NULL DEFAULT 1, /*构型类别, 研制构型=1, 客户构型=2*/
+  `name` varchar(512) not null,
+  `desc` varchar(512) NOT NULL DEFAULT '暂无描述', /*节点描述*/
+  `attach_id` int(11) NULL DEFAULT '0', /*类型定义文件的资源ID*/
+  `remark` text null,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+#
+# Data for table "aeropms_configuration_list"
+#
+/*!40000 ALTER TABLE `aeropms_configuration_list` DISABLE KEYS */;
+insert into `aeropms_configuration_list` values
+  (1, -1, 1, '基本型', '暂无描述', 0, null),
+  (2, -1, 1, '水上型专用', '暂无描述', 0, null),
+  (3, -1, 1, '陆上型专用', '暂无描述', 0, null);
+/*!40000 ALTER TABLE `aeropms_configuration_list` ENABLE KEYS */;
+
 
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;

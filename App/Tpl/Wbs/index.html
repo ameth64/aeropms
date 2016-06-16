@@ -1,6 +1,5 @@
 <layout name='Layout/aeropms_home' />
 <script type="text/javascript">
-    var proj_id = {$proj_id};
     var setting = {	};
     var nodes = {$node_json|default="[空节点]"};
     $(document).ready(function(){
@@ -53,7 +52,7 @@
         <form id="form_data" name="form_data" method="post" class="well form-horizontal clearfix">
             <div>
                 <p class="lead">
-                    PBS节点: {$pbs_node_path}
+                    PBS节点: {$Think.post.pbs_node_path}
                 </p>
             </div>
 
@@ -80,6 +79,19 @@
                     <div class="input-group">
                         <select id="type">
                             <volist name="type_list" id="vo">
+                                <option value="{$vo.id}">{$vo.name}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label" for="eng_phase">工程阶段*</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <select id="eng_phase">
+                            <volist name="engineering_phase" id="vo">
                                 <option value="{$vo.id}">{$vo.name}</option>
                             </volist>
                         </select>

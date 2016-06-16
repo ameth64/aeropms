@@ -1,7 +1,6 @@
 <layout name='Layout/aeropms_home' />
 <script type="text/javascript">
     function zTreeOnClick(event, treeId, treeNode) {
-        //alert(treeNode.id + ", " + treeNode.name);
         $("#pbs_node_id").val(treeNode.id);
     };
 
@@ -33,7 +32,7 @@
                             </ul>
 
                             <form id="form_data" name="form_data" method="post" class="display-none" post_url="{:U('wbs/index')}">
-                                <input type="hidden" name="proj_id" id="proj_id" value="{$proj_id}" />
+                                <input type="hidden" name="proj_id" id="proj_id" value="{$Think.get.proj_id}" />
                                 <input type="hidden" name="pbs_node_id" id="pbs_node_id" value="" />
                                 <input type="hidden" name="pbs_node_path" id="pbs_node_path" value="" />
                             </form>
