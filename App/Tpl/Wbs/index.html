@@ -49,7 +49,7 @@
 
     <!--WBS信息框-->
     <div class="col-xs-12 col-sm-7">
-        <form id="form_data" name="form_data" method="post" class="well form-horizontal clearfix">
+        <form id="form_data" name="form_data" method="post" post_url="{:U('wbs/add')}" class="well form-horizontal clearfix">
             <div>
                 <p class="lead">
                     PBS节点: {$Think.post.pbs_node_path}
@@ -57,8 +57,9 @@
             </div>
 
             <input type="hidden" name="project_id" id="project_id" value="{$Think.post.proj_id}">
-            <input type="hidden" name="pbs_node_id" id="pbs_node_id" value="{$Think.post.pbs_node_id}">
-            <input type="hidden" name="pbs_node_path" id="pbs_node_path" value="{$Think.post.pbs_node_path}">
+            <input type="hidden" name="pbs_id" id="pbs_id" value="{$Think.post.pbs_node_id}">
+            <input type="hidden" name="pbs_node_path" id="pbs_node_path" value="{$Think.request.pbs_node_path}">
+            <input type="hidden" name="parent_id" id="parent_id" value="">
 
             <div class="form-group">
                 <label class="col-sm-3 control-label" for="name">名称* </label>
@@ -67,7 +68,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label" for="desc">描述 </label>
+                <label class="col-sm-3 control-label" for="desc">描述* </label>
                 <div class="col-sm-9">
                     <input class="form-control" type="text" id="desc" name="desc" check="require" msg="请输入WBS内容描述">
                 </div>
@@ -87,10 +88,10 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label" for="eng_phase">工程阶段*</label>
+                <label class="col-sm-3 control-label" for="engineering_phase">工程阶段*</label>
                 <div class="col-sm-9">
                     <div class="input-group">
-                        <select id="eng_phase">
+                        <select id="engineering_phase">
                             <volist name="engineering_phase" id="vo">
                                 <option value="{$vo.id}">{$vo.name}</option>
                             </volist>

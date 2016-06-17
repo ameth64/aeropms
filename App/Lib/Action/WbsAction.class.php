@@ -11,7 +11,7 @@ class WbsAction extends CommonAction
 
     public function index()
     {
-        $proj_id = $this->_post("proj_id");
+        $proj_id = $this->_request("proj_id");
 //        $pbs_node_id = $this->_post("pbs_node_id");
 //        $pbs_node_path = $this->_post("pbs_node_path");
         $count = $this->_initWbsTree($proj_id);
@@ -27,6 +27,20 @@ class WbsAction extends CommonAction
         $this->assign("engineering_phase", $eng_phase);
 
         $this->display();
+    }
+
+    public function add()
+    {
+        $WbsNode = M("WbsNode");
+        $WbsNode->create();
+        $WbsNode->creator_id = get_user_id();
+        $WbsNode->create_time = time();
+        $WbsNode->update_time = time();
+        $WbsNode->add();
+        $this->redirect("index", array(
+            "proj_id"=>$this->_request("project_id"),
+            "pbs_node_path"=>$this->_request("pbs_node_path"))
+        );
     }
 
     /**

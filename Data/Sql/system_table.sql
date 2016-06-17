@@ -2225,13 +2225,14 @@ DROP TABLE IF EXISTS aeropms_wbs_node;
 CREATE TABLE aeropms_wbs_node (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `project_id` int(11) NOT NULL,  /*项目id*/
-  `node_level` int(11) NOT NULL,
-  `inner_index` int(11) NOT NULL,
+  `node_level` int(11) NULL default -1,
+  `inner_index` int(11) NULL default -1,
   `parent_id` int(11) NOT NULL,  /*父级WBS单元id*/
   `pbs_id` int(11) NOT NULL,  /*归属PBS单元id*/
   `name` varchar(512) not null,
   `desc` varchar(512) NOT NULL DEFAULT '暂无描述', /*节点描述*/
-  `type` int(10) NULL default '0', /*WBS类型, 值取自WBS类型列表*/
+  `type` int(10) NULL default '1', /*WBS类型, 值取自WBS类型列表*/
+  `engineering_phase` int(10) NULL default '1', /*WBS所属工程阶段, 值取自工程阶段类型表*/
   `agent_id` int(11) NULL DEFAULT '0', /*节点的代理类的ID*/
   `creator_id` int(11)  NULL, /*项目创建者*/
   `create_time` INT NOT NULL,
