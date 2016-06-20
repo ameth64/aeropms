@@ -16,7 +16,18 @@ class PbsAction extends CommonAction {
 
     public function index()
     {
-        $proj_id = $this->_get("proj_id");
+        $proj_id = $this->_isValid("proj_id");
+        if(!$proj_id){
+            $this->error("无效的项目ID");
+            $this->redirect("project/select");
+            return;
+        }
+        session("proj_id", $proj_id);
+
+        $name = $this->getActionName();
+        $menu_node = D("Node") -> where("url like '%$name%'")->getField("id");
+        cookie("top_menu", $menu_node);
+
         $json = $this->_convertJson($proj_id); //根据项目id读取节点表数据并组装JSON
         $this->assign("node_json", $json);
         $this->assign("proj_id", $proj_id);

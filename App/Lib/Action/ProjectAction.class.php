@@ -4,6 +4,9 @@ class ProjectAction extends CommonAction {
 
 	public function select()
 	{
+        $name = $this->getActionName();
+        $menu_node = D("Node") -> where("url like '%$name%'")->getField("id");
+        cookie("top_menu", $menu_node);
         $model = M("ProjectList");
         $proj_list = $model->select();
         $this->assign("proj_list", $proj_list);

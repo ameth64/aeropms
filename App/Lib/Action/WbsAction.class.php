@@ -11,9 +11,36 @@ class WbsAction extends CommonAction
 
     public function index()
     {
-        $proj_id = $this->_request("proj_id");
-//        $pbs_node_id = $this->_post("pbs_node_id");
-//        $pbs_node_path = $this->_post("pbs_node_path");
+        $proj_id = $this->_isValid("proj_id");
+        if(!$proj_id){
+            $this->error("无效的项目ID");
+            $this->redirect("project/select");
+            return;
+        }
+        session("proj_id", $proj_id);
+
+        $this->assign("proj_id", $proj_id);
+
+        $name = $this->getActionName();
+        $menu_node = D("Node") -> where("url like '%$name%'")->getField("id");
+        cookie("top_menu", $menu_node);
+
+        $pbs_node_id = $this->_request("pbs_node_id");
+        $pbs_node_path = $this->_request("pbs_node_path");
+        if(!isset( $pbs_node_path ) || !isset($pbs_node_id) ){
+            $pbs_node_path = session("pbs_node_path");
+            $pbs_node_id = session("pbs_node_id");
+            if(!isset( $pbs_node_path ) || !isset($pbs_node_id) ){
+                $this->error("无效的节点路径");
+                $this->redirect("pbs/index");
+                return;
+            }
+        }
+        else{
+            session("pbs_node_path", $pbs_node_path);
+            session("pbs_node_id", $pbs_node_id);
+        }
+
         $count = $this->_initWbsTree($proj_id);
         $json = $this->_convertJson($proj_id); //根据项目id读取节点表数据并组装JSON
         $this->assign("node_json", $json);
@@ -38,8 +65,8 @@ class WbsAction extends CommonAction
         $WbsNode->update_time = time();
         $WbsNode->add();
         $this->redirect("index", array(
-            "proj_id"=>$this->_request("project_id"),
-            "pbs_node_path"=>$this->_request("pbs_node_path"))
+            "proj_id"=>$this->_request("project_id")
+            )
         );
     }
 
@@ -48,8 +75,8 @@ class WbsAction extends CommonAction
      */
     protected function _convertJson($proj_id)
     {
-        $PbsNode = D("WbsNode");
-        $data_array = $this->_parseNode($PbsNode, $proj_id, -1);
+        $WbsNode = D("WbsNode");
+        $data_array = $this->_parseNode($WbsNode, $proj_id, -1);
         $json = json_encode($data_array); //, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT
         return $json;
     }
@@ -65,6 +92,8 @@ class WbsAction extends CommonAction
         {
             array_push($res,
                 array("id"=>$item["id"],
+                    "pbs_id"=>$item["pbs_id"],
+                    "wbs_type"=>$item["type"],
                     "name"=>$item["name"],
                     "open"=>true,
                     "children"=>$this->_parseNode($model, $proj_id, $item["id"])));

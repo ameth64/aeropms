@@ -1,20 +1,5 @@
 <layout name='Layout/aeropms_home' />
-<script type="text/javascript">
-    function zTreeOnClick(event, treeId, treeNode) {
-        $("#pbs_node_id").val(treeNode.id);
-        var html = "你选中了[ " + treeNode.name + " ]，id是：" + treeNode.id;
-        $("#textarea").html(html);
-        console.log(treeNode);
-    };
 
-    var setting = {
-        callback: {onClick: zTreeOnClick}
-    };
-    var nodes = {$node_json};
-    $(document).ready(function(){
-        $.fn.zTree.init($("#pbs_tree"), setting, nodes);
-    });
-</script>
 <div class="row">
     <div class="col-xs-12">
         <!-- PAGE CONTENT BEGINS -->
@@ -35,7 +20,7 @@
                             </ul>
 
                             <form id="form_data" name="form_data" method="post" class="display-none" post_url="{:U('wbs/index')}">
-                                <input type="hidden" name="proj_id" id="proj_id" value="{$Think.session.proj_id}" />
+                                <input type="hidden" name="proj_id" id="proj_id" value="{$Think.get.proj_id}" />
                                 <input type="hidden" name="pbs_node_id" id="pbs_node_id" value="" />
                                 <input type="hidden" name="pbs_node_path" id="pbs_node_path" value="" />
                             </form>
@@ -50,13 +35,26 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-
             <div class="col-xs-12 col-sm-6 widget-container-span">
                 <textarea style="width: 100%;height: 500px;" id="textarea"></textarea>
             </div>
-
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    function zTreeOnClick(event, treeId, treeNode) {
+        $("#pbs_node_id").val(treeNode.id);
+        var html = "你选中了[ " + treeNode.name + " ]，id是：" + treeNode.id;
+        $("#textarea").html(html);
+        console.log(treeNode);
+    };
+
+    var setting = {
+        callback: {onClick: zTreeOnClick}
+    };
+    var nodes = {$node_json};
+    $(document).ready(function(){
+        $.fn.zTree.init($("#pbs_tree"), setting, nodes);
+    });
+</script>

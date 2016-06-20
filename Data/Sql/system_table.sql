@@ -868,8 +868,30 @@ CREATE TABLE `aeropms_node` (
 #
 
 /*!40000 ALTER TABLE `aeropms_node` DISABLE KEYS */;
+INSERT INTO `aeropms_node` VALUES
+(900,'项目','project/select','fa fa-bars bc-notice','','','1',0,0),
+(901,'PBS','pbs/index','fa fa-cubes','','','2',0,0),
+(902,'WBS','wbs/index','fa fa-sitemap','','','3',0,0),
+(903,'构型','#','fa fa-space-shuttle','','','4',0,0),
+(904,'里程碑','#','fa fa-calendar','','','5',0,0),
+(905,'统计','#','fa fa-bar-chart','','','6',0,0),
+(906,'管理','#','fa fa-cogs','','','7',0,0),
+(907,'个人','#','fa fa-user','','','8',0,0);
+/*原版node代码如下, modified by MobiuS@2016.06.20*/
+/*
 INSERT INTO `aeropms_node` VALUES (83,'公告','notice/index##','fa fa-bell-o bc-notice','NoticeFolder','','3',0,0),(84,'管理','user/index','fa fa-cogs','','','999',0,0),(85,'邮件','mail/index','fa fa-envelope-o bc-mail','','','1',0,0),(87,'流程','flow/index','fa fa-pencil bc-flow','','','2',0,0),(88,'文档','doc/index##','fa fa-file-o','DocFolder','','4',0,0),(91,'日程','schedule/index','fa fa-calendar bc-personal-schedule','','','9',198,0),(94,'职位','position/index',NULL,NULL,'','',1,0),(97,'部门','dept/index',NULL,NULL,'','',1,0),(100,'写信','mail/add',NULL,'','','1',85,0),(101,'收件箱','mail/folder?fid=inbox','bc-mail-inbox','','','3',85,0),(102,'邮件设置','',NULL,NULL,NULL,'9',85,0),(104,'垃圾箱','mail/folder?fid=spambox','','','','5',85,0),(105,'发件箱','mail/folder?fid=outbox','','','','6',85,0),(106,'已删除','mail/folder?fid=delbox','','','','4',85,0),(107,'草稿箱','mail/folder?fid=darftbox','','','','7',85,0),(108,'邮件帐户设置','mail_account/index',NULL,'','','1',102,0),(110,'公司信息管理','',NULL,NULL,'','1',84,0),(112,'权限管理','',NULL,NULL,'','3',84,0),(113,'系统设定','',NULL,NULL,'','4',84,0),(114,'系统参数设置','system_config/index','','','','1',113,0),(115,'组织图','dept/index','','','','1',110,0),(116,'员工登记','user/index',NULL,'','','5',110,0),(118,'权限组管理','role/index','','','','1',112,0),(119,'权限设置','role/node','','','','2',112,0),(120,'权限分配','role/user','','','','3',112,0),(121,'菜单管理','node/index','','','','1',113,0),(122,'职级','rank/index',NULL,'','','3',110,0),(123,'职位','position/index',NULL,'','','2',110,0),(124,'文件夹设置','mail_folder/index',NULL,'','','2',102,0),(125,'联系人','contact/index','','','','1',198,0),(126,'文档搜索','doc/index',NULL,'','','1',88,0),(137,'论坛','forum/index##','fa fa-comments-o','ForumFolder','','5',0,0),(138,'公告管理','notice_folder/index','','','','4',83,0),(143,'邮件分类','mail_organize/index',NULL,'','','',102,0),(144,'发起','flow/index','','','','1',87,0),(146,'流程管理','flow_type/index','','','','9',87,0),(147,'待办','flow/folder?fid=confirm','bc-flow-confirm','','','2',87,0),(148,'办理','flow/folder?fid=finish','','','','5',87,0),(149,'草稿','flow/folder?fid=darft','','','','6',87,0),(150,'提交','flow/folder?fid=submit','','','','4',87,0),(152,'待办','todo/index','fa fa-tasks bc-personal-todo','','','9',198,0),(153,'部门级别','dept_grade/index',NULL,'','','4',110,0),(156,'客户','customer/index',NULL,'','','2',157,0),(157,'人脉','staff/index','fa fa-group','','','7',0,0),(158,'供应商','supplier/index',NULL,'','','3',157,0),(169,'职员','staff/index',NULL,'','','',157,0),(177,'我的文件夹','##mail','bc-mail-myfolder','MailFolder','','8',85,0),(178,'自助','udf_salary/index','fa fa-search','','','8',197,0),(179,'工资查询','udf_salary/index','','','','',178,0),(180,'报销查询','udf_expense/index','','','','',178,0),(181,'公告搜索','notice/index','','','','',83,0),(182,'日报','daily_report/index','fa fa-book','','','6',197,0),(183,'论坛管理','forum_folder/index','','','','',137,0),(184,'流程分组','flow_type/tag_manage','','','','8',87,0),(185,'收到','flow/folder?fid=receive','bc-flow-receive','','','2',87,0),(186,'VIP','vip/index','','','','2',197,0),(189,'文档库管理','doc_folder/index','','','','C1',88,0),(190,'消息','message/index','fa fa-inbox bc-message','','','99',198,0),(191,'用户设置','','','','','',198,0),(192,'用户资料','profile/index','','','','',191,0),(193,'修改密码','profile/password','','','','',191,0),(194,'用户设置','UserConfig/index','','','','999',191,0),(195,'项目','xmk/index##','','XmkFolder','','1',197,0),(196,'项目库管理','xmk_folder/index','','','','1',195,0),(197,'定制','xmk/index','fa fa-wrench','','','91',0,0),(198,'个人','contact/index','fa fa-user bc-personal','','','9',0,0),(199,'产品搜索','product/index','','','','91',203,0),(200,'产品标签','product_type/tag_manage','','','','91',203,0),(201,'产品分类','product_type/index','','','','91',203,0),(203,'产品','product/index##','','ProductFolder','','91',197,0),(204,'产品目录','product_folder/index','','','','91',203,0),(205,'业务角色管理','duty/index','','','','1',112,0),(206,'业务权限分配','role/duty','','','','3',112,0),(207,'新闻','news/index##','fa fa-file-o','NewsFolder','','4',0,0),(208,'新闻库管理','news_folder/index','','','','C1',207,0),(209,'幻灯片','slide/index','fa fa-file-o','','','4',207,0),(211,'周报','weekly_report/index','fa fa-book','','','2',182,0),(212,'月报','monthly_report/index','fa fa-book','','','3',182,0),(213,'日报','daily_report/index','fa fa-book','','','1',182,0),(214,'记账','finance/index','fa fa-jpy','','','A1',0,0),(215,'记账','finance/index','fa fa-envelope-o bc-mail','','','1',214,0),(216,'日报','task/index','fa fa-book','','','6',0,0);
+*/
 /*!40000 ALTER TABLE `aeropms_node` ENABLE KEYS */;
+/*配套增加role-node表*/
+INSERT INTO `aeropms_role_node` VALUES
+(1,900,1,1,1),
+(1,901,1,1,1),
+(1,902,1,1,1),
+(1,903,1,1,1),
+(1,904,1,1,1),
+(1,905,1,1,1),
+(1,906,1,1,1),
+(1,907,1,1,1);
 
 #
 # Source for table "aeropms_notice"

@@ -14,6 +14,22 @@
 
 class CommonAction extends Action {
 
+    /**
+     * 添加检测传值的方法 by MobiuS@2016.06.20
+    */
+    function _isValid($name)
+    {
+        $res = $this->_request($name);
+        if(!isset($res)){
+            $res = session($name);
+        }
+        if(!isset($res)){
+            return false;
+        }
+        return $res;
+    }
+
+
 	function _initialize() {
 		$is_weixin = is_weixin();
 		if ($is_weixin) {
