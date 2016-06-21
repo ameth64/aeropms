@@ -16,7 +16,7 @@ class PbsAction extends CommonAction {
 
     public function index()
     {
-        $proj_id = $this->_isValid("proj_id");
+        $proj_id = $this->_update_param("proj_id");
         if(!$proj_id){
             $this->error("无效的项目ID");
             $this->redirect("project/select");

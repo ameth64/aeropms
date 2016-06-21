@@ -48,7 +48,7 @@
                 <div class="widget-main">
                     <div>
                         <h5 class="lead">
-                            PBS节点: {$Think.session.pbs_node_path}
+                            PBS节点: {$Think.session.pbs_node_path}, ID={$Think.session.pbs_node_id}
                         </h5>
                     </div>
 
@@ -103,7 +103,7 @@
                 <label class="col-sm-3 control-label" for="engineering_phase">工程阶段*</label>
                 <div class="col-sm-9">
                     <div class="input-group">
-                        <select id="engineering_phase" form="form_data">
+                        <select id="engineering_phase" name="engineering_phase" form="form_data">
                             <volist name="engineering_phase" id="vo">
                                 <option value="{$vo.id}">{$vo.name}</option>
                             </volist>

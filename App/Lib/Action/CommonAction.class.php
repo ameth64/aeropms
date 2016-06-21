@@ -17,15 +17,19 @@ class CommonAction extends Action {
     /**
      * 添加检测传值的方法 by MobiuS@2016.06.20
     */
-    function _isValid($name)
+    function _update_param($name)
     {
-        $res = $this->_request($name);
-        if(!isset($res)){
-            $res = session($name);
-        }
-        if(!isset($res)){
-            return false;
-        }
+		$res = $this->_request($name);
+		if(!$res){
+			$res = session($name);
+			if(!$res){
+				return false;
+			}
+		}
+		else{
+			session($name, $res);
+		}
+
         return $res;
     }
 

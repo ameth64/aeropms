@@ -11,34 +11,24 @@ class WbsAction extends CommonAction
 
     public function index()
     {
-        $proj_id = $this->_isValid("proj_id");
+        $proj_id = $this->_update_param("proj_id");
         if(!$proj_id){
             $this->error("无效的项目ID");
             $this->redirect("project/select");
             return;
         }
-        session("proj_id", $proj_id);
-
         $this->assign("proj_id", $proj_id);
 
         $name = $this->getActionName();
         $menu_node = D("Node") -> where("url like '%$name%'")->getField("id");
         cookie("top_menu", $menu_node);
 
-        $pbs_node_id = $this->_request("pbs_node_id");
-        $pbs_node_path = $this->_request("pbs_node_path");
+        $pbs_node_id = $this->_update_param("pbs_node_id");
+        $pbs_node_path = $this->_update_param("pbs_node_path");
         if(!isset( $pbs_node_path ) || !isset($pbs_node_id) ){
-            $pbs_node_path = session("pbs_node_path");
-            $pbs_node_id = session("pbs_node_id");
-            if(!isset( $pbs_node_path ) || !isset($pbs_node_id) ){
-                $this->error("无效的节点路径");
-                $this->redirect("pbs/index");
-                return;
-            }
-        }
-        else{
-            session("pbs_node_path", $pbs_node_path);
-            session("pbs_node_id", $pbs_node_id);
+            $this->error("无效的节点路径");
+            $this->redirect("pbs/index");
+            return;
         }
 
         $count = $this->_initWbsTree($proj_id);
