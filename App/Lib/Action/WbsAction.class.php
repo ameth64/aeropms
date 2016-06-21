@@ -9,6 +9,12 @@ class WbsAction extends CommonAction
 {
     protected $config = array('app_type' => 'asst');
 
+    //根据节点的wbs_id是否为空选择图标
+    protected $ztree_img = array(
+        "pbs_node"=>"__PUBLIC__/css/ztree/zTreeStyle/img/diy/1_close.png",
+        "wbs_node"=>"__PUBLIC__/css/ztree/zTreeStyle/img/diy/2.png"
+    );
+
     public function index()
     {
         $proj_id = $this->_update_param("proj_id");
@@ -66,8 +72,9 @@ class WbsAction extends CommonAction
     protected function _convertJson($proj_id)
     {
         $WbsNode = D("WbsNode");
-        $data_array = $this->_parseNode($WbsNode, $proj_id, -1);
-        $json = json_encode($data_array); //, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT
+        $PbsNode = D("PbsNode");
+        $data_array = $this->_parseNodeAll($PbsNode, $WbsNode, $proj_id, -1, -1, 1);
+        $json = json_encode($data_array, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT); //, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT
         return $json;
     }
 
@@ -85,9 +92,54 @@ class WbsAction extends CommonAction
                     "pbs_id"=>$item["pbs_id"],
                     "wbs_type"=>$item["type"],
                     "name"=>$item["name"],
+                    //-zTree私有属性
                     "open"=>true,
                     "children"=>$this->_parseNode($model, $proj_id, $item["id"])));
         }
+        return $res;
+    }
+
+    protected function _parseNodeAll(&$pbs_model, &$wbs_model, $proj_id, $pbs_parent_id, $wbs_parent_id, $type)
+    {
+        $res = array();
+
+        //处理wbs子节点
+        $wbs_parent = ($wbs_parent_id == -1)? ($wbs_model->where("project_id=$proj_id and pbs_id=$pbs_parent_id")->min("parent_id")) : ($wbs_parent_id);
+        //$wbs = $wbs_model->where("project_id=$proj_id and pbs_id=$pbs_parent_id and parent_id=$wbs_parent")->select();
+        $wbs = $wbs_model->query("select b.name type_name, a.* from aeropms_wbs_node as a, aeropms_wbs_type as b where a.type = b.id and a.project_id=$proj_id and a.pbs_id=$pbs_parent_id and a.parent_id=$wbs_parent ");
+        foreach($wbs as $item)
+        {
+            array_push($res,
+                array("id"=>$item["id"],
+                    "node_type"=>"wbs",
+                    "wbs_type"=>$item["type"],
+                    "name"=>"[".$item["type_name"]."]. ".$item["name"],
+                    //-zTree私有属性
+                    //"icon"=>$this->ztree_img["wbs_node"],
+                    "open"=>true,
+                    "children"=>$this->_parseNodeAll($pbs_model, $wbs_model, $proj_id, $pbs_parent_id, $item["id"], 2)
+                )
+            );
+        }
+
+        if($type == 1){
+            $pbs = $pbs_model->where("project_id=$proj_id and parent_id=$pbs_parent_id")->order("id")->select();
+            foreach($pbs as $item)
+            {
+                array_push($res,
+                    array("id"=>$item["id"],
+                        "node_type"=>"pbs",
+                        "wbs_type"=>"",
+                        "name"=>$item["name"],
+                        //-zTree私有属性
+                        "icon"=>$this->ztree_img["pbs_node"],
+                        "open"=>true,
+                        "children"=>$this->_parseNodeAll($pbs_model, $wbs_model, $proj_id, $item["id"], -1, 1)
+                    )
+                );
+            }
+        }
+
         return $res;
     }
 

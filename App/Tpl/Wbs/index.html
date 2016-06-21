@@ -5,8 +5,15 @@
         //alert("wbs_type="+wt);
     };
 
+    function setFontCss(treeId, treeNode) {
+        return treeNode.node_type == "pbs" ? {color:"Gray"} : {color: "Black"};
+    };
+
     var setting = {
-        callback: {onClick: zTreeOnClick}
+        callback: {onClick: zTreeOnClick},
+        view: {
+            fontCss: setFontCss
+        }
     };
 
     var nodes = {$node_json|default="[空节点]"};
@@ -35,29 +42,68 @@
         <!-- WBS节点树开始 -->
         <div>
             <div class="widget-header">
-                <h5 class="smaller">wBS节点树</h5>
-                <div class="widget-toolbar no-border">
-                    <ul class="nav nav-tabs" id="myTab">
-                        <li>
-                            <a href="#">导入节点</a>
-                        </li>
-                    </ul>
+                <h4>WBS节点树</h4>
+                <div class="widget-toolbar">
+                    <a href="#" data-action="collapse">
+                        <i class="icon-bell bigger-110 purple"></i>
+                        list
+                    </a>
+
+                    <a href="#" data-action="close">
+                        <i class="icon-remove"></i>
+                    </a>
                 </div>
+
             </div>
             <div class="widget-body">
                 <div class="widget-main">
-                    <div>
-                        <h5 class="lead">
+                    <div class="row">
+                        <!--<h5 class="lead">
                             PBS节点: {$Think.session.pbs_node_path}, ID={$Think.session.pbs_node_id}
-                        </h5>
-                    </div>
+                        </h5>-->
+                        <div class="col-xs-12 col-sm-6">
+                            <present name="node_json">
+                                <ul id="wbs_tree" class="ztree"></ul>
+                            </present>
+                        </div>
 
-                    <present name="node_json">
-                        <ul id="wbs_tree" class="ztree"></ul>
-                    </present>
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="operate panel panel-default">
+                                <div class="panel-body">
+                                    <button class="btn btn-primary btn-sm">
+                                        <i class="fa fa-edit bigger-110"></i>
+                                        新增
+                                    </button>
+                                    <button class="btn btn-primary btn-sm">
+                                        <i class="fa fa-cogs bigger-100"></i>编辑
+                                    </button>
+                                </div>
+
+                            </div>
+
+                            <ul class="list-unstyled spaced">
+                                <li>
+                                    <i class="icon-bell bigger-110 purple"></i>
+                                    List with custom icons and more space
+                                </li>
+
+                                <li>
+                                    <i class="icon-ok bigger-110 green"></i>
+                                    Unordered List Item # 2
+                                </li>
+
+                                <li>
+                                    <i class="icon-remove bigger-110 red"></i>
+                                    Unordered List Item # 3
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
 
     <!--WBS信息框-->
@@ -70,7 +116,7 @@
             </div>
 
             <input type="hidden" name="project_id" id="project_id" value="{$proj_id}">
-            <input type="hidden" name="pbs_id" id="pbs_id" value="{$Think.post.pbs_node_id}">
+            <input type="hidden" name="pbs_id" id="pbs_id" value="{$Think.session.pbs_node_id}">
             <input type="hidden" name="parent_id" id="parent_id" value="">
 
             <div class="form-group">
