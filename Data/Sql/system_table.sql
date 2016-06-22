@@ -872,7 +872,7 @@ INSERT INTO `aeropms_node` VALUES
 (900,'项目','project/select','fa fa-bars bc-notice','','','1',0,0),
 (901,'PBS','pbs/index','fa fa-cubes','','','2',0,0),
 (902,'WBS','wbs/index','fa fa-sitemap','','','3',0,0),
-(903,'构型','#','fa fa-space-shuttle','','','4',0,0),
+(903,'构型','#','fa fa-code-fork','','','4',0,0),
 (904,'里程碑','#','fa fa-calendar','','','5',0,0),
 (905,'统计','#','fa fa-bar-chart-o','','','6',0,0),
 (906,'管理','#','fa fa-cogs','','','7',0,0),
@@ -2275,9 +2275,10 @@ CREATE TABLE aeropms_wbs_node_agent (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `node_id` int(11) NOT NULL,  /*项目id*/
   `priority` int NOT NULL default 1, /*项目优先级, 0为最高, 默认为5*/
-  `input_wbs`
-
-  attach_id int(11) null,
+  `charger_id` int(11) not NULL DEFAULT 1, /*任务负责人的用户ID, 默认为1即管理员*/
+  `planning_start_time` int not null, /*任务的计划开始时间*/
+  `planning_end_time` int not null, /*任务的计划完成时间*/
+  `attach_id` int(11) null,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
@@ -2286,6 +2287,11 @@ CREATE TABLE aeropms_wbs_node_agent (
 #
 /*!40000 ALTER TABLE `aeropms_wbs_node_agent` DISABLE KEYS */;
 /*!40000 ALTER TABLE `aeropms_wbs_node_agent` ENABLE KEYS */;
+
+
+/*
+统一资源管理表, 用于记录上传数据的ID
+ */
 
 
 /*工程阶段类型表*/
@@ -2305,12 +2311,12 @@ CREATE TABLE aeropms_engineering_phase (
 #
 /*!40000 ALTER TABLE `aeropms_engineering_phase` DISABLE KEYS */;
 insert into `aeropms_engineering_phase` values
-  (1, -1, '项目前期论证', '暂无描述', 0, null),
-  (2, -1, '预发展阶段', '暂无描述', 0, null),
-  (3, -1, '初步设计阶段', '暂无描述', 0, null),
-  (4, -1, '详细设计阶段', '暂无描述', 0, null),
-  (5, -1, '全面试制阶段', '暂无描述', 0, null),
-  (6, -1, '试飞取证阶段', '暂无描述', 0, null);
+  (1, -1, '可行性论证', '暂无描述', 0, null),
+  (2, -1, '总体方案定义', '暂无描述', 0, null),
+  (3, -1, '初步设计', '暂无描述', 0, null),
+  (4, -1, '详细设计', '暂无描述', 0, null),
+  (5, -1, '全面试制', '暂无描述', 0, null),
+  (6, -1, '试飞取证', '暂无描述', 0, null);
 /*!40000 ALTER TABLE `aeropms_engineering_phase` ENABLE KEYS */;
 
 
