@@ -23,7 +23,7 @@
 }
 
 .daterangepicker .ranges {
-  width: 180px;
+  width: 160px;
   text-align: left;
 }
 
@@ -76,7 +76,7 @@
   vertical-align: middle;
   margin: 0 0 10px 0;
   padding: 0 6px;
-  width: 80px;
+  width: 74px;
 }
 
 .daterangepicker .ranges ul {

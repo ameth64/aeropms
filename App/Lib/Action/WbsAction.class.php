@@ -113,7 +113,7 @@ class WbsAction extends CommonAction
                 array("id"=>$item["id"],
                     "node_type"=>"wbs",
                     "wbs_type"=>$item["type"],
-                    "name"=>"[".$item["type_name"]."]. ".$item["name"],
+                    "name"=>$item["name"],
                     //-zTree私有属性
                     //"icon"=>$this->ztree_img["wbs_node"],
                     "open"=>true,
@@ -132,7 +132,7 @@ class WbsAction extends CommonAction
                         "wbs_type"=>"",
                         "name"=>$item["name"],
                         //-zTree私有属性
-                        "icon"=>$this->ztree_img["pbs_node"],
+                        //"icon"=>$this->ztree_img["pbs_node"],
                         "open"=>true,
                         "children"=>$this->_parseNodeAll($pbs_model, $wbs_model, $proj_id, $item["id"], -1, 1)
                     )

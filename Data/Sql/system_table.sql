@@ -2269,6 +2269,24 @@ CREATE TABLE aeropms_wbs_node (
 /*!40000 ALTER TABLE `aeropms_wbs_node` DISABLE KEYS */;
 /*!40000 ALTER TABLE `aeropms_wbs_node` ENABLE KEYS */;
 
+/*WBS节点明细表*/
+DROP TABLE IF EXISTS aeropms_wbs_node_agent;
+CREATE TABLE aeropms_wbs_node_agent (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `node_id` int(11) NOT NULL,  /*项目id*/
+  `priority` int NOT NULL default 1, /*项目优先级, 0为最高, 默认为5*/
+  `input_wbs`
+
+  attach_id int(11) null,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+#
+# Data for table "aeropms_wbs_node_agent"
+#
+/*!40000 ALTER TABLE `aeropms_wbs_node_agent` DISABLE KEYS */;
+/*!40000 ALTER TABLE `aeropms_wbs_node_agent` ENABLE KEYS */;
+
 
 /*工程阶段类型表*/
 DROP TABLE IF EXISTS aeropms_engineering_phase;
