@@ -2220,7 +2220,9 @@ CREATE TABLE aeropms_pbs_node_agent (
 /*!40000 ALTER TABLE `aeropms_pbs_node_agent` ENABLE KEYS */;
 
 
-/*WBS单元类型表*/
+/*
+ * WBS单元类型表
+ */
 DROP TABLE IF EXISTS aeropms_wbs_type;
 CREATE TABLE aeropms_wbs_type (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -2252,7 +2254,6 @@ CREATE TABLE aeropms_wbs_node (
   `parent_id` int(11) NOT NULL,  /*父级WBS单元id*/
   `pbs_id` int(11) NOT NULL,  /*归属PBS单元id*/
   `name` varchar(512) not null,
-  `desc` varchar(512) NOT NULL DEFAULT '暂无描述', /*节点描述*/
   `type` int(10) NULL default '1', /*WBS类型, 值取自WBS类型列表*/
   `engineering_phase` int(10) NULL default '1', /*WBS所属工程阶段, 值取自工程阶段类型表*/
   `agent_id` int(11) NULL DEFAULT '0', /*节点的代理类的ID*/
