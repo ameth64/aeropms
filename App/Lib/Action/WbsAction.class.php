@@ -112,6 +112,7 @@ class WbsAction extends CommonAction
             array_push($res,
                 array("id"=>$item["id"],
                     "node_type"=>"wbs",
+                    "pbs_id"=>$item["pbs_id"],
                     "wbs_type"=>$item["type"],
                     "name"=>$item["name"],
                     //-zTree私有属性
@@ -129,6 +130,7 @@ class WbsAction extends CommonAction
                 array_push($res,
                     array("id"=>$item["id"],
                         "node_type"=>"pbs",
+                        "pbs_id"=>$item["id"],
                         "wbs_type"=>"",
                         "name"=>$item["name"],
                         //-zTree私有属性
@@ -152,6 +154,7 @@ class WbsAction extends CommonAction
         $proj = M("ProjectList");
         $proj_name = $proj->where("id=$proj_id")->getField("name");
         $data = array(
+            'id'=>0,
             'project_id'=>$proj_id,
             'node_level'=>0,
             'inner_index'=>0,

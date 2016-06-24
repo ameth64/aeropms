@@ -126,65 +126,67 @@
 
     <!--WBS编辑区-->
     <div class="col-xs-12 col-sm-6">
+
         <!-- 新增WBS模块的容器 -->
-        <div class="tabbable" id="wbs_add_node">
-            <!--- 顶部标签页-->
-            <ul class="nav nav-tabs" id="wbs_add_node_tab">
-                <li class="active">
-                    <a data-toggle="tab" href="#new_wbs_basic">
-                        <i class="green fa fa-home bigger-100"></i>
-                        基本信息
-                    </a>
-                </li>
+        <form id="form_data" name="form_data" method="post" post_url="{:U('wbs/add')}" class="form-horizontal clearfix">
+            <div class="tabbable" id="wbs_add_node">
+                <!--- 顶部标签页-->
+                <ul class="nav nav-tabs" id="wbs_add_node_tab">
+                    <li class="active">
+                        <a data-toggle="tab" href="#new_wbs_basic">
+                            <i class="green fa fa-home bigger-100"></i>
+                            基本信息
+                        </a>
+                    </li>
 
-                <li class="">
-                    <a data-toggle="tab" href="#new_wbs_agent">
-                        <i class="blue fa fa-server bigger-50"></i>
-                        任务明细
-                        <!--  消息条数用法示例
-                        <span class="badge badge-danger">4</span>
-                        -->
-                    </a>
-                </li>
+                    <li class="">
+                        <a data-toggle="tab" href="#new_wbs_agent">
+                            <i class="blue fa fa-server bigger-50"></i>
+                            任务明细
+                            <!--  消息条数用法示例
+                            <span class="badge badge-danger">4</span>
+                            -->
+                        </a>
+                    </li>
 
-                <li class="">
-                    <a data-toggle="tab" href="#new_wbs_progress">
-                        <i class="red fa fa-calendar bigger-50"></i>
-                        进度管理
-                        <!--  消息条数用法示例
-                        <span class="badge badge-danger">4</span>
-                        -->
-                    </a>
-                </li>
+                    <li class="">
+                        <a data-toggle="tab" href="#new_wbs_progress">
+                            <i class="red fa fa-calendar bigger-50"></i>
+                            进度管理
+                            <!--  消息条数用法示例
+                            <span class="badge badge-danger">4</span>
+                            -->
+                        </a>
+                    </li>
 
-                <!-- 下拉列表型tab用法示例
-                <li class="dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        Dropdown &nbsp;
-                        <i class="icon-caret-down bigger-110 width-auto"></i>
-                    </a>
+                    <!-- 下拉列表型tab用法示例
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            Dropdown &nbsp;
+                            <i class="icon-caret-down bigger-110 width-auto"></i>
+                        </a>
 
-                    <ul class="dropdown-menu dropdown-info">
-                        <li>
-                            <a data-toggle="tab" href="#dropdown1">@fat</a>
-                        </li>
+                        <ul class="dropdown-menu dropdown-info">
+                            <li>
+                                <a data-toggle="tab" href="#dropdown1">@fat</a>
+                            </li>
 
-                        <li>
-                            <a data-toggle="tab" href="#dropdown2">@mdo</a>
-                        </li>
-                    </ul>
-                </li>
-                -->
-            </ul>
+                            <li>
+                                <a data-toggle="tab" href="#dropdown2">@mdo</a>
+                            </li>
+                        </ul>
+                    </li>
+                    -->
+                </ul>
 
-            <!--新增模块表单内容, 分三块-->
-            <div class="tab-content">
+                <!--新增模块表单内容, 分三块-->
+                <div class="tab-content">
 
-                <!--新增WBS基本信息-->
-                <div id="new_wbs_basic" class="tab-pane active">
-                    <form id="form_data" name="form_data" method="post" post_url="{:U('wbs/add')}" class="form-horizontal clearfix">
-                        <input type="hidden" name="project_id" id="project_id" value="{$proj_id}">
-                        <input type="hidden" name="pbs_id" id="pbs_id" value="{$Think.session.pbs_node_id}">
+                    <!--新增WBS基本信息-->
+                    <div id="new_wbs_basic" class="tab-pane active">
+
+                        <input type="hidden" name="project_id" id="project_id" value="{$Think.session.proj_id}">
+                        <input type="hidden" name="pbs_id" id="pbs_id" value="">
                         <input type="hidden" name="parent_id" id="parent_id" value="">
 
                         <div class="form-group">
@@ -227,29 +229,40 @@
                             </div>
                         </div>
 
-                    </form>
+                        <!--文件上传测试-->
+                        <!--<div id="dropzone">
+                            <div class="fallback">
+                                <input name="file" type="file" multiple="" />
+                            </div>
+                        </div>-->
+                    </div>
+
+                    <!--新增WBS明细(agent)编辑-->
+                    <div id="new_wbs_agent" class="tab-pane">
+                        WBS明细编辑
+                    </div>
+
+                    <div id="new_wbs_progress" class="tab-pane">
+                        WBS进度管理单元
+                    </div>
+
                 </div>
 
-                <!--新增WBS明细(agent)编辑-->
-                <div id="new_wbs_agent" class="tab-pane">
-                    WBS明细编辑
+                <!--新增WBS提交操作区-->
+                <div class="clearfix form-actions">
+                    <div class="pull-right">
+                        <!--<a onclick="add()" class="btn btn-sm btn-primary">新增</a>-->
+                        <a onclick="add()" class="btn btn-sm btn-primary">添加</a>
+                        |
+                        <a onclick="clear()" class="btn btn-sm btn-danger">清空</a>
+                    </div>
                 </div>
 
-                <div id="new_wbs_progress" class="tab-pane">
-                    WBS进度管理单元
-                </div>
+
             </div>
 
-            <!--新增WBS提交操作区-->
-            <div class="clearfix form-actions">
-                <div class="pull-right">
-                    <!--<a onclick="add()" class="btn btn-sm btn-primary">新增</a>-->
-                    <a onclick="add()" class="btn btn-sm btn-primary">添加</a>
-                    |
-                    <a onclick="clear()" class="btn btn-sm btn-danger">清空</a>
-                </div>
-            </div>
-        </div>
+
+        </form>
 
 
     </div>
@@ -266,6 +279,31 @@
         todayHighlight: true
     }).next().click(function(){
         $(this).prev().focus();
+    });
+
+    /*文件上传组件*/
+    jQuery(function($){
+
+        try {
+            $(".dropzone").dropzone({
+                paramName: "file", // The name that will be used to transfer the file
+                maxFilesize: 50, // MB
+
+                addRemoveLinks : true,
+                dictDefaultMessage :
+                        '<span class="bigger-150 bolder"><i class="icon-caret-right red"></i> Drop files</span> to upload \
+                        <span class="smaller-80 grey">(or click)</span> <br /> \
+                        <i class="icon-cloud-upload blue icon-3x"></i>'
+                ,
+                dictResponseError: 'Error while uploading file!',
+
+                //change the previewTemplate to use Bootstrap progress bars
+                previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\"><div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  <div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\"><span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>"
+            });
+        } catch(e) {
+            alert('您的浏览器版本过低, 无法支持Dropzone.js组件.');
+        }
+
     });
 
 </script>
