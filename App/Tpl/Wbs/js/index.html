@@ -10,7 +10,23 @@
             return;
         }
         //alert("parent id = " + sn.id);
-        $("#parent_id").val(sn.id);
+        //根据节点的node_type选择父节点
+        switch(sn.node_type){
+            case "pbs": var pid = tree.getNodeByParam("wbs_parent", -1, null);
+                if(!pid){
+                    alert("无法定位WBS根节点, 请检查数据.");
+                    return;
+                }
+                $("#parent_id").val(pid.id);
+                $("#pbs_id").val(sn.id);
+                break;
+            case "wbs": $("#parent_id").val(sn.id);
+                $("#pbs_id").val(sn.pbs_id);
+                break;
+            default: alert("未选择任何WBS或PBS节点作为父节点, 请重新选择.");
+                return;
+        }
+
         url = $("#form_data").attr("post_url");
         if(check_form("form_data")){
             sendForm("form_data", url);
