@@ -2293,6 +2293,29 @@ CREATE TABLE aeropms_wbs_node_agent (
 /*
 统一资源管理表, 用于记录上传数据的ID
  */
+DROP TABLE IF EXISTS aeropms_resource_unit;
+CREATE TABLE aeropms_resource_unit (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `project_id` int(11) NOT NULL,  /*项目id*/
+  `type` int NOT NULL DEFAULT 1,  /*资源类型, 1=文件, 2=图像*/
+  `save_path` varchar(512) NOT NULL, /*资源在服务器上的保存路径*/
+  `file_name` varchar(512) NOT NULL, /*资源原始文件名*/
+  `save_name` varchar(512) NOT NULL, /*资源的保存文件名*/
+  `size` int not null DEFAULT 0, /*资源文件大小, 单位为字节*/
+  `extension` VARCHAR(32), /*文件后缀*/
+  `hash` varchar(1024) not null, /*资源文件hash值, 默认为MD5*/
+  `creator_id` int(11) not NULL DEFAULT 1, /*资源创建用户ID*/
+  `create_time` int not null, /*资源的创建时间*/
+  `update_time` int not null, /*资源的最后更新时间*/
+  `remark` text null,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+#
+# Data for table "aeropms_resource_unit"
+#
+/*!40000 ALTER TABLE `aeropms_resource_unit` DISABLE KEYS */;
+/*!40000 ALTER TABLE `aeropms_resource_unit` ENABLE KEYS */;
 
 
 /*工程阶段类型表*/

@@ -5,6 +5,9 @@
  * Date: 2016/6/11
  * Time: 21:21
  */
+
+import('@.ORG.Util.UploadFile');
+
 class WbsAction extends CommonAction
 {
     protected $config = array('app_type' => 'asst');
@@ -60,6 +63,33 @@ class WbsAction extends CommonAction
         $WbsNode->create_time = time();
         $WbsNode->update_time = time();
         $WbsNode->add();
+
+        //处理文件上传
+        $upload = new UploadFile();// 实例化上传类
+        $upload->maxSize  = 52428800 ;// 设置附件上传大小, 默认50MB
+        $upload->allowExts  = array('jpg', 'gif', 'png', 'jpeg',
+            'txt', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx',
+            'zip', 'rar', '7z');// 设置附件上传类型
+        $upload->savePath =  './Public/Uploads/';// 设置附件上传目录
+        if(!$upload->upload()) {// 上传错误提示错误信息
+            $this->error($upload->getErrorMsg());
+        }else{// 上传成功 获取上传文件信息
+            $info =  $upload->getUploadFileInfo();
+            $res = M("ResourceUnit");
+            $data = array();
+            $data["project_id"] = session("proj_id");
+            $data["type"] = 1;
+            $data["save_path"] = $info[0]['savepath'];
+            $data["file_name"] = $info[0]['name'];
+            $data["save_name"] = $info[0]['savename'];
+            $data["size"] = $info[0]['size'];
+            $data["extension"] = $info[0]['extension'];
+            $data["hash"] = $info[0]['hash'];
+            $data["creator_id"] = get_user_id();
+            $data["create_time"] = time();
+            $data["remark"] = $this->_request["name"]."-资源";
+            $res->add();
+        }
         $this->redirect("index", array(
             "proj_id"=>$this->_request("project_id")
             )
