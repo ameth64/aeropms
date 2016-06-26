@@ -137,11 +137,11 @@ class PopupAction extends CommonAction {
 		$list = list_to_tree($list);
 		$this -> assign('list_company', popup_tree_menu($list));
 
-		$model = M("Rank");
+/*		$model = M("Rank");
 		$list = array();
 		$list = $model -> field('id,name') -> order('sort asc') -> select();
 		$list = list_to_tree($list);
-		$this -> assign('list_rank', popup_tree_menu($list));
+		$this -> assign('list_rank', popup_tree_menu($list));*/
 
 		$model = M("Position");
 		$list = array();
