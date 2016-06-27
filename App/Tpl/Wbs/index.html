@@ -251,14 +251,20 @@
                             </div>
                         </div>
 
-                        <!--文件上传测试-->
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="file" >说明文件上传</label>
-                            <div class="col-sm-10" >
-                                <div id="dropzone">
-                                    <div class="fallback">
-                                        <input name="file" id="file" type="file" multiple="" />
-                                    </div>
+                        <!--文件上传组件-->
+                        <div class="widget-box">
+                            <div class="widget-header">
+                                <h4>说明文件上传</h4>
+                            </div>
+
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <!--<input type="file" id="id-input-file-2" />-->
+                                    <input multiple="" type="file" id="input-file" name="input-file[]" />
+                                    <label>
+                                        <input type="checkbox" name="file-format" id="id-file-format" class="ace" />
+                                        <span class="lbl"> 仅允许图片</span>
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -328,25 +334,92 @@
     /*文件上传组件*/
     jQuery(function($){
 
-        try {
-            $(".dropzone").dropzone({
-                paramName: "file", // The name that will be used to transfer the file
-                maxFilesize: 50, // MB
+/*        $('#id-input-file-1 , #id-input-file-2').ace_file_input({
+            no_file:'没有选择文件 ...',
+            btn_choose:'选择文件',
+            btn_change:'重新选择',
+            droppable:false,
+            onchange:null,
+            thumbnail:false //| true | large
+            //whitelist:'gif|png|jpg|jpeg'
+            //blacklist:'exe|php'
+            //onchange:''
+            //
+        });*/
 
-                addRemoveLinks : true,
-                dictDefaultMessage :
-                        '<span class="bigger-150 bolder"><i class="icon-caret-right red"></i> Drop files</span> to upload \
-                        <span class="smaller-80 grey">(or click)</span> <br /> \
-                        <i class="icon-cloud-upload blue icon-3x"></i>'
-                ,
-                dictResponseError: 'Error while uploading file!',
+        $('#input-file').ace_file_input({
+            style:'well',
+            btn_choose:'点击选择文件或将文件拖放至该区域',
+            btn_change:null,
+            no_icon:'fa fa-cloud-upload',
+            droppable:true,
+            thumbnail:'small'//large | fit
+            //,icon_remove:null//set null, to hide remove/reset button
+            /**,before_change:function(files, dropped) {
+						//Check an example below
+						//or examples/file-upload.html
+						return true;
+					}*/
+            /**,before_remove : function() {
+						return true;
+					}*/
+            ,
+            preview_error : function(filename, error_code) {
+                //name of the file that failed
+                //error_code values
+                //1 = 'FILE_LOAD_FAILED',
+                //2 = 'IMAGE_LOAD_FAILED',
+                //3 = 'THUMBNAIL_FAILED'
+                //alert(error_code);
+            }
 
-                //change the previewTemplate to use Bootstrap progress bars
-                previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\"><div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  <div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\"><span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>"
-            });
-        } catch(e) {
-            alert('您的浏览器版本过低, 无法支持Dropzone.js组件.');
-        }
+        }).on('change', function(){
+            //console.log($(this).data('ace_input_files'));
+            //console.log($(this).data('ace_input_method'));
+        });
+
+
+        //dynamically change allowed formats by changing before_change callback function
+        $('#id-file-format').removeAttr('checked').on('change', function() {
+            var before_change
+            var btn_choose
+            var no_icon
+            if(this.checked) {
+                btn_choose = "点击选择图片或将图片拖放至该区域";
+                no_icon = "fa fa-image";
+                before_change = function(files, dropped) {
+                    var allowed_files = [];
+                    for(var i = 0 ; i < files.length; i++) {
+                        var file = files[i];
+                        if(typeof file === "string") {
+                            //IE8 and browsers that don't support File Object
+                            if(! (/\.(jpe?g|png|gif|bmp)$/i).test(file) ) return false;
+                        }
+                        else {
+                            var type = $.trim(file.type);
+                            if( ( type.length > 0 && ! (/^image\/(jpe?g|png|gif|bmp)$/i).test(type) )
+                                    || ( type.length == 0 && ! (/\.(jpe?g|png|gif|bmp)$/i).test(file.name) )//for android's default browser which gives an empty string for file.type
+                                    ) continue;//not an image so don't keep this file
+                        }
+
+                        allowed_files.push(file);
+                    }
+                    if(allowed_files.length == 0) return false;
+
+                    return allowed_files;
+                }
+            }
+            else {
+                btn_choose = "点击选择文件或将文件拖放至该区域";
+                no_icon = "fa fa-cloud-upload";
+                before_change = function(files, dropped) {
+                    return files;
+                }
+            }
+            var file_input = $('#input-file');
+            file_input.ace_file_input('update_settings', {'before_change':before_change, 'btn_choose': btn_choose, 'no_icon':no_icon})
+            file_input.ace_file_input('reset_input');
+        });
 
     });
 

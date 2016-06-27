@@ -61,32 +61,36 @@ class WbsAction extends CommonAction
 
     public function add()
     {
+
         //处理文件上传
-        if($this->_post("file")){
-            $upload = new UploadFile();// 实例化上传类
-            $upload->maxSize  = 50*1024*1024 ;// 设置附件上传大小, 默认50MB
-            $upload->allowExts  = array('jpg', 'gif', 'png', 'jpeg',
-                'txt', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx',
-                'zip', 'rar', '7z');// 设置附件上传类型
-            $upload->savePath =  './Public/Uploads/';// 设置附件上传目录
-            $attach_id = -1;
-            if(!$upload->upload()) {// 上传错误提示错误信息
-                $this->error($upload->getErrorMsg());
-            }else{// 上传成功 获取上传文件信息
-                $info =  $upload->getUploadFileInfo();
-                $res = M("ResourceUnit");
+        if(!$_FILES["input-file"]){
+            //$msg = print_r($_FILES, true);
+            $this->error("未选择上传文件.");
+        }
+        $upload = new UploadFile();// 实例化上传类
+        $upload->maxSize  = 50*1024*1024 ;// 设置附件上传大小, 默认50MB
+        $upload->savePath =  './Public/Uploads/';// 设置附件上传目录
+        $upload->supportMulti = true;
+        $attach_id = -1;
+        if(!$upload->upload()) {// 上传错误提示错误信息
+            $this->error($upload->getErrorMsg());
+        }else{// 上传成功 获取上传文件信息
+            $info_list =  $upload->getUploadFileInfo();
+            $res = M("ResourceUnit");
+            foreach($info_list as $info){
                 $data = array();
                 $data["project_id"] = session("proj_id");
                 $data["type"] = 1;
-                $data["save_path"] = $info[0]['savepath'];
-                $data["file_name"] = $info[0]['name'];
-                $data["save_name"] = $info[0]['savename'];
-                $data["size"] = $info[0]['size'];
-                $data["extension"] = $info[0]['extension'];
-                $data["hash"] = $info[0]['hash'];
+                $data["save_path"] = $info['savepath'];
+                $data["file_name"] = $info['name'];
+                $data["save_name"] = $info['savename'];
+                $data["size"] = $info['size'];
+                $data["extension"] = $info['extension'];
+                $data["hash"] = $info['hash'];
                 $data["creator_id"] = get_user_id();
                 $data["create_time"] = time();
-                $data["remark"] = $this->_request["name"]."-资源";
+                $data["update_time"] = time();
+                $data["remark"] = $this->_post["name"]."-资源";
                 $attach_id = $res->data($data)->add();
             }
         }
