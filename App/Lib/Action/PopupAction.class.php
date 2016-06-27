@@ -149,7 +149,7 @@ class PopupAction extends CommonAction {
 		$list = list_to_tree($list);
 		$this -> assign('list_position', popup_tree_menu($list));
 
-		$this -> assign('type', 'rank');
+		$this -> assign('type', 'dept');
 		$this -> display();
 		return;
 	}
