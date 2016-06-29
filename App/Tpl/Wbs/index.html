@@ -24,6 +24,7 @@
     };
 
     var nodes = {$node_json|default="[空节点]"};
+    var pbs_tree = {$pbs_tree};
 
     $(document).ready(function(){
         $.fn.zTree.init($("#wbs_tree"), setting, nodes);
@@ -33,8 +34,15 @@
         });
     });
 
-    function select_auth() {
-        winopen("{:U('popup/auth')}", 730, 574);
+    //
+    function select_team(is_leader) {
+        if(is_leader){
+            winopen("{:U('popup/wbsteam', 'is_leader=1')}", 730, 574);
+        }
+        else{
+            winopen("{:U('popup/wbsteam')}", 730, 574);
+        }
+
     }
 
 </script>
@@ -111,7 +119,7 @@
                                     <i class="fa fa-clock-o red"></i>
                                     任务计划开始时间
                                     <!--bootstrap日期控件测试-->
-                                    <div class="row">
+                                    <!--<div class="row">
                                         <div class="col-xs-12 col-sm-6">
 
                                             <div class="input-group">
@@ -121,7 +129,7 @@
                                             </span>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>-->
                                 </li>
                             </ul>
 
@@ -141,6 +149,7 @@
         <!-- 新增WBS模块的容器 -->
         <form id="form_data" name="form_data" method="post" post_url="{:U('wbs/add')}" class="form-horizontal clearfix" enctype="multipart/form-data">
             <div class="tabbable" id="wbs_add_node">
+
                 <!--- 顶部标签页-->
                 <ul class="nav nav-tabs" id="wbs_add_node_tab">
                     <li class="active">
@@ -275,16 +284,17 @@
 
                     <!--新增WBS明细(agent)编辑-->
                     <div id="new_wbs_agent" class="tab-pane">
+                        <!--WBS负责人及成员编辑-->
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" for="folder_name">负责人：</label>
-                            <div class="col-sm-6">
+                            <label class="col-sm-2 control-label" for="admin_list">负责人* </label>
+                            <div class="col-sm-9">
                                 <div id="admin_list" class="inputbox">
-                                    <a class="pull-right btn btn-link text-center" onclick="select_auth();"> <i class="fa fa-user"></i> </a>
+                                    <a class="pull-right btn btn-link text-center" onclick="select_team(true);"> <i class="fa fa-user"></i> </a>
                                     <div class="wrap" >
                                         <span class="address_list"></span>
-							<span class="text" >
-								<input class="letter" type="text"  >
-							</span>
+                                        <span class="text" >
+                                            <input class="letter" type="text"  >
+                                        </span>
                                     </div>
                                     <div class="search dropdown ">
                                         <ul class="dropdown-menu"></ul>
@@ -292,6 +302,49 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="admin_list">成员* </label>
+                            <div class="col-sm-9">
+                                <div id="member_list" class="inputbox">
+                                    <a class="pull-right btn btn-link text-center" onclick="select_team(false);"> <i class="fa fa-user"></i> </a>
+                                    <div class="wrap" >
+                                        <span class="address_list"></span>
+                                        <span class="text" >
+                                            <input class="letter" type="text"  >
+                                        </span>
+                                    </div>
+                                    <div class="search dropdown ">
+                                        <ul class="dropdown-menu"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="name">计划开始日期* </label>
+                            <div class="col-xs-6 col-sm-3">
+
+                                <div class="input-group">
+                                    <input class="form-control date-picker" id="id-date-picker-begin" type="text" data-date-format="yyyy-mm-dd" />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                </div>
+                            </div>
+
+                            <label class="col-sm-2 control-label" for="name">计划完成日期* </label>
+                            <div class="col-xs-6 col-sm-3">
+
+                                <div class="input-group">
+                                    <input class="form-control date-picker" id="id-date-picker-end" type="text" data-date-format="yyyy-mm-dd" />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div id="new_wbs_progress" class="tab-pane">

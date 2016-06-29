@@ -30,6 +30,21 @@ class PbsAction extends CommonAction {
 
         $json = $this->_convertJson($proj_id); //根据项目id读取节点表数据并组装JSON
         $this->assign("node_json", $json);
+
+        //框架提供的树生成方法
+        $PbsNode = M("PbsNode");
+        $list = $PbsNode->where("id>0")->field("id, parent_id, name, wbs_id, 'true' as open")->select();
+        $pbs_tree = list_to_tree($list, -1, 'id', 'parent_id', 'children');
+        $refer = array();
+        $pk = 'id';
+        foreach ($list as $key => $data) {
+            $refer[$data[$pk]] = &$list[$key];
+        }
+        $this->assign("node_json", json_encode($pbs_tree, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT));
+
+        $pbs_raw = print_r($list, true);
+        $this->assign("pbs_raw", $pbs_raw);
+
         $this->assign("proj_id", $proj_id);
         $this->display();
     }

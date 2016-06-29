@@ -2,6 +2,7 @@
 <script type="text/javascript">
 	function save() {
 		$("#rc select option").each(function(i) {
+            alert($(this).html());
 			email = ($(this).html().split(";")[1].split("&")[0]);
 			emp_no = $(this).val();
 			name = jQuery.trim($(this).text()).replace(/<.*>/, '');
@@ -188,7 +189,7 @@
 		<div class="pull-left">
 			<label>
 				<input class="ace"  type="radio" id="rb_company" name="type" value="company" >
-				<span class="lbl">公司</span> </label>
+				<span class="lbl">部门</span> </label>
 
 			<!--<label>
 				<input  class="ace"  type="radio" id="rb_rank" name="type" value="rank">
@@ -206,7 +207,7 @@
 	<div class="panel-body">
 		<div class="col-28 pull-left">
 			<div class="">
-				<b>地址簿</b>
+				<b>人员列表</b>
 			</div>
 			<div class="popup_tree_menu" >
 				<div id="company" class="display-none" style="height:200px;">
@@ -225,7 +226,7 @@
 		</div>
 		<div class="col-34 pull-right">
 			<div>
-				<b style="padding-left: 60px;">管理</b><span id="rc_count"></span>
+				<b style="padding-left: 60px;">负责人</b><span id="rc_count"></span>
 			</div>
 			<div class="clearfix" style="margin-bottom: 15px;">
 				<label class="col-4 pull-left text-right" ><a onclick="add_address('rc');" class="btn btn-sm btn-primary"> <i class="fa fa-angle-double-right"></i> </a> </label>
@@ -236,8 +237,9 @@
 				</div>
 			</div>
 
+<!--
 			<div>
-				<b  style="padding-left: 60px;">写入\修改</b><span id="cc_count"></span>
+				<b  style="padding-left: 60px;">成员</b><span id="cc_count"></span>
 			</div>
 			<div class="clearfix" style="margin-bottom: 15px;">
 				<label class="col-4 pull-left text-right" ><a onclick="add_address('cc');" class="btn btn-sm btn-primary"> <i class="fa fa-angle-double-right"></i></a></label>
@@ -247,6 +249,8 @@
 					</div>
 				</div>
 			</div>
+            -->
+<!--
 			<div>
 				<b  style="padding-left: 60px;">读取</b><span id="cc_count"></span>
 			</div>
@@ -258,6 +262,7 @@
 					</div>
 				</div>
 			</div>
+            -->
 		</div>
 	</div>
 </div>

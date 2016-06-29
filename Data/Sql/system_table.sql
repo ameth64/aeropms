@@ -1694,7 +1694,28 @@ CREATE TABLE `aeropms_user` (
 #
 
 /*!40000 ALTER TABLE `aeropms_user` DISABLE KEYS */;
-INSERT INTO `aeropms_user` VALUES (1,'admin','管理员','GLY','21232f297a57a5a743894a0e4a801fc3',1,1,2,'male','2013-09-18','127.0.0.1',2829,'emp_pic/1.jpeg','123','1231254123123','5086-2222-2222','12123123',1222907803,1404047349,0,'1231512315123',1),(41,'2002','总监2002','ZJ','4ba29b9f9e5732ed33761840f4ba6c53',6,3,1,'male','2013-10-30','0.0.0.0',NULL,'','','行政，财务','','',1376896154,1407565312,1,NULL,1),(42,'2001','总监2001','ZJ','d0fb963ff976f9c37fc81fe03c21ea7b',8,3,1,'male','2013-10-10','127.0.0.1',NULL,'emp_pic/42.jpeg','smeoa@qq.com','开发','123','12312312',1380970837,1401287019,0,'12312541231251243123',1),(43,'2003','总监2003','ZJ','a591024321c5e2bdbd23ed35f0574dde',7,3,1,'male','0000-00-00','127.0.0.1',NULL,'emp_pic/43.jpeg','','销售','','',1381035116,1401287063,0,NULL,1),(44,'1001','总经理1001','ZJL','b8c37e33defde51cf91e1e03e51657da',1,5,5,'male','0000-00-00','127.0.0.1',NULL,'','','全面管理','','',1381502796,1401288611,0,NULL,1),(48,'1003','副总1003','FZ','aa68c75c4a77c87f97fb686b2f068676',6,4,1,'female','0000-00-00','0.0.0.0',NULL,'','','销售，运营','','',1381503490,1401286413,0,NULL,1),(49,'3001','经理3001','JL','908c9a564a86426585b29f5335b619bc',24,2,2,'male','2013-10-10','14.104.59.86',NULL,'','','财务','123','12312312',1391694170,1401287097,0,NULL,1),(50,'3002','经理3002','JL','d806ca13ca3449af72a1ea5aedbed26a',23,2,2,'male','2013-10-10','124.127.209.138',NULL,'','','人事','123','12312312',1391694193,1401287121,0,NULL,NULL),(51,'3003','经理3003','JL','a4380923dd651c195b1631af7c829187',25,2,2,'male','2013-10-10','127.0.0.1',NULL,'','','销售-南方区域','123','12312312',1391694198,1401287147,0,NULL,NULL),(52,'3004','经理3004','JL','20479c788fb27378c2c99eadcf207e7f',26,2,2,'male','2013-10-10',NULL,NULL,'','','新产品研发','123','12312312',1391694202,1401287170,0,NULL,NULL),(55,'5001','员工5001','YG','03b264c595403666634ac75d828439bc',24,1,3,'male','2013-10-10','121.10.236.201',NULL,'','','会计','123','12312312',1391694320,1401287296,0,NULL,NULL),(56,'5007','员工5007','YG','351869bde8b9d6ad1e3090bd173f600d',26,1,3,'male','2013-10-10',NULL,NULL,'','','程序员3','123','12312312',1391694335,1401287430,0,NULL,NULL),(57,'5002','员工5002','YG','415585bd389b69659223807d77a96791',24,1,3,'male','2013-10-10',NULL,NULL,'','','出纳','123','12312312',1391694413,1401287322,0,NULL,NULL),(58,'5003','员工5003','YG','240ac9371ec2671ae99847c3ae2e6384',23,1,3,'male','2013-10-10','127.0.0.1',NULL,'','','招聘，薪资管理','123','12312312',1391694420,1401287339,0,NULL,NULL),(59,'5004','员工5004','YG','3202111cf90e7c816a472aaceb72b0df',23,1,3,'male','2013-10-10','127.0.0.1',NULL,'','','负责公司日常采购','123','12312312',1391694427,1401287371,0,NULL,NULL),(60,'5005','员工5005','YG','1d6408264d31d453d556c60fe7d0459e',25,1,3,'male','2013-10-10','127.0.0.1',NULL,'','','程序员1','123','12312312',1391694435,1401287390,0,NULL,NULL),(61,'5006','员工5006','YG','2c27a260f16ad3098393cc529f391f4a',25,1,3,'male','2013-10-10','127.0.0.1',NULL,'','','程序员2','123','12312312',1391694478,1401287410,0,NULL,NULL),(62,'5008','员工5008','YG','b3848d61bbbc6207c6668a8a9e2730ed',26,1,3,'male','2013-10-10','127.0.0.1',NULL,'','','网站编辑，SEO','123','12312312',1391694489,1401287450,0,NULL,NULL),(65,'test1','test1','TEST','db03fa33c1e2ca35794adbb14aebb153',7,5,1,'male','2014-05-07','0.0.0.0',NULL,'','','','','',1399618939,0,0,NULL,0),(66,'test2','test2','TEST','261d684f6b7d9af996a5691e7106075e',2,2,2,'male','2014-05-09','0.0.0.0',NULL,'','','','','',1399618964,0,0,NULL,0),(67,'1002','李白','LB','fba9d88164f3e2d9109ee770223212a0',5,4,1,'male','0000-00-00','0.0.0.0',NULL,'','','','','',1399712207,1401286925,0,NULL,0);
+INSERT INTO `aeropms_user` VALUES
+  (1,'admin','管理员','GLY','21232f297a57a5a743894a0e4a801fc3',1,1,2,'male','2013-09-18','127.0.0.1',2829,'emp_pic/1.jpeg','123','1231254123123','5086-2222-2222','12123123',1222907803,1404047349,0,'1231512315123',1),
+  (41,'2002','总监2002','ZJ','4ba29b9f9e5732ed33761840f4ba6c53',6,3,1,'male','2013-10-30','0.0.0.0',NULL,'','','行政，财务','','',1376896154,1407565312,1,NULL,1),
+  (42,'2001','总监2001','ZJ','d0fb963ff976f9c37fc81fe03c21ea7b',8,3,1,'male','2013-10-10','127.0.0.1',NULL,'emp_pic/42.jpeg','smeoa@qq.com','开发','123','12312312',1380970837,1401287019,0,'12312541231251243123',1),
+  (43,'2003','总监2003','ZJ','a591024321c5e2bdbd23ed35f0574dde',7,3,1,'male','0000-00-00','127.0.0.1',NULL,'emp_pic/43.jpeg','','销售','','',1381035116,1401287063,0,NULL,1),
+  (44,'1001','总经理1001','ZJL','b8c37e33defde51cf91e1e03e51657da',1,5,5,'male','0000-00-00','127.0.0.1',NULL,'','','全面管理','','',1381502796,1401288611,0,NULL,1),
+  (48,'1003','副总1003','FZ','aa68c75c4a77c87f97fb686b2f068676',6,4,1,'female','0000-00-00','0.0.0.0',NULL,'','','销售，运营','','',1381503490,1401286413,0,NULL,1),
+  (49,'3001','经理3001','JL','908c9a564a86426585b29f5335b619bc',24,2,2,'male','2013-10-10','14.104.59.86',NULL,'','','财务','123','12312312',1391694170,1401287097,0,NULL,1),
+  (50,'3002','经理3002','JL','d806ca13ca3449af72a1ea5aedbed26a',23,2,2,'male','2013-10-10','124.127.209.138',NULL,'','','人事','123','12312312',1391694193,1401287121,0,NULL,NULL),
+  (51,'3003','经理3003','JL','a4380923dd651c195b1631af7c829187',25,2,2,'male','2013-10-10','127.0.0.1',NULL,'','','销售-南方区域','123','12312312',1391694198,1401287147,0,NULL,NULL),
+  (52,'3004','经理3004','JL','20479c788fb27378c2c99eadcf207e7f',26,2,2,'male','2013-10-10',NULL,NULL,'','','新产品研发','123','12312312',1391694202,1401287170,0,NULL,NULL),
+  (55,'5001','员工5001','YG','03b264c595403666634ac75d828439bc',24,1,3,'male','2013-10-10','121.10.236.201',NULL,'','','会计','123','12312312',1391694320,1401287296,0,NULL,NULL),
+  (56,'5007','员工5007','YG','351869bde8b9d6ad1e3090bd173f600d',26,1,3,'male','2013-10-10',NULL,NULL,'','','程序员3','123','12312312',1391694335,1401287430,0,NULL,NULL),
+  (57,'5002','员工5002','YG','415585bd389b69659223807d77a96791',24,1,3,'male','2013-10-10',NULL,NULL,'','','出纳','123','12312312',1391694413,1401287322,0,NULL,NULL),
+  (58,'5003','员工5003','YG','240ac9371ec2671ae99847c3ae2e6384',23,1,3,'male','2013-10-10','127.0.0.1',NULL,'','','招聘，薪资管理','123','12312312',1391694420,1401287339,0,NULL,NULL),
+  (59,'5004','员工5004','YG','3202111cf90e7c816a472aaceb72b0df',23,1,3,'male','2013-10-10','127.0.0.1',NULL,'','','负责公司日常采购','123','12312312',1391694427,1401287371,0,NULL,NULL),
+  (60,'5005','员工5005','YG','1d6408264d31d453d556c60fe7d0459e',25,1,3,'male','2013-10-10','127.0.0.1',NULL,'','','程序员1','123','12312312',1391694435,1401287390,0,NULL,NULL),
+  (61,'5006','员工5006','YG','2c27a260f16ad3098393cc529f391f4a',25,1,3,'male','2013-10-10','127.0.0.1',NULL,'','','程序员2','123','12312312',1391694478,1401287410,0,NULL,NULL),
+  (62,'5008','员工5008','YG','b3848d61bbbc6207c6668a8a9e2730ed',26,1,3,'male','2013-10-10','127.0.0.1',NULL,'','','网站编辑，SEO','123','12312312',1391694489,1401287450,0,NULL,NULL),
+  (65,'test1','test1','TEST','db03fa33c1e2ca35794adbb14aebb153',7,5,1,'male','2014-05-07','0.0.0.0',NULL,'','','','','',1399618939,0,0,NULL,0),
+  (66,'test2','test2','TEST','261d684f6b7d9af996a5691e7106075e',2,2,2,'male','2014-05-09','0.0.0.0',NULL,'','','','','',1399618964,0,0,NULL,0),
+  (67,'1002','李白','LB','fba9d88164f3e2d9109ee770223212a0',5,4,1,'male','0000-00-00','0.0.0.0',NULL,'','','','','',1399712207,1401286925,0,NULL,0);
 /*!40000 ALTER TABLE `aeropms_user` ENABLE KEYS */;
 
 #
@@ -2255,6 +2276,7 @@ insert into `aeropms_wbs_type` values
   (3, -1, '工作任务', '不可再细分的WBS类型, 描述某一具体任务', 0, null);
 /*!40000 ALTER TABLE `aeropms_wbs_type` ENABLE KEYS */;
 
+
 /*WBS节点表*/
 DROP TABLE IF EXISTS aeropms_wbs_node;
 CREATE TABLE aeropms_wbs_node (
@@ -2268,7 +2290,10 @@ CREATE TABLE aeropms_wbs_node (
   `type` int(10) NULL default '1', /*WBS类型, 值取自WBS类型列表*/
   `depart` int(11) NOT NULL, /*WBS任务分工类型, 值取自wbs_depart表*/
   `engineering_phase` int(10) NULL default '1', /*WBS所属工程阶段, 值取自工程阶段类型表*/
+  `status` int(10) NOT NULL default 1,  /*任务状态, 分未开始, 进行中和已完成等, 取值见wbs_status_def表*/
   `agent_id` int(11) NULL DEFAULT '0', /*节点的代理类的ID*/
+  `has_input` boolean not null default true, /*是否有输入依赖*/
+  `has_output` boolean not null default true, /*是否有输出成果*/
   `creator_id` int(11)  NULL, /*项目创建者*/
   `create_time` INT NOT NULL,
   `update_time` INT NOT NULL,
@@ -2283,12 +2308,13 @@ CREATE TABLE aeropms_wbs_node (
 /*!40000 ALTER TABLE `aeropms_wbs_node` DISABLE KEYS */;
 /*!40000 ALTER TABLE `aeropms_wbs_node` ENABLE KEYS */;
 
+
 /*WBS节点明细表*/
 DROP TABLE IF EXISTS aeropms_wbs_node_agent;
 CREATE TABLE aeropms_wbs_node_agent (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `node_id` int(11) NOT NULL,  /*项目id*/
-  `priority` int NOT NULL default 1, /*项目优先级, 0为最高, 默认为5*/
+  `priority` int NOT NULL default 5, /*任务优先级, 0为最高, 默认为5*/
   `charger_id` int(11) not NULL DEFAULT 1, /*任务负责人的用户ID, 默认为1即管理员*/
   `planning_start_time` int not null, /*任务的计划开始时间*/
   `planning_end_time` int not null, /*任务的计划完成时间*/
@@ -2301,23 +2327,41 @@ CREATE TABLE aeropms_wbs_node_agent (
 /*!40000 ALTER TABLE `aeropms_wbs_node_agent` DISABLE KEYS */;
 /*!40000 ALTER TABLE `aeropms_wbs_node_agent` ENABLE KEYS */;
 
-/*WBS节点依赖关系表*/
-DROP TABLE IF EXISTS aeropms_wbs_node_relation;
-CREATE TABLE aeropms_wbs_node_relation (
+
+/*WBS节点输入依赖关系表*/
+DROP TABLE IF EXISTS aeropms_wbs_node_output;
+CREATE TABLE aeropms_wbs_node_output (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `node_id` int(11) NOT NULL,  /*项目id*/
-  `priority` int NOT NULL default 1, /*项目优先级, 0为最高, 默认为5*/
-  `charger_id` int(11) not NULL DEFAULT 1, /*任务负责人的用户ID, 默认为1即管理员*/
-  `planning_start_time` int not null, /*任务的计划开始时间*/
-  `planning_end_time` int not null, /*任务的计划完成时间*/
+  `project_id` int(11) NOT NULL,  /*项目id*/
+  `node_id` int(11) NOT NULL, /*产生输出的WBS节点ID*/
+  `item_name` varchar(512) not null, /*输出项名称*/
+  `type` int(11) not null default 1, /*输出项类型, 暂分为文档=1, 图像=2, 其它=3*/
+  `status` int(11) not null default 1, /*输出项状态, 暂分为未就绪=1, 已就绪=2, 无效=3*/
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+#
+# Data for table "aeropms_wbs_node_output"
+#
+/*!40000 ALTER TABLE `aeropms_wbs_node_output` DISABLE KEYS */;
+/*!40000 ALTER TABLE `aeropms_wbs_node_output` ENABLE KEYS */;
+
+
+/*WBS节点输入依赖关系表*/
+DROP TABLE IF EXISTS aeropms_wbs_node_input;
+CREATE TABLE aeropms_wbs_node_input (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `project_id` int(11) NOT NULL,  /*项目id*/
+  `node_id` int(11) NOT NULL, /*需要输入的WBS节点ID*/
+  `input_node_id` int(11) not NULL, /*所依赖输入的节点ID*/
+  `input_node_item_id` int(11) null, /*所依赖输入节点的资源ID*/
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 #
-# Data for table "aeropms_wbs_node_relation"
+# Data for table "aeropms_wbs_node_input"
 #
-/*!40000 ALTER TABLE `aeropms_wbs_node_relation` DISABLE KEYS */;
-/*!40000 ALTER TABLE `aeropms_wbs_node_relation` ENABLE KEYS */;
+/*!40000 ALTER TABLE `aeropms_wbs_node_input` DISABLE KEYS */;
+/*!40000 ALTER TABLE `aeropms_wbs_node_input` ENABLE KEYS */;
 
 
 /*工程阶段类型表*/
