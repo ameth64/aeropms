@@ -148,6 +148,12 @@
 
         <!-- 新增WBS模块的容器 -->
         <form id="form_data" name="form_data" method="post" post_url="{:U('wbs/add')}" class="form-horizontal clearfix" enctype="multipart/form-data">
+
+            <input type="hidden" name="project_id" id="project_id" value="{$Think.session.proj_id}">
+            <input type="hidden" name="pbs_id" id="pbs_id" value="">
+            <input type="hidden" name="parent_id" id="parent_id" value="">
+            <input type="hidden" name="wbs_output_list" id="wbs_output_list" value="">
+
             <div class="tabbable" id="wbs_add_node">
 
                 <!--- 顶部标签页-->
@@ -204,10 +210,6 @@
 
                     <!--新增WBS基本信息-->
                     <div id="new_wbs_basic" class="tab-pane active">
-
-                        <input type="hidden" name="project_id" id="project_id" value="{$Think.session.proj_id}">
-                        <input type="hidden" name="pbs_id" id="pbs_id" value="">
-                        <input type="hidden" name="parent_id" id="parent_id" value="">
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label" for="name">名称* </label>
@@ -293,7 +295,7 @@
                                     <div class="wrap" >
                                         <span class="address_list"></span>
                                         <span class="text" >
-                                            <input class="letter" type="text"  >
+                                            <input class="letter" type="text" >
                                         </span>
                                     </div>
                                     <div class="search dropdown ">
@@ -311,7 +313,7 @@
                                     <div class="wrap" >
                                         <span class="address_list"></span>
                                         <span class="text" >
-                                            <input class="letter" type="text"  >
+                                            <input class="letter" type="text" >
                                         </span>
                                     </div>
                                     <div class="search dropdown ">
@@ -345,6 +347,40 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="name">任务输出成果* </label>
+                            <div class="col-xs-6 col-sm-4">
+                                <input class="form-control" type="text" id="wbs_output_name" />
+                            </div>
+
+                            <label class="col-sm-1 control-label" for="name">类型* </label>
+                            <div class="col-sm-3">
+
+                                <div class="input-group">
+                                    <select id="wbs_output_type">
+                                        <option value="1"><i class="fa fa-image"></i> 图像</option>
+                                        <option value="2"><i class="fa fa-file-word-o"></i>文档</option>
+                                        <option value="3">CATIA文件</option>
+                                        <option value="4">其它</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-1">
+                                <input class="btn btn-primary btn-sm" type="button" id="add_wbs_output" value="添加" />
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-7">
+                                <label for="wbs_output_list">输出列表: </label>
+                                <ul class="list-unstyled list-striped" id="id_wbs_output_list">
+                                </ul>
+                            </div>
+
+                        </div>
+
                     </div>
 
                     <div id="new_wbs_progress" class="tab-pane">
@@ -357,7 +393,7 @@
                 <div class="clearfix form-actions">
                     <div class="pull-right">
                         <!--<a onclick="add()" class="btn btn-sm btn-primary">新增</a>-->
-                        <a onclick="add()" class="btn btn-sm btn-primary">添加</a>
+                        <a onclick="add_wbs()" class="btn btn-sm btn-primary">添加</a>
                         |
                         <a onclick="clear()" class="btn btn-sm btn-danger">清空</a>
                     </div>
@@ -379,6 +415,29 @@
 <!-- inline scripts related to this page -->
 
 <script>
+    /*任务输出列表操作*/
+    var wbs_output_list_style = {
+        '1': "fa fa-image green",
+        '2': "fa fa-file-word-o blue",
+        '3': "fa fa-file-archive-o red",
+        '4': "fa fa-file purple"
+    };
+    function remove_wbs_output(obj){
+        $(obj).parent().remove();
+    };
+
+    $("#add_wbs_output").on('click', function(){
+        var wbt = $("#wbs_output_type").val();
+        //var wbs_output_type_name = $("#wbs_output_type option:selected").text();
+        var wbs_output_name = $("#wbs_output_name").val();
+        //alert(wbs_output_type_name + ',' + wbs_output_name);
+        $("<li></li>").attr("data-output-type", wbt)
+                .html("<i class='" + wbs_output_list_style[wbt] + "' aria-hidden='true'></i>" + wbs_output_name)
+                .append("<a href='#' onclick='remove_wbs_output(this)' class='pull-right'><i class='fa fa-times red' aria-hidden='true'></i></a>")
+                .appendTo("#id_wbs_output_list");
+    });
+
+    /*日期选择组件*/
     $('.date-picker').datepicker({
         autoclose: true,
         todayHighlight: true

@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    function add()
+    function add_wbs()
     {
         // 构造节点路径
         var tree = $.fn.zTree.getZTreeObj("wbs_tree");
@@ -27,10 +27,17 @@
                 return;
         }
 
+        /*将输出列表组装为json*/
+        alert( $("#id_wbs_output_list li").map(function(){
+            return "type:" + $(this).attr("data-output-type") + ", name:" + $(this).text();
+        }).get().join()
+        );
+
+
         url = $("#form_data").attr("post_url");
-        if(check_form("form_data")){
+/*        if(check_form("form_data")){
             sendForm("form_data", url);
-        }
+        }*/
     };
 
 </script>
