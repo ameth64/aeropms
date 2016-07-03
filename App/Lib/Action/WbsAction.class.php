@@ -44,10 +44,10 @@ class WbsAction extends CommonAction
         $json = $this->_convertJson($proj_id); //根据项目id读取节点表数据并组装JSON
         $this->assign("node_json", $json);
         //树构造方法测试
-        $PbsNode = M("PbsNode");
-        $pbs_list = $PbsNode->select();
-        $pbs_tree = list_to_tree($pbs_list, -1, 'id', 'parent_id');
-        $this->assign("pbs_tree", json_encode($pbs_tree, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT));
+//        $PbsNode = M("PbsNode");
+//        $pbs_list = $PbsNode->select();
+//        $pbs_tree = list_to_tree($pbs_list, -1, 'id', 'parent_id');
+//        $this->assign("pbs_tree", json_encode($pbs_tree, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT));
 
         $WbsType = M("WbsType");
         $type_list = $WbsType->select();
@@ -66,51 +66,82 @@ class WbsAction extends CommonAction
 
     public function add()
     {
+        if(!$this->isPost()){
+            $this->error("无效请求");
+            return;
+        }
+        $proj_id = $this->_post("proj_id");
+
 
         //处理文件上传
-        if(!$_FILES["input-file"]){
-            //$msg = print_r($_FILES, true);
-            $this->error("未选择上传文件.");
-        }
-        $upload = new UploadFile();// 实例化上传类
-        $upload->maxSize  = 50*1024*1024 ;// 设置附件上传大小, 默认50MB
-        $upload->savePath =  './Public/Uploads/';// 设置附件上传目录
-        $upload->supportMulti = true;
-        $attach_id = -1;
-        if(!$upload->upload()) {// 上传错误提示错误信息
-            $this->error($upload->getErrorMsg());
-        }else{// 上传成功 获取上传文件信息
-            $info_list =  $upload->getUploadFileInfo();
-            $res = M("ResourceUnit");
-            foreach($info_list as $info){
-                $data = array();
-                $data["project_id"] = session("proj_id");
-                $data["type"] = 1;
-                $data["save_path"] = $info['savepath'];
-                $data["file_name"] = $info['name'];
-                $data["save_name"] = $info['savename'];
-                $data["size"] = $info['size'];
-                $data["extension"] = $info['extension'];
-                $data["hash"] = $info['hash'];
-                $data["creator_id"] = get_user_id();
-                $data["create_time"] = time();
-                $data["update_time"] = time();
-                $data["remark"] = $this->_post["name"]."-资源";
-                $attach_id = $res->data($data)->add();
+        //$this->error(print_r($_FILES["input-file"], true));
+        if($_FILES["input-file"]["tmp_name"][0]){
+            $upload = new UploadFile();// 实例化上传类
+            $upload->maxSize  = 50*1024*1024 ;// 设置附件上传大小, 默认50MB
+            $upload->savePath =  './Public/Uploads/';// 设置附件上传目录
+            $upload->supportMulti = true;
+            $attach_id = -1;
+            if(!$upload->upload()) {// 上传错误提示错误信息
+                $this->error("处理文件上传期间发生错误: ".$upload->getErrorMsg());
+            }else{// 上传成功 获取上传文件信息
+                $info_list =  $upload->getUploadFileInfo();
+                $res = M("ResourceUnit");
+                foreach($info_list as $info){
+                    $data = array();
+                    $data["project_id"] = $proj_id;
+                    $data["type"] = 1;
+                    $data["save_path"] = $info['savepath'];
+                    $data["file_name"] = $info['name'];
+                    $data["save_name"] = $info['savename'];
+                    $data["size"] = $info['size'];
+                    $data["extension"] = $info['extension'];
+                    $data["hash"] = $info['hash'];
+                    $data["creator_id"] = get_user_id();
+                    $data["create_time"] = time();
+                    $data["update_time"] = time();
+                    $data["remark"] = $this->_post["name"]."-资源";
+                    $attach_id = $res->data($data)->add();
+                }
             }
         }
 
-
+        /*处理基本信息*/
         $WbsNode = M("WbsNode");
         $WbsNode->create();
         $WbsNode->creator_id = get_user_id();
         $WbsNode->create_time = time();
         $WbsNode->update_time = time();
         $WbsNode->attach_id = $attach_id;
-        $WbsNode->add();
+        $node_id = $WbsNode->add();
+
+        // 处理输出列表json
+        //$wbs_output_json = $this->_post('wbs_output_list', null); //若使用框架_post方法则可能因过滤函数而无法成功解码JSON
+        $wbs_output_json = $_POST['wbs_output_list'];
+        if(isset($wbs_output_json)){
+            $json_array = json_decode($wbs_output_json, true);
+            if($json_array == false){
+                $this->error("WBS输出列表处理失败, 请检查数据");
+            }
+            else{
+                $wbso = M("WbsNodeOutput");
+                $data = array();
+                //遍历数组
+                foreach($json_array as $item){
+                    $data["type"] = $item["type"];
+                    $data["item_name"] = $item["name"];
+                    $data["create_time"] = time();
+                    $data["update_time"] = time();
+                    $data["project_id"] = $proj_id;
+                    $data["node_id"] = $node_id;
+                    $data["status"] = 1;
+                    $data["assignee_id"] = -1;
+                    $wbso->data($data)->add();
+                }
+            }
+        }
 
         $this->redirect("index", array(
-            "proj_id"=>$this->_request("project_id")
+            "proj_id"=>$proj_id
             )
         );
     }

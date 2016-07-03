@@ -57,6 +57,7 @@
 	<link rel="stylesheet" href="__PUBLIC__/css/ztree/demo.css" />
 	<link rel="stylesheet" href="__PUBLIC__/css/ztree/zTreeStyle/zTreeStyle.css" />
     <script src="__PUBLIC__/js/ztree/jquery.ztree.core.min.js"></script>
+	<script src="__PUBLIC__/js/ztree/jquery.ztree.exhide.min.js"></script>
 
 	<include file="Public:script" />
 
@@ -64,6 +65,7 @@
 <body>
 	<div class="shade"></div>
 	<include file="Layout:ace_header" />
+
 		<div class="main-container" id="main-container" >
 			<div class="main-container-inner">
 				<div class="main-content" style="margin-left:0px">
@@ -72,7 +74,18 @@
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
 									{__CONTENT__}
+								<!-- PAGE CONTENT ENDS -->
+							</div><!-- /.col -->
+						</div><!-- /.row -->
+					</div><!-- /.page-content -->
+				</div><!-- /.main-content -->
+			</div><!-- /.main-container-inner -->
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="fa fa-double-angle-up fa-only bigger-110"></i>
+			</a>
+		</div><!-- /.main-container -->
 
+	<include file="Layout:aeropms_footer" />
 
 </body>
 </html>

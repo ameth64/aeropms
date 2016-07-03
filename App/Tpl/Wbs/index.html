@@ -24,10 +24,18 @@
     };
 
     var nodes = {$node_json|default="[空节点]"};
-    var pbs_tree = {$pbs_tree};
+
+    //WBS输入选择树的配置
+    var wbsi_setting = {};
 
     $(document).ready(function(){
-        $.fn.zTree.init($("#wbs_tree"), setting, nodes);
+        var total_tree = $.fn.zTree.init($("#wbs_tree"), setting, nodes);
+        var pbs = total_tree.getNodesByParam("node_type", "pbs");
+        total_tree.hideNodes(pbs);
+
+        var input_tree = $.fn.zTree.init($("#id_input_tree"), wbsi_setting, nodes);
+        var pbs_nodes = input_tree.getNodesByParam("wbs_type", "");
+        input_tree.hideNodes(pbs_nodes);
 
         $(document).on("click", ".inputbox .address_list a.del", function () {
             $(this).parent().parent().remove();
@@ -42,8 +50,25 @@
         else{
             winopen("{:U('popup/wbsteam')}", 730, 574);
         }
+    };
 
+    function showMenu() {
+        var cityObj = $("#id-input-sel");
+        var cityOffset = $("#id-input-sel").offset();
+        $("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+
+        $("body").bind("mousedown", onBodyDown);
     }
+    function hideMenu() {
+        $("#menuContent").fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDown);
+    }
+    function onBodyDown(event) {
+        if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
+            hideMenu();
+        }
+    }
+
 
 </script>
 
@@ -147,7 +172,7 @@
     <div class="col-xs-12 col-sm-6">
 
         <!-- 新增WBS模块的容器 -->
-        <form id="form_data" name="form_data" method="post" post_url="{:U('wbs/add')}" class="form-horizontal clearfix" enctype="multipart/form-data">
+        <form id="form_data" name="form_data" method="post" post_url="{:U('wbs/add')}" class="form-horizontal clearfix" enctype="multipart/form-data" accept-charset="utf-8">
 
             <input type="hidden" name="project_id" id="project_id" value="{$Think.session.proj_id}">
             <input type="hidden" name="pbs_id" id="pbs_id" value="">
@@ -348,6 +373,19 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-sm-2 control-label" for="name">任务依赖输入* </label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="id-input-sel" type="text" />
+                            </div>
+                            <div class="col-sm-2">
+                                <input class="form-control" type="button" id="id-wbs-input-sel" onclick="showMenu()" value="选择" />
+                            </div>
+                            <div id="menuContent" class="panel" style="display:none; position: absolute;">
+                                <ul id="id_input_tree" class="ztree" style="margin-top:0; width:160px;"></ul>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-sm-2 control-label" for="name">任务输出成果* </label>
                             <div class="col-xs-6 col-sm-4">
                                 <input class="form-control" type="text" id="wbs_output_name" />
@@ -367,7 +405,7 @@
                             </div>
 
                             <div class="col-sm-1">
-                                <input class="btn btn-primary btn-sm" type="button" id="add_wbs_output" value="添加" />
+                                <input class="btn btn-primary btn-sm" type="button" id="add_wbs_output" onclick="add_output();" value="添加" />
                             </div>
 
                         </div>
@@ -376,6 +414,7 @@
                             <div class="col-sm-offset-2 col-sm-7">
                                 <label for="wbs_output_list">输出列表: </label>
                                 <ul class="list-unstyled list-striped" id="id_wbs_output_list">
+
                                 </ul>
                             </div>
 
@@ -410,131 +449,4 @@
 </div>
 
 
-<include file="Layout:aeropms_footer" />
-
-<!-- inline scripts related to this page -->
-
-<script>
-    /*任务输出列表操作*/
-    var wbs_output_list_style = {
-        '1': "fa fa-image green",
-        '2': "fa fa-file-word-o blue",
-        '3': "fa fa-file-archive-o red",
-        '4': "fa fa-file purple"
-    };
-    function remove_wbs_output(obj){
-        $(obj).parent().remove();
-    };
-
-    $("#add_wbs_output").on('click', function(){
-        var wbt = $("#wbs_output_type").val();
-        //var wbs_output_type_name = $("#wbs_output_type option:selected").text();
-        var wbs_output_name = $("#wbs_output_name").val();
-        //alert(wbs_output_type_name + ',' + wbs_output_name);
-        $("<li></li>").attr("data-output-type", wbt)
-                .html("<i class='" + wbs_output_list_style[wbt] + "' aria-hidden='true'></i>" + wbs_output_name)
-                .append("<a href='#' onclick='remove_wbs_output(this)' class='pull-right'><i class='fa fa-times red' aria-hidden='true'></i></a>")
-                .appendTo("#id_wbs_output_list");
-    });
-
-    /*日期选择组件*/
-    $('.date-picker').datepicker({
-        autoclose: true,
-        todayHighlight: true
-    }).next().click(function(){
-        $(this).prev().focus();
-    });
-
-    /*文件上传组件*/
-    jQuery(function($){
-
-/*        $('#id-input-file-1 , #id-input-file-2').ace_file_input({
-            no_file:'没有选择文件 ...',
-            btn_choose:'选择文件',
-            btn_change:'重新选择',
-            droppable:false,
-            onchange:null,
-            thumbnail:false //| true | large
-            //whitelist:'gif|png|jpg|jpeg'
-            //blacklist:'exe|php'
-            //onchange:''
-            //
-        });*/
-
-        $('#input-file').ace_file_input({
-            style:'well',
-            btn_choose:'点击选择文件或将文件拖放至该区域',
-            btn_change:null,
-            no_icon:'fa fa-cloud-upload',
-            droppable:true,
-            thumbnail:'small'//large | fit
-            //,icon_remove:null//set null, to hide remove/reset button
-            /**,before_change:function(files, dropped) {
-						//Check an example below
-						//or examples/file-upload.html
-						return true;
-					}*/
-            /**,before_remove : function() {
-						return true;
-					}*/
-            ,
-            preview_error : function(filename, error_code) {
-                //name of the file that failed
-                //error_code values
-                //1 = 'FILE_LOAD_FAILED',
-                //2 = 'IMAGE_LOAD_FAILED',
-                //3 = 'THUMBNAIL_FAILED'
-                //alert(error_code);
-            }
-
-        }).on('change', function(){
-            //console.log($(this).data('ace_input_files'));
-            //console.log($(this).data('ace_input_method'));
-        });
-
-
-        //dynamically change allowed formats by changing before_change callback function
-        $('#id-file-format').removeAttr('checked').on('change', function() {
-            var before_change
-            var btn_choose
-            var no_icon
-            if(this.checked) {
-                btn_choose = "点击选择图片或将图片拖放至该区域";
-                no_icon = "fa fa-image";
-                before_change = function(files, dropped) {
-                    var allowed_files = [];
-                    for(var i = 0 ; i < files.length; i++) {
-                        var file = files[i];
-                        if(typeof file === "string") {
-                            //IE8 and browsers that don't support File Object
-                            if(! (/\.(jpe?g|png|gif|bmp)$/i).test(file) ) return false;
-                        }
-                        else {
-                            var type = $.trim(file.type);
-                            if( ( type.length > 0 && ! (/^image\/(jpe?g|png|gif|bmp)$/i).test(type) )
-                                    || ( type.length == 0 && ! (/\.(jpe?g|png|gif|bmp)$/i).test(file.name) )//for android's default browser which gives an empty string for file.type
-                                    ) continue;//not an image so don't keep this file
-                        }
-
-                        allowed_files.push(file);
-                    }
-                    if(allowed_files.length == 0) return false;
-
-                    return allowed_files;
-                }
-            }
-            else {
-                btn_choose = "点击选择文件或将文件拖放至该区域";
-                no_icon = "fa fa-cloud-upload";
-                before_change = function(files, dropped) {
-                    return files;
-                }
-            }
-            var file_input = $('#input-file');
-            file_input.ace_file_input('update_settings', {'before_change':before_change, 'btn_choose': btn_choose, 'no_icon':no_icon})
-            file_input.ace_file_input('reset_input');
-        });
-
-    });
-
-</script>
+<!--<include file="Layout:aeropms_footer" />-->

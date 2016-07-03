@@ -28,16 +28,139 @@
         }
 
         /*将输出列表组装为json*/
-        alert( $("#id_wbs_output_list li").map(function(){
-            return "type:" + $(this).attr("data-output-type") + ", name:" + $(this).text();
-        }).get().join()
-        );
-
+        var wbs_output_json = $("#id_wbs_output_list li").map(function(){
+            if($(this).text().length > 1)
+                return '{ "type": "' + $(this).attr('data-output-type') + '", "name": "' + $(this).text() + '" }';
+        }).get().join();
+        $("#wbs_output_list").val( '[' + wbs_output_json + ']' );
+        alert($("#wbs_output_list").val());
 
         url = $("#form_data").attr("post_url");
-/*        if(check_form("form_data")){
+        if(check_form("form_data")){
             sendForm("form_data", url);
-        }*/
+        }
     };
+
+    /*任务输出列表操作*/
+    var wbs_output_list_style = {
+        '1': "fa fa-image green",
+        '2': "fa fa-file-word-o blue",
+        '3': "fa fa-file-archive-o red",
+        '4': "fa fa-file purple"
+    };
+    function remove_wbs_output(obj){
+        $(obj).parent().remove();
+    };
+
+    function add_output(){
+        var wbt = $("#wbs_output_type").val();
+        //var wbs_output_type_name = $("#wbs_output_type option:selected").text();
+        var wbs_output_name = $("#wbs_output_name").val();
+        //alert(wbs_output_type_name + ',' + wbs_output_name);
+        $("<li></li>").attr("data-output-type", wbt)
+                .html("<i class='" + wbs_output_list_style[wbt] + "' aria-hidden='true'></i>" + wbs_output_name)
+                .append("<a href='#' onclick='remove_wbs_output(this)' class='pull-right'><i class='fa fa-times red' aria-hidden='true'></i></a>")
+                .appendTo("#id_wbs_output_list");
+    };
+
+    /*日期选择组件*/
+    $('.date-picker').datepicker({
+        autoclose: true,
+        todayHighlight: true
+    }).next().click(function(){
+        $(this).prev().focus();
+    });
+
+    /*文件上传组件*/
+    jQuery(function($){
+
+        /*        $('#id-input-file-1 , #id-input-file-2').ace_file_input({
+         no_file:'没有选择文件 ...',
+         btn_choose:'选择文件',
+         btn_change:'重新选择',
+         droppable:false,
+         onchange:null,
+         thumbnail:false //| true | large
+         //whitelist:'gif|png|jpg|jpeg'
+         //blacklist:'exe|php'
+         //onchange:''
+         //
+         });*/
+
+        $('#input-file').ace_file_input({
+            style:'well',
+            btn_choose:'点击选择文件或将文件拖放至该区域',
+            btn_change:null,
+            no_icon:'fa fa-cloud-upload',
+            droppable:true,
+            thumbnail:'small'//large | fit
+            //,icon_remove:null//set null, to hide remove/reset button
+            /**,before_change:function(files, dropped) {
+						//Check an example below
+						//or examples/file-upload.html
+						return true;
+					}*/
+            /**,before_remove : function() {
+						return true;
+					}*/
+            ,
+            preview_error : function(filename, error_code) {
+                //name of the file that failed
+                //error_code values
+                //1 = 'FILE_LOAD_FAILED',
+                //2 = 'IMAGE_LOAD_FAILED',
+                //3 = 'THUMBNAIL_FAILED'
+                //alert(error_code);
+            }
+
+        }).on('change', function(){
+            //console.log($(this).data('ace_input_files'));
+            //console.log($(this).data('ace_input_method'));
+        });
+
+
+        //dynamically change allowed formats by changing before_change callback function
+        $('#id-file-format').removeAttr('checked').on('change', function() {
+            var before_change
+            var btn_choose
+            var no_icon
+            if(this.checked) {
+                btn_choose = "点击选择图片或将图片拖放至该区域";
+                no_icon = "fa fa-image";
+                before_change = function(files, dropped) {
+                    var allowed_files = [];
+                    for(var i = 0 ; i < files.length; i++) {
+                        var file = files[i];
+                        if(typeof file === "string") {
+                            //IE8 and browsers that don't support File Object
+                            if(! (/\.(jpe?g|png|gif|bmp)$/i).test(file) ) return false;
+                        }
+                        else {
+                            var type = $.trim(file.type);
+                            if( ( type.length > 0 && ! (/^image\/(jpe?g|png|gif|bmp)$/i).test(type) )
+                                    || ( type.length == 0 && ! (/\.(jpe?g|png|gif|bmp)$/i).test(file.name) )//for android's default browser which gives an empty string for file.type
+                            ) continue;//not an image so don't keep this file
+                        }
+
+                        allowed_files.push(file);
+                    }
+                    if(allowed_files.length == 0) return false;
+
+                    return allowed_files;
+                }
+            }
+            else {
+                btn_choose = "点击选择文件或将文件拖放至该区域";
+                no_icon = "fa fa-cloud-upload";
+                before_change = function(files, dropped) {
+                    return files;
+                }
+            }
+            var file_input = $('#input-file');
+            file_input.ace_file_input('update_settings', {'before_change':before_change, 'btn_choose': btn_choose, 'no_icon':no_icon})
+            file_input.ace_file_input('reset_input');
+        });
+
+    });
 
 </script>

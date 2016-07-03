@@ -2337,6 +2337,11 @@ CREATE TABLE aeropms_wbs_node_output (
   `item_name` varchar(512) not null, /*输出项名称*/
   `type` int(11) not null default 1, /*输出项类型, 暂分为文档=1, 图像=2, 其它=3*/
   `status` int(11) not null default 1, /*输出项状态, 暂分为未就绪=1, 已就绪=2, 无效=3*/
+  `assignee_id` int(11) null DEFAULT -1, /*输出项的被指派者, 暂未启用, 默认值-1*/
+  `create_time` INT NOT NULL,
+  `update_time` INT NOT NULL,
+  `remark` text null,
+  `attach_id` int(11) not null DEFAULT -1,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 #
