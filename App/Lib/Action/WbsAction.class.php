@@ -43,7 +43,7 @@ class WbsAction extends CommonAction
         $count = $this->_initWbsTree($proj_id);
         $json = $this->_convertJson($proj_id); //根据项目id读取节点表数据并组装JSON
         $this->assign("node_json", $json);
-        //树构造方法测试
+        //框架的原生树构造方法测试
 //        $PbsNode = M("PbsNode");
 //        $pbs_list = $PbsNode->select();
 //        $pbs_tree = list_to_tree($pbs_list, -1, 'id', 'parent_id');
@@ -60,6 +60,12 @@ class WbsAction extends CommonAction
         $EngrPhase = M("EngineeringPhase");
         $eng_phase = $EngrPhase->select();
         $this->assign("engineering_phase", $eng_phase);
+
+        //生成ace风格的树节点数据
+        $model = D("WbsNode");
+        $data = $this->_parseNode($model, $proj_id, 1);
+        $ace_json = json_encode($data, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
+        $this->assign("ace_tree", $ace_json);
 
         $this->display();
     }
@@ -117,7 +123,7 @@ class WbsAction extends CommonAction
         // 处理输出列表json
         //$wbs_output_json = $this->_post('wbs_output_list', null); //若使用框架_post方法则可能因过滤函数而无法成功解码JSON
         $wbs_output_json = $_POST['wbs_output_list'];
-        if(isset($wbs_output_json)){
+        if(isset($wbs_output_json) && $wbs_output_json != "0"){
             $json_array = json_decode($wbs_output_json, true);
             if($json_array == false){
                 $this->error("WBS输出列表处理失败, 请检查数据");
@@ -168,13 +174,14 @@ class WbsAction extends CommonAction
         foreach($data as $item)
         {
             array_push($res,
-                array("id"=>$item["id"],
-                    "pbs_id"=>$item["pbs_id"],
-                    "wbs_type"=>$item["type"],
-                    "name"=>$item["name"],
-                    //-zTree私有属性
-                    "open"=>true,
-                    "children"=>$this->_parseNode($model, $proj_id, $item["id"])));
+                array(
+                    $item["name"]=>array(
+                        "name"=>$item["name"],
+                        "type"=>($item["type"] == 3? "item": "folder"),
+                        "additionalParameters"=>array("children"=>$this->_parseNode($model, $proj_id, $item["id"]))
+                    )
+                )
+            );
         }
         return $res;
     }
