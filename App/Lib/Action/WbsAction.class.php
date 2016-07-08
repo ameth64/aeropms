@@ -153,6 +153,20 @@ class WbsAction extends CommonAction
     }
 
     /**
+     * 读取WBS节点
+     */
+    public function read()
+    {
+        $proj_id = $this->_update_param("proj_id");
+        $eng_phase = $this->_update_param("engineering_phase");
+        $model = M("WbsNode");
+        $nodes = $model->where("project_id=$proj_id")->getField("id, parent_id, name, type, engineering_phase");
+        $data_array = $this->_parseNode($nodes, $proj_id, -1);
+        $json = json_encode($data_array, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT); //, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT
+
+    }
+
+    /**
      *    取得节点数据的嵌套数组, 用系统方法生成JSON
      */
     protected function _convertJson($proj_id)

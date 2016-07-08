@@ -893,16 +893,7 @@ INSERT INTO `aeropms_node` VALUES
 INSERT INTO `aeropms_node` VALUES (83,'公告','notice/index##','fa fa-bell-o bc-notice','NoticeFolder','','3',0,0),(84,'管理','user/index','fa fa-cogs','','','999',0,0),(85,'邮件','mail/index','fa fa-envelope-o bc-mail','','','1',0,0),(87,'流程','flow/index','fa fa-pencil bc-flow','','','2',0,0),(88,'文档','doc/index##','fa fa-file-o','DocFolder','','4',0,0),(91,'日程','schedule/index','fa fa-calendar bc-personal-schedule','','','9',198,0),(94,'职位','position/index',NULL,NULL,'','',1,0),(97,'部门','dept/index',NULL,NULL,'','',1,0),(100,'写信','mail/add',NULL,'','','1',85,0),(101,'收件箱','mail/folder?fid=inbox','bc-mail-inbox','','','3',85,0),(102,'邮件设置','',NULL,NULL,NULL,'9',85,0),(104,'垃圾箱','mail/folder?fid=spambox','','','','5',85,0),(105,'发件箱','mail/folder?fid=outbox','','','','6',85,0),(106,'已删除','mail/folder?fid=delbox','','','','4',85,0),(107,'草稿箱','mail/folder?fid=darftbox','','','','7',85,0),(108,'邮件帐户设置','mail_account/index',NULL,'','','1',102,0),(110,'公司信息管理','',NULL,NULL,'','1',84,0),(112,'权限管理','',NULL,NULL,'','3',84,0),(113,'系统设定','',NULL,NULL,'','4',84,0),(114,'系统参数设置','system_config/index','','','','1',113,0),(115,'组织图','dept/index','','','','1',110,0),(116,'员工登记','user/index',NULL,'','','5',110,0),(118,'权限组管理','role/index','','','','1',112,0),(119,'权限设置','role/node','','','','2',112,0),(120,'权限分配','role/user','','','','3',112,0),(121,'菜单管理','node/index','','','','1',113,0),(122,'职级','rank/index',NULL,'','','3',110,0),(123,'职位','position/index',NULL,'','','2',110,0),(124,'文件夹设置','mail_folder/index',NULL,'','','2',102,0),(125,'联系人','contact/index','','','','1',198,0),(126,'文档搜索','doc/index',NULL,'','','1',88,0),(137,'论坛','forum/index##','fa fa-comments-o','ForumFolder','','5',0,0),(138,'公告管理','notice_folder/index','','','','4',83,0),(143,'邮件分类','mail_organize/index',NULL,'','','',102,0),(144,'发起','flow/index','','','','1',87,0),(146,'流程管理','flow_type/index','','','','9',87,0),(147,'待办','flow/folder?fid=confirm','bc-flow-confirm','','','2',87,0),(148,'办理','flow/folder?fid=finish','','','','5',87,0),(149,'草稿','flow/folder?fid=darft','','','','6',87,0),(150,'提交','flow/folder?fid=submit','','','','4',87,0),(152,'待办','todo/index','fa fa-tasks bc-personal-todo','','','9',198,0),(153,'部门级别','dept_grade/index',NULL,'','','4',110,0),(156,'客户','customer/index',NULL,'','','2',157,0),(157,'人脉','staff/index','fa fa-group','','','7',0,0),(158,'供应商','supplier/index',NULL,'','','3',157,0),(169,'职员','staff/index',NULL,'','','',157,0),(177,'我的文件夹','##mail','bc-mail-myfolder','MailFolder','','8',85,0),(178,'自助','udf_salary/index','fa fa-search','','','8',197,0),(179,'工资查询','udf_salary/index','','','','',178,0),(180,'报销查询','udf_expense/index','','','','',178,0),(181,'公告搜索','notice/index','','','','',83,0),(182,'日报','daily_report/index','fa fa-book','','','6',197,0),(183,'论坛管理','forum_folder/index','','','','',137,0),(184,'流程分组','flow_type/tag_manage','','','','8',87,0),(185,'收到','flow/folder?fid=receive','bc-flow-receive','','','2',87,0),(186,'VIP','vip/index','','','','2',197,0),(189,'文档库管理','doc_folder/index','','','','C1',88,0),(190,'消息','message/index','fa fa-inbox bc-message','','','99',198,0),(191,'用户设置','','','','','',198,0),(192,'用户资料','profile/index','','','','',191,0),(193,'修改密码','profile/password','','','','',191,0),(194,'用户设置','UserConfig/index','','','','999',191,0),(195,'项目','xmk/index##','','XmkFolder','','1',197,0),(196,'项目库管理','xmk_folder/index','','','','1',195,0),(197,'定制','xmk/index','fa fa-wrench','','','91',0,0),(198,'个人','contact/index','fa fa-user bc-personal','','','9',0,0),(199,'产品搜索','product/index','','','','91',203,0),(200,'产品标签','product_type/tag_manage','','','','91',203,0),(201,'产品分类','product_type/index','','','','91',203,0),(203,'产品','product/index##','','ProductFolder','','91',197,0),(204,'产品目录','product_folder/index','','','','91',203,0),(205,'业务角色管理','duty/index','','','','1',112,0),(206,'业务权限分配','role/duty','','','','3',112,0),(207,'新闻','news/index##','fa fa-file-o','NewsFolder','','4',0,0),(208,'新闻库管理','news_folder/index','','','','C1',207,0),(209,'幻灯片','slide/index','fa fa-file-o','','','4',207,0),(211,'周报','weekly_report/index','fa fa-book','','','2',182,0),(212,'月报','monthly_report/index','fa fa-book','','','3',182,0),(213,'日报','daily_report/index','fa fa-book','','','1',182,0),(214,'记账','finance/index','fa fa-jpy','','','A1',0,0),(215,'记账','finance/index','fa fa-envelope-o bc-mail','','','1',214,0),(216,'日报','task/index','fa fa-book','','','6',0,0);
 */
 /*!40000 ALTER TABLE `aeropms_node` ENABLE KEYS */;
-/*配套增加role-node表*/
-INSERT INTO `aeropms_role_node` VALUES
-(1,900,1,1,1),
-(1,901,1,1,1),
-(1,902,1,1,1),
-(1,903,1,1,1),
-(1,904,1,1,1),
-(1,905,1,1,1),
-(1,906,1,1,1),
-(1,907,1,1,1);
+
 
 #
 # Source for table "aeropms_notice"
@@ -1226,6 +1217,16 @@ CREATE TABLE `aeropms_role_node` (
 
 /*!40000 ALTER TABLE `aeropms_role_node` DISABLE KEYS */;
 INSERT INTO `aeropms_role_node` VALUES (2,136,NULL,NULL,NULL),(2,137,1,1,1),(2,135,NULL,NULL,NULL),(2,83,1,1,1),(1,94,NULL,NULL,NULL),(1,97,NULL,NULL,NULL),(1,98,NULL,NULL,NULL),(1,99,NULL,NULL,NULL),(1,69,NULL,NULL,NULL),(1,6,NULL,NULL,NULL),(1,2,NULL,NULL,NULL),(1,7,NULL,NULL,NULL),(1,131,1,1,1),(1,130,NULL,NULL,NULL),(1,133,NULL,NULL,NULL),(1,132,NULL,NULL,NULL),(1,189,1,1,1),(2,125,1,1,1),(1,183,1,1,1),(1,135,NULL,NULL,NULL),(1,136,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,138,1,1,1),(1,134,NULL,NULL,NULL),(2,194,1,1,1),(2,103,NULL,NULL,NULL),(2,126,1,1,1),(2,88,1,1,1),(2,133,NULL,NULL,NULL),(2,130,NULL,NULL,NULL),(2,158,1,1,1),(7,124,NULL,NULL,NULL),(7,108,NULL,NULL,NULL),(7,104,NULL,NULL,NULL),(7,107,NULL,NULL,NULL),(7,106,NULL,NULL,NULL),(7,105,NULL,NULL,NULL),(7,101,NULL,NULL,NULL),(7,100,NULL,NULL,NULL),(7,125,NULL,NULL,NULL),(1,152,1,1,1),(2,134,NULL,NULL,NULL),(2,156,1,1,1),(2,169,1,1,1),(2,132,NULL,NULL,NULL),(2,148,NULL,NULL,NULL),(2,143,1,1,1),(2,102,NULL,NULL,NULL),(2,103,NULL,NULL,NULL),(2,157,1,1,1),(1,91,1,1,1),(2,177,1,1,1),(2,107,NULL,NULL,NULL),(2,105,NULL,NULL,NULL),(2,104,NULL,NULL,NULL),(2,106,NULL,NULL,NULL),(2,103,NULL,NULL,NULL),(2,109,NULL,NULL,NULL),(2,101,NULL,NULL,NULL),(2,100,NULL,NULL,NULL),(2,85,1,1,1),(2,150,NULL,NULL,NULL),(2,185,NULL,NULL,NULL),(2,147,NULL,NULL,NULL),(2,144,1,1,1),(2,87,1,1,1),(2,192,1,1,1),(2,193,NULL,NULL,NULL),(2,191,NULL,NULL,NULL),(2,198,1,1,1),(1,117,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,103,NULL,NULL,NULL),(1,109,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,163,NULL,NULL,NULL),(1,158,1,1,1),(1,170,NULL,NULL,NULL),(1,164,NULL,NULL,NULL),(1,121,1,1,1),(1,146,1,1,1),(1,114,1,1,1),(1,108,1,1,1),(1,113,NULL,NULL,NULL),(1,155,NULL,NULL,NULL),(1,154,1,1,1),(1,206,NULL,NULL,NULL),(1,120,NULL,NULL,NULL),(1,119,NULL,NULL,NULL),(1,118,1,1,1),(1,205,1,1,1),(1,111,NULL,NULL,NULL),(1,112,NULL,NULL,NULL),(1,204,1,1,1),(1,116,1,1,1),(1,153,1,1,1),(1,122,1,1,1),(1,150,NULL,NULL,NULL),(1,149,NULL,NULL,NULL),(1,148,NULL,NULL,NULL),(1,147,NULL,NULL,NULL),(1,144,1,1,1),(1,143,1,1,1),(1,102,NULL,NULL,NULL),(1,177,1,1,1),(1,107,NULL,NULL,NULL),(1,105,NULL,NULL,NULL),(1,104,NULL,NULL,NULL),(1,106,NULL,NULL,NULL),(1,101,NULL,NULL,NULL),(1,156,1,1,1),(1,168,NULL,NULL,NULL),(1,162,NULL,NULL,NULL),(1,166,NULL,NULL,NULL),(1,161,NULL,NULL,NULL),(1,171,NULL,NULL,NULL),(1,125,1,1,1),(1,165,NULL,NULL,NULL),(1,174,NULL,NULL,NULL),(1,172,NULL,NULL,NULL),(1,173,NULL,NULL,NULL),(1,160,NULL,NULL,NULL),(1,175,NULL,NULL,NULL),(1,169,1,1,1),(1,185,NULL,NULL,NULL),(1,213,1,1,1),(1,181,1,1,1),(1,199,1,1,1),(1,200,NULL,NULL,NULL),(1,201,1,1,1),(1,184,NULL,NULL,NULL),(1,176,NULL,NULL,NULL),(1,123,1,1,1),(1,194,NULL,NULL,NULL),(1,193,NULL,NULL,NULL),(1,100,NULL,NULL,NULL),(1,85,1,1,1),(1,87,1,1,1),(1,126,1,1,1),(1,157,1,1,1),(1,167,NULL,NULL,NULL),(1,83,1,1,1),(1,128,NULL,NULL,NULL),(1,192,NULL,NULL,NULL),(1,191,NULL,NULL,NULL),(1,190,NULL,NULL,NULL),(1,88,1,1,1),(1,115,1,1,1),(1,203,1,1,1),(1,212,1,1,1),(1,198,NULL,NULL,NULL),(1,180,1,1,1),(1,229,NULL,NULL,NULL),(1,228,NULL,NULL,NULL),(1,227,NULL,NULL,NULL),(1,226,NULL,NULL,NULL),(1,225,NULL,NULL,NULL),(1,224,NULL,NULL,NULL),(1,223,NULL,NULL,NULL),(1,222,NULL,NULL,NULL),(1,221,NULL,NULL,NULL),(1,220,NULL,NULL,NULL),(1,219,NULL,NULL,NULL),(1,217,NULL,NULL,NULL),(1,218,NULL,NULL,NULL),(1,216,1,1,1),(1,215,NULL,NULL,NULL),(1,214,1,1,1),(1,179,1,1,1),(1,178,1,1,1),(1,186,1,1,1),(1,196,1,1,1),(1,195,1,1,1),(1,197,NULL,NULL,NULL),(1,110,NULL,NULL,NULL),(1,84,1,1,1),(1,208,1,1,1),(1,209,1,1,1),(1,207,1,1,1),(1,211,1,1,1),(1,182,1,1,1),(1,137,1,1,1),(2,186,NULL,1,1),(2,195,NULL,1,1),(2,197,NULL,1,1),(1,124,1,1,1),(2,108,1,1,1),(2,124,1,1,1),(2,149,NULL,NULL,NULL),(2,182,NULL,1,1),(2,91,1,1,1),(2,152,1,1,1),(2,178,NULL,1,1),(2,179,NULL,1,1),(2,180,NULL,1,1),(2,190,1,1,1),(7,182,1,1,1);
+/*配套增加role-node表 by MobiuS@2016.07.04*/
+INSERT INTO `aeropms_role_node` VALUES
+  (1,900,1,1,1),
+  (1,901,1,1,1),
+  (1,902,1,1,1),
+  (1,903,1,1,1),
+  (1,904,1,1,1),
+  (1,905,1,1,1),
+  (1,906,1,1,1),
+  (1,907,1,1,1);
 /*!40000 ALTER TABLE `aeropms_role_node` ENABLE KEYS */;
 
 #
@@ -2234,7 +2235,7 @@ CREATE TABLE aeropms_pbs_node_agent (
   `project_id` int(11) NOT NULL,  /*项目id*/
   `desc` varchar(512) NOT NULL DEFAULT '暂无描述', /*节点描述*/
   `prototype` int(10) NULL default '0', /*构型, 值取自构型管理表*/
-  `weight` float default '0.0'  /*单件重量*/
+  `weight` float default '0.0',  /*单件重量*/
   `amount` int(11) NULL DEFAULT '0', /*装机数量*/
   `total_weight` float NULL DEFAULT '0', /*总装机重量*/
   `manufacturer` varchar(256)  NULL, /*制造商*/
@@ -2328,7 +2329,7 @@ CREATE TABLE aeropms_wbs_node_agent (
 /*!40000 ALTER TABLE `aeropms_wbs_node_agent` ENABLE KEYS */;
 
 
-/*WBS节点输入依赖关系表*/
+/*WBS节点输出关系表*/
 DROP TABLE IF EXISTS aeropms_wbs_node_output;
 CREATE TABLE aeropms_wbs_node_output (
   `id` int(11) NOT NULL AUTO_INCREMENT,

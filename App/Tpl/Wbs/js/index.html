@@ -1,15 +1,68 @@
 
 <script type="text/javascript">
+    //ztree节点回调函数
+    function zTreeOnClick(event, treeId, treeNode) {
+        var wt = treeNode.wbs_type;
+        if(wt >= 3)
+            $("#id_tab_add_wbs").attr('data-toggle', null).parent().addClass('disabled');
+        else
+            $("#id_tab_add_wbs").attr('data-toggle', 'tab').parent().removeClass('disabled');
+    };
 
+    //控制节点字体
+    function setFontCss(treeId, treeNode) {
+        return treeNode.node_type == "pbs" ? {color:"Gray"} : {color: "Black"};
+    };
+
+    // 控制节点图标是否显示
+    function showIconForTree(treeId, treeNode) {
+        return treeNode.node_type == "wbs";
+    };
+
+    var setting = {
+        callback: {onClick: zTreeOnClick},
+        view: {
+            //fontCss: setFontCss
+            showIcon: showIconForTree
+            //nameIsHTML: true
+        }
+    };
+
+    var nodes = {$node_json|default="[空节点]"};
+
+    //WBS输入选择树的配置
+    var wbsi_setting = {};
+
+    $(document).ready(function(){
+        var total_tree = $.fn.zTree.init($("#wbs_tree"), setting, nodes);
+
+        //为团队人员选择结果列表添加删除按钮事件
+        $(document).on("click", ".inputbox .address_list a.del", function () {
+            $(this).parent().parent().remove();
+        });
+    });
+
+    //WBS团队成员选择弹出框
+    function select_team(is_leader) {
+        if(is_leader){
+            winopen("{:U('popup/wbsteam', 'is_leader=1')}", 730, 574);
+        }
+        else{
+            winopen("{:U('popup/wbsteam')}", 730, 574);
+        }
+    };
+
+    // 新增WBS节点按钮事件
     function add_wbs()
     {
+        //event.preventDefault();
         // 构造节点路径
         var tree = $.fn.zTree.getZTreeObj("wbs_tree");
         var sn = tree.getSelectedNodes()[0];
         if(!sn)
         {
-            alert("未选择任何WBS或PBS节点作为父节点, 请重新选择.");
-            return;
+            ui_error("未选择任何WBS或PBS节点作为父节点, 请重新选择.");
+            return false;
         }
         //alert("parent id = " + sn.id);
         //根据节点的node_type选择父节点
@@ -89,6 +142,7 @@
          //
          });*/
 
+
         $('#input-file').ace_file_input({
             style:'well',
             btn_choose:'点击选择文件或将文件拖放至该区域',
@@ -163,48 +217,6 @@
             file_input.ace_file_input('reset_input');
         });
 
-    });
-
-
-    /*使用ace风格的树形组件*/
-    var DataSourceTree = function(options) {
-        this._data 	= options.data;
-        this._delay = options.delay;
-    }
-
-    DataSourceTree.prototype.data = function(options, callback) {
-        var self = this;
-        var $data = null;
-
-        if(!("name" in options) && !("type" in options)){
-            $data = this._data;//the root tree
-            callback({ data: $data });
-            return;
-        }
-        else if("type" in options && options.type == "folder") {
-            if("additionalParameters" in options && "children" in options.additionalParameters)
-                $data = options.additionalParameters.children;
-            else $data = {}//no data
-        }
-
-        if($data != null)//this setTimeout is only for mimicking some random delay
-            setTimeout(function(){callback({ data: $data });} , parseInt(Math.random() * 500) + 200);
-
-        //we have used static data here
-        //but you can retrieve your data dynamically from a server using ajax call
-        //checkout examples/treeview.html and examples/treeview.js for more info
-    };
-
-    var tree2_src = {$ace_tree};
-    var treeDataSource2 = new DataSourceTree({data: tree2_src});
-    $('#tree2').ace_tree({
-        dataSource: treeDataSource2 ,
-        loadingHTML:'<div class="tree-loading"><i class="icon-refresh icon-spin blue"></i></div>',
-        'open-icon' : 'icon-folder-open',
-        'close-icon' : 'icon-folder-close',
-        'selectable' : false,
-        'selected-icon' : null,
-        'unselected-icon' : null
     });
 
 </script>

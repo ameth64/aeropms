@@ -41,7 +41,7 @@ jQuery(function() {
 		this.multi = this.$element.attr('multiple') && multiplible;
 		this.well_style = this.settings.style == 'well';
 
-		if(this.well_style) this.$element.parent().addClass('ace-file-multiple');
+		if(this.well_style) this.$element.parent().addClass('ace-file-multiple'); //ace-file-multiple
 		 else this.$element.parent().removeClass('ace-file-multiple');
 
 		this.$element.parent().find(':not(input[type=file])').remove();//remove all except our input, good for when changing settings

@@ -1,59 +1,4 @@
 <layout name='Layout/wbs_home' />
-<script type="text/javascript">
-    function zTreeOnClick(event, treeId, treeNode) {
-        var wt = treeNode.wbs_type;
-        //alert("wbs_type="+wt);
-    };
-
-    function setFontCss(treeId, treeNode) {
-        return treeNode.node_type == "pbs" ? {color:"Gray"} : {color: "Black"};
-    };
-
-    // 控制节点图标是否显示
-    function showIconForTree(treeId, treeNode) {
-        return treeNode.node_type == "wbs";
-    };
-
-    var setting = {
-        callback: {onClick: zTreeOnClick},
-        view: {
-            //fontCss: setFontCss
-            showIcon: showIconForTree
-            //nameIsHTML: true
-        }
-    };
-
-    var nodes = {$node_json|default="[空节点]"};
-
-    //WBS输入选择树的配置
-    var wbsi_setting = {};
-
-    $(document).ready(function(){
-        var total_tree = $.fn.zTree.init($("#wbs_tree"), setting, nodes);
-        var pbs = total_tree.getNodesByParam("node_type", "pbs");
-        //total_tree.hideNodes(pbs);
-
-        var input_tree = $.fn.zTree.init($("#id_input_tree"), wbsi_setting, nodes);
-        var pbs_nodes = input_tree.getNodesByParam("wbs_type", "");
-        input_tree.hideNodes(pbs_nodes);
-
-        $(document).on("click", ".inputbox .address_list a.del", function () {
-            $(this).parent().parent().remove();
-        });
-    });
-
-    //WBS团队成员选择弹出框
-    function select_team(is_leader) {
-        if(is_leader){
-            winopen("{:U('popup/wbsteam', 'is_leader=1')}", 730, 574);
-        }
-        else{
-            winopen("{:U('popup/wbsteam')}", 730, 574);
-        }
-    };
-
-</script>
-
 <input type="hidden" name="ajax" id="ajax" value="0">
 <!--
 {:W('PageHeader',array('name'=>$folder_name,'search'=>'N'))}
@@ -99,10 +44,10 @@
                         </li>
 
                         <li>
-                            <a data-toggle="tab" href="#id_wbs_add">新增子节点</a>
+                            <a data-toggle="tab" href="#id_wbs_add" id="id_tab_add_wbs">新增子节点</a>
                         </li>
 
-                        <li class="disabled">
+                        <li class="">
                             <a data-toggle="tab" href="#id_wbs_edit">编辑节点</a>
                         </li>
                     </ul>
@@ -124,241 +69,249 @@
                 <!--WBS节点新增 - 表单区域-->
                 <form id="form_data" name="form_data" method="post" post_url="{:U('wbs/add')}" class="form-horizontal clearfix" enctype="multipart/form-data" accept-charset="utf-8">
 
-                <input type="hidden" name="project_id" id="project_id" value="{$Think.session.proj_id}">
-                <input type="hidden" name="pbs_id" id="pbs_id" value="">
-                <input type="hidden" name="parent_id" id="parent_id" value="">
-                <input type="hidden" name="wbs_output_list" id="wbs_output_list" value="0">
+                    <input type="hidden" name="project_id" id="project_id" value="{$Think.session.proj_id}">
+                    <input type="hidden" name="pbs_id" id="pbs_id" value="">
+                    <input type="hidden" name="parent_id" id="parent_id" value="">
+                    <input type="hidden" name="wbs_output_list" id="wbs_output_list" value="0">
 
-                <!--左侧导航菜单-->
-                <div class="tabbable tabs-left">
-                <ul class="nav nav-tabs" id="id_wbs_add_nav">
-                    <li class="active">
-                        <a data-toggle="tab" href="#new_wbs_basic">
-                            <i class="green fa fa-home bigger-50"></i>
-                            基本信息
-                        </a>
-                    </li>
+                    <!--左侧导航菜单-->
+                    <div class="tabbable tabs-left">
+                        <ul class="nav nav-tabs" id="id_wbs_add_nav">
+                            <li class="active">
+                                <a data-toggle="tab" href="#new_wbs_basic">
+                                    <i class="green fa fa-home bigger-50"></i>
+                                    基本信息
+                                </a>
+                            </li>
 
-                    <li>
-                        <a data-toggle="tab" href="#new_wbs_agent">
-                            <i class="blue fa fa-server bigger-50"></i>
-                            任务明细
-                        </a>
-                    </li>
+                            <li>
+                                <a data-toggle="tab" href="#new_wbs_agent">
+                                    <i class="blue fa fa-server bigger-50"></i>
+                                    任务明细
+                                </a>
+                            </li>
 
-                    <li>
-                        <a data-toggle="tab" href="#new_wbs_progress">
-                            <i class="red fa fa-calendar bigger-50"></i>
-                            进度管理
-                        </a>
-                    </li>
-                </ul>
+                            <li>
+                                <a data-toggle="tab" href="#new_wbs_progress">
+                                    <i class="red fa fa-calendar bigger-50"></i>
+                                    进度管理
+                                </a>
+                            </li>
+                        </ul>
 
 
-                <div class="tab-content">
-                    <div id="new_wbs_basic" class="tab-pane in active">
+                        <div class="tab-content">
+                            <div id="new_wbs_basic" class="tab-pane in active">
 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label no-padding-right" for="name">名称* </label>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" id="name" name="name" check="require" msg="请输入WBS名称">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="type">WBS类型* </label>
-                            <div class="col-sm-9">
-                                <div class="input-group">
-                                    <select id="type" name="type" form="form_data">
-                                        <volist name="type_list" id="vo">
-                                            <option value="{$vo.id}">{$vo.name}</option>
-                                        </volist>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="depart">分工部门* </label>
-                            <div class="col-sm-9">
-                                <div class="input-group">
-                                    <select id="depart" name="depart" form="form_data">
-                                        <volist name="depart_list" id="vo">
-                                            <option value="{$vo.id}">{$vo.name}</option>
-                                        </volist>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="engineering_phase">工程阶段* </label>
-                            <div class="col-sm-9">
-                                <div class="input-group">
-                                    <select id="engineering_phase" name="engineering_phase" form="form_data">
-                                        <volist name="engineering_phase" id="vo">
-                                            <option value="{$vo.id}">{$vo.name}</option>
-                                        </volist>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="remark" >备注*</label>
-                            <div class="col-sm-9" >
-                                <textarea class="form-control" name="remark" id="remark" rows="5" class="col-xs-12" ></textarea>
-                            </div>
-                        </div>
-
-                        <!--文件上传组件-->
-                        <div class="widget-box">
-                            <div class="widget-header">
-                                <h4>说明文件上传</h4>
-                            </div>
-
-                            <div class="widget-body">
-                                <div class="widget-main">
-                                    <!--<input type="file" id="id-input-file-2" />-->
-                                    <input multiple="" type="file" id="input-file" name="input-file[]" />
-                                    <label>
-                                        <input type="checkbox" name="file-format" id="id-file-format" class="ace" />
-                                        <span class="lbl"> 仅允许图片</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!--新增WBS明细(agent)编辑-->
-                    <div id="new_wbs_agent" class="tab-pane">
-                        <!--WBS负责人及成员编辑-->
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="admin_list">负责人* </label>
-                            <div class="col-sm-9">
-                                <div id="admin_list" class="inputbox">
-                                    <a class="pull-right btn btn-link text-center" onclick="select_team(true);"> <i class="fa fa-user"></i> </a>
-                                    <div class="wrap" >
-                                        <span class="address_list"></span>
-                                                                    <span class="text" >
-                                                                        <input class="letter" type="text" >
-                                                                    </span>
-                                    </div>
-                                    <div class="search dropdown ">
-                                        <ul class="dropdown-menu"></ul>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right" for="name">名称* </label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="text" id="name" name="name" check="require" msg="请输入WBS名称">
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="admin_list">成员* </label>
-                            <div class="col-sm-9">
-                                <div id="member_list" class="inputbox">
-                                    <a class="pull-right btn btn-link text-center" onclick="select_team(false);"> <i class="fa fa-user"></i> </a>
-                                    <div class="wrap" >
-                                        <span class="address_list"></span>
-                                                                    <span class="text" >
-                                                                        <input class="letter" type="text" >
-                                                                    </span>
-                                    </div>
-                                    <div class="search dropdown ">
-                                        <ul class="dropdown-menu"></ul>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="type">WBS类型* </label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <select id="type" name="type" form="form_data">
+                                                <volist name="type_list" id="vo">
+                                                    <option value="{$vo.id}">{$vo.name}</option>
+                                                </volist>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="name">计划开始日期* </label>
-                            <div class="col-xs-6 col-sm-3">
-
-                                <div class="input-group">
-                                    <input class="form-control date-picker" id="id-date-picker-begin" type="text" data-date-format="yyyy-mm-dd" />
-                                                                <span class="input-group-addon">
-                                                                    <i class="fa fa-calendar"></i>
-                                                                </span>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="depart">分工部门* </label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <select id="depart" name="depart" form="form_data">
+                                                <volist name="depart_list" id="vo">
+                                                    <option value="{$vo.id}">{$vo.name}</option>
+                                                </volist>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <label class="col-sm-2 control-label" for="name">计划完成日期* </label>
-                            <div class="col-xs-6 col-sm-3">
-
-                                <div class="input-group">
-                                    <input class="form-control date-picker" id="id-date-picker-end" type="text" data-date-format="yyyy-mm-dd" />
-                                                                <span class="input-group-addon">
-                                                                    <i class="fa fa-calendar"></i>
-                                                                </span>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="engineering_phase">工程阶段* </label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <select id="engineering_phase" name="engineering_phase" form="form_data">
+                                                <volist name="engineering_phase" id="vo">
+                                                    <option value="{$vo.id}">{$vo.name}</option>
+                                                </volist>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="name">任务依赖输入* </label>
-                            <div class="col-sm-6">
-                                <input class="form-control" id="id-input-sel" type="text" />
-                            </div>
-                            <div class="col-sm-2">
-                                <input class="form-control" type="button" id="id-wbs-input-sel" onclick="showMenu()" value="选择" />
-                            </div>
-                            <div id="menuContent" class="panel" style="display:none; position: absolute;">
-                                <ul id="id_input_tree" class="ztree" style="margin-top:0; width:160px;"></ul>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="name">任务输出成果* </label>
-                            <div class="col-xs-6 col-sm-4">
-                                <input class="form-control" type="text" id="wbs_output_name" />
-                            </div>
-
-                            <label class="col-sm-1 control-label" for="name">类型* </label>
-                            <div class="col-sm-3">
-
-                                <div class="input-group">
-                                    <select id="wbs_output_type">
-                                        <option value="1"><i class="fa fa-image"></i> 图像</option>
-                                        <option value="2"><i class="fa fa-file-word-o"></i>文档</option>
-                                        <option value="3">CATIA文件</option>
-                                        <option value="4">其它</option>
-                                    </select>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="remark" >备注*</label>
+                                    <div class="col-sm-9" >
+                                        <textarea class="form-control" name="remark" id="remark" rows="5" class="col-xs-12" ></textarea>
+                                    </div>
                                 </div>
+
+                                <!--文件上传组件-->
+                                <div class="widget-box">
+                                    <div class="widget-header">
+                                        <h4>说明文件上传</h4>
+                                    </div>
+
+                                    <div class="widget-body">
+                                        <div class="widget-main">
+                                            <!--<input type="file" id="id-input-file-2" />-->
+
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <input multiple="true" type="file" id="input-file" name="input-file[]" style="height: 38px; display: none" />
+                                                    <label>
+                                                        <input type="checkbox" name="file-format" id="id-file-format" />
+                                                        <span class="lbl"> 仅允许图片</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
 
-                            <div class="col-sm-1">
-                                <input class="btn btn-primary btn-sm" type="button" id="add_wbs_output" onclick="add_output();" value="添加" />
+                            <!--新增WBS明细(agent)编辑-->
+                            <div id="new_wbs_agent" class="tab-pane">
+                                <!--WBS负责人及成员编辑-->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="admin_list">负责人* </label>
+                                    <div class="col-sm-9">
+                                        <div id="admin_list" class="inputbox">
+                                            <a class="pull-right btn btn-link text-center" onclick="select_team(true);"> <i class="fa fa-user"></i> </a>
+                                            <div class="wrap" >
+                                                <span class="address_list"></span>
+                                                <span class="text" >
+                                                    <input class="letter" type="text" >
+                                                </span>
+                                            </div>
+                                            <div class="search dropdown ">
+                                                <ul class="dropdown-menu"></ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="admin_list">成员* </label>
+                                    <div class="col-sm-9">
+                                        <div id="member_list" class="inputbox">
+                                            <a class="pull-right btn btn-link text-center" onclick="select_team(false);">
+                                                <i class="fa fa-user"></i>
+                                            </a>
+                                            <div class="wrap" >
+                                                <span class="address_list"></span>
+                                                <span class="text" >
+                                                    <input class="letter" type="text" >
+                                                </span>
+                                            </div>
+                                            <div class="search dropdown ">
+                                                <ul class="dropdown-menu">
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="name">计划开始日期* </label>
+                                    <div class="col-xs-6 col-sm-3">
+
+                                        <div class="input-group">
+                                            <input class="form-control date-picker" id="id-date-picker-begin" type="text" data-date-format="yyyy-mm-dd" />
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <label class="col-sm-2 control-label" for="name">计划完成日期* </label>
+                                    <div class="col-xs-6 col-sm-3">
+
+                                        <div class="input-group">
+                                            <input class="form-control date-picker" id="id-date-picker-end" type="text" data-date-format="yyyy-mm-dd" />
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="name">任务依赖输入* </label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" id="id-input-sel" type="text" />
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input class="form-control" type="button" id="id-wbs-input-sel" onclick="showMenu()" value="选择" />
+                                    </div>
+                                    <div id="menuContent" class="panel" style="display:none; position: absolute;">
+                                        <ul id="id_input_tree" class="ztree" style="margin-top:0; width:160px;"></ul>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label" for="name">任务输出成果* </label>
+                                    <div class="col-xs-6 col-sm-4">
+                                        <input class="form-control" type="text" id="wbs_output_name" />
+                                    </div>
+
+                                    <label class="col-sm-1 control-label" for="name">类型* </label>
+                                    <div class="col-sm-3">
+
+                                        <div class="input-group">
+                                            <select id="wbs_output_type">
+                                                <option value="1"><i class="fa fa-image"></i> 图像</option>
+                                                <option value="2"><i class="fa fa-file-word-o"></i>文档</option>
+                                                <option value="3">CATIA文件</option>
+                                                <option value="4">其它</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-1">
+                                        <input class="btn btn-primary btn-sm" type="button" id="add_wbs_output" onclick="add_output();" value="添加" />
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-7">
+                                        <label for="wbs_output_list">输出列表: </label>
+                                        <ul class="list-unstyled list-striped" id="id_wbs_output_list">
+
+                                        </ul>
+                                    </div>
+                                </div>
+
                             </div>
 
+
+                            <div id="new_wbs_progress" class="tab-pane">
+                                WBS进度管理单元
+                            </div>
                         </div>
-
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-7">
-                                <label for="wbs_output_list">输出列表: </label>
-                                <ul class="list-unstyled list-striped" id="id_wbs_output_list">
-
-                                </ul>
-                            </div>
-
+                    </div>
+                    <!--新增WBS提交操作区-->
+                    <div class="clearfix form-actions">
+                        <div class="pull-right">
+                            <a href="#" class="btn btn-sm btn-primary">确定</a>
+                            |
+                            <a href="#" class="btn btn-sm btn-danger">清空</a>
                         </div>
-
                     </div>
-
-
-                    <div id="new_wbs_progress" class="tab-pane">
-                        WBS进度管理单元
-                    </div>
-                </div>
-                </div>
-                <!--新增WBS提交操作区-->
-                <div class="clearfix form-actions">
-                    <div class="pull-right">
-                        <!--<a onclick="add()" class="btn btn-sm btn-primary">新增</a>-->
-                        <a onclick="add_wbs()" class="btn btn-sm btn-primary">确定</a>
-                        |
-                        <a onclick="clear()" class="btn btn-sm btn-danger">清空</a>
-                    </div>
-                </div>
                 </form>
                 </div>
                 </div>
