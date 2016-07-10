@@ -1,5 +1,29 @@
-
 <script type="text/javascript">
+
+    //读取wbs节点, 以ajax方法
+    function get_wbs(){
+        var settings = {};
+
+        var wbs = jQuery.getJSON( '{:U("wbs/read", "proj_id=$proj_id")}', function(data){
+            $.fn.zTree.init($("#id_wbs_input_tree"), settings, data);
+        } );
+
+//        var wbs = $.get( '{:U("wbs/read", "proj_id=$proj_id")}', function(data){
+//            $("#id_wbs_input_tree").text(data);
+//        });
+
+        //var tmp_tree = $.fn.zTree.init("id_wbs_input_tree", settings, wbs);
+    };
+
+    //模态对话框
+    $('#modal-form').on('shown.bs.modal', function () {
+        get_wbs();
+    });
+//    $('#modal-form').on('shown', function () {
+//        get_wbs();
+//    })
+
+
     //ztree节点回调函数
     function zTreeOnClick(event, treeId, treeNode) {
         var wt = treeNode.wbs_type;

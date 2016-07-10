@@ -6,8 +6,6 @@
  * Time: 21:21
  */
 
-import('@.ORG.Util.UploadFile');
-
 class WbsAction extends CommonAction
 {
     protected $config = array('app_type' => 'asst');
@@ -79,6 +77,7 @@ class WbsAction extends CommonAction
         $proj_id = $this->_post("proj_id");
 
 
+        import('@.ORG.Util.UploadFile');
         //处理文件上传
         //$this->error(print_r($_FILES["input-file"], true));
         if($_FILES["input-file"]["tmp_name"][0]){
@@ -157,13 +156,14 @@ class WbsAction extends CommonAction
      */
     public function read()
     {
-        $proj_id = $this->_update_param("proj_id");
-        $eng_phase = $this->_update_param("engineering_phase");
-        $model = M("WbsNode");
-        $nodes = $model->where("project_id=$proj_id")->getField("id, parent_id, name, type, engineering_phase");
-        $data_array = $this->_parseNode($nodes, $proj_id, -1);
+        $proj_id = $this->_get("proj_id");
+        Log::write("收到ajax请求, proj_id=$proj_id", NOTICE);
+        //$eng_phase = $this->_update_param("engineering_phase");
+        $model = D("WbsNode");
+        $data_array = $this->_parseNode($model, $proj_id, -1);
         $json = json_encode($data_array, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT); //, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT
-
+        Log::write("读取WBS结果: ".$json, NOTICE);
+        $this->ajaxReturn($json, 'EVAL');
     }
 
     /**
@@ -188,12 +188,16 @@ class WbsAction extends CommonAction
         foreach($data as $item)
         {
             array_push($res,
-                array(
-                    $item["name"]=>array(
-                        "name"=>$item["name"],
-                        "type"=>($item["type"] == 3? "item": "folder"),
-                        "additionalParameters"=>array("children"=>$this->_parseNode($model, $proj_id, $item["id"]))
-                    )
+                array("id"=>$item["id"],
+                    "node_type"=>"wbs",
+                    "pbs_id"=>$item["pbs_id"],
+                    "wbs_type"=>$item["type"],
+                    "wbs_parent"=>$item["parent_id"],
+                    "name"=>$item["name"],
+                    //-zTree私有属性
+                    //"icon"=>$this->ztree_img["wbs_node"],
+                    "open"=>true,
+                    "children"=>$this->_parseNode($model, $proj_id, $item["id"])
                 )
             );
         }
