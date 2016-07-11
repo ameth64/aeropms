@@ -95,6 +95,45 @@ class PbsAction extends CommonAction {
     }
 
 /**
+ * 基本增删改操作 by 钟伯金*/
+    public function PbsDel()
+    {
+        $node_id = $this->_get("de_id");
+        $PbsNode = D('PbsNode');
+        if($PbsNode->where("parent_id = $node_id")->select()){
+            $this->error('请删除该结点下所有子结点后再删除该结点！');
+        }elseif($PbsNode->where("id = $node_id")->delete()){
+            $this->success('删除成功！');
+        }
+    }
+
+    public function PbsEdit($node_id = null, $name = null, $remark = null)
+    {
+        $PbsNode = D('PbsNode');
+        $Nodeinfo['name'] = $name;
+        $Nodeinfo['remark'] = $remark;
+        //echo $PbsNode->getLastSql();exit();
+        if($PbsNode->where("id = $node_id")->save($Nodeinfo)){
+            $this->success('保存成功！');
+        }else{
+            $this->error('保存失败！');
+        }
+
+    }
+
+    public function PbsAdd($node_id = null, $name = null, $remark = null)
+    {
+        $PbsNode = D('PbsNode');
+        $Nodeinfo['parent_id'] = $node_id;
+        $Nodeinfo['name'] = $name;
+        $Nodeinfo['remark'] = $remark;
+        if($PbsNode->Add($Nodeinfo)){
+            $this->success('增加成功！');
+        }
+
+    }
+
+/**
  *    取得节点数据的嵌套数组, 用系统方法生成JSON
 */
     protected function _convertJson($proj_id)

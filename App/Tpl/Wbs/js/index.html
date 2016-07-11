@@ -1,23 +1,21 @@
 <script type="text/javascript">
-
+    function set_wbs_input(){
+        var tree = $.fn.zTree.getZTreeObj("id_wbs_input_tree");
+        var treeNode = tree.getSelectedNodes()[0];
+        var html = conv_inputbox_item(treeNode.id, treeNode.name, treeNode.wbs_type, treeNode.pbs_id);
+        $("#id_wbs_input_list .address_list", parent.document).append(html);
+    }
     //读取wbs节点, 以ajax方法
-    function get_wbs(){
-        var settings = {};
-
+    function get_wbs_input(){
+        var settings = { };
         var wbs = jQuery.getJSON( '{:U("wbs/read", "proj_id=$proj_id")}', function(data){
             $.fn.zTree.init($("#id_wbs_input_tree"), settings, data);
         } );
-
-//        var wbs = $.get( '{:U("wbs/read", "proj_id=$proj_id")}', function(data){
-//            $("#id_wbs_input_tree").text(data);
-//        });
-
-        //var tmp_tree = $.fn.zTree.init("id_wbs_input_tree", settings, wbs);
     };
 
     //模态对话框
     $('#modal-form').on('shown.bs.modal', function () {
-        get_wbs();
+        get_wbs_input();
     });
 //    $('#modal-form').on('shown', function () {
 //        get_wbs();
@@ -93,7 +91,7 @@
         switch(sn.node_type){
             case "pbs": var pid = tree.getNodeByParam("wbs_parent", -1, null);
                 if(!pid){
-                    alert("无法定位WBS根节点, 请检查数据.");
+                    ui_error("无法定位WBS根节点, 请检查数据.");
                     return;
                 }
                 $("#parent_id").val(pid.id);
@@ -102,22 +100,44 @@
             case "wbs": $("#parent_id").val(sn.id);
                 $("#pbs_id").val(sn.pbs_id);
                 break;
-            default: alert("未选择任何WBS或PBS节点作为父节点, 请重新选择.");
+            default: ui_error("未选择任何WBS或PBS节点作为父节点, 请重新选择.");
                 return;
         }
 
         /*将输出列表组装为json*/
         var wbs_output_json = $("#id_wbs_output_list li").map(function(){
             if($(this).text().length > 1)
-                return '{ "type": "' + $(this).attr('data-output-type') + '", "name": "' + $(this).text() + '" }';
-        }).get().join();
-        $("#wbs_output_list").val( '[' + wbs_output_json + ']' );
-        alert($("#wbs_output_list").val());
+                return {"type": $(this).attr('data-output-type'), "name": $(this).text()};
+                //return '{ "type": "' + $(this).attr('data-output-type') + '", "name": "' + $(this).text() + '" }';
+        }).get();
+        $("#wbs_output_list").val(JSON.stringify(wbs_output_json));
+        console.log($("#wbs_output_list").val());
+
+        //将输入列表组装为json
+        var wbs_input_json = $("#id_wbs_input_list .address_list span").map(function(){
+            if($(this).text().length > 1)
+                return {"wbs_id": $(this).attr('id')}
+                //return '{ "wbs_id": "' + $(this).attr('id') + '" }';
+        //}).get().join();
+        }).get();
+        //$("#wbs_input_list").val( '[' + wbs_input_json + ']' );
+        $("#wbs_input_list").val( JSON.stringify(wbs_input_json) );
+        console.log($("#wbs_input_list").val());
+
+        //将负责人列表组装为json
+        var team_leader_json = $("#id_admin_list .address_list span").map(function(){
+            if($(this).text().length > 1)
+                return {"leader_id": $(this).attr('id')}
+        }).get();
+        $("#team_leader_list").val( JSON.stringify(team_leader_json) );
+        console.log($("#team_leader_list").val());
 
         url = $("#form_data").attr("post_url");
         if(check_form("form_data")){
-            sendForm("form_data", url);
+            //sendForm("form_data", url);
         }
+
+
     };
 
     /*任务输出列表操作*/

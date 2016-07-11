@@ -7,7 +7,7 @@
             name = jQuery.trim($(this).text()).replace(/<.*>/, '');
             html = conv_inputbox_item(emp_no, name, email, emp_no);
 
-            var type = is_leader? "#admin_list": "#member_list";
+            var type = is_leader? "#id_admin_list": "#id_member_list";
             $(type + " .address_list", parent.document).append(html);
         });
 /*
@@ -46,7 +46,7 @@
             var email = result.data[s].email;
             var name = result.data[s].name;
             var name = name + "/" + position_name + "&lt;" + email + "&gt;";
-            var html_string = conv_address_item(emp_no, name);
+            var html_string = conv_address_item(id, name); //由emp_no 改为使用ID
             $("#addr_list").append(html_string);
         }
     }
