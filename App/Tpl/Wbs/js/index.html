@@ -132,6 +132,14 @@
         $("#team_leader_list").val( JSON.stringify(team_leader_json) );
         console.log($("#team_leader_list").val());
 
+        //将成员列表组装为json
+        var team_member_json = $("#id_member_list .address_list span").map(function(){
+            if($(this).text().length > 1)
+                return {"member_id": $(this).attr('id')}
+        }).get();
+        $("#team_member_list").val( JSON.stringify(team_member_json) );
+        console.log($("#team_member_list").val());
+
         url = $("#form_data").attr("post_url");
         if(check_form("form_data")){
             //sendForm("form_data", url);
