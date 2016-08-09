@@ -14,6 +14,10 @@ class PbsAction extends CommonAction {
         "in_proc"=>"__PUBLIC__/css/ztree/zTreeStyle/img/diy/4.png"
     );
 
+    public static function addZTreeItem(&$item){
+        $item["open"] = 'true';
+    }
+
     public function index()
     {
         $proj_id = $this->_update_param("proj_id");
@@ -33,8 +37,10 @@ class PbsAction extends CommonAction {
 
         //框架提供的树生成方法
         $PbsNode = M("PbsNode");
-        $list = $PbsNode->where("id>0")->field("id, parent_id, name, wbs_id, 'true' as open")->select();
-        $pbs_tree = list_to_tree($list, -1, 'id', 'parent_id', 'children');
+        $func = function(&$var){
+            $var["open"] = "true";};
+        $list = $PbsNode->where("project_id=$proj_id")->field("id, parent_id, name, wbs_id")->order('id')->select();
+        $pbs_tree = list_to_tree($list, -1, 'id', 'parent_id', 'children', $func);
         $refer = array();
         $pk = 'id';
         foreach ($list as $key => $data) {
@@ -70,8 +76,12 @@ class PbsAction extends CommonAction {
         {
             //实例化模型
             $PbsNode = D("PbsNode");
-            $PbsNode->where("project_id=$proj_id")->delete();
+            $PbsNode->startTrans();
+            $c = $PbsNode->where("project_id=$proj_id")->delete();
+            $PbsNode->commit();
+            Log::write("PBS导入前删除记录数: ".$c);
 
+            $PbsNode->startTrans();
             //分解节点文本, 默认格式: 标号\t名称;
             $content_src = explode(";", $content);
             $size = count($content_src);
@@ -81,10 +91,17 @@ class PbsAction extends CommonAction {
                 $tmp = explode("\t", $content_src[$i]);
                 if(count($tmp) > 0 && strlen($tmp[0]) > 0){
                     // 组装单条数据对象
+                    $data["project_id"] = $proj_id;
+                    $data["name"] = $tmp[1];
+                    $data["node_level"] = explode(".", $tmp[0]);
+                    $data["remark"] = "暂无描述";
+                    //$PbsNode->create($data);
+                    //$PbsNode->add();
                     $pk = $PbsNode->Insert($proj_id,  $tmp[1], explode(".", $tmp[0]));
                     array_push($content_out, array("node_index"=>$tmp[0], "node_name"=>$tmp[1], "res"=>$pk));
                 }
             }
+            $PbsNode->commit();
 
 //            $this->assign("content_out", $content_out);
 //            $this->assign("content_count", $size);

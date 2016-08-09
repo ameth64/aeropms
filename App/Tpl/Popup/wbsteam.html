@@ -7,8 +7,9 @@
             name = jQuery.trim($(this).text()).replace(/<.*>/, '');
             html = conv_inputbox_item(emp_no, name, email, emp_no);
 
-            var type = is_leader? "#id_admin_list": "#id_member_list";
-            $(type + " .address_list", parent.document).append(html);
+            //console.log("container is: {$container}");
+            //var type = is_leader? "#id_admin_list": "#id_member_list";
+            $("#{$container} .address_list", parent.document).append(html);
         });
 /*
         $("#cc select option").each(function(i) {
@@ -188,14 +189,7 @@
 <div class="panel panel-default ">
     <div class="panel-heading clearfix">
         <div class="pull-left">
-            <label>
-                <input class="ace"  type="radio" id="rb_company" name="type" value="company" >
-                <span class="lbl">部门</span> </label>
-
-            <!--<label>
-                <input  class="ace"  type="radio" id="rb_rank" name="type" value="rank">
-                <span class="lbl">职级</span> </label>-->
-
+            <!--顶部的人员选择方式单选框, id命名方式为 rb_$type, 可添加多个, 如company, rank等-->
             <label>
                 <input  class="ace"  type="radio" id="rb_position" name="type" value="position">
                 <span class="lbl">职位</span> </label>
@@ -211,12 +205,6 @@
                 <b>人员列表</b>
             </div>
             <div class="popup_tree_menu" >
-                <div id="company" class="display-none" style="height:200px;">
-                    {$list_company}
-                </div>
-                <!--<div id="rank" class="display-none" style="height:200px;">
-                    {$list_rank}
-                </div>-->
                 <div id="position" class="display-none" style="height:200px;">
                     {$list_position}
                 </div>
@@ -241,33 +229,6 @@
                     </div>
                 </div>
             </div>
-
-            <!--
-                        <div>
-                            <b  style="padding-left: 60px;">成员</b><span id="cc_count"></span>
-                        </div>
-                        <div class="clearfix" style="margin-bottom: 15px;">
-                            <label class="col-4 pull-left text-right" ><a onclick="add_address('cc');" class="btn btn-sm btn-primary"> <i class="fa fa-angle-double-right"></i></a></label>
-                            <div class="col-28 pull-right">
-                                <div id="cc" style="width:100%;height:130px;overflow:hidden">
-                                    <select size="6" style="height:100%;width:100%;"></select>
-                                </div>
-                            </div>
-                        </div>
-                        -->
-            <!--
-                        <div>
-                            <b  style="padding-left: 60px;">读取</b><span id="cc_count"></span>
-                        </div>
-                        <div class="clearfix">
-                            <label class="col-4 pull-left text-right" ><a onclick="add_address('bcc');" class="btn btn-sm btn-primary"> <i class="fa fa-angle-double-right"></i></a></label>
-                            <div class="col-28 pull-right">
-                                <div id="bcc" style="width:100%;height:95px;overflow:hidden">
-                                    <select size="6" style="height:100%;width:100%;"></select>
-                                </div>
-                            </div>
-                        </div>
-                        -->
         </div>
     </div>
 </div>

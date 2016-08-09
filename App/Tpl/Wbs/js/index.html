@@ -1,4 +1,24 @@
 <script type="text/javascript">
+    /**
+     * 根据工程阶段过滤wbs节点树显示
+     * */
+    function eng_phase_filter(o){
+        op = $(o).val();
+        //使用ztree方法进行前端过滤
+        var tree = $.fn.zTree.getZTreeObj("wbs_tree");
+        var nodes = tree.getNodesByParam('isHidden', true);
+        tree.showNodes(nodes);
+        if(op == -1){
+            return;
+        }
+        var nodes = tree.getNodesByFilter(function(node){
+            return node["parent_id"]!='-1' && node["engineering_phase"] != op && node["is_hideable"] == '1';
+        });
+        console.log("nodes to hide: " + nodes.length);
+        tree.hideNodes(nodes);
+    }
+
+    //设置wbs输入项
     function set_wbs_input(){
         var tree = $.fn.zTree.getZTreeObj("id_wbs_input_tree");
         var treeNode = tree.getSelectedNodes()[0];
@@ -22,13 +42,47 @@
 //    })
 
 
+    var wbs_field_name = {
+        'name':'单元名称',
+        'node_type':'节点单元类型',
+        'type_name':'WBS单元类型',
+        'epname':'工程阶段',
+        'dep_name':'分工部门',
+        'remark':'描述',
+        'create_time':'创建时间',
+        'update_time':'更新时间'
+    };
+
+    var wbs_type_enum = [
+            <volist name="type_list" id="vo">
+            { 'key': '{$vo.id}', 'val':'{$vo.name}'},
+    </volist>];
     //ztree节点回调函数
     function zTreeOnClick(event, treeId, treeNode) {
         var wt = treeNode.wbs_type;
-        if(wt >= 3)
+        $("#type").html("");
+        for(var i = (wt<=0?1:wt); i <= 3; i++){
+            $("#type").append( $("<option></option>", {'value':wbs_type_enum[i-1].key}).html(wbs_type_enum[i-1].val) );
+        }
+        /*if(wt >= 3)
             $("#id_tab_add_wbs").attr('data-toggle', null).parent().addClass('disabled');
         else
-            $("#id_tab_add_wbs").attr('data-toggle', 'tab').parent().removeClass('disabled');
+            $("#id_tab_add_wbs").attr('data-toggle', 'tab').parent().removeClass('disabled');*/
+        //以ajax方式读取单个节点数据
+        var url =  '{:U("wbs/read", "proj_id=$proj_id")}' + '&node_id=' + treeNode.id + '&type=' + treeNode.node_type;
+        //console.log("Query URL: " + url);
+        var wbs = jQuery.getJSON(url, function(data){
+            //解析返回的JSON
+            console.log(JSON.stringify(data));
+            var elem = $("#id_wbs_basic_info").html("");
+            for(item in data){
+                //console.log(item);
+                $("<div></div>", {'class':'profile-info-row'})
+                        .append($("<div></div>", {'class':'profile-info-name'}).text(wbs_field_name[item]))
+                        .append($("<div></div>", {'class':'profile-info-value'}).text(data[item]))
+                        .appendTo(elem);
+            }
+        });
     };
 
     //控制节点字体
@@ -65,13 +119,14 @@
     });
 
     //WBS团队成员选择弹出框
-    function select_team(is_leader) {
+    function select_team(is_leader, o) {
+        var container = $(o).parent().attr("id");
+        var url = "{:U('popup/wbsteam', 'container=')}"+container
         if(is_leader){
-            winopen("{:U('popup/wbsteam', 'is_leader=1')}", 730, 574);
+            url += "&is_leader=1";
         }
-        else{
-            winopen("{:U('popup/wbsteam')}", 730, 574);
-        }
+        console.log(url);
+        winopen(url, 730, 574);
     };
 
     // 新增WBS节点按钮事件
@@ -110,8 +165,9 @@
                 return {"type": $(this).attr('data-output-type'), "name": $(this).text()};
                 //return '{ "type": "' + $(this).attr('data-output-type') + '", "name": "' + $(this).text() + '" }';
         }).get();
-        $("#wbs_output_list").val(JSON.stringify(wbs_output_json));
-        console.log($("#wbs_output_list").val());
+        if(wbs_output_json.length > 0){
+            $("#wbs_output_list").val(JSON.stringify(wbs_output_json));
+        }
 
         //将输入列表组装为json
         var wbs_input_json = $("#id_wbs_input_list .address_list span").map(function(){
@@ -121,8 +177,11 @@
         //}).get().join();
         }).get();
         //$("#wbs_input_list").val( '[' + wbs_input_json + ']' );
-        $("#wbs_input_list").val( JSON.stringify(wbs_input_json) );
-        console.log($("#wbs_input_list").val());
+        if(wbs_input_json.length > 0) {
+            $("#wbs_input_list").val(JSON.stringify(wbs_input_json));
+            console.log($("#wbs_input_list").val());
+        }
+
 
         //将负责人列表组装为json
         var team_leader_json = $("#id_admin_list .address_list span").map(function(){
@@ -142,7 +201,7 @@
 
         url = $("#form_data").attr("post_url");
         if(check_form("form_data")){
-            //sendForm("form_data", url);
+            sendForm("form_data", url);
         }
 
 

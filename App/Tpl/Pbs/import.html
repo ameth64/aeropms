@@ -13,14 +13,15 @@
                         <div class="widget-main">
                             <form action="{:U('pbs/import','proj_id='.$proj_id)}" method="post" class="form-horizontal">
                                 <div class="form-group">
-                                    <label class="control-label col-sm-2" for="content">请输入节点文本内容</label>
-                                    <div class="col-sm-9">
-                                        <textarea class="form-control" name="content" id="content"></textarea>
-                                    </div>
-
+                                    <label class=" col-sm-10 text-left" for="content">请输入节点文本内容, 格式形如"1.1.1	机身壳体;", 各项以制表符分隔</label>
                                 </div>
                                 <div class="form-group">
-                                    <div class="col-sm-offset-7 col-sm-4">
+                                    <div class="col-sm-12">
+                                        <textarea class="form-control" name="content" id="content"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-8 col-sm-4">
                                         <input class="btn btn-primary pull-right" type="submit" value="提交"/>
                                     </div>
 

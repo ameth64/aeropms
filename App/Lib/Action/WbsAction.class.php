@@ -41,11 +41,6 @@ class WbsAction extends CommonAction
         $count = $this->_initWbsTree($proj_id);
         $json = $this->_convertJson($proj_id); //根据项目id读取节点表数据并组装JSON
         $this->assign("node_json", $json);
-        //框架的原生树构造方法测试
-//        $PbsNode = M("PbsNode");
-//        $pbs_list = $PbsNode->select();
-//        $pbs_tree = list_to_tree($pbs_list, -1, 'id', 'parent_id');
-//        $this->assign("pbs_tree", json_encode($pbs_tree, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT));
 
         $WbsType = M("WbsType");
         $type_list = $WbsType->select();
@@ -117,12 +112,13 @@ class WbsAction extends CommonAction
         $WbsNode->create_time = time();
         $WbsNode->update_time = time();
         $WbsNode->attach_id = $attach_id;
+        if(!$WbsNode->remark)
+            $WbsNode->remark = "暂无描述";
         $node_id = $WbsNode->add();
 
         // 处理输出列表json
-        //$wbs_output_json = $this->_post('wbs_output_list', null); //若使用框架_post方法则可能因过滤函数而无法成功解码JSON
-        $wbs_output_json = $_POST['wbs_output_list'];
-        if(isset($wbs_output_json) && $wbs_output_json != "0"){
+        $wbs_output_json = $this->_post('wbs_output_list', null); //若使用框架_post方法则可能因过滤函数而无法成功解码JSON
+        if(!empty($wbs_output_json)){
             $json_array = json_decode($wbs_output_json, true);
             if($json_array == false){
                 $this->error("WBS输出列表处理失败, 请检查数据");
@@ -145,6 +141,8 @@ class WbsAction extends CommonAction
             }
         }
 
+        // 处理输入列表
+
         $this->redirect("index", array(
             "proj_id"=>$proj_id
             )
@@ -157,13 +155,43 @@ class WbsAction extends CommonAction
     public function read()
     {
         $proj_id = $this->_get("proj_id");
-        Log::write("收到ajax请求, proj_id=$proj_id", NOTICE);
-        //$eng_phase = $this->_update_param("engineering_phase");
-        $model = D("WbsNode");
-        $data_array = $this->_parseNode($model, $proj_id, -1);
-        $json = json_encode($data_array, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT); //, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT
-        Log::write("读取WBS结果: ".$json, NOTICE);
-        $this->ajaxReturn($json, 'EVAL');
+        $node_id = $this->_get("node_id");
+        Log::write("project_id=$proj_id, node_id=$node_id", Log::INFO);
+        if($node_id){
+            $type = $this->_get("type");
+            switch($type)
+            {
+                case 'pbs':
+                    $model = D("PbsNode");
+                    $query_str = "select a.name, 'PBS-产品结构分解' node_type, a.remark, a.create_time,a.update_time from".
+                        " aeropms_pbs_node as a".
+                        "  where a.project_id=$proj_id and a.id=$node_id";
+                    $data_array = $model->query($query_str);
+                    $data_array[0]["create_time"] = date('Y-m-d', $data_array[0]["create_time"]);
+                    $data_array[0]["update_time"] = date('Y-m-d', $data_array[0]["update_time"]);
+                    //$data_array[0]["node_type"] = 'PBS-产品结构分解';
+                    break;
+                case 'wbs':
+                default:
+                    $model = D("WbsNode");
+                    $data_array = $model->getNodeInfo($proj_id, $node_id);
+                    if(!$data_array){
+                        $this->error("无效的WBS节点ID");
+                    }
+                    Log::write("WBS节点数组: ".print_r($data_array, true), Log::ERR);
+            }
+            $json = json_encode($data_array[0], JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
+            $this->ajaxReturn($json, 'EVAL');
+        }
+        else{
+            $model = D("WbsNode");
+            Log::write("收到ajax请求, proj_id=$proj_id", NOTICE);
+            //$eng_phase = $this->_update_param("engineering_phase");
+            $data_array = $this->_parseNode($model, $proj_id, -1);
+            $json = json_encode($data_array, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT); //, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT
+            Log::write("读取WBS结果: ".$json, NOTICE);
+            $this->ajaxReturn($json, 'EVAL');
+        }
     }
 
     /**
@@ -172,16 +200,48 @@ class WbsAction extends CommonAction
     protected function _convertJson($proj_id)
     {
         $WbsNode = D("WbsNode");
-        $PbsNode = D("PbsNode");
-        $data_array = $this->_parseNodeAll($PbsNode, $WbsNode, $proj_id, -1, -1, 1);
-        $json = json_encode($data_array, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT); //, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT
+        //$PbsNode = D("PbsNode");
+        //$data_array = $this->_parseNodeAll($PbsNode, $WbsNode, $proj_id, -1, -1, 1);
+        //$data_array = $this->_parseNode($WbsNode, $proj_id);
+        $data = $WbsNode->getNodesForTree($proj_id);
+        $tree = list_to_tree($data, -1, 'id', 'parent_id', 'children', function(&$item){
+            $item["node_type"]="wbs";
+            $item["wbs_type"]=$item["type"];
+            $item["wbs_parent"]=$item["parent_id"];
+
+            //-zTree私有属性
+            //"icon"=>$this->ztree_img["wbs_node"],
+            $item["open"]='true';
+        });
+        //Log::write("WBS Nodes: ".print_r($data_array, true));
+        $json = json_encode($tree, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT); //, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT
         return $json;
     }
 
+    protected function _parseNode(&$model, $proj_id)
+    {
+        $data = $model->where("project_id=$proj_id")->field("id, parent_id, name, type, engineering_phase")
+            ->order("id")->select();
+        $tree = list_to_tree($data, -1, 'id', 'parent_id', 'children', function(&$item){
+//            $tmp = [];
+//            $tmp["open"] = "true"; $tmp["id"] = $item["id"]; $tmp["wbs_parent"] = $item["parent_id"];
+//            $tmp["name"] = $item["name"]; $tmp["wbs_type"] = $item["type"]; $tmp["node_type"] = "wbs";
+//            $item = $tmp;
+            $item["node_type"]="wbs";
+            $item["wbs_type"]=$item["type"];
+            $item["wbs_parent"]=$item["parent_id"];
+
+            //-zTree私有属性
+            //"icon"=>$this->ztree_img["wbs_node"],
+            $item["open"]='true';
+        });
+        return $tree;
+    }
+
     /**
-     *    递归方法, 解析节点表数据并生成嵌套数组
+     *    递归方法, 解析节点表数据并生成嵌套数组, 旧有方法, 因效率问题可考虑弃用
      */
-    protected function _parseNode(&$model, $proj_id, $parent_id)
+    protected function _parseNode_Old(&$model, $proj_id, $parent_id)
     {
         $data = $model->where("project_id=$proj_id and parent_id=$parent_id")->order("id")->select();
         $res = array();
@@ -208,9 +268,8 @@ class WbsAction extends CommonAction
     {
         $res = array();
 
-        //处理wbs子节点
+        // 处理wbs子节点
         $wbs_parent = ($wbs_parent_id == -1)? ($wbs_model->where("project_id=$proj_id and pbs_id=$pbs_parent_id")->min("parent_id")) : ($wbs_parent_id);
-        //$wbs = $wbs_model->where("project_id=$proj_id and pbs_id=$pbs_parent_id and parent_id=$wbs_parent")->select();
         $wbs = $wbs_model->query("select b.name type_name, a.* from aeropms_wbs_node as a, aeropms_wbs_type as b where a.type = b.id and a.project_id=$proj_id and a.pbs_id=$pbs_parent_id and a.parent_id=$wbs_parent ");
         foreach($wbs as $item)
         {
@@ -237,7 +296,7 @@ class WbsAction extends CommonAction
                     array("id"=>$item["id"],
                         "node_type"=>"pbs",
                         "pbs_id"=>$item["id"],
-                        "wbs_type"=>"",
+                        "wbs_type"=>"0",
                         "wbs_parent"=>"",
                         "name"=>$item["name"],
                         //-zTree私有属性
@@ -266,13 +325,13 @@ class WbsAction extends CommonAction
             'inner_index'=>0,
             'parent_id'=>-1,
             'pbs_id'=>-1,
-            'name'=>'根节点',
-            'desc'=>$proj_name.'-项目WBS根节点',
+            'name'=>$proj_name.' - WBS',
+            'remark'=>$proj_name.'项目WBS根节点',
             'type'=>1,
-            'agent_id'=>0, 'creator_id'=>null,
+            'engineering_phase'=>1,
+            'agent_id'=>0, 'creator_id'=>get_user_id(),
             'create_time'=>time(),
-            'update_time'=>time(),
-            'remark'=>null
+            'update_time'=>time()
         );
         if($WbsNode->create($data))
         {

@@ -702,13 +702,17 @@ function rand_string($len = 6, $type = '', $addChars = '') {
 	return $str;
 }
 
-function list_to_tree($list, $root = 0, $pk = 'id', $pid = 'pid', $child = '_child') {
+//2016.07.31@MobiuS 增加修饰函数参数, 用于在树排列期间生成自定义数据成员
+function list_to_tree($list, $root = 0, $pk = 'id', $pid = 'pid', $child = '_child', $deco_func = "") {
 	// 创建Tree
 	$tree = array();
 	if (is_array($list)) {
-		// 创建基于主键的数组引用
+		// 创建基于主键的数组引用, 此操作完成后, refer保存以pk为键的关联数组
 		$refer = array();
 		foreach ($list as $key => $data) {
+			if($deco_func){
+				$deco_func($list[$key]);
+			}
 			$refer[$data[$pk]] = &$list[$key];
 		}
 		foreach ($list as $key => $data) {

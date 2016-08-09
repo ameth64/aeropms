@@ -164,18 +164,25 @@ class PopupAction extends CommonAction {
         $list = $model->where('is_del=0') -> field('id,pid,name') -> order('sort asc') -> select();
         $list = list_to_tree($list);
         $this -> assign('list_company', popup_tree_menu($list));
+		$list_json = json_encode($list, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
+		$this->assign("list_company_json", $list_json);
 
-        $model = M("Position");
+        $model = D("Position");
         $list = array();
-        $list = $model -> field('id,name') -> order('sort asc') -> select();
+		$emp_id=get_user_id();
+		$pos = $model->get_position($emp_id);
+		$sort_id = $pos[0]["sort_id"];
+        $list = $model -> where("sort >= $sort_id") -> field('id,name') -> order('sort asc') -> select();
         $list = list_to_tree($list);
         $this -> assign('list_position', popup_tree_menu($list));
 
-        $this -> assign('type', 'dept');
+        $this -> assign('type', 'position');
         $label = ($this -> _request('is_leader'))? '负责人': '成员';
         $is_leader = ($this -> _request('is_leader'))? 'true': 'false';
         $this -> assign('sel_type', $label);
         $this -> assign('is_leader', $is_leader);
+		$dom_container = I("param.container");
+		$this -> assign("container", $dom_container);
         $this -> display();
         return;
     }

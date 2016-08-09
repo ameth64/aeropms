@@ -32,5 +32,12 @@ class PositionModel extends CommonModel {
 			return true;
 		}
 	}
+
+	public function get_position($emp_id){
+		//$emp_id=get_user_id();
+		$sql="select min(a.sort) as sort_id from aeropms_position as a, aeropms_user as b where a.id=b.position_id and b.id=$emp_id";
+		$rs = $this->db->query($sql);
+		return $rs;
+	}
 }
 ?>

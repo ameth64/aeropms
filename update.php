@@ -102,7 +102,7 @@ if (isset($_POST["update"])){
 			<div class="row">
 				<div class="col-md-offset-2 col-md-8">
 					<div class="page-header">
-						<h1>小微OA系统升级程序</h1>
+						<h1>慧视OA系统升级程序</h1>
 					</div>
 					<form   method="POST" class="well form-horizontal">
 						<div class="form-group">

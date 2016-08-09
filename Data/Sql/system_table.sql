@@ -886,13 +886,26 @@ INSERT INTO `aeropms_node` VALUES
 (903,'构型','#','fa fa-code-fork','','','4',0,0),
 (904,'里程碑','#','fa fa-calendar','','','5',0,0),
 (905,'统计','#','fa fa-bar-chart-o','','','6',0,0),
-(906,'管理','#','fa fa-cogs','','','7',0,0),
-(907,'个人','#','fa fa-user','','','8',0,0);
+(906,'个人','#','fa fa-user','','','7',0,0),
+(907,'管理','user/index','fa fa-cogs','','','8',0,0),
+  (110,'公司信息管理','',NULL,NULL,'','1',907,0),
+  (112,'权限管理','',NULL,NULL,'','3',907,0),
+  (113,'系统设定','',NULL,NULL,'','4',907,0),
+  (114,'系统参数设置','system_config/index','','','','1',113,0),
+  (115,'组织图','dept/index','','','','1',110,0),
+  (116,'员工登记','user/index',NULL,'','','5',110,0),
+  (118,'权限组管理','role/index','','','','1',112,0),
+  (119,'权限设置','role/node','','','','2',112,0),
+  (120,'权限分配','role/user','','','','3',112,0),
+  (121,'菜单管理','node/index','','','','1',113,0),
+  (122,'职级','rank/index',NULL,'','','3',110,0),
+  (123,'职位','position/index',NULL,'','','2',110,0)
+;
+/*!40000 ALTER TABLE `aeropms_node` ENABLE KEYS */;
 /*原版node代码如下, modified by MobiuS@2016.06.20*/
 /*
 INSERT INTO `aeropms_node` VALUES (83,'公告','notice/index##','fa fa-bell-o bc-notice','NoticeFolder','','3',0,0),(84,'管理','user/index','fa fa-cogs','','','999',0,0),(85,'邮件','mail/index','fa fa-envelope-o bc-mail','','','1',0,0),(87,'流程','flow/index','fa fa-pencil bc-flow','','','2',0,0),(88,'文档','doc/index##','fa fa-file-o','DocFolder','','4',0,0),(91,'日程','schedule/index','fa fa-calendar bc-personal-schedule','','','9',198,0),(94,'职位','position/index',NULL,NULL,'','',1,0),(97,'部门','dept/index',NULL,NULL,'','',1,0),(100,'写信','mail/add',NULL,'','','1',85,0),(101,'收件箱','mail/folder?fid=inbox','bc-mail-inbox','','','3',85,0),(102,'邮件设置','',NULL,NULL,NULL,'9',85,0),(104,'垃圾箱','mail/folder?fid=spambox','','','','5',85,0),(105,'发件箱','mail/folder?fid=outbox','','','','6',85,0),(106,'已删除','mail/folder?fid=delbox','','','','4',85,0),(107,'草稿箱','mail/folder?fid=darftbox','','','','7',85,0),(108,'邮件帐户设置','mail_account/index',NULL,'','','1',102,0),(110,'公司信息管理','',NULL,NULL,'','1',84,0),(112,'权限管理','',NULL,NULL,'','3',84,0),(113,'系统设定','',NULL,NULL,'','4',84,0),(114,'系统参数设置','system_config/index','','','','1',113,0),(115,'组织图','dept/index','','','','1',110,0),(116,'员工登记','user/index',NULL,'','','5',110,0),(118,'权限组管理','role/index','','','','1',112,0),(119,'权限设置','role/node','','','','2',112,0),(120,'权限分配','role/user','','','','3',112,0),(121,'菜单管理','node/index','','','','1',113,0),(122,'职级','rank/index',NULL,'','','3',110,0),(123,'职位','position/index',NULL,'','','2',110,0),(124,'文件夹设置','mail_folder/index',NULL,'','','2',102,0),(125,'联系人','contact/index','','','','1',198,0),(126,'文档搜索','doc/index',NULL,'','','1',88,0),(137,'论坛','forum/index##','fa fa-comments-o','ForumFolder','','5',0,0),(138,'公告管理','notice_folder/index','','','','4',83,0),(143,'邮件分类','mail_organize/index',NULL,'','','',102,0),(144,'发起','flow/index','','','','1',87,0),(146,'流程管理','flow_type/index','','','','9',87,0),(147,'待办','flow/folder?fid=confirm','bc-flow-confirm','','','2',87,0),(148,'办理','flow/folder?fid=finish','','','','5',87,0),(149,'草稿','flow/folder?fid=darft','','','','6',87,0),(150,'提交','flow/folder?fid=submit','','','','4',87,0),(152,'待办','todo/index','fa fa-tasks bc-personal-todo','','','9',198,0),(153,'部门级别','dept_grade/index',NULL,'','','4',110,0),(156,'客户','customer/index',NULL,'','','2',157,0),(157,'人脉','staff/index','fa fa-group','','','7',0,0),(158,'供应商','supplier/index',NULL,'','','3',157,0),(169,'职员','staff/index',NULL,'','','',157,0),(177,'我的文件夹','##mail','bc-mail-myfolder','MailFolder','','8',85,0),(178,'自助','udf_salary/index','fa fa-search','','','8',197,0),(179,'工资查询','udf_salary/index','','','','',178,0),(180,'报销查询','udf_expense/index','','','','',178,0),(181,'公告搜索','notice/index','','','','',83,0),(182,'日报','daily_report/index','fa fa-book','','','6',197,0),(183,'论坛管理','forum_folder/index','','','','',137,0),(184,'流程分组','flow_type/tag_manage','','','','8',87,0),(185,'收到','flow/folder?fid=receive','bc-flow-receive','','','2',87,0),(186,'VIP','vip/index','','','','2',197,0),(189,'文档库管理','doc_folder/index','','','','C1',88,0),(190,'消息','message/index','fa fa-inbox bc-message','','','99',198,0),(191,'用户设置','','','','','',198,0),(192,'用户资料','profile/index','','','','',191,0),(193,'修改密码','profile/password','','','','',191,0),(194,'用户设置','UserConfig/index','','','','999',191,0),(195,'项目','xmk/index##','','XmkFolder','','1',197,0),(196,'项目库管理','xmk_folder/index','','','','1',195,0),(197,'定制','xmk/index','fa fa-wrench','','','91',0,0),(198,'个人','contact/index','fa fa-user bc-personal','','','9',0,0),(199,'产品搜索','product/index','','','','91',203,0),(200,'产品标签','product_type/tag_manage','','','','91',203,0),(201,'产品分类','product_type/index','','','','91',203,0),(203,'产品','product/index##','','ProductFolder','','91',197,0),(204,'产品目录','product_folder/index','','','','91',203,0),(205,'业务角色管理','duty/index','','','','1',112,0),(206,'业务权限分配','role/duty','','','','3',112,0),(207,'新闻','news/index##','fa fa-file-o','NewsFolder','','4',0,0),(208,'新闻库管理','news_folder/index','','','','C1',207,0),(209,'幻灯片','slide/index','fa fa-file-o','','','4',207,0),(211,'周报','weekly_report/index','fa fa-book','','','2',182,0),(212,'月报','monthly_report/index','fa fa-book','','','3',182,0),(213,'日报','daily_report/index','fa fa-book','','','1',182,0),(214,'记账','finance/index','fa fa-jpy','','','A1',0,0),(215,'记账','finance/index','fa fa-envelope-o bc-mail','','','1',214,0),(216,'日报','task/index','fa fa-book','','','6',0,0);
 */
-/*!40000 ALTER TABLE `aeropms_node` ENABLE KEYS */;
 
 
 #
@@ -966,7 +979,14 @@ CREATE TABLE `aeropms_position` (
 #
 
 /*!40000 ALTER TABLE `aeropms_position` DISABLE KEYS */;
-INSERT INTO `aeropms_position` VALUES (1,'05','主管','5',0),(2,'04','经理','4',0),(3,'03','总监','3',0),(4,'02','副总','2',0),(5,'01','总经理','1',0),(6,'06','助理','6',0);
+INSERT INTO `aeropms_position` VALUES
+  (1,'01','项目经理','1',0),
+  (2,'02','总师','2',0),
+  (3,'03','副总师','3',0),
+  (4,'04','主任设计师','4',0),
+  (5,'05','设计师','5',0),
+  (6,'06','助理设计师','6',0);
+/*INSERT INTO `aeropms_position` VALUES (1,'05','主管','5',0),(2,'04','经理','4',0),(3,'03','总监','3',0),(4,'02','副总','2',0),(5,'01','总经理','1',0),(6,'06','助理','6',0);*/
 /*!40000 ALTER TABLE `aeropms_position` ENABLE KEYS */;
 
 #
@@ -1177,7 +1197,11 @@ CREATE TABLE `aeropms_role` (
 #
 
 /*!40000 ALTER TABLE `aeropms_role` DISABLE KEYS */;
-INSERT INTO `aeropms_role` VALUES (1,'公司管理员',0,'','1',1208784792,1368507168,0),(2,'基本权限',0,'','2',1215496283,1368507164,0),(7,'领导',0,'','2',1254325787,1401288337,0),(10,'日志查看',NULL,'','',1421221316,0,0);
+INSERT INTO `aeropms_role` VALUES
+  (1,'系统管理员',0,'','1',1208784792,1368507168,0),
+  (2,'基本业务权限',0,'','2',1215496283,1368507164,0),
+  (7,'高级业务权限',0,'','2',1254325787,1401288337,0),
+  (10,'日志查看',NULL,'','',1421221316,1421221316,0);
 /*!40000 ALTER TABLE `aeropms_role` ENABLE KEYS */;
 
 #
@@ -1216,8 +1240,6 @@ CREATE TABLE `aeropms_role_node` (
 #
 
 /*!40000 ALTER TABLE `aeropms_role_node` DISABLE KEYS */;
-INSERT INTO `aeropms_role_node` VALUES (2,136,NULL,NULL,NULL),(2,137,1,1,1),(2,135,NULL,NULL,NULL),(2,83,1,1,1),(1,94,NULL,NULL,NULL),(1,97,NULL,NULL,NULL),(1,98,NULL,NULL,NULL),(1,99,NULL,NULL,NULL),(1,69,NULL,NULL,NULL),(1,6,NULL,NULL,NULL),(1,2,NULL,NULL,NULL),(1,7,NULL,NULL,NULL),(1,131,1,1,1),(1,130,NULL,NULL,NULL),(1,133,NULL,NULL,NULL),(1,132,NULL,NULL,NULL),(1,189,1,1,1),(2,125,1,1,1),(1,183,1,1,1),(1,135,NULL,NULL,NULL),(1,136,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,138,1,1,1),(1,134,NULL,NULL,NULL),(2,194,1,1,1),(2,103,NULL,NULL,NULL),(2,126,1,1,1),(2,88,1,1,1),(2,133,NULL,NULL,NULL),(2,130,NULL,NULL,NULL),(2,158,1,1,1),(7,124,NULL,NULL,NULL),(7,108,NULL,NULL,NULL),(7,104,NULL,NULL,NULL),(7,107,NULL,NULL,NULL),(7,106,NULL,NULL,NULL),(7,105,NULL,NULL,NULL),(7,101,NULL,NULL,NULL),(7,100,NULL,NULL,NULL),(7,125,NULL,NULL,NULL),(1,152,1,1,1),(2,134,NULL,NULL,NULL),(2,156,1,1,1),(2,169,1,1,1),(2,132,NULL,NULL,NULL),(2,148,NULL,NULL,NULL),(2,143,1,1,1),(2,102,NULL,NULL,NULL),(2,103,NULL,NULL,NULL),(2,157,1,1,1),(1,91,1,1,1),(2,177,1,1,1),(2,107,NULL,NULL,NULL),(2,105,NULL,NULL,NULL),(2,104,NULL,NULL,NULL),(2,106,NULL,NULL,NULL),(2,103,NULL,NULL,NULL),(2,109,NULL,NULL,NULL),(2,101,NULL,NULL,NULL),(2,100,NULL,NULL,NULL),(2,85,1,1,1),(2,150,NULL,NULL,NULL),(2,185,NULL,NULL,NULL),(2,147,NULL,NULL,NULL),(2,144,1,1,1),(2,87,1,1,1),(2,192,1,1,1),(2,193,NULL,NULL,NULL),(2,191,NULL,NULL,NULL),(2,198,1,1,1),(1,117,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,103,NULL,NULL,NULL),(1,109,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,163,NULL,NULL,NULL),(1,158,1,1,1),(1,170,NULL,NULL,NULL),(1,164,NULL,NULL,NULL),(1,121,1,1,1),(1,146,1,1,1),(1,114,1,1,1),(1,108,1,1,1),(1,113,NULL,NULL,NULL),(1,155,NULL,NULL,NULL),(1,154,1,1,1),(1,206,NULL,NULL,NULL),(1,120,NULL,NULL,NULL),(1,119,NULL,NULL,NULL),(1,118,1,1,1),(1,205,1,1,1),(1,111,NULL,NULL,NULL),(1,112,NULL,NULL,NULL),(1,204,1,1,1),(1,116,1,1,1),(1,153,1,1,1),(1,122,1,1,1),(1,150,NULL,NULL,NULL),(1,149,NULL,NULL,NULL),(1,148,NULL,NULL,NULL),(1,147,NULL,NULL,NULL),(1,144,1,1,1),(1,143,1,1,1),(1,102,NULL,NULL,NULL),(1,177,1,1,1),(1,107,NULL,NULL,NULL),(1,105,NULL,NULL,NULL),(1,104,NULL,NULL,NULL),(1,106,NULL,NULL,NULL),(1,101,NULL,NULL,NULL),(1,156,1,1,1),(1,168,NULL,NULL,NULL),(1,162,NULL,NULL,NULL),(1,166,NULL,NULL,NULL),(1,161,NULL,NULL,NULL),(1,171,NULL,NULL,NULL),(1,125,1,1,1),(1,165,NULL,NULL,NULL),(1,174,NULL,NULL,NULL),(1,172,NULL,NULL,NULL),(1,173,NULL,NULL,NULL),(1,160,NULL,NULL,NULL),(1,175,NULL,NULL,NULL),(1,169,1,1,1),(1,185,NULL,NULL,NULL),(1,213,1,1,1),(1,181,1,1,1),(1,199,1,1,1),(1,200,NULL,NULL,NULL),(1,201,1,1,1),(1,184,NULL,NULL,NULL),(1,176,NULL,NULL,NULL),(1,123,1,1,1),(1,194,NULL,NULL,NULL),(1,193,NULL,NULL,NULL),(1,100,NULL,NULL,NULL),(1,85,1,1,1),(1,87,1,1,1),(1,126,1,1,1),(1,157,1,1,1),(1,167,NULL,NULL,NULL),(1,83,1,1,1),(1,128,NULL,NULL,NULL),(1,192,NULL,NULL,NULL),(1,191,NULL,NULL,NULL),(1,190,NULL,NULL,NULL),(1,88,1,1,1),(1,115,1,1,1),(1,203,1,1,1),(1,212,1,1,1),(1,198,NULL,NULL,NULL),(1,180,1,1,1),(1,229,NULL,NULL,NULL),(1,228,NULL,NULL,NULL),(1,227,NULL,NULL,NULL),(1,226,NULL,NULL,NULL),(1,225,NULL,NULL,NULL),(1,224,NULL,NULL,NULL),(1,223,NULL,NULL,NULL),(1,222,NULL,NULL,NULL),(1,221,NULL,NULL,NULL),(1,220,NULL,NULL,NULL),(1,219,NULL,NULL,NULL),(1,217,NULL,NULL,NULL),(1,218,NULL,NULL,NULL),(1,216,1,1,1),(1,215,NULL,NULL,NULL),(1,214,1,1,1),(1,179,1,1,1),(1,178,1,1,1),(1,186,1,1,1),(1,196,1,1,1),(1,195,1,1,1),(1,197,NULL,NULL,NULL),(1,110,NULL,NULL,NULL),(1,84,1,1,1),(1,208,1,1,1),(1,209,1,1,1),(1,207,1,1,1),(1,211,1,1,1),(1,182,1,1,1),(1,137,1,1,1),(2,186,NULL,1,1),(2,195,NULL,1,1),(2,197,NULL,1,1),(1,124,1,1,1),(2,108,1,1,1),(2,124,1,1,1),(2,149,NULL,NULL,NULL),(2,182,NULL,1,1),(2,91,1,1,1),(2,152,1,1,1),(2,178,NULL,1,1),(2,179,NULL,1,1),(2,180,NULL,1,1),(2,190,1,1,1),(7,182,1,1,1);
-/*配套增加role-node表 by MobiuS@2016.07.04*/
 INSERT INTO `aeropms_role_node` VALUES
   (1,900,1,1,1),
   (1,901,1,1,1),
@@ -1226,13 +1248,25 @@ INSERT INTO `aeropms_role_node` VALUES
   (1,904,1,1,1),
   (1,905,1,1,1),
   (1,906,1,1,1),
-  (1,907,1,1,1);
+  (1,907,1,1,1),
+  (2,900,0,1,1),
+  (2,901,0,1,1),
+  (2,902,0,1,1),
+  (2,903,0,1,1),
+  (2,904,0,1,1),
+  (2,905,0,1,1),
+  (2,906,0,1,1),
+  (2,907,0,1,1);
 /*!40000 ALTER TABLE `aeropms_role_node` ENABLE KEYS */;
+/*
+INSERT INTO `aeropms_role_node` VALUES (2,136,NULL,NULL,NULL),(2,137,1,1,1),(2,135,NULL,NULL,NULL),(2,83,1,1,1),(1,94,NULL,NULL,NULL),(1,97,NULL,NULL,NULL),(1,98,NULL,NULL,NULL),(1,99,NULL,NULL,NULL),(1,69,NULL,NULL,NULL),(1,6,NULL,NULL,NULL),(1,2,NULL,NULL,NULL),(1,7,NULL,NULL,NULL),(1,131,1,1,1),(1,130,NULL,NULL,NULL),(1,133,NULL,NULL,NULL),(1,132,NULL,NULL,NULL),(1,189,1,1,1),(2,125,1,1,1),(1,183,1,1,1),(1,135,NULL,NULL,NULL),(1,136,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,138,1,1,1),(1,134,NULL,NULL,NULL),(2,194,1,1,1),(2,103,NULL,NULL,NULL),(2,126,1,1,1),(2,88,1,1,1),(2,133,NULL,NULL,NULL),(2,130,NULL,NULL,NULL),(2,158,1,1,1),(7,124,NULL,NULL,NULL),(7,108,NULL,NULL,NULL),(7,104,NULL,NULL,NULL),(7,107,NULL,NULL,NULL),(7,106,NULL,NULL,NULL),(7,105,NULL,NULL,NULL),(7,101,NULL,NULL,NULL),(7,100,NULL,NULL,NULL),(7,125,NULL,NULL,NULL),(1,152,1,1,1),(2,134,NULL,NULL,NULL),(2,156,1,1,1),(2,169,1,1,1),(2,132,NULL,NULL,NULL),(2,148,NULL,NULL,NULL),(2,143,1,1,1),(2,102,NULL,NULL,NULL),(2,103,NULL,NULL,NULL),(2,157,1,1,1),(1,91,1,1,1),(2,177,1,1,1),(2,107,NULL,NULL,NULL),(2,105,NULL,NULL,NULL),(2,104,NULL,NULL,NULL),(2,106,NULL,NULL,NULL),(2,103,NULL,NULL,NULL),(2,109,NULL,NULL,NULL),(2,101,NULL,NULL,NULL),(2,100,NULL,NULL,NULL),(2,85,1,1,1),(2,150,NULL,NULL,NULL),(2,185,NULL,NULL,NULL),(2,147,NULL,NULL,NULL),(2,144,1,1,1),(2,87,1,1,1),(2,192,1,1,1),(2,193,NULL,NULL,NULL),(2,191,NULL,NULL,NULL),(2,198,1,1,1),(1,117,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,103,NULL,NULL,NULL),(1,109,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,117,NULL,NULL,NULL),(1,163,NULL,NULL,NULL),(1,158,1,1,1),(1,170,NULL,NULL,NULL),(1,164,NULL,NULL,NULL),(1,121,1,1,1),(1,146,1,1,1),(1,114,1,1,1),(1,108,1,1,1),(1,113,NULL,NULL,NULL),(1,155,NULL,NULL,NULL),(1,154,1,1,1),(1,206,NULL,NULL,NULL),(1,120,NULL,NULL,NULL),(1,119,NULL,NULL,NULL),(1,118,1,1,1),(1,205,1,1,1),(1,111,NULL,NULL,NULL),(1,112,NULL,NULL,NULL),(1,204,1,1,1),(1,116,1,1,1),(1,153,1,1,1),(1,122,1,1,1),(1,150,NULL,NULL,NULL),(1,149,NULL,NULL,NULL),(1,148,NULL,NULL,NULL),(1,147,NULL,NULL,NULL),(1,144,1,1,1),(1,143,1,1,1),(1,102,NULL,NULL,NULL),(1,177,1,1,1),(1,107,NULL,NULL,NULL),(1,105,NULL,NULL,NULL),(1,104,NULL,NULL,NULL),(1,106,NULL,NULL,NULL),(1,101,NULL,NULL,NULL),(1,156,1,1,1),(1,168,NULL,NULL,NULL),(1,162,NULL,NULL,NULL),(1,166,NULL,NULL,NULL),(1,161,NULL,NULL,NULL),(1,171,NULL,NULL,NULL),(1,125,1,1,1),(1,165,NULL,NULL,NULL),(1,174,NULL,NULL,NULL),(1,172,NULL,NULL,NULL),(1,173,NULL,NULL,NULL),(1,160,NULL,NULL,NULL),(1,175,NULL,NULL,NULL),(1,169,1,1,1),(1,185,NULL,NULL,NULL),(1,213,1,1,1),(1,181,1,1,1),(1,199,1,1,1),(1,200,NULL,NULL,NULL),(1,201,1,1,1),(1,184,NULL,NULL,NULL),(1,176,NULL,NULL,NULL),(1,123,1,1,1),(1,194,NULL,NULL,NULL),(1,193,NULL,NULL,NULL),(1,100,NULL,NULL,NULL),(1,85,1,1,1),(1,87,1,1,1),(1,126,1,1,1),(1,157,1,1,1),(1,167,NULL,NULL,NULL),(1,83,1,1,1),(1,128,NULL,NULL,NULL),(1,192,NULL,NULL,NULL),(1,191,NULL,NULL,NULL),(1,190,NULL,NULL,NULL),(1,88,1,1,1),(1,115,1,1,1),(1,203,1,1,1),(1,212,1,1,1),(1,198,NULL,NULL,NULL),(1,180,1,1,1),(1,229,NULL,NULL,NULL),(1,228,NULL,NULL,NULL),(1,227,NULL,NULL,NULL),(1,226,NULL,NULL,NULL),(1,225,NULL,NULL,NULL),(1,224,NULL,NULL,NULL),(1,223,NULL,NULL,NULL),(1,222,NULL,NULL,NULL),(1,221,NULL,NULL,NULL),(1,220,NULL,NULL,NULL),(1,219,NULL,NULL,NULL),(1,217,NULL,NULL,NULL),(1,218,NULL,NULL,NULL),(1,216,1,1,1),(1,215,NULL,NULL,NULL),(1,214,1,1,1),(1,179,1,1,1),(1,178,1,1,1),(1,186,1,1,1),(1,196,1,1,1),(1,195,1,1,1),(1,197,NULL,NULL,NULL),(1,110,NULL,NULL,NULL),(1,84,1,1,1),(1,208,1,1,1),(1,209,1,1,1),(1,207,1,1,1),(1,211,1,1,1),(1,182,1,1,1),(1,137,1,1,1),(2,186,NULL,1,1),(2,195,NULL,1,1),(2,197,NULL,1,1),(1,124,1,1,1),(2,108,1,1,1),(2,124,1,1,1),(2,149,NULL,NULL,NULL),(2,182,NULL,1,1),(2,91,1,1,1),(2,152,1,1,1),(2,178,NULL,1,1),(2,179,NULL,1,1),(2,180,NULL,1,1),(2,190,1,1,1),(7,182,1,1,1);
+*/
+
 
 #
 # Source for table "aeropms_role_user"
 #
-
+/*角色-用户表, 允许单个用户拥有多个角色*/
 DROP TABLE IF EXISTS `aeropms_role_user`;
 CREATE TABLE `aeropms_role_user` (
   `role_id` mediumint(9) unsigned DEFAULT NULL,
@@ -1246,8 +1280,20 @@ CREATE TABLE `aeropms_role_user` (
 #
 
 /*!40000 ALTER TABLE `aeropms_role_user` DISABLE KEYS */;
-INSERT INTO `aeropms_role_user` VALUES (4,'27'),(4,'26'),(5,'31'),(3,'22'),(2,'67'),(1,'4'),(1,'3'),(1,'35'),(1,'36'),(1,'54'),(2,'3'),(1,'53'),(7,'36'),(1,'2'),(2,'66'),(2,'65'),(2,'62'),(2,'2'),(7,'2'),(2,'61'),(2,'60'),(2,'59'),(2,'58'),(2,'57'),(2,'55'),(1,'56'),(2,'52'),(2,'51'),(2,'50'),(2,'49'),(2,'48'),(2,'44'),(2,'43'),(2,'1'),(2,'42'),(1,'1'),(1,'63'),(1,'64'),(2,'41'),(2,'68'),(7,'44'),(1,'42'),(1,'55'),(2,'56'),(7,'42');
+INSERT INTO `aeropms_role_user` VALUES
+  (1,'1'),
+  (7,'1'),
+  (2,'41'),
+  (7,'41'),
+  (2,'42'),
+  (2,'43'),
+  (2,'44'),
+  (2,'48'),
+  (2,'49');
 /*!40000 ALTER TABLE `aeropms_role_user` ENABLE KEYS */;
+/* 原始语句如下:
+INSERT INTO `aeropms_role_user` VALUES (4,'27'),(4,'26'),(5,'31'),(3,'22'),(2,'67'),(1,'4'),(1,'3'),(1,'35'),(1,'36'),(1,'54'),(2,'3'),(1,'53'),(7,'36'),(1,'2'),(2,'66'),(2,'65'),(2,'62'),(2,'2'),(7,'2'),(2,'61'),(2,'60'),(2,'59'),(2,'58'),(2,'57'),(2,'55'),(1,'56'),(2,'52'),(2,'51'),(2,'50'),(2,'49'),(2,'48'),(2,'44'),(2,'43'),(2,'1'),(2,'42'),(1,'1'),(1,'63'),(1,'64'),(2,'41'),(2,'68'),(7,'44'),(1,'42'),(1,'55'),(2,'56'),(7,'42');
+*/
 
 #
 # Source for table "aeropms_schedule"
@@ -1697,6 +1743,17 @@ CREATE TABLE `aeropms_user` (
 /*!40000 ALTER TABLE `aeropms_user` DISABLE KEYS */;
 INSERT INTO `aeropms_user` VALUES
   (1,'admin','管理员','GLY','21232f297a57a5a743894a0e4a801fc3',1,1,2,'male','2013-09-18','127.0.0.1',2829,'emp_pic/1.jpeg','123','1231254123123','5086-2222-2222','12123123',1222907803,1404047349,0,'1231512315123',1),
+  (41,'PM00','项目经理0','PM','21232f297a57a5a743894a0e4a801fc3',6,1,1,'male','2013-10-30','0.0.0.0',NULL,'','','项目经理测试用户','','',1376896154,1407565312,0,NULL,1),
+  (42,'DR00','总师0','DR','21232f297a57a5a743894a0e4a801fc3',8,2,1,'male','2013-10-10','127.0.0.1',NULL,'emp_pic/42.jpeg','smeoa@qq.com','总师测试用户','123','12312312',1380970837,1401287019,0,'12312541231251243123',1),
+  (43,'VDR00','副总师0','VDR','21232f297a57a5a743894a0e4a801fc3',7,3,1,'male','0000-00-00','127.0.0.1',NULL,'emp_pic/43.jpeg','','副总师测试用户','','',1381035116,1401287063,0,NULL,1),
+  (44,'DM00','主任设计师0','DM','21232f297a57a5a743894a0e4a801fc3',1,4,5,'male','0000-00-00','127.0.0.1',NULL,'','','主任设计师测试用户','','',1381502796,1401288611,0,NULL,1),
+  (48,'DE00','设计师0','DE','21232f297a57a5a743894a0e4a801fc3',6,5,1,'female','0000-00-00','0.0.0.0',NULL,'','','设计师测试用户','','',1381503490,1401286413,0,NULL,1),
+  (49,'VDE00','助理设计师0','VDE','21232f297a57a5a743894a0e4a801fc3',24,6,2,'male','2013-10-10','14.104.59.86',NULL,'','','助理设计师测试用户','123','12312312',1391694170,1401287097,0,NULL,1);
+
+/*!40000 ALTER TABLE `aeropms_user` ENABLE KEYS */;
+/*原semoa数据如下*/
+/*
+  (1,'admin','管理员','GLY','21232f297a57a5a743894a0e4a801fc3',1,1,2,'male','2013-09-18','127.0.0.1',2829,'emp_pic/1.jpeg','123','1231254123123','5086-2222-2222','12123123',1222907803,1404047349,0,'1231512315123',1),
   (41,'2002','总监2002','ZJ','4ba29b9f9e5732ed33761840f4ba6c53',6,3,1,'male','2013-10-30','0.0.0.0',NULL,'','','行政，财务','','',1376896154,1407565312,1,NULL,1),
   (42,'2001','总监2001','ZJ','d0fb963ff976f9c37fc81fe03c21ea7b',8,3,1,'male','2013-10-10','127.0.0.1',NULL,'emp_pic/42.jpeg','smeoa@qq.com','开发','123','12312312',1380970837,1401287019,0,'12312541231251243123',1),
   (43,'2003','总监2003','ZJ','a591024321c5e2bdbd23ed35f0574dde',7,3,1,'male','0000-00-00','127.0.0.1',NULL,'emp_pic/43.jpeg','','销售','','',1381035116,1401287063,0,NULL,1),
@@ -1717,7 +1774,8 @@ INSERT INTO `aeropms_user` VALUES
   (65,'test1','test1','TEST','db03fa33c1e2ca35794adbb14aebb153',7,5,1,'male','2014-05-07','0.0.0.0',NULL,'','','','','',1399618939,0,0,NULL,0),
   (66,'test2','test2','TEST','261d684f6b7d9af996a5691e7106075e',2,2,2,'male','2014-05-09','0.0.0.0',NULL,'','','','','',1399618964,0,0,NULL,0),
   (67,'1002','李白','LB','fba9d88164f3e2d9109ee770223212a0',5,4,1,'male','0000-00-00','0.0.0.0',NULL,'','','','','',1399712207,1401286925,0,NULL,0);
-/*!40000 ALTER TABLE `aeropms_user` ENABLE KEYS */;
+*/
+
 
 #
 # Source for table "aeropms_user_config"
@@ -2183,294 +2241,6 @@ CREATE TABLE `aeropms_xmk_report` (
 INSERT INTO `aeropms_xmk_report` VALUES (53,6,'','sssssssssss',1,'管理员','',0,1401544598,1401634439,NULL,'QQQQQQQQQQQQQQQQ'),(54,6,'','qqqqqqqqqqqqqq',1,'管理员','b2479f420535a859504c301285dc28f2',0,1401544598,0,NULL,NULL),(55,6,'','aaaaaaaaaaaaaaaaa',1,'管理员','',0,1401544598,0,NULL,NULL),(56,6,'','QQQQQQQQQQQQQQQQQQQ',1,'管理员','',0,1401544694,1401632192,NULL,NULL),(57,6,'','&lt;div class=\"form-group\"&gt;<br />\r\n&lt;div class=\"col-sm-12\"&gt;<br />\r\n&lt;div class=\"content_wrap\"&gt;<br />\r\n&lt;iframe class=\"content_iframe\"&gt;&lt;/iframe&gt;<br />\r\n&lt;textarea class=\"content\" name=\"content\" style=\"width:100%;display:none\"&gt;{$vo_report.content}&lt;/textarea&gt;<br />\r\n&lt;/div&gt; <br />\r\n&lt;/div&gt; <br />\r\n&lt;/div&gt;<br />',1,'管理员','b2479f420535a859504c301285dc28f2',1,1401547161,0,NULL,NULL),(58,6,'','XXXXXXXXXXXXXXXXXXXXXXX',1,'管理员','',0,1401547253,1401634062,NULL,NULL),(59,6,'','&lt;div class=\"form-group\"&gt;<br />\r\n&lt;div class=\"col-sm-12\"&gt;<br />\r\n&lt;div class=\"content_wrap\"&gt;<br />\r\n&lt;iframe class=\"content_iframe\"&gt;&lt;/iframe&gt;<br />\r\n&lt;textarea class=\"content\" name=\"content\" style=\"width:100%;display:none\"&gt;{$vo_report.content}&lt;/textarea&gt;<br />\r\n&lt;/div&gt; <br />\r\n&lt;/div&gt; <br />\r\n&lt;/div&gt;<br />',1,'管理员','b2479f420535a859504c301285dc28f2',1,1401547287,0,NULL,NULL),(60,6,'','<div class=\"page-wrapper\" style=\"box-sizing:border-box;\">\r\n\t<div class=\"panel\" style=\"box-sizing:border-box;margin-bottom:20px;background-color:#FFFFFF;border:1px solid #DDDDDD;border-top-left-radius:4px;border-top-right-radius:4px;border-bottom-right-radius:4px;border-bottom-left-radius:4px;-webkit-box-shadow:rgba(0, 0, 0, 0.0470588) 0px 1px 1px;box-shadow:rgba(0, 0, 0, 0.0470588) 0px 1px 1px;\">\r\n\t\t<table class=\"table table-hover table-striped\" style=\"box-sizing:border-box;border-spacing:0px;max-width:100%;background-color:transparent;width:1138px;margin-bottom:0px;\">\r\n\t\t\t<thead style=\"box-sizing:border-box;\">\r\n\t\t\t\t<tr class=\"text-center\" style=\"box-sizing:border-box;text-align:center;\">\r\n\t\t\t\t\t<th colspan=\"2\" style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:bottom;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:transparent;\">\r\n\t\t\t\t\t\t标题\r\n\t\t\t\t\t</th>\r\n\t\t\t\t\t<th style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:bottom;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:transparent;width:120px;\">\r\n\t\t\t\t\t\t作者\r\n\t\t\t\t\t</th>\r\n\t\t\t\t\t<th style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:bottom;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:transparent;width:100px;\">\r\n\t\t\t\t\t\t发表于\r\n\t\t\t\t\t</th>\r\n\t\t\t\t\t<th style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:bottom;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:transparent;width:50px;\">\r\n\t\t\t\t\t\t阅读\r\n\t\t\t\t\t</th>\r\n\t\t\t\t\t<th style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:bottom;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:transparent;width:50px;\">\r\n\t\t\t\t\t\t回帖\r\n\t\t\t\t\t</th>\r\n\t\t\t\t\t<th style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:bottom;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:transparent;width:200px;\">\r\n\t\t\t\t\t\t最后回帖\r\n\t\t\t\t\t</th>\r\n\t\t\t\t</tr>\r\n\t\t\t</thead>\r\n\t\t\t<tbody style=\"box-sizing:border-box;\">\r\n\t\t\t\t<tr class=\"text-center\" style=\"box-sizing:border-box;text-align:center;\">\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:10px;\">\r\n\t\t\t\t\t\t<span class=\"text-success\" style=\"box-sizing:border-box;color:#229F24;\"><span class=\"icon-comment-alt icon-large\" style=\"box-sizing:border-box;font-family:ZenIcon;text-decoration:inherit;-webkit-font-smoothing:antialiased;display:inline;width:auto;height:auto;line-height:normal;vertical-align:baseline;background-image:none;margin-top:0px;background-position:0px 0px;background-repeat:repeat repeat;\"></span></span>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;\">\r\n\t\t\t\t\t\t<a href=\"http://www.smeoa.com/thread/60.html\" style=\"box-sizing:border-box;background-color:transparent;color:#145CCD;text-decoration:none;transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);background-position:initial initial;background-repeat:initial initial;\">流程提示</a>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:120px;\">\r\n\t\t\t\t\t\t<strong style=\"box-sizing:border-box;\">linkai</strong>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:100px;\">\r\n\t\t\t\t\t\t05-29 14:01\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:30px;\">\r\n\t\t\t\t\t\t12\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:30px;\">\r\n\t\t\t\t\t\t0\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:150px;\">\r\n\t\t\t\t\t</td>\r\n\t\t\t\t</tr>\r\n\t\t\t\t<tr class=\"text-center\" style=\"box-sizing:border-box;text-align:center;\">\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:10px;\">\r\n\t\t\t\t\t\t<span class=\"text-muted\" style=\"box-sizing:border-box;color:#808080;\"><span class=\"icon-comment-alt icon-large\" style=\"box-sizing:border-box;font-family:ZenIcon;text-decoration:inherit;-webkit-font-smoothing:antialiased;display:inline;width:auto;height:auto;line-height:normal;vertical-align:baseline;background-image:none;margin-top:0px;background-position:0px 0px;background-repeat:repeat repeat;\"></span></span>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);\">\r\n\t\t\t\t\t\t<a href=\"http://www.smeoa.com/thread/56.html\" style=\"box-sizing:border-box;background-color:transparent;color:#145CCD;text-decoration:none;transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);background-position:initial initial;background-repeat:initial initial;\">编辑器兼容问题</a>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:120px;\">\r\n\t\t\t\t\t\t<strong style=\"box-sizing:border-box;\">linkai</strong>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:100px;\">\r\n\t\t\t\t\t\t05-21 16:07\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:30px;\">\r\n\t\t\t\t\t\t39\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:30px;\">\r\n\t\t\t\t\t\t0\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:150px;\">\r\n\t\t\t\t\t</td>\r\n\t\t\t\t</tr>\r\n\t\t\t\t<tr class=\"text-center\" style=\"box-sizing:border-box;text-align:center;\">\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:10px;\">\r\n\t\t\t\t\t\t<span class=\"text-muted\" style=\"box-sizing:border-box;color:#808080;\"><span class=\"icon-comment-alt icon-large\" style=\"box-sizing:border-box;font-family:ZenIcon;text-decoration:inherit;-webkit-font-smoothing:antialiased;display:inline;width:auto;height:auto;line-height:normal;vertical-align:baseline;background-image:none;margin-top:0px;background-position:0px 0px;background-repeat:repeat repeat;\"></span></span>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;\">\r\n\t\t\t\t\t\t<a href=\"http://www.smeoa.com/thread/53.html\" style=\"box-sizing:border-box;background-color:transparent;color:#145CCD;text-decoration:none;transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);background-position:initial initial;background-repeat:initial initial;\">权限组设置，新建权限组无法保存</a>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:120px;\">\r\n\t\t\t\t\t\t<strong style=\"box-sizing:border-box;\">林大福</strong>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:100px;\">\r\n\t\t\t\t\t\t05-19 11:36\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:30px;\">\r\n\t\t\t\t\t\t58\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:30px;\">\r\n\t\t\t\t\t\t1\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:150px;\">\r\n\t\t\t\t\t\t05-21 09:09&nbsp;<a href=\"http://www.smeoa.com/thread-locate-53-73.html\" style=\"box-sizing:border-box;background-color:transparent;color:#145CCD;text-decoration:none;transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);background-position:initial initial;background-repeat:initial initial;\">admin</a>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t</tr>\r\n\t\t\t\t<tr class=\"text-center\" style=\"box-sizing:border-box;text-align:center;\">\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:10px;\">\r\n\t\t\t\t\t\t<span class=\"text-muted\" style=\"box-sizing:border-box;color:#808080;\"><span class=\"icon-comment-alt icon-large\" style=\"box-sizing:border-box;font-family:ZenIcon;text-decoration:inherit;-webkit-font-smoothing:antialiased;display:inline;width:auto;height:auto;line-height:normal;vertical-align:baseline;background-image:none;margin-top:0px;background-position:0px 0px;background-repeat:repeat repeat;\"></span></span>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);\">\r\n\t\t\t\t\t\t<a href=\"http://www.smeoa.com/thread/50.html\" style=\"box-sizing:border-box;background-color:transparent;color:#145CCD;text-decoration:none;transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);background-position:initial initial;background-repeat:initial initial;\">关于慧视流程的讨论！</a>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:120px;\">\r\n\t\t\t\t\t\t<strong style=\"box-sizing:border-box;\">赵旭</strong>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:100px;\">\r\n\t\t\t\t\t\t05-10 11:03\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:30px;\">\r\n\t\t\t\t\t\t134\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:30px;\">\r\n\t\t\t\t\t\t3\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:150px;\">\r\n\t\t\t\t\t\t05-14 16:55&nbsp;<a href=\"http://www.smeoa.com/thread-locate-50-70.html\" style=\"box-sizing:border-box;background-color:transparent;color:#145CCD;text-decoration:none;transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);background-position:initial initial;background-repeat:initial initial;\">鹿其鹿粦</a>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t</tr>\r\n\t\t\t\t<tr class=\"text-center\" style=\"box-sizing:border-box;text-align:center;\">\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:10px;\">\r\n\t\t\t\t\t\t<span class=\"text-muted\" style=\"box-sizing:border-box;color:#808080;\"><span class=\"icon-comment-alt icon-large\" style=\"box-sizing:border-box;font-family:ZenIcon;text-decoration:inherit;-webkit-font-smoothing:antialiased;display:inline;width:auto;height:auto;line-height:normal;vertical-align:baseline;background-image:none;margin-top:0px;background-position:0px 0px;background-repeat:repeat repeat;\"></span></span>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;\">\r\n\t\t\t\t\t\t<a href=\"http://www.smeoa.com/thread/51.html\" style=\"box-sizing:border-box;background-color:transparent;color:#145CCD;text-decoration:none;transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);background-position:initial initial;background-repeat:initial initial;\">demo数据清除</a>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:120px;\">\r\n\t\t\t\t\t\t<strong style=\"box-sizing:border-box;\">金云</strong>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:100px;\">\r\n\t\t\t\t\t\t05-13 13:35\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:30px;\">\r\n\t\t\t\t\t\t55\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:30px;\">\r\n\t\t\t\t\t\t0\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:150px;\">\r\n\t\t\t\t\t</td>\r\n\t\t\t\t</tr>\r\n\t\t\t\t<tr class=\"text-center\" style=\"box-sizing:border-box;text-align:center;\">\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:10px;\">\r\n\t\t\t\t\t\t<span class=\"text-muted\" style=\"box-sizing:border-box;color:#808080;\"><span class=\"icon-comment-alt icon-large\" style=\"box-sizing:border-box;font-family:ZenIcon;text-decoration:inherit;-webkit-font-smoothing:antialiased;display:inline;width:auto;height:auto;line-height:normal;vertical-align:baseline;background-image:none;margin-top:0px;background-position:0px 0px;background-repeat:repeat repeat;\"></span></span>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);\">\r\n\t\t\t\t\t\t<a href=\"http://www.smeoa.com/thread/48.html\" style=\"box-sizing:border-box;background-color:transparent;color:#145CCD;text-decoration:none;transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);background-position:initial initial;background-repeat:initial initial;\">流程回退时所遇到的问题。</a>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:120px;\">\r\n\t\t\t\t\t\t<strong style=\"box-sizing:border-box;\">林风</strong>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:100px;\">\r\n\t\t\t\t\t\t05-09 22:03\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:30px;\">\r\n\t\t\t\t\t\t44\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:30px;\">\r\n\t\t\t\t\t\t0\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:150px;\">\r\n\t\t\t\t\t</td>\r\n\t\t\t\t</tr>\r\n\t\t\t\t<tr class=\"text-center\" style=\"box-sizing:border-box;text-align:center;\">\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:10px;\">\r\n\t\t\t\t\t\t<span class=\"text-muted\" style=\"box-sizing:border-box;color:#808080;\"><span class=\"icon-comment-alt icon-large\" style=\"box-sizing:border-box;font-family:ZenIcon;text-decoration:inherit;-webkit-font-smoothing:antialiased;display:inline;width:auto;height:auto;line-height:normal;vertical-align:baseline;background-image:none;margin-top:0px;background-position:0px 0px;background-repeat:repeat repeat;\"></span></span>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;\">\r\n\t\t\t\t\t\t<a href=\"http://www.smeoa.com/thread/47.html\" style=\"box-sizing:border-box;background-color:transparent;color:#145CCD;text-decoration:none;transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);background-position:initial initial;background-repeat:initial initial;\">能否在流程审批中增加同一级别选多个人审批</a>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:120px;\">\r\n\t\t\t\t\t\t<strong style=\"box-sizing:border-box;\">彭</strong>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:100px;\">\r\n\t\t\t\t\t\t05-09 10:25\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:30px;\">\r\n\t\t\t\t\t\t55\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:30px;\">\r\n\t\t\t\t\t\t1\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:150px;\">\r\n\t\t\t\t\t\t05-09 14:37&nbsp;<a href=\"http://www.smeoa.com/thread-locate-47-66.html\" style=\"box-sizing:border-box;background-color:transparent;color:#145CCD;text-decoration:none;transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);background-position:initial initial;background-repeat:initial initial;\">admin</a>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t</tr>\r\n\t\t\t\t<tr class=\"text-center\" style=\"box-sizing:border-box;text-align:center;\">\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:10px;\">\r\n\t\t\t\t\t\t<span class=\"text-muted\" style=\"box-sizing:border-box;color:#808080;\"><span class=\"icon-comment-alt icon-large\" style=\"box-sizing:border-box;font-family:ZenIcon;text-decoration:inherit;-webkit-font-smoothing:antialiased;display:inline;width:auto;height:auto;line-height:normal;vertical-align:baseline;background-image:none;margin-top:0px;background-position:0px 0px;background-repeat:repeat repeat;\"></span></span>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);\">\r\n\t\t\t\t\t\t<a href=\"http://www.smeoa.com/thread/46.html\" style=\"box-sizing:border-box;background-color:transparent;color:#145CCD;text-decoration:none;transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);background-position:initial initial;background-repeat:initial initial;\">删除流程分组时提示错误</a>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:120px;\">\r\n\t\t\t\t\t\t<strong style=\"box-sizing:border-box;\">彭</strong>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:100px;\">\r\n\t\t\t\t\t\t05-09 10:20\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:30px;\">\r\n\t\t\t\t\t\t48\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:30px;\">\r\n\t\t\t\t\t\t1\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:150px;\">\r\n\t\t\t\t\t\t05-09 14:34&nbsp;<a href=\"http://www.smeoa.com/thread-locate-46-65.html\" style=\"box-sizing:border-box;background-color:transparent;color:#145CCD;text-decoration:none;transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);background-position:initial initial;background-repeat:initial initial;\">admin</a>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t</tr>\r\n\t\t\t\t<tr class=\"text-center\" style=\"box-sizing:border-box;text-align:center;\">\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:10px;\">\r\n\t\t\t\t\t\t<span class=\"text-muted\" style=\"box-sizing:border-box;color:#808080;\"><span class=\"icon-comment-alt icon-large\" style=\"box-sizing:border-box;font-family:ZenIcon;text-decoration:inherit;-webkit-font-smoothing:antialiased;display:inline;width:auto;height:auto;line-height:normal;vertical-align:baseline;background-image:none;margin-top:0px;background-position:0px 0px;background-repeat:repeat repeat;\"></span></span>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;\">\r\n\t\t\t\t\t\t<a href=\"http://www.smeoa.com/thread/44.html\" style=\"box-sizing:border-box;background-color:transparent;color:#145CCD;text-decoration:none;transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);background-position:initial initial;background-repeat:initial initial;\">如何修改主页栏目</a>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:120px;\">\r\n\t\t\t\t\t\t<strong style=\"box-sizing:border-box;\">兔子</strong>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:100px;\">\r\n\t\t\t\t\t\t05-08 09:24\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:30px;\">\r\n\t\t\t\t\t\t64\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:30px;\">\r\n\t\t\t\t\t\t1\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);background-color:#F9F9F9;width:150px;\">\r\n\t\t\t\t\t\t05-08 20:24&nbsp;<a href=\"http://www.smeoa.com/thread-locate-44-64.html\" style=\"box-sizing:border-box;background-color:transparent;color:#145CCD;text-decoration:none;transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);background-position:initial initial;background-repeat:initial initial;\">admin</a>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t</tr>\r\n\t\t\t\t<tr class=\"text-center\" style=\"box-sizing:border-box;text-align:center;\">\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:10px;\">\r\n\t\t\t\t\t\t<span class=\"text-muted\" style=\"box-sizing:border-box;color:#808080;\"><span class=\"icon-comment-alt icon-large\" style=\"box-sizing:border-box;font-family:ZenIcon;text-decoration:inherit;-webkit-font-smoothing:antialiased;display:inline;width:auto;height:auto;line-height:normal;vertical-align:baseline;background-image:none;margin-top:0px;background-position:0px 0px;background-repeat:repeat repeat;\"></span></span>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);\">\r\n\t\t\t\t\t\t<a href=\"http://www.smeoa.com/thread/35.html\" style=\"box-sizing:border-box;background-color:transparent;color:#145CCD;text-decoration:none;transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);background-position:initial initial;background-repeat:initial initial;\">体验两天的建议</a>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:120px;\">\r\n\t\t\t\t\t\t<strong style=\"box-sizing:border-box;\">刘伟</strong>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:100px;\">\r\n\t\t\t\t\t\t04-03 10:24\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:30px;\">\r\n\t\t\t\t\t\t301\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:30px;\">\r\n\t\t\t\t\t\t3\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"text-left\" style=\"box-sizing:border-box;text-align:left;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);width:150px;\">\r\n\t\t\t\t\t\t05-04 12:40&nbsp;<a href=\"http://www.smeoa.com/thread-locate-35-63.html\" style=\"box-sizing:border-box;background-color:transparent;color:#145CCD;text-decoration:none;transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);background-position:initial initial;background-repeat:initial initial;\">刘伟</a>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t</tr>\r\n\t\t\t</tbody>\r\n\t\t\t<tfoot style=\"box-sizing:border-box;\">\r\n\t\t\t\t<tr style=\"box-sizing:border-box;\">\r\n\t\t\t\t\t<td colspan=\"7\" style=\"box-sizing:border-box;padding:8px;line-height:1.428571429;vertical-align:top;border-bottom-width:1px;border-bottom-style:solid;border-bottom-color:#DDDDDD;transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1);\">\r\n\t\t\t\t\t\t<div class=\"page form-inline\" style=\"box-sizing:border-box;padding:0px;color:#999999;text-align:right;margin:0px;float:right;clear:none;\">\r\n\t\t\t\t\t\t\t共&nbsp;<strong style=\"box-sizing:border-box;\">31</strong>&nbsp;条主题，每页&nbsp;<strong style=\"box-sizing:border-box;\">10</strong>&nbsp;条，页面：<strong style=\"box-sizing:border-box;\">1/4</strong>&nbsp;首页 上页&nbsp;<a href=\"http://www.smeoa.com/forum/c10/p2.html\" style=\"box-sizing:border-box;background-color:transparent;color:#666666;text-decoration:none;transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);background-position:initial initial;background-repeat:initial initial;\">下页</a>&nbsp;<a href=\"http://www.smeoa.com/forum/c10/p4.html\" style=\"box-sizing:border-box;background-color:transparent;color:#666666;text-decoration:none;transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);background-position:initial initial;background-repeat:initial initial;\">末页</a>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t</tr>\r\n\t\t\t</tfoot>\r\n\t\t</table>\r\n\t</div>\r\n</div>\r\n<footer id=\"footer\" class=\"clearfix\" style=\"box-sizing:border-box;background-color:#F7F7F7;padding:20px 15px;border:1px solid #DDDDDD;border-top-left-radius:4px;border-top-right-radius:4px;border-bottom-right-radius:4px;border-bottom-left-radius:4px;text-align:center;position:relative;\">\r\n<div id=\"footNav\" style=\"box-sizing:border-box;position:absolute;left:15px;top:20px;color:#333333;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:20px;white-space:normal;\">\r\n\t<a href=\"http://www.smeoa.com/sitemap/\" style=\"box-sizing:border-box;background-color:transparent;color:#777777;text-decoration:none;transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);-webkit-transition:all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1);display:inline-block;margin-right:10px;background-position:initial initial;background-repeat:initial initial;\"><span class=\"icon-sitemap\" style=\"box-sizing:border-box;font-family:ZenIcon;text-decoration:inherit;-webkit-font-smoothing:antialiased;display:inline;width:auto;height:auto;line-height:normal;vertical-align:baseline;background-image:none;margin-top:0px;background-position:0px 0px;background-repeat:repeat repeat;\"></span>&nbsp;站点地图</a>\r\n</div>\r\n<div>\r\n\t<br />\r\n</div>\r\n<span id=\"copyright\" style=\"box-sizing:border-box;color:#333333;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-size:14px;line-height:20px;white-space:normal;\"></span></footer>',1,'管理员','b2479f420535a859504c301285dc28f2',1,1401547333,0,NULL,NULL),(61,7,'','XXXXXXXXXX',1,'管理员','',0,1401630240,1401631478,NULL,NULL),(62,6,'','<h1 style=\"font-size:24px;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-weight:lighter;color:#2679B5;background-color:#FFFFFF;\">\r\n\t项目进展1\r\n</h1>',1,'管理员','',0,1401634981,1401635017,NULL,'<h1 style=\"font-size:24px;font-family:\'Microsoft YaHei\', simsun, Arial, sans-serif;font-weight:lighter;color:#2679B5;background-color:#FFFFFF;\">\r\n\t回复项目进展\r\n</h1>'),(63,6,'','123123123',1,'管理员','',0,1401760228,0,NULL,NULL),(64,6,'','1231212315123',1,'管理员','',0,1401760236,0,NULL,NULL);
 /*!40000 ALTER TABLE `aeropms_xmk_report` ENABLE KEYS */;
 
-/* added by MobiuS@2016.05.31*/
-/*航空项目列表*/
-DROP TABLE IF EXISTS `aeropms_project_list`;
-CREATE TABLE `aeropms_project_list` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL DEFAULT '', /*项目名称*/
-  `desc` text NOT NULL, /*项目描述*/
-  `agent_id` int(11) NULL DEFAULT '0', /*项目代理类的ID*/
-  `creator` varchar(20) NOT NULL, /*项目创建者*/
-  `add_file` varchar(200) NOT NULL,
-  `proj_type` tinyint(3) NOT NULL DEFAULT '0', /*项目类型*/
-  `create_time` datetime NOT NULL,
-  `update_time` datetime NOT NULL,
-  `remark` text null,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
-#
-# Data for table "aeropms_project_list"
-#
-/*!40000 ALTER TABLE `aeropms_project_list` DISABLE KEYS */;
-INSERT INTO `aeropms_project_list` VALUES (1,'AG50','轻型运动飞机',0,'AG50项目部','无',1,now(),now(),'无'),
-(2,'LH150', '轻型高速公务机', 0, '领航项目部', '无', 2, now(), now(), '无');
-/*!40000 ALTER TABLE `aeropms_project_list` ENABLE KEYS */;
-
-/*PBS节点表*/
-DROP TABLE IF EXISTS aeropms_pbs_node;
-CREATE TABLE aeropms_pbs_node (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) NOT NULL,
-  `node_level` int(11) NOT NULL,
-  `inner_index` int(11) NOT NULL,
-  `project_id` int(11) NOT NULL,
-  `name` varchar(512) NOT NULL DEFAULT '暂无名称', /*节点名称*/
-  `agent_id` int(11) NULL DEFAULT '0', /*节点的代理类的ID*/
-  `wbs_id` int(11) NULL DEFAULT '0', /*节点对应WBS的ID*/
-  `creator` int(11)  NULL, /*项目创建者*/
-  `create_time` int NOT NULL,
-  `update_time` int NOT NULL,
-  `remark` text null,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
-
-/*PBS节点明细表*/
-DROP TABLE IF EXISTS aeropms_pbs_node_agent;
-CREATE TABLE aeropms_pbs_node_agent (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `node_id` int(11) NOT NULL,  /*归属节点id*/
-  `project_id` int(11) NOT NULL,  /*项目id*/
-  `desc` varchar(512) NOT NULL DEFAULT '暂无描述', /*节点描述*/
-  `prototype` int(10) NULL default '0', /*构型, 值取自构型管理表*/
-  `weight` float default '0.0',  /*单件重量*/
-  `amount` int(11) NULL DEFAULT '0', /*装机数量*/
-  `total_weight` float NULL DEFAULT '0', /*总装机重量*/
-  `manufacturer` varchar(256)  NULL, /*制造商*/
-  `material_type` varchar(256) NULL,  /*材料类型*/
-  `material_usage` float NULL,  /*材料利用率*/
-  `attach_id` int(11) null,  /*附件资源表ID*/
-  `remark` text null,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
-#
-# Data for table "aeropms_pbs_node_agent"
-#
-/*!40000 ALTER TABLE `aeropms_pbs_node_agent` DISABLE KEYS */;
-/*!40000 ALTER TABLE `aeropms_pbs_node_agent` ENABLE KEYS */;
-
-
-/*
- * WBS单元类型表
- */
-DROP TABLE IF EXISTS aeropms_wbs_type;
-CREATE TABLE aeropms_wbs_type (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `specific_proj_id` int(11) NOT NULL DEFAULT -1, /*是否为特定于项目的类型*/
-  `name` varchar(512) not null,
-  `desc` varchar(512) NOT NULL DEFAULT '暂无描述', /*节点描述*/
-  `attach_id` int(11) NULL DEFAULT '0', /*类型定义文件的资源ID*/
-  `remark` text null,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
-#
-# Data for table "aeropms_wbs_type"
-#
-/*!40000 ALTER TABLE `aeropms_wbs_type` DISABLE KEYS */;
-insert into `aeropms_wbs_type` values
-  (1, -1, '工作单元', '顶层WBS类型, 可包含任意数量的类型为工作包或工作任务的子单元', 0, null),
-  (2, -1, '工作包', '仅次于顶层工作单元的WBS类型, 可包含任意数量的类型为工作任务的子单元', 0, null),
-  (3, -1, '工作任务', '不可再细分的WBS类型, 描述某一具体任务', 0, null);
-/*!40000 ALTER TABLE `aeropms_wbs_type` ENABLE KEYS */;
-
-
-/*WBS节点表*/
-DROP TABLE IF EXISTS aeropms_wbs_node;
-CREATE TABLE aeropms_wbs_node (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `project_id` int(11) NOT NULL,  /*项目id*/
-  `node_level` int(11) NULL default -1,
-  `inner_index` int(11) NULL default -1,
-  `parent_id` int(11) NOT NULL,  /*父级WBS单元id*/
-  `pbs_id` int(11) NOT NULL,  /*归属PBS单元id*/
-  `name` varchar(512) not null,
-  `type` int(10) NULL default '1', /*WBS类型, 值取自WBS类型列表*/
-  `depart` int(11) NOT NULL, /*WBS任务分工类型, 值取自wbs_depart表*/
-  `engineering_phase` int(10) NULL default '1', /*WBS所属工程阶段, 值取自工程阶段类型表*/
-  `status` int(10) NOT NULL default 1,  /*任务状态, 分未开始, 进行中和已完成等, 取值见wbs_status_def表*/
-  `agent_id` int(11) NULL DEFAULT '0', /*节点的代理类的ID*/
-  `has_input` boolean not null default true, /*是否有输入依赖*/
-  `has_output` boolean not null default true, /*是否有输出成果*/
-  `creator_id` int(11)  NULL, /*项目创建者*/
-  `create_time` INT NOT NULL,
-  `update_time` INT NOT NULL,
-  `remark` text null,
-  `attach_id` int(11) null,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
-#
-# Data for table "aeropms_wbs_node"
-#
-/*!40000 ALTER TABLE `aeropms_wbs_node` DISABLE KEYS */;
-/*!40000 ALTER TABLE `aeropms_wbs_node` ENABLE KEYS */;
-
-
-/*WBS节点明细表*/
-DROP TABLE IF EXISTS aeropms_wbs_node_agent;
-CREATE TABLE aeropms_wbs_node_agent (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `node_id` int(11) NOT NULL,  /*项目id*/
-  `priority` int NOT NULL default 5, /*任务优先级, 0为最高, 默认为5*/
-  `charger_id` int(11) not NULL DEFAULT 1, /*任务负责人的用户ID, 默认为1即管理员*/
-  `planning_start_time` int not null, /*任务的计划开始时间*/
-  `planning_end_time` int not null, /*任务的计划完成时间*/
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
-#
-# Data for table "aeropms_wbs_node_agent"
-#
-/*!40000 ALTER TABLE `aeropms_wbs_node_agent` DISABLE KEYS */;
-/*!40000 ALTER TABLE `aeropms_wbs_node_agent` ENABLE KEYS */;
-
-
-/*WBS节点输出关系表*/
-DROP TABLE IF EXISTS aeropms_wbs_node_output;
-CREATE TABLE aeropms_wbs_node_output (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `project_id` int(11) NOT NULL,  /*项目id*/
-  `node_id` int(11) NOT NULL, /*产生输出的WBS节点ID*/
-  `item_name` varchar(512) not null, /*输出项名称*/
-  `type` int(11) not null default 1, /*输出项类型, 暂分为文档=1, 图像=2, 其它=3*/
-  `status` int(11) not null default 1, /*输出项状态, 暂分为未就绪=1, 已就绪=2, 无效=3*/
-  `assignee_id` int(11) null DEFAULT -1, /*输出项的被指派者, 暂未启用, 默认值-1*/
-  `create_time` INT NOT NULL,
-  `update_time` INT NOT NULL,
-  `remark` text null,
-  `attach_id` int(11) not null DEFAULT -1,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-#
-# Data for table "aeropms_wbs_node_output"
-#
-/*!40000 ALTER TABLE `aeropms_wbs_node_output` DISABLE KEYS */;
-/*!40000 ALTER TABLE `aeropms_wbs_node_output` ENABLE KEYS */;
-
-
-
-/*WBS节点输入依赖关系表*/
-DROP TABLE IF EXISTS aeropms_wbs_node_input;
-CREATE TABLE aeropms_wbs_node_input (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `project_id` int(11) NOT NULL,  /*项目id*/
-  `node_id` int(11) NOT NULL, /*需要输入的WBS节点ID*/
-  `input_node_id` int(11) not NULL, /*所依赖输入的节点ID*/
-  `input_node_item_id` int(11) null, /*所依赖输入节点的资源ID*/
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
-#
-# Data for table "aeropms_wbs_node_input"
-#
-/*!40000 ALTER TABLE `aeropms_wbs_node_input` DISABLE KEYS */;
-/*!40000 ALTER TABLE `aeropms_wbs_node_input` ENABLE KEYS */;
-
-
-/*工程阶段类型表*/
-DROP TABLE IF EXISTS aeropms_engineering_phase;
-CREATE TABLE aeropms_engineering_phase (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `specific_proj_id` int(11) NOT NULL DEFAULT -1, /*是否为特定于项目的类型*/
-  `name` varchar(512) not null,
-  `desc` varchar(512) NOT NULL DEFAULT '暂无描述', /*节点描述*/
-  `attach_id` int(11) NULL DEFAULT '0', /*类型定义文件的资源ID*/
-  `remark` text null,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
-#
-# Data for table "aeropms_engineering_phase"
-#
-/*!40000 ALTER TABLE `aeropms_engineering_phase` DISABLE KEYS */;
-insert into `aeropms_engineering_phase` values
-  (1, -1, '可行性论证', '暂无描述', 0, null),
-  (2, -1, '总体方案定义', '暂无描述', 0, null),
-  (3, -1, '初步设计', '暂无描述', 0, null),
-  (4, -1, '详细设计', '暂无描述', 0, null),
-  (5, -1, '全面试制', '暂无描述', 0, null),
-  (6, -1, '试飞取证', '暂无描述', 0, null);
-/*!40000 ALTER TABLE `aeropms_engineering_phase` ENABLE KEYS */;
-
-/*任务分工类型表*/
-DROP TABLE IF EXISTS aeropms_wbs_depart;
-CREATE TABLE aeropms_wbs_depart (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `specific_proj_id` int(11) NOT NULL DEFAULT -1, /*是否为特定于项目的类型*/
-  `name` varchar(512) not null,
-  `desc` varchar(512) NOT NULL DEFAULT '暂无描述', /*节点描述*/
-  `attach_id` int(11) NULL DEFAULT '0', /*类型定义文件的资源ID*/
-  `remark` text null,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
-#
-# Data for table "aeropms_wbs_depart"
-#
-/*!40000 ALTER TABLE `aeropms_wbs_depart` DISABLE KEYS */;
-insert into `aeropms_wbs_depart` values
-  (1, -1, '产品设计', '暂无描述', 0, null),
-  (2, -1, '生产制造', '暂无描述', 0, null),
-  (3, -1, '试验', '暂无描述', 0, null),
-  (4, -1, '试飞', '暂无描述', 0, null),
-  (5, -1, '适航取证', '暂无描述', 0, null);
-/*!40000 ALTER TABLE `aeropms_wbs_depart` ENABLE KEYS */;
-
-
-/*飞机构型列表*/
-DROP TABLE IF EXISTS aeropms_configuration_list;
-CREATE TABLE aeropms_configuration_list (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `specific_proj_id` int(11) NOT NULL DEFAULT -1, /*是否为特定于项目的类型*/
-  `type` int(11) NOT NULL DEFAULT 1, /*构型类别, 研制构型=1, 客户构型=2*/
-  `name` varchar(512) not null,
-  `desc` varchar(512) NOT NULL DEFAULT '暂无描述', /*节点描述*/
-  `attach_id` int(11) NULL DEFAULT '0', /*类型定义文件的资源ID*/
-  `remark` text null,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
-#
-# Data for table "aeropms_configuration_list"
-#
-/*!40000 ALTER TABLE `aeropms_configuration_list` DISABLE KEYS */;
-insert into `aeropms_configuration_list` values
-  (1, -1, 1, '基本型', '暂无描述', 0, null),
-  (2, -1, 1, '水上型专用', '暂无描述', 0, null),
-  (3, -1, 1, '陆上型专用', '暂无描述', 0, null);
-/*!40000 ALTER TABLE `aeropms_configuration_list` ENABLE KEYS */;
-
-
-/*
-统一资源管理表, 用于记录上传数据的ID
- */
-DROP TABLE IF EXISTS aeropms_resource_unit;
-CREATE TABLE aeropms_resource_unit (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `project_id` int(11) NOT NULL,  /*项目id*/
-  `type` int NOT NULL DEFAULT 1,  /*资源类型, 1=文件, 2=图像*/
-  `save_path` varchar(512) NOT NULL, /*资源在服务器上的保存路径*/
-  `file_name` varchar(512) NOT NULL, /*资源原始文件名*/
-  `save_name` varchar(512) NOT NULL, /*资源的保存文件名*/
-  `size` int not null DEFAULT 0, /*资源文件大小, 单位为字节*/
-  `extension` VARCHAR(32), /*文件后缀*/
-  `hash` varchar(1024) not null, /*资源文件hash值, 默认为MD5*/
-  `creator_id` int(11) not NULL DEFAULT 1, /*资源创建用户ID*/
-  `create_time` int not null, /*资源的创建时间*/
-  `update_time` int not null, /*资源的最后更新时间*/
-  `remark` text null,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
-#
-# Data for table "aeropms_resource_unit"
-#
-/*!40000 ALTER TABLE `aeropms_resource_unit` DISABLE KEYS */;
-/*!40000 ALTER TABLE `aeropms_resource_unit` ENABLE KEYS */;
 
 
 

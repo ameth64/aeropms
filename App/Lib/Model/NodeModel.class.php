@@ -47,16 +47,18 @@ class NodeModel extends CommonModel {
 		return $rs;
 	}
 
-	public function get_top_menu(){
-		$emp_id=get_user_id();
+	public function get_top_menu($emp_id){
+		if(!$emp_id)
+			$emp_id=get_user_id();
 		$sql="		SELECT distinct c.id, c.pid, c.name, c.url,c.icon";
 		$sql.="		FROM ".$this->tablePrefix."role_user AS a, ".$this->tablePrefix."role_node b, ".$this->tablePrefix."node AS c ";
-		$sql.="		WHERE a.role_id = b.role_id and c.is_del=0 ";
+		$sql.="		WHERE a.role_id = b.role_id ";
 		$sql.="		AND a.user_id ={$emp_id}";
 		$sql.="		AND c.is_del =0 ";		
 		$sql.="		AND c.id = b.node_id ";
 		$sql.="		AND c.pid = 0 ";
 		$sql.="		ORDER BY c.sort asc";
+		//Log::write("sql for  user auth: ".$sql);
 		$rs = $this->db->query($sql);
 		return $rs;
 	}

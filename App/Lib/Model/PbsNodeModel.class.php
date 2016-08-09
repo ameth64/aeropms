@@ -18,7 +18,7 @@ class PbsNodeModel extends CommonModel {
     );
 
     //-解析形如"1.1.2"的字符串并生成树节点
-    public function Insert($proj_id, $name, $id_str, $agent_id = 0, $remark = "")
+    public function Insert($proj_id, $name, $id_str, $agent_id = 0, $remark = "暂无描述")
     {
         $size = count($id_str);
         if($size < 1)
