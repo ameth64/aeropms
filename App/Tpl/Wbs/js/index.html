@@ -54,9 +54,10 @@
     };
 
     var wbs_type_enum = [
-            <volist name="type_list" id="vo">
+        <volist name="type_list" id="vo">
             { 'key': '{$vo.id}', 'val':'{$vo.name}'},
-    </volist>];
+        </volist>];
+
     //ztree节点回调函数
     function zTreeOnClick(event, treeId, treeNode) {
         var wt = treeNode.wbs_type;
@@ -155,7 +156,7 @@
             case "wbs": $("#parent_id").val(sn.id);
                 $("#pbs_id").val(sn.pbs_id);
                 break;
-            default: ui_error("未选择任何WBS或PBS节点作为父节点, 请重新选择.");
+            default: ui_error("未选择任何WBS节点作为父节点, 请在WBS节点树上重新选择.");
                 return;
         }
 
@@ -163,43 +164,44 @@
         var wbs_output_json = $("#id_wbs_output_list li").map(function(){
             if($(this).text().length > 1)
                 return {"type": $(this).attr('data-output-type'), "name": $(this).text()};
-                //return '{ "type": "' + $(this).attr('data-output-type') + '", "name": "' + $(this).text() + '" }';
         }).get();
         if(wbs_output_json.length > 0){
             $("#wbs_output_list").val(JSON.stringify(wbs_output_json));
         }
 
-        //将输入列表组装为json
+        /*将输入列表组装为json*/
         var wbs_input_json = $("#id_wbs_input_list .address_list span").map(function(){
             if($(this).text().length > 1)
-                return {"wbs_id": $(this).attr('id')}
-                //return '{ "wbs_id": "' + $(this).attr('id') + '" }';
-        //}).get().join();
+                return {"wbs_id": $(this).attr('id')};
         }).get();
-        //$("#wbs_input_list").val( '[' + wbs_input_json + ']' );
         if(wbs_input_json.length > 0) {
             $("#wbs_input_list").val(JSON.stringify(wbs_input_json));
-            console.log($("#wbs_input_list").val());
         }
 
-
-        //将负责人列表组装为json
+        // 将负责人列表组装为json
         var team_leader_json = $("#id_admin_list .address_list span").map(function(){
             if($(this).text().length > 1)
                 return {"leader_id": $(this).attr('id')}
         }).get();
-        $("#team_leader_list").val( JSON.stringify(team_leader_json) );
-        console.log($("#team_leader_list").val());
+        if(team_leader_json.length > 0){
+            $("#team_leader_list").val( JSON.stringify(team_leader_json) );
+            //console.log($("#team_leader_list").val());
+        }
 
-        //将成员列表组装为json
+        // 将成员列表组装为json
         var team_member_json = $("#id_member_list .address_list span").map(function(){
             if($(this).text().length > 1)
                 return {"member_id": $(this).attr('id')}
         }).get();
-        $("#team_member_list").val( JSON.stringify(team_member_json) );
-        console.log($("#team_member_list").val());
+        if(team_member_json.length > 0){
+            $("#team_member_list").val( JSON.stringify(team_member_json) );
+            //console.log($("#team_member_list").val());
+        }
 
-        url = $("#form_data").attr("post_url");
+        //将时间组装为json
+
+
+        var url = $("#form_data").attr("post_url");
         if(check_form("form_data")){
             sendForm("form_data", url);
         }
@@ -229,18 +231,29 @@
                 .appendTo("#id_wbs_output_list");
     };
 
-    /*日期选择组件*/
-    $('.date-picker').datepicker({
-        autoclose: true,
-        todayHighlight: true
-    }).next().click(function(){
-        $(this).prev().focus();
-    });
+    function check_date(d1, d2)
+    {
+        var elapsed = (d2 - d1)/3600000/24;
+        console.log(elapsed);
+        if(elapsed < 0){
+            ui_error("选择的计划起止时间无效, 请重新选择!");
+            return;
+        }
+        $("#id_working_day_spinner").val(elapsed);
+        calc_working_hour();
+    }
 
-    /*文件上传组件*/
+    function calc_working_hour()
+    {
+        var hours = $("#id_working_day_spinner").val() * $("#id_working_hour_spinner").val();
+        $("#id_working_hour_count").text("计划工时合计: " + hours);
+    }
+
     jQuery(function($){
 
-        /*        $('#id-input-file-1 , #id-input-file-2').ace_file_input({
+        /*文件上传组件*/
+        /*
+        $('#id-input-file-1 , #id-input-file-2').ace_file_input({
          no_file:'没有选择文件 ...',
          btn_choose:'选择文件',
          btn_change:'重新选择',
@@ -252,7 +265,6 @@
          //onchange:''
          //
          });*/
-
 
         $('#input-file').ace_file_input({
             style:'well',
@@ -328,6 +340,48 @@
             file_input.ace_file_input('reset_input');
         });
 
+
+        /** spinner组件
+         * 需引用fuelex的js脚本
+         */
+        $('#id_working_day_spinner')
+                .ace_spinner({value:0,min:0,max:999,step:1, btn_up_class:'btn-info' , btn_down_class:'btn-info'})
+                .on('change', function(){
+                    calc_working_hour();
+                });
+
+        $("#id_working_hour_spinner")
+                .ace_spinner({value:8,min:1,max:999,step:0.5, btn_up_class:'btn-info' , btn_down_class:'btn-info'})
+                .on('change', function(){
+                    calc_working_hour();
+                });
+
+        /** 日期选择组件
+         *
+         */
+        $('#id_date_picker_start').datepicker({ autoclose: true, todayHighlight: true })
+                .on('changeDate', function(e){
+                    var end = $("#id_date_picker_end").val();
+                    if(end.length > 1){
+                        var end_date = new Date(end);
+                        check_date(e.date, end_date);
+                    }
+                })
+                .next().click(function(){ $(this).prev().focus(); });
+
+        $('#id_date_picker_end').datepicker({ autoclose: true, todayHighlight: true })
+                .on('changeDate', function(e){
+                    var end = $("#id_date_picker_start").val();
+                    if(end.length > 1){
+                        var end_date = new Date(end);
+                        check_date(end_date, e.date);
+                    }
+                })
+                .next().click(function(){ $(this).prev().focus(); });
+
     });
+
+
+
 
 </script>

@@ -151,8 +151,6 @@ CREATE TABLE aeropms_wbs_node_agent (
   `node_id` int(11) NOT NULL,  /*项目id*/
   `priority` int NOT NULL default 5, /*任务优先级, 0为最高, 默认为5*/
   `charger_id` int(11) not NULL DEFAULT 1, /*任务负责人的用户ID, 默认为1即管理员*/
-  `planning_start_time` int not null, /*任务的计划开始时间*/
-  `planning_end_time` int not null, /*任务的计划完成时间*/
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
@@ -171,8 +169,10 @@ CREATE TABLE aeropms_wbs_schedule (
   `node_id` int(11) NOT NULL,  /*WBS项目id*/
   `priority` int NOT NULL default 5, /*任务优先级, 0为最高, 默认为5*/
   `charger_id` int(11) not NULL DEFAULT 1, /*任务负责人的用户ID, 默认为1即管理员*/
-  `planning_start_time` int not null, /*任务的计划开始时间*/
+  `planning_begin_time` int not null, /*任务的计划开始时间*/
   `planning_end_time` int not null, /*任务的计划完成时间*/
+  `actual_begin_time` int not null, /*任务的计划开始时间*/
+  `actual_end_time` int not null, /*任务的计划完成时间*/
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
