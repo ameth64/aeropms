@@ -111,7 +111,51 @@ class PbsAction extends CommonAction {
         $this->display();
     }
 
-/**
+    /**
+     * PBS节点读取方法
+     */
+    public function read()
+    {
+        $proj_id = $this->_get("proj_id");
+        $node_id = $this->_get("node_id");
+        // Log::write("project_id=$proj_id, node_id=$node_id", Log::INFO);
+        if($node_id){
+            $type = $this->_get("type");
+            switch($type)
+            {
+                case 'pbs':
+                    $model = D("PbsNode");
+                    $query_str = "select a.name, 'PBS-产品结构分解' node_type, a.remark, a.create_time,a.update_time from".
+                        " aeropms_pbs_node as a".
+                        "  where a.project_id=$proj_id and a.id=$node_id";
+                    $data_array = $model->query($query_str);
+                    $data_array[0]["create_time"] = date('Y-m-d', $data_array[0]["create_time"]);
+                    $data_array[0]["update_time"] = date('Y-m-d', $data_array[0]["update_time"]);
+                    //$data_array[0]["node_type"] = 'PBS-产品结构分解';
+                    break;
+                case 'wbs':
+                default:
+                    $model = D("WbsNode");
+                    $data_array = $model->getNodeInfo($proj_id, $node_id);
+                    if(!$data_array){
+                        $this->error("无效的WBS节点ID");
+                    }
+                    Log::write("WBS节点数组: ".print_r($data_array, true), Log::ERR);
+            }
+            $json = json_encode($data_array[0], JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
+            $this->ajaxReturn($json, 'EVAL');
+        }
+        else{
+            $model = D("PbsNode");
+            Log::write("收到ajax请求, proj_id=$proj_id", NOTICE);
+            $data_array = $this->_parseNode($model, $proj_id);
+            $json = json_encode($data_array, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT); //, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT
+            Log::write("读取PBS结果: ".$json, NOTICE);
+            $this->ajaxReturn($json, 'EVAL');
+        }
+    }
+
+    /**
  * 基本增删改操作 by 钟伯金*/
     public function PbsDel()
     {
@@ -164,7 +208,21 @@ class PbsAction extends CommonAction {
 /**
  *    递归方法, 解析节点表数据并生成嵌套数组
 */
-    protected function _parseNode(&$model, $proj_id, $parent_id)
+    protected function _parseNode(&$model, $proj_id)
+    {
+        $data = $model->where("project_id=$proj_id")->field("id, parent_id, name, node_level")->order("inner_index")->select();
+        $tree = list_to_tree($data, -1, 'id', 'parent_id', 'children', function(&$item){
+            $item["node_type"]="pbs";
+            $item["pbs_level"]=$item["node_level"];
+
+            //-zTree私有属性
+            //"icon"=>$this->ztree_img["wbs_node"],
+            $item["open"]='true';
+        });
+        return $tree;
+    }
+
+    protected function _parseNode_old(&$model, $proj_id, $parent_id)
     {
         $data = $model->where("project_id=$proj_id and parent_id=$parent_id")->order("inner_index")->select();
         $res = array();

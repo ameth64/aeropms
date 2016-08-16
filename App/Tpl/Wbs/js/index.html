@@ -14,7 +14,7 @@
         var nodes = tree.getNodesByFilter(function(node){
             return node["parent_id"]!='-1' && node["engineering_phase"] != op && node["is_hideable"] == '1';
         });
-        console.log("nodes to hide: " + nodes.length);
+        //console.log("nodes to hide: " + nodes.length);
         tree.hideNodes(nodes);
     }
 
@@ -25,21 +25,36 @@
         var html = conv_inputbox_item(treeNode.id, treeNode.name, treeNode.wbs_type, treeNode.pbs_id);
         $("#id_wbs_input_list .address_list", parent.document).append(html);
     }
-    //读取wbs节点, 以ajax方法
-    function get_wbs_input(){
+
+    //设置pbs依赖项
+    function set_pbs_depend(){
+        var tree = $.fn.zTree.getZTreeObj("id_pbs_depend_tree");
+        var treeNode = tree.getSelectedNodes()[0];
+        var html = conv_inputbox_item(treeNode.id, treeNode.name, treeNode.wbs_type, treeNode.pbs_id);
+        $("#id_pbs_depend_list .address_list", parent.document).html(html);
+        $("#pbs_id").val(treeNode.id);
+    }
+
+    //读取树节点, 以ajax方法
+    function read_tree(url, selector){
         var settings = { };
-        var wbs = jQuery.getJSON( '{:U("wbs/read", "proj_id=$proj_id")}', function(data){
-            $.fn.zTree.init($("#id_wbs_input_tree"), settings, data);
+        var wbs = jQuery.getJSON(url, function(data){
+            $.fn.zTree.init($(selector), settings, data);
         } );
     };
 
-    //模态对话框
-    $('#modal-form').on('shown.bs.modal', function () {
-        get_wbs_input();
+    //wbs输入的模态对话框
+    $('#id_modal_wbs_input').on('shown.bs.modal', function () {
+        read_tree('{:U("wbs/read", "proj_id=$proj_id")}', "#id_wbs_input_tree");
     });
 //    $('#modal-form').on('shown', function () {
 //        get_wbs();
 //    })
+
+    // pbs依赖输入的模态对话框
+    $('#id_modal_pbs_depend').on('shown.bs.modal', function () {
+        read_tree('{:U("pbs/read", "proj_id=$proj_id")}', "#id_pbs_depend_tree");
+    });
 
 
     var wbs_field_name = {
@@ -56,7 +71,8 @@
     var wbs_type_enum = [
         <volist name="type_list" id="vo">
             { 'key': '{$vo.id}', 'val':'{$vo.name}'},
-        </volist>];
+        </volist>
+    ];
 
     //ztree节点回调函数
     function zTreeOnClick(event, treeId, treeNode) {
@@ -126,7 +142,6 @@
         if(is_leader){
             url += "&is_leader=1";
         }
-        console.log(url);
         winopen(url, 730, 574);
     };
 
@@ -142,7 +157,6 @@
             ui_error("未选择任何WBS或PBS节点作为父节点, 请重新选择.");
             return false;
         }
-        //alert("parent id = " + sn.id);
         //根据节点的node_type选择父节点
         switch(sn.node_type){
             case "pbs": var pid = tree.getNodeByParam("wbs_parent", -1, null);
@@ -154,7 +168,6 @@
                 $("#pbs_id").val(sn.id);
                 break;
             case "wbs": $("#parent_id").val(sn.id);
-                $("#pbs_id").val(sn.pbs_id);
                 break;
             default: ui_error("未选择任何WBS节点作为父节点, 请在WBS节点树上重新选择.");
                 return;
@@ -172,7 +185,7 @@
         /*将输入列表组装为json*/
         var wbs_input_json = $("#id_wbs_input_list .address_list span").map(function(){
             if($(this).text().length > 1)
-                return {"wbs_id": $(this).attr('id')};
+                return {"input_node_id": $(this).attr('id')};
         }).get();
         if(wbs_input_json.length > 0) {
             $("#wbs_input_list").val(JSON.stringify(wbs_input_json));
@@ -199,11 +212,21 @@
         }
 
         //将时间组装为json
-
+        if($("#id_date_picker_start").val() && $("#id_date_picker_end").val())
+        {
+            var planning_schedule = {
+                "planning_begin_time": $("#id_date_picker_start").val(),
+                "planning_end_time": $("#id_date_picker_end").val(),
+                "planning_working_day": $("#id_working_day_spinner").val(),
+                "planning_working_hour": $("#id_working_hour_spinner").val()
+            };
+            $("#planning_schedule").val(JSON.stringify(planning_schedule));
+            console.log("Planning schedule: " + $("#planning_schedule").val());
+        }
 
         var url = $("#form_data").attr("post_url");
         if(check_form("form_data")){
-            sendForm("form_data", url);
+            //sendForm("form_data", url);
         }
 
 
@@ -239,7 +262,36 @@
             ui_error("选择的计划起止时间无效, 请重新选择!");
             return;
         }
-        $("#id_working_day_spinner").val(elapsed);
+        //日期差值,即包含周六日、以天为单位的工时，86400000=1000*60*60*24.
+        var workDayVal = (d2 - d1)/86400000 + 1;
+        //工时的余数
+        var remainder = workDayVal % 7;
+        //工时向下取整的除数
+        var divisor = Math.floor(workDayVal / 7);
+        var weekendDay = 2 * divisor;
+        //起始日期的星期，星期取值有（1,2,3,4,5,6,0）
+        var nextDay = d1.getDay();
+        //从起始日期的星期开始 遍历remainder天
+        for(var tempDay = remainder; tempDay>=1; tempDay--) {
+            //第一天不用加1
+            if(tempDay == remainder) {
+                nextDay = nextDay + 0;
+            } else if(tempDay != remainder) {
+                nextDay = nextDay + 1;
+            }
+            //周日，变更为0
+            if(nextDay == 7) {
+                nextDay = 0;
+            }
+
+            //周六日
+            if(nextDay == 0 || nextDay == 6) {
+                weekendDay = weekendDay + 1;
+            }
+        }
+        //实际工时（天） = 起止日期差 - 周六日数目。
+        workDayVal -= weekendDay;
+        $("#id_working_day_spinner").val(workDayVal);
         calc_working_hour();
     }
 

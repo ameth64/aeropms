@@ -71,16 +71,20 @@ class WbsAction extends CommonAction
         }
         $proj_id = $this->_post("proj_id");
 
+        $user_id = get_user_id();
+        // 判断是否有wbs输入和输出
+        $wbs_output_json = $this->_post('wbs_output_list', null); //若使用框架_post方法则可能因过滤函数而无法成功解码JSON
+        $wbs_input_json = $this->_post("wbs_input_list", null);
 
         import('@.ORG.Util.UploadFile');
         //处理文件上传
-        //$this->error(print_r($_FILES["input-file"], true));
+        $attach_id = -1;
         if($_FILES["input-file"]["tmp_name"][0]){
             $upload = new UploadFile();// 实例化上传类
             $upload->maxSize  = 50*1024*1024 ;// 设置附件上传大小, 默认50MB
             $upload->savePath =  './Public/Uploads/';// 设置附件上传目录
             $upload->supportMulti = true;
-            $attach_id = -1;
+
             if(!$upload->upload()) {// 上传错误提示错误信息
                 $this->error("处理文件上传期间发生错误: ".$upload->getErrorMsg());
             }else{// 上传成功 获取上传文件信息
@@ -96,7 +100,7 @@ class WbsAction extends CommonAction
                     $data["size"] = $info['size'];
                     $data["extension"] = $info['extension'];
                     $data["hash"] = $info['hash'];
-                    $data["creator_id"] = get_user_id();
+                    $data["creator_id"] = $user_id;
                     $data["create_time"] = time();
                     $data["update_time"] = time();
                     $data["remark"] = $this->_post["name"]."-资源";
@@ -108,16 +112,31 @@ class WbsAction extends CommonAction
         /*处理基本信息*/
         $WbsNode = M("WbsNode");
         $WbsNode->create();
-        $WbsNode->creator_id = get_user_id();
+        $WbsNode->creator_id = $user_id;
         $WbsNode->create_time = time();
         $WbsNode->update_time = time();
         $WbsNode->attach_id = $attach_id;
+        $WbsNode->has_input = empty($wbs_input_json);
+        $WbsNode->has_output = empty($wbs_output_json);
         if(!$WbsNode->remark)
             $WbsNode->remark = "暂无描述";
         $node_id = $WbsNode->add();
 
-        // 处理输出列表json
-        $wbs_output_json = $this->_post('wbs_output_list', null); //若使用框架_post方法则可能因过滤函数而无法成功解码JSON
+        /* 处理 schedule*/
+        $wbs_schedule_json = $this->_post("planning_schedule", null);
+        if($wbs_schedule_json){
+            if($data_array = json_decode($wbs_schedule_json, true)){
+                $this->error("WBS Schedule处理失败, 请检查数据");
+            }
+            else{
+                $wbs_schedule_model = D("WbsSchedule");
+                $data_array["charger_id"] = $this->_post("team_leader_list", null);
+                $data_array["priority"] = 5;
+                $wbs_schedule_model->create($data_array);
+            }
+        }
+
+        // 处理wbs输出列表json
         if(!empty($wbs_output_json)){
             $json_array = json_decode($wbs_output_json, true);
             if($json_array == false){
@@ -142,6 +161,27 @@ class WbsAction extends CommonAction
         }
 
         // 处理输入列表
+        if($wbs_input_json){
+            $json_array = json_decode($wbs_input_json, true);
+            if($json_array == false){
+                $this->error("WBS输入列表处理失败, 请检查数据");
+            }
+            else
+            {
+                $wbs_node_input = D("WbsNodeInput");
+                $data = array();
+                //遍历数组
+                foreach($json_array as $item){
+                    $data["create_time"] = time();
+                    $data["update_time"] = time();
+                    $data["project_id"] = $proj_id;
+                    $data["node_id"] = $node_id;
+                    $data["input_node_id"] = $item["input_node_id"];
+                    $data["assignee_id"] = -1;
+                    $wbs_node_input->data($data)->add();
+                }
+            }
+        }
 
         $this->redirect("index", array(
             "proj_id"=>$proj_id
@@ -156,7 +196,7 @@ class WbsAction extends CommonAction
     {
         $proj_id = $this->_get("proj_id");
         $node_id = $this->_get("node_id");
-        Log::write("project_id=$proj_id, node_id=$node_id", Log::INFO);
+        // Log::write("project_id=$proj_id, node_id=$node_id", Log::INFO);
         if($node_id){
             $type = $this->_get("type");
             switch($type)
@@ -185,11 +225,11 @@ class WbsAction extends CommonAction
         }
         else{
             $model = D("WbsNode");
-            Log::write("收到ajax请求, proj_id=$proj_id", NOTICE);
+            //Log::write("收到ajax请求, proj_id=$proj_id", NOTICE);
             //$eng_phase = $this->_update_param("engineering_phase");
             $data_array = $this->_parseNode($model, $proj_id, -1);
             $json = json_encode($data_array, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT); //, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT
-            Log::write("读取WBS结果: ".$json, NOTICE);
+            //Log::write("读取WBS结果: ".$json, NOTICE);
             $this->ajaxReturn($json, 'EVAL');
         }
     }

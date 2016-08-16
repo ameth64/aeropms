@@ -144,22 +144,6 @@ CREATE TABLE aeropms_wbs_node (
 /*!40000 ALTER TABLE `aeropms_wbs_node` ENABLE KEYS */;
 
 
-/*WBS节点明细表*/
-DROP TABLE IF EXISTS aeropms_wbs_node_agent;
-CREATE TABLE aeropms_wbs_node_agent (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `node_id` int(11) NOT NULL,  /*项目id*/
-  `priority` int NOT NULL default 5, /*任务优先级, 0为最高, 默认为5*/
-  `charger_id` int(11) not NULL DEFAULT 1, /*任务负责人的用户ID, 默认为1即管理员*/
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
-#
-# Data for table "aeropms_wbs_node_agent"
-#
-/*!40000 ALTER TABLE `aeropms_wbs_node_agent` DISABLE KEYS */;
-/*!40000 ALTER TABLE `aeropms_wbs_node_agent` ENABLE KEYS */;
-
 /**
 WBS节点工时记录表
  */
@@ -171,8 +155,14 @@ CREATE TABLE aeropms_wbs_schedule (
   `charger_id` int(11) not NULL DEFAULT 1, /*任务负责人的用户ID, 默认为1即管理员*/
   `planning_begin_time` int not null, /*任务的计划开始时间*/
   `planning_end_time` int not null, /*任务的计划完成时间*/
-  `actual_begin_time` int not null, /*任务的计划开始时间*/
-  `actual_end_time` int not null, /*任务的计划完成时间*/
+  `planning_working_day` int NOT NULL, /*任务计划包含的工作日*/
+  `planning_working_hour` int NOT NULL, /*任务计划包含的每日平均工时*/
+  `actual_begin_time` int null, /*任务的计划开始时间*/
+  `actual_end_time` int null, /*任务的计划完成时间*/
+  `actual_working_day` int NULL, /*任务实际包含的工作日*/
+  `actual_working_hour` int NOT NULL, /*任务计划包含的每日平均工时*/
+  `create_time` INT NOT NULL,
+  `update_time` INT NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
@@ -215,6 +205,8 @@ CREATE TABLE aeropms_wbs_node_input (
   `node_id` int(11) NOT NULL, /*需要输入的WBS节点ID*/
   `input_node_id` int(11) not NULL, /*所依赖输入的节点ID*/
   `input_node_item_id` int(11) null, /*所依赖输入节点的资源ID*/
+  `create_time` INT NOT NULL,
+  `update_time` INT NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 

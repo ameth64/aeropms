@@ -9,7 +9,8 @@
 
             //console.log("container is: {$container}");
             //var type = is_leader? "#id_admin_list": "#id_member_list";
-            $("#{$container} .address_list", parent.document).append(html);
+            //$("#{$container} .address_list", parent.document).append(html);
+            $("#{$container} .address_list", parent.document).html(html); // 改为单选形式
         });
 /*
         $("#cc select option").each(function(i) {
