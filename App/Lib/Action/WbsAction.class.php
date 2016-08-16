@@ -63,6 +63,9 @@ class WbsAction extends CommonAction
         $this->display();
     }
 
+    /**
+     * 新增wbs节点方法
+     */
     public function add()
     {
         if(!$this->isPost()){
@@ -132,6 +135,8 @@ class WbsAction extends CommonAction
                 $wbs_schedule_model = D("WbsSchedule");
                 $data_array["charger_id"] = $this->_post("team_leader_list", null);
                 $data_array["priority"] = 5;
+                $data_array["create_time"] = time();
+                $data_array["update_time"] = time();
                 $wbs_schedule_model->create($data_array);
             }
         }

@@ -160,7 +160,7 @@ CREATE TABLE aeropms_wbs_schedule (
   `actual_begin_time` int null, /*任务的计划开始时间*/
   `actual_end_time` int null, /*任务的计划完成时间*/
   `actual_working_day` int NULL, /*任务实际包含的工作日*/
-  `actual_working_hour` int NOT NULL, /*任务计划包含的每日平均工时*/
+  `actual_working_hour` int NULL, /*任务计划包含的每日平均工时*/
   `create_time` INT NOT NULL,
   `update_time` INT NOT NULL,
   PRIMARY KEY (`id`)

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2016-08-09 04:31:19
+-- Generation Time: 2016-08-16 15:28:35
 -- 服务器版本： 5.6.17
 -- PHP Version: 5.5.12
 
@@ -26,7 +26,8 @@ SET time_zone = "+00:00";
 -- 表的结构 `aeropms_configuration_list`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_configuration_list` (
+DROP TABLE IF EXISTS `aeropms_configuration_list`;
+CREATE TABLE `aeropms_configuration_list` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `specific_proj_id` int(11) NOT NULL DEFAULT '-1',
   `type` int(11) NOT NULL DEFAULT '1',
@@ -37,11 +38,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_configuration_list` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_configuration_list`
---
-
-TRUNCATE TABLE `aeropms_configuration_list`;
 --
 -- 转存表中的数据 `aeropms_configuration_list`
 --
@@ -57,7 +53,8 @@ INSERT INTO `aeropms_configuration_list` (`id`, `specific_proj_id`, `type`, `nam
 -- 表的结构 `aeropms_contact`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_contact` (
+DROP TABLE IF EXISTS `aeropms_contact`;
+CREATE TABLE `aeropms_contact` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL DEFAULT '' COMMENT '姓名',
   `letter` varchar(50) NOT NULL DEFAULT '' COMMENT '拼音',
@@ -77,11 +74,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_contact` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='aeropms_user_info' AUTO_INCREMENT=25 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_contact`
---
-
-TRUNCATE TABLE `aeropms_contact`;
---
 -- 转存表中的数据 `aeropms_contact`
 --
 
@@ -100,7 +92,8 @@ INSERT INTO `aeropms_contact` (`id`, `name`, `letter`, `company`, `dept`, `posit
 -- 表的结构 `aeropms_customer`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_customer` (
+DROP TABLE IF EXISTS `aeropms_customer`;
+CREATE TABLE `aeropms_customer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL DEFAULT '' COMMENT '名称',
   `letter` varchar(50) NOT NULL DEFAULT '' COMMENT '拼音',
@@ -122,11 +115,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_customer` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_customer`
---
-
-TRUNCATE TABLE `aeropms_customer`;
---
 -- 转存表中的数据 `aeropms_customer`
 --
 
@@ -140,7 +128,8 @@ INSERT INTO `aeropms_customer` (`id`, `name`, `letter`, `biz_license`, `short`, 
 -- 表的结构 `aeropms_daily_report`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_daily_report` (
+DROP TABLE IF EXISTS `aeropms_daily_report`;
+CREATE TABLE `aeropms_daily_report` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL DEFAULT '0',
   `user_name` varchar(50) DEFAULT NULL,
@@ -166,11 +155,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_daily_report` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=48 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_daily_report`
---
-
-TRUNCATE TABLE `aeropms_daily_report`;
---
 -- 转存表中的数据 `aeropms_daily_report`
 --
 
@@ -194,7 +178,8 @@ INSERT INTO `aeropms_daily_report` (`id`, `user_id`, `user_name`, `dept_id`, `de
 -- 表的结构 `aeropms_daily_report_comment`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_daily_report_comment` (
+DROP TABLE IF EXISTS `aeropms_daily_report_comment`;
+CREATE TABLE `aeropms_daily_report_comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `doc_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL DEFAULT '',
@@ -211,11 +196,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_daily_report_comment` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=69 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_daily_report_comment`
---
-
-TRUNCATE TABLE `aeropms_daily_report_comment`;
---
 -- 转存表中的数据 `aeropms_daily_report_comment`
 --
 
@@ -230,7 +210,8 @@ INSERT INTO `aeropms_daily_report_comment` (`id`, `doc_id`, `name`, `content`, `
 -- 表的结构 `aeropms_daily_report_detail`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_daily_report_detail` (
+DROP TABLE IF EXISTS `aeropms_daily_report_detail`;
+CREATE TABLE `aeropms_daily_report_detail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(11) DEFAULT NULL,
   `seq` tinyint(3) DEFAULT NULL,
@@ -245,11 +226,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_daily_report_detail` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=191 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_daily_report_detail`
---
-
-TRUNCATE TABLE `aeropms_daily_report_detail`;
 --
 -- 转存表中的数据 `aeropms_daily_report_detail`
 --
@@ -290,7 +266,8 @@ INSERT INTO `aeropms_daily_report_detail` (`id`, `pid`, `seq`, `subject`, `item`
 -- 表的结构 `aeropms_dept`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_dept` (
+DROP TABLE IF EXISTS `aeropms_dept`;
+CREATE TABLE `aeropms_dept` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(11) NOT NULL DEFAULT '0' COMMENT '父级ID',
   `dept_no` varchar(20) NOT NULL DEFAULT '' COMMENT '部门编号',
@@ -303,11 +280,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_dept` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=28 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_dept`
---
-
-TRUNCATE TABLE `aeropms_dept`;
 --
 -- 转存表中的数据 `aeropms_dept`
 --
@@ -327,7 +299,8 @@ INSERT INTO `aeropms_dept` (`id`, `pid`, `dept_no`, `dept_grade_id`, `name`, `sh
 -- 表的结构 `aeropms_dept_grade`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_dept_grade` (
+DROP TABLE IF EXISTS `aeropms_dept_grade`;
+CREATE TABLE `aeropms_dept_grade` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `grade_no` varchar(10) NOT NULL DEFAULT '' COMMENT '部门级别编码',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '名称',
@@ -336,11 +309,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_dept_grade` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_dept_grade`
---
-
-TRUNCATE TABLE `aeropms_dept_grade`;
 --
 -- 转存表中的数据 `aeropms_dept_grade`
 --
@@ -356,7 +324,8 @@ INSERT INTO `aeropms_dept_grade` (`id`, `grade_no`, `name`, `sort`, `is_del`) VA
 -- 表的结构 `aeropms_doc`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_doc` (
+DROP TABLE IF EXISTS `aeropms_doc`;
+CREATE TABLE `aeropms_doc` (
   `id` smallint(4) unsigned NOT NULL AUTO_INCREMENT,
   `doc_no` varchar(20) NOT NULL DEFAULT '' COMMENT '文档编号',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '名称',
@@ -372,11 +341,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_doc` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=87 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_doc`
---
-
-TRUNCATE TABLE `aeropms_doc`;
---
 -- 转存表中的数据 `aeropms_doc`
 --
 
@@ -390,7 +354,8 @@ INSERT INTO `aeropms_doc` (`id`, `doc_no`, `name`, `content`, `folder`, `add_fil
 -- 表的结构 `aeropms_duty`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_duty` (
+DROP TABLE IF EXISTS `aeropms_duty`;
+CREATE TABLE `aeropms_duty` (
   `id` smallint(3) NOT NULL AUTO_INCREMENT,
   `duty_no` varchar(20) NOT NULL DEFAULT '' COMMENT '职责编号',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '名称',
@@ -400,11 +365,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_duty` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_duty`
---
-
-TRUNCATE TABLE `aeropms_duty`;
 --
 -- 转存表中的数据 `aeropms_duty`
 --
@@ -422,7 +382,8 @@ INSERT INTO `aeropms_duty` (`id`, `duty_no`, `name`, `sort`, `is_del`, `remark`)
 -- 表的结构 `aeropms_engineering_phase`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_engineering_phase` (
+DROP TABLE IF EXISTS `aeropms_engineering_phase`;
+CREATE TABLE `aeropms_engineering_phase` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `specific_proj_id` int(11) NOT NULL DEFAULT '-1',
   `name` varchar(512) NOT NULL,
@@ -432,11 +393,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_engineering_phase` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_engineering_phase`
---
-
-TRUNCATE TABLE `aeropms_engineering_phase`;
 --
 -- 转存表中的数据 `aeropms_engineering_phase`
 --
@@ -456,7 +412,8 @@ INSERT INTO `aeropms_engineering_phase` (`id`, `specific_proj_id`, `name`, `desc
 -- 表的结构 `aeropms_file`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_file` (
+DROP TABLE IF EXISTS `aeropms_file`;
+CREATE TABLE `aeropms_file` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sid` varchar(32) DEFAULT NULL COMMENT '安全ID',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '名称',
@@ -471,11 +428,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_file` (
   KEY `sid` (`sid`,`module`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1732 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_file`
---
-
-TRUNCATE TABLE `aeropms_file`;
 --
 -- 转存表中的数据 `aeropms_file`
 --
@@ -561,7 +513,8 @@ INSERT INTO `aeropms_file` (`id`, `sid`, `name`, `savename`, `size`, `extension`
 -- 表的结构 `aeropms_finance`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_finance` (
+DROP TABLE IF EXISTS `aeropms_finance`;
+CREATE TABLE `aeropms_finance` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `doc_no` varchar(10) DEFAULT NULL COMMENT '单据编号',
   `input_date` date DEFAULT NULL COMMENT '录入日期',
@@ -586,11 +539,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_finance` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=32 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_finance`
---
-
-TRUNCATE TABLE `aeropms_finance`;
---
 -- 转存表中的数据 `aeropms_finance`
 --
 
@@ -604,7 +552,8 @@ INSERT INTO `aeropms_finance` (`id`, `doc_no`, `input_date`, `account_id`, `inco
 -- 表的结构 `aeropms_finance_account`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_finance_account` (
+DROP TABLE IF EXISTS `aeropms_finance_account`;
+CREATE TABLE `aeropms_finance_account` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) DEFAULT NULL,
   `bank` varchar(20) DEFAULT NULL,
@@ -616,11 +565,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_finance_account` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_finance_account`
---
-
-TRUNCATE TABLE `aeropms_finance_account`;
 --
 -- 转存表中的数据 `aeropms_finance_account`
 --
@@ -637,7 +581,8 @@ INSERT INTO `aeropms_finance_account` (`id`, `name`, `bank`, `no`, `init`, `bala
 -- 表的结构 `aeropms_flow`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_flow` (
+DROP TABLE IF EXISTS `aeropms_flow`;
+CREATE TABLE `aeropms_flow` (
   `id` smallint(4) unsigned NOT NULL AUTO_INCREMENT,
   `doc_no` varchar(20) NOT NULL DEFAULT '' COMMENT '文档编号',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '名称',
@@ -665,11 +610,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_flow` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=231 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_flow`
---
-
-TRUNCATE TABLE `aeropms_flow`;
---
 -- 转存表中的数据 `aeropms_flow`
 --
 
@@ -682,7 +622,8 @@ INSERT INTO `aeropms_flow` (`id`, `doc_no`, `name`, `content`, `confirm`, `confi
 -- 表的结构 `aeropms_flow_field`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_flow_field` (
+DROP TABLE IF EXISTS `aeropms_flow_field`;
+CREATE TABLE `aeropms_flow_field` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL DEFAULT '',
   `type_id` int(11) NOT NULL,
@@ -695,11 +636,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_flow_field` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=56 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_flow_field`
---
-
-TRUNCATE TABLE `aeropms_flow_field`;
 --
 -- 转存表中的数据 `aeropms_flow_field`
 --
@@ -744,17 +680,13 @@ INSERT INTO `aeropms_flow_field` (`id`, `name`, `type_id`, `sort`, `msg`, `contr
 -- 表的结构 `aeropms_flow_field_data`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_flow_field_data` (
+DROP TABLE IF EXISTS `aeropms_flow_field_data`;
+CREATE TABLE `aeropms_flow_field_data` (
   `flow_id` int(11) NOT NULL,
   `field_id` int(11) NOT NULL DEFAULT '0',
   `val` varchar(50) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- 插入之前先把表清空（truncate） `aeropms_flow_field_data`
---
-
-TRUNCATE TABLE `aeropms_flow_field_data`;
 --
 -- 转存表中的数据 `aeropms_flow_field_data`
 --
@@ -796,7 +728,8 @@ INSERT INTO `aeropms_flow_field_data` (`flow_id`, `field_id`, `val`) VALUES
 -- 表的结构 `aeropms_flow_log`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_flow_log` (
+DROP TABLE IF EXISTS `aeropms_flow_log`;
+CREATE TABLE `aeropms_flow_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `flow_id` int(11) NOT NULL DEFAULT '0' COMMENT '流程ID',
   `emp_no` varchar(20) NOT NULL DEFAULT '' COMMENT '员工编号',
@@ -812,11 +745,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_flow_log` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=313 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_flow_log`
---
-
-TRUNCATE TABLE `aeropms_flow_log`;
---
 -- 转存表中的数据 `aeropms_flow_log`
 --
 
@@ -829,7 +757,8 @@ INSERT INTO `aeropms_flow_log` (`id`, `flow_id`, `emp_no`, `user_id`, `user_name
 -- 表的结构 `aeropms_flow_type`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_flow_type` (
+DROP TABLE IF EXISTS `aeropms_flow_type`;
+CREATE TABLE `aeropms_flow_type` (
   `id` smallint(3) unsigned NOT NULL AUTO_INCREMENT,
   `tag` varchar(20) NOT NULL DEFAULT '' COMMENT '分组',
   `doc_no_format` varchar(50) NOT NULL DEFAULT '' COMMENT '文档编码格式',
@@ -854,11 +783,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_flow_type` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_flow_type`
---
-
-TRUNCATE TABLE `aeropms_flow_type`;
---
 -- 转存表中的数据 `aeropms_flow_type`
 --
 
@@ -878,7 +802,8 @@ INSERT INTO `aeropms_flow_type` (`id`, `tag`, `doc_no_format`, `name`, `short`, 
 -- 表的结构 `aeropms_forum`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_forum` (
+DROP TABLE IF EXISTS `aeropms_forum`;
+CREATE TABLE `aeropms_forum` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `folder` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -898,11 +823,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_forum` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_forum`
---
-
-TRUNCATE TABLE `aeropms_forum`;
---
 -- 转存表中的数据 `aeropms_forum`
 --
 
@@ -916,7 +836,8 @@ INSERT INTO `aeropms_forum` (`id`, `folder`, `user_id`, `user_name`, `name`, `co
 -- 表的结构 `aeropms_forum_post`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_forum_post` (
+DROP TABLE IF EXISTS `aeropms_forum_post`;
+CREATE TABLE `aeropms_forum_post` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `forum_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL DEFAULT '',
@@ -930,11 +851,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_forum_post` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=59 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_forum_post`
---
-
-TRUNCATE TABLE `aeropms_forum_post`;
 --
 -- 转存表中的数据 `aeropms_forum_post`
 --
@@ -953,7 +869,8 @@ INSERT INTO `aeropms_forum_post` (`id`, `forum_id`, `name`, `content`, `user_id`
 -- 表的结构 `aeropms_info`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_info` (
+DROP TABLE IF EXISTS `aeropms_info`;
+CREATE TABLE `aeropms_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `doc_no` varchar(20) NOT NULL,
   `name` varchar(50) NOT NULL DEFAULT '',
@@ -970,11 +887,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_info` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=64 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_info`
---
-
-TRUNCATE TABLE `aeropms_info`;
---
 -- 转存表中的数据 `aeropms_info`
 --
 
@@ -990,7 +902,8 @@ INSERT INTO `aeropms_info` (`id`, `doc_no`, `name`, `content`, `folder`, `add_fi
 -- 表的结构 `aeropms_info_sign`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_info_sign` (
+DROP TABLE IF EXISTS `aeropms_info_sign`;
+CREATE TABLE `aeropms_info_sign` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `info_id` int(11) NOT NULL DEFAULT '0',
   `folder` int(11) NOT NULL DEFAULT '0',
@@ -999,20 +912,16 @@ CREATE TABLE IF NOT EXISTS `aeropms_info_sign` (
   `is_sign` tinyint(3) NOT NULL DEFAULT '0',
   `sign_time` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=71 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_info_sign`
---
-
-TRUNCATE TABLE `aeropms_info_sign`;
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `aeropms_mail`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_mail` (
+DROP TABLE IF EXISTS `aeropms_mail`;
+CREATE TABLE `aeropms_mail` (
   `id` smallint(4) unsigned NOT NULL AUTO_INCREMENT,
   `folder` int(11) NOT NULL,
   `mid` varchar(200) DEFAULT NULL,
@@ -1031,20 +940,16 @@ CREATE TABLE IF NOT EXISTS `aeropms_mail` (
   `is_del` tinyint(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `mid` (`mid`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2027 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_mail`
---
-
-TRUNCATE TABLE `aeropms_mail`;
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `aeropms_mail_account`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_mail_account` (
+DROP TABLE IF EXISTS `aeropms_mail_account`;
+CREATE TABLE `aeropms_mail_account` (
   `id` mediumint(6) NOT NULL,
   `email` varchar(50) DEFAULT NULL,
   `mail_name` varchar(50) NOT NULL,
@@ -1055,11 +960,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_mail_account` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='aeropms_user_info';
 
---
--- 插入之前先把表清空（truncate） `aeropms_mail_account`
---
-
-TRUNCATE TABLE `aeropms_mail_account`;
 --
 -- 转存表中的数据 `aeropms_mail_account`
 --
@@ -1073,7 +973,8 @@ INSERT INTO `aeropms_mail_account` (`id`, `email`, `mail_name`, `pop3svr`, `smtp
 -- 表的结构 `aeropms_mail_organize`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_mail_organize` (
+DROP TABLE IF EXISTS `aeropms_mail_organize`;
+CREATE TABLE `aeropms_mail_organize` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `sort` int(11) NOT NULL,
@@ -1092,20 +993,16 @@ CREATE TABLE IF NOT EXISTS `aeropms_mail_organize` (
   `to` int(11) NOT NULL,
   `is_del` tinyint(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=18 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_mail_organize`
---
-
-TRUNCATE TABLE `aeropms_mail_organize`;
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `aeropms_message`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_message` (
+DROP TABLE IF EXISTS `aeropms_message`;
+CREATE TABLE `aeropms_message` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` text,
   `add_file` varchar(200) DEFAULT NULL,
@@ -1120,11 +1017,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_message` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=78 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_message`
---
-
-TRUNCATE TABLE `aeropms_message`;
 --
 -- 转存表中的数据 `aeropms_message`
 --
@@ -1163,7 +1055,8 @@ INSERT INTO `aeropms_message` (`id`, `content`, `add_file`, `sender_id`, `sender
 -- 表的结构 `aeropms_monthly_report`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_monthly_report` (
+DROP TABLE IF EXISTS `aeropms_monthly_report`;
+CREATE TABLE `aeropms_monthly_report` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL DEFAULT '0',
   `user_name` varchar(50) DEFAULT NULL,
@@ -1180,11 +1073,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_monthly_report` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=44 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_monthly_report`
---
-
-TRUNCATE TABLE `aeropms_monthly_report`;
---
 -- 转存表中的数据 `aeropms_monthly_report`
 --
 
@@ -1197,7 +1085,8 @@ INSERT INTO `aeropms_monthly_report` (`id`, `user_id`, `user_name`, `dept_id`, `
 -- 表的结构 `aeropms_monthly_report_comment`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_monthly_report_comment` (
+DROP TABLE IF EXISTS `aeropms_monthly_report_comment`;
+CREATE TABLE `aeropms_monthly_report_comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `doc_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL DEFAULT '',
@@ -1211,20 +1100,16 @@ CREATE TABLE IF NOT EXISTS `aeropms_monthly_report_comment` (
   `pid` int(11) DEFAULT NULL,
   `reply` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=65 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_monthly_report_comment`
---
-
-TRUNCATE TABLE `aeropms_monthly_report_comment`;
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `aeropms_monthly_report_detail`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_monthly_report_detail` (
+DROP TABLE IF EXISTS `aeropms_monthly_report_detail`;
+CREATE TABLE `aeropms_monthly_report_detail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(11) DEFAULT NULL,
   `seq` tinyint(3) DEFAULT NULL,
@@ -1239,11 +1124,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_monthly_report_detail` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=170 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_monthly_report_detail`
---
-
-TRUNCATE TABLE `aeropms_monthly_report_detail`;
 --
 -- 转存表中的数据 `aeropms_monthly_report_detail`
 --
@@ -1262,7 +1142,8 @@ INSERT INTO `aeropms_monthly_report_detail` (`id`, `pid`, `seq`, `subject`, `ite
 -- 表的结构 `aeropms_news`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_news` (
+DROP TABLE IF EXISTS `aeropms_news`;
+CREATE TABLE `aeropms_news` (
   `id` smallint(4) unsigned NOT NULL AUTO_INCREMENT,
   `doc_no` varchar(20) NOT NULL DEFAULT '' COMMENT '文档编号',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '名称',
@@ -1278,11 +1159,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_news` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=86 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_news`
---
-
-TRUNCATE TABLE `aeropms_news`;
---
 -- 转存表中的数据 `aeropms_news`
 --
 
@@ -1295,7 +1171,8 @@ INSERT INTO `aeropms_news` (`id`, `doc_no`, `name`, `content`, `folder`, `add_fi
 -- 表的结构 `aeropms_node`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_node` (
+DROP TABLE IF EXISTS `aeropms_node`;
+CREATE TABLE `aeropms_node` (
   `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   `url` varchar(200) NOT NULL,
@@ -1310,11 +1187,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_node` (
   KEY `status` (`is_del`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=908 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_node`
---
-
-TRUNCATE TABLE `aeropms_node`;
 --
 -- 转存表中的数据 `aeropms_node`
 --
@@ -1347,7 +1219,8 @@ INSERT INTO `aeropms_node` (`id`, `name`, `url`, `icon`, `sub_folder`, `remark`,
 -- 表的结构 `aeropms_notice`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_notice` (
+DROP TABLE IF EXISTS `aeropms_notice`;
+CREATE TABLE `aeropms_notice` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `notice_no` varchar(20) NOT NULL,
   `name` varchar(50) NOT NULL DEFAULT '',
@@ -1362,11 +1235,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_notice` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=59 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_notice`
---
-
-TRUNCATE TABLE `aeropms_notice`;
 --
 -- 转存表中的数据 `aeropms_notice`
 --
@@ -1388,7 +1256,8 @@ INSERT INTO `aeropms_notice` (`id`, `notice_no`, `name`, `content`, `folder`, `a
 -- 表的结构 `aeropms_notice_sign`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_notice_sign` (
+DROP TABLE IF EXISTS `aeropms_notice_sign`;
+CREATE TABLE `aeropms_notice_sign` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `notice_id` int(11) NOT NULL DEFAULT '0',
   `user_id` int(11) NOT NULL DEFAULT '0',
@@ -1399,11 +1268,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_notice_sign` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=71 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_notice_sign`
---
-
-TRUNCATE TABLE `aeropms_notice_sign`;
 --
 -- 转存表中的数据 `aeropms_notice_sign`
 --
@@ -1419,7 +1283,8 @@ INSERT INTO `aeropms_notice_sign` (`id`, `notice_id`, `user_id`, `folder`, `user
 -- 表的结构 `aeropms_pbs_node`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_pbs_node` (
+DROP TABLE IF EXISTS `aeropms_pbs_node`;
+CREATE TABLE `aeropms_pbs_node` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) NOT NULL,
   `node_level` int(11) NOT NULL,
@@ -1435,11 +1300,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_pbs_node` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=183 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_pbs_node`
---
-
-TRUNCATE TABLE `aeropms_pbs_node`;
 --
 -- 转存表中的数据 `aeropms_pbs_node`
 --
@@ -1634,20 +1494,16 @@ INSERT INTO `aeropms_pbs_node` (`id`, `parent_id`, `node_level`, `inner_index`, 
 -- 表的结构 `aeropms_position`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_position` (
+DROP TABLE IF EXISTS `aeropms_position`;
+CREATE TABLE `aeropms_position` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `position_no` varchar(10) NOT NULL DEFAULT '',
   `name` varchar(50) NOT NULL DEFAULT '',
   `sort` varchar(10) NOT NULL,
   `is_del` tinyint(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_position`
---
-
-TRUNCATE TABLE `aeropms_position`;
 --
 -- 转存表中的数据 `aeropms_position`
 --
@@ -1666,7 +1522,8 @@ INSERT INTO `aeropms_position` (`id`, `position_no`, `name`, `sort`, `is_del`) V
 -- 表的结构 `aeropms_product`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_product` (
+DROP TABLE IF EXISTS `aeropms_product`;
+CREATE TABLE `aeropms_product` (
   `id` smallint(4) unsigned NOT NULL AUTO_INCREMENT,
   `product_no` varchar(20) NOT NULL DEFAULT '' COMMENT '产品编号',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '名称',
@@ -1686,11 +1543,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_product` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=233 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_product`
---
-
-TRUNCATE TABLE `aeropms_product`;
 --
 -- 转存表中的数据 `aeropms_product`
 --
@@ -1718,7 +1570,8 @@ INSERT INTO `aeropms_product` (`id`, `product_no`, `name`, `content`, `type`, `a
 -- 表的结构 `aeropms_product_field`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_product_field` (
+DROP TABLE IF EXISTS `aeropms_product_field`;
+CREATE TABLE `aeropms_product_field` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL DEFAULT '',
   `type_id` int(11) NOT NULL,
@@ -1729,30 +1582,21 @@ CREATE TABLE IF NOT EXISTS `aeropms_product_field` (
   `control_data` varchar(255) DEFAULT NULL,
   `validate` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_product_field`
---
-
-TRUNCATE TABLE `aeropms_product_field`;
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `aeropms_product_field_data`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_product_field_data` (
+DROP TABLE IF EXISTS `aeropms_product_field_data`;
+CREATE TABLE `aeropms_product_field_data` (
   `product_id` int(11) NOT NULL,
   `field_id` varchar(50) NOT NULL,
   `val` varchar(50) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- 插入之前先把表清空（truncate） `aeropms_product_field_data`
---
-
-TRUNCATE TABLE `aeropms_product_field_data`;
 --
 -- 转存表中的数据 `aeropms_product_field_data`
 --
@@ -1771,7 +1615,8 @@ INSERT INTO `aeropms_product_field_data` (`product_id`, `field_id`, `val`) VALUE
 -- 表的结构 `aeropms_product_type`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_product_type` (
+DROP TABLE IF EXISTS `aeropms_product_type`;
+CREATE TABLE `aeropms_product_type` (
   `id` smallint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '名称',
   `short` varchar(20) NOT NULL DEFAULT '' COMMENT '简称',
@@ -1782,11 +1627,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_product_type` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=37 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_product_type`
---
-
-TRUNCATE TABLE `aeropms_product_type`;
 --
 -- 转存表中的数据 `aeropms_product_type`
 --
@@ -1801,7 +1641,8 @@ INSERT INTO `aeropms_product_type` (`id`, `name`, `short`, `create_time`, `updat
 -- 表的结构 `aeropms_project_list`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_project_list` (
+DROP TABLE IF EXISTS `aeropms_project_list`;
+CREATE TABLE `aeropms_project_list` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL DEFAULT '',
   `desc` text NOT NULL,
@@ -1813,13 +1654,8 @@ CREATE TABLE IF NOT EXISTS `aeropms_project_list` (
   `update_time` datetime NOT NULL,
   `remark` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_project_list`
---
-
-TRUNCATE TABLE `aeropms_project_list`;
 --
 -- 转存表中的数据 `aeropms_project_list`
 --
@@ -1834,7 +1670,8 @@ INSERT INTO `aeropms_project_list` (`id`, `name`, `desc`, `agent_id`, `creator`,
 -- 表的结构 `aeropms_push`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_push` (
+DROP TABLE IF EXISTS `aeropms_push`;
+CREATE TABLE `aeropms_push` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `data` text NOT NULL,
@@ -1842,20 +1679,16 @@ CREATE TABLE IF NOT EXISTS `aeropms_push` (
   `time` int(11) NOT NULL,
   `info` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2668 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_push`
---
-
-TRUNCATE TABLE `aeropms_push`;
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `aeropms_rank`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_rank` (
+DROP TABLE IF EXISTS `aeropms_rank`;
+CREATE TABLE `aeropms_rank` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `rank_no` varchar(10) NOT NULL DEFAULT '',
   `name` varchar(50) NOT NULL DEFAULT '',
@@ -1864,11 +1697,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_rank` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_rank`
---
-
-TRUNCATE TABLE `aeropms_rank`;
 --
 -- 转存表中的数据 `aeropms_rank`
 --
@@ -1886,16 +1714,12 @@ INSERT INTO `aeropms_rank` (`id`, `rank_no`, `name`, `sort`, `is_del`) VALUES
 -- 表的结构 `aeropms_recent`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_recent` (
+DROP TABLE IF EXISTS `aeropms_recent`;
+CREATE TABLE `aeropms_recent` (
   `user_id` int(11) NOT NULL,
   `recent` varchar(2000) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- 插入之前先把表清空（truncate） `aeropms_recent`
---
-
-TRUNCATE TABLE `aeropms_recent`;
 --
 -- 转存表中的数据 `aeropms_recent`
 --
@@ -1909,18 +1733,14 @@ INSERT INTO `aeropms_recent` (`user_id`, `recent`) VALUES
 -- 表的结构 `aeropms_relation`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_relation` (
+DROP TABLE IF EXISTS `aeropms_relation`;
+CREATE TABLE `aeropms_relation` (
   `row_id` int(11) NOT NULL DEFAULT '0',
   `relation_id` int(11) NOT NULL DEFAULT '0',
   `relation` varchar(20) NOT NULL DEFAULT '',
   KEY `row_id` (`row_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- 插入之前先把表清空（truncate） `aeropms_relation`
---
-
-TRUNCATE TABLE `aeropms_relation`;
 --
 -- 转存表中的数据 `aeropms_relation`
 --
@@ -1964,7 +1784,8 @@ INSERT INTO `aeropms_relation` (`row_id`, `relation_id`, `relation`) VALUES
 -- 表的结构 `aeropms_resource_unit`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_resource_unit` (
+DROP TABLE IF EXISTS `aeropms_resource_unit`;
+CREATE TABLE `aeropms_resource_unit` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `project_id` int(11) NOT NULL,
   `type` int(11) NOT NULL DEFAULT '1',
@@ -1982,11 +1803,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_resource_unit` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_resource_unit`
---
-
-TRUNCATE TABLE `aeropms_resource_unit`;
---
 -- 转存表中的数据 `aeropms_resource_unit`
 --
 
@@ -2002,7 +1818,8 @@ INSERT INTO `aeropms_resource_unit` (`id`, `project_id`, `type`, `save_path`, `f
 -- 表的结构 `aeropms_role`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_role` (
+DROP TABLE IF EXISTS `aeropms_role`;
+CREATE TABLE `aeropms_role` (
   `id` smallint(6) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL DEFAULT '',
   `pid` smallint(6) DEFAULT NULL,
@@ -2017,11 +1834,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_role` (
   KEY `status` (`is_del`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_role`
---
-
-TRUNCATE TABLE `aeropms_role`;
 --
 -- 转存表中的数据 `aeropms_role`
 --
@@ -2038,16 +1850,12 @@ INSERT INTO `aeropms_role` (`id`, `name`, `pid`, `remark`, `sort`, `create_time`
 -- 表的结构 `aeropms_role_duty`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_role_duty` (
+DROP TABLE IF EXISTS `aeropms_role_duty`;
+CREATE TABLE `aeropms_role_duty` (
   `role_id` smallint(6) unsigned NOT NULL,
   `duty_id` smallint(6) unsigned NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- 插入之前先把表清空（truncate） `aeropms_role_duty`
---
-
-TRUNCATE TABLE `aeropms_role_duty`;
 --
 -- 转存表中的数据 `aeropms_role_duty`
 --
@@ -2067,7 +1875,8 @@ INSERT INTO `aeropms_role_duty` (`role_id`, `duty_id`) VALUES
 -- 表的结构 `aeropms_role_node`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_role_node` (
+DROP TABLE IF EXISTS `aeropms_role_node`;
+CREATE TABLE `aeropms_role_node` (
   `role_id` int(11) NOT NULL,
   `node_id` int(11) NOT NULL,
   `admin` tinyint(1) DEFAULT NULL,
@@ -2075,11 +1884,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_role_node` (
   `write` tinyint(1) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- 插入之前先把表清空（truncate） `aeropms_role_node`
---
-
-TRUNCATE TABLE `aeropms_role_node`;
 --
 -- 转存表中的数据 `aeropms_role_node`
 --
@@ -2127,18 +1931,14 @@ INSERT INTO `aeropms_role_node` (`role_id`, `node_id`, `admin`, `read`, `write`)
 -- 表的结构 `aeropms_role_user`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_role_user` (
+DROP TABLE IF EXISTS `aeropms_role_user`;
+CREATE TABLE `aeropms_role_user` (
   `role_id` mediumint(9) unsigned DEFAULT NULL,
   `user_id` char(32) DEFAULT NULL,
   KEY `group_id` (`role_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- 插入之前先把表清空（truncate） `aeropms_role_user`
---
-
-TRUNCATE TABLE `aeropms_role_user`;
 --
 -- 转存表中的数据 `aeropms_role_user`
 --
@@ -2169,7 +1969,8 @@ INSERT INTO `aeropms_role_user` (`role_id`, `user_id`) VALUES
 -- 表的结构 `aeropms_schedule`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_schedule` (
+DROP TABLE IF EXISTS `aeropms_schedule`;
+CREATE TABLE `aeropms_schedule` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT '',
   `content` text,
@@ -2185,11 +1986,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_schedule` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=76 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_schedule`
---
-
-TRUNCATE TABLE `aeropms_schedule`;
---
 -- 转存表中的数据 `aeropms_schedule`
 --
 
@@ -2203,7 +1999,8 @@ INSERT INTO `aeropms_schedule` (`id`, `name`, `content`, `location`, `priority`,
 -- 表的结构 `aeropms_slide`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_slide` (
+DROP TABLE IF EXISTS `aeropms_slide`;
+CREATE TABLE `aeropms_slide` (
   `id` smallint(4) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '文档编号',
   `link` varchar(200) NOT NULL DEFAULT '' COMMENT '名称',
@@ -2217,13 +2014,8 @@ CREATE TABLE IF NOT EXISTS `aeropms_slide` (
   `is_del` tinyint(3) NOT NULL DEFAULT '0' COMMENT '删除标记',
   `content` text,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=88 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=87 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_slide`
---
-
-TRUNCATE TABLE `aeropms_slide`;
 --
 -- 转存表中的数据 `aeropms_slide`
 --
@@ -2237,7 +2029,8 @@ INSERT INTO `aeropms_slide` (`id`, `name`, `link`, `color`, `sort`, `add_file`, 
 -- 表的结构 `aeropms_supplier`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_supplier` (
+DROP TABLE IF EXISTS `aeropms_supplier`;
+CREATE TABLE `aeropms_supplier` (
   `id` int(6) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL DEFAULT '',
   `letter` varchar(50) DEFAULT '',
@@ -2260,11 +2053,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_supplier` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_supplier`
---
-
-TRUNCATE TABLE `aeropms_supplier`;
---
 -- 转存表中的数据 `aeropms_supplier`
 --
 
@@ -2279,7 +2067,8 @@ INSERT INTO `aeropms_supplier` (`id`, `name`, `letter`, `short`, `account`, `tax
 -- 表的结构 `aeropms_system_config`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_system_config` (
+DROP TABLE IF EXISTS `aeropms_system_config`;
+CREATE TABLE `aeropms_system_config` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(20) NOT NULL,
   `name` varchar(50) NOT NULL DEFAULT '',
@@ -2290,11 +2079,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_system_config` (
   KEY `id` (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_system_config`
---
-
-TRUNCATE TABLE `aeropms_system_config`;
 --
 -- 转存表中的数据 `aeropms_system_config`
 --
@@ -2320,7 +2104,8 @@ INSERT INTO `aeropms_system_config` (`id`, `code`, `name`, `val`, `is_del`, `sor
 -- 表的结构 `aeropms_system_folder`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_system_folder` (
+DROP TABLE IF EXISTS `aeropms_system_folder`;
+CREATE TABLE `aeropms_system_folder` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `pid` int(11) NOT NULL,
   `folder` varchar(20) NOT NULL,
@@ -2334,11 +2119,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_system_folder` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=66 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_system_folder`
---
-
-TRUNCATE TABLE `aeropms_system_folder`;
 --
 -- 转存表中的数据 `aeropms_system_folder`
 --
@@ -2373,7 +2153,8 @@ INSERT INTO `aeropms_system_folder` (`id`, `pid`, `folder`, `name`, `admin`, `wr
 -- 表的结构 `aeropms_system_tag`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_system_tag` (
+DROP TABLE IF EXISTS `aeropms_system_tag`;
+CREATE TABLE `aeropms_system_tag` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(11) NOT NULL DEFAULT '0',
   `module` varchar(20) NOT NULL,
@@ -2383,11 +2164,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_system_tag` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=81 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_system_tag`
---
-
-TRUNCATE TABLE `aeropms_system_tag`;
 --
 -- 转存表中的数据 `aeropms_system_tag`
 --
@@ -2469,18 +2245,14 @@ INSERT INTO `aeropms_system_tag` (`id`, `pid`, `module`, `name`, `sort`, `remark
 -- 表的结构 `aeropms_system_tag_data`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_system_tag_data` (
+DROP TABLE IF EXISTS `aeropms_system_tag_data`;
+CREATE TABLE `aeropms_system_tag_data` (
   `row_id` int(11) NOT NULL DEFAULT '0',
   `tag_id` int(11) NOT NULL DEFAULT '0',
   `module` varchar(20) NOT NULL DEFAULT '',
   KEY `row_id` (`row_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- 插入之前先把表清空（truncate） `aeropms_system_tag_data`
---
-
-TRUNCATE TABLE `aeropms_system_tag_data`;
 --
 -- 转存表中的数据 `aeropms_system_tag_data`
 --
@@ -2528,7 +2300,8 @@ INSERT INTO `aeropms_system_tag_data` (`row_id`, `tag_id`, `module`) VALUES
 -- 表的结构 `aeropms_task`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_task` (
+DROP TABLE IF EXISTS `aeropms_task`;
+CREATE TABLE `aeropms_task` (
   `id` int(8) unsigned NOT NULL AUTO_INCREMENT,
   `task_no` varchar(20) DEFAULT NULL,
   `pid` int(11) DEFAULT NULL,
@@ -2548,11 +2321,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_task` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=195 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_task`
---
-
-TRUNCATE TABLE `aeropms_task`;
 --
 -- 转存表中的数据 `aeropms_task`
 --
@@ -2598,7 +2366,8 @@ INSERT INTO `aeropms_task` (`id`, `task_no`, `pid`, `name`, `content`, `executor
 -- 表的结构 `aeropms_task_detail`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_task_detail` (
+DROP TABLE IF EXISTS `aeropms_task_detail`;
+CREATE TABLE `aeropms_task_detail` (
   `taskid` int(10) unsigned NOT NULL DEFAULT '0',
   `pid` int(10) unsigned NOT NULL DEFAULT '0',
   `appoint` int(4) unsigned NOT NULL DEFAULT '0',
@@ -2610,18 +2379,14 @@ CREATE TABLE IF NOT EXISTS `aeropms_task_detail` (
   KEY `pid` (`pid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- 插入之前先把表清空（truncate） `aeropms_task_detail`
---
-
-TRUNCATE TABLE `aeropms_task_detail`;
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `aeropms_task_log`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_task_log` (
+DROP TABLE IF EXISTS `aeropms_task_log`;
+CREATE TABLE `aeropms_task_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `task_id` int(11) DEFAULT NULL,
   `type` tinyint(3) DEFAULT NULL,
@@ -2638,11 +2403,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_task_log` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=188 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_task_log`
---
-
-TRUNCATE TABLE `aeropms_task_log`;
 --
 -- 转存表中的数据 `aeropms_task_log`
 --
@@ -2668,7 +2428,8 @@ INSERT INTO `aeropms_task_log` (`id`, `task_id`, `type`, `assigner`, `executor`,
 -- 表的结构 `aeropms_todo`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_todo` (
+DROP TABLE IF EXISTS `aeropms_todo`;
+CREATE TABLE `aeropms_todo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `content` text NOT NULL,
@@ -2681,11 +2442,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_todo` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_todo`
---
-
-TRUNCATE TABLE `aeropms_todo`;
 --
 -- 转存表中的数据 `aeropms_todo`
 --
@@ -2709,7 +2465,8 @@ INSERT INTO `aeropms_todo` (`id`, `name`, `content`, `user_id`, `end_date`, `pri
 -- 表的结构 `aeropms_udf_expense`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_udf_expense` (
+DROP TABLE IF EXISTS `aeropms_udf_expense`;
+CREATE TABLE `aeropms_udf_expense` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `emp_no` varchar(20) NOT NULL DEFAULT '',
   `B` varchar(20) DEFAULT '',
@@ -2729,11 +2486,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_udf_expense` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=158 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_udf_expense`
---
-
-TRUNCATE TABLE `aeropms_udf_expense`;
---
 -- 转存表中的数据 `aeropms_udf_expense`
 --
 
@@ -2750,7 +2502,8 @@ INSERT INTO `aeropms_udf_expense` (`id`, `emp_no`, `B`, `C`, `D`, `E`, `F`, `G`,
 -- 表的结构 `aeropms_udf_field`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_udf_field` (
+DROP TABLE IF EXISTS `aeropms_udf_field`;
+CREATE TABLE `aeropms_udf_field` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL DEFAULT '',
   `row_type` int(11) NOT NULL,
@@ -2765,11 +2518,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_udf_field` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=60 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_udf_field`
---
-
-TRUNCATE TABLE `aeropms_udf_field`;
 --
 -- 转存表中的数据 `aeropms_udf_field`
 --
@@ -2786,18 +2534,14 @@ INSERT INTO `aeropms_udf_field` (`id`, `name`, `row_type`, `sort`, `msg`, `contr
 -- 表的结构 `aeropms_udf_field_data`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_udf_field_data` (
+DROP TABLE IF EXISTS `aeropms_udf_field_data`;
+CREATE TABLE `aeropms_udf_field_data` (
   `row_id` int(11) NOT NULL,
   `field_id` varchar(50) NOT NULL,
   `val` varchar(50) DEFAULT NULL,
   `controller` varchar(20) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- 插入之前先把表清空（truncate） `aeropms_udf_field_data`
---
-
-TRUNCATE TABLE `aeropms_udf_field_data`;
 --
 -- 转存表中的数据 `aeropms_udf_field_data`
 --
@@ -2815,7 +2559,8 @@ INSERT INTO `aeropms_udf_field_data` (`row_id`, `field_id`, `val`, `controller`)
 -- 表的结构 `aeropms_udf_salary`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_udf_salary` (
+DROP TABLE IF EXISTS `aeropms_udf_salary`;
+CREATE TABLE `aeropms_udf_salary` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `emp_no` varchar(20) NOT NULL DEFAULT '',
   `B` varchar(20) DEFAULT '',
@@ -2832,13 +2577,8 @@ CREATE TABLE IF NOT EXISTS `aeropms_udf_salary` (
   `M` varchar(20) DEFAULT '',
   `N` varchar(20) DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=152 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=139 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_udf_salary`
---
-
-TRUNCATE TABLE `aeropms_udf_salary`;
 --
 -- 转存表中的数据 `aeropms_udf_salary`
 --
@@ -2870,7 +2610,8 @@ INSERT INTO `aeropms_udf_salary` (`id`, `emp_no`, `B`, `C`, `D`, `E`, `F`, `G`, 
 -- 表的结构 `aeropms_user`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_user` (
+DROP TABLE IF EXISTS `aeropms_user`;
+CREATE TABLE `aeropms_user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `emp_no` varchar(20) NOT NULL DEFAULT '',
   `name` varchar(20) NOT NULL,
@@ -2898,16 +2639,11 @@ CREATE TABLE IF NOT EXISTS `aeropms_user` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=76 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_user`
---
-
-TRUNCATE TABLE `aeropms_user`;
---
 -- 转存表中的数据 `aeropms_user`
 --
 
 INSERT INTO `aeropms_user` (`id`, `emp_no`, `name`, `letter`, `password`, `dept_id`, `position_id`, `rank_id`, `sex`, `birthday`, `last_login_ip`, `login_count`, `pic`, `email`, `duty`, `office_tel`, `mobile_tel`, `create_time`, `update_time`, `is_del`, `openid`, `westatus`) VALUES
-(1, 'admin', '管理员', 'GLY', '21232f297a57a5a743894a0e4a801fc3', 1, 1, 2, 'male', '2013-09-18', '127.0.0.1', 2833, 'emp_pic/1.jpeg', '123', '1231254123123', '5086-2222-2222', '12123123', 1222907803, 1404047349, 0, '1231512315123', 1),
+(1, 'admin', '管理员', 'GLY', '21232f297a57a5a743894a0e4a801fc3', 1, 1, 2, 'male', '2013-09-18', '127.0.0.1', 2834, 'emp_pic/1.jpeg', '123', '1231254123123', '5086-2222-2222', '12123123', 1222907803, 1404047349, 0, '1231512315123', 1),
 (41, 'PM00', '项目经理0', 'PM', '21232f297a57a5a743894a0e4a801fc3', 6, 1, 1, 'male', '2013-10-30', '127.0.0.1', NULL, '', '', '项目经理测试用户', '', '', 1376896154, 1407565312, 0, NULL, 1),
 (42, 'DR00', '总师0', 'DR', '21232f297a57a5a743894a0e4a801fc3', 8, 2, 1, 'male', '2013-10-10', '127.0.0.1', NULL, 'emp_pic/42.jpeg', 'smeoa@qq.com', '总师测试用户', '123', '12312312', 1380970837, 1401287019, 0, '12312541231251243123', 1),
 (43, 'VDR00', '副总师0', 'VDR', '21232f297a57a5a743894a0e4a801fc3', 7, 3, 1, 'male', '0000-00-00', '127.0.0.1', NULL, 'emp_pic/43.jpeg', '', '副总师测试用户', '', '', 1381035116, 1401287063, 0, NULL, 1),
@@ -2929,7 +2665,8 @@ INSERT INTO `aeropms_user` (`id`, `emp_no`, `name`, `letter`, `password`, `dept_
 -- 表的结构 `aeropms_user_config`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_user_config` (
+DROP TABLE IF EXISTS `aeropms_user_config`;
+CREATE TABLE `aeropms_user_config` (
   `id` int(11) NOT NULL DEFAULT '0',
   `home_sort` varchar(255) DEFAULT NULL,
   `list_rows` int(11) DEFAULT '20',
@@ -2939,11 +2676,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_user_config` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- 插入之前先把表清空（truncate） `aeropms_user_config`
---
-
-TRUNCATE TABLE `aeropms_user_config`;
 --
 -- 转存表中的数据 `aeropms_user_config`
 --
@@ -2984,7 +2716,8 @@ INSERT INTO `aeropms_user_config` (`id`, `home_sort`, `list_rows`, `readed_notic
 -- 表的结构 `aeropms_user_folder`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_user_folder` (
+DROP TABLE IF EXISTS `aeropms_user_folder`;
+CREATE TABLE `aeropms_user_folder` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `pid` int(11) NOT NULL,
   `folder` varchar(20) NOT NULL,
@@ -2996,11 +2729,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_user_folder` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=34 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_user_folder`
---
-
-TRUNCATE TABLE `aeropms_user_folder`;
 --
 -- 转存表中的数据 `aeropms_user_folder`
 --
@@ -3016,7 +2744,8 @@ INSERT INTO `aeropms_user_folder` (`id`, `pid`, `folder`, `user_id`, `name`, `so
 -- 表的结构 `aeropms_user_info_base`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_user_info_base` (
+DROP TABLE IF EXISTS `aeropms_user_info_base`;
+CREATE TABLE `aeropms_user_info_base` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `xing_ming` varchar(20) DEFAULT NULL,
   `pic` varchar(50) DEFAULT NULL,
@@ -3046,20 +2775,16 @@ CREATE TABLE IF NOT EXISTS `aeropms_user_info_base` (
   `is_check` tinyint(3) NOT NULL DEFAULT '0',
   `is_del` tinyint(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_user_info_base`
---
-
-TRUNCATE TABLE `aeropms_user_info_base`;
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `aeropms_user_info_tab1`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_user_info_tab1` (
+DROP TABLE IF EXISTS `aeropms_user_info_tab1`;
+CREATE TABLE `aeropms_user_info_tab1` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `user_name` varchar(20) DEFAULT NULL,
@@ -3073,20 +2798,16 @@ CREATE TABLE IF NOT EXISTS `aeropms_user_info_tab1` (
   `is_del` tinyint(3) NOT NULL DEFAULT '0',
   `add_file` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_user_info_tab1`
---
-
-TRUNCATE TABLE `aeropms_user_info_tab1`;
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `aeropms_user_info_tab2`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_user_info_tab2` (
+DROP TABLE IF EXISTS `aeropms_user_info_tab2`;
+CREATE TABLE `aeropms_user_info_tab2` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `user_name` varchar(20) DEFAULT NULL,
@@ -3100,20 +2821,16 @@ CREATE TABLE IF NOT EXISTS `aeropms_user_info_tab2` (
   `is_del` tinyint(3) NOT NULL DEFAULT '0',
   `add_file` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_user_info_tab2`
---
-
-TRUNCATE TABLE `aeropms_user_info_tab2`;
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `aeropms_user_info_tab3`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_user_info_tab3` (
+DROP TABLE IF EXISTS `aeropms_user_info_tab3`;
+CREATE TABLE `aeropms_user_info_tab3` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `user_name` varchar(20) DEFAULT NULL,
@@ -3130,20 +2847,16 @@ CREATE TABLE IF NOT EXISTS `aeropms_user_info_tab3` (
   `is_del` tinyint(3) NOT NULL DEFAULT '0',
   `add_file` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_user_info_tab3`
---
-
-TRUNCATE TABLE `aeropms_user_info_tab3`;
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `aeropms_user_tag`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_user_tag` (
+DROP TABLE IF EXISTS `aeropms_user_tag`;
+CREATE TABLE `aeropms_user_tag` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(11) NOT NULL DEFAULT '0',
   `module` varchar(20) NOT NULL,
@@ -3154,11 +2867,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_user_tag` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_user_tag`
---
-
-TRUNCATE TABLE `aeropms_user_tag`;
 --
 -- 转存表中的数据 `aeropms_user_tag`
 --
@@ -3172,25 +2880,22 @@ INSERT INTO `aeropms_user_tag` (`id`, `pid`, `module`, `user_id`, `name`, `sort`
 -- 表的结构 `aeropms_user_tag_data`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_user_tag_data` (
+DROP TABLE IF EXISTS `aeropms_user_tag_data`;
+CREATE TABLE `aeropms_user_tag_data` (
   `row_id` int(11) NOT NULL DEFAULT '0',
   `tag_id` int(11) NOT NULL DEFAULT '0',
   `module` varchar(20) NOT NULL DEFAULT '',
   KEY `row_id` (`row_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
---
--- 插入之前先把表清空（truncate） `aeropms_user_tag_data`
---
-
-TRUNCATE TABLE `aeropms_user_tag_data`;
 -- --------------------------------------------------------
 
 --
 -- 表的结构 `aeropms_vip`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_vip` (
+DROP TABLE IF EXISTS `aeropms_vip`;
+CREATE TABLE `aeropms_vip` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL DEFAULT '' COMMENT '名称',
   `english_name` varchar(20) NOT NULL DEFAULT '' COMMENT '英文名',
@@ -3220,11 +2925,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_vip` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=18 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_vip`
---
-
-TRUNCATE TABLE `aeropms_vip`;
---
 -- 转存表中的数据 `aeropms_vip`
 --
 
@@ -3253,7 +2953,8 @@ INSERT INTO `aeropms_vip` (`id`, `name`, `english_name`, `office_tel`, `mobile_t
 -- 表的结构 `aeropms_vip_sales`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_vip_sales` (
+DROP TABLE IF EXISTS `aeropms_vip_sales`;
+CREATE TABLE `aeropms_vip_sales` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `vip_id` int(11) DEFAULT NULL,
   `product` varchar(255) DEFAULT NULL,
@@ -3266,11 +2967,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_vip_sales` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_vip_sales`
---
-
-TRUNCATE TABLE `aeropms_vip_sales`;
 --
 -- 转存表中的数据 `aeropms_vip_sales`
 --
@@ -3289,7 +2985,8 @@ INSERT INTO `aeropms_vip_sales` (`id`, `vip_id`, `product`, `sales_date`, `size`
 -- 表的结构 `aeropms_wbs_depart`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_wbs_depart` (
+DROP TABLE IF EXISTS `aeropms_wbs_depart`;
+CREATE TABLE `aeropms_wbs_depart` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `specific_proj_id` int(11) NOT NULL DEFAULT '-1',
   `name` varchar(512) NOT NULL,
@@ -3299,11 +2996,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_wbs_depart` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_wbs_depart`
---
-
-TRUNCATE TABLE `aeropms_wbs_depart`;
 --
 -- 转存表中的数据 `aeropms_wbs_depart`
 --
@@ -3323,7 +3015,8 @@ INSERT INTO `aeropms_wbs_depart` (`id`, `specific_proj_id`, `name`, `desc`, `att
 -- 表的结构 `aeropms_wbs_node`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_wbs_node` (
+DROP TABLE IF EXISTS `aeropms_wbs_node`;
+CREATE TABLE `aeropms_wbs_node` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `project_id` int(11) NOT NULL,
   `node_level` int(11) DEFAULT '-1',
@@ -3344,11 +3037,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_wbs_node` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_wbs_node`
---
-
-TRUNCATE TABLE `aeropms_wbs_node`;
---
 -- 转存表中的数据 `aeropms_wbs_node`
 --
 
@@ -3368,10 +3056,54 @@ INSERT INTO `aeropms_wbs_node` (`id`, `project_id`, `node_level`, `inner_index`,
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `aeropms_wbs_node_input`
+--
+
+DROP TABLE IF EXISTS `aeropms_wbs_node_input`;
+CREATE TABLE `aeropms_wbs_node_input` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `project_id` int(11) NOT NULL,
+  `node_id` int(11) NOT NULL,
+  `input_node_id` int(11) NOT NULL,
+  `input_node_item_id` int(11) DEFAULT NULL,
+  `create_time` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `aeropms_wbs_schedule`
+--
+
+DROP TABLE IF EXISTS `aeropms_wbs_schedule`;
+CREATE TABLE `aeropms_wbs_schedule` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `node_id` int(11) NOT NULL,
+  `priority` int(11) NOT NULL DEFAULT '5',
+  `charger_id` int(11) NOT NULL DEFAULT '1',
+  `planning_begin_time` int(11) NOT NULL,
+  `planning_end_time` int(11) NOT NULL,
+  `planning_working_day` int(11) NOT NULL,
+  `planning_working_hour` int(11) NOT NULL,
+  `actual_begin_time` int(11) DEFAULT NULL,
+  `actual_end_time` int(11) DEFAULT NULL,
+  `actual_working_day` int(11) DEFAULT NULL,
+  `actual_working_hour` int(11) DEFAULT NULL,
+  `create_time` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `aeropms_wbs_type`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_wbs_type` (
+DROP TABLE IF EXISTS `aeropms_wbs_type`;
+CREATE TABLE `aeropms_wbs_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `specific_proj_id` int(11) NOT NULL DEFAULT '-1',
   `name` varchar(512) NOT NULL,
@@ -3382,11 +3114,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_wbs_type` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_wbs_type`
---
-
-TRUNCATE TABLE `aeropms_wbs_type`;
 --
 -- 转存表中的数据 `aeropms_wbs_type`
 --
@@ -3402,7 +3129,8 @@ INSERT INTO `aeropms_wbs_type` (`id`, `specific_proj_id`, `name`, `desc`, `attac
 -- 表的结构 `aeropms_weekly_report`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_weekly_report` (
+DROP TABLE IF EXISTS `aeropms_weekly_report`;
+CREATE TABLE `aeropms_weekly_report` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL DEFAULT '0',
   `user_name` varchar(50) DEFAULT NULL,
@@ -3420,11 +3148,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_weekly_report` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=45 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_weekly_report`
---
-
-TRUNCATE TABLE `aeropms_weekly_report`;
---
 -- 转存表中的数据 `aeropms_weekly_report`
 --
 
@@ -3438,7 +3161,8 @@ INSERT INTO `aeropms_weekly_report` (`id`, `user_id`, `user_name`, `dept_id`, `d
 -- 表的结构 `aeropms_weekly_report_comment`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_weekly_report_comment` (
+DROP TABLE IF EXISTS `aeropms_weekly_report_comment`;
+CREATE TABLE `aeropms_weekly_report_comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `doc_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL DEFAULT '',
@@ -3455,11 +3179,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_weekly_report_comment` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=68 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_weekly_report_comment`
---
-
-TRUNCATE TABLE `aeropms_weekly_report_comment`;
---
 -- 转存表中的数据 `aeropms_weekly_report_comment`
 --
 
@@ -3473,7 +3192,8 @@ INSERT INTO `aeropms_weekly_report_comment` (`id`, `doc_id`, `name`, `content`, 
 -- 表的结构 `aeropms_weekly_report_detail`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_weekly_report_detail` (
+DROP TABLE IF EXISTS `aeropms_weekly_report_detail`;
+CREATE TABLE `aeropms_weekly_report_detail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pid` int(11) DEFAULT NULL,
   `seq` tinyint(3) DEFAULT NULL,
@@ -3488,11 +3208,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_weekly_report_detail` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=191 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_weekly_report_detail`
---
-
-TRUNCATE TABLE `aeropms_weekly_report_detail`;
 --
 -- 转存表中的数据 `aeropms_weekly_report_detail`
 --
@@ -3514,7 +3229,8 @@ INSERT INTO `aeropms_weekly_report_detail` (`id`, `pid`, `seq`, `subject`, `item
 -- 表的结构 `aeropms_work_log`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_work_log` (
+DROP TABLE IF EXISTS `aeropms_work_log`;
+CREATE TABLE `aeropms_work_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL DEFAULT '0',
   `user_name` varchar(20) DEFAULT NULL,
@@ -3531,11 +3247,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_work_log` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_work_log`
---
-
-TRUNCATE TABLE `aeropms_work_log`;
---
 -- 转存表中的数据 `aeropms_work_log`
 --
 
@@ -3550,7 +3261,8 @@ INSERT INTO `aeropms_work_log` (`id`, `user_id`, `user_name`, `dept_id`, `dept_n
 -- 表的结构 `aeropms_xmk`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_xmk` (
+DROP TABLE IF EXISTS `aeropms_xmk`;
+CREATE TABLE `aeropms_xmk` (
   `id` smallint(4) unsigned NOT NULL AUTO_INCREMENT,
   `xm_no` varchar(20) NOT NULL DEFAULT '' COMMENT '文档编号',
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '名称',
@@ -3572,11 +3284,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_xmk` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
--- 插入之前先把表清空（truncate） `aeropms_xmk`
---
-
-TRUNCATE TABLE `aeropms_xmk`;
---
 -- 转存表中的数据 `aeropms_xmk`
 --
 
@@ -3590,7 +3297,8 @@ INSERT INTO `aeropms_xmk` (`id`, `xm_no`, `name`, `content`, `folder`, `add_file
 -- 表的结构 `aeropms_xmk_report`
 --
 
-CREATE TABLE IF NOT EXISTS `aeropms_xmk_report` (
+DROP TABLE IF EXISTS `aeropms_xmk_report`;
+CREATE TABLE `aeropms_xmk_report` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `xid` int(11) NOT NULL,
   `name` varchar(50) NOT NULL DEFAULT '',
@@ -3606,11 +3314,6 @@ CREATE TABLE IF NOT EXISTS `aeropms_xmk_report` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=65 ;
 
---
--- 插入之前先把表清空（truncate） `aeropms_xmk_report`
---
-
-TRUNCATE TABLE `aeropms_xmk_report`;
 --
 -- 转存表中的数据 `aeropms_xmk_report`
 --
