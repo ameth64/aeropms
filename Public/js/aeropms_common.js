@@ -17,3 +17,10 @@ function click_project_list(obj_node) {
     form.css('display', 'none');
     form.submit();
 }
+
+/** 将指定选择集进行map操作
+ */
+function dom_map(selector, f)
+{
+    return $(selector).map(f).get();
+}

@@ -1,3 +1,4 @@
+
 function del_current_node() {
 	set_cookie("current_node", null);
 }

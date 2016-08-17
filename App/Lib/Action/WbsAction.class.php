@@ -126,18 +126,21 @@ class WbsAction extends CommonAction
         $node_id = $WbsNode->add();
 
         /* 处理 schedule*/
+        $leader_json = json_decode($this->_post("team_leader_list", null), true);
         $wbs_schedule_json = $this->_post("planning_schedule", null);
         if($wbs_schedule_json){
-            if($data_array = json_decode($wbs_schedule_json, true)){
+            $data_array = json_decode($wbs_schedule_json, true); 
+            if($data_array==false || $leader_json == false){
                 $this->error("WBS Schedule处理失败, 请检查数据");
             }
             else{
                 $wbs_schedule_model = D("WbsSchedule");
-                $data_array["charger_id"] = $this->_post("team_leader_list", null);
+                $data_array["node_id"] = $node_id;
+                $data_array["charger_id"] = $leader_json["id"];
                 $data_array["priority"] = 5;
                 $data_array["create_time"] = time();
                 $data_array["update_time"] = time();
-                $wbs_schedule_model->create($data_array);
+                $wbs_schedule_model->create($data_array)->add();
             }
         }
 
@@ -149,18 +152,15 @@ class WbsAction extends CommonAction
             }
             else{
                 $wbso = M("WbsNodeOutput");
-                $data = array();
                 //遍历数组
                 foreach($json_array as $item){
-                    $data["type"] = $item["type"];
-                    $data["item_name"] = $item["name"];
-                    $data["create_time"] = time();
-                    $data["update_time"] = time();
-                    $data["project_id"] = $proj_id;
-                    $data["node_id"] = $node_id;
-                    $data["status"] = 1;
-                    $data["assignee_id"] = -1;
-                    $wbso->data($data)->add();
+                    $item["project_id"] = $proj_id;
+                    $item["node_id"] = $node_id;
+                    $item["status"] = 1;
+                    $item["assignee_id"] = -1;
+                    $item["create_time"] = time();
+                    $item["update_time"] = time();
+                    $wbso->data($item)->add();
                 }
             }
         }
@@ -174,16 +174,13 @@ class WbsAction extends CommonAction
             else
             {
                 $wbs_node_input = D("WbsNodeInput");
-                $data = array();
                 //遍历数组
                 foreach($json_array as $item){
-                    $data["create_time"] = time();
-                    $data["update_time"] = time();
-                    $data["project_id"] = $proj_id;
-                    $data["node_id"] = $node_id;
-                    $data["input_node_id"] = $item["input_node_id"];
-                    $data["assignee_id"] = -1;
-                    $wbs_node_input->data($data)->add();
+                    $item["project_id"] = $proj_id;
+                    $item["node_id"] = $node_id;
+                    $item["create_time"] = time();
+                    $item["update_time"] = time();
+                    $wbs_node_input->data($item)->add();
                 }
             }
         }

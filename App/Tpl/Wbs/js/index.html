@@ -174,41 +174,42 @@
         }
 
         /*将输出列表组装为json*/
-        var wbs_output_json = $("#id_wbs_output_list li").map(function(){
+        var wbs_output_json = dom_map("#id_wbs_output_list li", function(){
             if($(this).text().length > 1)
-                return {"type": $(this).attr('data-output-type'), "name": $(this).text()};
-        }).get();
+                return {"type": $(this).attr('data-output-type'), "item_name": $(this).text()};
+        });
         if(wbs_output_json.length > 0){
             $("#wbs_output_list").val(JSON.stringify(wbs_output_json));
+            console.log("Wbs output: " + $("#wbs_output_list").val());
         }
 
         /*将输入列表组装为json*/
-        var wbs_input_json = $("#id_wbs_input_list .address_list span").map(function(){
-            if($(this).text().length > 1)
-                return {"input_node_id": $(this).attr('id')};
-        }).get();
+        var wbs_input_json = dom_map("#id_wbs_input_list .address_list span", function(){
+            return {"input_node_id": $(this).attr('id')};
+        });
         if(wbs_input_json.length > 0) {
             $("#wbs_input_list").val(JSON.stringify(wbs_input_json));
+            console.log("Wbs input: " + $("#wbs_input_list").val());
         }
 
         // 将负责人列表组装为json
-        var team_leader_json = $("#id_admin_list .address_list span").map(function(){
+        var team_leader_json = dom_map("#id_admin_list .address_list span", function(){
             if($(this).text().length > 1)
-                return {"leader_id": $(this).attr('id')}
-        }).get();
+                return {"id": $(this).attr('id')}
+        });
         if(team_leader_json.length > 0){
-            $("#team_leader_list").val( JSON.stringify(team_leader_json) );
-            //console.log($("#team_leader_list").val());
+            $("#team_leader_list").val( JSON.stringify(team_leader_json[0] ) );
+            console.log("team leader: " + $("#team_leader_list").val());
         }
 
         // 将成员列表组装为json
-        var team_member_json = $("#id_member_list .address_list span").map(function(){
+        var team_member_json = dom_map("#id_member_list .address_list span", function(){
             if($(this).text().length > 1)
-                return {"member_id": $(this).attr('id')}
-        }).get();
+                return {"id": $(this).attr('id')}
+        });
         if(team_member_json.length > 0){
             $("#team_member_list").val( JSON.stringify(team_member_json) );
-            //console.log($("#team_member_list").val());
+            console.log("team member: " + $("#team_member_list").val());
         }
 
         //将schedule组装为json
@@ -226,7 +227,7 @@
 
         var url = $("#form_data").attr("post_url");
         if(check_form("form_data")){
-            //sendForm("form_data", url);
+            sendForm("form_data", url);
         }
 
 
