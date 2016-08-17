@@ -147,8 +147,8 @@ CREATE TABLE aeropms_wbs_node (
 /**
 WBS节点工时记录表
  */
-DROP TABLE IF EXISTS aeropms_wbs_schedule;
-CREATE TABLE aeropms_wbs_schedule (
+DROP TABLE IF EXISTS aeropms_wbs_node_schedule;
+CREATE TABLE aeropms_wbs_node_schedule (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `node_id` int(11) NOT NULL,  /*WBS项目id*/
   `priority` int NOT NULL default 5, /*任务优先级, 0为最高, 默认为5*/
@@ -167,10 +167,10 @@ CREATE TABLE aeropms_wbs_schedule (
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 #
-# Data for table "aeropms_wbs_schedule"
+# Data for table "aeropms_wbs_node_schedule"
 #
-/*!40000 ALTER TABLE `aeropms_wbs_schedule` DISABLE KEYS */;
-/*!40000 ALTER TABLE `aeropms_wbs_schedule` ENABLE KEYS */;
+/*!40000 ALTER TABLE `aeropms_wbs_node_schedule` DISABLE KEYS */;
+/*!40000 ALTER TABLE `aeropms_wbs_node_schedule` ENABLE KEYS */;
 
 
 /*WBS节点输出关系表*/

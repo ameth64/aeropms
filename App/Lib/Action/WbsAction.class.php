@@ -79,6 +79,9 @@ class WbsAction extends CommonAction
         $wbs_output_json = $this->_post('wbs_output_list', null); //若使用框架_post方法则可能因过滤函数而无法成功解码JSON
         $wbs_input_json = $this->_post("wbs_input_list", null);
 
+        //开始事务
+        $db_success = true; $dbo_array = array();
+
         import('@.ORG.Util.UploadFile');
         //处理文件上传
         $attach_id = -1;
@@ -88,9 +91,11 @@ class WbsAction extends CommonAction
             $upload->savePath =  './Public/Uploads/';// 设置附件上传目录
             $upload->supportMulti = true;
 
-            if(!$upload->upload()) {// 上传错误提示错误信息
+            if(!$upload->upload()) {
+                $db_success = false;$db_success = false;
                 $this->error("处理文件上传期间发生错误: ".$upload->getErrorMsg());
-            }else{// 上传成功 获取上传文件信息
+            }
+            else{// 上传成功 获取上传文件信息
                 $info_list =  $upload->getUploadFileInfo();
                 $res = M("ResourceUnit");
                 foreach($info_list as $info){
@@ -114,6 +119,9 @@ class WbsAction extends CommonAction
 
         /*处理基本信息*/
         $WbsNode = M("WbsNode");
+        // 开始事务
+        $this->dbo_start_trans($dbo_array, $WbsNode);
+
         $WbsNode->create();
         $WbsNode->creator_id = $user_id;
         $WbsNode->create_time = time();
@@ -126,32 +134,41 @@ class WbsAction extends CommonAction
         $node_id = $WbsNode->add();
 
         /* 处理 schedule*/
-        $leader_json = json_decode($this->_post("team_leader_list", null), true);
-        $wbs_schedule_json = $this->_post("planning_schedule", null);
-        if($wbs_schedule_json){
-            $data_array = json_decode($wbs_schedule_json, true); 
-            if($data_array==false || $leader_json == false){
+        if($_POST["team_leader_list"] && $_POST["planning_schedule"])
+        {
+            $leader_json = json_decode($_POST["team_leader_list"], true);
+            $wbs_schedule_json = json_decode($_POST["planning_schedule"], true);
+            if($wbs_schedule_json==false || $leader_json == false){
+                Log::write("leader_json raw: ".$_POST["team_leader_list"]
+                    .", wbs_schedule_json raw: ".$_POST["planning_schedule"], Log::ERR);
+                $this->dbo_rollback($dbo_array);
+                $db_success = false;
                 $this->error("WBS Schedule处理失败, 请检查数据");
             }
             else{
-                $wbs_schedule_model = D("WbsSchedule");
+                $wbs_schedule_model = D("WbsNodeSchedule");
+                $this->dbo_start_trans($dbo_array, $wbs_schedule_model);
                 $data_array["node_id"] = $node_id;
                 $data_array["charger_id"] = $leader_json["id"];
                 $data_array["priority"] = 5;
                 $data_array["create_time"] = time();
                 $data_array["update_time"] = time();
-                $wbs_schedule_model->create($data_array)->add();
+                $wbs_schedule_model->create($data_array);
+                $wbs_schedule_model->add();
             }
         }
 
+
         // 处理wbs输出列表json
-        if(!empty($wbs_output_json)){
+        if($wbs_output_json){
             $json_array = json_decode($wbs_output_json, true);
             if($json_array == false){
+                $this->dbo_rollback($dbo_array); $db_success = false;
                 $this->error("WBS输出列表处理失败, 请检查数据");
             }
             else{
                 $wbso = M("WbsNodeOutput");
+                $this->dbo_start_trans($dbo_array, $wbso);
                 //遍历数组
                 foreach($json_array as $item){
                     $item["project_id"] = $proj_id;
@@ -169,11 +186,13 @@ class WbsAction extends CommonAction
         if($wbs_input_json){
             $json_array = json_decode($wbs_input_json, true);
             if($json_array == false){
+                $this->dbo_rollback($dbo_array); $db_success = false;
                 $this->error("WBS输入列表处理失败, 请检查数据");
             }
             else
             {
                 $wbs_node_input = D("WbsNodeInput");
+                $this->dbo_start_trans($dbo_array, $wbs_node_input);
                 //遍历数组
                 foreach($json_array as $item){
                     $item["project_id"] = $proj_id;
@@ -184,9 +203,40 @@ class WbsAction extends CommonAction
                 }
             }
         }
+        if($db_success){
+            $this->dbo_commit($dbo_array);
+        }
 
         $this->redirect("index", array(
             "proj_id"=>$proj_id
+            )
+        );
+    }
+
+    /**
+     * 根据给定ID删除WBS节点
+     */
+    public function del()
+    {
+        if(!$this->isPost()){
+            $this->error("无效请求");
+            return;
+        }
+        $proj_id = $this->_post("proj_id");
+        $user_id = get_user_id();
+        $node_id = $this->_post("node_id"); //待删除的WBS节点ID
+
+        $model = D("WbsNode");
+        $model->where("project_id=$proj_id and id=$node_id")->delete();
+        $model = D("WbsNodeSchedule");
+        $model->where("node_id=$node_id")->delete();
+        $model->D("WbsNodeInput");
+        $model->where("project_id=$proj_id and node_id=$node_id")->delete();
+        $model->D("WbsNodeOutput");
+        $model->where("project_id=$proj_id and node_id=$node_id")->delete();
+
+        $this->redirect("index", array(
+                "proj_id"=>$proj_id
             )
         );
     }
@@ -233,6 +283,34 @@ class WbsAction extends CommonAction
             $json = json_encode($data_array, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT); //, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT
             //Log::write("读取WBS结果: ".$json, NOTICE);
             $this->ajaxReturn($json, 'EVAL');
+        }
+    }
+
+    /**
+     * 数据对象的事务调用控制方法
+     */
+    protected function dbo_start_trans(&$arr, &$dbo)
+    {
+        $dbo->startTrans(); $arr[] = &$dbo;
+    }
+
+    protected function dbo_rollback(&$arr, $debug = false)
+    {
+        foreach ($arr as $key => $data) {
+            $arr[$key]->rollback();
+            if($debug){
+                Log::write("Rolled back table: ".$arr[$key]->getTableName(), Log::INFO);
+            }
+        }
+    }
+
+    protected function dbo_commit(&$arr, $debug = false)
+    {
+        foreach ($arr as $key => $data) {
+            $arr[$key]->commit();
+            if($debug){
+                Log::write("Committed table: ".$arr[$key]->getTableName(), Log::INFO);
+            }
         }
     }
 
