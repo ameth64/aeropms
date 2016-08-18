@@ -24,7 +24,8 @@ class WbsNodeModel extends CommonModel {
     }
 
     public function getNodeInfo($proj_id, $node_id){
-        $query_str = "select a.name,a.remark, b.name type_name,c.name epname, d.name dep_name, a.create_time,a.update_time from".
+        $query_str = "select a.name,a.remark, a.type, b.name type_name,a.engineering_phase, c.name epname,".
+            " a.depart, d.name dep_name, a.create_time,a.update_time from".
             " aeropms_wbs_node as a, aeropms_wbs_type as b, aeropms_engineering_phase as c,".
             " aeropms_wbs_depart as d".
             "  where a.type = b.id and a.depart=d.id and a.engineering_phase=c.id and a.project_id=$proj_id and a.id=$node_id";
@@ -39,6 +40,6 @@ class WbsNodeModel extends CommonModel {
         }
         $data_array[0]["create_time"] = date('Y-m-d', $data_array[0]["create_time"]);
         $data_array[0]["update_time"] = date('Y-m-d', $data_array[0]["update_time"]);
-        return $data_array;
+        return $data_array[0];
     }
 }

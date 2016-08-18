@@ -72,12 +72,12 @@ class WbsAction extends CommonAction
             $this->error("无效请求");
             return;
         }
-        $proj_id = $this->_post("proj_id");
+        $proj_id = $this->_update_param("proj_id");
 
         $user_id = get_user_id();
         // 判断是否有wbs输入和输出
-        $wbs_output_json = $this->_post('wbs_output_list', null); //若使用框架_post方法则可能因过滤函数而无法成功解码JSON
-        $wbs_input_json = $this->_post("wbs_input_list", null);
+        $wbs_output_json = $_POST['wbs_output_list']; //若使用框架_post方法则可能因过滤函数而无法成功解码JSON
+        $wbs_input_json = $_POST["wbs_input_list"];
 
         //开始事务
         $db_success = true; $dbo_array = array();
@@ -148,12 +148,14 @@ class WbsAction extends CommonAction
             else{
                 $wbs_schedule_model = D("WbsNodeSchedule");
                 $this->dbo_start_trans($dbo_array, $wbs_schedule_model);
-                $data_array["node_id"] = $node_id;
-                $data_array["charger_id"] = $leader_json["id"];
-                $data_array["priority"] = 5;
-                $data_array["create_time"] = time();
-                $data_array["update_time"] = time();
-                $wbs_schedule_model->create($data_array);
+                $wbs_schedule_json["node_id"] = $node_id;
+                $wbs_schedule_json["charger_id"] = $leader_json["id"];
+                $wbs_schedule_json["priority"] = 5;
+                $wbs_schedule_json["planning_begin_time"] = date_to_int($wbs_schedule_json["planning_begin_time"]);
+                $wbs_schedule_json["planning_end_time"] = date_to_int($wbs_schedule_json["planning_end_time"]);
+                $wbs_schedule_json["create_time"] = time();
+                $wbs_schedule_json["update_time"] = time();
+                $wbs_schedule_model->create($wbs_schedule_json);
                 $wbs_schedule_model->add();
             }
         }
@@ -222,18 +224,25 @@ class WbsAction extends CommonAction
             $this->error("无效请求");
             return;
         }
-        $proj_id = $this->_post("proj_id");
+        $proj_id = $this->_update_param("proj_id");
         $user_id = get_user_id();
-        $node_id = $this->_post("node_id"); //待删除的WBS节点ID
-
-        $model = D("WbsNode");
+        $node_id = $this->_post("del_id"); //待删除的WBS节点ID
+        if(empty($node_id)){
+            $this->error("无效的节点ID");
+            return;
+        }
+        Log::write("Deleting Node: ".$node_id, Log::INFO);
+        $model = M("WbsNode");
         $model->where("project_id=$proj_id and id=$node_id")->delete();
-        $model = D("WbsNodeSchedule");
+        //删除schedule
+        $model = M("WbsNodeSchedule");
         $model->where("node_id=$node_id")->delete();
-        $model->D("WbsNodeInput");
-        $model->where("project_id=$proj_id and node_id=$node_id")->delete();
-        $model->D("WbsNodeOutput");
-        $model->where("project_id=$proj_id and node_id=$node_id")->delete();
+        //删除输入
+        $model=M("WbsNodeInput");
+        $model->where("node_id=$node_id")->delete();
+        //删除输出
+        $model=M("WbsNodeOutput");
+        $model->where("node_id=$node_id")->delete();
 
         $this->redirect("index", array(
                 "proj_id"=>$proj_id
@@ -246,9 +255,10 @@ class WbsAction extends CommonAction
      */
     public function read()
     {
-        $proj_id = $this->_get("proj_id");
+        $proj_id = $this->_update_param("proj_id");
         $node_id = $this->_get("node_id");
-        // Log::write("project_id=$proj_id, node_id=$node_id", Log::INFO);
+        Log::write("收到read请求, project_id=$proj_id, node_id=$node_id", Log::INFO);
+        $output = array();
         if($node_id){
             $type = $this->_get("type");
             switch($type)
@@ -261,18 +271,27 @@ class WbsAction extends CommonAction
                     $data_array = $model->query($query_str);
                     $data_array[0]["create_time"] = date('Y-m-d', $data_array[0]["create_time"]);
                     $data_array[0]["update_time"] = date('Y-m-d', $data_array[0]["update_time"]);
-                    //$data_array[0]["node_type"] = 'PBS-产品结构分解';
+                    $output = $data_array[0];
                     break;
                 case 'wbs':
                 default:
+                    // 读取节点基本信息
                     $model = D("WbsNode");
                     $data_array = $model->getNodeInfo($proj_id, $node_id);
                     if(!$data_array){
                         $this->error("无效的WBS节点ID");
                     }
                     Log::write("WBS节点数组: ".print_r($data_array, true), Log::ERR);
+                    $output["basic"] = $data_array;
+
+                    // 读取schedule
+                    $model = D("WbsNodeSchedule");
+                    $data_array = $model->getNodeInfo($node_id);
+                    $output["schedule"] = $data_array;
+
+                    //读取输入
             }
-            $json = json_encode($data_array[0], JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
+            $json = json_encode($output, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
             $this->ajaxReturn($json, 'EVAL');
         }
         else{

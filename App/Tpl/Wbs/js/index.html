@@ -1,7 +1,44 @@
 <script type="text/javascript">
     /**
-     * 根据工程阶段过滤wbs节点树显示
+     * --------------------------------------------
+     * 常量定义
+     * --------------------------------------------
+     */
+    var wbs_field_name = {
+        'name':'单元名称',
+        'node_type':'节点单元类型',
+        'type_name':'WBS单元类型',
+        'epname':'工程阶段',
+        'dep_name':'分工部门',
+        'remark':'描述',
+        'create_time':'创建时间',
+        'update_time':'更新时间'
+    };
+
+    var wbs_type_enum = [
+        <volist name="type_list" id="vo">
+        { 'key': '{$vo.id}', 'val':'{$vo.name}'},
+        </volist>
+    ];
+
+    /*WBS输出项列表样式*/
+    var wbs_output_list_style = {
+        '1': "fa fa-image green",
+        '2': "fa fa-file-word-o blue",
+        '3': "fa fa-file-archive-o red",
+        '4': "fa fa-file purple"
+    };
+
+    //WBS节点信息全局对象, 用于WBS信息展示和编辑
+    var g_wbs_node_info= {};
+
+    /**
+     * ------------------------------------------------
+     * WBS核心逻辑代码段
+     * ------------------------------------------------
      * */
+
+    // 根据工程阶段选项过滤主节点树
     function eng_phase_filter(o){
         op = $(o).val();
         //使用ztree方法进行前端过滤
@@ -18,7 +55,7 @@
         tree.hideNodes(nodes);
     }
 
-    //设置wbs输入项
+    //模态对话框中点击确定后, 设置wbs输入项
     function set_wbs_input(){
         var tree = $.fn.zTree.getZTreeObj("id_wbs_input_tree");
         var treeNode = tree.getSelectedNodes()[0];
@@ -26,7 +63,7 @@
         $("#id_wbs_input_list .address_list", parent.document).append(html);
     }
 
-    //设置pbs依赖项
+    //模态对话框中点击确定后, 设置pbs依赖项
     function set_pbs_depend(){
         var tree = $.fn.zTree.getZTreeObj("id_pbs_depend_tree");
         var treeNode = tree.getSelectedNodes()[0];
@@ -35,7 +72,7 @@
         $("#pbs_id").val(treeNode.id);
     }
 
-    //读取树节点, 以ajax方法
+    //以ajax方法读取树节点, 用于模态对话框中
     function read_tree(url, selector){
         var settings = { };
         var wbs = jQuery.getJSON(url, function(data){
@@ -56,85 +93,6 @@
         read_tree('{:U("pbs/read", "proj_id=$proj_id")}', "#id_pbs_depend_tree");
     });
 
-
-    var wbs_field_name = {
-        'name':'单元名称',
-        'node_type':'节点单元类型',
-        'type_name':'WBS单元类型',
-        'epname':'工程阶段',
-        'dep_name':'分工部门',
-        'remark':'描述',
-        'create_time':'创建时间',
-        'update_time':'更新时间'
-    };
-
-    var wbs_type_enum = [
-        <volist name="type_list" id="vo">
-            { 'key': '{$vo.id}', 'val':'{$vo.name}'},
-        </volist>
-    ];
-
-    //ztree节点回调函数
-    function zTreeOnClick(event, treeId, treeNode) {
-        var wt = treeNode.wbs_type;
-        $("#type").html("");
-        for(var i = (wt<=0?1:wt); i <= 3; i++){
-            $("#type").append( $("<option></option>", {'value':wbs_type_enum[i-1].key}).html(wbs_type_enum[i-1].val) );
-        }
-        /*if(wt >= 3)
-            $("#id_tab_add_wbs").attr('data-toggle', null).parent().addClass('disabled');
-        else
-            $("#id_tab_add_wbs").attr('data-toggle', 'tab').parent().removeClass('disabled');*/
-        //以ajax方式读取单个节点数据
-        var url =  '{:U("wbs/read", "proj_id=$proj_id")}' + '&node_id=' + treeNode.id + '&type=' + treeNode.node_type;
-        //console.log("Query URL: " + url);
-        var wbs = jQuery.getJSON(url, function(data){
-            //解析返回的JSON
-            console.log(JSON.stringify(data));
-            var elem = $("#id_wbs_basic_info").html("");
-            for(item in data){
-                //console.log(item);
-                $("<div></div>", {'class':'profile-info-row'})
-                        .append($("<div></div>", {'class':'profile-info-name'}).text(wbs_field_name[item]))
-                        .append($("<div></div>", {'class':'profile-info-value'}).text(data[item]))
-                        .appendTo(elem);
-            }
-        });
-    };
-
-    //控制节点字体
-    function setFontCss(treeId, treeNode) {
-        return treeNode.node_type == "pbs" ? {color:"Gray"} : {color: "Black"};
-    };
-
-    // 控制节点图标是否显示
-    function showIconForTree(treeId, treeNode) {
-        return treeNode.node_type == "wbs";
-    };
-
-    var setting = {
-        callback: {onClick: zTreeOnClick},
-        view: {
-            //fontCss: setFontCss
-            showIcon: showIconForTree
-            //nameIsHTML: true
-        }
-    };
-
-    var nodes = {$node_json|default="[空节点]"};
-
-    //WBS输入选择树的配置
-    var wbsi_setting = {};
-
-    $(document).ready(function(){
-        var total_tree = $.fn.zTree.init($("#wbs_tree"), setting, nodes);
-
-        //为团队人员选择结果列表添加删除按钮事件
-        $(document).on("click", ".inputbox .address_list a.del", function () {
-            $(this).parent().parent().remove();
-        });
-    });
-
     //WBS团队成员选择弹出框
     function select_team(is_leader, o) {
         var container = $(o).parent().attr("id");
@@ -145,105 +103,12 @@
         winopen(url, 730, 574);
     };
 
-    // 新增WBS节点按钮事件
-    function add_wbs()
-    {
-        //event.preventDefault();
-        // 构造节点路径
-        var tree = $.fn.zTree.getZTreeObj("wbs_tree");
-        var sn = tree.getSelectedNodes()[0];
-        if(!sn)
-        {
-            ui_error("未选择任何WBS或PBS节点作为父节点, 请重新选择.");
-            return false;
-        }
-        //根据节点的node_type选择父节点
-        switch(sn.node_type){
-            case "pbs": var pid = tree.getNodeByParam("wbs_parent", -1, null);
-                if(!pid){
-                    ui_error("无法定位WBS根节点, 请检查数据.");
-                    return;
-                }
-                $("#parent_id").val(pid.id);
-                $("#pbs_id").val(sn.id);
-                break;
-            case "wbs": $("#parent_id").val(sn.id);
-                break;
-            default: ui_error("未选择任何WBS节点作为父节点, 请在WBS节点树上重新选择.");
-                return;
-        }
-
-        /*将输出列表组装为json*/
-        var wbs_output_json = dom_map("#id_wbs_output_list li", function(){
-            if($(this).text().length > 1)
-                return {"type": $(this).attr('data-output-type'), "item_name": $(this).text()};
-        });
-        if(wbs_output_json.length > 0){
-            $("#wbs_output_list").val(JSON.stringify(wbs_output_json));
-            console.log("Wbs output: " + $("#wbs_output_list").val());
-        }
-
-        /*将输入列表组装为json*/
-        var wbs_input_json = dom_map("#id_wbs_input_list .address_list span", function(){
-            return {"input_node_id": $(this).attr('id')};
-        });
-        if(wbs_input_json.length > 0) {
-            $("#wbs_input_list").val(JSON.stringify(wbs_input_json));
-            console.log("Wbs input: " + $("#wbs_input_list").val());
-        }
-
-        // 将负责人列表组装为json
-        var team_leader_json = dom_map("#id_admin_list .address_list span", function(){
-            if($(this).text().length > 1)
-                return {"id": $(this).attr('id')}
-        });
-        if(team_leader_json.length > 0){
-            $("#team_leader_list").val( JSON.stringify(team_leader_json[0] ) );
-            console.log("team leader: " + $("#team_leader_list").val());
-        }
-
-        // 将成员列表组装为json
-        var team_member_json = dom_map("#id_member_list .address_list span", function(){
-            if($(this).text().length > 1)
-                return {"id": $(this).attr('id')}
-        });
-        if(team_member_json.length > 0){
-            $("#team_member_list").val( JSON.stringify(team_member_json) );
-            console.log("team member: " + $("#team_member_list").val());
-        }
-
-        //将schedule组装为json
-        if($("#id_date_picker_start").val() && $("#id_date_picker_end").val())
-        {
-            var planning_schedule = {
-                "planning_begin_time": $("#id_date_picker_start").val(),
-                "planning_end_time": $("#id_date_picker_end").val(),
-                "planning_working_day": $("#id_working_day_spinner").val(),
-                "planning_working_hour": $("#id_working_hour_spinner").val()
-            };
-            $("#planning_schedule").val(JSON.stringify(planning_schedule));
-            console.log("Planning schedule: " + $("#planning_schedule").val());
-        }
-
-        var url = $("#form_data").attr("post_url");
-        if(check_form("form_data")){
-            sendForm("form_data", url);
-        }
-
-
-    };
-
-    /*任务输出列表操作*/
-    var wbs_output_list_style = {
-        '1': "fa fa-image green",
-        '2': "fa fa-file-word-o blue",
-        '3': "fa fa-file-archive-o red",
-        '4': "fa fa-file purple"
-    };
+    // 移除WBS输出列表项
     function remove_wbs_output(obj){
         $(obj).parent().remove();
     };
 
+    // 添加WBS输出列表项
     function add_output(){
         var wbt = $("#wbs_output_type").val();
         //var wbs_output_type_name = $("#wbs_output_type option:selected").text();
@@ -255,6 +120,7 @@
                 .appendTo("#id_wbs_output_list");
     };
 
+    //计算两个日期之间的有效工作日
     function check_date(d1, d2)
     {
         var elapsed = (d2 - d1)/3600000/24;
@@ -296,13 +162,251 @@
         calc_working_hour();
     }
 
+    //计算工时并显示于页面dom
     function calc_working_hour()
     {
         var hours = $("#id_working_day_spinner").val() * $("#id_working_hour_spinner").val();
         $("#id_working_hour_count").text("计划工时合计: " + hours);
     }
 
-    jQuery(function($){
+    /**
+     * 各模块的序列化方法
+     */
+    function serialize_wbs_output(selector){
+        var wbs_output_json = dom_map("#id_wbs_output_list li", function(){
+            if($(this).text().length > 1)
+                return {"type": $(this).attr('data-output-type'), "item_name": $(this).text()};
+        });
+        if(wbs_output_json.length > 0){
+            $(selector).val(JSON.stringify(wbs_output_json));
+            console.log("Wbs output: " + $(selector).val());
+        }
+        else{$(selector).val("");}
+    }
+
+    function serialize_wbs_input(selector){
+        var wbs_input_json = dom_map("#id_wbs_input_list .address_list span", function(){
+            return {"input_node_id": $(this).attr('id')};
+        });
+        if(wbs_input_json.length > 0) {
+            $(selector).val(JSON.stringify(wbs_input_json));
+            console.log("Wbs input: " + $(selector).val());
+        }
+        else{$(selector).val("");}
+    }
+
+    function serialize_team_list(src_selector, dst_selector){
+        var team_leader_json = dom_map(src_selector + " .address_list span", function(){
+            if($(this).text().length > 1)
+                return {"id": $(this).attr('id')}
+        });
+        if(team_leader_json.length > 0){
+            $(dst_selector).val( JSON.stringify(team_leader_json[0] ) );
+            console.log(src_selector + " team list: " + $(dst_selector).val());
+        }
+        else{$(dst_selector).val("");}
+    }
+
+    function serialize_schedule(selector){
+        if($("#id_date_picker_start").val() && $("#id_date_picker_end").val())
+        {
+            var planning_schedule = {
+                "planning_begin_time": $("#id_date_picker_start").val(),
+                "planning_end_time": $("#id_date_picker_end").val(),
+                "planning_working_day": $("#id_working_day_spinner").val(),
+                "planning_working_hour": $("#id_working_hour_spinner").val()
+            };
+            $(selector).val(JSON.stringify(planning_schedule));
+            console.log("Planning schedule: " + $(selector).val());
+        }
+        else{$(selector).val("");}
+    }
+
+    // 新增WBS节点方法
+    function add_wbs()
+    {
+        //event.preventDefault();
+        // 构造节点路径
+        var tree = $.fn.zTree.getZTreeObj("wbs_tree");
+        var sn = tree.getSelectedNodes()[0];
+        if(!sn)
+        {
+            ui_error("未选择任何WBS或PBS节点作为父节点, 请重新选择.");
+            return false;
+        }
+        //根据节点的node_type选择父节点
+        switch(sn.node_type){
+            case "pbs": var pid = tree.getNodeByParam("wbs_parent", -1, null);
+                if(!pid){
+                    ui_error("无法定位WBS根节点, 请检查数据.");
+                    return;
+                }
+                $("#parent_id").val(pid.id);
+                $("#pbs_id").val(sn.id);
+                break;
+            case "wbs": $("#parent_id").val(sn.id);
+                break;
+            default: ui_error("未选择任何WBS节点作为父节点, 请在WBS节点树上重新选择.");
+                return;
+        }
+
+        var url = $("#form_data").attr("post_url");
+        if(check_form("form_data")){
+            /*将输出列表组装为json*/
+            serialize_wbs_output("#wbs_output_list");
+
+            /*将输入列表组装为json*/
+            serialize_wbs_input("#wbs_input_list");
+
+            // 将负责人列表组装为json
+            serialize_team_list("#id_admin_list", "#team_leader_list");
+            serialize_team_list("#id_member_list", "#team_member_list");
+
+            //将schedule组装为json
+            serialize_schedule("#planning_schedule");
+
+            // 提交
+            sendForm("form_data", url);
+        }
+    };
+
+    // 删除WBS节点
+    function del_wbs()
+    {
+        var tree = $.fn.zTree.getZTreeObj("wbs_tree");
+        var sn = tree.getSelectedNodes()[0];
+        if(!sn)
+        {
+            ui_error("未选择任何WBS节点, 请重新选择.");
+            return false;
+        }
+        $("#wbs_edit_type").val("del");
+        $("#del_id").val(sn.id);
+        console.log("del_id: "+ $("#del_id").val());
+        $("#form_edit").attr("action", "{:U('wbs/del')}").submit();
+    }
+
+    // 节点内容加载方法
+    function load_content(node_id, node_type){
+        //以ajax方式读取单个节点数据
+        var url =  '{:U("wbs/read", "proj_id=$proj_id")}' + '&node_id=' + node_id + '&type=' + node_type;
+        //console.log("Query URL: " + url);
+        var wbs = jQuery.getJSON(url, function(data){
+            //保存至全局对象
+            g_wbs_node_info = data;
+            console.log(JSON.stringify(data));
+
+            //根据给定格式构造dom元素显示数据
+            var elem = $("#id_wbs_basic_info").html("");
+            for(item in g_wbs_node_info["basic"]){
+                //console.log(item);
+                $("<div></div>", {'class':'profile-info-row'})
+                        .append($("<div></div>", {'class':'profile-info-name'}).text(wbs_field_name[item]))
+                        .append($("<div></div>", {'class':'profile-info-value'}).text(g_wbs_node_info["basic"][item]))
+                        .appendTo(elem);
+            }
+            //若"编辑节点"标签已激活, 则加载内容至编辑区
+            var pnode = $("#id_tab_edit_wbs").parent();
+            if(pnode.hasClass("active")){
+                load_node_to_edit();
+            }
+        });
+    }
+
+    // 将WBS节点内容读取至编辑区
+    function load_node_to_edit()
+    {
+        $("#id_panel_wbs_edit").show();
+        $("#id_panel_wbs_add").hide();
+
+        if($.isEmptyObject(g_wbs_node_info)){
+            return;
+        }
+
+        //将内容加载至dom
+        if(g_wbs_node_info["basic"]){
+            var basic = g_wbs_node_info["basic"];
+            for(var key in basic){
+                console.log("now loading: "+key+",value="+basic[key]);
+                set_val(key, basic[key]);
+            }
+        }
+    }
+
+    /**
+     * -------------------------------------------------------------
+     * ZTree 相关代码段
+     * -------------------------------------------------------------
+    */
+    //ztree节点回调函数
+    function zTreeOnClick(event, treeId, treeNode) {
+        // 设置WBS类型下拉框
+        var wt = treeNode.wbs_type;
+        $("#type").html("");
+        for(var i = (wt<=0?1:wt); i <= 3; i++){
+            $("#type").append(
+                    $("<option></option>",
+                            {'value':wbs_type_enum[i-1].key}
+                    ).html(wbs_type_enum[i-1].val)
+            );
+        }
+        load_content(treeNode.id, treeNode.node_type);
+    };
+
+    //控制节点字体
+    function setFontCss(treeId, treeNode) {
+        return treeNode.node_type == "pbs" ? {color:"Gray"} : {color: "Black"};
+    };
+
+    // 控制节点图标是否显示
+    function showIconForTree(treeId, treeNode) {
+        return treeNode.node_type == "wbs";
+    };
+
+    var setting = {
+        callback: {onClick: zTreeOnClick},
+        view: {
+            //fontCss: setFontCss
+            showIcon: showIconForTree
+            //nameIsHTML: true
+        }
+    };
+
+    //树节点数据
+    var nodes = {$node_json|default="[空节点]"};
+
+    //WBS输入选择树的配置
+    var wbsi_setting = {};
+
+
+    /**
+     * --------------------------------------------------------------------
+     * 页面加载函数
+     * --------------------------------------------------------------------
+     * */
+    $(document).ready(function(){
+        // 初始化主WBS树
+        var total_tree = $.fn.zTree.init($("#wbs_tree"), setting, nodes);
+
+        //为团队人员选择结果列表添加删除按钮事件
+        $(document).on("click", ".inputbox .address_list a.del", function () {
+            $(this).parent().parent().remove();
+        });
+
+        //为编辑tab页增加事件处理函数
+        $("#id_tab_edit_wbs").on("click", load_node_to_edit);
+        $("#id_tab_add_wbs").on("click", function(){
+            $("#id_panel_wbs_edit").hide();
+            $("#id_panel_wbs_add").show();
+        });
+    });
+
+
+    /**
+     * jq函数
+     * */
+
+     jQuery(function($){
 
         /*文件上传组件*/
         /*
@@ -409,8 +513,8 @@
                     calc_working_hour();
                 });
 
-        /** 日期选择组件
-         *
+        /**
+         * 日期选择组件
          */
         $('#id_date_picker_start').datepicker({ autoclose: true, todayHighlight: true })
                 .on('changeDate', function(e){
