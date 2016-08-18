@@ -15,9 +15,16 @@ class WbsNodeScheduleModel extends CommonModel {
         array('update_time','time',1,'function'),
     );
 
-    public function getNodeInfo($node_id)
+    public function getNodeInfo($node_id, $with_charger)
     {
-        $query_str = "select * from aeropms_wbs_node_schedule where node_id=$node_id";
+
+        if($with_charger){
+            $query_str = "select a.*,b.name emp_name, c.name emp_position from aeropms_wbs_node_schedule as a, aeropms_user as b, aeropms_position as c".
+                " where b.id=a.charger_id and c.id=b.position_id and a.node_id=$node_id";
+        }
+        else{
+            $query_str = "select a.* from aeropms_wbs_node_schedule as a where a.node_id=$node_id";
+        }
         $data_array = $this->query($query_str);
         if(empty($data_array)){
             return null;

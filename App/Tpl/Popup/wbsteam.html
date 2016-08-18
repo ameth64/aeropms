@@ -3,9 +3,9 @@
     function save(is_leader) {
         $("#rc select option").each(function(i) {
             email = ($(this).html().split(";")[1].split("&")[0]);
-            emp_no = $(this).val();
+            emp_id = $(this).val(); //已改为输出user id
             name = jQuery.trim($(this).text()).replace(/<.*>/, '');
-            html = conv_inputbox_item(emp_no, name, email, emp_no);
+            html = conv_inputbox_item(emp_id, name, email, emp_id);
 
             //console.log("container is: {$container}");
             //var type = is_leader? "#id_admin_list": "#id_member_list";

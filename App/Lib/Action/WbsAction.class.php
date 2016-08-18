@@ -286,10 +286,18 @@ class WbsAction extends CommonAction
 
                     // 读取schedule
                     $model = D("WbsNodeSchedule");
-                    $data_array = $model->getNodeInfo($node_id);
+                    $data_array = $model->getNodeInfo($node_id, true);
                     $output["schedule"] = $data_array;
+                    // 读取user信息
+//                    $sql = D("UserView") -> buildSql();
+//                    $model = new Model();
+//                    $where['id'] = array('eq', $data_array["charger_id"]);
+//                    $where['is_del']=array('eq',0);
+//                    $user_data = $model -> table($sql . "a") -> where($where) -> select();
+//                    $output["charger"] = $user_data[0];
 
                     //读取输入
+                    $model = M("WbsNodeInput");
             }
             $json = json_encode($output, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
             $this->ajaxReturn($json, 'EVAL');
