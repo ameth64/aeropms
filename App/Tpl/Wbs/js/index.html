@@ -67,7 +67,7 @@
     function set_pbs_depend(){
         var tree = $.fn.zTree.getZTreeObj("id_pbs_depend_tree");
         var treeNode = tree.getSelectedNodes()[0];
-        var html = conv_inputbox_item(treeNode.id, treeNode.name, treeNode.wbs_type, treeNode.pbs_id);
+        var html = conv_inputbox_item(treeNode.id, treeNode.name, null, treeNode.pbs_id);
         $("#id_pbs_depend_list .address_list", parent.document).html(html);
         $("#pbs_id").val(treeNode.id);
     }
@@ -113,11 +113,7 @@
         var wbt = $("#wbs_output_type").val();
         //var wbs_output_type_name = $("#wbs_output_type option:selected").text();
         var wbs_output_name = $("#wbs_output_name").val();
-        //alert(wbs_output_type_name + ',' + wbs_output_name);
-        $("<li></li>").attr("data-output-type", wbt)
-                .html("<i class='" + wbs_output_list_style[wbt] + "' aria-hidden='true'></i>" + wbs_output_name)
-                .append("<a href='#' onclick='remove_wbs_output(this)' class='pull-right'><i class='fa fa-times red' aria-hidden='true'></i></a>")
-                .appendTo("#id_wbs_output_list");
+        conv_wbs_output_item(wbs_output_name, wbt, wbs_output_list_style[wbt], "#id_wbs_output_list");
     };
 
     //计算两个日期之间的有效工作日
@@ -145,6 +141,17 @@
     /**
      * 各模块的序列化方法
      */
+    function serialize_wbs_basic(){
+        var pbs_depend = dom_map("#id_pbs_depend_list .address_list span", function(){
+            return {"pbs_id": $(this).attr('id')};
+        });
+        if(pbs_depend.length > 0) {
+            $("#pbs_id").val(JSON.stringify( pbs_depend[0] ));
+            console.log("Pbs depend: " + $("#pbs_id").val());
+        }
+        else{$("#pbs_id").val("0");}
+    }
+
     function serialize_wbs_output(selector){
         var wbs_output_json = dom_map("#id_wbs_output_list li", function(){
             if($(this).text().length > 1)
@@ -195,6 +202,32 @@
         else{$(selector).val("");}
     }
 
+
+    // 验证各模块数据, 序列化后提交
+    function submit_form(form_name, url){
+        console.log("posting url: " + url);
+        if(check_form(form_name)){
+            /*处理基本信息*/
+            serialize_wbs_basic();
+
+            /*将输出列表组装为json*/
+            serialize_wbs_output("#wbs_output_list");
+
+            /*将输入列表组装为json*/
+            serialize_wbs_input("#wbs_input_list");
+
+            // 将负责人列表组装为json
+            serialize_team_list("#id_admin_list", "#team_leader_list");
+            serialize_team_list("#id_member_list", "#team_member_list");
+
+            //将schedule组装为json
+            serialize_schedule("#planning_schedule");
+
+            // 提交
+            sendForm(form_name, url);
+        }
+    }
+
     // 新增WBS节点方法
     function add_wbs()
     {
@@ -222,26 +255,22 @@
             default: ui_error("未选择任何WBS节点作为父节点, 请在WBS节点树上重新选择.");
                 return;
         }
+        $("#node_id").val("");
 
         var url = $("#form_data").attr("post_url");
-        if(check_form("form_data")){
-            /*将输出列表组装为json*/
-            serialize_wbs_output("#wbs_output_list");
-
-            /*将输入列表组装为json*/
-            serialize_wbs_input("#wbs_input_list");
-
-            // 将负责人列表组装为json
-            serialize_team_list("#id_admin_list", "#team_leader_list");
-            serialize_team_list("#id_member_list", "#team_member_list");
-
-            //将schedule组装为json
-            serialize_schedule("#planning_schedule");
-
-            // 提交
-            sendForm("form_data", url);
-        }
+        submit_form("form_data", url);
     };
+
+    // 更新WBS节点, 未完成
+    function update_wbs()
+    {
+        var tree = $.fn.zTree.getZTreeObj("wbs_tree");
+        var sn = tree.getSelectedNodes()[0];
+        $("#node_id").val(sn.id);
+        console.log("node_id="+$("#node_id").val());
+        var url = $("#form_data").attr("update_url");
+        submit_form("form_data", url);
+    }
 
     // 删除WBS节点
     function del_wbs()
@@ -257,6 +286,19 @@
         $("#del_id").val(sn.id);
         console.log("del_id: "+ $("#del_id").val());
         $("#form_edit").attr("action", "{:U('wbs/del')}").submit();
+    }
+
+    // 清空已加载的节点内容
+    function reset_content(){
+        if($.isEmptyObject(g_wbs_node_info)){
+            return;
+        }
+        $("#form_data :input").each(function(e){
+            $(this).val("");
+        });
+        $(".address_list").html("");
+        $("#id_working_day_spinner").val("0");
+        $("#id_working_hour_spinner").val("8");
     }
 
     // 节点内容加载方法
@@ -301,11 +343,38 @@
             var basic = g_wbs_node_info["basic"];
             for(var key in basic){
                 console.log("now loading: "+key+",value="+basic[key]);
-                set_val(key, basic[key]);
+                set_select_dom(key, basic[key]);
+                set_text_dom(key, basic[key]);
+            }
+            if(basic["pbs_name"]){
+                set_input_box("#id_pbs_depend_list .address_list", basic["pbs_id"],
+                        basic["pbs_name"], null, null);
             }
         }
         if(g_wbs_node_info["schedule"]){
+            var schedule = g_wbs_node_info["schedule"];
+            set_input_box("#id_admin_list .address_list", schedule["charger_id"],
+                    schedule["charger_name"], schedule["charger_position"], null);
+            $("#id_date_picker_start").val(schedule["planning_begin_time"]);
+            $("#id_date_picker_end").val(schedule["planning_end_time"]);
+            $("#id_working_day_spinner").val(schedule["planning_working_day"]);
+            $("#id_working_hour_spinner").val(schedule["planning_working_hour"]);
+        }
 
+        if(g_wbs_node_info["input"]){
+            var o = g_wbs_node_info["input"];
+            for(var e in o){
+                set_input_box("#id_wbs_input_list .address_list", o[e]["input_node_id"],
+                        o[e]["name"], null, null);
+            }
+
+        }
+
+        if(g_wbs_node_info["output"]){
+            var o = g_wbs_node_info["output"];
+            for(var e in o){
+                conv_wbs_output_item(o[e]["item_name"], o[e]["type"], wbs_output_list_style[o[e]["type"]], "#id_wbs_output_list");
+            }
         }
     }
 
@@ -372,6 +441,7 @@
         //为编辑tab页增加事件处理函数
         $("#id_tab_edit_wbs").on("click", load_node_to_edit);
         $("#id_tab_add_wbs").on("click", function(){
+            reset_content();
             $("#id_panel_wbs_edit").hide();
             $("#id_panel_wbs_add").show();
         });

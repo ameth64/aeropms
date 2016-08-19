@@ -216,6 +216,137 @@ class WbsAction extends CommonAction
     }
 
     /**
+     * 更新给定节点
+     */
+    public function update()
+    {
+        if(!$this->isPost()){
+            $this->error("无效请求");
+            return;
+        }
+        $proj_id = $this->_update_param("proj_id");
+
+        $user_id = get_user_id();
+        $node_id = $this->_post("node_id");
+        if(!$node_id){
+            $this->error("节点信息无效, 请检查数据.");
+            return;
+        }
+        // 判断是否有wbs输入和输出
+        $wbs_output_json = $_POST['wbs_output_list']; //若使用框架_post方法则可能因过滤函数而无法成功解码JSON
+        $wbs_input_json = $_POST["wbs_input_list"];
+
+        //开始事务
+        $db_success = true; $dbo_array = array();
+
+        /*处理基本信息*/
+        $WbsNode = M("WbsNode");
+        // 开始事务
+        $this->dbo_start_trans($dbo_array, $WbsNode);
+
+        $WbsNode->create();
+        $WbsNode->id = $node_id;
+        $WbsNode->creator_id = $user_id;
+        $WbsNode->update_time = time();
+        $WbsNode->has_input = empty($wbs_input_json);
+        $WbsNode->has_output = empty($wbs_output_json);
+        if(!$WbsNode->remark)
+            $WbsNode->remark = "暂无描述";
+        $res = $WbsNode->save();
+
+        /* 处理 schedule*/
+        if($_POST["team_leader_list"])
+        {
+            $wbs_schedule_json = json_decode($_POST["planning_schedule"], true);
+            if($wbs_schedule_json==false){
+                Log::write("wbs_schedule_json raw: ".$_POST["planning_schedule"], Log::ERR);
+                $this->dbo_rollback($dbo_array);
+                $db_success = false;
+                $this->error("WBS Schedule处理失败, 请检查数据");
+            }
+            else{
+                if($_POST["planning_schedule"])
+                    $leader_json = json_decode($_POST["team_leader_list"], true);
+                else
+                    $leader_json = array("id"=>0);
+                $wbs_schedule_model = D("WbsNodeSchedule");
+                $this->dbo_start_trans($dbo_array, $wbs_schedule_model);
+                $wbs_schedule_json["node_id"] = $node_id;
+                $wbs_schedule_json["charger_id"] = $leader_json["id"];
+                $wbs_schedule_json["priority"] = 5;
+                $wbs_schedule_json["planning_begin_time"] = date_to_int($wbs_schedule_json["planning_begin_time"]);
+                $wbs_schedule_json["planning_end_time"] = date_to_int($wbs_schedule_json["planning_end_time"]);
+                $wbs_schedule_json["update_time"] = time();
+                $wbs_schedule_model->create($wbs_schedule_json);
+                $wbs_schedule_model->save();
+            }
+        }
+        else{
+            //schedule传入数据为空则删除原有记录
+            $wbs_schedule_model = D("WbsNodeSchedule");
+            $wbs_schedule_model->where("node_id=$node_id")->delete();
+        }
+
+        // 处理wbs输出列表json
+        $wbs_output_model = M("WbsNodeOutput");
+        $wbs_output_model->where("node_id=$node_id")->delete();
+        if($wbs_output_json){
+            $json_array = json_decode($wbs_output_json, true);
+            if($json_array == false){
+                $this->dbo_rollback($dbo_array); $db_success = false;
+                $this->error("WBS输出列表处理失败, 请检查数据");
+            }
+            else{
+                $wbso = M("WbsNodeOutput");
+                $this->dbo_start_trans($dbo_array, $wbso);
+                //遍历数组
+                foreach($json_array as $item){
+                    $item["project_id"] = $proj_id;
+                    $item["node_id"] = $node_id;
+                    $item["status"] = 1;
+                    $item["assignee_id"] = -1;
+                    $item["create_time"] = time();
+                    $item["update_time"] = time();
+                    $wbso->data($item)->save();
+                }
+            }
+        }
+
+        // 处理输入列表
+        $wbs_node_input = D("WbsNodeInput");
+        $wbs_node_input->where("node_id=$node_id")->delete();
+        if($wbs_input_json){
+            $json_array = json_decode($wbs_input_json, true);
+            if($json_array == false){
+                $this->dbo_rollback($dbo_array); $db_success = false;
+                $this->error("WBS输入列表处理失败, 请检查数据");
+            }
+            else
+            {
+                $wbs_node_input = D("WbsNodeInput");
+                $this->dbo_start_trans($dbo_array, $wbs_node_input);
+                //遍历数组
+                foreach($json_array as $item){
+                    $item["project_id"] = $proj_id;
+                    $item["node_id"] = $node_id;
+                    $item["create_time"] = time();
+                    $item["update_time"] = time();
+                    $wbs_node_input->data($item)->save();
+                }
+            }
+        }
+
+        if($db_success){
+            $this->dbo_commit($dbo_array);
+        }
+
+        $this->redirect("index", array(
+                "proj_id"=>$proj_id
+            )
+        );
+    }
+
+    /**
      * 根据给定ID删除WBS节点
      */
     public function del()
@@ -288,16 +419,19 @@ class WbsAction extends CommonAction
                     $model = D("WbsNodeSchedule");
                     $data_array = $model->getNodeInfo($node_id, true);
                     $output["schedule"] = $data_array;
-                    // 读取user信息
-//                    $sql = D("UserView") -> buildSql();
-//                    $model = new Model();
-//                    $where['id'] = array('eq', $data_array["charger_id"]);
-//                    $where['is_del']=array('eq',0);
-//                    $user_data = $model -> table($sql . "a") -> where($where) -> select();
-//                    $output["charger"] = $user_data[0];
 
                     //读取输入
-                    $model = M("WbsNodeInput");
+                    $model = D("WbsNodeInput");
+                    $data_array = $model->getNodeInfo($node_id);
+                    if($data_array)
+                        $output["input"] = $data_array;
+
+                    //读取输出
+                    $model = D("WbsNodeOutput");
+                    $data_array = $model->getNodeInfo($node_id);
+                    if($data_array)
+                        $output["output"] = $data_array;
+
             }
             $json = json_encode($output, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
             $this->ajaxReturn($json, 'EVAL');
@@ -311,6 +445,15 @@ class WbsAction extends CommonAction
             //Log::write("读取WBS结果: ".$json, NOTICE);
             $this->ajaxReturn($json, 'EVAL');
         }
+    }
+
+    /**
+     * 各模块的字段映射方法
+     *
+     */
+    protected function _wbs_basic_map(&$json)
+    {
+
     }
 
     /**

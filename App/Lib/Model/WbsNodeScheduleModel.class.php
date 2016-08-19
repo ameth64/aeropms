@@ -19,7 +19,7 @@ class WbsNodeScheduleModel extends CommonModel {
     {
 
         if($with_charger){
-            $query_str = "select a.*,b.name emp_name, c.name emp_position from aeropms_wbs_node_schedule as a, aeropms_user as b, aeropms_position as c".
+            $query_str = "select a.*,b.name charger_name, c.name charger_position from aeropms_wbs_node_schedule as a, aeropms_user as b, aeropms_position as c".
                 " where b.id=a.charger_id and c.id=b.position_id and a.node_id=$node_id";
         }
         else{

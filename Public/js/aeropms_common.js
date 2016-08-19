@@ -18,12 +18,52 @@ function click_project_list(obj_node) {
     form.submit();
 }
 
+/** 生成WBS输出列表项
+ *
+ */
+function conv_wbs_output_item(o_name, o_type, fa_style, container)
+{
+    $("<li></li>").attr("data-output-type", o_type)
+        .html("<i class='" + fa_style + "' aria-hidden='true'></i>" + o_name)
+        .append("<a href='#' onclick='remove_wbs_output(this)' class='pull-right'><i class='fa fa-times red' aria-hidden='true'></i></a>")
+        .appendTo(container);
+}
+
 /** 将指定选择集进行map操作
  */
 function dom_map(selector, f)
 {
     return $(selector).map(f).get();
 }
+
+/**
+ * 根据给定json对象设置select, text, textarea 等元素的值
+ */
+function set_select_dom(name, value)
+{
+    if ($("#" + name + " option").length > 0) {
+        //$("#" + name + " option[value='" + value + "']").attr("selected", "true");
+        $("#" + name).val(value);
+    }
+}
+
+function set_text_dom(name, value)
+{
+    if (($("#" + name).attr("type")) === "text") {
+        $("#" + name).val(value);
+    }
+    if (($("#" + name).attr("rows")) > 0) {
+        $("#" + name).text(value);
+    }
+}
+
+function set_input_box(container, id, name, position, email)
+{
+    var disp_name = position? name + "/" + position: name;
+    var html = conv_inputbox_item(id, disp_name, email, id);
+    $(container, parent.document).html(html)
+}
+
 
 /**
  计算两个日期之间的工作日

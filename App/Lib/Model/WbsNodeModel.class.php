@@ -24,7 +24,7 @@ class WbsNodeModel extends CommonModel {
     }
 
     public function getNodeInfo($proj_id, $node_id){
-        $query_str = "select a.name,a.remark, a.type, b.name type_name,a.engineering_phase, c.name epname,".
+        $query_str = "select a.name,a.remark,a.pbs_id, a.type, b.name type_name,a.engineering_phase, c.name epname,".
             " a.depart, d.name dep_name, a.create_time,a.update_time from".
             " aeropms_wbs_node as a, aeropms_wbs_type as b, aeropms_engineering_phase as c,".
             " aeropms_wbs_depart as d".
@@ -40,6 +40,12 @@ class WbsNodeModel extends CommonModel {
         }
         $data_array[0]["create_time"] = date('Y-m-d', $data_array[0]["create_time"]);
         $data_array[0]["update_time"] = date('Y-m-d', $data_array[0]["update_time"]);
+        //处理关联PBS_ID
+        if($data_array[0]["pbs_id"]>'0'){
+            $model = M("PbsNode");
+            $pbs_info = $model->where("id=".$data_array[0]["pbs_id"])->field("name")->find();
+            $data_array[0]["pbs_name"] = $pbs_info["name"];
+        }
         return $data_array[0];
     }
 }

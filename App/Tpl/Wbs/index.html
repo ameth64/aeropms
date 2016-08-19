@@ -85,7 +85,7 @@
                         <div class="operate panel panel-default display-none" id="id_panel_wbs_edit">
                             <div class="panel-body">
                                 <div class="pull-right">
-                                    <a class="btn btn-primary btn-sm">保存</a>
+                                    <a class="btn btn-primary btn-sm" onclick="update_wbs()">保存</a>
                                     |
                                     <a class="btn btn-danger btn-sm" onclick="del_wbs()">删除</a>
                                 </div>
@@ -93,8 +93,8 @@
                         </div>
                         <div class="slim-scroll" data-height="100">
                         <!--WBS节点新增 - 表单区域-->
-                            <form id="form_data" name="form_data" method="post" post_url="{:U('wbs/add')}" class="form-horizontal clearfix" enctype="multipart/form-data" accept-charset="utf-8">
-
+                            <form id="form_data" name="form_data" method="post" post_url="{:U('wbs/add')}" update_url="{:U('wbs/update')}" class="form-horizontal clearfix" enctype="multipart/form-data" accept-charset="utf-8">
+                                <input type="hidden" name="node_id" id="node_id" value="">
                                 <input type="hidden" name="project_id" id="project_id" value="{$Think.session.proj_id}">
                                 <input type="hidden" name="pbs_id" id="pbs_id" value="">
                                 <input type="hidden" name="parent_id" id="parent_id" value="">
@@ -397,12 +397,7 @@
 
                     <!--WBS节点编辑区域-->
                     <div id="id_wbs_edit" class="tab-pane">
-                        <form id="form_edit" name="form_edit" method="post" post_url="{:U('wbs/edit')}" class="form-horizontal clearfix" enctype="multipart/form-data" accept-charset="utf-8">
-                            <input type="hidden" name="wbs_edit_type" id="wbs_edit_type" value="">
-                            <input type="hidden" name="del_id" id="del_id" value="">
 
-
-                        </form>
                     </div>
                 </div>
             </div>
