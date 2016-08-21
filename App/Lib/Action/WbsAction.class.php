@@ -288,8 +288,6 @@ class WbsAction extends CommonAction
         }
 
         // 处理wbs输出列表json
-        $wbs_output_model = M("WbsNodeOutput");
-        $wbs_output_model->where("node_id=$node_id")->delete();
         if($wbs_output_json){
             $json_array = json_decode($wbs_output_json, true);
             if($json_array == false){
@@ -313,8 +311,6 @@ class WbsAction extends CommonAction
         }
 
         // 处理输入列表
-        $wbs_node_input = D("WbsNodeInput");
-        $wbs_node_input->where("node_id=$node_id")->delete();
         if($wbs_input_json){
             $json_array = json_decode($wbs_input_json, true);
             if($json_array == false){

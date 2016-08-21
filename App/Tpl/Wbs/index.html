@@ -95,6 +95,7 @@
                         <!--WBS节点新增 - 表单区域-->
                             <form id="form_data" name="form_data" method="post" post_url="{:U('wbs/add')}" update_url="{:U('wbs/update')}" class="form-horizontal clearfix" enctype="multipart/form-data" accept-charset="utf-8">
                                 <input type="hidden" name="node_id" id="node_id" value="">
+                                <input type="hidden" name="id" id="id" value="">
                                 <input type="hidden" name="project_id" id="project_id" value="{$Think.session.proj_id}">
                                 <input type="hidden" name="pbs_id" id="pbs_id" value="">
                                 <input type="hidden" name="parent_id" id="parent_id" value="">
@@ -290,24 +291,19 @@
                                                         <option value="3">CATIA文件</option>
                                                         <option value="4">其它</option>
                                                     </select>
-
                                                 </div>
 
                                                 <!--<label class="col-sm-1 control-label" for="name">类型* </label>-->
                                                 <div class="col-sm-4 no-padding-left">
-                                                    <div class="input-group">
+                                                    <div class="input-group" id="id_wbs_output_ui_group">
                                                         <input class="form-control" type="text" id="wbs_output_name" placeholder="输出成果名称" />
                                                         <span class="input-group-btn no-padding-left">
-                                                            <a href="#" onclick="add_output();" class="btn btn-sm btn-primary">
+                                                            <a href="#" class="btn btn-sm btn-primary">
                                                                 <i class="fa fa-plus"></i>添加
                                                             </a>
                                                         </span>
                                                     </div>
-
-
                                                     <!--<input class="btn btn-primary btn-large" type="button" id="add_wbs_output" onclick="add_output();" value="添加" />-->
-
-
                                                 </div>
 
                                             </div>
@@ -315,9 +311,15 @@
                                             <div class="form-group">
                                                 <div class="col-sm-offset-2 col-sm-7">
                                                     <label for="wbs_output_list">输出列表: </label>
-                                                    <ul class="list-unstyled list-striped" id="id_wbs_output_list">
+                                                    <ul class="item-list" id="id_wbs_output_list">
 
                                                     </ul>
+
+                                                    <!--可拖拽列表-->
+                                                    <ul id="id_output_list" class="item-list">
+
+                                                    </ul>
+
                                                 </div>
                                             </div>
 

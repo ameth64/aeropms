@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 2016-08-16 15:28:35
+-- Generation Time: 2016-08-22 01:35:17
 -- 服务器版本： 5.6.17
 -- PHP Version: 5.5.12
 
@@ -1944,8 +1944,8 @@ CREATE TABLE `aeropms_role_user` (
 --
 
 INSERT INTO `aeropms_role_user` (`role_id`, `user_id`) VALUES
+(2, '1'),
 (1, '1'),
-(7, '1'),
 (2, '41'),
 (7, '41'),
 (2, '42'),
@@ -1954,14 +1954,15 @@ INSERT INTO `aeropms_role_user` (`role_id`, `user_id`) VALUES
 (2, '48'),
 (2, '49'),
 (2, '50'),
-(1, '69'),
 (7, '69'),
+(2, '69'),
 (2, '70'),
 (2, '71'),
 (2, '72'),
 (2, '73'),
 (2, '74'),
-(2, '75');
+(2, '75'),
+(7, '1');
 
 -- --------------------------------------------------------
 
@@ -2643,14 +2644,8 @@ CREATE TABLE `aeropms_user` (
 --
 
 INSERT INTO `aeropms_user` (`id`, `emp_no`, `name`, `letter`, `password`, `dept_id`, `position_id`, `rank_id`, `sex`, `birthday`, `last_login_ip`, `login_count`, `pic`, `email`, `duty`, `office_tel`, `mobile_tel`, `create_time`, `update_time`, `is_del`, `openid`, `westatus`) VALUES
-(1, 'admin', '管理员', 'GLY', '21232f297a57a5a743894a0e4a801fc3', 1, 1, 2, 'male', '2013-09-18', '127.0.0.1', 2834, 'emp_pic/1.jpeg', '123', '1231254123123', '5086-2222-2222', '12123123', 1222907803, 1404047349, 0, '1231512315123', 1),
-(41, 'PM00', '项目经理0', 'PM', '21232f297a57a5a743894a0e4a801fc3', 6, 1, 1, 'male', '2013-10-30', '127.0.0.1', NULL, '', '', '项目经理测试用户', '', '', 1376896154, 1407565312, 0, NULL, 1),
-(42, 'DR00', '总师0', 'DR', '21232f297a57a5a743894a0e4a801fc3', 8, 2, 1, 'male', '2013-10-10', '127.0.0.1', NULL, 'emp_pic/42.jpeg', 'smeoa@qq.com', '总师测试用户', '123', '12312312', 1380970837, 1401287019, 0, '12312541231251243123', 1),
-(43, 'VDR00', '副总师0', 'VDR', '21232f297a57a5a743894a0e4a801fc3', 7, 3, 1, 'male', '0000-00-00', '127.0.0.1', NULL, 'emp_pic/43.jpeg', '', '副总师测试用户', '', '', 1381035116, 1401287063, 0, NULL, 1),
-(44, 'DM00', '主任设计师0', 'DM', '21232f297a57a5a743894a0e4a801fc3', 1, 4, 5, 'male', '0000-00-00', '127.0.0.1', NULL, '', '', '主任设计师测试用户', '', '', 1381502796, 1401288611, 0, NULL, 1),
-(48, 'DE00', '设计师0', 'DE', '21232f297a57a5a743894a0e4a801fc3', 6, 5, 1, 'female', '0000-00-00', '0.0.0.0', NULL, '', '', '设计师测试用户', '', '', 1381503490, 1401286413, 0, NULL, 1),
-(49, 'VDE00', '助理设计师0', 'VDE', '21232f297a57a5a743894a0e4a801fc3', 24, 6, 2, 'male', '2013-10-10', '14.104.59.86', NULL, '', '', '助理设计师测试用户', '123', '12312312', 1391694170, 1401287097, 0, NULL, 1),
-(50, 'sunfan', '孙帆', 'SF', '1a8fb1e5b7113812532a5cad777d9ebc', 24, 5, 2, 'male', NULL, '127.0.0.1', NULL, '', '', '孙帆', '123', '12312312', 1391694170, 1401287097, 0, NULL, 1),
+(1, 'admin', '管理员', 'GLY', '21232f297a57a5a743894a0e4a801fc3', 1, 1, 2, 'male', '2013-09-18', '0.0.0.0', 2840, 'emp_pic/1.jpeg', '123', '1231254123123', '5086-2222-2222', '12123123', 1222907803, 1404047349, 0, '1231512315123', 1),
+(50, 'sunfan', '孙帆', 'SF', '1a8fb1e5b7113812532a5cad777d9ebc', 27, 5, 2, 'male', '0000-00-00', '127.0.0.1', NULL, '', '', '孙帆', '123', '12312312', 1391694170, 1471486864, 0, NULL, 1),
 (69, 'zengyoubing', '曾友兵', 'ZYB', '21232f297a57a5a743894a0e4a801fc3', 27, 1, 1, 'male', '0000-00-00', '127.0.0.1', NULL, '', '', '', '', '', 1470392902, 0, 0, NULL, 0),
 (70, 'longfei', '龙飞', 'LF', '21232f297a57a5a743894a0e4a801fc3', 27, 3, 3, 'male', '0000-00-00', NULL, NULL, '', '', '', '', '', 1470392995, 0, 0, NULL, 0),
 (71, 'anbinghui', '安兵辉', 'ABH', '70f9babd4cb5db673c6078178194c1b6', 27, 4, 3, 'male', '0000-00-00', NULL, NULL, '', '', '', '', '', 1470393079, 0, 0, NULL, 0),
@@ -3034,7 +3029,7 @@ CREATE TABLE `aeropms_wbs_node` (
   `remark` text,
   `attach_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
 
 --
 -- 转存表中的数据 `aeropms_wbs_node`
@@ -3051,7 +3046,7 @@ INSERT INTO `aeropms_wbs_node` (`id`, `project_id`, `node_level`, `inner_index`,
 (8, 1, -1, -1, 2, 0, '气动力设计', 2, 1, 3, 0, 1, 1470473625, 1470473625, '暂无描述', NULL),
 (9, 1, -1, -1, 8, 0, '气动特性', 2, 1, 3, 0, 1, 1470473769, 1470473769, '暂无描述', NULL),
 (10, 1, -1, -1, 4, 0, '重量', 2, 1, 10, 0, 1, 1470473864, 1470473864, '暂无描述', NULL),
-(11, 1, -1, -1, 10, 0, '重量, 重心计算', 3, 1, 1, 0, 1, 1470475350, 1470475350, '暂无描述', NULL);
+(21, 1, -1, -1, 10, 0, '重量, 重心计算', 3, 1, 1, 0, 1, 1471502039, 1471819946, '暂无描述', -1);
 
 -- --------------------------------------------------------
 
@@ -3069,7 +3064,75 @@ CREATE TABLE `aeropms_wbs_node_input` (
   `create_time` int(11) NOT NULL,
   `update_time` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+--
+-- 转存表中的数据 `aeropms_wbs_node_input`
+--
+
+INSERT INTO `aeropms_wbs_node_input` (`id`, `project_id`, `node_id`, `input_node_id`, `input_node_item_id`, `create_time`, `update_time`) VALUES
+(6, 1, 21, 6, NULL, 1471502039, 1471502039);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `aeropms_wbs_node_output`
+--
+
+DROP TABLE IF EXISTS `aeropms_wbs_node_output`;
+CREATE TABLE `aeropms_wbs_node_output` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `project_id` int(11) NOT NULL,
+  `node_id` int(11) NOT NULL,
+  `item_name` varchar(512) NOT NULL,
+  `type` int(11) NOT NULL DEFAULT '1',
+  `status` int(11) NOT NULL DEFAULT '1',
+  `assignee_id` int(11) DEFAULT '-1',
+  `create_time` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL,
+  `remark` text,
+  `attach_id` int(11) NOT NULL DEFAULT '-1',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+
+--
+-- 转存表中的数据 `aeropms_wbs_node_output`
+--
+
+INSERT INTO `aeropms_wbs_node_output` (`id`, `project_id`, `node_id`, `item_name`, `type`, `status`, `assignee_id`, `create_time`, `update_time`, `remark`, `attach_id`) VALUES
+(6, 1, 21, '计算报告', 2, 1, -1, 1471819946, 1471819946, NULL, -1);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `aeropms_wbs_node_schedule`
+--
+
+DROP TABLE IF EXISTS `aeropms_wbs_node_schedule`;
+CREATE TABLE `aeropms_wbs_node_schedule` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `node_id` int(11) NOT NULL,
+  `priority` int(11) NOT NULL DEFAULT '5',
+  `charger_id` int(11) NOT NULL DEFAULT '1',
+  `planning_begin_time` int(11) NOT NULL,
+  `planning_end_time` int(11) NOT NULL,
+  `planning_working_day` int(11) NOT NULL,
+  `planning_working_hour` int(11) NOT NULL,
+  `actual_begin_time` int(11) DEFAULT NULL,
+  `actual_end_time` int(11) DEFAULT NULL,
+  `actual_working_day` int(11) DEFAULT NULL,
+  `actual_working_hour` int(11) DEFAULT NULL,
+  `create_time` int(11) NOT NULL,
+  `update_time` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+--
+-- 转存表中的数据 `aeropms_wbs_node_schedule`
+--
+
+INSERT INTO `aeropms_wbs_node_schedule` (`id`, `node_id`, `priority`, `charger_id`, `planning_begin_time`, `planning_end_time`, `planning_working_day`, `planning_working_hour`, `actual_begin_time`, `actual_end_time`, `actual_working_day`, `actual_working_hour`, `create_time`, `update_time`) VALUES
+(7, 21, 5, 72, 1471449600, 1471622400, 2, 8, NULL, NULL, NULL, NULL, 1471502039, 1471502039);
 
 -- --------------------------------------------------------
 

@@ -34,6 +34,119 @@
 
     /**
      * ------------------------------------------------
+     * WBS模块操作类定义
+     * ------------------------------------------------
+     * */
+    var WbsOutputMgr = {
+        json_data: [],
+        type_map: {
+            "1":"img",
+            "2":"doc",
+            "3":"catia",
+            "4":"other",
+        },
+        icon_color: {
+            "doc": "blue",
+            "img": "green",
+            "catia": "red",
+            "other": "orange"
+        },
+        icon_style: {
+            "doc": "fa fa-file-word-o",
+            "img": "fa fa-file-image-o",
+            "catia": "fa fa-file-archive-o",
+            "other": "fa fa-file-o  "
+        },
+
+        createNew: function (s) {
+            var settings = s;
+
+            var w = {};
+            //生成列表项的DOM
+            w.build_item_dom = function(name, type, id, data){
+                var opt = {
+                    "data-output-type": (type? type: 1),
+                    "data-name": name,
+                    "class": "clearfix item-"+WbsOutputMgr.icon_color[WbsOutputMgr.type_map[type]],
+                };
+                if(id){ opt["data-id"] = id; }
+                if(data){ opt["data"] = data; }
+
+                var act_btns = $("<div></div>", {"class":"pull-right action-buttons"});
+                var del_btn = $("<a></a>", { "class":"red" })
+                        .append($("<i></i>", {"class":"icon-trash bigger-130"}))
+                        .appendTo(act_btns);
+                del_btn.on('click', function(e) {
+                    $(this).parent().parent().remove();
+                });
+                $("<li></li>", opt)
+                        .html('<label class="inline"><i class="'
+                                + WbsOutputMgr.icon_color[WbsOutputMgr.type_map[type]] + ' '
+                                + WbsOutputMgr.icon_style[WbsOutputMgr.type_map[type]]
+                                + '" aria-hidden="true"></i><span class="lbl"> ' + name + '</span></label>')
+                        .append(act_btns).appendTo($(settings.container));
+
+
+                $(settings.text).val("");
+            };
+
+            //getter & setter
+            w.get_json = function(holder){
+                var wbs_output_json = dom_map(settings.container + " li.clearfix", function(){
+                    if($(this).attr("data-name").length > 1){
+                        var res = {
+                            "type": $(this).attr('data-output-type'),
+                            "item_name": $(this).attr("data-name")
+                        };
+                        if($(this).attr("data-id")){
+                            res["id"] = $(this).attr("data-id");
+                        }
+                        if($(this).attr("data")){
+                            res["data"] = $(this).attr("data");
+                        }
+                        return res;
+                    }
+                });
+                if(wbs_output_json.length > 0){
+                    $(holder).val(JSON.stringify(wbs_output_json));
+                    console.log("Wbs output: " + $(holder).val());
+                }
+                else{
+                    $(holder).val("");
+                    console.log("empty wbs output.");
+                }
+            };
+
+            w.read_json = function(s){
+                if(s.length<1) return;
+                for(var i in s){
+                    this.build_item_dom(s[i].item_name, s[i].type, s[i].id, s[i].data);
+                }
+            }
+
+                //设置按钮事件回调函数
+            w.set_btn_callback = function(){
+                //添加按钮的handler
+                var name = settings.text;
+                var type = settings.select;
+                var func = this.build_item_dom;
+                $(settings.btn).on("click", function(e){
+                    func( $(name).val(), $(type).val(), null, null );
+                });
+            };
+            return w;
+        }
+    };
+    //新方法测试
+    var wbs_output = WbsOutputMgr.createNew({
+        "container":"#id_output_list",
+        "btn":"#id_wbs_output_ui_group a.btn",
+        "select":"#wbs_output_type",
+        "text":"#wbs_output_name",
+    });
+
+    /**
+     * ------------------------------------------------
      * WBS核心逻辑代码段
      * ------------------------------------------------
      * */
@@ -139,7 +252,7 @@
     }
 
     /**
-     * 各模块的序列化方法
+     * 各模块的序列化至JSON的方法
      */
     function serialize_wbs_basic(){
         var pbs_depend = dom_map("#id_pbs_depend_list .address_list span", function(){
@@ -153,15 +266,23 @@
     }
 
     function serialize_wbs_output(selector){
+        /*
         var wbs_output_json = dom_map("#id_wbs_output_list li", function(){
-            if($(this).text().length > 1)
-                return {"type": $(this).attr('data-output-type'), "item_name": $(this).text()};
+            if($(this).text().length > 1){
+                var res = {"type": $(this).attr('data-output-type'), "item_name": $(this).text()};
+                if($(this).attr("data")){
+                    res["id"] = $(this).attr("data");
+                }
+            }
+
         });
         if(wbs_output_json.length > 0){
             $(selector).val(JSON.stringify(wbs_output_json));
             console.log("Wbs output: " + $(selector).val());
         }
         else{$(selector).val("");}
+        */
+        wbs_output.get_json(selector);
     }
 
     function serialize_wbs_input(selector){
@@ -224,7 +345,7 @@
             serialize_schedule("#planning_schedule");
 
             // 提交
-            sendForm(form_name, url);
+            //sendForm(form_name, url);
         }
     }
 
@@ -313,8 +434,8 @@
 
             //根据给定格式构造dom元素显示数据
             var elem = $("#id_wbs_basic_info").html("");
-            for(item in g_wbs_node_info["basic"]){
-                //console.log(item);
+            for(var item in g_wbs_node_info["basic"]){
+                if(!wbs_field_name[item]) continue;
                 $("<div></div>", {'class':'profile-info-row'})
                         .append($("<div></div>", {'class':'profile-info-name'}).text(wbs_field_name[item]))
                         .append($("<div></div>", {'class':'profile-info-value'}).text(g_wbs_node_info["basic"][item]))
@@ -338,19 +459,22 @@
             return;
         }
 
-        //将内容加载至dom
+        //将基本内容加载至dom
         if(g_wbs_node_info["basic"]){
             var basic = g_wbs_node_info["basic"];
             for(var key in basic){
                 console.log("now loading: "+key+",value="+basic[key]);
                 set_select_dom(key, basic[key]);
                 set_text_dom(key, basic[key]);
+                set_hidden_dom(key, basic[key]);
             }
             if(basic["pbs_name"]){
                 set_input_box("#id_pbs_depend_list .address_list", basic["pbs_id"],
                         basic["pbs_name"], null, null);
             }
         }
+
+        //加载schedule
         if(g_wbs_node_info["schedule"]){
             var schedule = g_wbs_node_info["schedule"];
             set_input_box("#id_admin_list .address_list", schedule["charger_id"],
@@ -372,9 +496,10 @@
 
         if(g_wbs_node_info["output"]){
             var o = g_wbs_node_info["output"];
-            for(var e in o){
-                conv_wbs_output_item(o[e]["item_name"], o[e]["type"], wbs_output_list_style[o[e]["type"]], "#id_wbs_output_list");
-            }
+//            for(var e in o){
+//                conv_wbs_output_item(o[e]["item_name"], o[e]["type"], wbs_output_list_style[o[e]["type"]], "#id_wbs_output_list");
+//            }
+            wbs_output.read_json(o);
         }
     }
 
@@ -426,7 +551,7 @@
 
     /**
      * --------------------------------------------------------------------
-     * 页面加载函数
+     * 页面加载函数及全局变量
      * --------------------------------------------------------------------
      * */
     $(document).ready(function(){
@@ -445,6 +570,8 @@
             $("#id_panel_wbs_edit").hide();
             $("#id_panel_wbs_add").show();
         });
+
+        wbs_output.set_btn_callback();
     });
 
 

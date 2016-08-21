@@ -21,9 +21,13 @@ function click_project_list(obj_node) {
 /** 生成WBS输出列表项
  *
  */
-function conv_wbs_output_item(o_name, o_type, fa_style, container)
+function conv_wbs_output_item(o_name, o_type, fa_style, container, id)
 {
-    $("<li></li>").attr("data-output-type", o_type)
+    var opt = {"data-output-type": o_type};
+    if(id){
+        opt["data"] = id;
+    }
+    $("<li></li>", opt)
         .html("<i class='" + fa_style + "' aria-hidden='true'></i>" + o_name)
         .append("<a href='#' onclick='remove_wbs_output(this)' class='pull-right'><i class='fa fa-times red' aria-hidden='true'></i></a>")
         .appendTo(container);
@@ -37,7 +41,7 @@ function dom_map(selector, f)
 }
 
 /**
- * 根据给定json对象设置select, text, textarea 等元素的值
+ * 根据给定json对象设置select, text, textarea, hidden 等元素的值
  */
 function set_select_dom(name, value)
 {
@@ -54,6 +58,13 @@ function set_text_dom(name, value)
     }
     if (($("#" + name).attr("rows")) > 0) {
         $("#" + name).text(value);
+    }
+}
+
+function set_hidden_dom(name, value)
+{
+    if (($("#" + name).attr("type")) === "hidden") {
+        $("#" + name).val(value);
     }
 }
 
