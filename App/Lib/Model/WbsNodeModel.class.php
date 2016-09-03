@@ -16,6 +16,7 @@ class WbsNodeModel extends CommonModel {
         array('update_time','time',1,'function'),
     );
 
+    // 生成用于主WBS树渲染的节点数据
     public function getNodesForTree($proj_id){
         $sql_str = "select a.*, b.is_hideable, b.name as type_name from aeropms_wbs_node as a, aeropms_wbs_type as b".
             " where a.project_id=$proj_id and a.type = b.id";
@@ -23,6 +24,7 @@ class WbsNodeModel extends CommonModel {
         return $data_array;
     }
 
+    //返回单个节点详细数据
     public function getNodeInfo($proj_id, $node_id){
         $query_str = "select a.id,a.name,a.remark,a.pbs_id,a.parent_id, a.type, b.name type_name,a.engineering_phase, c.name epname,".
             " a.depart, d.name dep_name, a.create_time,a.update_time from".
@@ -47,5 +49,25 @@ class WbsNodeModel extends CommonModel {
             $data_array[0]["pbs_name"] = $pbs_info["name"];
         }
         return $data_array[0];
+    }
+
+    // 从POST数据中生成节点数据并保存
+    public function addNode($extra_data)
+    {
+
+    }
+
+    // 从POST数据中生成节点数据并保存
+    public function saveNode($ex_data)
+    {
+        $this->create();
+        $this->id = $ex_data["id"];
+        $this->pbs_id = $ex_data["pbs_id"];
+        $this->has_input = $ex_data["has_input"];
+        $this->has_output = $ex_data["has_output"];
+        $this->update_time = time();
+        if(!$this->remark)
+            $this->remark = "暂无描述";
+        return $this->save();
     }
 }

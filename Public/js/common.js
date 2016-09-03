@@ -135,9 +135,9 @@ function conv_address_item(id, name) {
 
 function conv_inputbox_item(id, name, title, data) {
 	if (data !== undefined) {
-		html = "<span data=\"" + data + "\" id=\"" + id + "\">";
+		html = "<span data=\"" + data + "\" data-id=\"" + id + "\">";
 	} else {
-		html = "<span id=\"" + id + "\">";
+		html = "<span data-id=\"" + id + "\">";
 	}
 	html += "<nobr><b  title=\"" + title + "\">" + name + "</b>";
 	html += "<a class=\"del\" title=\"删除\"><i class=\"fa fa-times\"></i></a></nobr></span>";

@@ -240,19 +240,18 @@ class WbsAction extends CommonAction
         $db_success = true; $dbo_array = array();
 
         /*处理基本信息*/
-        $WbsNode = M("WbsNode");
+        $WbsNode = D("WbsNode");
         // 开始事务
         $this->dbo_start_trans($dbo_array, $WbsNode);
 
-        $WbsNode->create();
-        $WbsNode->id = $node_id;
-        $WbsNode->creator_id = $user_id;
-        $WbsNode->update_time = time();
-        $WbsNode->has_input = empty($wbs_input_json);
-        $WbsNode->has_output = empty($wbs_output_json);
-        if(!$WbsNode->remark)
-            $WbsNode->remark = "暂无描述";
-        $res = $WbsNode->save();
+        $a = array(
+            "id"=>$_POST["node_id"],
+            "pbs_id"=>$_POST["pbs_id"],
+            "has_input"=>empty($wbs_input_json),
+            "has_output"=>empty($wbs_output_json)
+        );
+        Log::write("pbs_id=".$_POST["pbs_id"], Log::INFO);
+        $res = $WbsNode->saveNode($a);
 
         /* 处理 schedule*/
         if($_POST["team_leader_list"])
@@ -265,10 +264,11 @@ class WbsAction extends CommonAction
                 $this->error("WBS Schedule处理失败, 请检查数据");
             }
             else{
-                if($_POST["planning_schedule"])
+                if($_POST["team_leader_list"])
                     $leader_json = json_decode($_POST["team_leader_list"], true);
                 else
                     $leader_json = array("id"=>0);
+                Log::write("team_leader_list=".print_r($leader_json, true));
                 $wbs_schedule_model = D("WbsNodeSchedule");
                 $this->dbo_start_trans($dbo_array, $wbs_schedule_model);
                 $wbs_schedule_json["node_id"] = $node_id;
@@ -288,6 +288,8 @@ class WbsAction extends CommonAction
         }
 
         // 处理wbs输出列表json
+        $wbs_node_output = M("WbsNodeOutput");
+        $wbs_node_output->where("node_id=$node_id")->delete();
         if($wbs_output_json){
             $json_array = json_decode($wbs_output_json, true);
             if($json_array == false){
@@ -295,8 +297,8 @@ class WbsAction extends CommonAction
                 $this->error("WBS输出列表处理失败, 请检查数据");
             }
             else{
-                $wbso = M("WbsNodeOutput");
-                $this->dbo_start_trans($dbo_array, $wbso);
+                $wbs_node_output = M("WbsNodeOutput");
+                $this->dbo_start_trans($dbo_array, $wbs_node_output);
                 //遍历数组
                 foreach($json_array as $item){
                     $item["project_id"] = $proj_id;
@@ -305,14 +307,18 @@ class WbsAction extends CommonAction
                     $item["assignee_id"] = -1;
                     $item["create_time"] = time();
                     $item["update_time"] = time();
-                    $wbso->data($item)->save();
+                    $wbs_node_output->data($item)->add();
                 }
             }
         }
 
         // 处理输入列表
+        $wbs_node_input = D("WbsNodeInput");
+        $wbs_node_input->where("node_id=$node_id")->delete();
+        Log::write("Wbs_input=".$_POST["wbs_input_list"]);
         if($wbs_input_json){
             $json_array = json_decode($wbs_input_json, true);
+            Log::write("Wbs_array=".print_r($json_array, true), Log::INFO);
             if($json_array == false){
                 $this->dbo_rollback($dbo_array); $db_success = false;
                 $this->error("WBS输入列表处理失败, 请检查数据");
@@ -327,7 +333,7 @@ class WbsAction extends CommonAction
                     $item["node_id"] = $node_id;
                     $item["create_time"] = time();
                     $item["update_time"] = time();
-                    $wbs_node_input->data($item)->save();
+                    $wbs_node_input->data($item)->add();
                 }
             }
         }

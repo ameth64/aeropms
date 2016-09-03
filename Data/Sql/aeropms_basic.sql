@@ -1,5 +1,5 @@
 # Host: 127.0.0.1  (Version: 5.6.12-log)
-# Date: 2015-01-21 11:01:33
+# Date: 2016-07-21 11:01:33
 # Generator: MySQL-Front 5.3  (Build 1.27)
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -106,8 +106,8 @@ CREATE TABLE aeropms_wbs_type (
 #
 /*!40000 ALTER TABLE `aeropms_wbs_type` DISABLE KEYS */;
 insert into `aeropms_wbs_type` values
-  (1, -1, '工作单元', '顶层WBS类型, 可包含任意数量的类型为工作包或工作任务的子单元', 0, 0 , null),
-  (2, -1, '工作包', '仅次于顶层工作单元的WBS类型, 可包含任意数量的类型为工作任务的子单元', 0, 0 , null),
+  (1, -1, '工作包', '顶层WBS类型, 可包含任意数量的类型为工作单元或工作任务的子单元', 0, 0 , null),
+  (2, -1, '工作单元', '仅次于顶层工作包的WBS类型, 可包含任意数量的类型为工作任务的子单元', 0, 0 , null),
   (3, -1, '工作任务', '不可再细分的WBS类型, 描述某一具体任务', 0, 1 , null);
 /*!40000 ALTER TABLE `aeropms_wbs_type` ENABLE KEYS */;
 
